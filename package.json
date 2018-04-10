@@ -5,13 +5,13 @@
   "author": "wangzhe <wangzhe@dehuinet.com>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev node build/dev-server.js",
+    "dev": "cross-env NODE_ENV=development node build/dev-server.js",
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "build": "node build/build.js",
-    "prod": "cross-env NODE_ENV=prod node build/dev-server.js"
+    "prod": "cross-env NODE_ENV=production node build/dev-server.js"
   },
   "dependencies": {
     "eventsource-polyfill": "^0.9.6",

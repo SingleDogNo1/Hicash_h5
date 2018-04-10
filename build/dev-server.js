@@ -59,14 +59,14 @@ if(app.get('env') == 'dev'){
   // compilation error display
   app.use(hotMiddleware)
 }else{
- app.use(express.static('dist'));
+  app.use(express.static('dist'));
 }
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-var uri = 'http://localhost:' + port
+var uri = 'http://0.0.0.0:' + port
 
 var _resolve
 var readyPromise = new Promise(resolve => {
@@ -82,8 +82,8 @@ devMiddleware.waitUntilValid(() => {
   _resolve()
 })
 
-app.all('/api',function(req,res){
-})
+// app.all('/api',function(req,res){
+// })
 
 var server = app.listen(port)
 
