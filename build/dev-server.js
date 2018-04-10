@@ -1,7 +1,6 @@
 require('./check-versions')()
 
 var config = require('../config')
-console.log('config===', config)
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
@@ -22,9 +21,7 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
-console.log('webpackConfig====', webpackConfig)
 var compiler = webpack(webpackConfig)
-console.log('compiler===', compiler)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
@@ -76,9 +73,7 @@ var readyPromise = new Promise(resolve => {
   _resolve = resolve
 })
 
-console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
-  console.log('> Listening at ' + uri + '\n')
   // when env is testing, don't need open it
 
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
@@ -88,7 +83,6 @@ devMiddleware.waitUntilValid(() => {
 })
 
 app.all('/api',function(req,res){
-  console.log('res=====', res)
 })
 
 var server = app.listen(port)
