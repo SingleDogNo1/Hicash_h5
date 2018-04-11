@@ -40,6 +40,13 @@ module.exports = {
         pathRewrite:{
             '^/api':''
         }
+      },
+      '/HicashAppService':{
+        target:'http://115.29.193.125:8081/HicashAppService',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/HicashAppService':''
+        }
       }
     }
   },

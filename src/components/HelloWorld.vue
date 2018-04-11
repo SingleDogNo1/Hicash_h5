@@ -28,11 +28,20 @@ a {
 
 <script>
 import { Group, Cell } from 'vux'
+import common from '@/api/common'
 
 export default {
-  components: {
-    Group,
-    Cell
+    components: {
+        Group,
+        Cell
   }
 }
+var params = {
+
+}
+
+common.ShowPI(params)
+.then((res)=>{
+    console.info('ShowPI res', res);
+})
 </script>
