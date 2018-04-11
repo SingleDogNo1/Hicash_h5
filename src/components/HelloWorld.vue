@@ -1,9 +1,4 @@
 <template>
-  <div>
-    <group>
-      <cell title="title" value="value"></cell>
-    </group>
-  </div>
 </template>
 
 
@@ -28,20 +23,22 @@ a {
 
 <script>
 import { Group, Cell } from 'vux'
+import { ViewBox } from 'vux'
 import common from '@/api/common'
 
-export default {
+
+    
+    //样例
+    var params = {}
+    common.ShowPI(params)
+    .then((res)=>{
+        console.info('ShowPI res', res);
+    })
+
+
+  export default {
     components: {
-        Group,
-        Cell
+      ViewBox
+    }
   }
-}
-var params = {
-
-}
-
-common.ShowPI(params)
-.then((res)=>{
-    console.info('ShowPI res', res);
-})
 </script>
