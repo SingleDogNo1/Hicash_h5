@@ -87,6 +87,9 @@ devMiddleware.waitUntilValid(() => {
 
 var server = app.listen(port)
 
+console.info('Express server listening on port ' + port);
+console.info('This is a ' + app.get('env') + ' version.');
+
 module.exports = {
   ready: readyPromise,
   close: () => {

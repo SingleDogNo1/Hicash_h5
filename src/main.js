@@ -3,10 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { AlertPlugin, ToastPlugin } from 'vux'
+import { XHeader } from 'vux'
+import { Tabbar, TabbarItem } from 'vux'
+import { ViewBox } from 'vux'
 
-Vue.use(AlertPlugin)
-Vue.use(ToastPlugin)
+Vue.component('x-header', XHeader)
+Vue.component('tabbar', Tabbar)
+Vue.component('tabbar-item', TabbarItem)
+Vue.component('view-box', ViewBox)
 
 Vue.config.productionTip = false
 

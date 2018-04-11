@@ -1,9 +1,4 @@
 <template>
-  <div>
-    <group>
-      <cell title="title" value="value"></cell>
-    </group>
-  </div>
 </template>
 
 
@@ -26,13 +21,12 @@ a {
 }
 </style>
 
-<script>
-import { Group, Cell } from 'vux'
+<script type="text/javascript">
+  import { ViewBox } from 'vux'
 
-export default {
-  components: {
-    Group,
-    Cell
+  export default {
+    components: {
+      ViewBox
+    }
   }
-}
 </script>
