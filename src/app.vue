@@ -1,8 +1,7 @@
 <template>
     <div id="app">
         <view-box ref="viewBox">
-            <!--<router-view></router-view>-->
-            <div>211122</div>
+            <router-view></router-view>
             <tabbar class="vux-demo-tabbar" slot="bottom">
                 <tabbar-item :link="{path:'/'}" :selected="$route.path === '/'">
                     <span class="icon-home" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
@@ -26,9 +25,12 @@
 </template>
 
 <script>
+import Home from "./components/Home.vue"
 export default {
-  name: 'App'
+    name: 'App',
+    components: {Home}
 }
+    console.log('qqqqq')
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
@@ -64,7 +66,7 @@ export default {
     }
     .weui-tabbar__icon {
         width: 0.72rem !important;
-        height: 0.7rem !important;
+        height: 0.8rem !important;
     }
     .icon-home {
         display: block;
@@ -93,7 +95,7 @@ export default {
     .icon-me {
         display: block;
         width: 1rem;
-        height: 0.93rem;
+        height: 1rem;
         margin-top: 0.15rem;
         background: url("./assets/images/icon_me.png") center center no-repeat;
         background-size: cover;

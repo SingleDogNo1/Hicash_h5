@@ -5,7 +5,7 @@
   "author": "wangzhe <wangzhe@dehuinet.com>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node build/dev-server.js",
+    "dev": "cross-env NODE_ENV=development node build/dev-server.js build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
@@ -79,6 +79,7 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
+    "vux-loader": "^1.2.8",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-middleware": "^1.10.0",
