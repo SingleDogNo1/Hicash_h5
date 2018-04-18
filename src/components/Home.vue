@@ -9,18 +9,31 @@
         </header> -->
         <header class="header-wrap">
             <nav>
-                <tab :line-width="1" :custom-bar-width="getBarWidth">
-                  <tab-item class="loan" selected @on-item-click="onItemClick"><em></em>借款</tab-item>
-                  <tab-item :custom-bar-width="getBarWidth"class="notice" @on-item-click="onItemClick"><em></em>公告</tab-item>
+                <tab :line-width="1" v-model="index" :custom-bar-width="getBarWidth">
+                  <tab-item :selected="'借款' === columnListItem.columnName" v-for="(columnListItem, index) in columnList" class="loan" @click="'借款' === columnListItem.columnName" :key="index" v-if="columnListItem.columnStatus === '1'"><em></em>{{columnListItem.columnName}}</tab-item>
                 </tab>
                 <div class="QQhandler"><a href="http://wpa.b.qq.com/cgi/wpa.php?ln=2&uin=4008085599" target='_blank'></a></div>
             </nav>
+
+          <!--   <nav>
+                <tab :line-width=2 active-color='#fc378c' v-model="index">
+                    <tab-item class="vux-center" :selected="demo2 === item" v-for="(item, index) in list2" @click="demo2 = item" :key="index">{{item}}</tab-item>
+                </tab>
+                <swiper v-model="index" height="100px" :show-dots="false">
+                    <swiper-item v-for="(item, index) in list2" :key="index">
+                      <div class="tab-swiper vux-center">{{item}} Container</div>
+                    </swiper-item>
+                </swiper>
+            </nav> -->
         </header>
-        <swiper>
-            <swiper-item class="black">
-                <img src="http://ios2.hicash.cn:8081/NewHicashService/proImage/indexyellow.png">
+        <swiper v-model="index"  :show-dots="false">
+            <swiper-item v-if="columnListItem.columnStatus === '1'" v-for="(columnListItem, index) in columnList" :key="index">
+              <img :src="columnListItem.imgUrl" >
+              <ul>
+                  <li v-for="bannelListItem in bannelList"><a :href="bannelListItem.picUrl"><img :src="bannelListItem.picPrefixUrl + bannelListItem.picBigUrl"/></a></li>
+              </ul>
             </swiper-item>
-        </swiper>
+      </swiper>
     </div>
 </template>
 
@@ -133,10 +146,23 @@
             }
         }
     }
+    .vux-slider > .vux-swiper {
+        background: #fff;
+        .vux-swiper-item {
+            img {
+                display: block;
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
+    }
 </style>
 
 <script type="text/javascript">
     import { Tab, TabItem, Swiper, SwiperItem} from 'vux'
+    import $ from 'jquery'
+    import common from '@/api/common'
+    import utils from '@/assets/js/utils'
 
     export default {
         components: {
@@ -147,15 +173,53 @@
         },
         data () {
             return {
+                index: 0,
+                columnList: [],
+                bannelList: [],
                 getBarWidth: function (index) {
                     return '2.8rem'
                   }
             }
         },
+        ready () {
+
+        },
         methods : {
             onItemClick (index) {
               console.log('on item click:', index)
+            },
+            switchTabItem (index) {
+              console.log('on-before-index-change', index)
+              this.$vux.loading.show({
+                text: 'loading'
+              })
+              setTimeout(() => {
+                this.$vux.loading.hide()
+                this.index01 = index
+              }, 1000)
+            },
+            onItemClick (index) {
+              console.log('on item click:', index)
             }
+        },
+        mounted: function () {
+            var _this = this;
+            let indexMainPostData = {}
+            indexMainPostData.requestSource = 'HTML5';
+            indexMainPostData.platform = '';
+            indexMainPostData.version = '';
+            indexMainPostData.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
+            common.getIndexMain(indexMainPostData)
+                .then((res)=>{
+                    _this.columnList = res.data.columnList;
+                    let homePagePicPostData = {}
+                    homePagePicPostData.cityCode = '000003';
+                    homePagePicPostData.uuid = utils.uuid();
+                    common.getHomePagePic(homePagePicPostData)
+                        .then((res)=>{
+                            _this.bannelList = res.data.bannelList;
+                        })
+                })
         }
     }
 </script>
