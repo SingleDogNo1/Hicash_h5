@@ -11,7 +11,7 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "build": "node build/build.js",
-    "prod": "cross-env NODE_ENV=production node build/dev-server.js"
+    "prod": "cross-env NODE_ENV=production node build/dev-server.js build/webpack.dev.conf.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
