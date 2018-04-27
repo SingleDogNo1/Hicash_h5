@@ -3,7 +3,8 @@ import axios from 'axios'
 export default{
   ShowPI:ShowPI,
   getIndexMain: getIndexMain,
-  getHomePagePic: getHomePagePic
+  getHomePagePic: getHomePagePic,
+  getAllLoanApplication: getAllLoanApplication
 }
 
 
@@ -39,8 +40,21 @@ export function getIndexMain(params){
  */
 export function getHomePagePic(params){
   return new Promise((resolve,reject)=>{
-    axios.get("/NewHicashService/HomePagePic?cityCode=" + params.cityCode + '&uuid=' + params.uuid).then((res)=>{
+    axios.get("/HicashService/HomePagePic?cityCode=" + params.cityCode + '&uuid=' + params.uuid).then((res)=>{
       console.log('res=====', res)
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取总金额
+ */
+export function getAllLoanApplication(){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/HomeData").then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

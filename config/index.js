@@ -54,6 +54,13 @@ module.exports = {
         pathRewrite:{
             '^/NewHicashService':''
         }
+      },
+      '/HicashService':{
+        target:'http://115.29.250.40:8080/HicashService',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/HicashService':''
+        }
       }
     }
   },
