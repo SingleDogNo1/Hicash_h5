@@ -15,7 +15,7 @@
                     <span class="icon-broke-promise-area" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
                     <span slot="label">失信专区</span>
                 </tabbar-item>
-                <tabbar-item :link="{path:'/demo'}">
+                <tabbar-item :link="{path:'/personal'}">
                     <span class="icon-me" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
                     <span slot="label">我的</span>
                 </tabbar-item>
