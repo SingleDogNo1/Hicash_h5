@@ -79,8 +79,6 @@ const webpackConfig = {
     child_process: 'empty'
   }
 }
-//const vuxConfig = require('./vux-config')
-//module.exports = vuxLoader.merge(webpackConfig, vuxConfig)
 
 module.exports = vuxLoader.merge(webpackConfig, {
   options: {},

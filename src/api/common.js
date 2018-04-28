@@ -68,6 +68,7 @@ export function getAllLoanApplication(){
  */
 export function getSysParam(params){
   return new Promise((resolve,reject)=>{
+    console.log('params===', params)
     axios.post("/NewHicashService/SysParam", params).then((res)=>{
       resolve(res)
     },(err)=>{

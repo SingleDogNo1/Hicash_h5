@@ -42,7 +42,7 @@
             <p class="all-loan-application" >昨日共申请{{allLoanApplication}}笔</p>
             <ul class="loan-list">
                 <li v-for="productListItem in productList">
-                    <a class="clearfix" :href="productListItem.jupmUrl">
+                    <router-link class="clearfix" :to="{name: productListItem.jupmUrl}">
                         <div class="loan-application-left" :class="{'network-car-left': productListItem.industryCode === 'DDSJ'}">
                             <img :src="productListItem.iconUrl1" />
                             <img :src="productListItem.iconUrl2" class="title"/>
@@ -55,7 +55,7 @@
                         <div class="loan-application-right" :class="{'network-car-right': productListItem.industryCode === 'DDSJ'}">
                                 {{productListItem.simpleContent1}}
                         </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -446,6 +446,22 @@
     import $ from 'jquery'
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
+    var page = 1;
+    var countPage;
+    var getSysParam = (maxLine, page) => {
+        var postData = new URLSearchParams();
+        postData.append('paramCode', 'WZGG,GSDT');
+        postData.append('sourceFrom', 'HTML5');
+        postData.append('maxLine', maxLine);
+        postData.append('curPage', page);
+        common.getSysParam(postData)
+            .then((res)=>{
+                console.log('res===', res);
+                res.data.countPage = 3;
+                countPage = res.data.countPage;
+            })
+    }
+    console.log('page====', page)
 
     export default {
         components: {
@@ -502,16 +518,15 @@
             },
             onSwiperItemIndexChange (index) {
                 index === 0 ? this.listType = 'loan' : this.listType = 'notice'
-                console.log('demo item change', index)
+                if(this.listType = 'notice') getSysParam(3, 1);
             },
             loadMore () {
-
-                var getSysParam = () => {
-
-                }
                 setTimeout(() => {
-                    console.log(111)
-                    this.n += 10
+                    console.log('page====', page)
+                    if(page < countPage){
+                        page++;
+                        getSysParam(10, page);
+                    }
                     setTimeout(() => {
                         console.log(222)
                         this.$refs.scroller.donePullup()
@@ -564,7 +579,7 @@
                     for (x in _this.productList) {
                         console.log('productList[x]====', productList[x])
                         if(productList[x].industryCode === 'MDCP') {
-                            productList[x].jupmUrl = "/newweb/product/miaodai.html";
+                            productList[x].jupmUrl = "MiaoDai";
                             productList[x].iconUrl1 = require("../assets/images/icon_haimiao.png");
                             productList[x].iconUrl2 = require("../assets/images/icon_haimiao_text.png");
                             productList[x].iconUrl3 = require("../assets/images/icon_haimiao_desc.png");
