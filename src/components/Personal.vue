@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header class="header-wrap">
+        <header class="personal-header-wrap">
             
         </header>
         
@@ -9,12 +9,14 @@
 
 
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     @import "../../bower_components/sass-rem/rem";
 
-    .header-wrap{
-        height: rem(12px);
+    .personal-header-wrap{
+        width: 100%;
+        height: rem(202px);
+        background: url(../assets/images/parson_center_bg.png) no-repeat;
+        background-size: 100% 100%;
     }
 </style>
 

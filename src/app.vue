@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-    @import './assets/css/rem.css';
+    @import './assets/css/rem.scss';
     a {
         text-decoration: none;
     }

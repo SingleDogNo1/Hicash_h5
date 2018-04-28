@@ -1,0 +1,110 @@
+@import "../../../bower_components/sass-rem/rem";
+
+@media screen and (min-width:320px) {
+  $rem-baseline: 19.2px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 19.2px;
+  }
+
+}
+
+@media screen and (min-width:360px) {
+  $rem-baseline: 21.6px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 21.6px;
+  }
+
+}
+
+@media screen and (min-width:375px) {
+  $rem-baseline: 22.5px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 22.5px;
+  }
+
+
+}
+
+@media screen and (min-width:414px) {
+  $rem-baseline: 24.84px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 24.84px;
+  }
+
+}
+
+@media screen and (min-width:750px) {
+  $rem-baseline: 45px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 45px;
+  }
+
+}
+
+@media screen and (min-width:321px) and (max-width:359px) {
+  $rem-baseline: 20.4px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 20.4px;
+  }
+
+}
+
+@media screen and (min-width:361px) and (max-width:374px) {
+  $rem-baseline: 22.05px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 22.05px;
+  }
+
+}
+
+@media screen and (min-width:376px) and (max-width:413px) {
+  $rem-baseline: 23.67px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 23.67px;
+  }
+
+}
+
+@media screen and (min-width:415px) and (max-width:749px) {
+  $rem-baseline: 34.92px;
+
+  html {
+    @include rem-baseline;
+  }
+  html {
+    font-size: 34.92px;
+  }
+
+}
