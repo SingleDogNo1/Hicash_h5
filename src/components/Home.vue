@@ -65,7 +65,48 @@
             </div>
             <scroller lock-x scrollbar-y use-pullup use-pulldown height="200px" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
               <div class="box2">
-                <p v-for="i in n">placeholder {{i}}</p>
+                <ul class="news-list">
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                </ul>
               </div>
               <!--pullup slot-->
               <div slot="pullup" class="xs-plugin-pullup-container xs-plugin-pullup-up" style="position: absolute; width: 100%; height: 40px; bottom: -40px; text-align: center;">
@@ -86,6 +127,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
+    @import '../assets/styles/main.css';
     .box2-wrap {
         height: 300px;
         overflow: hidden;
@@ -98,6 +140,9 @@
         transition: all linear 0.2s;
         color: #666;
         font-size: 25px;
+    }
+    body {
+        overflow: hidden !important;
     }
     .clear {
         clear:both;
@@ -358,6 +403,39 @@
                 text-align: center;
                 padding: .35rem 0;
                 font-size: .8rem;
+                strong {
+                    color: #FD7F5F;
+                }
+            }
+        }
+        .news-list {
+            list-style: none;
+            padding: 0 .6rem;
+            li {
+                border-top: 1px solid #DADADA;
+                font-size: 0.5rem;
+                color: #A4A4A4;
+                padding: .55rem 0;
+                time {
+                    float: left;
+                }
+                .content {
+                    float: left;
+                    width: 100%;
+                    font-size: 0.7rem;
+                    color: #3f3f3f;
+                    padding: .375rem 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .news-type {
+                    float: left;
+                    background: #FFF7E9;
+                    padding: .15rem .625rem;
+                    border-radius: 13px;
+                    color: #ff7640;
+                }
             }
         }
     }
@@ -427,12 +505,18 @@
                 console.log('demo item change', index)
             },
             loadMore () {
-              setTimeout(() => {
-                this.n += 10
+
+                var getSysParam = () => {
+
+                }
                 setTimeout(() => {
-                  this.$refs.scroller.donePullup()
-                }, 10)
-              }, 2000)
+                    console.log(111)
+                    this.n += 10
+                    setTimeout(() => {
+                        console.log(222)
+                        this.$refs.scroller.donePullup()
+                    }, 10)
+                }, 2000)
             },
             refresh () {
               setTimeout(() => {

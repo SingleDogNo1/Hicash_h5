@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-    @import './assets/css/rem.css';
+    @import './assets/styles/rem.css';
     a {
         text-decoration: none;
     }
@@ -70,10 +70,10 @@ export default {
     }
     .icon-home {
         display: block;
-        width: 0.72rem;
-        height: 0.85rem;
+        width: calc(337px / 2);
+        height: calc(255px / 2);
         margin-top: 0.15rem;
-        background: url("./assets/images/icon_home.png") center center no-repeat;
+        background: url("./assets/images/home_icons.png") calc(-295px /2) calc(-171px / 2) no-repeat;
         background-size: cover;
     }
     .icon-vip-area {
@@ -102,7 +102,7 @@ export default {
     }
     .weui-bar__item_on {
         .icon-home {
-            background: url("./assets/images/icon_home_act.png") center center no-repeat;
+            background: url("./assets/images/home_icons.png") calc(-295px /2) calc(-171px / 2) no-repeat;
             background-size: cover;
         }
         .icon-vip-area {

@@ -4,7 +4,8 @@ export default{
   ShowPI:ShowPI,
   getIndexMain: getIndexMain,
   getHomePagePic: getHomePagePic,
-  getAllLoanApplication: getAllLoanApplication
+  getAllLoanApplication: getAllLoanApplication,
+  getSysParam: getSysParam
 }
 
 
@@ -55,6 +56,19 @@ export function getHomePagePic(params){
 export function getAllLoanApplication(){
   return new Promise((resolve,reject)=>{
     axios.post("/NewHicashService/HomeData").then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取近期新闻
+ */
+export function getSysParam(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/SysParam", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+a:hover, a:active {
+    outline: 0;
+}
+
+a, button {
+    outline: none;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button, input, select, textarea {
+    margin: 0;
+    font-size: 100%;
+    vertical-align: middle;
+}
+
+img {
+    border: 0px;
+}
+
+button, input {
+    *overflow: visible;
+    line-height: normal;
+    font-family: $fontFamily;
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    padding: 0 2px;
+    background: #c3cfd9;
+    position: relative;
+    z-index: 100001;
+}
+
+::-webkit-scrollbar-track {
+    position: relative;
+    z-index: 100001;
+    -webkit-box-shadow: inset 0px 0 2px rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c3cfd9;
+    border-radius: 1px;
+    border: 1px solid #c3cfd9;
+    position: relative;
+    z-index: 100001;
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
