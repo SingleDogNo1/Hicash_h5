@@ -1,167 +1,193 @@
 <template>
-    <div>
-        <header class="personal-header-wrap">
-            
-        </header>
-        
-    </div>
+<div>
+
+<section class="personal-header-wrap">
+<!-- 用户信息 -->
+<div class="per-user-info">
+<div class="avatar">
+<img src="../assets/images/avator_oragin.png"alt=""/>
+</div>
+<div class="user-id clearfix">
+<p class="per-name">李震</p>
+<p class="per-num">123123123123</p>
+</div>
+<p class="current-rating">
+当前评级:<i class="iconfont">&#xe672;
+</i>
+</p>
+</div>
+
+<!-- 额度信息 -->
+<div class="money-amount-info clearfix">
+<div class="left-box left">
+<p>近7天待还款(元）</p>
+<span class="perMoney">12312312</span>
+</div>
+<div class="right-box left">
+<p>账户余额（元）</p>
+<span class="balance">123123123123</span>
+</div>
+</div>
+
+<input class="recharge-btn" value="充值还款"/>
+
+</section>
+
+<group>
+    <cell title="我的分期" is-link >
+        <span class="ico-money" slot="icon" width="20"></span>
+    </cell>
+    <div class=""></div>
+</group>
+
+</div>
 </template>
 
 
 
-<style lang="scss" rel="stylesheet/scss">
-    @import "../../bower_components/sass-rem/rem";
+<style lang="scss"rel="stylesheet/scss">
+@import "../../bower_components/sass-rem/rem";
 
-    .personal-header-wrap{
-        width: 100%;
-        height: rem(202px);
-        background: url(../assets/images/parson_center_bg.png) no-repeat;
-        background-size: 100% 100%;
+.personal-header-wrap {
+    width: 100%;
+    height: rem(185px);
+    background: url(../assets/images/parson_center_bg.png) no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+
+    
+
+    .per-user-info {
+        padding: rem(20px 15px);
+        position: relative;
+        height: rem(40px);
+
+        .avatar {
+            width: rem(32px);
+            height: rem(32px);
+            float: left;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+
+        }
+
+        .user-id {
+            margin-left: rem(10px);
+            width: rem(85px);
+            float: left;
+            font-size: rem(11px);
+            color: #fff;
+            line-height: rem(16px);
+
+            .per-name {
+                padding-top: rem(2px);
+            }
+
+            .per-num {
+                font-size: rem(10px);
+            }
+
+        }
+
+        .current-rating {
+            font-size: rem(11px);
+            float: right;
+            text-align: right;
+        }
+
     }
+
+    .money-amount-info {
+        padding: rem(0 25px);
+
+        .left-box, .right-box {
+            width: 50%;
+            font-size: rem(10px);
+
+            span {
+                font-size: rem(18px);
+            }
+
+        }
+
+        .right-box {
+            width: 40%;
+            position: relative;
+            padding-left: rem(18px);
+
+            &:before {
+                position: absolute;
+                content: '';
+                width: 2px;
+                height: 1.525rem;
+                background: #fff;
+                left: -1px;
+                top: rem(5px);
+            }
+
+        }
+
+    }
+
+    .recharge-btn {
+        display: block;
+        background: rgba(255, 255, 255, 0.3);
+        width: 11.85rem;
+        height: 1.4rem;
+        font-size: 0.65rem;
+        border-radius: 30px;
+        color: #fff;
+        margin: 0.35rem auto 0;
+        text-align: center;
+        border: 0;
+    }
+
+}
+
 </style>
 
-<script type="text/javascript">
-    import { Tab, TabItem, Swiper, SwiperItem, Panel, Group, Cell, Scroller, Divider, Spinner} from 'vux'
-    import $ from 'jquery'
-    import common from '@/api/common'
-    import utils from '@/assets/js/utils'
+<script>
+import { Cell, CellBox, CellFormPreview, Group, Badge } from 'vux'
 
-    export default {
-        components: {
-            Tab,
-            TabItem,
-            Swiper,
-            SwiperItem,
-            Panel,
-            Group,
-            Cell,
-            Scroller,
-            Divider,
-            Spinner
-        },
-        data () {
-            return {
-                index: 0,
-                columnList: [],
-                bannelList: [],
-                allLoanApplication: '',
-                loanList: [],
-                listType: 'loan',
-                productList: [],
-                n: 10,
-                pullupEnabled: true,
-                status: {
-                    pullupStatus: 'default',
-                    pulldownStatus: 'default'
-                },
-                getBarWidth: function (index) {
-                    return '2.8rem'
-                }
-            }
-        },
-        ready () {
-
-        },
-        methods : {
-            onItemClick (index) {
-                console.log('on item click:', index)
-            },
-            switchTabItem (index) {
-                console.log('on-before-index-change', index)
-                this.$vux.loading.show({
-                    text: 'loading'
-                })
-                setTimeout(() => {
-                    this.$vux.loading.hide()
-                    this.index01 = index
-                }, 1000)
-            },
-            onItemClick (index) {
-                console.log('on item click:', index)
-            },
-            onSwiperItemIndexChange (index) {
-                index === 0 ? this.listType = 'loan' : this.listType = 'notice'
-                console.log('demo item change', index)
-            },
-            loadMore () {
-              setTimeout(() => {
-                this.n += 10
-                setTimeout(() => {
-                  this.$refs.scroller.donePullup()
-                }, 10)
-              }, 2000)
-            },
-            refresh () {
-              setTimeout(() => {
-                this.n = 10
-                this.$nextTick(() => {
-                  setTimeout(() => {
-                    this.$refs.scroller.donePulldown()
-                    this.pullupEnabled && this.$refs.scroller.enablePullup()
-                  }, 10)
-                })
-              }, 2000)
-            },
-            changePullupStatus (enabled) {
-              if (enabled) {
-                this.$refs.scroller.enablePullup()
-                this.pullupEnabled = true
-              } else {
-                this.$refs.scroller.disablePullup()
-                this.pullupEnabled = false
-              }
-            }
-        },
-        mounted: function () {
-            var _this = this;
-            let indexMainPostData = {}
-            let uuid = utils.uuid();
-            indexMainPostData.requestSource = 'HTML5';
-            indexMainPostData.platform = '';
-            indexMainPostData.version = '';
-            indexMainPostData.uuid = uuid;
-            common.getIndexMain(indexMainPostData)
-                .then((res)=>{
-                    _this.columnList = res.data.columnList;
-                    let loanColumnList = _this.columnList.filter((columnListItem) => {
-                        console.log('columnListItem====',columnListItem);
-                        return columnListItem.productList.length > 0;
-                    })
-                    console.log('loanColumnList====', loanColumnList[0].productList)
-                    let productList = loanColumnList[0].productList;
-                    productList = productList.filter((productListItem) => {
-                        return productListItem.showStatus === '1';
-                    })
-                    let x;
-                    _this.productList = productList;
-                    for (x in _this.productList) {
-                        console.log('productList[x]====', productList[x])
-                        if(productList[x].industryCode === 'MDCP') {
-                            productList[x].jupmUrl = "/newweb/product/miaodai.html";
-                            productList[x].iconUrl1 = require("../assets/images/icon_haimiao.png");
-                            productList[x].iconUrl2 = require("../assets/images/icon_haimiao_text.png");
-                            productList[x].iconUrl3 = require("../assets/images/icon_haimiao_desc.png");
-                        } else {
-                            productList[x].jupmUrl = "/newweb/product/miaodai.html";
-                            productList[x].iconUrl1 = require("../assets/images/icon_network_car.png");
-                            productList[x].iconUrl2 = require("../assets/images/icon_network_car_text.png");
-                            productList[x].iconUrl3 = require("../assets/images/icon_network_car_desc.png");
-                        }
-                    }
-                    console.log('_this.productList====', _this.productList)
-                    let homePagePicPostData = {}
-                    homePagePicPostData.cityCode = '000003';
-                    homePagePicPostData.uuid = uuid;
-                    common.getHomePagePic(homePagePicPostData)
-                        .then((res)=>{
-                            console.log('res.data====', res.data)
-                            _this.bannelList = res.data.bannelList;
-                        })
-                })
-            common.getAllLoanApplication()
-                .then((res) => {
-                    _this.allLoanApplication = res.data.AllLoanApplication;
-                })
-        }
+export default {
+  mounted () {
+    setTimeout(() => {
+      this.money = -1024
+    }, 2000)
+  },
+  components: {
+    Group,
+    Cell,
+    CellFormPreview,
+    CellBox,
+    Badge
+  },
+  methods: {
+    onClick () {
+      console.log('on click')
     }
+  },
+  data () {
+    return {
+      list: [{
+        label: 'Apple',
+        value: '3.29'
+      }, {
+        label: 'Banana',
+        value: '1.04'
+      }, {
+        label: 'Fish',
+        value: '8.00'
+      }],
+      money: null,
+      showContent001: false,
+      showContent002: false,
+      showContent003: false,
+      showContent004: false
+    }
+  }
+}
 </script>
