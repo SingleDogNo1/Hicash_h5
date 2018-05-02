@@ -120,6 +120,7 @@
             <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>快速还款</a></li>
             <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>借款攻略</a></li>
         </ul>
+        <page-footer></page-footer>
     </div>
 </template>
 
@@ -127,7 +128,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
-    @import '../assets/styles/main.css';
+    @import '../assets/css/main.css';
     .box2-wrap {
         height: 300px;
         overflow: hidden;
@@ -446,6 +447,7 @@
     import $ from 'jquery'
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
+    import PageFooter from '../components/PageFooter.vue'
     var page = 1;
     var countPage;
     var getSysParam = (maxLine, page) => {
@@ -474,7 +476,8 @@
             Cell,
             Scroller,
             Divider,
-            Spinner
+            Spinner,
+            PageFooter
         },
         data () {
             return {

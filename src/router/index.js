@@ -11,7 +11,7 @@ export default new Router({
     {
     	//首页
       	path: '/',
-      	name: 'home',
+      	name: 'Home',
       	component: Home
     },
     {

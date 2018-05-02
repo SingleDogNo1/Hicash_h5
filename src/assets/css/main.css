@@ -35,26 +35,8 @@ button::-moz-focus-inner, input::-moz-focus-inner {
     border: 0;
 }
 
-::-webkit-scrollbar {
-    width: 12px;
-    padding: 0 2px;
-    background: #c3cfd9;
-    position: relative;
-    z-index: 100001;
-}
-
-::-webkit-scrollbar-track {
-    position: relative;
-    z-index: 100001;
-    -webkit-box-shadow: inset 0px 0 2px rgba(0, 0, 0, 0);
-}
-
-::-webkit-scrollbar-thumb {
-    background: #c3cfd9;
-    border-radius: 1px;
-    border: 1px solid #c3cfd9;
-    position: relative;
-    z-index: 100001;
+ul {
+    list-style: none;
 }
 
 html {
