@@ -121,7 +121,14 @@
                             <div class="clear"></div>
                         </checker>
                     </div>
-                    <div>13131</div>
+                    <div class="rate-wrap">
+                        <p>每期最低本息还款：<span class="rate-repay">￥345</span></p>
+                        <div class="rate-handler">
+                            <p>月利率：<span class="rate-percentage">1.0%-1.4%</span></p>
+                            <span class="rate-calculator">费率计算器</span>
+                        </div>
+                    </div>
+                    <button class="btn-by-stages">立即分期</button>
                 </div>
             </div>
         </div>
@@ -466,6 +473,43 @@
                                 color: #fff;
                             }
                         }
+                    }
+                    .rate-wrap {
+                        width: 90%;
+                        height: 2rem;
+                        font-size: .65rem;
+                        color: #666;
+                        padding: 0 0.675rem;
+                        line-height: 1.6em;
+                        margin: 0.8rem 0 0.4rem;
+                        .rate-repay {
+                            color: #FF7640;
+                        }
+                        .rate-handler {
+                            position: relative;
+                            .rate-calculator {
+                                position: absolute;
+                                color: #FF7640;
+                                right: 0;
+                                top: 0;
+                                width: 4rem;
+                                height: 0.9rem;
+                                line-height: 0.9rem;
+                                background: none;
+                                text-align: right;
+                            }
+                        }
+                    }
+                    .btn-by-stages {
+                        font-size: .65rem;
+                        width: 14rem;
+                        height: 1.9rem;
+                        background: #333;
+                        border-radius: 5px;
+                        color: #fff;
+                        display: block;
+                        margin: 0 auto 0.5rem;
+                        border: none;
                     }
                 }
             }

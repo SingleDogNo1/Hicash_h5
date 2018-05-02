@@ -5,7 +5,11 @@ export default{
   getIndexMain: getIndexMain,
   getHomePagePic: getHomePagePic,
   getAllLoanApplication: getAllLoanApplication,
-  getSysParam: getSysParam
+  getSysParam: getSysParam,
+  getImgCode: getImgCode,
+  getMessageCode: getMessageCode,
+  login: login,
+  getUserGrade: getUserGrade
 }
 
 
@@ -77,3 +81,54 @@ export function getSysParam(params){
   })
 }
 
+/*
+ *  获取登录页面的图形验证码
+ */
+export function getImgCode(){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/AuthImage").then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取登录页面的短信验证码
+ */
+export function getMessageCode(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/SendValidateCodeCount", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  登录
+ */
+export function login(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/Login", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取用户等级
+ */
+export function getUserGrade(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/UserGrade", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
