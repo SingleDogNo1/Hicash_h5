@@ -45,7 +45,7 @@
         padding-bottom: 0 !important;
     }
     .login-body {
-        height: 100%;
+        height: auto;
         background: url(../assets/images/bg_user.png) 0 0 no-repeat;
         background-size: cover;
         .login-header {
@@ -106,7 +106,8 @@
         }
         .user-login-wrap {
             width: 14.35rem;
-            margin: 3.4rem auto;
+            margin: 0 auto;
+            padding: 3.4rem 0;
             .vux-tab-container {
                 height: 1.8rem !important;
                 border-radius: 10px 10px 0 0 !important;
@@ -333,6 +334,7 @@
                 console.log('postData=====', postData)
                 common.login(postData)
                     .then((res)=>{
+                        console.info('res', res);
                         var params = new URLSearchParams();
                         params.userName = _this.mobile;
                         params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
