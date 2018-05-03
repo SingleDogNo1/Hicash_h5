@@ -5,6 +5,51 @@ p {
     padding: 0;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+}
+a:hover, a:active {
+    outline: 0;
+}
+
+a, button {
+    outline: none;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button, input, select, textarea {
+    margin: 0;
+    font-size: 100%;
+    vertical-align: middle;
+}
+
+img {
+    border: 0px;
+}
+
+button, input {
+    *overflow: visible;
+    line-height: normal;
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
 @media screen and (min-width:320px) {
     $rem-baseline: 19.2px;
 
@@ -124,8 +169,8 @@ p {
 
 @font-face {
     font-family: 'iconfont';
-    src: url('assets/fonts/iconfont.eot');
-    src: url('assets/fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('assets/fonts/iconfont.woff') format('woff'), url('assets/fonts/iconfont.ttf') format('truetype'), url('assets/fonts/iconfont.svg#iconfont') format('svg');
+    src: url('/assets/fonts/iconfont.eot');
+    src: url('/assets/fonts/iconfont.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/iconfont.woff') format('woff'), url('/assets/fonts/iconfont.ttf') format('truetype'), url('/assets/fonts/iconfont.svg#iconfont') format('svg');
 }
 
 .iconfont {

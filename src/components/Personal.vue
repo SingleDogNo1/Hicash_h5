@@ -86,6 +86,7 @@
             <span class="ico-money" slot="icon" width="20"></span>
         </cell>
     </group>
+    <page-footer></page-footer>
 </div>
 </template>
 
@@ -260,6 +261,7 @@
 
 <script>
 import { Cell, CellBox, CellFormPreview, Group, Badge, Flow, FlowState, FlowLine } from 'vux'
+import PageFooter from '../components/PageFooter.vue'
 
 export default {
   components: {
@@ -270,7 +272,8 @@ export default {
     Badge,
     Flow,
     FlowState,
-    FlowLine
+    FlowLine,
+    PageFooter
   },
   mounted () {
 

@@ -4,7 +4,8 @@ export default {
 	setCookie: setCookie,			//设置cookie
 	getCookie: getCookie,			//读取cookie
 	delCookie: delCookie,			//删除cookie
-	clearCookie: clearCookie		//清空cookie	
+	clearCookie: clearCookie,		//清空cookie	
+	checkMobile: checkMobile		//校验手机号是否合法
 }
 
 export function uuid() {
@@ -32,6 +33,11 @@ export function getQueryString(name) {
 	if (r != null)
 	return unescape(r[2]);
 	return null;
+}
+
+export function checkMobile(mobile) {
+    var reg = /^1(3|4|5|7|8)\d{9}$/;
+    return reg.test(mobile)
 }
 
 export function setCookie(c_name, value) {
@@ -82,7 +88,5 @@ export function clearCookie() {
 			}
 
 		}
-
 	}
-
 }

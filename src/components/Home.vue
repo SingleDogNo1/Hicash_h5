@@ -42,7 +42,7 @@
             <p class="all-loan-application" >昨日共申请{{allLoanApplication}}笔</p>
             <ul class="loan-list">
                 <li v-for="productListItem in productList">
-                    <a class="clearfix" :href="productListItem.jupmUrl">
+                    <router-link class="clearfix" :to="{name: productListItem.jupmUrl}">
                         <div class="loan-application-left" :class="{'network-car-left': productListItem.industryCode === 'DDSJ'}">
                             <img :src="productListItem.iconUrl1" />
                             <img :src="productListItem.iconUrl2" class="title"/>
@@ -55,7 +55,7 @@
                         <div class="loan-application-right" :class="{'network-car-right': productListItem.industryCode === 'DDSJ'}">
                                 {{productListItem.simpleContent1}}
                         </div>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -65,7 +65,48 @@
             </div>
             <scroller lock-x scrollbar-y use-pullup use-pulldown height="200px" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
               <div class="box2">
-                <p v-for="i in n">placeholder {{i}}</p>
+                <ul class="news-list">
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                    <li>
+                        <time>2018-04-23</time>
+                        <p class="content">我们不生产手机，但我们可以让你零元拿走iPhone X</p>
+                        <div class="news-type">
+                            败货
+                        </div>
+                        <div class="clear"></div>
+                    </li>
+                </ul>
               </div>
               <!--pullup slot-->
               <div slot="pullup" class="xs-plugin-pullup-container xs-plugin-pullup-up" style="position: absolute; width: 100%; height: 40px; bottom: -40px; text-align: center;">
@@ -79,6 +120,7 @@
             <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>快速还款</a></li>
             <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>借款攻略</a></li>
         </ul>
+        <page-footer></page-footer>
     </div>
 </template>
 
@@ -98,6 +140,15 @@
         transition: all linear 0.2s;
         color: #666;
         font-size: 25px;
+    }
+    body {
+        padding: 0;
+        max-width: 640px;
+        min-width: 320px;
+        margin: 0 auto;
+        background-color: rgb(241, 241, 241);
+        font-family: 微软雅黑;
+        overflow: hidden !important;
     }
     .clear {
         clear:both;
@@ -358,6 +409,39 @@
                 text-align: center;
                 padding: .35rem 0;
                 font-size: .8rem;
+                strong {
+                    color: #FD7F5F;
+                }
+            }
+        }
+        .news-list {
+            list-style: none;
+            padding: 0 .6rem;
+            li {
+                border-top: 1px solid #DADADA;
+                font-size: 0.5rem;
+                color: #A4A4A4;
+                padding: .55rem 0;
+                time {
+                    float: left;
+                }
+                .content {
+                    float: left;
+                    width: 100%;
+                    font-size: 0.7rem;
+                    color: #3f3f3f;
+                    padding: .375rem 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .news-type {
+                    float: left;
+                    background: #FFF7E9;
+                    padding: .15rem .625rem;
+                    border-radius: 13px;
+                    color: #ff7640;
+                }
             }
         }
     }
@@ -368,6 +452,24 @@
     // import $ from 'jquery'
     // import common from '@/api/common'
     // import utils from '@/assets/js/utils'
+
+    import PageFooter from '../components/PageFooter.vue'
+    var page = 1;
+    var countPage;
+    var getSysParam = (maxLine, page) => {
+        var postData = new URLSearchParams();
+        postData.append('paramCode', 'WZGG,GSDT');
+        postData.append('sourceFrom', 'HTML5');
+        postData.append('maxLine', maxLine);
+        postData.append('curPage', page);
+        this.common.getSysParam(postData)
+            .then((res)=>{
+                console.log('res===', res);
+                res.data.countPage = 3;
+                countPage = res.data.countPage;
+            })
+    }
+    console.log('page====', page)
 
     export default {
         components: {
@@ -380,11 +482,13 @@
             Cell,
             Scroller,
             Divider,
-            Spinner
+            Spinner,
+            PageFooter
         },
         data () {
             return {
                 index: 0,
+                from: '',
                 columnList: [],
                 bannelList: [],
                 allLoanApplication: '',
@@ -421,15 +525,20 @@
             },
             onSwiperItemIndexChange (index) {
                 index === 0 ? this.listType = 'loan' : this.listType = 'notice'
-                console.log('demo item change', index)
+                if(this.listType = 'notice') getSysParam(3, 1);
             },
             loadMore () {
-              setTimeout(() => {
-                this.n += 10
                 setTimeout(() => {
-                  this.$refs.scroller.donePullup()
-                }, 10)
-              }, 2000)
+                    console.log('page====', page)
+                    if(page < countPage){
+                        page++;
+                        getSysParam(10, page);
+                    }
+                    setTimeout(() => {
+                        console.log(222)
+                        this.$refs.scroller.donePullup()
+                    }, 10)
+                }, 2000)
             },
             refresh () {
               setTimeout(() => {
@@ -477,7 +586,7 @@
                     for (x in _this.productList) {
                         console.log('productList[x]====', productList[x])
                         if(productList[x].industryCode === 'MDCP') {
-                            productList[x].jupmUrl = "/newweb/product/miaodai.html";
+                            productList[x].jupmUrl = "MiaoDai";
                             productList[x].iconUrl1 = require("../assets/images/icon_haimiao.png");
                             productList[x].iconUrl2 = require("../assets/images/icon_haimiao_text.png");
                             productList[x].iconUrl3 = require("../assets/images/icon_haimiao_desc.png");
