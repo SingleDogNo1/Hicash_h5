@@ -25,13 +25,17 @@
                 </x-input>
                 <toast v-model="showPositionValue" type="text" :time="800" is-show-mask :position="position">{{errorMsg}}</toast>
                 <button class="btn-login" @click="messageLogin('middle')">登录</button>
-                <a href="#" class="go-to-forget-pwd">忘记密码?</a>
+                <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
+                    忘记密码?
+                </router-link>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
-                <x-input class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"></x-input>
-                <x-input class="password" name="password" placeholder="请输入密码" type="password"></x-input>
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"></x-input>
+                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
-                <a href="#" class="go-to-forget-pwd">忘记密码?</a>
+                <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
+                    忘记密码?
+                </router-link>
             </div>
         </div>
     </div>
@@ -49,28 +53,11 @@
         background: url(../assets/images/bg_user.png) 0 0 no-repeat;
         background-size: cover;
         .login-header {
-            width: 100%;
-            height: 2.2rem;
-            background: #FF7640;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 99;
             background: none;
             border: none;
             position: relative;
             .go-back {
-                width: 1.8rem;
-                height: 1.8rem;
-                position: absolute;
-                top: 50%;
                 left: .85rem;
-                -webkit-transform: translate(0,-50%);
-                -moz-transform: translate(0,-50%);
-                -ms-transform: translate(0,-50%);
-                -o-transform: translate(0,-50%);
-                transform: translate(0,-50%);
-                z-index: 999;
             }
             .go-back:before {
                 font-family: "iconfont";
@@ -217,6 +204,49 @@
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
 
+    var afterLogin = function(data) {
+        return new Promise((resolve,reject)=>{
+            console.log('data=====', data)
+            var params = new URLSearchParams();
+            params.userName = data.userName;
+            params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
+            common.getUserGrade(params)
+                .then((result)=>{
+                    var source = utils.getCookie("source");
+                    var vipCount = utils.getCookie("vipCount");
+                    var dxObj = utils.getCookie("dxObj");
+                    var telObj = utils.getCookie("telObj");
+                    var mediasource = utils.getCookie("mediasource");
+                    var afFrom = utils.getCookie("afFrom");
+                    var siji_realName = utils.getCookie("siji_realName");
+                    var siji_didiMobile = utils.getCookie("siji_didiMobile");
+                    var siji_loanAmount = utils.getCookie("siji_loanAmount");
+                    var siji_proid = utils.getCookie("siji_proid");
+                        utils.clearCookie();
+                        if(result.data.userGrade){
+                            var getUserPj = utils.getCookie("pj");
+                            if(!getUserPj||getUserPj!=result.data.userGrade){
+                                utils.setCookie("pj",result.data.userGrade);
+                                utils.setCookie("pjread","0");
+                            }
+                        }
+                    utils.setCookie("siji_realName",siji_realName);
+                    utils.setCookie("siji_didiMobile",siji_didiMobile);
+                    utils.setCookie("siji_loanAmount",siji_loanAmount);
+                    utils.setCookie("siji_proid",siji_proid);
+                    utils.setCookie("userName", data.userName);
+                    utils.setCookie("realName", escape(data.realName));
+                    utils.setCookie("mobile", data.mobile);
+                    utils.setCookie("identityCode", data.identityNo);
+                    utils.setCookie("custType", data.custType);
+                    utils.setCookie("isDoubleSales", data.isDoubleSales);
+                    utils.setCookie("inOneMonthReg", data.inOneMonthReg);
+                    utils.setCookie("isLanUserFlag", data.isLanUserFlag);
+                    resolve(result);
+                });
+        })
+    }
+
     export default {
         components: {
             Tab,
@@ -231,6 +261,7 @@
                 authPic: '',
                 authId: '',
                 mobile: '',
+                password: '',
                 imgCode: '',
                 messageCode: '',
                 position: 'default',
@@ -316,9 +347,9 @@
                     errorMsg="请输入短信验证码";
                 }
                 if(errorMsg!="") {
-                    this.position = position;
-                    this.showPositionValue = true;
-                    this.errorMsg = errorMsg;
+                    _this.position = position;
+                    _this.showPositionValue = true;
+                    _this.errorMsg = errorMsg;
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -333,51 +364,56 @@
                 console.log('postData=====', postData)
                 common.login(postData)
                     .then((res)=>{
-                        var params = new URLSearchParams();
-                        params.userName = _this.mobile;
-                        params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
-                        common.getUserGrade(postData)
-                            .then((result)=>{
-                                console.log('res=====', res)
-                                var source = utils.getCookie("source");
-                                var vipCount = utils.getCookie("vipCount");
-                                var dxObj = utils.getCookie("dxObj");
-                                var telObj = utils.getCookie("telObj");
-                                var mediasource = utils.getCookie("mediasource");
-                                var afFrom = utils.getCookie("afFrom");
-                                var siji_realName = utils.getCookie("siji_realName");
-                                var siji_didiMobile = utils.getCookie("siji_didiMobile");
-                                var siji_loanAmount = utils.getCookie("siji_loanAmount");
-                                var siji_proid = utils.getCookie("siji_proid");
-                                    utils.clearCookie();
-                                    if(result.data.userGrade){
-                                        var getUserPj = utils.getCookie("pj");
-                                        if(!getUserPj||getUserPj!=result.data.userGrade){
-                                            utils.setCookie("pj",result.data.userGrade);
-                                            utils.setCookie("pjread","0");
-                                        }
-                                    }
-                                utils.setCookie("siji_realName",siji_realName);
-                                utils.setCookie("siji_didiMobile",siji_didiMobile);
-                                utils.setCookie("siji_loanAmount",siji_loanAmount);
-                                utils.setCookie("siji_proid",siji_proid);
-                                console.log('res====', res)
-                                utils.setCookie("userName", res.data.userName);
-                                utils.setCookie("realName", escape(res.data.realName));
-                                utils.setCookie("mobile", res.data.mobile);
-                                utils.setCookie("identityCode", res.data.identityNo);
-                                utils.setCookie("custType",res.data.custType);
-                                utils.setCookie("isDoubleSales",res.data.isDoubleSales);
-                                utils.setCookie("inOneMonthReg",res.data.inOneMonthReg);
-                                utils.setCookie("isLanUserFlag",res.data.isLanUserFlag);
-                                _this.$router.push({name: 'Home', params: { from: 'bg-body' }});
+                        if(res.data.resultCode === '1') {
+                            afterLogin(res.data).then((res)=>{
+                                var redirect = _this.$route.query.redirect;
+                                _this.$router.push({path: redirect});
                             });
-                        console.log('res====', res)
+                        } else {
+                            _this.position = position;
+                            _this.showPositionValue = true;
+                            _this.errorMsg = errorMsg;
+                        }
                     });
 
             },
             passwordLogin () {
-
+                var _this = this;
+                var errorMsg="";
+                if (_this.mobile == "") {
+                    errorMsg="请输入您的手机号";
+                } else if (!utils.checkMobile(_this.mobile)) {
+                    errorMsg="手机号码格式错误";
+                } else if (_this.password == "") {
+                    errorMsg="请输入密码";
+                }
+                if(errorMsg!="") {
+                    _this.position = position;
+                    _this.showPositionValue = true;
+                    _this.errorMsg = errorMsg;
+                    return;
+                }
+                var postData = new URLSearchParams();
+                postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                postData.append('cityCode', '310100');
+                postData.append('userName', _this.mobile);
+                postData.append('passWord', _this.password);
+                postData.append('imageCode', _this.imgCode);
+                postData.append('type', 1);
+                console.log('postData=====', postData)
+                common.login(postData)
+                    .then((res)=>{
+                        if(res.data.resultCode === '1') {
+                            afterLogin(res.data).then((res)=>{
+                                var redirect = _this.$route.query.redirect;
+                                _this.$router.push({path: redirect});
+                            });
+                        } else {
+                            _this.position = position;
+                            _this.showPositionValue = true;
+                            _this.errorMsg = errorMsg;
+                        }
+                    });
             }
         },
         mounted: function () {
