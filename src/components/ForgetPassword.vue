@@ -10,9 +10,11 @@
             <div class="forget-password-form">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"></x-input>
                 <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
-                        <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
-                        {{getMessageCodeText}}</x-button>
+                    <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
+                        {{getMessageCodeText}}
+                    </x-button>
                 </x-input>
+                <button class="btn-next" @click="messageLogin('middle')">下一步</button>
             </div>
         </div>
     </div>
@@ -60,6 +62,42 @@
                     margin-bottom: .5rem;
                     background: url(../assets/images/icon_tel.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
+                }
+                .message-code {
+                    position: relative;
+                    height: 1.95rem;
+                    border-bottom: 1px solid #DDDDDD;
+                    font-size: .7rem;
+                    padding: 5px 0 5px 1.35rem;
+                    margin-bottom: .5rem;
+                    background: url(../assets/images/icon_message_code.png) left center no-repeat;
+                    background-size: 0.666667rem 0.666667rem;
+                    .weui-btn_primary {
+                        width: 4rem !important;
+                        height: 1.45rem !important;
+                        padding: 0 !important;
+                        background: none;
+                        color: #ff7640;
+                        border: none !important;
+                        font-size: 0.55rem !important;
+                    }
+                    .weui-btn_primary:after {
+                        border: none;
+                    }
+                }
+                .message-code:before {
+                    border-top: none !important;
+                }
+                .btn-next {
+                    margin-top: 1.125rem;
+                    width: 14.3rem;
+                    height: 1.85rem;
+                    font-size: 0.75rem;
+                    background: #FF7640;
+                    color: #fff;
+                    border-radius: 5px;
+                    margin-bottom: .75rem;
+                    border: none;
                 }
             }
         }

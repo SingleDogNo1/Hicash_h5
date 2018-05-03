@@ -15,11 +15,11 @@
                 <tab-item @on-item-click="onItemClick">密码登录</tab-item>
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"></x-input>
-                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码">
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
+                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4">
                     <img slot="right-full-height" :src="authPic" @click="change">
                 </x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
+                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" :max="4">
                     <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
@@ -30,7 +30,7 @@
                 </router-link>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"></x-input>
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
                 <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
@@ -49,7 +49,7 @@
         padding-bottom: 0 !important;
     }
     .login-body {
-        height: 100%;
+        height: auto;
         background: url(../assets/images/bg_user.png) 0 0 no-repeat;
         background-size: cover;
         .login-header {
@@ -93,7 +93,8 @@
         }
         .user-login-wrap {
             width: 14.35rem;
-            margin: 3.4rem auto;
+            margin: 0 auto;
+            padding: 3.4rem 0;
             .vux-tab-container {
                 height: 1.8rem !important;
                 border-radius: 10px 10px 0 0 !important;
@@ -165,6 +166,9 @@
                         border: none !important;
                         font-size: .65rem !important;
                     }
+                }
+                .message-code:before {
+                    border-top: none !important;
                 }
                 .password {
                     position: relative;
@@ -311,6 +315,10 @@
                         var timer;
                         if(res.data.resultCode=="1"){
                             timeCount(60);
+                        } else {
+                            _this.position = position;
+                            _this.showPositionValue = true;
+                            _this.errorMsg = res.data.resultMsg;
                         }
                         function timeCount(time) {
                             if (time == 0) {
@@ -372,7 +380,7 @@
                         } else {
                             _this.position = position;
                             _this.showPositionValue = true;
-                            _this.errorMsg = errorMsg;
+                            _this.errorMsg = res.data.resultMsg;
                         }
                     });
 
@@ -411,7 +419,7 @@
                         } else {
                             _this.position = position;
                             _this.showPositionValue = true;
-                            _this.errorMsg = errorMsg;
+                            _this.errorMsg = res.data.resultMsg;
                         }
                     });
             }
