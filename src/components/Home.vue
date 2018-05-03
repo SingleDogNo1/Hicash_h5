@@ -365,9 +365,9 @@
 
 <script type="text/javascript">
     import { Tab, TabItem, Swiper, SwiperItem, Panel, Group, Cell, Scroller, Divider, Spinner} from 'vux'
-    import $ from 'jquery'
-    import common from '@/api/common'
-    import utils from '@/assets/js/utils'
+    // import $ from 'jquery'
+    // import common from '@/api/common'
+    // import utils from '@/assets/js/utils'
 
     export default {
         components: {
@@ -406,9 +406,6 @@
 
         },
         methods : {
-            onItemClick (index) {
-                console.log('on item click:', index)
-            },
             switchTabItem (index) {
                 console.log('on-before-index-change', index)
                 this.$vux.loading.show({
@@ -458,12 +455,12 @@
         mounted: function () {
             var _this = this;
             let indexMainPostData = {}
-            let uuid = utils.uuid();
+            let uuid = this.utils.uuid();
             indexMainPostData.requestSource = 'HTML5';
             indexMainPostData.platform = '';
             indexMainPostData.version = '';
             indexMainPostData.uuid = uuid;
-            common.getIndexMain(indexMainPostData)
+            this.common.getIndexMain(indexMainPostData)
                 .then((res)=>{
                     _this.columnList = res.data.columnList;
                     let loanColumnList = _this.columnList.filter((columnListItem) => {
@@ -495,13 +492,13 @@
                     let homePagePicPostData = {}
                     homePagePicPostData.cityCode = '000003';
                     homePagePicPostData.uuid = uuid;
-                    common.getHomePagePic(homePagePicPostData)
+                    this.common.getHomePagePic(homePagePicPostData)
                         .then((res)=>{
                             console.log('res.data====', res.data)
                             _this.bannelList = res.data.bannelList;
                         })
                 })
-            common.getAllLoanApplication()
+            this.common.getAllLoanApplication()
                 .then((res) => {
                     _this.allLoanApplication = res.data.AllLoanApplication;
                 })

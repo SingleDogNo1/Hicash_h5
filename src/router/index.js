@@ -17,7 +17,10 @@ export default new Router({
     	//个人中心
       	path: '/Personal',
       	name: 'Personal',
-      	component: Personal
+      	component: Personal,
+        meta:{
+            requireAuth:true
+        }
     }
   ]
 })

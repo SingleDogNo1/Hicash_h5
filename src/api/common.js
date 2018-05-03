@@ -1,10 +1,12 @@
 import axios from 'axios'
+import config from '../config.json'
 
 export default{
   ShowPI:ShowPI,
   getIndexMain: getIndexMain,
   getHomePagePic: getHomePagePic,
-  getAllLoanApplication: getAllLoanApplication
+  getAllLoanApplication: getAllLoanApplication,
+  getAccountInfo: getAccountInfo
 }
 
 
@@ -61,4 +63,27 @@ export function getAllLoanApplication(){
     })
   })
 }
+
+
+/*
+ *  查询申请件进度
+ */
+export function getAccountInfo(params){
+  console.info('params', params);
+  var url = '/NewHicashService/AccountInfo?userName=' + params.userName 
+            + '&curPage=' + params.curPage
+            + '&maxLine=' + params.maxLine
+            + '&requestSource=' + config.requestSource
+            + '&uuid=' + params.uuid
+            + '&version=' + config.version;
+    console.info('url', url);
+    return new Promise((resolve,reject)=>{
+        axios.get(url).then((res)=>{
+          resolve(res)
+        },(err)=>{
+          reject(err)
+        })
+    })
+}
+
 
