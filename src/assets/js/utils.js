@@ -4,8 +4,9 @@ export default {
 	setCookie: setCookie,			//设置cookie
 	getCookie: getCookie,			//读取cookie
 	delCookie: delCookie,			//删除cookie
-	clearCookie: clearCookie,		//清空cookie	
-	checkMobile: checkMobile		//校验手机号是否合法
+	clearCookie: clearCookie,		//清空cookie
+	checkMobile: checkMobile,		//校验手机号是否合法
+	timeCount: timeCount			//获取短信验证码倒计时
 }
 
 export function uuid() {
@@ -46,7 +47,7 @@ export function setCookie(c_name, value) {
 
 // 读取cookies
 export function getCookie(name) {
- 
+
 	var arr, reg=new RegExp("(^|)"+name+"=([^;]*)(;|$)");
 
 	if(arr=document.cookie.match(reg)) {
@@ -89,4 +90,21 @@ export function clearCookie() {
 
 		}
 	}
+}
+
+export function timeCount(time) {
+	var msg;
+	var time;
+	var timer;
+    if (time == 0) {
+        msg = '获取验证码'
+    } else {
+        msg = time + 's'
+        time--;
+        timer =  setTimeout(function() {
+             timeCount(time) ;
+    		console.log('msg====', msg)
+    		return msg;
+        }, 1000);
+    }
 }

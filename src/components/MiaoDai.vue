@@ -288,6 +288,12 @@
                 background: none;
                 left: 0;
                 top: 0;
+                .go-history {
+                    left: .85rem;
+                }
+                .go-history:before {
+                    color: #C04F23;
+                }
                 .QQhandler {
                     width: 1.2rem;
                     height: 1.2rem;

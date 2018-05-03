@@ -8,12 +8,19 @@
         </header>
         <div class="container">
             <div class="forget-password-form">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
-                    <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
-                        {{getMessageCodeText}}
-                    </x-button>
-                </x-input>
+                <div class="mobile-wrap">
+                    <i class="iconfont">&#xe784;</i>
+                    <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile">
+                    </x-input>
+                </div>
+                <div class="message-code-wrap">
+                    <i class="iconfont">&#xe66c;</i>
+                    <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code">
+                        <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
+                            {{getMessageCodeText}}
+                        </x-button>
+                    </x-input>
+                </div>
                 <button class="btn-next" @click="messageLogin('middle')">下一步</button>
             </div>
         </div>
@@ -53,40 +60,55 @@
             .forget-password-form {
                 width: 14.3rem;
                 margin: 0 auto;
-                .mobile {
-                    position: relative;
-                    height: 1.95rem;
-                    border-bottom: 1px solid #DDDDDD;
-                    font-size: .7rem;
-                    padding: 5px 0 5px 1.35rem;
-                    margin-bottom: .5rem;
-                    background: url(../assets/images/icon_tel.png) left center no-repeat;
-                    background-size: 0.666667rem 0.666667rem;
-                }
-                .message-code {
-                    position: relative;
-                    height: 1.95rem;
-                    border-bottom: 1px solid #DDDDDD;
-                    font-size: .7rem;
-                    padding: 5px 0 5px 1.35rem;
-                    margin-bottom: .5rem;
-                    background: url(../assets/images/icon_message_code.png) left center no-repeat;
-                    background-size: 0.666667rem 0.666667rem;
-                    .weui-btn_primary {
-                        width: 4rem !important;
-                        height: 1.45rem !important;
-                        padding: 0 !important;
-                        background: none;
-                        color: #ff7640;
-                        border: none !important;
-                        font-size: 0.55rem !important;
+                .mobile-wrap {
+                    .iconfont {
+                        position: absolute;
+                        top: 15.5%;
+                        color: #FF7640;
+                        font-size: 1.05rem;
                     }
-                    .weui-btn_primary:after {
-                        border: none;
+                    .mobile {
+                        position: relative;
+                        height: 1.95rem;
+                        border-bottom: 1px solid #DDDDDD;
+                        font-size: .7rem;
+                        padding: 5px 0 5px 1.35rem;
+                        margin-bottom: .5rem;
+                    }
+                    .mobile:before {
+                        border-top: none !important;
                     }
                 }
-                .message-code:before {
-                    border-top: none !important;
+                .message-code-wrap {
+                    .iconfont {
+                        position: absolute;
+                        top: 25.5%;
+                        color: #FF7640;
+                        font-size: 1.05rem;
+                    }
+                    .message-code {
+                        position: relative;
+                        height: 1.95rem;
+                        border-bottom: 1px solid #DDDDDD;
+                        font-size: .7rem;
+                        padding: 5px 0 5px 1.35rem;
+                        margin-bottom: .5rem;
+                        .weui-btn_primary {
+                            width: 4rem !important;
+                            height: 1.45rem !important;
+                            padding: 0 !important;
+                            background: none;
+                            color: #ff7640;
+                            border: none !important;
+                            font-size: 0.55rem !important;
+                        }
+                        .weui-btn_primary:after {
+                            border: none;
+                        }
+                    }
+                    .message-code:before {
+                        border-top: none !important;
+                    }
                 }
                 .btn-next {
                     margin-top: 1.125rem;
@@ -121,7 +143,8 @@
         data () {
             return {
                 mobile: '',
-                messageCode: ''
+                messageCode: '',
+                getMessageCodeText: '获取短信验证码'
             }
         },
         ready () {

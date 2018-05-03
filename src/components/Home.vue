@@ -118,7 +118,7 @@
         </div>
         <ul class="link">
             <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>快速还款</a></li>
-            <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>借款攻略</a></li>
+            <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>借款攻略</a></li>
         </ul>
         <page-footer></page-footer>
     </div>
@@ -386,6 +386,12 @@
             width: 50%;
             a {
                 color: #3f3f3f;
+                i {
+                    font-size: 0.8rem;
+                    color: #ff743d;
+                    padding-right: 0.35rem;
+                    vertical-align: middle;
+                }
             }
         }
         li:first-child {

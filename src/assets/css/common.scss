@@ -246,6 +246,20 @@ header {
         transform: translate(0,-50%);
         z-index: 999;
     }
+    .go-history:before, .go-back:before {
+        font-family: "iconfont";
+        position: absolute;
+        content: "\ed72";
+        top: 50%;
+        left: 50%;
+        font-size: 1.25rem;
+        color: #fff;
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        -o-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
     h1 {
         position: absolute;
         width: 2.45rem;

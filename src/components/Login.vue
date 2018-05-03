@@ -314,22 +314,12 @@
                         var time = 60;
                         var timer;
                         if(res.data.resultCode=="1"){
-                            timeCount(60);
+                            var aaa = utils.timeCount(60);
+                            console.log('aaa====', aaa)
                         } else {
                             _this.position = position;
                             _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
-                        }
-                        function timeCount(time) {
-                            if (time == 0) {
-                                _this.getMessageCodeText = '获取验证码'
-                            } else {
-                                _this.getMessageCodeText = time + 's'
-                                time--;
-                                timer =  setTimeout(function() {
-                                     timeCount(time) ;
-                                }, 1000);
-                            }
                         }
                     });
             },
