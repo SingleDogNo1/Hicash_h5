@@ -16,11 +16,10 @@ export default {
         MiaoDai
     }
 }
-    console.log('qqqqq')
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-    @import './assets/css/rem.scss';
+    @import './assets/css/common.scss';
     a {
         text-decoration: none;
     }
