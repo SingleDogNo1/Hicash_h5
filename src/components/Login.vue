@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="login-body">
         <!-- header -->
         <header  class="login-header">
             <a class="go-back"  href="JavaScript:history.back(-1)"></a>
@@ -42,8 +42,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     @import '../assets/css/main.css';
-    body {
-        height: 28.45rem;
+    .weui-tab__panel{
+        padding-bottom: 0 !important;
+    }
+    .login-body {
+        height: 100%;
         background: url(../assets/images/bg_user.png) 0 0 no-repeat;
         background-size: cover;
         .login-header {
@@ -368,7 +371,7 @@
                                 utils.setCookie("isDoubleSales",res.data.isDoubleSales);
                                 utils.setCookie("inOneMonthReg",res.data.inOneMonthReg);
                                 utils.setCookie("isLanUserFlag",res.data.isLanUserFlag);
-                                _this.$router.replace({path: '/'});
+                                _this.$router.push({name: 'Home', params: { from: 'bg-body' }});
                             });
                         console.log('res====', res)
                     });

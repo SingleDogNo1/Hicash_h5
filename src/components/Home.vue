@@ -143,6 +143,12 @@
         font-size: 25px;
     }
     body {
+        padding: 0;
+        max-width: 640px;
+        min-width: 320px;
+        margin: 0 auto;
+        background-color: rgb(241, 241, 241);
+        font-family: 微软雅黑;
         overflow: hidden !important;
     }
     .clear {
@@ -482,6 +488,7 @@
         data () {
             return {
                 index: 0,
+                from: '',
                 columnList: [],
                 bannelList: [],
                 allLoanApplication: '',

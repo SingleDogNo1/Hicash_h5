@@ -34,7 +34,7 @@
         max-width: 640px;
         min-width: 320px;
         margin: 0 auto;
-        background: rgb(241, 241, 241);
+        background-color: rgb(241, 241, 241);
         font-family: 微软雅黑;
     }
     #app {
