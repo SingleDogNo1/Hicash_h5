@@ -1,6 +1,9 @@
 import axios from 'axios'
 import config from '../config.json'
 
+axios.defaults.headers.common['Authorization'] = '123123123123';
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8"';
+
 export default{
   ShowPI:ShowPI,
   getIndexMain: getIndexMain,

@@ -149,7 +149,7 @@
             padding: rem(0 25px);
 
             .left-box, .right-box {
-                width: 50%;
+                width: 40%;
                 font-size: rem(10px);
 
                 span {
@@ -158,8 +158,13 @@
 
             }
 
+            .left-box {
+                position: relative;
+                text-align: right;
+                padding-right: rem(18px);
+            }
+
             .right-box {
-                width: 40%;
                 position: relative;
                 padding-left: rem(18px);
 
