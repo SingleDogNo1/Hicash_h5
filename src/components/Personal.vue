@@ -102,8 +102,6 @@
         background-size: 100% 100%;
         color: #fff;
 
-        
-
         .per-user-info {
             padding: rem(20px 15px);
             position: relative;

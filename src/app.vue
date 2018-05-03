@@ -143,5 +143,8 @@ export default {
             width: 0.9rem !important;
         }
     }
+    .weui-cell:before{
+        height: 1px;
+    }
 </style>
 
