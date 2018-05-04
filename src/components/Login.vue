@@ -3,7 +3,9 @@
         <!-- header -->
         <header  class="login-header">
             <a class="go-back"  href="JavaScript:history.back(-1)"></a>
-            <a class="go-to-register" href="javascript:">注册</a>
+            <router-link class="go-to-register" :to="{name: 'Register'}">
+                    注册
+            </router-link>
         </header>
         <!-- header -->
         <div class="user-login">
@@ -20,10 +22,10 @@
                     <img slot="right-full-height" :src="authPic" @click="change">
                 </x-input>
                 <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" :max="4">
-                    <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
+                    <x-button slot="right" type="primary" mini @click.native="showPosition('middle')">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
-                <toast v-model="showPositionValue" type="text" :time="800" is-show-mask :position="position">{{errorMsg}}</toast>
+                <toast v-model="showPositionValue" type="text" :time="3000" is-show-mask :position="position">{{errorMsg}}</toast>
                 <button class="btn-login" @click="messageLogin('middle')">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
                     忘记密码?
@@ -60,18 +62,7 @@
                 left: .85rem;
             }
             .go-back:before {
-                font-family: "iconfont";
-                position: absolute;
-                content: "\ed72";
-                top: 50%;
-                left: 50%;
-                font-size: 1.25rem;
-                color: #fff;
-                -webkit-transform: translate(-50%,-50%);
-                -moz-transform: translate(-50%,-50%);
-                -ms-transform: translate(-50%,-50%);
-                -o-transform: translate(-50%,-50%);
-                transform: translate(-50%,-50%);
+                color: #C04F23;
             }
             .go-to-register {
                 font-size: 0.8rem;
@@ -180,6 +171,9 @@
                     background: url(../assets/images/icon_password.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
                 }
+                .password:before {
+                    border-top: none !important;
+                }
                 .btn-login {
                     display: block;
                     width: 11rem;
@@ -285,12 +279,12 @@
             },
             showPosition (position) {
                 var _this = this;
-                var errorMsg="";
+                var errorMsg = "";
                 if (_this.mobile == "") {
                     errorMsg="请输入您的手机号";
                 } else if (!utils.checkMobile(_this.mobile)) {
                     errorMsg="手机号码格式错误";
-                }else if (_this.imgCode == "") {
+                } else if (_this.imgCode == "") {
                     errorMsg="请输入图形验证码";
                 }
                 if(errorMsg!="") {
@@ -300,22 +294,14 @@
                     return;
                 }
                 var postData = new URLSearchParams();
-                postData.append('userName', _this.mobile);
+                postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('mobile', _this.mobile);
-                postData.append('sendFrom', 'HTML5');
-                postData.append('sendType', 'login');
-                postData.append('requestSource', 'HTML5');
-                postData.append('uuid', utils.uuid());
-                postData.append('authId', _this.authId);
-                postData.append('imageCode', _this.imgCode);
-                console.log('postData=====', postData)
                 common.getMessageCode(postData)
                     .then((res)=>{
-                        var time = 60;
-                        var timer;
                         if(res.data.resultCode=="1"){
-                            var aaa = utils.timeCount(60);
-                            console.log('aaa====', aaa)
+                            utils.timeCount(60, function(data){
+                                _this.getMessageCodeText = data;
+                            });
                         } else {
                             _this.position = position;
                             _this.showPositionValue = true;

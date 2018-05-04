@@ -92,19 +92,19 @@ export function clearCookie() {
 	}
 }
 
-export function timeCount(time) {
+export function timeCount(time, callback) {
 	var msg;
 	var time;
 	var timer;
     if (time == 0) {
-        msg = '获取验证码'
+        msg = '获取验证码';
+        callback(msg);
     } else {
         msg = time + 's'
         time--;
         timer =  setTimeout(function() {
-             timeCount(time) ;
-    		console.log('msg====', msg)
-    		return msg;
+            timeCount(time, callback) ;
         }, 1000);
+    	callback(msg);
     }
 }

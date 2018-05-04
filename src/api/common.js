@@ -2,7 +2,7 @@ import axios from 'axios'
 import config from '../config.json'
 
 export default{
-  ShowPI:ShowPI,
+  ShowPI: ShowPI,
   getIndexMain: getIndexMain,
   getHomePagePic: getHomePagePic,
   getAllLoanApplication: getAllLoanApplication,
@@ -11,7 +11,10 @@ export default{
   getImgCode: getImgCode,
   getMessageCode: getMessageCode,
   login: login,
-  getUserGrade: getUserGrade
+  getUserGrade: getUserGrade,
+  getSendPassWordCode: getSendPassWordCode,
+  forgetPassWord: forgetPassWord,
+  resetPassword: resetPassword
 }
 
 
@@ -150,6 +153,45 @@ export function login(params){
 export function getUserGrade(params){
   return new Promise((resolve,reject)=>{
     axios.post("/NewHicashService/UserGrade", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取忘记密码页面的短信验证码
+ */
+export function getSendPassWordCode(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/SendPassWordCode", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  忘记密码页面验证验证码
+ */
+export function forgetPassWord(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashService/ForgetPassWord", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  忘记密码修改密码
+ */
+export function resetPassword(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashService/ResetPassword", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
