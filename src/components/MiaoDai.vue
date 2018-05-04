@@ -63,7 +63,7 @@
             </x-dialog>
         </div>
         <div class="container">
-            <header>
+            <header class="miaodai-header">
                 <a class="go-history" href="javascript:"></a>
                 <h1 style="display: none;"><a href="../../index.html"></a></h1>
                 <!-- 20170830  添加QQ  start -->
@@ -283,14 +283,17 @@
             height: 100%;
             background: #fff;
             position: relative;
-            header {
+            .miaodai-header {
                 position: absolute;
                 background: none;
                 left: 0;
                 top: 0;
-                width: 100%;
-                height: 2.2rem;
-                z-index: 99;
+                .go-history {
+                    left: .85rem;
+                }
+                .go-history:before {
+                    color: #C04F23;
+                }
                 .QQhandler {
                     width: 1.2rem;
                     height: 1.2rem;

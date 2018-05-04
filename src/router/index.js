@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Personal from '@/components/Personal'
 import MiaoDai from '@/components/MiaoDai'
 import Login from '@/components/Login'
+import ForgetPassword from '@/components/ForgetPassword'
 
 Vue.use(Router)
 
@@ -35,6 +36,12 @@ export default new Router({
         path: '/login',
         name: 'Login',
         component: Login
+    },
+    {
+        //忘记密码
+        path: '/forgetPassword',
+        name: 'ForgetPassword',
+        component: ForgetPassword
     }
   ]
 })

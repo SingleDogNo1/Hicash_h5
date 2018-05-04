@@ -6,7 +6,8 @@ export default {
 	delCookie: delCookie,			//删除cookie
 	clearCookie: clearCookie,		//清空cookie	
 	checkMobile: checkMobile,		//校验手机号是否合法
-	codeBase64: codeBase64			//Base64编码、解码
+	codeBase64: codeBase64,			//Base64编码、解码
+	timeCount: timeCount			//获取短信验证码倒计时
 }
 
 export function uuid() {
@@ -31,8 +32,8 @@ export function uuid() {
 export function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	var r = window.location.search.substr(1).match(reg);
-	if (r != null)
-	return unescape(r[2]);
+	if (r != null) return unescape(r[2]);
+
 	return null;
 }
 
@@ -47,7 +48,7 @@ export function setCookie(c_name, value) {
 
 // 读取cookies
 export function getCookie(name) {
- 
+
 	var arr, reg=new RegExp("(^|)"+name+"=([^;]*)(;|$)");
 
 	if(arr=document.cookie.match(reg)) {
@@ -260,4 +261,21 @@ export function codeBase64(){
         return utf8to16(base64decode(str));
     }
     return e;
+}
+
+export function timeCount(time) {
+	var msg;
+	var time;
+	var timer;
+    if (time == 0) {
+        msg = '获取验证码'
+    } else {
+        msg = time + 's'
+        time--;
+        timer =  setTimeout(function() {
+             timeCount(time) ;
+    		console.log('msg====', msg)
+    		return msg;
+        }, 1000);
+    }
 }

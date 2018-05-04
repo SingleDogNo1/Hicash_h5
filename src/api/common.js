@@ -1,9 +1,6 @@
 import axios from 'axios'
 import config from '../config.json'
 
-axios.defaults.headers.common['Authorization'] = '123123123123';
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8"';
-
 export default{
   ShowPI:ShowPI,
   getIndexMain: getIndexMain,
@@ -51,7 +48,6 @@ export function getIndexMain(params){
 export function getHomePagePic(params){
   return new Promise((resolve,reject)=>{
     axios.get("/HicashService/HomePagePic?cityCode=" + params.cityCode + '&uuid=' + params.uuid).then((res)=>{
-      console.log('res=====', res)
       resolve(res)
     },(err)=>{
       reject(err)
@@ -77,14 +73,12 @@ export function getAllLoanApplication(){
  *  查询申请件进度
  */
 export function getAccountInfo(params){
-  console.info('params', params);
   var url = '/NewHicashService/AccountInfo?userName=' + params.userName 
             + '&curPage=' + params.curPage
             + '&maxLine=' + params.maxLine
             + '&requestSource=' + config.requestSource
             + '&uuid=' + params.uuid
             + '&version=' + config.version;
-    console.info('url', url);
     return new Promise((resolve,reject)=>{
         axios.get(url).then((res)=>{
           resolve(res)

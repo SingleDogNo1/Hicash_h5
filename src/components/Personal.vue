@@ -7,8 +7,8 @@
                 <img src="../assets/images/avator_oragin.png" alt="" />
             </div>
             <div class="user-id clearfix">
-                <p class="per-name">李震</p>
-                <p class="per-num">123123123123</p>
+                <p class="per-name">{{realName}}</p>
+                <p class="per-num">{{userMobile}}</p>
             </div>
             <p class="current-rating">
                 当前评级:<i class="iconfont">&#xe672;</i>
@@ -18,11 +18,11 @@
         <div class="money-amount-info clearfix">
             <div class="left-box left">
                 <p>近7天待还款(元）</p>
-                <span class="perMoney">12312312</span>
+                <span class="perMoney">{{lateTotal}}</span>
             </div>
             <div class="right-box left">
                 <p>账户余额（元）</p>
-                <span class="balance">123123123123</span>
+                <span class="balance">{{balance}}</span>
             </div>
         </div>
         <input class="recharge-btn" value="充值还款" />
@@ -33,19 +33,19 @@
         </cell>
     </group>
     <!-- 借款状态 -->
-    <div class="brrow-active">
+    <div class="brrow-active" v-if="accountPays.length" v-for="accountPay in accountPays">
         <div class="borr-pruduct clearfix">
-            <p>嗨秒分期 3个月</p>
+            <p>{{accountPay.appProductName}} {{accountPay.installMentStri}}</p>
         </div>
         <flow>
             <flow-state title="1" is-done></flow-state>
-            <flow-line is-done :line-span="15"></flow-line>
+            <flow-line is-done></flow-line>
 
             <flow-state title="2" is-done></flow-state>
-            <flow-line is-done :line-span="30"></flow-line>
+            <flow-line is-done></flow-line>
 
             <flow-state title="3" is-done></flow-state>
-            <flow-line :line-span="45" :process-span="60"></flow-line>
+            <flow-line ></flow-line>
 
             <flow-state title="5"></flow-state>
         </flow>
@@ -264,8 +264,9 @@
 </style>
 
 <script>
-import { Cell, CellBox, CellFormPreview, Group, Badge, Flow, FlowState, FlowLine } from 'vux'
+import { Cell, CellBox, CellFormPreview, Group, Badge, Flow, FlowState, FlowLine, Toast } from 'vux'
 import PageFooter from '../components/PageFooter.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -277,20 +278,32 @@ export default {
     Flow,
     FlowState,
     FlowLine,
-    PageFooter
+    PageFooter,
+    Toast
   },
   mounted () {
-
+    var _this = this;
     const getAccountInfoDatas = {
-        'userName': this.utils.getCookie("userName"),
+        'userName': _this.utils.getCookie("userName"),
         'curPage': 1,
         'maxLine': 1,
-        'uuid': this.utils.uuid()
+        'uuid': _this.utils.uuid()
     }
-
-    this.common.getAccountInfo(getAccountInfoDatas)
+    // 显示文字
+    console.info('axios.defaults.headers.common[Authorization]', axios.defaults.headers.common['Authorization']);
+    _this.common.getAccountInfo(getAccountInfoDatas)
     .then((res) => {
-
+        var data = res.data;
+        if(data.resultCode != '1'){
+            console.info('personal', _this.$route);
+            _this.$vux.toast.text(data.resultMsg);
+            _this.$router.push({path:"/login", query: {redirect: _this.$route.fullPath}});
+        }else{
+            this.realName = data.appUserRealName;       //姓名
+            this.lateTotal = data.lateTotal;            //近7天代还款
+            this.balance = data.balance;                //账户余额
+            this.accountPays = data.accountPays;        //我的分期
+        }
     });
   },
   methods: {
@@ -300,7 +313,11 @@ export default {
   },
   data () {
     return {
-      a:''
+        realName: this.utils.getCookie('realName'),
+        userMobile: this.utils.getCookie('mobile'),
+        lateTotal: 0.00,
+        balance: 0.00,
+        accountPays:[],
     }
   }
 }
