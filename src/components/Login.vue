@@ -17,22 +17,21 @@
                 <tab-item @on-item-click="onItemClick">密码登录</tab-item>
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
-                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4">
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
+                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4" autocomplete="off">
                     <img slot="right-full-height" :src="authPic" @click="change">
                 </x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" :max="4">
-                    <x-button slot="right" type="primary" mini @click.native="showPosition('middle')">
+                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
+                    <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
-                <toast v-model="showPositionValue" type="text" :time="3000" is-show-mask :position="position">{{errorMsg}}</toast>
                 <button class="btn-login" @click="messageLogin('middle')">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
                     忘记密码?
                 </router-link>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
                 <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
@@ -194,14 +193,22 @@
             }
         }
     }
+    .weui-toast_cancel {
+        min-height: 5em !important;
+        .weui-icon_toast {
+            margin: 8px 0 6px 0 !important
+        }
+    }
 </style>
 
 <script type="text/javascript">
-    import { Tab, TabItem, XInput, XButton, Toast} from 'vux'
-    import $ from 'jquery'
+    import { Tab, TabItem, XInput, XButton} from 'vux'
+
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
+    import jsCommon from '@/assets/js/common'
 
+    // todo
     var afterLogin = function(data) {
         return new Promise((resolve,reject)=>{
             console.log('data=====', data)
@@ -250,8 +257,7 @@
             Tab,
             TabItem,
             XInput,
-            XButton,
-            Toast
+            XButton
         },
         data () {
             return {
@@ -277,7 +283,7 @@
             onItemClick (index) {
                 index === 0 ? this.type = 'message' : this.type = 'password'
             },
-            showPosition (position) {
+            getMessageCode (position) {
                 var _this = this;
                 var errorMsg = "";
                 if (_this.mobile == "") {
@@ -288,14 +294,18 @@
                     errorMsg="请输入图形验证码";
                 }
                 if(errorMsg!="") {
-                    this.position = position;
-                    this.showPositionValue = true;
-                    this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
-                postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                postData.append('userName', _this.mobile);
                 postData.append('mobile', _this.mobile);
+                postData.append('sendFrom', 'HTML5');
+                postData.append('sendType', 'login');
+                postData.append('requestSource', 'HTML5');
+                postData.append('uuid', utils.uuid());
+                postData.append('authId', _this.authId);
+                postData.append('imageCode', _this.imgCode);
                 common.getMessageCode(postData)
                     .then((res)=>{
                         if(res.data.resultCode=="1"){
@@ -303,9 +313,15 @@
                                 _this.getMessageCodeText = data;
                             });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
+                            // _this.position = position;
+                            // _this.showPositionValue = true;
+                            // _this.errorMsg = res.data.resultMsg;
                         }
                     });
             },
@@ -331,9 +347,7 @@
                     errorMsg="请输入短信验证码";
                 }
                 if(errorMsg!="") {
-                    _this.position = position;
-                    _this.showPositionValue = true;
-                    _this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -348,15 +362,20 @@
                 console.log('postData=====', postData)
                 common.login(postData)
                     .then((res)=>{
+                        console.info('res', res);
                         if(res.data.resultCode === '1') {
+                            jsCommon.setAuthorization(res.data.userName, res.data.token);
                             afterLogin(res.data).then((res)=>{
                                 var redirect = _this.$route.query.redirect;
                                 _this.$router.push({path: redirect});
                             });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
                         }
                     });
 
@@ -372,9 +391,7 @@
                     errorMsg="请输入密码";
                 }
                 if(errorMsg!="") {
-                    _this.position = position;
-                    _this.showPositionValue = true;
-                    _this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -388,14 +405,18 @@
                 common.login(postData)
                     .then((res)=>{
                         if(res.data.resultCode === '1') {
+                            jsCommon.setAuthorization(res.data.userName, res.data.token);
                             afterLogin(res.data).then((res)=>{
                                 var redirect = _this.$route.query.redirect;
                                 _this.$router.push({path: redirect});
                             });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
                         }
                     });
             }

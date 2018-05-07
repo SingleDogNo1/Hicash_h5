@@ -207,6 +207,9 @@ html {
 
 }
 
+.clear {
+    clear: both;
+}
 .ico-money {
     width: .75rem;
     display: inline-block;
@@ -272,4 +275,9 @@ header {
         -o-transform: translate(-50%,-50%);
         transform: translate(-50%,-50%)
     }
+}
+
+.credit-header {
+    background: #fff;
+    border-bottom: 1px solid #ccc;
 }

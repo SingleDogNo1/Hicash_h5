@@ -14,7 +14,8 @@ export default{
   getUserGrade: getUserGrade,
   getSendPassWordCode: getSendPassWordCode,
   forgetPassWord: forgetPassWord,
-  resetPassword: resetPassword
+  resetPassword: resetPassword,
+  register: register
 }
 
 
@@ -51,7 +52,6 @@ export function getIndexMain(params){
 export function getHomePagePic(params){
   return new Promise((resolve,reject)=>{
     axios.get("/HicashService/HomePagePic?cityCode=" + params.cityCode + '&uuid=' + params.uuid).then((res)=>{
-      console.log('res=====', res)
       resolve(res)
     },(err)=>{
       reject(err)
@@ -77,14 +77,12 @@ export function getAllLoanApplication(){
  *  查询申请件进度
  */
 export function getAccountInfo(params){
-  console.info('params', params);
   var url = '/NewHicashService/AccountInfo?userName=' + params.userName 
             + '&curPage=' + params.curPage
             + '&maxLine=' + params.maxLine
             + '&requestSource=' + config.requestSource
             + '&uuid=' + params.uuid
             + '&version=' + config.version;
-    console.info('url', url);
     return new Promise((resolve,reject)=>{
         axios.get(url).then((res)=>{
           resolve(res)
@@ -192,6 +190,19 @@ export function forgetPassWord(params){
 export function resetPassword(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashService/ResetPassword", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  注册
+ */
+export function register(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/RegisterNoCard", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

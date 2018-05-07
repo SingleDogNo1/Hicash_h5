@@ -10,20 +10,29 @@
 
 import Home from "./components/Home.vue"
 import MiaoDai from "./components/MiaoDai.vue"
+
 export default {
     name: 'App',
+    created(){
+        console.info('app.vue');
+        this.jsCommon.setAuthorization();
+    },
     components: {
         Home,
         MiaoDai
     },
     mounted () {
+
         this.$router.beforeEach((to, from, next) => {
+
+
             this.path = to.name;
+
+
             if (to.matched.some(record => record.meta.requireAuth)) {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");
                 var mobile = this.utils.getCookie("mobile");
-                console.info('to === ', to);
 
                 // 判断该路由是否需要登录权限
                 if(!userName || userName=="null"){
@@ -32,6 +41,7 @@ export default {
                         // 将跳转的路由path作为参数，登录成功后跳转到该路由
                         path:'/login', query: {redirect: to.fullPath}
                     })
+
                 }else{
 
                     next();
@@ -39,7 +49,6 @@ export default {
             }else {
                 next();
             }
-            console.log('111', to.name);
         });
     },
     data () {

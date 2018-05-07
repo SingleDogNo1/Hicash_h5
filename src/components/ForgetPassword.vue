@@ -54,8 +54,6 @@
         height: 100%;
         background-color: #fff;
         .credit-header {
-            background: #fff;
-            border-bottom: 1px solid #ccc;
             .go-history {
                 left: .85rem;
             }
@@ -81,7 +79,7 @@
                 .mobile-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 15.5%;
+                        top: 4.6rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -100,7 +98,7 @@
                 .message-code-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 25.5%;
+                        top: 7.4rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -145,7 +143,7 @@
                 .new-password-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 15.5%;
+                        top: 4.6rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -164,7 +162,7 @@
                 .repeat-password-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 25.5%;
+                        top: 7.5rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -181,6 +179,19 @@
                     }
                 }
             }
+        }
+    }
+    .weui-toast_success {
+        width: 6em !important;
+        min-height: 5em !important;
+        .weui-icon_toast {
+            margin: 8px 0 0 !important;
+        }
+    }
+    .weui-toast_cancel {
+        min-height: 5em !important;
+        .weui-icon_toast {
+            margin: 8px 0 6px 0 !important
         }
     }
 </style>
@@ -208,7 +219,7 @@
                 messageCode: '',
                 getMessageCodeText: '获取短信验证码',
                 isCountdown: false,
-                step: 2,
+                step: 1,
                 newPassword: '',
                 repeatPassword: '',
                 title: '忘记密码'
@@ -226,9 +237,7 @@
                     errorMsg="手机号码格式错误";
                 }
                 if(errorMsg!="") {
-                    this.position = position;
-                    this.showPositionValue = true;
-                    this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -253,9 +262,13 @@
                                 _this.getMessageCodeText = data;
                             });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
-                            _this.errorMsg = res.data.resultMsg;
+                            _this.errorMsg = res.data.resultMsg
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
+                            // _this.$vux.toast.text(_this.errorMsg, 'middle');
                         }
                     });
             },
@@ -276,9 +289,7 @@
                      errorMsg = "验证码输入有误";
                 }
                 if(errorMsg != ""){
-                    this.position = position;
-                    this.showPositionValue = true;
-                    this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -292,9 +303,12 @@
                             _this.step = 2;
                             _this.title = '重置密码';
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
                         }
                     });
             },
@@ -316,9 +330,7 @@
                 }
 
                 if(errorMsg != ""){
-                    this.position = position;
-                    this.showPositionValue = true;
-                    this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
 
@@ -330,9 +342,10 @@
                 postData.append('newPassword', _this.newPassword);
                 common.resetPassword(postData)
                     .then((res)=>{
-                        this.position = position;
-                        this.showPositionValue = true;
-                        this.errorMsg = '密码修改成功';
+                        _this.$vux.toast.show({
+                            position: 'middle',
+                            text: '密码修改成功'
+                        })
                         setTimeout(function() {
                             _this.$router.push({path: '/login'});
                         },3000)
