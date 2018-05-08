@@ -17,7 +17,7 @@ export default new Router({
       	component: Home
     },
     {
-      //嗨秒分期
+        //嗨秒分期
         path: '/miaoDai',
         name: 'MiaoDai',
         component: MiaoDai
