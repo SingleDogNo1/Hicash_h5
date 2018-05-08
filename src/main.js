@@ -26,6 +26,9 @@ Vue.component('toast', Toast)
 import  { ToastPlugin } from 'vux'
 Vue.use(ToastPlugin)
 
+import  { LoadingPlugin } from 'vux'
+Vue.use(LoadingPlugin)
+
 
 
 Vue.config.productionTip = false

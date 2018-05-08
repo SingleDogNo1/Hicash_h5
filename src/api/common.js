@@ -15,7 +15,13 @@ export default{
   getSendPassWordCode: getSendPassWordCode,
   forgetPassWord: forgetPassWord,
   resetPassword: resetPassword,
-  register: register
+  register: register,
+  getApplyCouponList: getApplyCouponList,
+  queryProductDetail: queryProductDetail,
+  loanAmtCalculateForNew: loanAmtCalculateForNew,
+  loanPay: loanPay,
+  checkSupportApp: checkSupportApp,
+  fastLoanFirst: fastLoanFirst
 }
 
 
@@ -203,6 +209,84 @@ export function resetPassword(params){
 export function register(params){
   return new Promise((resolve,reject)=>{
     axios.post("/NewHicashService/RegisterNoCard", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  申请页优惠劵列表
+ */
+export function getApplyCouponList(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/ApplyCouponList", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  产品详情
+ */
+export function queryProductDetail(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/QueryProductDetail", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  贷款金额计算
+ */
+export function loanAmtCalculateForNew(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashService/LoanAmtCalculateForNew", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  合规费率计算接口
+ */
+export function loanPay(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/LoanPay", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  判断是否支持该产品(滴滴贷)
+ */
+export function checkSupportApp(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/CheckSupportApp", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  创建临时订单
+ */
+export function fastLoanFirst(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashService/FastLoanFirst", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

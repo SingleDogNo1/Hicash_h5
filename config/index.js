@@ -42,7 +42,7 @@ module.exports = {
         }
       },
       '/HicashAppService':{
-        target:'http://115.29.250.40:8081/HicashAppService',
+        target:'http://115.29.193.125:8081/HicashAppService',
         changeOrigin:true,
         pathRewrite:{
             '^/HicashAppService':''

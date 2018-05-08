@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 评级弹框 171204 -->
-        <div class="rate-pop-mask" v-transfer-dom v-show="show">
+        <div class="rate-pop-mask" v-transfer-dom style="display:none">
             <x-dialog v-model="show" class="dialog-demo">
                 <div class="img-box">
                     <span class="level-up">{{level}}</span>
@@ -14,34 +14,29 @@
             </x-dialog>
         </div>
         <!-- 优惠券弹框  171015 -->
-        <div class="coupon-pop-mask" v-transfer-dom style="display:none">
+        <div class="coupon-pop-mask" v-transfer-dom v-show="show">
             <popup v-model="show">
                 <div class="popup0">
                     <h4 class="title">
-                        您有<span class="total-num">0</span>张优惠券，进入签约页面可选择使用
+                        您有<span class="total-num">{{totalNum}}</span>张优惠券，进入签约页面可选择使用
                         <span class="vux-close" @click="show=false"></span>
                     </h4>
                     <ul class="pro-coupon-list">
-                        <li>
+                        <li v-for="discountListItem in discountList" :class="{'coupon-percent': discountListItem.couponType === '1'}">
                             <div class="pro-coupon-wrap-left">
-                                <h5>嗨秒贷优惠券</h5>
-                                <p class="amount-limit">2000元可用</p>
-                                <p class="date-limit">有效期 2017.3.28-2017.5.4</p>
+                                <h5>{{discountListItem.discountName}}</h5>
+                                <p class="amount-limit">{{discountListItem.msgstr}}</p>
+                                <p class="date-limit">{{discountListItem.timeStr}}</p>
                             </div>
                             <div class="pro-coupon-wrap-right">
-                                <span class="coupon-amount">50</span>元
-                                <button class="btn-use">去使用</button>
-                            </div>
-                            <div class="clear"></div>
-                        </li>
-                        <li class="coupon-percent">
-                            <div class="pro-coupon-wrap-left">
-                                <h5>嗨秒贷优惠券</h5>
-                                <p class="amount-limit">2000元可用</p>
-                                <p class="date-limit">有效期 2017.3.28-2017.5.4</p>
-                            </div>
-                            <div class="pro-coupon-wrap-right">
-                                <span class="coupon-amount">50</span>元
+                                <span v-if="discountListItem.couponType !== '1'">
+                                    <span class="coupon-amount">{{discountListItem.discount}}</span>
+                                    <span>元</span>
+                                </span>
+                                <span v-if="discountListItem.couponType === '1'">
+                                    <span class="coupon-amount">{{discountListItem.discount}}</span>
+                                    <span>%</span>
+                                </span>
                                 <button class="btn-use">去使用</button>
                             </div>
                             <div class="clear"></div>
@@ -67,7 +62,7 @@
         </div>
         <div class="container">
             <header class="miaodai-header">
-                <a class="go-history" href="javascript:"></a>
+                <a class="go-history" href="javascript:" @click="goBack"></a>
                 <h1 style="display: none;"><a href="../../index.html"></a></h1>
                 <!-- 20170830  添加QQ  start -->
                 <div class="QQhandler"><a href="http://wpa.b.qq.com/cgi/wpa.php?ln=2&uin=4008085599" target='_blank'></a></div>
@@ -93,45 +88,30 @@
                 <div class="loan-desc-wrap">
                     <div class="loan-amount-list">
                         <div class="title">借款金额</div>
-                        <checker v-model="amountSelected" default-item-class="amount-item" radio-required selected-item-class="amount-item-selected">
-                            <checker-item value="1">
-                                2000
-                            </checker-item>
-                            <checker-item value="2">
-                                3000
-                            </checker-item>
-                            <checker-item value="3">
-                                4000
-                            </checker-item>
-                            <checker-item value="4">
-                                6000
-                            </checker-item>
-                            <checker-item value="5">
-                                8000
+                        <checker v-model="amountSelectedIndex" default-item-class="amount-item" radio-required selected-item-class="amount-item-selected">
+                            <checker-item v-for="(amountListItem, index) in amountList" v-model="index" v-bind:data-amount="amountListItem" v-bind:data-index="index" @on-item-click="selectLoanAmount(amountListItem)">
+                                {{amountListItem}}
                             </checker-item>
                         </checker>
                         <div class="clear"></div>
                     </div>
                     <div class="loan-time-list">
                         <div class="title">借款时间</div>
-                        <checker v-model="timeSelected" default-item-class="time-item" radio-required selected-item-class="time-item-selected">
-                            <checker-item value="1">
-                                3个月
-                            </checker-item>
-                            <checker-item value="2">
-                                6个月
+                        <checker v-model="timeSelectedIndex" default-item-class="time-item" radio-required selected-item-class="time-item-selected">
+                            <checker-item v-for="(programListItem, index) in programList" v-model="index" @on-item-click="selectLoanTime(programListItem)">
+                                <span>{{programListItem.installments}}</span><span>{{periodUnit}}</span>
                             </checker-item>
                             <div class="clear"></div>
                         </checker>
                     </div>
                     <div class="rate-wrap">
-                        <p>每期最低本息还款：<span class="rate-repay">￥345</span></p>
+                        <p>每期最低本息还款：<span class="rate-repay">￥{{lowPay}}</span></p>
                         <div class="rate-handler">
-                            <p>月利率：<span class="rate-percentage">1.0%-1.4%</span></p>
+                            <p>月利率：<span class="rate-percentage">{{ratePercentage}}</span></p>
                             <span class="rate-calculator">费率计算器</span>
                         </div>
                     </div>
-                    <button class="btn-by-stages">立即分期</button>
+                    <button class="btn-by-stages" @click="btnByStages">立即分期</button>
                 </div>
             </div>
         </div>
@@ -294,6 +274,7 @@
                     .pro-coupon-wrap-right {
                         color: #FFBF3C;
                         .btn-use {
+                            border: 1px solid #FFBF3C;
                             color: #FFBF3C;
                         }
                     }
@@ -591,19 +572,51 @@
             }
         }
     }
+    .weui-toast {
+        min-height: 6.5em !important;
+    }
 </style>
 
 <script type="text/javascript">
-    import {XDialog, XButton, Popup, Group, Checker, CheckerItem, TransferDomDirective as TransferDom} from 'vux'
+    import {Loading, XDialog, XButton, Popup, Group, Checker, CheckerItem, TransferDomDirective as TransferDom} from 'vux'
     import $ from 'jquery'
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
+
+    var getMonthPay = function(amountSelected, timeSelected) {
+        return new Promise((resolve,reject)=>{
+            console.log('timeSelected====', timeSelected)
+            var postData = new URLSearchParams();
+            // setTimeout(function() {
+            //     console.log($('.loan-amount-list .amount-item-selected').data('amount'))
+            // },0)
+            postData.append('firstRate', 0);
+            postData.append('tranPrice', amountSelected);
+            postData.append('loanProduct', timeSelected.loanProduct);
+            common.loanAmtCalculateForNew(postData)
+                .then((res)=>{
+                    if(res.data.resultCode === '1') {
+                        var params = new URLSearchParams();
+                        var days = timeSelected.installments * 30;
+                        params.append('industryCode', 'MDCP');
+                        params.append('amount', amountSelected);
+                        params.append('days', days);
+                        common.loanPay(params)
+                            .then((res)=>{
+                                console.log('res=====', res);
+                                resolve(res.data);
+                            });
+                    }
+                });
+        })
+    }
 
     export default {
         directives: {
             TransferDom
         },
         components: {
+            Loading,
             XDialog,
             XButton,
             Popup,
@@ -613,84 +626,263 @@
         },
         data () {
             return {
-                show: false,
-                amountSelected: '1',
-                timeSelected: '2',
-                level: ''
+                show: true,
+                amountSelectedIndex: 0,
+                timeSelectedIndex: 1,
+                amountSelected: 0,
+                timeSelected: 0,
+                level: '',
+                totalNum: 0,
+                discountList: [],
+                amountList: [],
+                programList: [],
+                periodUnit: '',
+                queryAmountSelected: 0,
+                lowPay: '',
+                ratePercentage: '',
+                obj: {}
             }
         },
         ready () {
 
         },
         methods : {
-            onItemClick (index) {
-                console.log('on item click:', index)
+            goBack () {
+                var comeFrom = utils.getQueryString("comeFrom");
+                // switch (comeFrom){
+                //     case 'ddLdp':
+                //         _this.$router.push({path: '/login'});
+                //     break;
+                //     case 1:
+                //         break;
+                //     case 2:
+                //         break;
+                // }
+                this.$router.push({path: '/'});
             },
-            switchTabItem (index) {
-                console.log('on-before-index-change', index)
-                this.$vux.loading.show({
-                    text: 'loading'
-                })
-                setTimeout(() => {
-                    this.$vux.loading.hide()
-                    this.index01 = index
-                }, 1000)
+            selectLoanAmount (item) {
+                console.log('item====', item)
+                this.amountSelected = item;
+                getMonthPay(this.amountSelected , this.timeSelected)
+                    .then((data)=>{
+                        if(data.resultCode === '1') {
+                            this.lowPay = data.lowPay;
+                            this.ratePercentage = data.lowRate+ "%-" + data.highRate + "%";
+                        } else {
+                            this.errorMsg = res.data.resultMsg;
+                            this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: this.errorMsg
+                            })
+                        }
+                        console.log('data====', data);
+
+                    });
             },
-            onItemClick (index) {
-                console.log('on item click:', index)
+            selectLoanTime (item) {
+                if(item.loanProduct == 0) {
+                    this.$vux.toast.text('对不起，该期额度已被抢光哦！请选择3个月借款期限！', 'middle');
+                    return;
+                }
+                this.timeSelected = item;
+                getMonthPay(this.amountSelected , this.timeSelected)
+                    .then((data)=>{
+                        if(data.resultCode === '1') {
+                            this.lowPay = data.lowPay;
+                            this.ratePercentage = data.lowRate+ "%-" + data.highRate + "%";
+                        } else {
+                            this.errorMsg = res.data.resultMsg;
+                            this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: this.errorMsg
+                            })
+                        }
+                        console.log('data====', data);
+
+                    });
             },
-            onSwiperItemIndexChange (index) {
-                index === 0 ? this.listType = 'loan' : this.listType = 'notice'
-                if(this.listType = 'notice') getSysParam(3, 1);
-            },
-            loadMore () {
-                setTimeout(() => {
-                    console.log('page====', page)
-                    if(page < countPage){
-                        page++;
-                        getSysParam(10, page);
-                    }
-                    setTimeout(() => {
-                        console.log(222)
-                        this.$refs.scroller.donePullup()
-                    }, 10)
-                }, 2000)
-            },
-            refresh () {
-              setTimeout(() => {
-                this.n = 10
-                this.$nextTick(() => {
-                  setTimeout(() => {
-                    this.$refs.scroller.donePulldown()
-                    this.pullupEnabled && this.$refs.scroller.enablePullup()
-                  }, 10)
-                })
-              }, 2000)
-            },
-            changePullupStatus (enabled) {
-              if (enabled) {
-                this.$refs.scroller.enablePullup()
-                this.pullupEnabled = true
-              } else {
-                this.$refs.scroller.disablePullup()
-                this.pullupEnabled = false
-              }
+            btnByStages () {
+                var postData = new URLSearchParams();
+                postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                postData.append('fastAmt', this.amountSelected);
+                postData.append('fastPeriod', this.timeSelected.loanProduct);
+                postData.append('userName', utils.getCookie("userName"));
+                postData.append('stu_card_front', utils.getCookie("mediasource"));
+                if (utils.getQueryString("appNO")) {
+                    postData.appFlowNo = utils.getQueryString("appNO");
+                }
+                //setTimeout(() => {
+                    this.$vux.loading.show({
+                        text: '加载中，请稍等……'
+                    })
+                //},1000)
+
+                var params = new URLSearchParams();
+                params.append('industryCode', this.obj.industryCode);
+                params.append('custType', utils.getCookie("custType"));
+                params.append('mobile', utils.getCookie("mobile"));
+                params.append('is_type', 'N');
+                params.append('uuid', utils.uuid());
+                params.append('user_name', utils.getCookie("userName"));
+                params.append('applyFrom', 'H5');
+                params.append('periods', this.timeSelected.installments);
+                common.checkSupportApp(params)
+                    .then((result)=>{
+                        console.log('result=====', result);
+                        if(result.data.resultCode=="1" && result.data.success){
+                            common.fastLoanFirst(postData)
+                                .then((res)=>{
+                                    setTimeout(() => {
+                                        this.$vux.loading.hide()
+                                    },1000)
+                                    if(res.data.resultCode == "1") {
+                                        console.log('res.data=====', res.data);
+                                        if(res.data.appFlowNo == ""){
+                                            this.$vux.toast.show({
+                                                type: 'cancel',
+                                                position: 'middle',
+                                                text: '临时订单创建失败'
+                                            })
+                                            return;
+                                        }
+                                        utils.setCookie("industryCode", this.obj.industryCode);
+                                        utils.setCookie("xykFrom", "0");
+                                        utils.setCookie("appFlowNo", getCookie("userName") + ":"
+                                                + res.data.appFlowNo);
+                                        utils.setCookie("prodetailInfo", this.amountSelected + ":" + this.timeSelected.loanProduct);
+                                    } else if (res.data.resultCode == "60100") {
+                                        _this.$router.push({path: '/login'});
+                                    } else if(result.data.resultCode=="1"){
+                                        this.$vux.toast.show({
+                                            type: 'cancel',
+                                            position: 'middle',
+                                            text: '您暂不支持该产品'
+                                        })
+                                    } else {
+                                        this.$vux.toast.show({
+                                            type: 'cancel',
+                                            position: 'middle',
+                                            text: result.data.resultMsg
+                                        })
+                                    }
+                                });
+                        } else if(result.resultCode=="1"){
+                            setTimeout(() => {
+                                this.$vux.loading.hide()
+                            },1000)
+                            this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: '您暂不支持该产品'
+                            })
+                        } else {
+                            this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: result.data.resultMsg
+                            })
+                        }
+                    });
             }
         },
         mounted: function () {
-            var bac = utils.getQueryString("back");
             var userName = utils.getCookie("userName");
-            var comeFrom = utils.getQueryString("comeFrom");
-            //if(userName && userName != "null" && utils.getCookie("pj") && utils.getCookie("pj") != "null" && utils.getCookie("pjread") == "0"){
-                // $(".rate_pop_mask .rate_level").html(getCookie("pj"));
-                // $(".rate_pop_mask").show();
-                // utils.setCookie("pjread","1");
-                // $(".rate_pop_mask .rate_handlerEl").click(function(){
-                //     $(".rate_pop_mask").hide();
-                // });
+            if(userName && userName != "null" && utils.getCookie("pj") && utils.getCookie("pj") != "null" && utils.getCookie("pjread") == "0"){
                 this.level = 'B';
                 this.show = true;
-            //}
+                utils.setCookie("pjread","1");
+            }
+            var custType = utils.getCookie("custType");
+            var inOneMonthReg = utils.getCookie("inOneMonthReg");
+            var isLanUserFlag = utils.getCookie("isLanUserFlag");
+            var isDoubleSales = utils.getCookie("isDoubleSales");//是否二次营销
+            if(custType != "KHL1" && custType != "KHL2"){
+                custType="KHL2";
+            }
+            var obj = {
+                industryCode : "MDCP",//普通（白领+学生）
+                merProId : "8537",
+                supplierId : "2395",
+                saleSiteId : "2072",
+                custType : custType
+            }
+            if(isDoubleSales == "1"){
+                obj.industryCode = "MDOH",//二次营销
+                obj.merProId = "8537",
+                obj.supplierId = "2395",
+                obj.saleSiteId = "2072"
+            }
+            if(inOneMonthReg == "1" && isLanUserFlag == "1"){
+                obj.industryCode = "LLMD",//蓝领
+                obj.merProId = "8537",
+                obj.supplierId = "2395",
+                obj.saleSiteId = "2072"
+            }
+            this.obj = obj;
+            if (unescape(utils.getCookie("userName")) != ""|| unescape(utils.getCookie("userName")) != "undefined"|| unescape(utils.getCookie("userName")) != "null") {
+                var postData = new URLSearchParams();
+                postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                postData.append('userName', unescape(utils.getCookie("userName")));
+                postData.append('industryCode', obj.industryCode);
+                common.getApplyCouponList(postData)
+                    .then((res)=>{
+                        if(res.data.resultCode == "1") {
+                            if(res.data.discountList && res.data.discountList.length > 0){
+                                this.totalNum = res.data.discountList.length;
+                                this.discountList = res.data.discountList;
+                            }
+                        };
+                    });
+                var params = new URLSearchParams();
+                postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                postData.append('industryCode', obj.industryCode);
+                postData.append('requestSource', 'HTML5');
+                postData.append('userName', userName);
+                common.queryProductDetail(postData)
+                    .then((res)=>{
+                        if(res.data.resultCode == "1") {
+                            var productinfoList = res.data.productinfoList[0];
+                            this.periodUnit = productinfoList.periodUnit;
+                            this.amountList = productinfoList.amountList;
+                            this.programList = productinfoList.programList;
+                            var tranPrice = this.$route.query.tranPrice;
+                            var loanProduct = this.$route.query.loanProduct;
+                            console.log('tranPrice====', tranPrice);
+                            console.log('loanProduct====', loanProduct);
+                            if(tranPrice && loanProduct){
+                                console.log('this====', this);
+                                this.queryAmountSelected = tranPrice;
+                                setTimeout(function(){
+                                    var amountIndex = $('.loan-amount-list .vux-checker-item[data-amount="'+ tranPrice + '"]').data('index');
+                                    this.amountSelected = amountIndex;
+                                    console.log('this.amountSelected===', typeof this.amountSelected)
+                                },0)
+                                $(".miaodai_time_list ul li[data-abbr="+loanProduct+"]").click();
+                            } else {
+                                this.amountSelected = this.amountList[0];
+                                this.timeSelected = this.programList[this.programList.length - 1];
+                                console.log('amountSelected===', this.amountSelected, this.timeSelected);
+                                getMonthPay(this.amountSelected, this.timeSelected).then((data)=>{
+                                    if(data.resultCode === '1') {
+                                        this.lowPay = data.lowPay;
+                                        this.ratePercentage = data.lowRate+ "%-" + data.highRate + "%";
+                                    } else {
+                                        this.errorMsg = res.data.resultMsg;
+                                        this.$vux.toast.show({
+                                            type: 'cancel',
+                                            position: 'middle',
+                                            text: this.errorMsg
+                                        })
+                                    }
+                                    console.log('data====', data);
+
+                                });
+                            }
+                        };
+                    });
+            }
         }
     }
 </script>
