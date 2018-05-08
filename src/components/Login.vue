@@ -3,7 +3,9 @@
         <!-- header -->
         <header  class="login-header">
             <a class="go-back"  href="JavaScript:history.back(-1)"></a>
-            <a class="go-to-register" href="javascript:">注册</a>
+            <router-link class="go-to-register" :to="{name: 'Register'}">
+                    注册
+            </router-link>
         </header>
         <!-- header -->
         <div class="user-login">
@@ -15,22 +17,21 @@
                 <tab-item @on-item-click="onItemClick">密码登录</tab-item>
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
-                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4">
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
+                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4" autocomplete="off">
                     <img slot="right-full-height" :src="authPic" @click="change">
                 </x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" :max="5">
-                    <x-button slot="right" type="primary" mini @click.native="showPosition('middle')" :time="3000">
+                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
+                    <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
-                <toast v-model="showPositionValue" type="text" :time="800" is-show-mask :position="position">{{errorMsg}}</toast>
                 <button class="btn-login" @click="messageLogin('middle')">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
                     忘记密码?
                 </router-link>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
                 <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
@@ -60,18 +61,7 @@
                 left: .85rem;
             }
             .go-back:before {
-                font-family: "iconfont";
-                position: absolute;
-                content: "\ed72";
-                top: 50%;
-                left: 50%;
-                font-size: 1.25rem;
-                color: #fff;
-                -webkit-transform: translate(-50%,-50%);
-                -moz-transform: translate(-50%,-50%);
-                -ms-transform: translate(-50%,-50%);
-                -o-transform: translate(-50%,-50%);
-                transform: translate(-50%,-50%);
+                color: #C04F23;
             }
             .go-to-register {
                 font-size: 0.8rem;
@@ -180,6 +170,9 @@
                     background: url(../assets/images/icon_password.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
                 }
+                .password:before {
+                    border-top: none !important;
+                }
                 .btn-login {
                     display: block;
                     width: 11rem;
@@ -200,16 +193,22 @@
             }
         }
     }
+    .weui-toast_cancel {
+        min-height: 5em !important;
+        .weui-icon_toast {
+            margin: 8px 0 6px 0 !important
+        }
+    }
 </style>
 
 <script type="text/javascript">
-    import { Tab, TabItem, XInput, XButton, Toast} from 'vux'
+    import { Tab, TabItem, XInput, XButton} from 'vux'
 
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
     import jsCommon from '@/assets/js/common'
 
-
+    // todo
     var afterLogin = function(data) {
         return new Promise((resolve,reject)=>{
             console.log('data=====', data)
@@ -258,8 +257,7 @@
             Tab,
             TabItem,
             XInput,
-            XButton,
-            Toast
+            XButton
         },
         data () {
             return {
@@ -285,20 +283,18 @@
             onItemClick (index) {
                 index === 0 ? this.type = 'message' : this.type = 'password'
             },
-            showPosition (position) {
+            getMessageCode (position) {
                 var _this = this;
-                var errorMsg="";
+                var errorMsg = "";
                 if (_this.mobile == "") {
                     errorMsg="请输入您的手机号";
                 } else if (!utils.checkMobile(_this.mobile)) {
                     errorMsg="手机号码格式错误";
-                }else if (_this.imgCode == "") {
+                } else if (_this.imgCode == "") {
                     errorMsg="请输入图形验证码";
                 }
                 if(errorMsg!="") {
-                    this.position = position;
-                    this.showPositionValue = true;
-                    this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -310,18 +306,22 @@
                 postData.append('uuid', utils.uuid());
                 postData.append('authId', _this.authId);
                 postData.append('imageCode', _this.imgCode);
-                console.log('postData=====', postData)
                 common.getMessageCode(postData)
                     .then((res)=>{
-                        var time = 60;
-                        var timer;
                         if(res.data.resultCode=="1"){
-                            var aaa = utils.timeCount(60);
-                            console.log('aaa====', aaa)
+                            utils.timeCount(60, function(data){
+                                _this.getMessageCodeText = data;
+                            });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
+                            // _this.position = position;
+                            // _this.showPositionValue = true;
+                            // _this.errorMsg = res.data.resultMsg;
                         }
                     });
             },
@@ -347,9 +347,7 @@
                     errorMsg="请输入短信验证码";
                 }
                 if(errorMsg!="") {
-                    _this.position = position;
-                    _this.showPositionValue = true;
-                    _this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -372,9 +370,12 @@
                                 _this.$router.push({path: redirect});
                             });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
                         }
                     });
 
@@ -390,9 +391,7 @@
                     errorMsg="请输入密码";
                 }
                 if(errorMsg!="") {
-                    _this.position = position;
-                    _this.showPositionValue = true;
-                    _this.errorMsg = errorMsg;
+                    _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
@@ -412,9 +411,12 @@
                                 _this.$router.push({path: redirect});
                             });
                         } else {
-                            _this.position = position;
-                            _this.showPositionValue = true;
                             _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
                         }
                     });
             }

@@ -1,13 +1,14 @@
 export default {
-	uuid: uuid,						//生成uuid
-	getQueryString: getQueryString,	//截取URL参数
-	setCookie: setCookie,			//设置cookie
-	getCookie: getCookie,			//读取cookie
-	delCookie: delCookie,			//删除cookie
-	clearCookie: clearCookie,		//清空cookie	
-	checkMobile: checkMobile,		//校验手机号是否合法
-	codeBase64: codeBase64,			//Base64编码、解码
-	timeCount: timeCount			//获取短信验证码倒计时
+	uuid: uuid,						   //生成uuid
+	getQueryString: getQueryString,	   //截取URL参数
+	setCookie: setCookie,			   //设置cookie
+	getCookie: getCookie,			   //读取cookie
+	delCookie: delCookie,			   //删除cookie
+	clearCookie: clearCookie,		   //清空cookie
+	checkMobile: checkMobile,		   //校验手机号是否合法
+	codeBase64: codeBase64,			   //Base64编码、解码
+	timeCount: timeCount,              //获取短信验证码倒计时
+    checkInviteCode: checkInviteCode   //校验邀请码
 }
 
 export function uuid() {
@@ -92,7 +93,6 @@ export function clearCookie() {
 		}
 	}
 }
-
 /**
  * base64 编码、 解码
  */
@@ -263,19 +263,24 @@ export function codeBase64(){
     return e;
 }
 
-export function timeCount(time) {
+export function timeCount(time, callback) {
 	var msg;
 	var time;
 	var timer;
     if (time == 0) {
-        msg = '获取验证码'
+        msg = '获取验证码';
+        callback(msg);
     } else {
         msg = time + 's'
         time--;
         timer =  setTimeout(function() {
-             timeCount(time) ;
-    		console.log('msg====', msg)
-    		return msg;
+            timeCount(time, callback) ;
         }, 1000);
+    	callback(msg);
     }
+}
+
+export function checkInviteCode(inviteCode) {
+    var reg = /^[A-Za-z0-9]{6}$/;
+    return reg.test(inviteCode)
 }

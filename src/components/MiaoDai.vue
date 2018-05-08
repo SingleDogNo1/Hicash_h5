@@ -1,12 +1,15 @@
 <template>
     <div>
         <!-- 评级弹框 171204 -->
-        <div class="rate-pop-mask" v-transfer-dom style="display:none">
+        <div class="rate-pop-mask" v-transfer-dom v-show="show">
             <x-dialog v-model="show" class="dialog-demo">
                 <div class="img-box">
-                </div>
-                <div @click="show=false">
-                  <span class="vux-close"></span>
+                    <span class="level-up">{{level}}</span>
+                    <!-- 跳转操作 -->
+                    <router-link class="go-to-rate-page" :to="{name: 'CompreRat'}">
+                        了解用户评级
+                    </router-link>
+                    <a class="i-konw" href="javascript:" @click="show=false">我知道了</a>
                 </div>
             </x-dialog>
         </div>
@@ -145,19 +148,69 @@
             clear: both;
         }
         .rate-pop-mask {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(50,50,50,.7);
+            top: 0;
+            left: 0;
+            z-index: 9999;
             .weui-dialog {
                 width: 11.525rem !important;
                 height: 19.3rem !important;
                 background-color:transparent !important;
+                overflow: visible !important;
                 .img-box {
                     width: 100%;
                     height: 100%;
                     background: url("../assets/images/bg_rate.png") center center no-repeat;
                     background-size: cover;
+                    .level-up {
+                        position: absolute;
+                        z-index: 999;
+                        width: 2.825rem;
+                        height: 2.85rem;
+                        background: url(../assets/images/bg_level_up.png) 0 0 no-repeat;
+                        background-size: cover;
+                        left: 38%;
+                        top: 10.3rem;
+                        font-size: 1.8rem;
+                        line-height: 2.825rem;
+                        text-align: center;
+                        color: #282724;
+                    }
+                    .go-to-rate-page {
+                        position: absolute;
+                        left: 33%;
+                        bottom: 1.4rem;
+                        font-size: .65rem;
+                        color: #2E2B25;
+                        text-decoration: underline;
+                    }
+                    .i-konw {
+                        position: absolute;
+                        width: 7.625rem;
+                        height: 1.875rem;
+                        background: #424242;
+                        border-radius: 8px;
+                        font-size: .8rem;
+                        color: #fff;
+                        line-height: 1.875rem;
+                        text-align: center;
+                        left: 17%;
+                        bottom: -1rem;
+                    }
                 }
             }
         }
         .coupon-pop-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20,20,20,.8);
+            z-index: 999;
             .title {
                 height: 1.8rem;
                 line-height: 1.8rem;
@@ -248,6 +301,13 @@
             }
         }
         .apply-pop-mask {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(51,51,51,0.6);
+            top: 0;
+            left: 0;
+            z-index: 999999;
             .weui-dialog {
                 width: 14.5rem;
                 height: 9.625rem;
@@ -500,6 +560,20 @@
                                 background: none;
                                 text-align: right;
                             }
+                            .rate-calculator:before {
+                                position: absolute;
+                                content: '\e66f';
+                                font-family: 'iconfont';
+                                font-size: 0.7rem;
+                                left: 0rem;
+                                top: 50%;
+                                -webkit-transform: translate(0,-50%);
+                                -moz-transform: translate(0,-50%);
+                                -ms-transform: translate(0,-50%);
+                                -o-transform: translate(0,-50%);
+                                transform: translate(0,-50%);
+                                cursor: pointer;
+                            }
                         }
                     }
                     .btn-by-stages {
@@ -541,7 +615,8 @@
             return {
                 show: false,
                 amountSelected: '1',
-                timeSelected: '2'
+                timeSelected: '2',
+                level: ''
             }
         },
         ready () {
@@ -603,55 +678,19 @@
             }
         },
         mounted: function () {
-            var _this = this;
-            let indexMainPostData = {}
-            let uuid = utils.uuid();
-            indexMainPostData.requestSource = 'HTML5';
-            indexMainPostData.platform = '';
-            indexMainPostData.version = '';
-            indexMainPostData.uuid = uuid;
-            common.getIndexMain(indexMainPostData)
-                .then((res)=>{
-                    _this.columnList = res.data.columnList;
-                    let loanColumnList = _this.columnList.filter((columnListItem) => {
-                        console.log('columnListItem====',columnListItem);
-                        return columnListItem.productList.length > 0;
-                    })
-                    console.log('loanColumnList====', loanColumnList[0].productList)
-                    let productList = loanColumnList[0].productList;
-                    productList = productList.filter((productListItem) => {
-                        return productListItem.showStatus === '1';
-                    })
-                    let x;
-                    _this.productList = productList;
-                    for (x in _this.productList) {
-                        console.log('productList[x]====', productList[x])
-                        if(productList[x].industryCode === 'MDCP') {
-                            productList[x].jupmUrl = "/newweb/product/miaodai.html";
-                            productList[x].iconUrl1 = require("../assets/images/icon_haimiao.png");
-                            productList[x].iconUrl2 = require("../assets/images/icon_haimiao_text.png");
-                            productList[x].iconUrl3 = require("../assets/images/icon_haimiao_desc.png");
-                        } else {
-                            productList[x].jupmUrl = "/newweb/product/miaodai.html";
-                            productList[x].iconUrl1 = require("../assets/images/icon_network_car.png");
-                            productList[x].iconUrl2 = require("../assets/images/icon_network_car_text.png");
-                            productList[x].iconUrl3 = require("../assets/images/icon_network_car_desc.png");
-                        }
-                    }
-                    console.log('_this.productList====', _this.productList)
-                    let homePagePicPostData = {}
-                    homePagePicPostData.cityCode = '000003';
-                    homePagePicPostData.uuid = uuid;
-                    common.getHomePagePic(homePagePicPostData)
-                        .then((res)=>{
-                            console.log('res.data====', res.data)
-                            _this.bannelList = res.data.bannelList;
-                        })
-                })
-            common.getAllLoanApplication()
-                .then((res) => {
-                    _this.allLoanApplication = res.data.AllLoanApplication;
-                })
+            var bac = utils.getQueryString("back");
+            var userName = utils.getCookie("userName");
+            var comeFrom = utils.getQueryString("comeFrom");
+            //if(userName && userName != "null" && utils.getCookie("pj") && utils.getCookie("pj") != "null" && utils.getCookie("pjread") == "0"){
+                // $(".rate_pop_mask .rate_level").html(getCookie("pj"));
+                // $(".rate_pop_mask").show();
+                // utils.setCookie("pjread","1");
+                // $(".rate_pop_mask .rate_handlerEl").click(function(){
+                //     $(".rate_pop_mask").hide();
+                // });
+                this.level = 'B';
+                this.show = true;
+            //}
         }
     }
 </script>

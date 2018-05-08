@@ -5,6 +5,8 @@ import Personal from '@/components/Personal'
 import MiaoDai from '@/components/MiaoDai'
 import Login from '@/components/Login'
 import ForgetPassword from '@/components/ForgetPassword'
+import Register from '@/components/Register'
+import CompreRat from '@/components/CompreRat'
 
 Vue.use(Router)
 
@@ -42,6 +44,18 @@ export default new Router({
         path: '/forgetPassword',
         name: 'ForgetPassword',
         component: ForgetPassword
+    },
+    {
+        //注册
+        path: '/register',
+        name: 'Register',
+        component: Register
+    },
+    {
+        //综合评级
+        path: '/compre-rat',
+        name: 'CompreRat',
+        component: CompreRat
     }
   ]
 })
