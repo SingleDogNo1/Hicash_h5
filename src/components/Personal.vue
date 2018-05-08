@@ -4,14 +4,14 @@
         <!-- 用户信息 -->
         <div class="per-user-info">
             <div class="avatar">
-                <img src="../assets/images/avator_oragin.png" alt="" />
+                <img :src="avatarImg" alt="" />
             </div>
             <div class="user-id clearfix">
                 <p class="per-name">{{realName}}</p>
                 <p class="per-num">{{userMobile}}</p>
             </div>
             <p class="current-rating">
-                当前评级:<i class="iconfont">&#xe672;</i>
+                当前评级: <i class="iconfont"> &#xe672;</i>
             </p>
         </div>
         <!-- 额度信息 -->
@@ -29,43 +29,57 @@
     </section>
     <group>
         <cell title="我的分期" is-link :border-intent="true">
-            <span class="ico-money" slot="icon" width="20"></span>
+            <span class="cell-ico my-money" slot="icon" width="20"></span>
         </cell>
     </group>
     <!-- 借款状态 -->
     <div class="brrow-active" v-if="accountPays.length" v-for="accountPay in accountPays">
         <div class="borr-pruduct clearfix">
-            <p>{{accountPay.appProductName}} {{accountPay.installMentStri}}</p>
+            <p>
+                <span>{{accountPay.appProductName}} {{accountPay.installMentStri}}</span>
+                <span class="total-amount">{{accountPay.totalAmount}}</span>
+            </p>
         </div>
-        <flow>
-            <flow-state title="1" is-done></flow-state>
-            <flow-line is-done></flow-line>
-
-            <flow-state title="2" is-done></flow-state>
-            <flow-line is-done></flow-line>
-
-            <flow-state title="3" is-done></flow-state>
-            <flow-line ></flow-line>
-
-            <flow-state title="5"></flow-state>
+        <div class="weui-wepay-flow">
+            <div class="weui-wepay-flow__bd">
+                <template v-for="(node, index) in accountPay.nodeList">
+                    <div class="weui-wepay-flow__li" :class="{ 'weui-wepay-flow__li_done': (index<=flowStateStep)}">
+                        <div class="weui-wepay-flow__state"></div>
+                        <p class="weui-wepay-flow__title-bottom"><span>{{node}}</span></p>
+                    </div>
+                    <div class="weui-wepay-flow__line " :class="{ 'weui-wepay-flow__line_done': (index<flowStateStep)}" v-if="3 != index">
+                        <div class="weui-wepay-flow__process"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <flow v-show="false">
+            <template v-for="(node, index) in accountPay.nodeList">
+                <flow-state is-done>
+                    <span slot="title">{{node}}</span>
+                </flow-state>
+                <flow-line is-done v-if="3 != index"></flow-line>
+            </template>
         </flow>
-        <div class="nopass-tips">
+        <div class="nopass-tips" v-if="isRefuse">
             <div class="nopass-text-tips">
-                <p>很抱歉您的嗨秒分期审核未通过，</p>
-                <p>可至【磐多拉信用】申请，选择更多、通过率更高</p>
+                <p>{{refuseMsg}}</p>
             </div>
-            <div class="btn">
-                
-            </div>
+                <a class="btn" :href="btnHref">
+                <span class="ico" :class="[isDDCP ? 'ico-apply' : 'ico-go']"></span>
+                <span class="title">{{btnTitle}}</span>
+            </a>
         </div>
+        <input v-if="signButton" class="contract-btn" type="button" value="签约" />
+        <input v-if="cancelButton" class="cancel-btn" type="button" value="取消订单" />
     </div>
 
     <group>
         <cell title="我的优惠券" value="0张" is-link>
-            <span class="ico-money" slot="icon" width="20"></span>
+            <span class="cell-ico my-coupon" slot="icon" width="20"></span>
         </cell>
         <cell title="我的邀请" is-link>
-            <span class="ico-money" slot="icon" width="20"></span>
+            <span class="cell-ico my-invitation" slot="icon" width="20"></span>
         </cell>
     </group>
 
@@ -73,17 +87,17 @@
 
     <group>
         <cell title="我的消息" is-link>
-            <span class="ico-money" slot="icon" width="20"></span>
+            <span class="cell-ico" slot="icon" width="20">&#xe657;</span>
             <badge></badge>
         </cell>
         <cell title="QQ在线客服" is-link>
-            <span class="ico-money" slot="icon" width="20"></span>
+            <span class="cell-ico" slot="icon" width="20"></span>
         </cell>
     </group>
 
     <group>
         <cell title="交易明细" is-link>
-            <span class="ico-money" slot="icon" width="20"></span>
+            <span class="cell-ico my-money" slot="icon" width="20"></span>
         </cell>
     </group>
     <page-footer></page-footer>
@@ -97,19 +111,19 @@
 .Personal{
     .personal-header-wrap {
         width: 100%;
-        height: rem(185px);
-        background: url(../assets/images/parson_center_bg.png) no-repeat;
+        height: rem(260px);
+        background: url(../assets/images/person_center_bg.png) no-repeat;
         background-size: 100% 100%;
         color: #fff;
 
         .per-user-info {
-            padding: rem(20px 15px);
+            padding: rem(30px 15px);
             position: relative;
             height: rem(40px);
 
             .avatar {
-                width: rem(32px);
-                height: rem(32px);
+                width: rem(40px);
+                height: rem(40px);
                 float: left;
 
                 img {
@@ -123,12 +137,13 @@
                 margin-left: rem(10px);
                 width: rem(85px);
                 float: left;
-                font-size: rem(11px);
+                font-size: rem(14px);
                 color: #fff;
                 line-height: rem(16px);
 
                 .per-name {
-                    padding-top: rem(2px);
+                    padding-top: rem(5px);
+                    margin-bottom: rem(4px);
                 }
 
                 .per-num {
@@ -138,7 +153,7 @@
             }
 
             .current-rating {
-                font-size: rem(11px);
+                font-size: rem(14px);
                 float: right;
                 text-align: right;
             }
@@ -146,21 +161,21 @@
         }
 
         .money-amount-info {
-            padding: rem(0 25px);
+            padding: rem(0 55px);
 
             .left-box, .right-box {
-                width: 40%;
+                width: 43%;
                 font-size: rem(10px);
 
                 span {
-                    font-size: rem(18px);
+                    font-size: rem(22px);
                 }
 
             }
 
             .left-box {
                 position: relative;
-                text-align: right;
+                text-align: left;
                 padding-right: rem(18px);
             }
 
@@ -190,7 +205,7 @@
             font-size: 0.65rem;
             border-radius: 30px;
             color: #fff;
-            margin: 0.35rem auto 0;
+            margin: rem(30px) auto 0;
             text-align: center;
             border: 0;
         }
@@ -199,7 +214,7 @@
     .brrow-active{
         background: #fff;
         padding: rem(10px 30px);
-        font-size: .5rem;
+        font-size: rem(12px);
         clear: both;
         overflow: hidden;
         zoom: 1;
@@ -207,11 +222,18 @@
         .borr-pruduct{
             p{
                 color: #a4a4a4;
+                span.total-amount{
+                    color: #FF7640;
+                    float: right;
+                    display: inline-block;
+                }
             }
         }
         .nopass-tips{
             width: 100%;
-            margin-top: rem(10px);
+            padding-top: rem(10px);
+            margin-top:rem(10px);
+            border-top: 1px dotted #ccc;
             .nopass-text-tips{
                 width: 70%;
                 color: #333;
@@ -227,27 +249,94 @@
                 float: right;
                 border-radius: 5px;
                 margin-top: rem(5px);
-                &:before{
-                    content: '';
+                display:block;
+                .ico{
                     width: 100%;
                     height: rem(20px);
                     display: block;
                     margin: 0 auto;
-                    background: url(../assets/images/parson_center_go.png) 50% 50% no-repeat;
+                }
+                .ico-go{
+                    background: url(../assets/images/person_center_go.png) 50% 50% no-repeat;
                     background-size: 40%
                 }
-                &:after{
-                    content: '立即前往';
+                .ico-apply{
+                    background: url(../assets/images/person_center_apply.png) 50% 50% no-repeat;
+                    background-size: 24%
+                }
+                .title{
                     width: 100%;
                     display: block;
                     text-align: center;
                 }
             }
         }
-        .weui-wepay-flow, .weui-wepay-flow-auto {
-            padding: rem(20px 10px 25px 10px);
-            border-bottom: 1px dotted #ccc;
+        .contract-btn{
+            border: 1px solid #FF7640;
+            color: #fff;
+            float: right;
+            border-radius: 5px;
+            background: #FF7640;
+            padding: rem(3px 5px);
+            font-size: rem(14px);
         }
+        .cancel-btn{
+            border: 1px solid #FF7640;
+            color: #FF7640;
+            float: right;
+            border-radius: 5px;
+            background: #fff;
+            padding: rem(3px 5px);
+            font-size: rem(14px);
+            margin-right: rem(10px);
+        }
+        .weui-wepay-flow, .weui-wepay-flow-auto {
+            padding: rem(20px 10px 40px 10px); 
+        }
+    }
+
+    .cell-ico {
+        font-family: "iconfont";
+        width: .75rem;
+        display: inline-block;
+        margin-right: rem(10px);
+        font-size: .875rem;
+        color: #a4a4a4;
+    }
+    .cell-ico:before{
+        font-size: rem(20px);
+        color: #a4a4a4;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    
+
+    .my-money:before {
+        content: "\e68a";
+    }
+    .my-coupon:before{
+        content: '\e658';
+    }
+    .my-invitation:before{
+        content: '\e659';
+    }
+    .my-msg:before{
+        content: '&#xe657';
+    }
+    .myorder:before{
+        content: '\e658';
+    }
+    .myorder:before{
+        content: '\e658';
+    }
+    .myorder:before{
+        content: '\e658';
+    }
+    .myorder:before{
+        content: '\e658';
     }
 
 
@@ -259,6 +348,12 @@
     }
     .weui-wepay-flow__info-bottom:after {
         border-color: transparent transparent #ff7640 transparent  !important;
+    }
+    [class^="weui-wepay-flow__title-"], [class*=" weui-wepay-flow__title-"]{
+        font-size: rem(12px);
+    }
+    .weui-cells{
+        font-size: rem(14px)
     }
 }
 </style>
@@ -283,14 +378,53 @@ export default {
   },
   mounted () {
     var _this = this;
+
+    function initAccountInfo(app){
+        console.info('app', app);
+        if(app.isRefuse){
+            _this.isRefuse = true;
+
+            _this.flowStateStep = 3;
+
+            _this.refuseMsg = app.refuse_msg;
+
+            if((app.industryCode=="LDDD"||app.industryCode=="MDCP"||app.industryCode=="MDOH"||app.industryCode=="LLMD"||app.industryCode=="DDCP")&&app.refuse_msg!=""){
+                app.selectPro[0]='DDCP'
+
+                _this.isDDCP = _.contains(app.selectPro, 'DDCP');
+
+                _this.btnTitle = app.skip_btn;
+                _this.btnHref = app.skip_btn_link;
+                
+            }else{
+                // h[h.length]='<div class="notPassAudit"><p class="notPass-p">很抱歉，您提交的资料未通过审核</p><span class="notPass-span">现在您仍可以申请';
+                // var arr=[];
+                // for(var i  in app.selectPro){
+                //     var hrefUrl="miaodai.html";
+                //     if(_.contains(app.selectPro, 'DDCP')){
+                //         hrefUrl="didi.html";
+                //     }else if(_.contains(app.selectPro, 'LDDD')){
+                //         hrefUrl="dida.html";
+                //     }
+                //     if(arr.length!=0){
+                //         arr[arr.length]='或<a href="'+MWEB_PATH+'newweb/product/'+hrefUrl+'">【'+app.selectPro[i]+'】</a>';
+                //     }else{
+                //         arr[arr.length]='<a href="'+MWEB_PATH+'newweb/product/'+hrefUrl+'">【'+app.selectPro[i]+'】</a>';
+                //     }
+                // }
+                // h[h.length]=arr.join("")+'，<br>或者在【'+app.nextDate+'】再次申请'+app.appProductName+'。';
+                // h[h.length]='</span></div>';
+            }
+        }
+    }   
+
     const getAccountInfoDatas = {
         'userName': _this.utils.getCookie("userName"),
         'curPage': 1,
         'maxLine': 1,
         'uuid': _this.utils.uuid()
     }
-    // 显示文字
-    console.info('axios.defaults.headers.common[Authorization]', axios.defaults.headers.common['Authorization']);
+
     _this.common.getAccountInfo(getAccountInfoDatas)
     .then((res) => {
         var data = res.data;
@@ -299,10 +433,19 @@ export default {
             _this.$vux.toast.text(data.resultMsg);
             _this.$router.push({path:"/login", query: {redirect: _this.$route.fullPath}});
         }else{
-            this.realName = data.appUserRealName;       //姓名
-            this.lateTotal = data.lateTotal;            //近7天代还款
-            this.balance = data.balance;                //账户余额
-            this.accountPays = data.accountPays;        //我的分期
+            var app = data.accountPays[0];
+            _this.signButton = app.signButton;
+            _this.cancelButton = app.cancelButton
+            _this.realName = data.appUserRealName;       //姓名
+            _this.lateTotal = data.lateTotal;            //近7天代还款
+            _this.balance = data.balance;                //账户余额
+            _this.accountPays = data.accountPays;        //我的分期
+
+            if(data.headUrl){
+                _this.avatarImg = data.headUrlPrefix+data.headUrl+"?t="+Math.random()
+            }
+            
+            if(data.accountPays[0]) initAccountInfo(data.accountPays[0]);
         }
     });
   },
@@ -318,6 +461,17 @@ export default {
         lateTotal: 0.00,
         balance: 0.00,
         accountPays:[],
+        flowStateStep:1,
+        avatarImg:require('../assets/images/avator_oragin.png'),
+        btnTitle: '',
+        btnHref: '',
+        isDDCP:'',
+        refuseMsg:'',
+        signButton: false,
+        cancelButton: false,
+        rechargeButton: false,
+        detailButton: false,
+        isRefuse: false
     }
   }
 }
