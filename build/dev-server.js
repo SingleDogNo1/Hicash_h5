@@ -1,6 +1,8 @@
 require('./check-versions')()
 
-var config = require('../config')
+var config = require('../config');
+var path = require('path');
+var bodyParser = require('body-parser')
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
@@ -11,6 +13,13 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+
+//设置根目录路径
+global.__base = process.cwd() + '/';
+console.log('process=====', process.cwd())
+//设置图片存储，默认配置为生产环境所需的绝对路径
+var resourcesDir = 'ossfile';
+//console.log('__dirname====', __dirname)
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -58,10 +67,23 @@ if(app.get('env') == 'development'){
   // enable hot-reload and state-preserving
   // compilation error display
   app.use(hotMiddleware)
+  //如果是开发环境，单独配置上传路径
+  resourcesDir = path.join(process.cwd() + '/ossfile');
 }else{
   app.use(express.static('dist'));
 }
 
+app.set('resourcesDir', resourcesDir);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// app.configure(function() {
+//   app.use(app.router);
+// });
+/**
+ * 路由控制
+ */
+require('../libs/routes')(app);
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))

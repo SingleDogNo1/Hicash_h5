@@ -1,8 +1,6 @@
 <template>
     <div id="app" :class=path>
-        <view-box ref="viewBox">
             <router-view></router-view>
-        </view-box>
     </div>
 </template>
 

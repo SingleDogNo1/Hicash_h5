@@ -108,7 +108,9 @@
                         <p>每期最低本息还款：<span class="rate-repay">￥{{lowPay}}</span></p>
                         <div class="rate-handler">
                             <p>月利率：<span class="rate-percentage">{{ratePercentage}}</span></p>
-                            <span class="rate-calculator">费率计算器</span>
+                            <router-link class="rate-calculator" :to="{name: 'RateCalculation', params: {from: 'MDCP', tranPrice: amountSelected, loanProduct: timeSelected.loanProduct}}">
+                                费率计算器
+                            </router-link>
                         </div>
                     </div>
                     <button class="btn-by-stages" @click="btnByStages">立即分期</button>
@@ -572,8 +574,14 @@
             }
         }
     }
-    .weui-toast {
-        min-height: 6.5em !important;
+    .vux-loading {
+        .weui-toast {
+            width: 5em !important;
+            min-height: 5em !important;
+            .weui-loading {
+                margin: 22px 0 0 !important;
+            }
+        }
     }
 </style>
 
@@ -585,11 +593,7 @@
 
     var getMonthPay = function(amountSelected, timeSelected) {
         return new Promise((resolve,reject)=>{
-            console.log('timeSelected====', timeSelected)
             var postData = new URLSearchParams();
-            // setTimeout(function() {
-            //     console.log($('.loan-amount-list .amount-item-selected').data('amount'))
-            // },0)
             postData.append('firstRate', 0);
             postData.append('tranPrice', amountSelected);
             postData.append('loanProduct', timeSelected.loanProduct);
@@ -603,9 +607,10 @@
                         params.append('days', days);
                         common.loanPay(params)
                             .then((res)=>{
-                                console.log('res=====', res);
                                 resolve(res.data);
                             });
+                    } else {
+                        reject(res.data.resultMsg);
                     }
                 });
         })
@@ -626,7 +631,7 @@
         },
         data () {
             return {
-                show: true,
+                show: false,
                 amountSelectedIndex: 0,
                 timeSelectedIndex: 1,
                 amountSelected: 0,
@@ -661,7 +666,6 @@
                 this.$router.push({path: '/'});
             },
             selectLoanAmount (item) {
-                console.log('item====', item)
                 this.amountSelected = item;
                 getMonthPay(this.amountSelected , this.timeSelected)
                     .then((data)=>{
@@ -676,8 +680,6 @@
                                 text: this.errorMsg
                             })
                         }
-                        console.log('data====', data);
-
                     });
             },
             selectLoanTime (item) {
@@ -699,8 +701,6 @@
                                 text: this.errorMsg
                             })
                         }
-                        console.log('data====', data);
-
                     });
             },
             btnByStages () {
@@ -730,7 +730,6 @@
                 params.append('periods', this.timeSelected.installments);
                 common.checkSupportApp(params)
                     .then((result)=>{
-                        console.log('result=====', result);
                         if(result.data.resultCode=="1" && result.data.success){
                             common.fastLoanFirst(postData)
                                 .then((res)=>{
@@ -738,7 +737,6 @@
                                         this.$vux.loading.hide()
                                     },1000)
                                     if(res.data.resultCode == "1") {
-                                        console.log('res.data=====', res.data);
                                         if(res.data.appFlowNo == ""){
                                             this.$vux.toast.show({
                                                 type: 'cancel',
@@ -749,11 +747,16 @@
                                         }
                                         utils.setCookie("industryCode", this.obj.industryCode);
                                         utils.setCookie("xykFrom", "0");
-                                        utils.setCookie("appFlowNo", getCookie("userName") + ":"
+                                        utils.setCookie("appFlowNo", utils.getCookie("userName") + ":"
                                                 + res.data.appFlowNo);
                                         utils.setCookie("prodetailInfo", this.amountSelected + ":" + this.timeSelected.loanProduct);
+                                        setTimeout(()=>{
+                                            this.$router.push({path: '/identityAuthentication'});
+                                        },1500)
                                     } else if (res.data.resultCode == "60100") {
-                                        _this.$router.push({path: '/login'});
+                                        setTimeout(()=>{
+                                            this.$router.push({path: '/login'});
+                                        },1500)
                                     } else if(result.data.resultCode=="1"){
                                         this.$vux.toast.show({
                                             type: 'cancel',
@@ -847,23 +850,35 @@
                             this.periodUnit = productinfoList.periodUnit;
                             this.amountList = productinfoList.amountList;
                             this.programList = productinfoList.programList;
-                            var tranPrice = this.$route.query.tranPrice;
-                            var loanProduct = this.$route.query.loanProduct;
-                            console.log('tranPrice====', tranPrice);
-                            console.log('loanProduct====', loanProduct);
+                            let tranPrice = this.$route.query.tranPrice;
+                            let loanProduct = this.$route.query.loanProduct;
                             if(tranPrice && loanProduct){
-                                console.log('this====', this);
-                                this.queryAmountSelected = tranPrice;
-                                setTimeout(function(){
-                                    var amountIndex = $('.loan-amount-list .vux-checker-item[data-amount="'+ tranPrice + '"]').data('index');
-                                    this.amountSelected = amountIndex;
-                                    console.log('this.amountSelected===', typeof this.amountSelected)
-                                },0)
-                                $(".miaodai_time_list ul li[data-abbr="+loanProduct+"]").click();
+                                let currentAmountSelectedIndex = this.amountList.indexOf(tranPrice);
+                                this.amountSelectedIndex = currentAmountSelectedIndex;
+                                this.amountSelected = tranPrice;
+                                let loanProductList = _.pluck(this.programList, 'loanProduct');
+                                let currentTimeSelectedIndex = loanProductList.indexOf(loanProduct);
+                                this.timeSelectedIndex = currentTimeSelectedIndex;
+                                let currentTimeSelected = this.programList.filter((item)=>{
+                                    return item.loanProduct === loanProduct
+                                })
+                                this.timeSelected = currentTimeSelected[0];
+                                getMonthPay(tranPrice, currentTimeSelected[0]).then((data)=>{
+                                    if(data.resultCode === '1') {
+                                        this.lowPay = data.lowPay;
+                                        this.ratePercentage = data.lowRate+ "%-" + data.highRate + "%";
+                                    } else {
+                                        this.errorMsg = res.data.resultMsg;
+                                        this.$vux.toast.show({
+                                            type: 'cancel',
+                                            position: 'middle',
+                                            text: this.errorMsg
+                                        })
+                                    }
+                                });
                             } else {
                                 this.amountSelected = this.amountList[0];
                                 this.timeSelected = this.programList[this.programList.length - 1];
-                                console.log('amountSelected===', this.amountSelected, this.timeSelected);
                                 getMonthPay(this.amountSelected, this.timeSelected).then((data)=>{
                                     if(data.resultCode === '1') {
                                         this.lowPay = data.lowPay;
@@ -876,8 +891,6 @@
                                             text: this.errorMsg
                                         })
                                     }
-                                    console.log('data====', data);
-
                                 });
                             }
                         };

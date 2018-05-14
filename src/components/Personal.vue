@@ -431,6 +431,7 @@ export default {
         if(data.resultCode != '1'){
             console.info('personal', _this.$route);
             _this.$vux.toast.text(data.resultMsg);
+            console.log('_this.$route.fullPath=====', _this.$route.fullPath)
             _this.$router.push({path:"/login", query: {redirect: _this.$route.fullPath}});
         }else{
             var app = data.accountPays[0];

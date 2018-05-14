@@ -38,7 +38,7 @@
                 </cell> -->
             </swiper-item>
         </swiper>
-        <div class="loan-content-wrap" v-if="listType === 'loan'">
+        <div class="loan-content-wrap" v-show="listType === 'loan'">
             <p class="all-loan-application" >昨日共申请{{allLoanApplication}}笔</p>
             <ul class="loan-list">
                 <li v-for="productListItem in productList">
@@ -59,7 +59,7 @@
                 </li>
             </ul>
         </div>
-        <div class="notice-content-wrap" v-if="listType === 'notice'">
+        <div class="notice-content-wrap" v-show="listType === 'notice'">
             <div class="news-wrap">
                 <h2>近期新闻<strong>&ensp;NEWS</strong></h2>
             </div>
@@ -118,7 +118,11 @@
         </div>
         <ul class="link">
             <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>快速还款</a></li>
-            <li><a href="http://115.29.193.125/newweb/login/login.html?from=perCenter"><i class="iconfont"></i>借款攻略</a></li>
+            <li>
+                <router-link :to="{name: 'LoanStrategy'}">
+                    <i class="iconfont"></i>借款攻略
+                </router-link>
+            </li>
         </ul>
         <page-footer></page-footer>
     </div>
@@ -455,20 +459,20 @@
 
 <script type="text/javascript">
     import { Tab, TabItem, Swiper, SwiperItem, Panel, Group, Cell, Scroller, Divider, Spinner} from 'vux'
-    // import $ from 'jquery'
-    // import common from '@/api/common'
-    // import utils from '@/assets/js/utils'
+    import $ from 'jquery'
+    import common from '@/api/common'
+    import utils from '@/assets/js/utils'
 
     import PageFooter from '../components/PageFooter.vue'
     var page = 1;
     var countPage;
-    var getSysParam = (maxLine, page) => {
+    var getSysParam = function(maxLine, page){
         var postData = new URLSearchParams();
         postData.append('paramCode', 'WZGG,GSDT');
         postData.append('sourceFrom', 'HTML5');
         postData.append('maxLine', maxLine);
         postData.append('curPage', page);
-        this.common.getSysParam(postData)
+        common.getSysParam(postData)
             .then((res)=>{
                 console.log('res===', res);
                 res.data.countPage = 3;
@@ -530,8 +534,12 @@
                 console.log('on item click:', index)
             },
             onSwiperItemIndexChange (index) {
+                console.log('index====', index)
                 index === 0 ? this.listType = 'loan' : this.listType = 'notice'
-                if(this.listType = 'notice') getSysParam(3, 1);
+                console.log('this.listType===', this.listType)
+                if(this.listType === 'notice') {
+                    getSysParam(3, 1);
+                }
             },
             loadMore () {
                 setTimeout(() => {

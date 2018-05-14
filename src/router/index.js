@@ -7,6 +7,11 @@ import Login from '@/components/Login'
 import ForgetPassword from '@/components/ForgetPassword'
 import Register from '@/components/Register'
 import CompreRat from '@/components/CompreRat'
+import RateCalculation from '@/components/RateCalculation'
+import IdentityAuthentication from '@/components/IdentityAuthentication'
+import LoanStrategy from '@/components/LoanStrategy'
+import Upload from '@/components/Upload'
+import BaseInfo from '@/components/BaseInfo'
 
 Vue.use(Router)
 
@@ -56,6 +61,30 @@ export default new Router({
         path: '/compre-rat',
         name: 'CompreRat',
         component: CompreRat
+    },
+    {
+        //费率计算
+        path: '/rateCalculation',
+        name: 'RateCalculation',
+        component: RateCalculation
+    },
+    {
+        //身份认证
+        path: '/identityAuthentication',
+        name: 'IdentityAuthentication',
+        component: IdentityAuthentication
+    },
+    {
+        //借款攻略
+        path: '/loanStrategy',
+        name: 'LoanStrategy',
+        component: LoanStrategy
+    },
+    {
+        //基本信息
+        path: '/baseInfo',
+        name: 'BaseInfo',
+        component: BaseInfo
     }
   ]
 })

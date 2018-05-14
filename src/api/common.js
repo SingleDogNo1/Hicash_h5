@@ -21,7 +21,11 @@ export default{
   loanAmtCalculateForNew: loanAmtCalculateForNew,
   loanPay: loanPay,
   checkSupportApp: checkSupportApp,
-  fastLoanFirst: fastLoanFirst
+  fastLoanFirst: fastLoanFirst,
+  uploadPic: uploadPic,
+  updateTempAppInfo: updateTempAppInfo,
+  updatePicStatus: updatePicStatus,
+  stuInfoQuery: stuInfoQuery
 }
 
 
@@ -287,6 +291,59 @@ export function checkSupportApp(params){
 export function fastLoanFirst(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashService/FastLoanFirst", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  查询图片保存地址
+ */
+export function uploadPic(params){
+  return new Promise((resolve,reject)=>{
+    console.log('params====', params)
+    axios.post("/file-upload", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  临时申请件表保存验证状态
+ */
+export function updateTempAppInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/UpdateTempAppInfo", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  更新图片状态
+ */
+export function updatePicStatus(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/UpdatePicStatus", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  查询个人信息 (学生)
+ */
+export function stuInfoQuery(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/StuInfoQuery", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

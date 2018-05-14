@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { XHeader, Tabbar, TabbarItem,ViewBox,Toast } from 'vux'
+import { XHeader, Tabbar, TabbarItem,Toast } from 'vux'
 
 import common from './api/common.js'
 import jsCommon from './assets/js/common.js'
@@ -16,10 +16,10 @@ Vue.prototype.utils = utils;
 Vue.prototype.config = config;
 Vue.prototype.jsCommon = jsCommon;
 
-Vue.component('x-header', XHeader)
+// Vue.component('x-header', XHeader)
 Vue.component('tabbar', Tabbar)
 Vue.component('tabbar-item', TabbarItem)
-Vue.component('view-box', ViewBox)
+// Vue.component('view-box', ViewBox)
 Vue.component('toast', Toast)
 
 
