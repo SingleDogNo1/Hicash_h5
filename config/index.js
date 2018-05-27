@@ -61,6 +61,20 @@ module.exports = {
         pathRewrite:{
             '^/HicashService':''
         }
+      },
+      '/creditservice':{
+        target:'http://112.124.126.196:8081/creditservice',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/creditservice':''
+        }
+      },
+      '/ruleService':{
+        target:'http://218.244.138.24:8086/ruleService',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/ruleService':''
+        }
       }
     }
   },

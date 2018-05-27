@@ -1,14 +1,19 @@
 export default {
-	uuid: uuid,						   //生成uuid
-	getQueryString: getQueryString,	   //截取URL参数
-	setCookie: setCookie,			   //设置cookie
-	getCookie: getCookie,			   //读取cookie
-	delCookie: delCookie,			   //删除cookie
-	clearCookie: clearCookie,		   //清空cookie
-	checkMobile: checkMobile,		   //校验手机号是否合法
-	codeBase64: codeBase64,			   //Base64编码、解码
-	timeCount: timeCount,              //获取短信验证码倒计时
-    checkInviteCode: checkInviteCode   //校验邀请码
+	uuid: uuid,						        //生成uuid
+	getQueryString: getQueryString,	        //截取URL参数
+	setCookie: setCookie,			        //设置cookie
+	getCookie: getCookie,			        //读取cookie
+	delCookie: delCookie,			        //删除cookie
+	clearCookie: clearCookie,		        //清空cookie
+	checkMobile: checkMobile,		        //校验手机号是否合法
+	codeBase64: codeBase64,			        //Base64编码、解码
+	timeCount: timeCount,                   //获取短信验证码倒计时
+    checkInviteCode: checkInviteCode,       //校验邀请码
+    checkIdCardNumber: checkIdCardNumber,   //校验身份证号
+    checkEmail: checkEmail,                 //校验邮箱
+    checkRealName: checkRealName,           //校验真实姓名
+    checkAearTel: checkAearTel              //校验固话(带区号)
+
 }
 
 export function uuid() {
@@ -283,4 +288,24 @@ export function timeCount(time, callback) {
 export function checkInviteCode(inviteCode) {
     var reg = /^[A-Za-z0-9]{6}$/;
     return reg.test(inviteCode)
+}
+
+export function checkIdCardNumber(id) {
+    var reg = /(^[1-9]\d{5}(18|19|20|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/;
+    return reg.test(id)
+}
+
+export function checkEmail(email) {
+    var reg = /^(\w)+(\.\w+)*@(\w\-?)+((\.\w+)+)$/;
+    return reg.test(email)
+}
+
+export function checkRealName(realName) {
+    var reg = /^[\u4e00-\u9fa5]{2,}$/;
+    return reg.test(realName)
+}
+
+export function checkAearTel(tel) {
+    var reg = /^0[0-9]{2,3}-[0-9]{7,8}$/;
+    return reg.test(tel)
 }

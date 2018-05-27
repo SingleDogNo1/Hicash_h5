@@ -25,7 +25,16 @@ export default{
   uploadPic: uploadPic,
   updateTempAppInfo: updateTempAppInfo,
   updatePicStatus: updatePicStatus,
-  stuInfoQuery: stuInfoQuery
+  stuInfoQuery: stuInfoQuery,
+  collarPersonInfo: collarPersonInfo,
+  getProvince: getProvince,
+  getCity: getCity,
+  getArea: getArea,
+  updateCollarPersonInfo: updateCollarPersonInfo,
+  relationInfo: relationInfo,
+  updateRelationInfo: updateRelationInfo,
+  queryShouQuanSuc: queryShouQuanSuc,
+  queryFirstExamineSuc: queryFirstExamineSuc
 }
 
 
@@ -344,6 +353,123 @@ export function updatePicStatus(params){
 export function stuInfoQuery(params){
   return new Promise((resolve,reject)=>{
     axios.post("HicashAppService/StuInfoQuery", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  查询个人信息 (白领)
+ */
+export function collarPersonInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/CollarPersonInfo", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取省列表
+ */
+export function getProvince(params){
+  return new Promise((resolve,reject)=>{
+    axios.get("/get-province").then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取市列表
+ */
+export function getCity(params){
+  return new Promise((resolve,reject)=>{
+    axios.get("/get-city?provinceId=" + params.provinceId).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取区列表
+ */
+export function getArea(params){
+  return new Promise((resolve,reject)=>{
+    axios.get("/get-area?cityId=" + params.cityId).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  修改个人信息（白领）
+ */
+export function updateCollarPersonInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/UpdateCollarPersonInfo", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  查询联系人信息
+ */
+export function relationInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/RelationInfo", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  修改联系人信息
+ */
+export function updateRelationInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("HicashAppService/UpdateRelationInfo", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  查询芝麻是否授权成功
+ */
+export function queryShouQuanSuc(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("creditservice/zhima/queryShouQuanSuc.do", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  判断是否可以申请(预审)
+ */
+export function queryFirstExamineSuc(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("ruleService/userInfo/userYsRule.do", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

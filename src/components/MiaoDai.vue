@@ -89,7 +89,7 @@
                     <div class="loan-amount-list">
                         <div class="title">借款金额</div>
                         <checker v-model="amountSelectedIndex" default-item-class="amount-item" radio-required selected-item-class="amount-item-selected">
-                            <checker-item v-for="(amountListItem, index) in amountList" v-model="index" v-bind:data-amount="amountListItem" v-bind:data-index="index" @on-item-click="selectLoanAmount(amountListItem)">
+                            <checker-item v-for="(amountListItem, index) in amountList" v-model="index" v-bind:data-amount="amountListItem" v-bind:data-index="index" @on-item-click="selectLoanAmount(amountListItem)" :key="index">
                                 {{amountListItem}}
                             </checker-item>
                         </checker>
@@ -98,7 +98,7 @@
                     <div class="loan-time-list">
                         <div class="title">借款时间</div>
                         <checker v-model="timeSelectedIndex" default-item-class="time-item" radio-required selected-item-class="time-item-selected">
-                            <checker-item v-for="(programListItem, index) in programList" v-model="index" @on-item-click="selectLoanTime(programListItem)">
+                            <checker-item v-for="(programListItem, index) in programList" v-model="index" @on-item-click="selectLoanTime(programListItem)" :key="index">
                                 <span>{{programListItem.installments}}</span><span>{{periodUnit}}</span>
                             </checker-item>
                             <div class="clear"></div>
@@ -755,7 +755,7 @@
                                         },1500)
                                     } else if (res.data.resultCode == "60100") {
                                         setTimeout(()=>{
-                                            this.$router.push({path: '/login'});
+                                            this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
                                         },1500)
                                     } else if(result.data.resultCode=="1"){
                                         this.$vux.toast.show({

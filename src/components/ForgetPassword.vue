@@ -347,7 +347,7 @@
                             text: '密码修改成功'
                         })
                         setTimeout(function() {
-                            _this.$router.push({path: '/login'});
+                            _this.$router.push({path: '/login', query: {redirect: _this.$route.fullPath}});
                         },3000)
                     });
 

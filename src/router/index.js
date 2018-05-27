@@ -12,6 +12,8 @@ import IdentityAuthentication from '@/components/IdentityAuthentication'
 import LoanStrategy from '@/components/LoanStrategy'
 import Upload from '@/components/Upload'
 import BaseInfo from '@/components/BaseInfo'
+import Address from '@/components/Address'
+import ContactPerson from '@/components/ContactPerson'
 
 Vue.use(Router)
 
@@ -85,6 +87,18 @@ export default new Router({
         path: '/baseInfo',
         name: 'BaseInfo',
         component: BaseInfo
+    },
+    {
+        //选择地址
+        path: '/chooseAddress',
+        name: 'Address',
+        component: Address
+    },
+    {
+        //联系人信息
+        path: '/contactPerson',
+        name: 'ContactPerson',
+        component: ContactPerson
     }
   ]
 })
