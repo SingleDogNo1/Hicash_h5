@@ -12,7 +12,8 @@ export default {
     checkIdCardNumber: checkIdCardNumber,   //校验身份证号
     checkEmail: checkEmail,                 //校验邮箱
     checkRealName: checkRealName,           //校验真实姓名
-    checkAearTel: checkAearTel              //校验固话(带区号)
+    checkAearTel: checkAearTel,              //校验固话(带区号)
+    checkCardNum: checkCardNum              //校验借记卡号
 
 }
 
@@ -54,18 +55,15 @@ export function setCookie(c_name, value) {
 
 // 读取cookies
 export function getCookie(name) {
+    console.log('name=====', name)
 
-	var arr, reg=new RegExp("(^|)"+name+"=([^;]*)(;|$)");
-
-	if(arr=document.cookie.match(reg)) {
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	if(arr=document.cookie.match(reg)){
 		return unescape(arr[2]);
-	}
-
-	else {
+	}else{
 		var ls = localStorage.getItem(name);
 		return ls;
 	}
-
 	return null;
 }
 
@@ -307,5 +305,10 @@ export function checkRealName(realName) {
 
 export function checkAearTel(tel) {
     var reg = /^0[0-9]{2,3}-[0-9]{7,8}$/;
+    return reg.test(tel)
+}
+
+export function checkCardNum(cardNum) {
+    var reg = /^[0-9]{10,20}$/;
     return reg.test(tel)
 }

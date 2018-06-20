@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { XHeader, Tabbar, TabbarItem,Toast } from 'vux'
+import { XHeader, Tabbar, TabbarItem, Toast } from 'vux'
 
 import common from './api/common.js'
 import jsCommon from './assets/js/common.js'
@@ -29,6 +29,8 @@ Vue.use(ToastPlugin)
 import  { LoadingPlugin } from 'vux'
 Vue.use(LoadingPlugin)
 
+import  { ConfirmPlugin } from 'vux'
+Vue.use(ConfirmPlugin)
 
 
 Vue.config.productionTip = false

@@ -112,6 +112,7 @@
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
     import pinyin from '@/vendor/pinyin'
+    console.log('pinyin====', pinyin)
 
     function makePy(str) {
         if(typeof(str) != "string")
@@ -306,6 +307,9 @@
                         break;
                     case 'companyAddress':
                         this.$router.push({path:"/baseInfo", query: {back: from}})
+                        break;
+                    case 'openAccountProvince':
+                        this.$router.push({path:"/bandBank", query: {back: from}})
                         break;
                 };
             },

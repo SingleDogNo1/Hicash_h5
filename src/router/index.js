@@ -14,6 +14,10 @@ import Upload from '@/components/Upload'
 import BaseInfo from '@/components/BaseInfo'
 import Address from '@/components/Address'
 import ContactPerson from '@/components/ContactPerson'
+import MobilePhonePrv from '@/components/MobilePhonePrv'
+import DpandoraBackPage from '@/components/DpandoraBackPage'
+import BandBank from '@/components/bandBank'
+
 
 Vue.use(Router)
 
@@ -99,6 +103,24 @@ export default new Router({
         path: '/contactPerson',
         name: 'ContactPerson',
         component: ContactPerson
+    },
+    {
+        //手机认证
+        path: '/mobilePhonePrv',
+        name: 'MobilePhonePrv',
+        component: MobilePhonePrv
+    },
+    {
+        //从潘多拉回来的页面
+        path: '/dpandoraBackPage',
+        name: 'DpandoraBackPage',
+        component: DpandoraBackPage
+    },
+    {
+        //绑定银行卡
+        path: '/bandBank',
+        name: 'BandBank',
+        component: BandBank
     }
   ]
 })

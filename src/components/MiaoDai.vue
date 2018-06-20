@@ -769,6 +769,7 @@
                                             position: 'middle',
                                             text: result.data.resultMsg
                                         })
+                                        this.$vux.loading.hide()
                                     }
                                 });
                         } else if(result.resultCode=="1"){
@@ -786,6 +787,7 @@
                                 position: 'middle',
                                 text: result.data.resultMsg
                             })
+                            this.$vux.loading.hide()
                         }
                     });
             }

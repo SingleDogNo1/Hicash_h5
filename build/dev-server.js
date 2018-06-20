@@ -74,9 +74,12 @@ if(app.get('env') == 'development'){
 }
 
 app.set('resourcesDir', resourcesDir);
+var cookieParser = require('cookie-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+var session = require('express-session');
+app.use(cookieParser());
+app.use(session({secret: 'mysecretcode'}));
 // app.configure(function() {
 //   app.use(app.router);
 // });

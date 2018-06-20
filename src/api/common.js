@@ -34,7 +34,11 @@ export default{
   relationInfo: relationInfo,
   updateRelationInfo: updateRelationInfo,
   queryShouQuanSuc: queryShouQuanSuc,
-  queryFirstExamineSuc: queryFirstExamineSuc
+  queryFirstExamineSuc: queryFirstExamineSuc,
+  creditItems: creditItems,
+  withHoldBank:　withHoldBank,
+  getOwnData: getOwnData,
+  searchBankCard: searchBankCard
 }
 
 
@@ -116,7 +120,6 @@ export function getAccountInfo(params){
  */
 export function getSysParam(params){
   return new Promise((resolve,reject)=>{
-    console.log('params===', params)
     axios.post("/NewHicashService/SysParam", params).then((res)=>{
       resolve(res)
     },(err)=>{
@@ -312,7 +315,6 @@ export function fastLoanFirst(params){
  */
 export function uploadPic(params){
   return new Promise((resolve,reject)=>{
-    console.log('params====', params)
     axios.post("/file-upload", params).then((res)=>{
       resolve(res)
     },(err)=>{
@@ -470,6 +472,59 @@ export function queryShouQuanSuc(params){
 export function queryFirstExamineSuc(params){
   return new Promise((resolve,reject)=>{
     axios.post("ruleService/userInfo/userYsRule.do", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  秒贷信用认证项查询
+ */
+export function creditItems(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/CreditItems", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取银行卡列表
+ */
+export function withHoldBank(){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/WithHoldBank").then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  非请求接口信息----通付盾
+ */
+export function getOwnData(){
+  return new Promise((resolve,reject)=>{
+    axios.get("/get-own-data").then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  查询银行卡信息
+ */
+export function searchBankCard(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/SearchBankCard", params).then((res)=>{
+      console.log('res=====', res)
       resolve(res)
     },(err)=>{
       reject(err)

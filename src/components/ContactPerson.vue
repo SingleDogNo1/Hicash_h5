@@ -413,9 +413,28 @@
                                                 .then((res)=>{
                                                 });
                                             let paramsObj = new URLSearchParams();
-                                            
+                                            paramsObj.append('applyAmout', utils.getCookie("prodetailInfo").split(":")[0]);
+                                            paramsObj.append('tempAppNo', utils.getCookie("appFlowNo").split(":")[1]);
+                                            paramsObj.append('userName', userName);
+                                            paramsObj.append('productType', productType);
+                                            console.log('paramsObj=====', paramsObj)
                                             common.queryFirstExamineSuc(paramsObj)
-                                                .then((res)=>{
+                                                .then((result)=>{
+                                                    if(result.data.resultCode === "1"){
+                                                        let paramsObj = new URLSearchParams();
+                                                        paramsObj.append('tempAppNo', utils.getCookie("appFlowNo").split(":")[1]);
+                                                        paramsObj.append('applyFrom', '03');
+                                                        paramsObj.append('custType', utils.getCookie("custType"));
+                                                        paramsObj.append('industryCode', utils.getCookie("industryCode"));
+                                                        paramsObj.append('node', '05');
+                                                        paramsObj.append('status', '06');
+                                                        common.updateTempAppInfo(paramsObj)
+                                                            .then((res)=>{
+                                                            });
+                                                        console.log('this.$vux.loading=====', this.$vux.loading)
+                                                        this.$vux.loading.hide();
+                                                        this.$router.push({path:"/mobilePhonePrv"})
+                                                    }
                                                 });
                                         }
                                     });

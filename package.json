@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "cookie-parser": "^1.4.3",
     "css-loader": "^0.28.11",
     "eventsource-polyfill": "^0.9.6",
+    "express-session": "^1.15.6",
     "gulp": "^3.9.1",
     "gulp-image-resize": "^0.13.0",
     "jquery": "^3.3.1",
