@@ -1,10 +1,10 @@
-<template>
-    <div class="login-body">
+ <template>
+    <div class="login-body" id="login-body">
         <!-- header -->
         <header  class="login-header">
             <a class="go-back"  href="JavaScript:history.back(-1)"></a>
             <router-link class="go-to-register" :to="{name: 'Register'}">
-                    注册
+                注册
             </router-link>
         </header>
         <!-- header -->
@@ -12,31 +12,22 @@
             <h2></h2>
         </div>
         <div class="user-login-wrap">
-            <tab :line-width="1" :custom-bar-width="getBarWidth">
+            <tab :line-width="1" :custom-bar-width="getBarWidth" class="tab-container">
                 <tab-item selected @on-item-click="onItemClick">短信登录</tab-item>
                 <tab-item @on-item-click="onItemClick">密码登录</tab-item>
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4" autocomplete="off">
-                    <img slot="right-full-height" :src="authPic" @click="change">
-                </x-input>
                 <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
                 <button class="btn-login" @click="messageLogin('middle')">登录</button>
-                <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
-                    忘记密码?
-                </router-link>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
                 <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
-                <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
-                    忘记密码?
-                </router-link>
             </div>
         </div>
     </div>
@@ -49,10 +40,9 @@
     .weui-tab__panel{
         padding-bottom: 0 !important;
     }
-    .login-body {
-        height: auto;
-        background: url(../assets/images/bg_user.png) 0 0 no-repeat;
-        background-size: cover;
+    #login-body {
+        height: 100%;
+        background-image: linear-gradient(-180deg, #FD7F5F 3%, #FC915C 98%);
         .login-header {
             background: none;
             border: none;
@@ -77,17 +67,21 @@
                 margin: .5rem auto 0;
                 width: 4.65rem;
                 height: 1.8rem;
-                background: url(../assets/images/logo_user.png) 0 0 no-repeat;
+                background: url(./logo_user.png) 0 0 no-repeat;
                 background-size: cover;
             }
         }
         .user-login-wrap {
             width: 14.35rem;
+            height: calc(100% - 7.9rem);
             margin: 0 auto;
-            padding: 3.4rem 0;
-            .vux-tab-container {
-                height: 1.8rem !important;
-                border-radius: 10px 10px 0 0 !important;
+            margin-top: 3.4rem;
+            background: #fff;
+            border-radius: 10px 10px 0 0 !important;
+            .tab-container {
+                .vux-tab-container {
+                    border-radius: 10px 10px 0 0 !important;
+                }
                 .vux-tab {
                     height: 1.8rem !important;
                     background-color: #FFEEEA !important;
@@ -118,26 +112,8 @@
                     font-size: .7rem;
                     padding: 5px 0 5px 1.35rem;
                     margin-bottom: .5rem;
-                    background: url(../assets/images/icon_tel.png) left center no-repeat;
+                    background: url(./icon_tel.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
-                }
-                .img-code {
-                    position: relative;
-                    height: 1.95rem;
-                    border-bottom: 1px solid #DDDDDD;
-                    font-size: .7rem;
-                    padding: 5px 0 5px 1.35rem;
-                    margin-bottom: .5rem;
-                    background: url(../assets/images/icon_img_code.png) left center no-repeat;
-                    background-size: 0.666667rem 0.666667rem;
-                    .vux-x-input-right-full {
-                        img {
-                            width: 4rem;
-                        }
-                    }
-                }
-                .img-code:before {
-                    border-top: none !important;
                 }
                 .message-code {
                     position: relative;
@@ -146,7 +122,7 @@
                     font-size: .7rem;
                     padding: 5px 0 5px 1.35rem;
                     margin-bottom: .5rem;
-                    background: url(../assets/images/icon_message_code.png) left center no-repeat;
+                    background: url(./icon_message_code.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
                     .weui-btn_primary {
                         width: 4rem !important;
@@ -167,7 +143,7 @@
                     font-size: .7rem;
                     padding: 5px 0 5px 1.35rem;
                     margin-bottom: .5rem;
-                    background: url(../assets/images/icon_password.png) left center no-repeat;
+                    background: url(./icon_password.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
                 }
                 .password:before {
