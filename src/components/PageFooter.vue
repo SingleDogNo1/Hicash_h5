@@ -4,15 +4,11 @@
             <span class="icon-home" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">首页</span>
         </tabbar-item>
-        <tabbar-item :link="{path:'/demo'}">
-            <span class="icon-vip-area" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
-            <span slot="label">VIP专区</span>
-        </tabbar-item>
-        <tabbar-item :link="{path:'/demo'}">
+        <tabbar-item :href="sxUrl">
             <span class="icon-broke-promise-area" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">失信专区</span>
         </tabbar-item>
-        <tabbar-item :link="{path:'/personal'}">
+        <tabbar-item :href="personCenterUrl">
             <span class="icon-me" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">我的</span>
         </tabbar-item>
@@ -112,3 +108,19 @@
         }
     }
 </style>
+
+<script type="text/javascript">
+    
+    export default {
+        data () {
+            return {
+                'sxUrl':'',
+                'personCenterUrl': ''
+            }
+        },
+        mounted: function () {
+            this.sxUrl = this.config.MWEB_PATH + 'newweb/infoList/list.html';
+            this.personCenterUrl = this.config.MWEB_PATH + 'newweb/personalCenter/perCenter.html';
+        }
+    }
+</script>

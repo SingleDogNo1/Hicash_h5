@@ -1,8 +1,8 @@
 {
-  "name": "hicash_h5_cli",
+  "name": "hicash",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "wangzhe <wangzhe@dehuinet.com>",
+  "description": "new hicash",
+  "author": "lizhen & wangzhe",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development node build/dev-server.js build/webpack.dev.conf.js",

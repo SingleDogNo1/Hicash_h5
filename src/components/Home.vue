@@ -124,6 +124,7 @@
                 </router-link>
             </li>
         </ul>
+        <iframe id="oldHicash" :src="oldHicash"></iframe>
         <page-footer></page-footer>
     </div>
 </template>
@@ -132,6 +133,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
+    #oldHicash{
+        display: none;
+    }
     .box2-wrap {
         height: 300px;
         overflow: hidden;
@@ -479,7 +483,6 @@
                 countPage = res.data.countPage;
             })
     }
-    console.log('page====', page)
 
     export default {
         components: {
@@ -513,11 +516,12 @@
                 },
                 getBarWidth: function (index) {
                     return '2.8rem'
-                }
+                },
+                oldHicash: ''
             }
         },
         ready () {
-
+            
         },
         methods : {
             switchTabItem (index) {
@@ -576,6 +580,13 @@
             }
         },
         mounted: function () {
+
+
+            var userName = this.utils.getCookie("userName");
+            if(userName){
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
+            }
+
             var _this = this;
             let indexMainPostData = {}
             let uuid = this.utils.uuid();

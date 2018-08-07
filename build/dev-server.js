@@ -79,7 +79,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var session = require('express-session');
 app.use(cookieParser());
-app.use(session({secret: 'mysecretcode'}));
+app.use(session({
+  secret: 'mysecretcode',
+  resave:false,
+  saveUninitialized: true
+}));
 // app.configure(function() {
 //   app.use(app.router);
 // });
@@ -91,7 +95,7 @@ require('../libs/routes')(app);
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-var uri = 'http://0.0.0.0:' + port
+var uri = 'http://127.0.0.1:' + port
 
 var _resolve
 var readyPromise = new Promise(resolve => {
