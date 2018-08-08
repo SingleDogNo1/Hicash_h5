@@ -75,6 +75,13 @@ module.exports = {
         pathRewrite:{
             '^/ruleService':''
         }
+      },
+      '/hicashapi-service':{
+        target:'http://218.244.138.24:8086/hicashapi-service',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/hicashapi-service':''
+        }
       }
     }
   },

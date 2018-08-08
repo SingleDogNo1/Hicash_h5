@@ -30,6 +30,7 @@
                 <button class="btn-login" @click="passwordLogin">登录</button>
             </div>
         </div>
+        <VerificationCodePop :mobile="mobile" :showToast="showToast" @timeCount="showTimeCount" ></VerificationCodePop>
     </div>
 </template>
 
@@ -54,7 +55,8 @@
                 color: #C04F23;
             }
             .go-to-register {
-                font-size: 0.8rem;
+                font-size: 15px;
+                font-family: PingFangSC-Regular;
                 float: right;
                 height: 2.2rem;
                 line-height: 2.2rem;
@@ -73,9 +75,9 @@
         }
         .user-login-wrap {
             width: 14.35rem;
-            height: calc(100% - 7.9rem);
+            height: calc(100% - 6.7rem);
             margin: 0 auto;
-            margin-top: 3.4rem;
+            margin-top: 2.2rem;
             background: #fff;
             border-radius: 10px 10px 0 0 !important;
             .tab-container {
@@ -84,53 +86,54 @@
                 }
                 .vux-tab {
                     height: 1.8rem !important;
-                    background-color: #FFEEEA !important;
+                    background-color: #ffeeea !important;
                     .vux-tab-item {
                         height: 1.8rem !important;
                         line-height: 1.8rem !important;
-                        font-size: .8rem !important;
+                        font-size: 13px !important;
                         color: #999;
                     }
                     .vux-tab-selected {
-                        color: #C04E22;
+                        color:  #FF7640;;
                     }
                     .vux-tab-ink-bar-transition-backward, .vux-tab-ink-bar-transition-forward{
                         height: 2px !important;
                         .vux-tab-bar-inner {
-                            background-color: #C04E22 !important;
+                            width: 2.5rem !important;;
+                            background-color:  #FF7640 !important;
                         }
                     }
                 }
             }
             .message-login-form {
                 width: 11.775rem;
-                margin: 1rem auto 0;
+                margin: .5rem auto;
                 .mobile {
                     position: relative;
-                    height: 1.95rem;
+                    height: 1.8rem;
                     border-bottom: 1px solid #DDDDDD;
-                    font-size: .7rem;
+                    font-size: 15px;
                     padding: 5px 0 5px 1.35rem;
-                    margin-bottom: .5rem;
                     background: url(./icon_tel.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
+                    font-family: PingFangSC-Regular;
                 }
                 .message-code {
                     position: relative;
-                    height: 1.95rem;
+                    height: 1.8rem;
                     border-bottom: 1px solid #DDDDDD;
-                    font-size: .7rem;
+                    font-size: 15px;
                     padding: 5px 0 5px 1.35rem;
-                    margin-bottom: .5rem;
                     background: url(./icon_message_code.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
+                    font-family: PingFangSC-Regular;
                     .weui-btn_primary {
                         width: 4rem !important;
                         height: 1.45rem !important;
                         padding: 0 !important;
                         background-color: #FF7640 !important;
                         border: none !important;
-                        font-size: .65rem !important;
+                        font-size: .666667rem /* 15/22.5 */ !important;
                     }
                 }
                 .message-code:before {
@@ -138,13 +141,13 @@
                 }
                 .password {
                     position: relative;
-                    height: 1.95rem;
+                    height: 1.8rem;
                     border-bottom: 1px solid #DDDDDD;
-                    font-size: .7rem;
+                    font-size: 15px;
                     padding: 5px 0 5px 1.35rem;
-                    margin-bottom: .5rem;
                     background: url(./icon_password.png) left center no-repeat;
                     background-size: 0.666667rem 0.666667rem;
+                    font-family: PingFangSC-Regular;
                 }
                 .password:before {
                     border-top: none !important;
@@ -152,19 +155,32 @@
                 .btn-login {
                     display: block;
                     width: 11rem;
-                    height: 2.375rem;
+                    height: 2rem;
                     margin: 1.25rem auto;
-                    font-size: 0.75rem;
+                    font-size: 15px;
                     background: #FF7640;
                     color: #fff;
                     border-radius: 5px;
                     border: none;
+                    font-family: PingFangSC-Regular;
                 }
                 .go-to-forget-pwd {
                     display: block;
                     color: #C45930;
                     font-size: .7rem;
                     text-align: center;
+                }
+                input::-webkit-input-placeholder{
+                    color: #ccc;
+                }
+                input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+                    color: #ccc;
+                }
+                input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+                    color: #ccc;
+                }
+                input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+                    color: #ccc;
                 }
             }
         }
@@ -183,6 +199,7 @@
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
     import jsCommon from '@/assets/js/common'
+    import VerificationCodePop from '@/components/VerificationCodePop'
 
     // todo
     var afterLogin = function(data) {
@@ -233,7 +250,8 @@
             Tab,
             TabItem,
             XInput,
-            XButton
+            XButton,
+            VerificationCodePop
         },
         data () {
             return {
@@ -250,7 +268,8 @@
                 getMessageCodeText: '获取验证码',
                 getBarWidth: function (index) {
                     return '4rem'
-                }
+                },
+                showToast: false
             }
         },
         ready () {
@@ -261,28 +280,27 @@
             },
             getMessageCode (position) {
                 var _this = this;
+                console.log('_this.showToast====', _this.showToast)
                 var errorMsg = "";
                 if (_this.mobile == "") {
                     errorMsg="请输入您的手机号";
                 } else if (!utils.checkMobile(_this.mobile)) {
                     errorMsg="手机号码格式错误";
-                } else if (_this.imgCode == "") {
-                    errorMsg="请输入图形验证码";
                 }
                 if(errorMsg!="") {
                     _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
+                _this.showToast = true;
                 var postData = new URLSearchParams();
                 postData.append('userName', _this.mobile);
                 postData.append('mobile', _this.mobile);
                 postData.append('sendFrom', 'HTML5');
                 postData.append('sendType', 'login');
-                postData.append('requestSource', 'HTML5');
                 postData.append('uuid', utils.uuid());
-                postData.append('authId', _this.authId);
-                postData.append('imageCode', _this.imgCode);
-                common.getMessageCode(postData)
+                // postData.append('authId', _this.authId);
+                // postData.append('imageCode', _this.imgCode);
+                _this.common.getMessageCode(postData)
                     .then((res)=>{
                         if(res.data.resultCode=="1"){
                             utils.timeCount(60, function(data){
@@ -295,9 +313,6 @@
                                 position: 'middle',
                                 text: _this.errorMsg
                             })
-                            // _this.position = position;
-                            // _this.showPositionValue = true;
-                            // _this.errorMsg = res.data.resultMsg;
                         }
                     });
             },
@@ -317,8 +332,6 @@
                     errorMsg="请输入您的手机号";
                 } else if (!utils.checkMobile(_this.mobile)) {
                     errorMsg="手机号码格式错误";
-                } else if (_this.imgCode == "") {
-                    errorMsg="请输入图形验证码";
                 } else if (_this.messageCode == "") {
                     errorMsg="请输入短信验证码";
                 }
@@ -395,17 +408,21 @@
                             })
                         }
                     });
+            },
+            showTimeCount(timeCount) {
+                this.getMessageCodeText = timeCount;
+                console.log('this.getMessageCodeText====', this.getMessageCodeText)
             }
         },
         mounted: function () {
             this.type = 'message';
-            common.getImgCode()
-                .then((res)=>{
-                    // 图片验证码
-                    this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-                    this.authId = res.data.authId;
-                    console.log('res====', res)
-                });
+            // common.getImgCode()
+            //     .then((res)=>{
+            //         // 图片验证码
+            //         this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
+            //         this.authId = res.data.authId;
+            //         console.log('res====', res)
+            //     });
         }
     }
 </script>
