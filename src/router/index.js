@@ -15,7 +15,7 @@ import Address from '@/components/Address'
 import ContactPerson from '@/components/ContactPerson'
 import MobilePhonePrv from '@/components/MobilePhonePrv'
 import DpandoraBackPage from '@/components/DpandoraBackPage'
-import BandBank from '@/components/bandBank'
+import BandBank from '@/components/BandBank'
 
 
 Vue.use(Router)
