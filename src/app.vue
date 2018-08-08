@@ -22,11 +22,7 @@ export default {
     mounted () {
 
         this.$router.beforeEach((to, from, next) => {
-
-
             this.path = to.name;
-
-
             if (to.matched.some(record => record.meta.requireAuth)) {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");
