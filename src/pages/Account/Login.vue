@@ -202,48 +202,6 @@
     import VerificationCodePop from '@/components/VerificationCodePop'
 
     // todo
-    var afterLogin = function(data) {
-        return new Promise((resolve,reject)=>{
-            console.log('data=====', data)
-            var params = new URLSearchParams();
-            params.userName = data.userName;
-            params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
-            common.getUserGrade(params)
-                .then((result)=>{
-                    var source = utils.getCookie("source");
-                    var vipCount = utils.getCookie("vipCount");
-                    var dxObj = utils.getCookie("dxObj");
-                    var telObj = utils.getCookie("telObj");
-                    var mediasource = utils.getCookie("mediasource");
-                    var afFrom = utils.getCookie("afFrom");
-                    var siji_realName = utils.getCookie("siji_realName");
-                    var siji_didiMobile = utils.getCookie("siji_didiMobile");
-                    var siji_loanAmount = utils.getCookie("siji_loanAmount");
-                    var siji_proid = utils.getCookie("siji_proid");
-                        utils.clearCookie();
-                        if(result.data.userGrade){
-                            var getUserPj = utils.getCookie("pj");
-                            if(!getUserPj||getUserPj!=result.data.userGrade){
-                                utils.setCookie("pj",result.data.userGrade);
-                                utils.setCookie("pjread","0");
-                            }
-                        }
-                    utils.setCookie("siji_realName",siji_realName);
-                    utils.setCookie("siji_didiMobile",siji_didiMobile);
-                    utils.setCookie("siji_loanAmount",siji_loanAmount);
-                    utils.setCookie("siji_proid",siji_proid);
-                    utils.setCookie("userName", data.userName);
-                    utils.setCookie("realName", escape(data.realName));
-                    utils.setCookie("mobile", data.mobile);
-                    utils.setCookie("identityCode", data.identityNo);
-                    utils.setCookie("custType", data.custType);
-                    utils.setCookie("isDoubleSales", data.isDoubleSales);
-                    utils.setCookie("inOneMonthReg", data.inOneMonthReg);
-                    utils.setCookie("isLanUserFlag", data.isLanUserFlag);
-                    resolve(result);
-                });
-        })
-    }
 
     export default {
         components: {
@@ -354,7 +312,7 @@
                         console.info('res', res);
                         if(res.data.resultCode === '1') {
                             jsCommon.setAuthorization(res.data.userName, res.data.token);
-                            afterLogin(res.data).then((res)=>{
+                            _this.afterLogin(res.data).then((res)=>{
                                 var redirect = _this.$route.query.redirect;
                                 _this.$router.push({path: redirect});
                             });
@@ -395,7 +353,7 @@
                     .then((res)=>{
                         if(res.data.resultCode === '1') {
                             jsCommon.setAuthorization(res.data.userName, res.data.token);
-                            afterLogin(res.data).then((res)=>{
+                            _this.afterLogin(res.data).then((res)=>{
                                 var redirect = _this.$route.query.redirect;
                                 _this.$router.push({path: redirect});
                             });
@@ -412,6 +370,100 @@
             showTimeCount(timeCount) {
                 this.getMessageCodeText = timeCount;
                 console.log('this.getMessageCodeText====', this.getMessageCodeText)
+            },
+            afterLogin(data) {
+                const _this = this;
+                return new Promise((resolve,reject)=>{
+                    console.log('data=====', data)
+                    var params = new URLSearchParams();
+                    params.userName = data.userName;
+                    params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
+                    common.getUserGrade(params)
+                        .then((result)=>{
+                            var source = utils.getCookie("source");
+                            var vipCount = utils.getCookie("vipCount");
+                            var dxObj = utils.getCookie("dxObj");
+                            var telObj = utils.getCookie("telObj");
+                            var mediasource = utils.getCookie("mediasource");
+                            var afFrom = utils.getCookie("afFrom");
+                            var siji_realName = utils.getCookie("siji_realName");
+                            var siji_didiMobile = utils.getCookie("siji_didiMobile");
+                            var siji_loanAmount = utils.getCookie("siji_loanAmount");
+                            var siji_proid = utils.getCookie("siji_proid");
+                                utils.clearCookie();
+                                if(result.data.userGrade){
+                                    var getUserPj = utils.getCookie("pj");
+                                    if(!getUserPj||getUserPj!=result.data.userGrade){
+                                        utils.setCookie("pj",result.data.userGrade);
+                                        utils.setCookie("pjread","0");
+                                    }
+                                }
+                            utils.setCookie("siji_realName",siji_realName);
+                            utils.setCookie("siji_didiMobile",siji_didiMobile);
+                            utils.setCookie("siji_loanAmount",siji_loanAmount);
+                            utils.setCookie("siji_proid",siji_proid);
+                            utils.setCookie("userName", data.userName);
+                            utils.setCookie("realName", escape(data.realName));
+                            utils.setCookie("mobile", data.mobile);
+                            utils.setCookie("identityCode", data.identityNo);
+                            utils.setCookie("custType", data.custType);
+                            utils.setCookie("isDoubleSales", data.isDoubleSales);
+                            utils.setCookie("inOneMonthReg", data.inOneMonthReg);
+                            utils.setCookie("isLanUserFlag", data.isLanUserFlag);
+
+                            // TODU 新老嗨钱融合中的代码，后续优化
+
+                            const MWEB_PATH = _this.config.MWEB_PATH;
+                            if(data.isVip&&vipCount!="1"){
+                                setCookie("vipCount", "0");
+                            }
+
+                            if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
+                                window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
+                                return;
+                            }
+
+                            var ref=window.location.href;
+                            var from=getQueryString("from");
+                            if(from == 'shixin'){
+                                var _appNo = getQueryString('appNo');
+                                $.post(MWEB_PATH+"api/?api=navigateToRecharge",{
+                                    appNo: _appNo,
+                                    userName:getCookie("userName"),
+                                    uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
+                                }, function(data) {
+                                    window.location.href = data.rechargeUrl;
+                                },'json');
+                                console.info('from to shixin', _appNo);
+                                return false;
+                            }
+                            
+                            if("sharkResult"==getQueryString("from")){
+                                var custFrom=getQueryString("custFrom")&&getQueryString("custFrom")!="null"?getQueryString("custFrom"):"H5";
+                                window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
+                                return false;
+                            }
+                            if(ref.indexOf("sharkLogin.html")!=-1){
+                                var custFrom=getQueryString("custFrom")&&getQueryString("custFrom")!="null"?getQueryString("custFrom"):"H5";
+                                window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
+                                return false;
+                            }
+                            if(data.isVip&&getCookie("vipCount")=="0"){
+                                window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
+                                return false;
+                            }
+                            if(dxObj && telObj){
+                                setCookie("dxObj",dxObj);
+                                setCookie("telObj",telObj);
+                            }
+
+                            if(getCookie("afFrom") && getCookie("afFrom") == "miaodai"){
+                                window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
+                            }
+                            
+                            resolve(result);
+                        });
+                })
             }
         },
         mounted: function () {
