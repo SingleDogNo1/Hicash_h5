@@ -33,6 +33,7 @@ import  { ConfirmPlugin } from 'vux'
 Vue.use(ConfirmPlugin)
 
 
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
