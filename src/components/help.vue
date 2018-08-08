@@ -133,14 +133,6 @@
 				// 		_this.refresh=false;
 				// 	});
 				// })
-				// setTimeout(() => {
-				// 	_this.$nextTick(function () {
-				// 		_this.scroll.finishPullDown();
-				// 		_this.scroll.refresh();
-				// 		_this.refresh = false;
-				// 	});
-				// },2000);
-
 			})
 		},
 		methods: {

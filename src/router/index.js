@@ -17,6 +17,7 @@ import MobilePhonePrv from '@/components/MobilePhonePrv'
 import DpandoraBackPage from '@/components/DpandoraBackPage'
 import BandBank from '@/components/bandBank'
 import Help from '@/components/help'
+import Notice  from '@/components/notice'
 
 
 Vue.use(Router)
@@ -127,6 +128,12 @@ export default new Router({
 			path: '/help',
 			name: 'help',
 			component: Help
+		},
+		{
+			//公告
+			path: '/notice',
+			name: 'notice',
+			component: Notice
 		}
 	]
 })
