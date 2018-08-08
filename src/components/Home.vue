@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li>
-                    <router-link :to="{name: 'LoanStrategy'}">
+                    <router-link :to="{name: 'help'}">
                         <span class="help-center-ico">帮助中心</span>
                     </router-link>
                 </li>
