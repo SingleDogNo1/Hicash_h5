@@ -43,7 +43,7 @@ fs.unlink(configPath, function(err){
 
         console.info('building ...');
 
-        child_process.exec('cd '+cwd +'& npm install --registry https://registry.npm.taobao.org  & npm run build',function (error, stdout, stderr) {
+        child_process.exec('cd '+cwd +'& /mnt/jenkins/node/node-v10.5.0-linux-x64/bin/npm install --registry https://registry.npm.taobao.org  & /mnt/jenkins/node/node-v10.5.0-linux-x64/bin/npm run build',function (error, stdout, stderr) {
             if (error !== null) {
               console.log('exec error: ' + error);
             }
