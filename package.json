@@ -28,6 +28,8 @@
     "vue": "^2.5.2",
     "vue-file-upload": "^0.1.12",
     "vue-router": "^3.0.1",
+    "vue-scroller": "^2.2.4",
+    "vuescroll": "^4.7.2",
     "vux": "^2.8.1",
     "vux-loader": "^1.2.6"
   },
