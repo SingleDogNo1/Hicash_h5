@@ -82,7 +82,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <script type="text/javascript">
-	import {Tab, TabItem, Flexbox, FlexboxItem,Confirm } from 'vux'
+	import {Tab, TabItem, Flexbox, FlexboxItem} from 'vux'
 	import BScroll from 'better-scroll'
 	let Clipboard=require("Clipboard");
 	export default {
@@ -106,13 +106,20 @@
 			}
 		},
 		mounted() {
-			 new Clipboard('.wx_btn',{
+			var _this = this;
+			new Clipboard('.wx_btn',{
 				text: function() {
+					_this.$vux.toast.show({
+						text: '复制成功'
+					});
 					return '微信号'
 				}
 			});
 			new Clipboard('.qq_btn',{
 				text: function() {
+					_this.$vux.toast.show({
+						text: '复制成功'
+					});
 					return 'qq'
 				}
 			});
