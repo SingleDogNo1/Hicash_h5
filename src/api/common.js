@@ -538,7 +538,7 @@ export function searchBankCard(params){
  */
 export function getSmallBannerDetail(id){
   return new Promise((resolve,reject)=>{
-    axios.get("/HicashService/SmallPicBanr?id=" + id).then((res)=>{
+    axios.get("/ParameterService/SmallPicBanr?id=" + id).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
