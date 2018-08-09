@@ -77,12 +77,9 @@
 		</div>
 	</div>
 </template>
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <script type="text/javascript">
 	import {Tab, TabItem, Flexbox, FlexboxItem} from 'vux';
-	let Clipboard=require('Clipboard');
+	import Clipboard from 'Clipboard';
 	import BScroll from 'better-scroll'
 	export default {
 		components: {
