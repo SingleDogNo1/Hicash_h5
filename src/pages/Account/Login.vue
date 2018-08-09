@@ -410,7 +410,7 @@
 
                             const MWEB_PATH = this.config.MWEB_PATH;
                             if(data.isVip&&vipCount!="1"){
-                                setCookie("vipCount", "0");
+                                this.utils.setCookie("vipCount", "0");
                             }
 
                             let jumpType;
