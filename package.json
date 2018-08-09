@@ -29,7 +29,8 @@
     "vue-file-upload": "^0.1.12",
     "vue-router": "^3.0.1",
     "vux": "^2.8.1",
-    "vux-loader": "^1.2.6"
+    "vux-loader": "^1.2.6",
+    "better-scroll": "^1.11.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

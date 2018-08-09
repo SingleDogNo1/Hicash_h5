@@ -70,11 +70,11 @@ export function getIndexMain(params){
 }
 
 /*
- *  获取首页公告的轮播图
+ *  获取首页轮播图
  */
 export function getHomePagePic(params){
   return new Promise((resolve,reject)=>{
-    axios.get("/HicashService/HomePagePic?cityCode=" + params.cityCode + '&uuid=' + params.uuid).then((res)=>{
+    axios.get("/HicashService/HomePagePic?cityCode=" + params.cityCode + '&uuid=' + params.uuid + '&position=' + params.position).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -525,6 +525,19 @@ export function searchBankCard(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashAppService/SearchBankCard", params).then((res)=>{
       console.log('res=====', res)
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取首页底部小banner内容页
+ */
+export function getSmallBannerDetail(id){
+  return new Promise((resolve,reject)=>{
+    axios.get("/HicashService/SmallPicBanr?id=" + id).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

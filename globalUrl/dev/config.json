@@ -5,6 +5,6 @@
 	"hicashAppServerUrl": "http://115.29.193.125:8081",
 	"newHicashServerUrl": "http://115.29.250.40:8081",
 	"hicashServerUrl": "http://115.29.250.40:8080",
-	"MWEB_PATH": "http://192.168.9.103:8080/mweb/",
+	"MWEB_PATH": "http://115.29.193.125/",
 	"pic_path": "http://115.29.196.242:8080/"
 }

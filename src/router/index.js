@@ -16,6 +16,7 @@ import ContactPerson from '@/components/ContactPerson'
 import MobilePhonePrv from '@/components/MobilePhonePrv'
 import DpandoraBackPage from '@/components/DpandoraBackPage'
 import BandBank from '@/components/BandBank'
+import SmallBanner from '@/components/SmallBanner'
 
 
 Vue.use(Router)
@@ -120,6 +121,12 @@ export default new Router({
         path: '/bandBank',
         name: 'BandBank',
         component: BandBank
+    },
+    {
+        //small banner
+        path: '/smallBanner',
+        name: 'SmallBanner',
+        component: SmallBanner
     }
   ]
 })

@@ -1,41 +1,53 @@
 <template>
     <div>
-        <div class="wrap">
-            <swiper :list="bannerList" :show-desc-mask="false" dots-position="center" :auto="true" :loop="true" :interval="2000"></swiper>
-            <div class="products">
-                <div class="tips">
-                    <span class="red-packet"><img src="../assets/images/red-packet.png"></span>
-                    <span>昨日共申请132,423笔</span>
+        <header class="home-header">
+            <div class="bg" :style="'opacity:' + opacity"></div>
+            <img width="22px" src="../assets/images/icon-notice.png" >
+        </header>
+        <scroller lock-x @on-scroll="onScroll" ref="scroller">
+            <div class="wrap">
+                <swiper :list="bannerList" :show-desc-mask="false" dots-position="center" :auto="true" :loop="true" :interval="5000"></swiper>
+                <div class="products">
+                    <div class="tips">
+                        <span class="red-packet"><img src="../assets/images/red-packet.png"></span>
+                        <span>昨日共申请132,423笔</span>
+                    </div>
+                    <div class="product-lists">
+                        <ul>
+                            <li v-for="item in productsList"><img :src="item.img"></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="product-lists">
-                    <ul>
-                        <li v-for="item in productsList"><img :src="item.img"></li>
-                    </ul>
+                <div class="small-banner">
+                    <scroller lock-y>
+                        <div class="small-banner-scroll-wrap" v-bind:style="{'width':smallBannerList.length*140 - 10 +'px'}">
+                            <ul class="clearfix">
+                                <li v-for="item in smallBannerList">
+                                    <!-- <a :href="item.picUrl"> -->
+                                    <a href="http://127.0.0.1:9002/#/smallBanner?id=1">
+                                        <img :src="item.picPrefixUrl + item.picSmallUrl">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </scroller>
                 </div>
+                <ul class="link">
+                    <li>
+                        <a href="javascript:;">
+                            <span class="quick-repayment-ico">
+                                快速还款
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <router-link :to="{name: 'LoanStrategy'}">
+                            <span class="help-center-ico">帮助中心</span>
+                        </router-link>
+                    </li>
+                </ul> 
             </div>
-            <div class="small-banner">
-                <div class="small-banner-scroll-wrap" v-bind:style="{'width':smallBannerList.length*140 - 10 +'px'}">
-                    <ul class="clearfix">
-                        <li v-for="item in smallBannerList"><img :src="item.img"></li>
-                    </ul>
-                </div>
-            </div>
-            <ul class="link">
-                <li>
-                    <a @click="quickRepayment" href="javascript:;">
-                        <span class="quick-repayment-ico">
-                            快速还款
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <router-link :to="{name: 'LoanStrategy'}">
-                        <span class="help-center-ico">帮助中心</span>
-                    </router-link>
-                </li>
-            </ul>
-
-        </div>
+        </scroller>
         <iframe id="oldHicash" :src="oldHicash"></iframe>
         <page-footer></page-footer>
     </div>
@@ -46,6 +58,37 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     @import "../../bower_components/sass-rem/rem";
+    header.home-header{
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: rem(44px);
+        background: transparent;
+        .bg{
+            background: #fff;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        img{
+            top: rem(10px);
+            right: rem(10px);
+            z-index: 2;
+            position: absolute;
+            width: 22px;
+            display: block;
+        }
+    }
+    .wrap{
+        height: auto;
+        position: relative;
+    }
     .products{
         width: 100%;
         height: auto;
@@ -190,7 +233,7 @@
 </style>
 
 <script type="text/javascript">
-    import { Swiper} from 'vux'
+    import { Swiper, Scroller} from 'vux'
 
     import PageFooter from '../components/PageFooter.vue'
 
@@ -201,10 +244,12 @@
     export default {
         components: {
             Swiper,
-            PageFooter
+            PageFooter,
+            Scroller
         },
         data () {
             return {
+                opacity: 0,
                 oldHicash: '',
                 bannerList: [
                     {
@@ -242,17 +287,61 @@
             
         },
         methods : {
-            quickRepayment: function(){
+            onScroll: function(pos) {
+                let top = pos.top > 44 ? 44 : pos.top;
+                this.opacity = 0.65/44 * top;
+            },
+            getHomePagePic: function(params){
+                let _this = this;
+                _this.common.getHomePagePic(params)
+                .then(function(res){
+                    if(params.cityCode === '000003'){
+                        let bannerList = [];
+                        _.each(res.data.bannelList, function(v){
+                            const item = {
+                                url: v.picUrl,
+                                img: v.picPrefixUrl + v.picBigUrl
+                            }
+                            bannerList.push(item);
+                        });
+                        console.info('bannerList: ', bannerList);
 
+                        _this.bannerList = bannerList;
+                        // _this.
+                    }else if(params.cityCode === '000002'){
+                        console.info('000002: ', res);
+                        _this.smallBannerList = res.data.bannelList;
+                    }
+                });
             }
+            
         },
         mounted: function () {
+            let _this = this;
             var userName = this.utils.getCookie("userName");
             if(userName){
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
 
-            
+            setTimeout(function(){
+                _this.$refs.scroller.reset();
+            });
+
+            let bigBannerObj = {
+                cityCode: '000003',
+                uuid: this.utils.uuid(),
+                position: '1'
+            };
+
+            this.getHomePagePic(bigBannerObj);  //获取大banner
+
+            let smallBannerObj = {
+                cityCode: '000002',
+                uuid: this.utils.uuid(),
+                position: '5'
+            };
+
+            this.getHomePagePic(smallBannerObj);  //获取小banner
         }
     }
 </script>
