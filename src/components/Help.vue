@@ -70,19 +70,18 @@
 			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">QQ：果壳</div>
 			<div class="weui-dialog__ft">
 				<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
-					复制 </a>
+				复制 </a>
+				<!--<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640" v-clipboard="copyData" @success="handleSuccess">-->
+				<!--复制 </a>-->
 				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="qq = false
 ">取消</a>
 			</div>
 		</div>
 	</div>
 </template>
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <script type="text/javascript">
 	import {Tab, TabItem, Flexbox, FlexboxItem} from 'vux';
-	let Clipboard=require('clipboard');
+	import Clipboard from 'clipboard';
 	import BScroll from 'better-scroll'
 	export default {
 		components: {
@@ -114,6 +113,7 @@
 					return '微信号'
 				}
 			});
+
 			new Clipboard('.qq_btn',{
 				text: function() {
 					_this.$vux.toast.show({
@@ -142,7 +142,7 @@
 		},
 		methods: {
 			onItemClick() {
-			}
+			},
 		}
 	}
 </script>
