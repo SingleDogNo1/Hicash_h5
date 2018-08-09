@@ -1,10 +1,10 @@
 <template>
 	<div class="notice_page">
 		<div class="wrap">
-			<header class="creditHeader" style="background-color:white;">
+			<header class="credit-header" style="background-color:white;">
 				<!-- closeBtn -->
 				<a class="go-history" href="javascript:history.go(-1);"></a>
-				<p>公告</p>
+				<h1>公告</h1>
 			</header>
 			<div class="wrapper">
 				<ul class="content">
@@ -27,7 +27,6 @@
 	import {Tab, TabItem, Flexbox, FlexboxItem, Confirm} from 'vux'
 	import BScroll from 'better-scroll'
 
-	let Clipboard = require("Clipboard");
 	export default {
 		components: {
 			Tab,

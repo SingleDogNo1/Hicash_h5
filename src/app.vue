@@ -51,7 +51,9 @@ export default {
         }
     }
 }
+
 </script>
+
 
 <style lang="scss" rel="stylesheet/scss">
     @import './assets/css/common.scss';
@@ -75,6 +77,10 @@ export default {
         width: 100%;
         height: 100%;
     }
+    .footer{
+        max-width: 640px;
+        min-width: 320px;
+    }
     .weui-tabbar {
         background: #fff !important;
         height: 2.075rem !important;
@@ -90,10 +96,10 @@ export default {
     }
     .icon-home {
         display: block;
-        width: calc(337px / 2);
-        height: calc(255px / 2);
-        margin-top: 0.15rem;
-        background: url("./assets/images/home_icons.png") calc(-295px /2) calc(-171px / 2) no-repeat;
+        width: .7rem;
+        height: 0.85rem;
+        margin-top: 0.2rem;
+        background: url("./assets/images/icon_home.png") center center no-repeat;
         background-size: cover;
     }
     .icon-vip-area {
@@ -122,7 +128,7 @@ export default {
     }
     .weui-bar__item_on {
         .icon-home {
-            background: url("./assets/images/home_icons.png") calc(-295px /2) calc(-171px / 2) no-repeat;
+            background: url("./assets/images/icon_home_act.png") center center no-repeat;
             background-size: cover;
         }
         .icon-vip-area {

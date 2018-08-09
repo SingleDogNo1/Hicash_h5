@@ -30,7 +30,7 @@
                 <button class="btn-login" @click="passwordLogin">登录</button>
             </div>
         </div>
-        <VerificationCodePop :mobile="mobile" :showToast="showToast" @timeCount="showTimeCount" ></VerificationCodePop>
+        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authPic="authPic" @timeCount="showTimeCount" ></VerificationCodePop>
         <iframe id="oldHicash" :src="oldHicash"></iframe>
     </div>
 </template>
@@ -56,7 +56,7 @@
                 left: .85rem;
             }
             .go-back:before {
-                color: #C04F23;
+                color: #fff;
             }
             .go-to-register {
                 font-size: 15px;
@@ -200,9 +200,6 @@
 <script type="text/javascript">
     import { Tab, TabItem, XInput, XButton} from 'vux'
 
-    import common from '@/api/common'
-    import utils from '@/assets/js/utils'
-    import jsCommon from '@/assets/js/common'
     import VerificationCodePop from '@/components/VerificationCodePop'
 
     // todo
@@ -218,7 +215,6 @@
         data () {
             return {
                 type: '',
-                authPic: '',
                 authId: '',
                 mobile: '',
                 password: '',
@@ -232,7 +228,8 @@
                     return '4rem'
                 },
                 showToast: false,
-                oldHicash: ''
+                oldHicash: '',
+                authPic: ''
             }
         },
         ready () {
@@ -242,135 +239,126 @@
                 index === 0 ? this.type = 'message' : this.type = 'password'
             },
             getMessageCode (position) {
-                var _this = this;
-                console.log('_this.showToast====', _this.showToast)
                 var errorMsg = "";
-                if (_this.mobile == "") {
+                if (this.mobile == "") {
                     errorMsg="请输入您的手机号";
-                } else if (!utils.checkMobile(_this.mobile)) {
+                } else if (!this.utils.checkMobile(this.mobile)) {
                     errorMsg="手机号码格式错误";
                 }
                 if(errorMsg!="") {
-                    _this.$vux.toast.text(errorMsg, 'middle');
+                    this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
-                _this.showToast = true;
                 var postData = new URLSearchParams();
-                postData.append('userName', _this.mobile);
-                postData.append('mobile', _this.mobile);
+                postData.append('userName', this.mobile);
+                postData.append('mobile', this.mobile);
                 postData.append('sendFrom', 'HTML5');
                 postData.append('sendType', 'login');
-                postData.append('uuid', utils.uuid());
-                // postData.append('authId', _this.authId);
-                // postData.append('imageCode', _this.imgCode);
-                _this.common.getMessageCode(postData)
+                postData.append('uuid', this.utils.uuid());
+                this.common.getMessageCode(postData)
                     .then((res)=>{
-                        if(res.data.resultCode=="1"){
-                            utils.timeCount(60, function(data){
-                                _this.getMessageCodeText = data;
-                            });
+                        let data = res.data;
+                        if(data.resultCode=="1"){
+                            // 是否显示图片验证码 （1显示，0不显示）
+                            if(data.showAuthPic === 0) {
+                                this.utils.timeCount(60, function(timeCount){
+                                    this.getMessageCodeText = timeCount;
+                                });
+                            } else {
+                                this.showToast = true;
+                                this.authPic = data.authPic;
+                            }
                         } else {
-                            _this.errorMsg = res.data.resultMsg;
-                            _this.$vux.toast.show({
+                            this.errorMsg = data.resultMsg;
+                            this.$vux.toast.show({
                                 type: 'cancel',
                                 position: 'middle',
-                                text: _this.errorMsg
+                                text: this.errorMsg
                             })
                         }
                     });
             },
-            change () {
-                common.getImgCode()
-                .then((res)=>{
-                    // 图片验证码
-                    this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-                    this.authId = res.data.authId;
-                    console.log('res====', res)
-                });
-            },
             messageLogin (position) {
-                var _this = this;
                 var errorMsg="";
-                if (_this.mobile == "") {
+                if (this.mobile == "") {
                     errorMsg="请输入您的手机号";
-                } else if (!utils.checkMobile(_this.mobile)) {
+                } else if (!this.utils.checkMobile(this.mobile)) {
                     errorMsg="手机号码格式错误";
-                } else if (_this.messageCode == "") {
+                } else if (this.messageCode == "") {
                     errorMsg="请输入短信验证码";
                 }
                 if(errorMsg!="") {
-                    _this.$vux.toast.text(errorMsg, 'middle');
+                    this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
 
-                this.oldHicash = _this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + _this.mobile;
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
 
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
-                postData.append('userName', _this.mobile);
-                postData.append('passWord', _this.messageCode);
-                postData.append('imageCode', _this.imgCode);
+                postData.append('userName', this.mobile);
+                postData.append('passWord', '11111');
                 postData.append('type', 2);
-                postData.append('authId', _this.authId);
                 postData.append('requestSource', 'h5');
                 console.log('postData=====', postData)
-                common.login(postData)
+                this.common.login(postData)
                     .then((res)=>{
                         console.info('res', res);
-                        if(res.data.resultCode === '1') {
-                            jsCommon.setAuthorization(res.data.userName, res.data.token);
-                            _this.afterLogin(res.data).then((res)=>{
-                                var redirect = _this.$route.query.redirect;
-                                _this.$router.push({path: redirect});
+                        let data = res.data;
+                        if(data.resultCode === '1') {
+                            this.jsCommon.setAuthorization(data.userName, data.token);
+                            this.afterLogin(data).then((res)=>{
+                                var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
+                                this.$router.push({path: redirect});
                             });
                         } else {
-                            _this.errorMsg = res.data.resultMsg;
-                            _this.$vux.toast.show({
+                            this.errorMsg = data.resultMsg;
+                            this.$vux.toast.show({
                                 type: 'cancel',
                                 position: 'middle',
-                                text: _this.errorMsg
+                                text: this.errorMsg
                             })
                         }
                     });
 
             },
             passwordLogin () {
-                var _this = this;
                 var errorMsg="";
-                if (_this.mobile == "") {
+                if (this.mobile == "") {
                     errorMsg="请输入您的手机号";
-                } else if (!utils.checkMobile(_this.mobile)) {
+                } else if (!this.utils.checkMobile(this.mobile)) {
                     errorMsg="手机号码格式错误";
-                } else if (_this.password == "") {
+                } else if (this.password == "") {
                     errorMsg="请输入密码";
                 }
                 if(errorMsg!="") {
-                    _this.$vux.toast.text(errorMsg, 'middle');
+                    this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
-                postData.append('userName', _this.mobile);
-                postData.append('passWord', _this.password);
-                postData.append('imageCode', _this.imgCode);
+                postData.append('userName', this.mobile);
+                postData.append('passWord', this.password);
+                postData.append('imageCode', this.imgCode);
                 postData.append('type', 1);
                 console.log('postData=====', postData)
-                common.login(postData)
+                this.common.login(postData)
                     .then((res)=>{
-                        if(res.data.resultCode === '1') {
-                            jsCommon.setAuthorization(res.data.userName, res.data.token);
-                            _this.afterLogin(res.data).then((res)=>{
-                                var redirect = _this.$route.query.redirect;
-                                _this.$router.push({path: redirect});
+                        let data = res.data;
+                        if(data.resultCode === '1') {
+                            this.jsCommon.setAuthorization(data.userName, data.token);
+                            this.afterLogin(data).then((res)=>{
+                                var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
+                                this.$router.push({path: redirect});
                             });
                         } else {
-                            _this.errorMsg = res.data.resultMsg;
-                            _this.$vux.toast.show({
+                            this.errorMsg = data.resultMsg;
+                            this.$vux.toast.show({
                                 type: 'cancel',
                                 position: 'middle',
-                                text: _this.errorMsg
+                                text: this.errorMsg
                             })
                         }
                     });
@@ -380,51 +368,52 @@
                 console.log('this.getMessageCodeText====', this.getMessageCodeText)
             },
             afterLogin(data) {
-                const _this = this;
-                return new Promise((resolve,reject)=>{
+                return new Promise((resolve,reject)=> {
                     console.log('data=====', data)
                     var params = new URLSearchParams();
                     params.userName = data.userName;
                     params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
-                    common.getUserGrade(params)
+                    this.common.getUserGrade(params)
                         .then((result)=>{
-                            var source = utils.getCookie("source");
-                            var vipCount = utils.getCookie("vipCount");
-                            var dxObj = utils.getCookie("dxObj");
-                            var telObj = utils.getCookie("telObj");
-                            var mediasource = utils.getCookie("mediasource");
-                            var afFrom = utils.getCookie("afFrom");
-                            var siji_realName = utils.getCookie("siji_realName");
-                            var siji_didiMobile = utils.getCookie("siji_didiMobile");
-                            var siji_loanAmount = utils.getCookie("siji_loanAmount");
-                            var siji_proid = utils.getCookie("siji_proid");
-                                utils.clearCookie();
-                                if(result.data.userGrade){
-                                    var getUserPj = utils.getCookie("pj");
-                                    if(!getUserPj||getUserPj!=result.data.userGrade){
-                                        utils.setCookie("pj",result.data.userGrade);
-                                        utils.setCookie("pjread","0");
-                                    }
+                            var source = this.utils.getCookie("source");
+                            var vipCount = this.utils.getCookie("vipCount");
+                            var dxObj = this.utils.getCookie("dxObj");
+                            var telObj = this.utils.getCookie("telObj");
+                            var mediasource = this.utils.getCookie("mediasource");
+                            var afFrom = this.utils.getCookie("afFrom");
+                            var siji_realName = this.utils.getCookie("siji_realName");
+                            var siji_didiMobile = this.utils.getCookie("siji_didiMobile");
+                            var siji_loanAmount = this.utils.getCookie("siji_loanAmount");
+                            var siji_proid = this.utils.getCookie("siji_proid");
+                            this.utils.clearCookie();
+                            if(result.data.userGrade){
+                                var getUserPj = this.utils.getCookie("pj");
+                                if(!getUserPj||getUserPj!=result.data.userGrade){
+                                    this.utils.setCookie("pj",result.data.userGrade);
+                                    this.utils.setCookie("pjread","0");
                                 }
-                            utils.setCookie("siji_realName",siji_realName);
-                            utils.setCookie("siji_didiMobile",siji_didiMobile);
-                            utils.setCookie("siji_loanAmount",siji_loanAmount);
-                            utils.setCookie("siji_proid",siji_proid);
-                            utils.setCookie("userName", data.userName);
-                            utils.setCookie("realName", escape(data.realName));
-                            utils.setCookie("mobile", data.mobile);
-                            utils.setCookie("identityCode", data.identityNo);
-                            utils.setCookie("custType", data.custType);
-                            utils.setCookie("isDoubleSales", data.isDoubleSales);
-                            utils.setCookie("inOneMonthReg", data.inOneMonthReg);
-                            utils.setCookie("isLanUserFlag", data.isLanUserFlag);
+                            }
+                            this.utils.setCookie("siji_realName",siji_realName);
+                            this.utils.setCookie("siji_didiMobile",siji_didiMobile);
+                            this.utils.setCookie("siji_loanAmount",siji_loanAmount);
+                            this.utils.setCookie("siji_proid",siji_proid);
+                            this.utils.setCookie("userName", data.userName);
+                            this.utils.setCookie("realName", escape(data.realName));
+                            this.utils.setCookie("mobile", data.mobile);
+                            this.utils.setCookie("identityCode", data.identityNo);
+                            this.utils.setCookie("custType", data.custType);
+                            this.utils.setCookie("isDoubleSales", data.isDoubleSales);
+                            this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
+                            this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
 
                             // TODU 新老嗨钱融合中的代码，后续优化
 
-                            const MWEB_PATH = _this.config.MWEB_PATH;
+                            const MWEB_PATH = this.config.MWEB_PATH;
                             if(data.isVip&&vipCount!="1"){
                                 setCookie("vipCount", "0");
                             }
+
+                            let jumpType;
 
                             if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
                                 window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
@@ -432,12 +421,13 @@
                             }
 
                             var ref=window.location.href;
-                            var from=getQueryString("from");
+                            var from = this.utils.getQueryString("from");
+                            console.log('from====', from);
                             if(from == 'shixin'){
-                                var _appNo = getQueryString('appNo');
+                                var _appNo = this.utils.getQueryString('appNo');
                                 $.post(MWEB_PATH+"api/?api=navigateToRecharge",{
                                     appNo: _appNo,
-                                    userName:getCookie("userName"),
+                                    userName:this.utils.getCookie("userName"),
                                     uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
                                 }, function(data) {
                                     window.location.href = data.rechargeUrl;
@@ -446,29 +436,29 @@
                                 return false;
                             }
                             
-                            if("sharkResult"==getQueryString("from")){
-                                var custFrom=getQueryString("custFrom")&&getQueryString("custFrom")!="null"?getQueryString("custFrom"):"H5";
+                            if("sharkResult"==this.utils.getQueryString("from")){
+                                var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
                                 window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
                                 return false;
                             }
                             if(ref.indexOf("sharkLogin.html")!=-1){
-                                var custFrom=getQueryString("custFrom")&&getQueryString("custFrom")!="null"?getQueryString("custFrom"):"H5";
+                                var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
                                 window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
                                 return false;
                             }
-                            if(data.isVip&&getCookie("vipCount")=="0"){
+                            if(data.isVip&&this.utils.getCookie("vipCount")=="0"){
                                 window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
                                 return false;
                             }
                             if(dxObj && telObj){
-                                setCookie("dxObj",dxObj);
-                                setCookie("telObj",telObj);
+                                this.utils.setCookie("dxObj",dxObj);
+                                this.utils.setCookie("telObj",telObj);
                             }
 
-                            if(getCookie("afFrom") && getCookie("afFrom") == "miaodai"){
+                            if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
                                 window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
                             }
-                            
+                            console.log('result====', result)
                             resolve(result);
                         });
                 })

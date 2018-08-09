@@ -26,9 +26,7 @@
                 <div class="register-agreement-wrap">
                     <check-icon :value.sync="selected">
                         <span>我已阅读并同意</span>
-                        <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
-                        《嗨钱注册协议》
-                        </router-link>
+                        <a :href="agreementUrl" class="go-to-forget-pwd" >《嗨钱注册协议》</a>
                     </check-icon>
                 </div>
             </div>
@@ -220,9 +218,6 @@
 
 <script type="text/javascript">
     import { Tab, TabItem, XInput, XButton, Toast, CheckIcon} from 'vux'
-    import $ from 'jquery'
-    import common from '@/api/common'
-    import utils from '@/assets/js/utils'
 
     export default {
         components: {
@@ -243,7 +238,8 @@
                 getMessageCodeText: '获取验证码',
                 boxshow: false,
                 selected: true,
-                inviteCode: ''
+                inviteCode: '',
+                agreementUrl: ''
             }
         },
         ready () {
@@ -254,55 +250,46 @@
                 this.boxshow = !this.boxshow;
             },
             getMessageCode (position) {
-                var _this = this;
                 var errorMsg = "";
-                if (_this.mobile == "") {
+                if (this.mobile == "") {
                     errorMsg="请输入您的手机号";
-                } else if (!utils.checkMobile(_this.mobile)) {
+                } else if (!this.utils.checkMobile(this.mobile)) {
                     errorMsg="手机号码格式错误";
-                } else if (_this.imgCode == "") {
+                } else if (this.imgCode == "") {
                     errorMsg="请输入图形验证码";
                 }
                 if(errorMsg!="") {
-                    _this.$vux.toast.text(errorMsg, 'middle');
+                    this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
                 var postData = new URLSearchParams();
-                postData.append('userName', _this.mobile);
-                postData.append('mobile', _this.mobile);
+                postData.append('userName', this.mobile);
+                postData.append('mobile', this.mobile);
                 postData.append('sendFrom', 'HTML5');
                 postData.append('sendType', 'regist');
                 postData.append('requestSource', 'HTML5');
-                postData.append('uuid', utils.uuid());
-                postData.append('authId', _this.authId);
-                postData.append('imageCode', _this.imgCode);
-                common.getMessageCode(postData)
+                postData.append('uuid', this.utils.uuid());
+                postData.append('authId', this.authId);
+                postData.append('imageCode', this.imgCode);
+                this.common.getMessageCode(postData)
                     .then((res)=>{
-                        if(res.data.resultCode=="1"){
+                        let data = res.data; 
+                        if(data.resultCode=="1"){
                             utils.timeCount(60, function(data){
-                                _this.getMessageCodeText = data;
+                                this.getMessageCodeText = data;
                             });
                         } else {
-                            _this.errorMsg = res.data.resultMsg;
-                            _this.$vux.toast.show({
+                            this.errorMsg = data.resultMsg;
+                            this.$vux.toast.show({
                                 type: 'cancel',
                                 position: 'middle',
-                                text: _this.errorMsg
+                                text: this.errorMsg
                             })
                             // _this.position = position;
                             // _this.showPositionValue = true;
                             // _this.errorMsg = res.data.resultMsg;
                         }
                     });
-            },
-            change () {
-                common.getImgCode()
-                .then((res)=>{
-                    // 图片验证码
-                    this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-                    this.authId = res.data.authId;
-                    console.log('res====', res)
-                });
             },
             register () {
                 var mobile = this.mobile.replace(/\s/g,"");
@@ -312,27 +299,21 @@
                 var inviteCode = this.inviteCode;
                 var imgCode = this.imgCode.replace(/\s/g,"");
                 var mediasource = "HY";
-                if(utils.getCookie("mediasource")){
-                    mediasource = utils.getCookie("mediasource");
+                if(this.utils.getCookie("mediasource")){
+                    mediasource = this.utils.getCookie("mediasource");
                 }
                 var errorMsg="";
                 if(this.mobile == ""){
                     errorMsg = "请输入手机号码";
-                } else if (!utils.checkMobile(this.mobile)){
+                } else if (!this.utils.checkMobile(this.mobile)){
                     errorMsg = "手机号码格式不正确";
-                } else if (this.password == ""){
-                    errorMsg = "请输入您的密码";
-                } else if (this.password.length < 6){
-                    errorMsg="密码长度必须为6位以上";
-                } else if (this.inviteCode != "" && !utils.checkMobile(this.inviteCode)){
+                } else if (this.inviteCode != "" && !this.utils.checkMobile(this.inviteCode)){
                     errorMsg = "推荐码格式错误";
-                }else if (this.imgCode == ""){
-                    errorMsg = "请输入图形验证码";
-                }else if (this.messageCode == ""){
+                } else if (this.messageCode == ""){
                     errorMsg = "请输入短信验证码";
-                }else if (this.messageCode.length<5){
+                } else if (this.messageCode.length<5){
                     errorMsg = "短信验证码输入有误";
-                }else if (!this.selected){
+                } else if (!this.selected){
                     errorMsg = "请同意相关协议";
                 }
 
@@ -352,7 +333,6 @@
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('custType', 'KHL2');
                 postData.append('mobileNo', this.mobile);
-                postData.append('passWord', this.password);
                 postData.append('identifyingCode', this.messageCode);
                 postData.append('registerFrom', registerFrom);
                 postData.append('browserStr', navigator.userAgent);
@@ -363,12 +343,10 @@
                 postData.append('recommend', this.mobile);
                 postData.append('recommendCode', this.inviteCode);
                 postData.append('requestSource', 'HTML5');
-                postData.append('authId', this.authId);
-                postData.append('imageCode', this.imgCode);
                 postData.append('activeFrom', '');
-                var reference = utils.getCookie("reference");
-                var upPage = utils.getCookie("upPage");
-                var activeFrom = utils.getCookie("activeFrom");
+                var reference = this.utils.getCookie("reference");
+                var upPage = this.utils.getCookie("upPage");
+                var activeFrom = this.utils.getCookie("activeFrom");
                 if(reference && reference != "null"){
                     postData.append('reference', reference);
                 }
@@ -378,66 +356,83 @@
                 if(activeFrom && activeFrom != "null"){
                     postData.append('activeFrom', activeFrom);
                 }
-                common.register(postData).then((res)=>{
-                    if (res.data.resultCode == "1") {
+                this.common.register(postData).then((res)=>{
+                    // token为空代表异常情况，不为空代表注册成功
+                    let data = res.data;
+                    if (data.token !== '') {
                         console.log('res======', res);
-                        var source = utils.getCookie("source");
-                        var dxObj = utils.getCookie("dxObj");
-                        var telObj = utils.getCookie("telObj");
-                        var activeFrom = utils.getCookie("activeFrom");
-                        var mediasource = utils.getCookie("mediasource");
-                        utils.clearCookie();
+                        this.jsCommon.setAuthorization(data.loginInfo.userName, data.loginInfo.token);
+                        var source = this.utils.getCookie("source");
+                        var dxObj = this.utils.getCookie("dxObj");
+                        var telObj = this.utils.getCookie("telObj");
+                        var activeFrom = this.utils.getCookie("activeFrom");
+                        var mediasource = this.utils.getCookie("mediasource");
+                        this.utils.clearCookie();
                         if(source && source == "APP"){
-                            utils.setCookie("source", "APP");
+                            this.utils.setCookie("source", "APP");
                         }
                         if(activeFrom && activeFrom != "" && activeFrom != "null"){
-                            utils.setCookie("activeFrom", activeFrom);
+                            this.utils.setCookie("activeFrom", activeFrom);
                         }
                         if(mediasource && mediasource != "" && mediasource != "null"){
-                            utils.setCookie("mediasource", mediasource);
+                            this.utils.setCookie("mediasource", mediasource);
                         }
-                        utils.setCookie("userName", res.data.userName);
-                        utils.setCookie("mobile", this.mobile);
-                        utils.setCookie("custType",custType);
+                        this.utils.setCookie("userName", data.loginInfo.userName);
+                        this.utils.setCookie("mobile", data.loginInfo.mobile);
+                        this.utils.setCookie("custType", data.loginInfo.custType);
+                        this.utils.setCookie("realName", escape(data.loginInfo.realName));
+                        this.utils.setCookie("identityCode", data.loginInfo.identityNo);
+                        this.utils.setCookie("isDoubleSales", data.loginInfo.isDoubleSales);
+                        this.utils.setCookie("inOneMonthReg", data.loginInfo.inOneMonthReg);
+                        this.utils.setCookie("isLanUserFlag", data.loginInfo.isLanUserFlag);
 
                         if(dxObj && telObj){
-                            utils.setCookie("dxObj",dxObj);
-                            utils.setCookie("telObj",telObj);
+                            this.utils.setCookie("dxObj",dxObj);
+                            this.utils.setCookie("telObj",telObj);
                         }
-                         var from = utils.getQueryString("from");
-                         var redirect = utils.getQueryString("redirect");
-                         if("hicash.ericsky.com"==redirect){
-                            window.location.href = "http://hicash.ericsky.com";
+                        var from = this.utils.getQueryString("from");
+                        var redirect = this.utils.getQueryString("redirect");
+                        if("hicash.ericsky.com"==redirect){
+                        window.location.href = "http://hicash.ericsky.com";
                             return false;
-                            _this.$vux.toast.show({
+                            this.$vux.toast.show({
                                 position: 'middle',
-                                text: '注册成功'
+                                text: data.resultMsg
                             })
-                         }
-                    } else {
-                        this.errorMsg = res.data.resultMsg;
+                        }
                         this.$vux.toast.show({
-                            type: 'cancel',
                             position: 'middle',
-                            text: this.errorMsg
+                            text: data.resultMsg
                         })
+                        setTimeout( () => { 
+                            var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
+                            this.$router.push({path: redirect});
+                        }, 2000)
+                    } else {
+                        // this.errorMsg = res.data.resultMsg;
+                        // this.$vux.toast.show({
+                        //     type: 'cancel',
+                        //     position: 'middle',
+                        //     text: this.errorMsg
+                        // })
+                        this.$vux.toast.show({
+                            position: 'middle',
+                            text: data.resultMsg
+                        })
+                        setTimeout( () => { 
+                            var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
+                            this.$router.push({path: redirect});
+                        }, 2000)
                     }
                 });
             }
         },
         mounted: function () {
-            var _this = this;
-            common.getImgCode()
-                .then((res)=>{
-                    // 图片验证码
-                    _this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-                    _this.authId = res.data.authId;
-                    console.log('res====', res)
-                });
-            var userName = utils.getCookie("userName");
-            var inviteCode = utils.getCookie("inviteCode");
+            this.agreementUrl = this.config.MWEB_PATH + 'newweb/agreement/registAgreement.html?comeCode=gk';
+            var userName = this.utils.getCookie("userName");
+            var inviteCode = this.utils.getCookie("inviteCode");
             if(inviteCode){
-                _this.inviteCode = inviteCode;
+                this.inviteCode = inviteCode;
             }
         }
     }
