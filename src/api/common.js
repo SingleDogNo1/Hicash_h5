@@ -147,7 +147,7 @@ export function getImgCode(){
  */
 export function getMessageCode(params){
   return new Promise((resolve,reject)=>{
-    axios.post("/NewHicashService/SendValidateCodeCount", params).then((res)=>{
+    axios.post("/hicashapi-service/SmsVerificationCode", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

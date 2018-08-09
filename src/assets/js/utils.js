@@ -55,7 +55,6 @@ export function setCookie(c_name, value) {
 
 // 读取cookies
 export function getCookie(name) {
-    console.log('name=====', name)
 
 	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
 	if(arr=document.cookie.match(reg)){

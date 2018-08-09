@@ -27,7 +27,6 @@
 	import {Tab, TabItem, Flexbox, FlexboxItem, Confirm} from 'vux'
 	import BScroll from 'better-scroll'
 
-	let Clipboard = require("Clipboard");
 	export default {
 		components: {
 			Tab,
