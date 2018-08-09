@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "better-scroll": "^1.12.6",
+    "clipboard": "^2.0.1",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.28.11",
     "eventsource-polyfill": "^0.9.6",
@@ -28,9 +30,10 @@
     "vue": "^2.5.2",
     "vue-file-upload": "^0.1.12",
     "vue-router": "^3.0.1",
+    "vue-scroller": "^2.2.4",
+    "vuescroll": "^4.7.2",
     "vux": "^2.8.1",
-    "vux-loader": "^1.2.6",
-    "better-scroll": "^1.11.1"
+    "vux-loader": "^1.2.6"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -38,7 +38,8 @@ export default{
   creditItems: creditItems,
   withHoldBank:　withHoldBank,
   getOwnData: getOwnData,
-  searchBankCard: searchBankCard
+  searchBankCard: searchBankCard,
+  getSmallBannerDetail: getSmallBannerDetail
 }
 
 
@@ -419,7 +420,7 @@ export function getArea(params){
  */
 export function updateCollarPersonInfo(params){
   return new Promise((resolve,reject)=>{
-    axios.post("HicashAppService/UpdateCollarPersonInfo", params).then((res)=>{
+    axios.post("/HicashAppService/UpdateCollarPersonInfo", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -432,7 +433,7 @@ export function updateCollarPersonInfo(params){
  */
 export function relationInfo(params){
   return new Promise((resolve,reject)=>{
-    axios.post("HicashAppService/RelationInfo", params).then((res)=>{
+    axios.post("/HicashAppService/RelationInfo", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -445,7 +446,7 @@ export function relationInfo(params){
  */
 export function updateRelationInfo(params){
   return new Promise((resolve,reject)=>{
-    axios.post("HicashAppService/UpdateRelationInfo", params).then((res)=>{
+    axios.post("/HicashAppService/UpdateRelationInfo", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -458,7 +459,7 @@ export function updateRelationInfo(params){
  */
 export function queryShouQuanSuc(params){
   return new Promise((resolve,reject)=>{
-    axios.post("creditservice/zhima/queryShouQuanSuc.do", params).then((res)=>{
+    axios.post("/creditservice/zhima/queryShouQuanSuc.do", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -471,7 +472,7 @@ export function queryShouQuanSuc(params){
  */
 export function queryFirstExamineSuc(params){
   return new Promise((resolve,reject)=>{
-    axios.post("ruleService/userInfo/userYsRule.do", params).then((res)=>{
+    axios.post("/ruleService/userInfo/userYsRule.do", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

@@ -45,14 +45,14 @@
         methods : {
             getSmallBannerDetail: function(id){
                 let _this = this;
-                _this.common.getHomePagePic(id)
+                _this.common.getSmallBannerDetail(id)
                 .then(function(res){
                     console.info('res.data', res.data);
                 });
             }
         },
         mounted: function () {
-            let id = this.utils.getQueryString('id');
+            let id = this.$route.query.id;
             this.getSmallBannerDetail(id);
         }
     }

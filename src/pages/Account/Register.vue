@@ -26,9 +26,7 @@
                 <div class="register-agreement-wrap">
                     <check-icon :value.sync="selected">
                         <span>我已阅读并同意</span>
-                        <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
-                        《嗨钱注册协议》
-                        </router-link>
+                        <a :href="agreementUrl" class="go-to-forget-pwd" >《嗨钱注册协议》</a>
                     </check-icon>
                 </div>
             </div>
@@ -243,7 +241,8 @@
                 getMessageCodeText: '获取验证码',
                 boxshow: false,
                 selected: true,
-                inviteCode: ''
+                inviteCode: '',
+                agreementUrl: ''
             }
         },
         ready () {
@@ -426,18 +425,17 @@
             }
         },
         mounted: function () {
-            var _this = this;
+            this.agreementUrl = this.config.MWEB_PATH + 'newweb/agreement/registAgreement.html?comeCode=gk';
             common.getImgCode()
                 .then((res)=>{
                     // 图片验证码
-                    _this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-                    _this.authId = res.data.authId;
-                    console.log('res====', res)
+                    this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
+                    this.authId = res.data.authId;
                 });
-            var userName = utils.getCookie("userName");
-            var inviteCode = utils.getCookie("inviteCode");
+            var userName = this.utils.getCookie("userName");
+            var inviteCode = this.utils.getCookie("inviteCode");
             if(inviteCode){
-                _this.inviteCode = inviteCode;
+                this.inviteCode = inviteCode;
             }
         }
     }

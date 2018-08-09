@@ -56,7 +56,7 @@
                 left: .85rem;
             }
             .go-back:before {
-                color: #C04F23;
+                color: #fff;
             }
             .go-to-register {
                 font-size: 15px;

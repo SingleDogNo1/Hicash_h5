@@ -2,7 +2,9 @@
     <div>
         <header class="home-header">
             <div class="bg" :style="'opacity:' + opacity"></div>
-            <img width="22px" src="../assets/images/icon-notice.png" >
+            <router-link :to="{name: 'notice'}">
+                <img width="22px" src="../assets/images/icon-notice.png" >
+            </router-link>
         </header>
         <scroller lock-x @on-scroll="onScroll" ref="scroller">
             <div class="wrap">
@@ -23,8 +25,7 @@
                         <div class="small-banner-scroll-wrap" v-bind:style="{'width':smallBannerList.length*140 - 10 +'px'}">
                             <ul class="clearfix">
                                 <li v-for="item in smallBannerList">
-                                    <!-- <a :href="item.picUrl"> -->
-                                    <a href="http://127.0.0.1:9002/#/smallBanner?id=1">
+                                    <a :href="item.picUrl">
                                         <img :src="item.picPrefixUrl + item.picSmallUrl">
                                     </a>
                                 </li>
@@ -41,7 +42,7 @@
                         </a>
                     </li>
                     <li>
-                        <router-link :to="{name: 'LoanStrategy'}">
+                        <router-link :to="{name: 'help'}">
                             <span class="help-center-ico">帮助中心</span>
                         </router-link>
                     </li>
