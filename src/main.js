@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App'
+import App from './app'
 import router from './router'
 import { XHeader, Tabbar, TabbarItem, Toast } from 'vux'
 
@@ -30,6 +30,7 @@ Vue.use(LoadingPlugin)
 
 import  { ConfirmPlugin } from 'vux'
 Vue.use(ConfirmPlugin)
+
 
 
 Vue.config.productionTip = false

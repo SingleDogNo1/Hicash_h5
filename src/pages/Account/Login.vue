@@ -31,6 +31,7 @@
             </div>
         </div>
         <VerificationCodePop :mobile="mobile" :showToast="showToast" @timeCount="showTimeCount" ></VerificationCodePop>
+        <iframe id="oldHicash" :src="oldHicash"></iframe>
     </div>
 </template>
 
@@ -38,6 +39,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
+    #oldHicash{
+        display: none;
+    }
     .weui-tab__panel{
         padding-bottom: 0 !important;
     }
@@ -227,7 +231,8 @@
                 getBarWidth: function (index) {
                     return '4rem'
                 },
-                showToast: false
+                showToast: false,
+                oldHicash: ''
             }
         },
         ready () {
@@ -297,6 +302,9 @@
                     _this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
+
+                this.oldHicash = _this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + _this.mobile;
+
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
