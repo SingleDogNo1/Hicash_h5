@@ -18,15 +18,15 @@
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
+                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" @keyup.enter.native="passwordLogin">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
-                <button class="btn-login" @click="messageLogin('middle')">登录</button>
+                <button class="btn-login" @click="messageLogin('middle')"> 登录</button>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
+                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"  @keyup.enter.native="passwordLogin"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
             </div>
         </div>
