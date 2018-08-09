@@ -138,15 +138,21 @@
                             });
                         }
                     });
-            }
-        },
-        mounted: function () {
-            this.common.getImgCode()
+            },
+            change() {
+                this.getImgCode();
+            },
+            getImgCode() {
+                this.common.getImgCode()
                 .then((res)=>{
                     // 图片验证码
                     this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
                     this.authId = res.data.authId;
                 });
+            }
+        },
+        mounted: function () {
+            this.getImgCode();
         },
         watch: {
             showToast: function (val, oldVal) {
