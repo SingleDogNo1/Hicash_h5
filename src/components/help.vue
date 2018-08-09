@@ -3,7 +3,7 @@
 		<div class="wrap">
 			<header class="creditHeader" style="background-color:white;">
 				<!-- closeBtn -->
-				<a class="go-history" href="javascript:history.go(-1);"></a>
+				<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
 				<p>忘记密码</p>
 				<tab :line-width="1" custom-bar-width="60px">
 					<tab-item selected @on-item-click="onItemClick">热门问题</tab-item>
