@@ -9,7 +9,7 @@
 					<tab-item selected @on-item-click="onItemClick">热门问题</tab-item>
 					<tab-item @on-item-click="onItemClick">借款问题</tab-item>
 					<tab-item @on-item-click="onItemClick">还款问题</tab-item>
-					<tab-item @on-item-click="onItemClick">其他问题</tab-item>
+					<tab-item @on-item-click="onItemClick">其他问题 </tab-item>
 				</tab>
 			</header>
 			<div class="wrapper">
