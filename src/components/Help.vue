@@ -80,11 +80,10 @@
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <script type="text/javascript">
-	import {Tab, TabItem, Flexbox, FlexboxItem} from 'vux'
+	import {Tab, TabItem, Flexbox, FlexboxItem} from 'vux';
+	let Clipboard=require('Clipboard');
 	import BScroll from 'better-scroll'
-	let Clipboard=require("Clipboard");
 	export default {
 		components: {
 			Tab,
@@ -130,7 +129,6 @@
 					threshold: 50, // 当下拉到超过顶部 30px 时，
 				}
 			})
-			var _this = this;
 			this.scroll.on('pullingDown', function () {
 				_this.refresh = true;
 				// axios.get("").then(function () {
