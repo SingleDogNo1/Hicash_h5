@@ -82,6 +82,13 @@ module.exports = {
         pathRewrite:{
             '^/hicashapi-service':''
         }
+      },
+      '/ParameterService':{
+        target:'http://218.244.130.172:8080/ParameterService',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/ParameterService':''
+        }
       }
     }
   },

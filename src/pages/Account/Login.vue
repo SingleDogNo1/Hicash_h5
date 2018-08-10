@@ -18,15 +18,15 @@
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code">
+                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" @keyup.enter.native="passwordLogin">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
-                <button class="btn-login" @click="messageLogin('middle')">登录</button>
+                <button class="btn-login" @click="messageLogin('middle')"> 登录</button>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"></x-input>
+                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"  @keyup.enter.native="passwordLogin"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
             </div>
         </div>
@@ -294,6 +294,8 @@
 
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
 
+                
+
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
@@ -336,6 +338,8 @@
                     this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
+
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
@@ -406,60 +410,71 @@
                             this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
                             this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
 
-                            // TODU 新老嗨钱融合中的代码，后续优化
-
                             const MWEB_PATH = this.config.MWEB_PATH;
-                            if(data.isVip&&vipCount!="1"){
-                                setCookie("vipCount", "0");
-                            }
+                            // TODU 新老嗨钱融合中的代码，后续优化
+                            document.getElementById('oldHicash').onload=()=>{
+                                if(data.isVip&&vipCount!="1"){
+                                    this.utils.setCookie("vipCount", "0");
+                                }
 
-                            let jumpType;
+                                let jumpType;
 
-                            if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
-                                window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
-                                return;
-                            }
+                                if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
+                                    window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
+                                    return;
+                                }
 
-                            var ref=window.location.href;
-                            var from = this.utils.getQueryString("from");
-                            console.log('from====', from);
-                            if(from == 'shixin'){
-                                var _appNo = this.utils.getQueryString('appNo');
-                                $.post(MWEB_PATH+"api/?api=navigateToRecharge",{
-                                    appNo: _appNo,
-                                    userName:this.utils.getCookie("userName"),
-                                    uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
-                                }, function(data) {
-                                    window.location.href = data.rechargeUrl;
-                                },'json');
-                                console.info('from to shixin', _appNo);
-                                return false;
-                            }
+                                var ref=window.location.href;
+                                var from = this.utils.getQueryString("from");
+                                console.log('from====', from);
+                                if(from == 'shixin'){
+                                    var _appNo = this.utils.getQueryString('appNo');
+                                    $.post(MWEB_PATH+"api/?api=navigateToRecharge",{
+                                        appNo: _appNo,
+                                        userName:this.utils.getCookie("userName"),
+                                        uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
+                                    }, function(data) {
+                                        window.location.href = data.rechargeUrl;
+                                    },'json');
+                                    console.info('from to shixin', _appNo);
+                                    return false;
+                                }
+                                
+                                if("sharkResult"==this.utils.getQueryString("from")){
+                                    var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
+                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
+                                    return false;
+                                }
+                                if(ref.indexOf("sharkLogin.html")!=-1){
+                                    var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
+                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
+                                    return false;
+                                }
+                                if(data.isVip&&this.utils.getCookie("vipCount")=="0"){
+                                    window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
+                                    return false;
+                                }
+                                if(dxObj && telObj){
+                                    this.utils.setCookie("dxObj",dxObj);
+                                    this.utils.setCookie("telObj",telObj);
+                                }
+
+                                if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
+                                    window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
+                                }
+
+                                if(from == 'perCenter'){
+                                    window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
+                                }
+
+
+                                console.log('result====', result)
+                                resolve(result);
+                            };
+                           
+
                             
-                            if("sharkResult"==this.utils.getQueryString("from")){
-                                var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
-                                window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
-                                return false;
-                            }
-                            if(ref.indexOf("sharkLogin.html")!=-1){
-                                var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
-                                window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
-                                return false;
-                            }
-                            if(data.isVip&&this.utils.getCookie("vipCount")=="0"){
-                                window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
-                                return false;
-                            }
-                            if(dxObj && telObj){
-                                this.utils.setCookie("dxObj",dxObj);
-                                this.utils.setCookie("telObj",telObj);
-                            }
-
-                            if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
-                                window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
-                            }
-                            console.log('result====', result)
-                            resolve(result);
+                            
                         });
                 })
             }

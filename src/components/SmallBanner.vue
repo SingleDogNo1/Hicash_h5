@@ -3,11 +3,10 @@
         <!-- header -->
         <header  class="credit-header">
             <a class="go-history"  href="javascript:history.go(-1);"></a>
-            <h1>借款攻略</h1>
+            <h1></h1>
         </header>
         <!-- header -->
-        <div class="container">
-            
+        <div class="container" v-html="contnet">
         </div>
     </div>
 </template>
@@ -19,7 +18,6 @@
     .loan-strategy-body{
         width: 100%;
         height: auto;
-        background-color: #fff;
         .credit-header {
             border: 0;
         }
@@ -37,6 +35,7 @@
     export default {
         data () {
             return {
+                contnet: ''
             }
         },
         ready () {
@@ -48,6 +47,7 @@
                 _this.common.getSmallBannerDetail(id)
                 .then(function(res){
                     console.info('res.data', res.data);
+                    _this.contnet = res.data.bannerPicEntity.content;
                 });
             }
         },
