@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class=path>
+    <div id="app" :class="[path, platform]">
             <router-view></router-view>
     </div>
 </template>
@@ -12,7 +12,6 @@ import MiaoDai from "./components/MiaoDai.vue"
 export default {
     name: 'App',
     created(){
-        console.info('app.vue');
         this.jsCommon.setAuthorization();
     },
     components: {
@@ -20,7 +19,7 @@ export default {
         MiaoDai
     },
     mounted () {
-
+        
         this.$router.beforeEach((to, from, next) => {
             this.path = to.name;
             if (to.matched.some(record => record.meta.requireAuth)) {
@@ -47,7 +46,8 @@ export default {
     },
     data () {
         return {
-            path: this.$route.name
+            path: this.$route.name,
+            platform: this.utils.getPlatform()
         }
     }
 }
