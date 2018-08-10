@@ -15,6 +15,7 @@
 			<div class="wrapper">
 				<ul class="content">
 					<li  v-if="refresh" style="font-size:15px;text-align:center;height:50px;line-height:50px;">下拉刷新</li>
+					<li  v-if="refresh" style="font-size:15px;text-align:center;height:50px;line-height:50px;">松开刷新</li>
 					<li v-for="(item,index) in list" :key="index">
 						<a :href="item.openUrl"><p>{{item.title}}</p></a>
 					</li>
@@ -133,6 +134,12 @@
 			this.scroll.on('pullingDown', function () {
 				_this.refresh = true;
 				_this.getSysParam();
+			})
+			this.scroll.on('touchEnd', function (pos) {
+				console.log('pos====', pos)
+				if(pos.y > 60) {
+					_this.refresh = false;
+				}
 			})
 		},
 		methods: {
