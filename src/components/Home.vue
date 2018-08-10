@@ -61,7 +61,7 @@
     @import "../../bower_components/sass-rem/rem";
 
     body{
-        background: #f2f2f2;
+        background: #f2f2f2 !important;
     }
     header.home-header{
         position: fixed;
