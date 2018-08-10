@@ -216,7 +216,7 @@
 		}
 		.flex-demo{
 			text-align:center;
-			padding:0 10px;
+			padding:0;
 			position:relative;
 			img{
 				width:20px;
