@@ -3,7 +3,7 @@
         <!-- header -->
         <header  class="credit-header">
             <a class="go-history"  href="javascript:history.go(-1);"></a>
-            <h1></h1>
+            <h1 v-html="title"></h1>
         </header>
         <!-- header -->
         <div class="container" v-html="contnet">
@@ -35,6 +35,7 @@
     export default {
         data () {
             return {
+                title:'',
                 contnet: ''
             }
         },
@@ -48,6 +49,8 @@
                 .then(function(res){
                     console.info('res.data', res.data);
                     _this.contnet = res.data.bannerPicEntity.content;
+                    _this.title = res.data.bannerPicEntity.picTitle;
+                    console.info('res.data.picTitle', res.data.bannerPicEntity.picTitle);
                 });
             }
         },

@@ -12,11 +12,11 @@
                 <div class="products">
                     <div class="tips">
                         <span class="red-packet"><img src="../assets/images/red-packet.png"></span>
-                        <span>昨日共申请132,423笔</span>
+                        <span>昨日共申请{{allLoanApplication}}笔</span>
                     </div>
                     <div class="product-lists">
                         <ul>
-                            <li v-for="item in productsList"><img :src="item.img"></li>
+                            <li v-for="item in productsList" :id="item.industryCode"><a :href="item.url"><img :src="item.img"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 </div>
                 <ul class="link">
                     <li>
-                        <a href="javascript:;">
+                        <a :href="quickRepaymentUrl">
                             <span class="quick-repayment-ico">
                                 快速还款
                             </span>
@@ -59,6 +59,10 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     @import "../../bower_components/sass-rem/rem";
+
+    body{
+        background: #f2f2f2 !important;
+    }
     header.home-header{
         position: fixed;
         z-index: 999;
@@ -252,6 +256,8 @@
             return {
                 opacity: 0,
                 oldHicash: '',
+                allLoanApplication: '0',
+                quickRepaymentUrl: '',
                 bannerList: [
                     {
                         url: 'javascript:',
@@ -264,10 +270,12 @@
                 productsList: [
                     {
                         url: 'javascript:',
-                        img: productsImg
+                        img: productsImg,
+                        industryCode: ''
                     },{
                         url: 'javascript:',
-                        img: productsImg
+                        img: productsImg,
+                        industryCode: ''
                     }
                 ],
                 smallBannerList: [
@@ -314,6 +322,43 @@
                         _this.smallBannerList = res.data.bannelList;
                     }
                 });
+            },
+            getAllLoanApplication: function(){
+                this.common.getAllLoanApplication()
+                .then((res)=>{
+                    let data = res.data;
+                    this.allLoanApplication = data.AllLoanApplication;
+                })
+            },
+            getIndexMain: function(params){
+                console.info('111111');
+                this.common.getIndexMain(params)
+                .then((res)=>{
+                    let productList = res.data.columnList[0].productList;
+                    let arr = [];
+                    let _this = this;
+                    const MWEB_PATH = this.config.MWEB_PATH;
+                    console.info('productList === ', productList);
+                    _.each(productList, function(v){
+                        if(v.showStatus == '1'){
+                            let obj = {
+                                img: v.proShowImg,
+                                industryCode: v.industryCode
+                            }
+                            if(v.industryCode == 'MDCP'){
+                                obj.url = MWEB_PATH + 'newweb/product/miaodai.html'
+                            }else if(v.industryCode == 'VIPD'){
+                                obj.url = MWEB_PATH + 'newweb/product/vipdai.html'
+                            }
+                            arr.push(obj);
+                        }
+
+                        if(arr.length){
+                            _this.productsList = arr;
+                        }
+
+                    });
+                })
             }
             
         },
@@ -324,25 +369,41 @@
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
 
+            // 初始化scroller
             setTimeout(function(){
                 _this.$refs.scroller.reset();
             });
 
+            //获取大banner
             let bigBannerObj = {
                 cityCode: '000003',
                 uuid: this.utils.uuid(),
                 position: '1'
             };
+            this.getHomePagePic(bigBannerObj);  
 
-            this.getHomePagePic(bigBannerObj);  //获取大banner
-
+            //获取小banner
             let smallBannerObj = {
                 cityCode: '000002',
                 uuid: this.utils.uuid(),
                 position: '5'
             };
+            this.getHomePagePic(smallBannerObj);  
 
-            this.getHomePagePic(smallBannerObj);  //获取小banner
+            // 获取昨日申请笔数
+            this.getAllLoanApplication(); 
+
+            // 获取产品列表
+            var postData = new URLSearchParams();
+                postData.append('requestSource', 'HTML5');
+                postData.append('platform', '');
+                postData.append('version', '');
+                postData.append('uuid', this.utils.uuid());
+                console.info('2222');
+            this.getIndexMain(postData);
+
+            //快速还款URL
+            this.quickRepaymentUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html';
         }
     }
 </script>

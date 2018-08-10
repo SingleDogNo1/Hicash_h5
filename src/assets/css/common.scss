@@ -278,3 +278,17 @@ header {
 .wrap{
     padding-bottom: 2.075rem;
 }
+.APP{
+    .container{
+        margin-top: 0 !important;
+    }
+    header.credit-header{
+        display: none;
+    }
+    header.creditHeader{
+        height: 44px !important;
+        .go-history, .title{
+            display: none;
+        }
+    }
+}

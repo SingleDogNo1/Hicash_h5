@@ -13,7 +13,8 @@ export default {
     checkEmail: checkEmail,                 //校验邮箱
     checkRealName: checkRealName,           //校验真实姓名
     checkAearTel: checkAearTel,              //校验固话(带区号)
-    checkCardNum: checkCardNum              //校验借记卡号
+    checkCardNum: checkCardNum,              //校验借记卡号
+    getPlatform: getPlatform                //获取comeFrom
 
 }
 
@@ -310,4 +311,10 @@ export function checkAearTel(tel) {
 export function checkCardNum(cardNum) {
     var reg = /^[0-9]{10,20}$/;
     return reg.test(tel)
+}
+
+export function getPlatform() {
+    var ua = navigator.userAgent;
+    var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
+    return comeFrom;
 }

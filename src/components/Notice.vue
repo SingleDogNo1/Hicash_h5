@@ -9,10 +9,12 @@
 			<div class="wrapper">
 				<ul class="content">
 					<li v-if="refresh" style="font-size:15px;text-align:center;height:50px;line-height:50px;">下拉刷新</li>
-					<li v-for="(item,index) in data" :key="index">
-						<p class="date">2017-11-11</p>
-						<p class="text">{{item}}</p>
-						<p class="label">网站公告</p>
+					<li v-for="(item,index) in list" :key="index">
+						<a :href="item.openUrl">
+							<p class="date" v-html="item.createTime"></p>
+							<p class="text" v-html="item.title"></p>
+							<p class="label" v-html="item.keywords"></p>
+						</a>
 					</li>
 				</ul>
 			</div>
@@ -36,10 +38,7 @@
 		},
 		data() {
 			return {
-				data: [
-					'为什么提示错误信息',
-					'为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息'
-				],
+				list: [],
 				refresh: false,
 				scroll: "",
 				phone: false,
@@ -48,27 +47,48 @@
 			}
 		},
 		mounted() {
+			this.getSysParam();
 			this.scroll = new BScroll(".wrapper", {
 				click: true,
 				scrollY: true,
 				pullDownRefresh: {
-					threshold: 50, // 当下拉到超过顶部 30px 时，
+					threshold: 30, // 当下拉到超过顶部 30px 时，
 				}
 			})
-			var _this = this;
+			let _this = this;
 			this.scroll.on('pullingDown', function () {
 				_this.refresh = true;
-				// axios.get("").then(function () {
-				// 	_this.$nextTick(function () {
-				// 		_this.scroll.finishPullDown();
-				// 		_this.scroll.refresh();
-				// 		_this.refresh=false;
-				// 	});
-				// })
+				_this.getSysParam();
 			})
 		},
 		methods: {
-			onItemClick() {
+			getSysParam: function(){
+				// 获取产品列表
+				let postData = new URLSearchParams();
+					postData.append('paramCode', 'WZGG,GSDT');
+					postData.append('requestSource', 'HTML5');
+					postData.append('maxLine', '10000');
+					postData.append('curPage', '1');
+
+				let _this = this;
+
+				this.common.getSysParam(postData)
+				.then(function(res){
+					let list = res.data.list;
+
+					_.each(res.data.list, function(v, i){
+						list[i].createTime = list[i].createTime.substring(0, 10);
+						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" + list[i].id;
+					});
+					
+					_this.list = list;
+
+					_this.$nextTick(function () {
+						_this.scroll.finishPullDown();
+						_this.scroll.refresh();
+						_this.refresh=false;
+					});
+				});
 			}
 		}
 	}
@@ -120,34 +140,42 @@
 			height: calc(100% - 50px);
 			.content {
 				background-color: white;
+				min-height:calc( 100% + 15px);
 				li {
 					padding-left: 15px;
 					padding-top:10px;
 					padding-bottom:10px;
 					border-bottom: 1px solid #efefef;
-					p {
-						padding: 2px 0;
-						font-size: rem(15px);
+					a{
+						display: block;
+						width: 100%;
+						height: 100%;
+						p {
+							padding: 2px 0;
+							font-size: rem(15px);
+						}
+						.date{
+							color:#999;
+							font-size:rem(12px);
+						}
+						.text{
+							overflow: hidden;
+							text-overflow:ellipsis;
+							white-space: nowrap;
+							font-size:rem(15px);
+							margin:5px 0;
+							color: #333;
+						}
+						.label{
+							font-size:rem(11px);
+							width:60px;
+							border-radius:5px;
+							text-align:center;
+							color:#FF7640;
+							background-color:#fff4df;
+						}
 					}
-					.date{
-						color:#999;
-						font-size:rem(12px);
-					}
-					.text{
-						overflow: hidden;
-						text-overflow:ellipsis;
-						white-space: nowrap;
-						font-size:rem(15px);
-						margin:5px 0;
-					}
-					.label{
-						font-size:rem(11px);
-						width:60px;
-						border-radius:5px;
-						text-align:center;
-						color:#FF7640;
-						background-color:#fff4df;
-					}
+					
 				}
 			}
 		}

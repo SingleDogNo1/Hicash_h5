@@ -4,19 +4,19 @@
 			<header class="creditHeader" style="background-color:white;">
 				<!-- closeBtn -->
 				<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
-				<p>忘记密码</p>
+				<p class="title">帮助中心</p>
 				<tab :line-width="1" custom-bar-width="60px">
-					<tab-item selected @on-item-click="onItemClick">热门问题</tab-item>
-					<tab-item @on-item-click="onItemClick">借款问题</tab-item>
-					<tab-item @on-item-click="onItemClick">还款问题</tab-item>
-					<tab-item @on-item-click="onItemClick">其他问题 </tab-item>
+					<tab-item selected @on-item-click="onItemClick('RMWT')">热门问题</tab-item>
+					<tab-item @on-item-click="onItemClick('JKWT')">借款问题</tab-item>
+					<tab-item @on-item-click="onItemClick('HKWT')">还款问题</tab-item>
+					<tab-item @on-item-click="onItemClick('QTWT')">其他问题 </tab-item>
 				</tab>
 			</header>
 			<div class="wrapper">
 				<ul class="content">
 					<li  v-if="refresh" style="font-size:15px;text-align:center;height:50px;line-height:50px;">下拉刷新</li>
-					<li v-for="(item,index) in data" :key="index">
-						<p>{{item}}</p>
+					<li v-for="(item,index) in list" :key="index">
+						<a :href="item.openUrl"><p>{{item.title}}</p></a>
 					</li>
 				</ul>
 			</div>
@@ -57,7 +57,7 @@
 		</div>
 		<div class="weui-dialog" v-if="wx == true">
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >微信公众号</strong></div>
-			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">微信公众号：果壳</div>
+			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">微信公众号：果壳豹有钱</div>
 			<div class="weui-dialog__ft">
 				<a href="javascript:;" class="wx_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
 					复制 </a>
@@ -67,7 +67,7 @@
 		</div>
 		<div class="weui-dialog" v-if="qq == true">
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >联系QQ</strong></div>
-			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">QQ：果壳</div>
+			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">QQ：4000205566</div>
 			<div class="weui-dialog__ft">
 				<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
 				复制 </a>
@@ -92,10 +92,8 @@
 		},
 		data() {
 			return {
-				data: [
-					'为什么提示错误信息',
-					'为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息', '为什么提示错误信息'
-				],
+				list: [],
+				subType: 'RMWT',
 				refresh: false,
 				scroll:"",
 				phone:false,
@@ -105,12 +103,15 @@
 		},
 		mounted() {
 			var _this = this;
+
+			_this.getSysParam();
+
 			new Clipboard('.wx_btn',{
 				text: function() {
 					_this.$vux.toast.show({
 						text: '复制成功'
 					});
-					return '微信号'
+					return '果壳豹有钱'
 				}
 			});
 
@@ -119,30 +120,56 @@
 					_this.$vux.toast.show({
 						text: '复制成功'
 					});
-					return 'qq'
+					return '4000205566'
 				}
 			});
 			this.scroll = new BScroll(".wrapper", {
 				click: true,
 				scrollY: true,
 				pullDownRefresh: {
-					threshold: 50, // 当下拉到超过顶部 30px 时，
+					threshold: 30, // 当下拉到超过顶部 30px 时，
 				}
 			})
 			this.scroll.on('pullingDown', function () {
 				_this.refresh = true;
-				// axios.get("").then(function () {
-				// 	_this.$nextTick(function () {
-				// 		_this.scroll.finishPullDown();
-				// 		_this.scroll.refresh();
-				// 		_this.refresh=false;
-				// 	});
-				// })
+				_this.getSysParam();
 			})
 		},
 		methods: {
-			onItemClick() {
+			onItemClick: function(type){
+				this.subType = type;
+				console.info(type);
+				this.getSysParam();
 			},
+			getSysParam: function(){
+				// 获取产品列表
+				let postData = new URLSearchParams();
+					postData.append('paramCode', 'CJWT');
+					postData.append('requestSource', 'HTML5');
+					postData.append('maxLine', '10000');
+					postData.append('curPage', '1');
+					postData.append('subType', this.subType);
+
+				let _this = this;
+
+				this.common.getSysParam(postData)
+				.then(function(res){
+					let list = res.data.list;
+
+					_.each(res.data.list, function(v, i){
+						list[i].createTime = list[i].createTime.substring(0, 10);
+						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" + list[i].id;
+					});
+					
+					_this.list = list;
+
+					_this.$nextTick(function () {
+						_this.scroll.finishPullDown();
+						_this.scroll.refresh();
+						_this.refresh=false;
+					});
+				});
+			}
 		}
 	}
 </script>
@@ -204,19 +231,26 @@
 			height: calc(100% - 135px);
 			.content {
 				background-color: white;
+				min-height:calc( 100% + 15px);
 				li {
 					padding-left: 15px;
-					p {
-						padding: 15px 0;
-						border-bottom: 1px solid #efefef;
-						font-size: rem(15px);
+					a{
+						display: block;
+						width: 100%;
+						height: 100%;
+						p {
+							padding: 15px 0;
+							border-bottom: 1px solid #efefef;
+							font-size: rem(15px);
+							color:#999;
+						}
 					}
 				}
 			}
 		}
 		.flex-demo{
 			text-align:center;
-			padding:0 10px;
+			padding:0;
 			position:relative;
 			img{
 				width:20px;
