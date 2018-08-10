@@ -140,6 +140,7 @@
 			height: calc(100% - 50px);
 			.content {
 				background-color: white;
+				min-height:calc( 100% + 15px);
 				li {
 					padding-left: 15px;
 					padding-top:10px;

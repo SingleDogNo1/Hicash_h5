@@ -231,6 +231,7 @@
 			height: calc(100% - 135px);
 			.content {
 				background-color: white;
+				min-height:calc( 100% + 15px);
 				li {
 					padding-left: 15px;
 					a{
@@ -249,7 +250,7 @@
 		}
 		.flex-demo{
 			text-align:center;
-			padding:0 10px;
+			padding:0;
 			position:relative;
 			img{
 				width:20px;
