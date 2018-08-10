@@ -39,7 +39,8 @@ export default{
   withHoldBank:　withHoldBank,
   getOwnData: getOwnData,
   searchBankCard: searchBankCard,
-  getSmallBannerDetail: getSmallBannerDetail
+  getSmallBannerDetail: getSmallBannerDetail,
+  deleteVerificationCodeCount: deleteVerificationCodeCount
 }
 
 
@@ -132,9 +133,9 @@ export function getSysParam(params){
 /*
  *  获取登录页面的图形验证码
  */
-export function getImgCode(){
+export function getImgCode(params){
   return new Promise((resolve,reject)=>{
-    axios.post("/NewHicashService/AuthImage").then((res)=>{
+    axios.post("/hicash-api-service/AuthImage", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -147,7 +148,20 @@ export function getImgCode(){
  */
 export function getMessageCode(params){
   return new Promise((resolve,reject)=>{
-    axios.post("/hicashapi-service/SmsVerificationCode", params).then((res)=>{
+    axios.post("/hicash-api-service/SmsVerificationCode", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  获取登录页面的短信验证码
+ */
+export function deleteVerificationCodeCount(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/DeleteVerificationCodeCount", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

@@ -15,7 +15,7 @@
             <div class="register-form" >
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
                 <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code" :max="5">
-                    <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
+                    <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')" :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
                 <x-input  class="recommend" type="text" value="我有推荐码" readonly="readonly"  @click.native="toggle"></x-input>
@@ -31,6 +31,7 @@
                 </div>
             </div>
         </div>
+        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" ></VerificationCodePop>
     </div>
 </template>
 
@@ -122,6 +123,9 @@
                         background-color: #FF7640 !important;
                         border: none !important;
                         font-size: .65rem !important;
+                    }
+                    .weui-btn_primary:disabled {
+                        color: #fff;
                     }
                 }
                 .message-code:before {
@@ -219,6 +223,8 @@
 <script type="text/javascript">
     import { Tab, TabItem, XInput, XButton, Toast, CheckIcon} from 'vux'
 
+    import VerificationCodePop from '@/components/VerificationCodePop'
+
     export default {
         components: {
             Tab,
@@ -226,11 +232,14 @@
             XInput,
             XButton,
             Toast,
-            CheckIcon
+            CheckIcon,
+            VerificationCodePop
         },
         data () {
             return {
+                type: 'register',
                 authPic: '',
+                authId: '',
                 mobile: '',
                 password: '',
                 imgCode: '',
@@ -239,7 +248,9 @@
                 boxshow: false,
                 selected: true,
                 inviteCode: '',
-                agreementUrl: ''
+                agreementUrl: '',
+                showToast: false,
+                isDisabled: false
             }
         },
         ready () {
@@ -255,8 +266,6 @@
                     errorMsg="请输入您的手机号";
                 } else if (!this.utils.checkMobile(this.mobile)) {
                     errorMsg="手机号码格式错误";
-                } else if (this.imgCode == "") {
-                    errorMsg="请输入图形验证码";
                 }
                 if(errorMsg!="") {
                     this.$vux.toast.text(errorMsg, 'middle');
@@ -273,11 +282,20 @@
                 postData.append('imageCode', this.imgCode);
                 this.common.getMessageCode(postData)
                     .then((res)=>{
-                        let data = res.data; 
-                        if(data.resultCode=="1"){
-                            utils.timeCount(60, function(data){
-                                this.getMessageCodeText = data;
-                            });
+                        let data = res.data;
+                        if(data.resultCode=="1" || data.resultCode=="2"){
+                            console.log('data-----', data)
+                            // 是否显示图片验证码 （1显示，0不显示）
+                            if(data.showAuthPic === "0") {
+                                this.isDisabled = true;
+                                this.utils.timeCount(60, (timeCount)=>{
+                                    console.log('timeCount===', this)
+                                    this.getMessageCodeText = timeCount;
+                                });
+                            } else {
+                                this.showToast = true;
+                                this.authPic = 'data:image/jpg;base64,' + data.authPic;
+                            }
                         } else {
                             this.errorMsg = data.resultMsg;
                             this.$vux.toast.show({
@@ -285,9 +303,6 @@
                                 position: 'middle',
                                 text: this.errorMsg
                             })
-                            // _this.position = position;
-                            // _this.showPositionValue = true;
-                            // _this.errorMsg = res.data.resultMsg;
                         }
                     });
             },
@@ -397,12 +412,12 @@
                             return false;
                             this.$vux.toast.show({
                                 position: 'middle',
-                                text: data.resultMsg
+                                text: '注册成功'
                             })
                         }
                         this.$vux.toast.show({
                             position: 'middle',
-                            text: data.resultMsg
+                            text: '注册成功'
                         })
                         setTimeout( () => { 
                             var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
@@ -419,12 +434,17 @@
                             position: 'middle',
                             text: data.resultMsg
                         })
-                        setTimeout( () => { 
-                            var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
-                            this.$router.push({path: redirect});
-                        }, 2000)
                     }
                 });
+            },
+            showTimeCount(timeCount) {
+                this.getMessageCodeText = timeCount;
+                this.isDisabled = true;
+                console.log('this.getMessageCodeText====', this.getMessageCodeText)
+            },
+            newImgCode(newImgCode) {
+                this.imgCode = newImgCode;
+                console.log('newImgCode====', newImgCode)
             }
         },
         mounted: function () {
