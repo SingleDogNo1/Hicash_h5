@@ -8,7 +8,7 @@
 			</header>
 			<div class="wrapper">
 				<ul class="content">
-					<li v-if="refresh" style="font-size:15px;text-align:center;height:50px;line-height:50px;">下拉刷新</li>
+					<li style="position:absolute;top: -40px;left: 0;padding: 0;width:100%;font-size:12px;color:#333;text-align:center;height:40px;line-height:40px;"><inline-loading></inline-loading>{{refreshText}}</li>
 					<li v-for="(item,index) in list" :key="index">
 						<a :href="item.openUrl">
 							<p class="date" v-html="item.createTime"></p>
@@ -19,6 +19,7 @@
 				</ul>
 			</div>
 		</div>
+		<div class="alert" v-if="isShowAlert">刷新成功</div>
 	</div>
 </template>
 
@@ -26,7 +27,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <script type="text/javascript">
-	import {Tab, TabItem, Flexbox, FlexboxItem, Confirm} from 'vux'
+	import {Tab, TabItem, Flexbox, FlexboxItem, Confirm, InlineLoading} from 'vux'
 	import BScroll from 'better-scroll'
 
 	export default {
@@ -34,7 +35,8 @@
 			Tab,
 			TabItem,
 			Flexbox,
-			FlexboxItem
+			FlexboxItem,
+			InlineLoading
 		},
 		data() {
 			return {
@@ -43,7 +45,9 @@
 				scroll: "",
 				phone: false,
 				wx: false,
-				qq: false
+				qq: false,
+				refreshText: '下拉刷新',
+				isShowAlert: false
 			}
 		},
 		mounted() {
@@ -56,9 +60,28 @@
 				}
 			})
 			let _this = this;
-			this.scroll.on('pullingDown', function () {
-				_this.refresh = true;
-				_this.getSysParam();
+			// this.scroll.on('pullingDown', function () {
+			// 	_this.refresh = true;
+			// 	_this.getSysParam();
+			// })
+			this.scroll.on('scroll', function (pos) {
+		        if (pos.y > 30) {
+		          _this.refreshText = '松开刷新'
+		        }
+			})
+			this.scroll.on('touchEnd', function (pos) {
+		  		if (pos.y > 30) {
+		  			setTimeout( () => {
+			  			_this.refreshText = '下拉刷新'
+			  			_this.refresh = false;
+			  			_this.isShowAlert = true;
+			  			setTimeout( () => {
+							_this.isShowAlert = false;
+						},1000);
+			  			_this.getSysParam();
+			  			_this.scroll.refresh();
+		  			}, 1000)
+		  		}
 			})
 		},
 		methods: {
@@ -80,14 +103,14 @@
 						list[i].createTime = list[i].createTime.substring(0, 10);
 						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" + list[i].id;
 					});
-					
+
 					_this.list = list;
 
-					_this.$nextTick(function () {
-						_this.scroll.finishPullDown();
-						_this.scroll.refresh();
-						_this.refresh=false;
-					});
+					// _this.$nextTick(function () {
+					// 	_this.scroll.finishPullDown();
+					// 	_this.scroll.refresh();
+					// 	_this.refresh=false;
+					// });
 				});
 			}
 		}
@@ -100,8 +123,11 @@
 	.notice_page {
 		height: 100%;
 		.wrap {
+			position:relative;
+			z-index:1;
 			height: 100%;
 			padding: 0;
+			background-color: #ccc;
 		}
 		header .go-history:before, header .go-back:before {
 			font-family: "iconfont";
@@ -175,9 +201,24 @@
 							background-color:#fff4df;
 						}
 					}
-					
+					.weui-loading {
+						margin-right: rem(10px);
+					}
 				}
 			}
+		}
+		.alert {
+		    position: fixed;
+		    top: 50px;
+		    left: 0;
+		    z-index: 2;
+		    width: 100%;
+		    height: 35px;
+		    line-height: 35px;
+		    text-align: center;
+		    color: #fff;
+		    font-size: 12px;
+		    background: rgba(7, 17, 27, 0.7);
 		}
 	}
 </style>

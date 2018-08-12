@@ -483,10 +483,6 @@
                                 console.log('result====', result)
                                 resolve(result);
                             };
-                           
-
-                            
-                            
                         });
                 })
             }
