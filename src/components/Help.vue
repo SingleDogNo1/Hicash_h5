@@ -46,30 +46,29 @@
 		<div class="weui-mask" v-show="wx==true || qq == true || phone == true"></div>
 		<div class="weui-dialog" v-if="phone == true">
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >在线客服</strong></div>
-			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">客服电话：400-020-5566</div>
-			<div class="weui-dialog__ft">
-				<a href="tel:400-020-5566" class="weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
+			<div class="weui-dialog__bd" style="background: #fff;height:100px;line-height:100px;color:black;">客服电话：400-020-5566</div>
+			<div class="weui-dialog__ft" style="background: #fff;">
+				<a @click="phone = false" href="tel:400-020-5566" class="weui-dialog__btn weui-dialog__btn_default" style="background: #fff;color:#FF7640">
 					呼叫
 				</a>
-				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="phone = false
-">取消</a>
+				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="phone = false">取消</a>
 			</div>
 		</div>
 		<div class="weui-dialog" v-if="wx == true">
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >微信公众号</strong></div>
-			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">微信公众号：果壳豹有钱</div>
-			<div class="weui-dialog__ft">
-				<a href="javascript:;" class="wx_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
+			<div class="weui-dialog__bd" style="background: #fff;height:100px;line-height:100px;color:black;">微信公众号：果壳豹有钱</div>
+			<div class="weui-dialog__ft" style="background: #fff;">
+				<a @click="wx = false
+" href="javascript:;" class="wx_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
 					复制 </a>
-				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="wx = false
-">取消</a>
+				<a href="javascript:;" class="weui-dialog__btn" style="background: #fff;color:#999;" @click="wx = false">取消</a>
 			</div>
 		</div>
 		<div class="weui-dialog" v-if="qq == true">
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >联系QQ</strong></div>
-			<div class="weui-dialog__bd" style="height:100px;line-height:100px;color:black;">QQ：4000205566</div>
-			<div class="weui-dialog__ft">
-				<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
+			<div class="weui-dialog__bd" style="background: #fff;height:100px;line-height:100px;color:black;">QQ：4000205566</div>
+			<div class="weui-dialog__ft" style="background: #fff;">
+				<a @qq="phone = false" href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
 				复制 </a>
 				<!--<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640" v-clipboard="copyData" @success="handleSuccess">-->
 				<!--复制 </a>-->
@@ -255,7 +254,7 @@
 				background-color: white;
 				min-height:calc( 100% + 15px);
 				li {
-					padding-left: 15px;
+					margin: 0 rem(15px);
 					a{
 						display: block;
 						width: 100%;

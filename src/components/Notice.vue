@@ -168,9 +168,10 @@
 				background-color: white;
 				min-height:calc( 100% + 15px);
 				li {
-					padding-left: 15px;
+					
 					padding-top:10px;
 					padding-bottom:10px;
+					margin: 0 rem(15px);
 					border-bottom: 1px solid #efefef;
 					a{
 						display: block;

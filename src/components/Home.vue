@@ -2,6 +2,7 @@
     <div>
         <header class="home-header">
             <div class="bg" :style="'opacity:' + opacity"></div>
+            <div class="title" :style="'opacity:' + opacity">嗨钱</div>
             <router-link :to="{name: 'notice'}">
                 <img width="22px" src="../assets/images/icon-notice.png" >
             </router-link>
@@ -21,7 +22,7 @@
                     </div>
                 </div>
                 <div class="small-banner">
-                    <scroller lock-y>
+                    <scroller lock-y :bounce=false>
                         <div class="small-banner-scroll-wrap" v-bind:style="{'width':smallBannerList.length*140 - 10 +'px'}">
                             <ul class="clearfix">
                                 <li v-for="item in smallBannerList">
@@ -51,9 +52,9 @@
             </div>
         </scroller>
         <div v-transfer-dom>
-            <x-dialog v-model="adShow" :hide-on-blur=true class="ad-pop">
+            <x-dialog v-model="adShow" :hide-on-blur=true class="ad-pop" v-for="item in adList">
                 <div class="img-box">
-                    <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" style="max-width:100%">
+                    <a :href="item.adPicLink"><img :src="item.picPrefixUrl + item.adPic" style="width: 100%; height:100%"></a>
                 </div>
                 <div @click="adShow=false" class="ad-close">
                     <!-- <span class="vux-close"></span> -->
@@ -91,6 +92,23 @@
             top: 0;
             left: 0;
             z-index: 1;
+            font-size: rem(17px);
+			text-align: center;
+			height:rem(44px);
+            line-height: rem(44px);
+            color: #3f3f3f;
+        }
+        .title{
+            width: 100%;
+            font-size: rem(17px);
+			text-align: center;
+			height:rem(44px);
+            line-height: rem(44px);
+            color: #3f3f3f;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
         }
         img{
             top: rem(10px);
@@ -327,42 +345,15 @@
         data () {
             return {
                 opacity: 0,
+                titleOpacity: 0,
                 oldHicash: '',
                 allLoanApplication: '0',
                 quickRepaymentUrl: '',
                 adShow: false,
-                bannerList: [
-                    {
-                        url: 'javascript:',
-                        img: bannerImg,
-                    }, {
-                        url: 'javascript:',
-                        img: bannerImg,
-                    }
-                ],
-                productsList: [
-                    {
-                        url: 'javascript:',
-                        img: productsImg,
-                        industryCode: ''
-                    },{
-                        url: 'javascript:',
-                        img: productsImg,
-                        industryCode: ''
-                    }
-                ],
-                smallBannerList: [
-                    {
-                        url: 'javascript:',
-                        img: smbImg
-                    },{
-                        url: 'javascript:',
-                        img: smbImg
-                    },{
-                        url: 'javascript:',
-                        img: smbImg
-                    }
-                ],
+                adList: [],
+                bannerList: [],
+                productsList: [],
+                smallBannerList: []
             }
         },
         ready () {
@@ -371,7 +362,10 @@
         methods : {
             onScroll: function(pos) {
                 let top = pos.top > 44 ? 44 : pos.top;
-                this.opacity = 0.65/44 * top;
+                // this.opacity = 0.65/44 * top;
+
+                this.opacity = 1/44 * top;
+
             },
             getHomePagePic: function(params){
                 let _this = this;
@@ -436,8 +430,17 @@
             indexAdvertising: function(params){
                 this.common.indexAdvertising(params)
                 .then((res)=>{
-                   if(res.data.list){
-                       this.adShow = true;
+                   if(res.data.list.length){
+                        this.adList = res.data.list;
+                        this.adShow = true;
+
+                        let _this = this;
+                        let delay = res.data.list[0].times * 1000;
+                        console.info('delay', delay);
+                        setTimeout(function(){
+                            console.info('setTimeout');
+                            _this.adShow = false;
+                        }, delay);
                    }
                 });
             }
@@ -479,7 +482,6 @@
                 postData.append('platform', '');
                 postData.append('version', '');
                 postData.append('uuid', this.utils.uuid());
-                console.info('2222');
             this.getIndexMain(postData);
 
             //快速还款URL
@@ -488,7 +490,7 @@
             //首页弹屏广告
             var postData = new URLSearchParams();
                 postData.append('userName', userName);
-                postData.append('adPosition', 'H5');
+                postData.append('adPosition', '1');
                 postData.append('uuid', this.utils.uuid());
             this.indexAdvertising(postData);
         }
