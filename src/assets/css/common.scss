@@ -291,6 +291,12 @@ header {
             display: none;
         }
     }
+    .help_page .wrapper{
+        height: calc(100% - 44px - 41px);
+    }
+    .notice_page .wrapper{
+        height: 100%;
+    }
 }
 
 .weui-toast{

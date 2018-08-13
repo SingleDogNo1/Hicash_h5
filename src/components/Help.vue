@@ -14,7 +14,7 @@
 			</header>
 			<div class="wrapper">
 				<ul class="content">
-					<li style="position:absolute;top: -40px;left: 0;padding-left: 0;width:100%;font-size:12px;color:#333;text-align:center;height:40px;line-height:40px;"><inline-loading></inline-loading>{{refreshText}}</li>
+					<li class="ref"><inline-loading></inline-loading>{{refreshText}}</li>
 					<li v-for="(item,index) in list" :key="index">
 						<a :href="item.openUrl"><p>{{item.title}}</p></a>
 					</li>
@@ -58,8 +58,7 @@
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >微信公众号</strong></div>
 			<div class="weui-dialog__bd" style="background: #fff;height:100px;line-height:100px;color:black;">微信公众号：果壳豹有钱</div>
 			<div class="weui-dialog__ft" style="background: #fff;">
-				<a @click="wx = false
-" href="javascript:;" class="wx_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
+				<a @click="wx = false" href="javascript:;" class="wx_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
 					复制 </a>
 				<a href="javascript:;" class="weui-dialog__btn" style="background: #fff;color:#999;" @click="wx = false">取消</a>
 			</div>
@@ -72,8 +71,7 @@
 				复制 </a>
 				<!--<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640" v-clipboard="copyData" @success="handleSuccess">-->
 				<!--复制 </a>-->
-				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="qq = false
-">取消</a>
+				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="qq = false">取消</a>
 			</div>
 		</div>
   		<div class="alert" v-if="isShowAlert">刷新成功</div>
@@ -134,22 +132,16 @@
 				probeType: 1
 			})
 			this.scroll.on('scroll', function (pos) {
-		        if (pos.y > 30) {
-		          _this.refreshText = '松开刷新'
+		        if (pos.y > 30 && pos.y < 40) {
+				console.info('pos.y', pos.y);
+
+		          _this.refreshText = '下拉刷新'
 		        }
 			})
 			this.scroll.on('touchEnd', function (pos) {
-		  		if (pos.y > 30) {
-		  			setTimeout( () => {
-			  			_this.refreshText = '下拉刷新'
-			  			_this.refresh = false;
-			  			_this.isShowAlert = true;
-			  			setTimeout( () => {
-							_this.isShowAlert = false;
-						},1000);
-			  			_this.getSysParam();
-			  			_this.scroll.refresh();
-		  			}, 1000)
+		  		if (pos.y > 40) {
+					_this.refreshText = '刷新数据中'
+					_this.getSysParam();
 		  		}
 			})
 		},
@@ -181,11 +173,15 @@
 					
 					_this.list = list;
 
-					// _this.$nextTick(function () {
-					// 	console.log('finish----')
-					// 	//_this.scroll.finishPullDown();
-					// 	_this.scroll.refresh();
-					// });
+					_this.$nextTick(function () {
+						setTimeout( () => {
+							_this.refreshText = '刷新成功'
+							setTimeout( () => {
+								_this.scroll.refresh();
+								_this.refreshText = '下拉刷新'
+							}, 500)
+						}, 1000)
+					});
 				});
 			}
 		}
@@ -202,7 +198,6 @@
 			z-index:1;
 			height: 100%;
 			padding: 0;
-			background-color: #ccc;
 		}
 		header .go-history:before, header .go-back:before {
 			font-family: "iconfont";
@@ -225,9 +220,6 @@
 			line-height: 95px;
 			display: block;
 			position: relative;
-		}
-		.vux-tab-wrap {
-
 		}
 		footer {
 			position: absolute;
@@ -253,6 +245,7 @@
 			.content {
 				background-color: white;
 				min-height:calc( 100% + 15px);
+				
 				li {
 					margin: 0 rem(15px);
 					a{
@@ -270,6 +263,28 @@
 						margin-right: rem(10px);
 					}
 				}
+				li.ref{
+					
+					position: absolute;
+	
+					top: -48px;
+	
+					left: 0;
+	
+					padding-left: 0;
+	
+					width: 100%;
+	
+					font-size: 12px;
+	
+					color: #333;
+	
+					text-align: center;
+	
+					height: 48px;
+	
+					line-height: 48px;
+					}
 			}
 		}
 		.flex-demo{
