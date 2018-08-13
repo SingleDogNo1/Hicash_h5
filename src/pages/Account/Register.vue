@@ -262,7 +262,6 @@
         },
         methods: {
             toggle () {
-                console.log('this.boxshow====', this.boxshow)
                 this.boxshow = !this.boxshow;
             },
             getMessageCode (position) {
