@@ -60,27 +60,19 @@
 				}
 			})
 			let _this = this;
-			// this.scroll.on('pullingDown', function () {
-			// 	_this.refresh = true;
-			// 	_this.getSysParam();
-			// })
+
 			this.scroll.on('scroll', function (pos) {
-		        if (pos.y > 30) {
-		          _this.refreshText = '松开刷新'
+		        if (pos.y > 30 && pos.y < 40) {
+				console.info('pos.y', pos.y);
+
+		          _this.refreshText = '下拉刷新'
 		        }
 			})
+
 			this.scroll.on('touchEnd', function (pos) {
-		  		if (pos.y > 30) {
-		  			setTimeout( () => {
-			  			_this.refreshText = '下拉刷新'
-			  			_this.refresh = false;
-			  			_this.isShowAlert = true;
-			  			setTimeout( () => {
-							_this.isShowAlert = false;
-						},1000);
-			  			_this.getSysParam();
-			  			_this.scroll.refresh();
-		  			}, 1000)
+		  		if (pos.y > 40) {
+					_this.refreshText = '刷新数据中'
+					_this.getSysParam();
 		  		}
 			})
 		},
@@ -106,11 +98,15 @@
 
 					_this.list = list;
 
-					// _this.$nextTick(function () {
-					// 	_this.scroll.finishPullDown();
-					// 	_this.scroll.refresh();
-					// 	_this.refresh=false;
-					// });
+					_this.$nextTick(function () {
+						setTimeout( () => {
+							_this.refreshText = '刷新成功'
+							setTimeout( () => {
+								_this.scroll.refresh();
+								_this.refreshText = '下拉刷新'
+							}, 500)
+						}, 1000)
+					});
 				});
 			}
 		}
@@ -127,7 +123,6 @@
 			z-index:1;
 			height: 100%;
 			padding: 0;
-			background-color: #ccc;
 		}
 		header .go-history:before, header .go-back:before {
 			font-family: "iconfont";

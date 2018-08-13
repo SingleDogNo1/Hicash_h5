@@ -194,6 +194,7 @@
                     // margin-bottom: rem(5px);
                     img{
                         width: 100%;
+                        height: 100%;
                     }
                 }
                 li:last-child{
