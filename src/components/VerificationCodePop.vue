@@ -106,6 +106,9 @@
         },
         methods: {
             btnSubmit() {
+                console.log('this.type====', this.type)
+                let sendType;
+                this.type === 'register' ? sendType = 'register' : sendType = 'login'
                 var errorMsg = "";
                 if (this.imgCode == "") {
                     errorMsg="请输入图形验证码";
@@ -118,7 +121,7 @@
                 postData.append('userName', this.mobile);
                 postData.append('mobile', this.mobile);
                 postData.append('sendFrom', 'HTML5');
-                postData.append('sendType', 'login');
+                postData.append('sendType', sendType);
                 postData.append('requestSource', 'HTML5');
                 postData.append('uuid', this.utils.uuid());
                 postData.append('authId', this.authId);

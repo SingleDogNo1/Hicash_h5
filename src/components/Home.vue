@@ -17,7 +17,7 @@
                     </div>
                     <div class="product-lists">
                         <ul>
-                            <li v-for="item in productsList" :id="item.industryCode"><a :href="item.url"><img :src="item.img"></a></li>
+                            <li v-for="(item, index) in productsList" :id="item.industryCode" :key="index"><a :href="item.url"><img :src="item.img"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <scroller lock-y :bounce=false>
                         <div class="small-banner-scroll-wrap" v-bind:style="{'width':smallBannerList.length*140 - 10 +'px'}">
                             <ul class="clearfix">
-                                <li v-for="item in smallBannerList">
+                                <li v-for="(item, index) in smallBannerList" :key="index">
                                     <a :href="item.picUrl">
                                         <img :src="item.picPrefixUrl + item.picSmallUrl">
                                     </a>
@@ -52,7 +52,7 @@
             </div>
         </scroller>
         <div v-transfer-dom>
-            <x-dialog v-model="adShow" :hide-on-blur=true class="ad-pop" v-for="item in adList">
+            <x-dialog v-model="adShow" :hide-on-blur=true class="ad-pop" v-for="(item, index) in adList" :key="index">
                 <div class="img-box">
                     <a :href="item.adPicLink"><img :src="item.picPrefixUrl + item.adPic" style="width: 100%; height:100%"></a>
                 </div>
