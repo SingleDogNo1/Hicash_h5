@@ -105,9 +105,6 @@
         ready () {
         },
         methods: {
-            change() {
-
-            },
             btnSubmit() {
                 var errorMsg = "";
                 if (this.imgCode == "") {
@@ -132,6 +129,7 @@
                         if(data.resultCode=="1"){
                             console.log('data====', data)
                             this.showToast1 = false;
+                            this.$emit('showToast', this.showToast1);
                             // this.$emit('newAuthId', data.authId);
                             // this.$emit('newAuthPic', data.authPic);
                             this.utils.timeCount(60, (data) => {
@@ -167,15 +165,18 @@
             }
         },
         mounted: function () {
-            //this.getImgCode();
         },
         watch: {
             showToast: function (val, oldVal) {
                 this.showToast1 = val;
+                this.imgCode = ''
             },
             authPic: function (val, oldVal) {
                 this.newAuthPic = val;
             }
+        },
+        destroyed () {
+            this.showToast1 = false;
         }
     }
 </script>

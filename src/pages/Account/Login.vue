@@ -30,7 +30,7 @@
                 <button class="btn-login" @click="passwordLogin">登录</button>
             </div>
         </div>
-        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" ></VerificationCodePop>
+        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" @showToast="showToast1"></VerificationCodePop>
         <iframe id="oldHicash" :src="oldHicash"></iframe>
     </div>
 </template>
@@ -281,6 +281,7 @@
                                 });
                             } else {
                                 this.showToast = true;
+                                console.log('this.showToast====', this.showToast)
                                 this.authPic = 'data:image/jpg;base64,' + data.authPic;
                             }
                         } else {
@@ -325,6 +326,7 @@
                         let data = res.data;
                         if(data.resultCode === '1') {
                             this.jsCommon.setAuthorization(data.userName, data.token);
+                            this.imgCode = '';
                             this.afterLogin(data).then((res)=>{
                                 var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
                                 this.$router.push({path: redirect});
@@ -336,6 +338,7 @@
                                 position: 'middle',
                                 text: this.errorMsg
                             })
+                            this.imgCode = '';
                         }
                     });
 
@@ -367,6 +370,7 @@
                         let data = res.data;
                         if(data.resultCode === '1') {
                             this.jsCommon.setAuthorization(data.userName, data.token);
+                            this.imgCode = '';
                             this.afterLogin(data).then((res)=>{
                                 var redirect = this.$route.query.redirect ? this.$route.query.redirect : '/';
                                 this.$router.push({path: redirect});
@@ -378,6 +382,7 @@
                                 position: 'middle',
                                 text: this.errorMsg
                             })
+                            this.imgCode = '';
                         }
                     });
             },
@@ -390,6 +395,10 @@
             newImgCode(newImgCode) {
                 this.imgCode = newImgCode;
                 console.log('newImgCode====', newImgCode)
+            },
+            showToast1(showToast1) {
+                console.log('showToast1=======', showToast1)
+                this.showToast = showToast1;
             },
             afterLogin(data) {
                 return new Promise((resolve,reject)=> {
