@@ -3,7 +3,7 @@
         <x-dialog v-model="showToast1">
             <div class="pop-warp">
                 <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4" autocomplete="off">
-                    <img slot="right-full-height" :src="authPic" @click="change" class="img-code-pic">
+                    <img slot="right-full-height" :src="newAuthPic" @click="change" class="img-code-pic">
                 </x-input>
                 <button class="btn-submit" @click="btnSubmit">确认</button>
             </div>
@@ -74,8 +74,17 @@
             mobile: {
                 type: String
             },
+            authId: {
+                type: String
+            },
+            authPic : {
+                type: String
+            },
             showToast: {
                 type: Boolean
+            },
+            type: {
+                type: String
             }
         },
         directives: {
@@ -88,9 +97,9 @@
         data () {
             return {
                 imgCode: '',
-                authPic: '',
                 getMessageCodeText: '',
-                showToast1: false
+                showToast1: false,
+                newAuthPic: ''
             }
         },
         ready () {
@@ -119,23 +128,27 @@
                 postData.append('imageCode', this.imgCode);
                 this.common.getMessageCode(postData)
                     .then((res)=>{
-                        if(res.data.resultCode=="1"){
-                            // this.utils.timeCount(60, function(data){
-                            //     this.$emit('timeCount', data);
-                            //     //this.getMessageCodeText = data;
-                            // });
-                        } else {
-                            // this.errorMsg = res.data.resultMsg;
-                            // this.$vux.toast.show({
-                            //     type: 'cancel',
-                            //     position: 'middle',
-                            //     text: this.errorMsg
-                            // })
+                        let data = res.data;
+                        if(data.resultCode=="1"){
+                            console.log('data====', data)
                             this.showToast1 = false;
+                            // this.$emit('newAuthId', data.authId);
+                            // this.$emit('newAuthPic', data.authPic);
                             this.utils.timeCount(60, (data) => {
                                 this.getMessageCodeText = data;
                                 this.$emit('timeCount', this.getMessageCodeText);
                             });
+                            this.$emit('imgCode', this.imgCode);
+                        } else {
+                            this.errorMsg = data.resultMsg;
+                            this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: this.errorMsg
+                            })
+                            // 图片验证码
+                            this.newAuthPic = 'data:image/jpg;base64,' + res.data.authPic;
+                            //this.authId = res.data.authId;
                         }
                     });
             },
@@ -143,20 +156,25 @@
                 this.getImgCode();
             },
             getImgCode() {
-                this.common.getImgCode()
+                let params = new URLSearchParams();
+                params.append('userName', this.mobile);
+                params.append('uuid', this.utils.uuid());
+                this.common.getImgCode(params)
                 .then((res)=>{
                     // 图片验证码
-                    this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-                    this.authId = res.data.authId;
+                    this.newAuthPic = 'data:image/jpg;base64,' + res.data.authPic;
                 });
             }
         },
         mounted: function () {
-            this.getImgCode();
+            //this.getImgCode();
         },
         watch: {
             showToast: function (val, oldVal) {
                 this.showToast1 = val;
+            },
+            authPic: function (val, oldVal) {
+                this.newAuthPic = val;
             }
         }
     }

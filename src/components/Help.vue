@@ -14,7 +14,7 @@
 			</header>
 			<div class="wrapper">
 				<ul class="content">
-					<li  v-if="refresh" style="font-size:15px;text-align:center;height:50px;line-height:50px;">下拉刷新</li>
+					<li style="position:absolute;top: -40px;left: 0;padding-left: 0;width:100%;font-size:12px;color:#333;text-align:center;height:40px;line-height:40px;"><inline-loading></inline-loading>{{refreshText}}</li>
 					<li v-for="(item,index) in list" :key="index">
 						<a :href="item.openUrl"><p>{{item.title}}</p></a>
 					</li>
@@ -77,10 +77,11 @@
 ">取消</a>
 			</div>
 		</div>
+  		<div class="alert" v-if="isShowAlert">刷新成功</div>
 	</div>
 </template>
 <script type="text/javascript">
-	import {Tab, TabItem, Flexbox, FlexboxItem} from 'vux';
+	import {Tab, TabItem, Flexbox, FlexboxItem, InlineLoading} from 'vux';
 	import Clipboard from 'clipboard';
 	import BScroll from 'better-scroll'
 	export default {
@@ -88,17 +89,19 @@
 			Tab,
 			TabItem,
 			Flexbox,
-			FlexboxItem
+			FlexboxItem,
+			InlineLoading
 		},
 		data() {
 			return {
 				list: [],
 				subType: 'RMWT',
-				refresh: false,
 				scroll:"",
 				phone:false,
 				wx:false,
-				qq:false
+				qq:false,
+				refreshText: '下拉刷新',
+				isShowAlert: false
 			}
 		},
 		mounted() {
@@ -128,11 +131,27 @@
 				scrollY: true,
 				pullDownRefresh: {
 					threshold: 30, // 当下拉到超过顶部 30px 时，
-				}
+				},
+				probeType: 1
 			})
-			this.scroll.on('pullingDown', function () {
-				_this.refresh = true;
-				_this.getSysParam();
+			this.scroll.on('scroll', function (pos) {
+		        if (pos.y > 30) {
+		          _this.refreshText = '松开刷新'
+		        }
+			})
+			this.scroll.on('touchEnd', function (pos) {
+		  		if (pos.y > 30) {
+		  			setTimeout( () => {
+			  			_this.refreshText = '下拉刷新'
+			  			_this.refresh = false;
+			  			_this.isShowAlert = true;
+			  			setTimeout( () => {
+							_this.isShowAlert = false;
+						},1000);
+			  			_this.getSysParam();
+			  			_this.scroll.refresh();
+		  			}, 1000)
+		  		}
 			})
 		},
 		methods: {
@@ -163,11 +182,11 @@
 					
 					_this.list = list;
 
-					_this.$nextTick(function () {
-						_this.scroll.finishPullDown();
-						_this.scroll.refresh();
-						_this.refresh=false;
-					});
+					// _this.$nextTick(function () {
+					// 	console.log('finish----')
+					// 	//_this.scroll.finishPullDown();
+					// 	_this.scroll.refresh();
+					// });
 				});
 			}
 		}
@@ -180,8 +199,11 @@
 	.help_page {
 		height: 100%;
 		.wrap {
+			position:relative;
+			z-index:1;
 			height: 100%;
 			padding: 0;
+			background-color: #ccc;
 		}
 		header .go-history:before, header .go-back:before {
 			font-family: "iconfont";
@@ -245,6 +267,9 @@
 							color:#999;
 						}
 					}
+					.weui-loading {
+						margin-right: rem(10px);
+					}
 				}
 			}
 		}
@@ -262,6 +287,19 @@
 				font-size:rem(13px);
 				display:inline-block;
 			}
+		}
+		.alert {
+		    position: fixed;
+		    top: 95px;
+		    left: 0;
+		    z-index: 2;
+		    width: 100%;
+		    height: 35px;
+		    line-height: 35px;
+		    text-align: center;
+		    color: #fff;
+		    font-size: 12px;
+		    background: rgba(7, 17, 27, 0.7);
 		}
 	}
 </style>

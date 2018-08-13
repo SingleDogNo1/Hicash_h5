@@ -18,8 +18,8 @@
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" @keyup.enter.native="passwordLogin">
-                    <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')">
+                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" @keyup.enter.native="messageLogin">
+                    <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')"  :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
                 <button class="btn-login" @click="messageLogin('middle')"> 登录</button>
@@ -30,7 +30,7 @@
                 <button class="btn-login" @click="passwordLogin">登录</button>
             </div>
         </div>
-        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authPic="authPic" @timeCount="showTimeCount" ></VerificationCodePop>
+        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" ></VerificationCodePop>
         <iframe id="oldHicash" :src="oldHicash"></iframe>
     </div>
 </template>
@@ -139,6 +139,9 @@
                         border: none !important;
                         font-size: .666667rem /* 15/22.5 */ !important;
                     }
+                    .weui-btn_primary:disabled {
+                        color: #fff;
+                    }
                 }
                 .message-code:before {
                     border-top: none !important;
@@ -190,9 +193,14 @@
         }
     }
     .weui-toast_cancel {
-        min-height: 5em !important;
+        width: auto !important;
+        padding: 0 .444444rem /* 10/22.5 */;
+        min-height: auto !important;
         .weui-icon_toast {
             margin: 8px 0 6px 0 !important
+        }
+        .weui-icon_toast.weui-icon-success-no-circle:before{
+            font-size: 35px !important;
         }
     }
 </style>
@@ -215,7 +223,7 @@
         },
         data () {
             return {
-                type: '',
+                type: 'login',
                 authId: '',
                 mobile: '',
                 password: '',
@@ -230,7 +238,8 @@
                 },
                 showToast: false,
                 oldHicash: '',
-                authPic: ''
+                authPic: '',
+                isDisabled: false
             }
         },
         ready () {
@@ -255,19 +264,24 @@
                 postData.append('mobile', this.mobile);
                 postData.append('sendFrom', 'HTML5');
                 postData.append('sendType', 'login');
+                postData.append('authId', this.authId);
+                postData.append('imageCode', this.imgCode);
                 postData.append('uuid', this.utils.uuid());
                 this.common.getMessageCode(postData)
                     .then((res)=>{
                         let data = res.data;
-                        if(data.resultCode=="1"){
+                        if(data.resultCode=="1" || data.resultCode=="2"){
+                            console.log('data-----', data)
                             // 是否显示图片验证码 （1显示，0不显示）
-                            if(data.showAuthPic === 0) {
-                                this.utils.timeCount(60, function(timeCount){
+                            if(data.showAuthPic === "0") {
+                                this.isDisabled = true;
+                                this.utils.timeCount(60, (timeCount)=>{
                                     this.getMessageCodeText = timeCount;
+                                    if(this.getMessageCodeText === '获取验证码') this.isDisabled = false;
                                 });
                             } else {
                                 this.showToast = true;
-                                this.authPic = data.authPic;
+                                this.authPic = 'data:image/jpg;base64,' + data.authPic;
                             }
                         } else {
                             this.errorMsg = data.resultMsg;
@@ -301,7 +315,7 @@
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
                 postData.append('userName', this.mobile);
-                postData.append('passWord', '11111');
+                postData.append('passWord', this.messageCode);
                 postData.append('type', 2);
                 postData.append('requestSource', 'h5');
                 console.log('postData=====', postData)
@@ -346,7 +360,6 @@
                 postData.append('cityCode', '310100');
                 postData.append('userName', this.mobile);
                 postData.append('passWord', this.password);
-                postData.append('imageCode', this.imgCode);
                 postData.append('type', 1);
                 console.log('postData=====', postData)
                 this.common.login(postData)
@@ -370,7 +383,13 @@
             },
             showTimeCount(timeCount) {
                 this.getMessageCodeText = timeCount;
+                this.isDisabled = true;
+                if(this.getMessageCodeText === '获取验证码') this.isDisabled = false;
                 console.log('this.getMessageCodeText====', this.getMessageCodeText)
+            },
+            newImgCode(newImgCode) {
+                this.imgCode = newImgCode;
+                console.log('newImgCode====', newImgCode)
             },
             afterLogin(data) {
                 return new Promise((resolve,reject)=> {
@@ -479,10 +498,6 @@
                                 console.log('result====', result)
                                 resolve(result);
                             };
-                           
-
-                            
-                            
                         });
                 })
             }

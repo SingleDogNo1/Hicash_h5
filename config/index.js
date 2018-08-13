@@ -76,11 +76,11 @@ module.exports = {
             '^/ruleService':''
         }
       },
-      '/hicashapi-service':{
-        target:'http://218.244.138.24:8086/hicashapi-service',
+      '/hicash-api-service':{
+        target:'http://47.104.254.92:30079/hicash-api-service',
         changeOrigin:true,
         pathRewrite:{
-            '^/hicashapi-service':''
+            '^/hicash-api-service':''
         }
       },
       '/ParameterService':{
