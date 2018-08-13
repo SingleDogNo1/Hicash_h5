@@ -341,9 +341,14 @@
         }
     }
     .weui-toast_cancel {
-        min-height: 5em !important;
+        width: auto !important;
+        padding: 0 .444444rem /* 10/22.5 */;
+        min-height: auto !important;
         .weui-icon_toast {
             margin: 8px 0 6px 0 !important
+        }
+        .weui-icon_toast.weui-icon-success-no-circle:before{
+            font-size: 35px !important;
         }
     }
 </style>
