@@ -14,7 +14,8 @@ export default {
     checkRealName: checkRealName,           //校验真实姓名
     checkAearTel: checkAearTel,              //校验固话(带区号)
     checkCardNum: checkCardNum,              //校验借记卡号
-    getPlatform: getPlatform                //获取comeFrom
+    getPlatform: getPlatform,                //获取comeFrom
+    toThousands: toThousands                //格式化数据格式字符串 没三位添加逗号
 
 }
 
@@ -317,4 +318,21 @@ export function getPlatform() {
     var ua = navigator.userAgent;
     var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
     return comeFrom;
+}
+
+
+export function toThousands(num) {
+    var num = (num || 0).toString(), re = /\d{3}$/, result = '';
+    while ( re.test(num) ) {
+        result = RegExp.lastMatch + result;
+        if (num !== RegExp.lastMatch) {
+            result = ',' + result;
+            num = RegExp.leftContext;
+        } else {
+            num = '';
+            break;
+        }
+    }
+    if (num) { result = num + result; }
+    return result;
 }

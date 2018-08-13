@@ -39,7 +39,9 @@ export default{
   withHoldBank:　withHoldBank,
   getOwnData: getOwnData,
   searchBankCard: searchBankCard,
-  getSmallBannerDetail: getSmallBannerDetail
+  getSmallBannerDetail: getSmallBannerDetail,
+  navigateToRecharge: navigateToRecharge,
+  indexAdvertising: indexAdvertising
 }
 
 
@@ -539,6 +541,32 @@ export function searchBankCard(params){
 export function getSmallBannerDetail(id){
   return new Promise((resolve,reject)=>{
     axios.get("/HicashService/SmallPicBanr?id=" + id).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  navigateToRecharge
+ */
+export function navigateToRecharge(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/navigateToRecharge",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  首页弹屏广告
+ */
+export function indexAdvertising(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/IndexAdvertising",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

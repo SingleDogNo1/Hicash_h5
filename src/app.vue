@@ -119,8 +119,8 @@ export default {
     }
     .icon-me {
         display: block;
-        width: 1rem;
-        height: 1rem;
+        width: 0.8rem;
+        height: 0.8rem;
         margin-top: 0.15rem;
         background: url("./assets/images/icon_me.png") center center no-repeat;
         background-size: cover;
@@ -148,7 +148,7 @@ export default {
     }
     .weui-tabbar__item:last-child {
         .weui-tabbar__icon {
-            width: 0.9rem !important;
+            width: 0.8rem !important;
         }
     }
     .weui-cell:before{

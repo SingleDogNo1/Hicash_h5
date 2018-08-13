@@ -194,6 +194,9 @@
             margin: 8px 0 6px 0 !important
         }
     }
+    .weui-tabbar:before{
+        border: 0 !important;
+    }
 </style>
 
 <script type="text/javascript">

@@ -198,7 +198,7 @@
 </style>
 
 <script type="text/javascript">
-    import { Tab, TabItem, XInput, XButton} from 'vux'
+    import { Tab, TabItem, XInput, XButton, Loading} from 'vux'
 
     import VerificationCodePop from '@/components/VerificationCodePop'
 
@@ -210,7 +210,8 @@
             TabItem,
             XInput,
             XButton,
-            VerificationCodePop
+            VerificationCodePop,
+            Loading
         },
         data () {
             return {
@@ -411,6 +412,11 @@
                             this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
 
                             const MWEB_PATH = this.config.MWEB_PATH;
+
+                            this.$vux.loading.show({
+                                text: '数据请求中'
+                            })
+                            
                             // TODU 新老嗨钱融合中的代码，后续优化
                             document.getElementById('oldHicash').onload=()=>{
                                 if(data.isVip&&vipCount!="1"){
@@ -426,17 +432,19 @@
 
                                 var ref=window.location.href;
                                 var from = this.utils.getQueryString("from");
-                                console.log('from====', from);
                                 if(from == 'shixin'){
                                     var _appNo = this.utils.getQueryString('appNo');
-                                    $.post(MWEB_PATH+"api/?api=navigateToRecharge",{
-                                        appNo: _appNo,
-                                        userName:this.utils.getCookie("userName"),
-                                        uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
-                                    }, function(data) {
+                                    var postData = new URLSearchParams();
+                                        postData.append('appNo', _appNo);
+                                        postData.append('userName', this.utils.getCookie("userName"));
+                                        postData.append('comeFrom', this.utils.getPlatform());
+                                        postData.append('uuid', this.utils.uuid());
+
+                                    this.common.navigateToRecharge(postData)
+                                    .then(function(){
                                         window.location.href = data.rechargeUrl;
-                                    },'json');
-                                    console.info('from to shixin', _appNo);
+                                    });
+                                    
                                     return false;
                                 }
                                 

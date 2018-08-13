@@ -46,9 +46,20 @@
                             <span class="help-center-ico">帮助中心</span>
                         </router-link>
                     </li>
-                </ul> 
+                </ul>
+                <div class="footer-tips">客服热线：400-020-5566</div> 
             </div>
         </scroller>
+        <div v-transfer-dom>
+            <x-dialog v-model="adShow" :hide-on-blur=true class="ad-pop">
+                <div class="img-box">
+                    <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" style="max-width:100%">
+                </div>
+                <div @click="adShow=false" class="ad-close">
+                    <!-- <span class="vux-close"></span> -->
+                </div>
+            </x-dialog>
+        </div>
         <iframe id="oldHicash" :src="oldHicash"></iframe>
         <page-footer></page-footer>
     </div>
@@ -93,6 +104,8 @@
     .wrap{
         height: auto;
         position: relative;
+
+        
     }
     .products{
         width: 100%;
@@ -177,7 +190,7 @@
         background: #fff;
         margin: 0;
         margin-top: 0.5rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         padding: 0 1rem;
         font-size: rem(14px);
         list-style: none;
@@ -227,6 +240,15 @@
         }
     }
 
+    .footer-tips{
+        width: 100%;
+        text-align: center;
+        font-family: PingFangSC-Regular;
+        font-size: rem(15px);
+        color: #999999;
+        letter-spacing: 0;
+        margin-bottom: 0.5rem;
+    }
 
     #oldHicash{
         display: none;
@@ -235,10 +257,56 @@
     .vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active {
         background-color: #fff !important;
     }
+
+    .ad-pop {
+        .weui-dialog{
+            width: 11.675rem !important;
+            height: 15.85rem !important;
+            padding-bottom: 8px;
+            background: transparent !important;
+            border-radius: 0 !important;
+            overflow: auto !important;
+        }
+        .dialog-title {
+            line-height: 30px;
+            color: #666;
+        }
+        .img-box {
+            height: 100%;
+            overflow: hidden;
+            img{
+                border-radius: 10px;
+            }
+        }
+        .ad-close {
+            position: absolute;
+            width: 1.375rem;
+            height: 1.375rem;
+            top: -2.075rem;
+            right: 0;
+            background: none;
+            display: block;
+            z-index: 99999;
+            &:before {
+                position: absolute;
+                content: '';
+                width: 1.375rem;
+                height: 1.375rem;
+                background: url('../assets/images/ad-close.png');
+                background-size: 1.375rem 1.375rem;
+                font-family: 'iconfont';
+                font-size: 1.375rem;
+                color: #fff;
+                top: 0;
+                left: 0;
+            }
+        }
+        
+    }
 </style>
 
 <script type="text/javascript">
-    import { Swiper, Scroller} from 'vux'
+    import { Swiper, Scroller, XDialog, TransferDom} from 'vux'
 
     import PageFooter from '../components/PageFooter.vue'
 
@@ -250,7 +318,11 @@
         components: {
             Swiper,
             PageFooter,
-            Scroller
+            Scroller,
+            XDialog
+        },
+        directives: {
+            TransferDom
         },
         data () {
             return {
@@ -258,6 +330,7 @@
                 oldHicash: '',
                 allLoanApplication: '0',
                 quickRepaymentUrl: '',
+                adShow: false,
                 bannerList: [
                     {
                         url: 'javascript:',
@@ -327,7 +400,7 @@
                 this.common.getAllLoanApplication()
                 .then((res)=>{
                     let data = res.data;
-                    this.allLoanApplication = data.AllLoanApplication;
+                    this.allLoanApplication = this.utils.toThousands(data.AllLoanApplication);
                 })
             },
             getIndexMain: function(params){
@@ -359,12 +432,19 @@
 
                     });
                 })
+            },
+            indexAdvertising: function(params){
+                this.common.indexAdvertising(params)
+                .then((res)=>{
+                   if(res.data.list){
+                       this.adShow = true;
+                   }
+                });
             }
-            
         },
         mounted: function () {
             let _this = this;
-            var userName = this.utils.getCookie("userName");
+            var userName = this.utils.getCookie("userName") || '';
             if(userName){
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
@@ -404,6 +484,13 @@
 
             //快速还款URL
             this.quickRepaymentUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html';
+
+            //首页弹屏广告
+            var postData = new URLSearchParams();
+                postData.append('userName', userName);
+                postData.append('adPosition', 'H5');
+                postData.append('uuid', this.utils.uuid());
+            this.indexAdvertising(postData);
         }
     }
 </script>
