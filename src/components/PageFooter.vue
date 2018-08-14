@@ -2,7 +2,7 @@
     <tabbar class="vux-demo-tabbar footer" slot="bottom">
         <tabbar-item :link="{path:'/'}" :selected="$route.path === '/'">
             <span class="icon-home" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
-            <span slot="label">首页</span>
+            <span slot="label">首页{{$route.path === '/'}}</span>
         </tabbar-item>
         <tabbar-item :href="sxUrl">
             <span class="icon-broke-promise-area" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>

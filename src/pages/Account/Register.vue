@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" ></VerificationCodePop>
+        <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" @showToast="showToast1"></VerificationCodePop>
     </div>
 </template>
 
@@ -460,7 +460,10 @@
             newImgCode(newImgCode) {
                 this.imgCode = newImgCode;
                 console.log('newImgCode====', newImgCode)
-            }
+            },
+            showToast1(showToast1) {
+                this.showToast = showToast1;
+            },
         },
         mounted: function () {
             this.agreementUrl1 = this.config.MWEB_PATH + 'newweb/agreement/registAgreement.html?comeCode=gk';
