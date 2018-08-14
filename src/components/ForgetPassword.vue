@@ -32,7 +32,7 @@
                 </div>
                 <div class="repeat-password-wrap">
                     <i class="iconfont">&#xe623;</i>
-                    <x-input v-model="repeatPassword" placeholder="请再次输入密码" class="weui-vcode repeat-password"type="password">
+                    <x-input v-model="repeatPassword" placeholder="请再次输入密码" class="weui-vcode repeat-password" type="password">
                     </x-input>
                 </div>
                 <toast v-model="showPositionValue" type="text" :time="3000" is-show-mask :position="position">{{errorMsg}}</toast>
@@ -71,7 +71,7 @@
             }
         }
         .container {
-            padding-top: 3.95rem;
+            padding-top: 2.95rem;
             width: 100%;
             .forget-password-form {
                 width: 14.3rem;
@@ -79,7 +79,7 @@
                 .mobile-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 4.6rem;
+                        top: 3.6rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -98,7 +98,7 @@
                 .message-code-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 7.4rem;
+                        top: 6.4rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -143,7 +143,7 @@
                 .new-password-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 4.6rem;
+                        top: 3.6rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -162,7 +162,7 @@
                 .repeat-password-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 7.5rem;
+                        top: 6.5rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -188,7 +188,7 @@
             margin: 8px 0 0 !important;
         }
     }
-   .weui-toast_cancel {
+    .weui-toast_cancel {
         width: auto !important;
         padding: 0 .444444rem /* 10/22.5 */;
         min-height: auto !important;
@@ -198,6 +198,9 @@
         .weui-icon_toast.weui-icon-success-no-circle:before{
             font-size: 35px !important;
         }
+    }
+    .weui-toast {
+        width: auto !important;
     }
     .weui-tabbar:before{
         border: 0 !important;
