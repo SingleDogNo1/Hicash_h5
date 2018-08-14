@@ -182,7 +182,7 @@
         }
     }
     .weui-toast_success {
-        width: 6em !important;
+        width:  5.6em !important;
         min-height: 5em !important;
         .weui-icon_toast {
             margin: 8px 0 0 !important;
@@ -199,11 +199,11 @@
             font-size: 35px !important;
         }
     }
-    .weui-toast {
-        width: auto !important;
-    }
     .weui-tabbar:before{
         border: 0 !important;
+    }
+    .weui-toast.weui-toast_text {
+        width: auto !important;
     }
 </style>
 
@@ -228,9 +228,9 @@
                 errorMsg: '',
                 mobile: '',
                 messageCode: '',
-                getMessageCodeText: '获取短信验证码',
+                getMessageCodeText: '获取验证码',
                 isCountdown: false,
-                step: 2,
+                step: 1,
                 newPassword: '',
                 repeatPassword: '',
                 title: '忘记密码'
