@@ -28,6 +28,9 @@
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
                 <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"  @keyup.enter.native="passwordLogin"></x-input>
                 <button class="btn-login" @click="passwordLogin">登录</button>
+                <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
+                    忘记密码?
+                </router-link>
             </div>
         </div>
         <VerificationCodePop :mobile="mobile" :showToast="showToast" :authId="authId" :authPic="authPic" :type="type" @timeCount="showTimeCount" @imgCode="newImgCode" @showToast="showToast1"></VerificationCodePop>
