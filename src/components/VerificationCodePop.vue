@@ -108,7 +108,7 @@
             btnSubmit() {
                 console.log('this.type====', this.type)
                 let sendType;
-                this.type === 'register' ? sendType = 'register' : sendType = 'login'
+                this.type === 'register' ? sendType = 'regist' : sendType = 'login'
                 var errorMsg = "";
                 if (this.imgCode == "") {
                     errorMsg="请输入图形验证码";
