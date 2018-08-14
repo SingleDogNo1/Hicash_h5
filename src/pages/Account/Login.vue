@@ -266,6 +266,7 @@
                     this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
+                this.imgCode = '';
                 var postData = new URLSearchParams();
                 postData.append('userName', this.mobile);
                 postData.append('mobile', this.mobile);
