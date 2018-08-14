@@ -34,22 +34,15 @@ module.exports = {
 
     cssSourceMap: true,
     proxyTable: {
-      '/api':{
-        target:'http://115.29.193.125/api',
-        changeOrigin:true,
-        pathRewrite:{
-            '^/api':''
-        }
-      },
       '/HicashAppService':{
-        target:'http://115.29.193.125:8081/HicashAppService',
+        target:'http://10.139.96.70:8080/HicashAppService',
         changeOrigin:true,
         pathRewrite:{
             '^/HicashAppService':''
         }
       },
       '/NewHicashService':{
-        target:'http://115.29.250.40:8081/NewHicashService',
+        target:'http://10.139.38.197:8081/NewHicashService',
         changeOrigin:true,
         pathRewrite:{
             '^/NewHicashService':''
@@ -60,13 +53,6 @@ module.exports = {
         changeOrigin:true,
         pathRewrite:{
             '^/HicashService':''
-        }
-      },
-      '/creditservice':{
-        target:'http://112.124.126.196:8081/creditservice',
-        changeOrigin:true,
-        pathRewrite:{
-            '^/creditservice':''
         }
       },
       '/ruleService':{
@@ -81,13 +67,6 @@ module.exports = {
         changeOrigin:true,
         pathRewrite:{
             '^/hicash-api-service':''
-        }
-      },
-      '/ParameterService':{
-        target:'http://218.244.130.172:8080/ParameterService',
-        changeOrigin:true,
-        pathRewrite:{
-            '^/ParameterService':''
         }
       }
     }
