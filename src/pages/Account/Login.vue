@@ -2,7 +2,8 @@
     <div class="login-body" id="login-body">
         <!-- header -->
         <header  class="login-header">
-            <a class="go-back"  href="JavaScript:history.back(-1)"></a>
+            <router-link class="go-back" :to="{name: 'Home'}">
+            </router-link>
             <router-link class="go-to-register" :to="{name: 'Register'}">
                 注册
             </router-link>
