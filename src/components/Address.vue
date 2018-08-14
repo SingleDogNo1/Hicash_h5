@@ -112,7 +112,6 @@
     import common from '@/api/common'
     import utils from '@/assets/js/utils'
     import pinyin from '@/vendor/pinyin'
-    console.log('pinyin====', pinyin)
 
     function makePy(str) {
         if(typeof(str) != "string")
