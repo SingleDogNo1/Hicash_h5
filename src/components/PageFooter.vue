@@ -38,7 +38,6 @@
             console.log(this.$route)
             alert('this.$route.path ====' + this.$route.path )
             if(this.$route.path === '/') {
-                alert(11)
                 this.selected = true
             }
         }
