@@ -18,7 +18,7 @@
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" @keyup.enter.native="messageLogin">
+                <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" @keyup.enter.native="messageLogin" keyboard="number" type="number" @keydown="keyup">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')"  :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
@@ -367,7 +367,6 @@
                 postData.append('userName', this.mobile);
                 postData.append('passWord', this.password);
                 postData.append('type', 1);
-                console.log('postData=====', postData)
                 this.common.login(postData)
                     .then((res)=>{
                         let data = res.data;
@@ -402,6 +401,10 @@
             showToast1(showToast1) {
                 console.log('showToast1=======', showToast1)
                 this.showToast = showToast1;
+            },
+            keyup() {
+                console.log(1111)
+                this.messageCode = this.messageCode.slice(0,4);
             },
             afterLogin(data) {
                 return new Promise((resolve,reject)=> {

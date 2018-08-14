@@ -25,8 +25,10 @@
                 <button class="btn-register" @click="register('middle')">注册</button>
                 <div class="register-agreement-wrap">
                     <check-icon :value.sync="selected">
-                        <span>我已阅读并同意</span>
-                        <a :href="agreementUrl" class="go-to-forget-pwd" >《嗨钱注册协议》</a>
+                        <span>注册即表示同意</span>
+                        <a :href="agreementUrl1" class="go-to-forget-pwd" >《嗨钱网注册协议》</a>
+                        <span>及</span>
+                        <a :href="agreementUrl2" class="go-to-forget-pwd" >《信息收集授权协议》</a>
                     </check-icon>
                 </div>
             </div>
@@ -253,7 +255,8 @@
                 boxshow: false,
                 selected: true,
                 inviteCode: '',
-                agreementUrl: '',
+                agreementUrl1: '',
+                agreementUrl2: '',
                 showToast: false,
                 isDisabled: false
             }
@@ -381,6 +384,7 @@
                     if (data.token !== '') {
                         console.log('res======', res);
                         this.jsCommon.setAuthorization(data.loginInfo.userName, data.loginInfo.token);
+                        this.imgCode = '';
                         var source = this.utils.getCookie("source");
                         var dxObj = this.utils.getCookie("dxObj");
                         var telObj = this.utils.getCookie("telObj");
@@ -434,6 +438,7 @@
                         //     position: 'middle',
                         //     text: this.errorMsg
                         // })
+                        this.imgCode = '';
                         this.$vux.toast.show({
                             type: 'cancel',
                             position: 'middle',
@@ -454,7 +459,8 @@
             }
         },
         mounted: function () {
-            this.agreementUrl = this.config.MWEB_PATH + 'newweb/agreement/registAgreement.html?comeCode=gk';
+            this.agreementUrl1 = this.config.MWEB_PATH + 'newweb/agreement/registAgreement.html?comeCode=gk';
+            this.agreementUrl2 = this.config.MWEB_PATH + 'newweb/agreement/thirdParty.html?comeCode=gk';
             var userName = this.utils.getCookie("userName");
             var inviteCode = this.utils.getCookie("inviteCode");
             if(inviteCode){

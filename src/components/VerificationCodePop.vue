@@ -150,6 +150,7 @@
                             // 图片验证码
                             this.newAuthPic = 'data:image/jpg;base64,' + res.data.authPic;
                             //this.authId = res.data.authId;
+                            this.imgCode = ''
                         }
                     });
             },
