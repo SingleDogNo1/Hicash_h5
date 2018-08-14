@@ -131,13 +131,15 @@
 				probeType: 1
 			})
 			this.scroll.on('scroll', function (pos) {
+				console.info('scroll pos.y', pos.y);
 		        if (pos.y > 30 && pos.y < 40) {
-				console.info('pos.y', pos.y);
+				
 
 		          _this.refreshText = '下拉刷新'
 		        }
 			})
 			this.scroll.on('touchEnd', function (pos) {
+				console.info('pos.y', pos.y);
 		  		if (pos.y > 40) {
 					_this.refreshText = '刷新数据中'
 					_this.getSysParam();
@@ -243,7 +245,7 @@
 			height: calc(100% - 135px);
 			.content {
 				background-color: white;
-				min-height:calc( 100% + 15px);
+				min-height:calc(100% + 1px);
 				
 				li {
 					margin: 0 rem(15px);

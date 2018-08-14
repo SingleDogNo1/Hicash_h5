@@ -386,12 +386,9 @@
                             }
                             bannerList.push(item);
                         });
-                        console.info('bannerList: ', bannerList);
-
                         _this.bannerList = bannerList;
                         // _this.
                     }else if(params.cityCode === '000002'){
-                        console.info('000002: ', res);
                         _this.smallBannerList = res.data.bannelList;
                     }
                 });
@@ -438,11 +435,8 @@
                     if(currentTime){
                         currentTime = parseInt(currentTime);
                     }
-                    console.info('currentTime', currentTime);
                     if(!currentTime || new Date(currentTime).toDateString() !== new Date().toDateString()){
                         currentTime = Date.parse(new Date());
-                        console.info('currentTime', currentTime);
-                        
                         if(res.data.list && res.data.list.length){
                             window.localStorage.setItem('adTime', currentTime);
                             this.adList = res.data.list;
@@ -450,9 +444,7 @@
 
                             let _this = this;
                             let delay = res.data.list[0].times * 1000;
-                            console.info('delay', delay);
                             setTimeout(function(){
-                                console.info('setTimeout');
                                 _this.adShow = false;
                             }, delay);
                         }
