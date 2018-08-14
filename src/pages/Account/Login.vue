@@ -393,19 +393,15 @@
                 this.getMessageCodeText = timeCount;
                 this.isDisabled = true;
                 if(this.getMessageCodeText === '获取验证码') this.isDisabled = false;
-                console.log('this.getMessageCodeText====', this.getMessageCodeText)
             },
             newImgCode(newImgCode) {
                 this.imgCode = newImgCode;
-                console.log('newImgCode====', newImgCode)
             },
             showToast1(showToast1) {
-                console.log('showToast1=======', showToast1)
                 this.showToast = showToast1;
             },
             afterLogin(data) {
                 return new Promise((resolve,reject)=> {
-                    console.log('data=====', data)
                     var params = new URLSearchParams();
                     params.userName = data.userName;
                     params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
@@ -453,7 +449,7 @@
                                 if(data.isVip&&vipCount!="1"){
                                     this.utils.setCookie("vipCount", "0");
                                 }
-
+                                this.$vux.loading.hide();
                                 let jumpType;
 
                                 if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
