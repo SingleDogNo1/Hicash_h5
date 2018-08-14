@@ -143,6 +143,7 @@
                         font-size: .666667rem /* 15/22.5 */ !important;
                     }
                     .weui-btn_primary:disabled {
+                        background-color: #ddd !important;
                         color: #fff;
                     }
                 }
