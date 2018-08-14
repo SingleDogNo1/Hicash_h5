@@ -2,9 +2,6 @@
 	"version": "3.1.3.1",
 	"requestSource": "HTML5",
 	"comefrom": "H5",
-	"hicashAppServerUrl": "http://115.29.193.125:8081",
-	"newHicashServerUrl": "http://115.29.250.40:8081",
-	"hicashServerUrl": "http://115.29.250.40:8080",
 	"MWEB_PATH": "http://192.168.9.48:8080/mweb/",
 	"pic_path": "http://115.29.196.242:8080/"
 }
