@@ -518,12 +518,6 @@
             //         this.authId = res.data.authId;
             //         console.log('res====', res)
             //     });
-        },
-        watch: {
-            messageCode: function (val, oldVal) {
-                this.messageCode = val.slice(0,4)
-                console.log('this.messageCode===', this.messageCode)
-            }
         }
     }
 </script>
