@@ -15,7 +15,7 @@
                 </div>
                 <div class="message-code-wrap">
                     <i class="iconfont">&#xe66c;</i>
-                    <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code">
+                    <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" keyboard="number" type="tel" :max="5">
                         <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')" :class="{'time-text': isCountdown}">
                             {{getMessageCodeText}}
                         </x-button>

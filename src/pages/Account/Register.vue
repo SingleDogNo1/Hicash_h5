@@ -14,7 +14,7 @@
         <div class="register-wrap">
             <div class="register-form" >
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code" :max="5">
+                <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" keyboard="number" type="tel" :max="5">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')" :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
@@ -326,9 +326,9 @@
                 }
                 var errorMsg="";
                 if(this.mobile == ""){
-                    errorMsg = "请输入手机号码";
+                    errorMsg = "请输入您的手机号";
                 } else if (!this.utils.checkMobile(this.mobile)){
-                    errorMsg = "手机号码格式不正确";
+                    errorMsg = "手机号码格式错误";
                 } else if (this.inviteCode != "" && !this.utils.checkMobile(this.inviteCode)){
                     errorMsg = "推荐码格式错误";
                 } else if (this.messageCode == ""){

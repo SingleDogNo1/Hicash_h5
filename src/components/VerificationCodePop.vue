@@ -2,7 +2,7 @@
     <div v-transfer-dom>
         <x-dialog v-model="showToast1">
             <div class="pop-warp">
-                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" :max="4" autocomplete="off">
+                <x-input v-model="imgCode" class="img-code" placeholder="请输入图形验证码" keyboard="number" type="tel" :max="4" autocomplete="off">
                     <img slot="right-full-height" :src="newAuthPic" @click="change" class="img-code-pic">
                 </x-input>
                 <button class="btn-submit" @click="btnSubmit">确认</button>
