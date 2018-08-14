@@ -404,14 +404,12 @@
                 })
             },
             getIndexMain: function(params){
-                console.info('111111');
                 this.common.getIndexMain(params)
                 .then((res)=>{
                     let productList = res.data.columnList[0].productList;
                     let arr = [];
                     let _this = this;
                     const MWEB_PATH = this.config.MWEB_PATH;
-                    console.info('productList === ', productList);
                     _.each(productList, function(v){
                         if(v.showStatus == '1'){
                             let obj = {
@@ -436,18 +434,30 @@
             indexAdvertising: function(params){
                 this.common.indexAdvertising(params)
                 .then((res)=>{
-                   if(res.data.list.length){
-                        this.adList = res.data.list;
-                        this.adShow = true;
+                    let currentTime = window.localStorage.getItem('adTime');
+                    if(currentTime){
+                        currentTime = parseInt(currentTime);
+                    }
+                    console.info('currentTime', currentTime);
+                    if(!currentTime || new Date(currentTime).toDateString() !== new Date().toDateString()){
+                        currentTime = Date.parse(new Date());
+                        console.info('currentTime', currentTime);
+                        
+                        if(res.data.list && res.data.list.length){
+                            window.localStorage.setItem('adTime', currentTime);
+                            this.adList = res.data.list;
+                            this.adShow = true;
 
-                        let _this = this;
-                        let delay = res.data.list[0].times * 1000;
-                        console.info('delay', delay);
-                        setTimeout(function(){
-                            console.info('setTimeout');
-                            _this.adShow = false;
-                        }, delay);
-                   }
+                            let _this = this;
+                            let delay = res.data.list[0].times * 1000;
+                            console.info('delay', delay);
+                            setTimeout(function(){
+                                console.info('setTimeout');
+                                _this.adShow = false;
+                            }, delay);
+                        }
+                    }
+                    
                 });
             }
         },

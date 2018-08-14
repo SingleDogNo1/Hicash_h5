@@ -13,7 +13,7 @@
 						<a :href="item.openUrl">
 							<p class="date" v-html="item.createTime"></p>
 							<p class="text" v-html="item.title"></p>
-							<p class="label" v-html="item.keywords"></p>
+							<!-- <p class="label" v-html="item.keywords"></p> -->
 						</a>
 					</li>
 				</ul>

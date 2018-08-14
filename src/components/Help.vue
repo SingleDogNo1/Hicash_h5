@@ -67,7 +67,7 @@
 			<div class="weui-dialog__hd" style="padding:10px 0;background-color:#FF7640;color:#fff;"><strong class="weui-dialog__title" style="font-size:14px;" >联系QQ</strong></div>
 			<div class="weui-dialog__bd" style="background: #fff;height:100px;line-height:100px;color:black;">QQ：4000205566</div>
 			<div class="weui-dialog__ft" style="background: #fff;">
-				<a @qq="phone = false" href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
+				<a @click="qq = false" href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640">
 				复制 </a>
 				<!--<a href="javascript:;" class="qq_btn weui-dialog__btn weui-dialog__btn_default" style="color:#FF7640" v-clipboard="copyData" @success="handleSuccess">-->
 				<!--复制 </a>-->
