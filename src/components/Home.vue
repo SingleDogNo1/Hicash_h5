@@ -4,7 +4,7 @@
             <div class="bg" :style="'opacity:' + opacity"></div>
             <div class="title" :style="'opacity:' + opacity">嗨钱</div>
             <router-link :to="{name: 'notice'}">
-                <img width="22px" src="../assets/images/icon-notice.png" >
+                <img width="22px" :src="noticeIcon" >
             </router-link>
         </header>
         <scroller lock-x @on-scroll="onScroll" ref="scroller">
@@ -329,9 +329,8 @@
 
     import PageFooter from '../components/PageFooter.vue'
 
-    import bannerImg from '../assets/images/remove_1.png'
-    import productsImg from '../assets/images/remove_2.png'
-    import smbImg from '../assets/images/remove_3.png'
+    import noticeWIcon from '../assets/images/icon-notice-w.png'
+    import noticeBIcon from '../assets/images/icon-notice.png'
 
     export default {
         components: {
@@ -354,7 +353,8 @@
                 adList: [],
                 bannerList: [],
                 productsList: [],
-                smallBannerList: []
+                smallBannerList: [],
+                noticeIcon: noticeWIcon
             }
         },
         ready () {
@@ -363,7 +363,12 @@
         methods : {
             onScroll: function(pos) {
                 let top = pos.top > 44 ? 44 : pos.top;
-                // this.opacity = 0.65/44 * top;
+                if(pos.top > 44){
+                    pos.top = 44;
+                    this.noticeIcon = noticeBIcon
+                }else{
+                    this.noticeIcon = noticeWIcon
+                }
 
                 this.opacity = 1/44 * top;
 

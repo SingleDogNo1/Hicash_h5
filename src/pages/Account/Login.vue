@@ -17,8 +17,8 @@
                 <tab-item @on-item-click="onItemClick">密码登录</tab-item>
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
-                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信号码" class="weui-vcode message-code" @keyup.enter.native="messageLogin">
+                <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
+                <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" @keyup.enter.native="messageLogin">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')"  :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
@@ -177,7 +177,7 @@
                 .go-to-forget-pwd {
                     display: block;
                     color: #C45930;
-                    font-size: .7rem;
+                    font-size: 15px;
                     text-align: center;
                 }
                 input::-webkit-input-placeholder{

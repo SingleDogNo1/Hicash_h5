@@ -143,7 +143,7 @@
                 .new-password-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 4.6rem;
+                        top: 3.6rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -162,7 +162,7 @@
                 .repeat-password-wrap {
                     .iconfont {
                         position: absolute;
-                        top: 7.5rem;
+                        top: 6.5rem;
                         color: #FF7640;
                         font-size: 1.05rem;
                     }
@@ -188,7 +188,7 @@
             margin: 8px 0 0 !important;
         }
     }
-   .weui-toast_cancel {
+    .weui-toast_cancel {
         width: auto !important;
         padding: 0 .444444rem /* 10/22.5 */;
         min-height: auto !important;
@@ -198,6 +198,12 @@
         .weui-icon_toast.weui-icon-success-no-circle:before{
             font-size: 35px !important;
         }
+    }
+    .weui-toast {
+        width: auto !important;
+    }
+    .weui-tabbar:before{
+        border: 0 !important;
     }
 </style>
 

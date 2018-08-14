@@ -37,7 +37,7 @@
 					<flexbox-item>
 						<div class="flex-demo" @click="qq=true" >
 							<img src="../assets/images/qq.png" alt="" class="icon_image">
-							<span>联系qq</span>
+							<span>联系QQ</span>
 						</div>
 					</flexbox-item>
 				</flexbox>
@@ -74,7 +74,6 @@
 				<a href="javascript:;" class="weui-dialog__btn" style="color:#999;" @click="qq = false">取消</a>
 			</div>
 		</div>
-  		<div class="alert" v-if="isShowAlert">刷新成功</div>
 	</div>
 </template>
 <script type="text/javascript">

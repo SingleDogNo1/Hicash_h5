@@ -435,6 +435,7 @@
                         //     text: this.errorMsg
                         // })
                         this.$vux.toast.show({
+                            type: 'cancel',
                             position: 'middle',
                             text: data.resultMsg
                         })
