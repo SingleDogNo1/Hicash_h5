@@ -35,8 +35,6 @@
         mounted: function () {
             this.sxUrl = this.config.MWEB_PATH + 'newweb/infoList/list.html';
             this.personCenterUrl = this.config.MWEB_PATH + 'newweb/personalCenter/perCenter.html';
-            console.log(this.$route)
-            alert('this.$route.path ====' + this.$route.path )
             if(this.$route.path === '/') {
                 this.selected = true
             }
