@@ -206,6 +206,9 @@
             font-size: 35px !important;
         }
     }
+    .weui-toast {
+        width: auto !important;
+    }
 </style>
 
 <script type="text/javascript">
@@ -303,6 +306,10 @@
                     errorMsg="请输入您的手机号";
                 } else if (!this.utils.checkMobile(this.mobile)) {
                     errorMsg="手机号码格式错误";
+                } else if (this.getMessageCodeText === '获取验证码') {
+                    errorMsg="请点击获取验证码";
+                } else if (this.messageCode.length < 5) {
+                    errorMsg="短信验证码格式错误";
                 } else if (this.messageCode == "") {
                     errorMsg="请输入短信验证码";
                 }

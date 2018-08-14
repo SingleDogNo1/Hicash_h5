@@ -10,7 +10,7 @@
             <div class="forget-password-form" v-if="step === 1">
                 <div class="mobile-wrap">
                     <i class="iconfont">&#xe784;</i>
-                    <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile">
+                    <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11">
                     </x-input>
                 </div>
                 <div class="message-code-wrap">
@@ -27,12 +27,12 @@
             <div class="forget-password-form" v-if="step === 2">
                 <div class="new-password-wrap">
                     <i class="iconfont">&#xe623;</i>
-                    <x-input v-model="newPassword" class="new-password" placeholder="请输入新密码" type="password">
+                    <x-input v-model="newPassword" class="new-password" placeholder="请输入新密码" type="password" :max="12">
                     </x-input>
                 </div>
                 <div class="repeat-password-wrap">
                     <i class="iconfont">&#xe623;</i>
-                    <x-input v-model="repeatPassword" placeholder="请再次输入密码" class="weui-vcode repeat-password" type="password">
+                    <x-input v-model="repeatPassword" placeholder="请再次输入密码" class="weui-vcode repeat-password" type="password" :max="12">
                     </x-input>
                 </div>
                 <toast v-model="showPositionValue" type="text" :time="3000" is-show-mask :position="position">{{errorMsg}}</toast>
@@ -230,7 +230,7 @@
                 messageCode: '',
                 getMessageCodeText: '获取短信验证码',
                 isCountdown: false,
-                step: 1,
+                step: 2,
                 newPassword: '',
                 repeatPassword: '',
                 title: '忘记密码'
@@ -294,10 +294,10 @@
                      errorMsg = "请输入您的手机号码";
                 } else if(!utils.checkMobile(_this.mobile)){
                     errorMsg = "手机号码格式错误";
-                } else if (_this.messageCode == "") {
-                     errorMsg = "请输入您的验证码";
+                } else if (this.getMessageCodeText === '获取验证码') {
+                    errorMsg="请点击获取验证码";
                 } else if(_this.messageCode.length < 5){
-                     errorMsg = "验证码输入有误";
+                     errorMsg = "短信验证码格式错误";
                 }
                 if(errorMsg != ""){
                     _this.$vux.toast.text(errorMsg, 'middle');
@@ -330,14 +330,16 @@
                 var userName = utils.getCookie("forgetPwdUserName");
 
                 var errorMsg = "";
-                if(!userName || !forgetPwdFlag || userName== "" ||forgetPwdFlag == ""){
-                     errorMsg = "非法进入";
-                }else if(_this.newPassword == ""){
+                 if(_this.newPassword == ""){
                     errorMsg = "请输入新密码";
-                }else if(_this.repeatPassword == ""){
+                } else if(!_this.utils.checkPwd(_this.newPassword)){
+                    errorMsg = "新密码格式错误";
+                } else if(_this.repeatPassword == ""){
                     errorMsg = "请输入确认密码";
-                }else if(_this.newPassword !== _this.repeatPassword){
-                    errorMsg = "两次输入密码不一致，请查证后重新输入";
+                } else if(!_this.utils.checkPwd(_this.repeatPassword)){
+                    errorMsg = "确认密码格式错误";
+                } else if(_this.newPassword !== _this.repeatPassword){
+                    errorMsg = "输入密码不一致";
                 }
 
                 if(errorMsg != ""){

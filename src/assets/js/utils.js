@@ -15,7 +15,8 @@ export default {
     checkAearTel: checkAearTel,              //校验固话(带区号)
     checkCardNum: checkCardNum,              //校验借记卡号
     getPlatform: getPlatform,                //获取comeFrom
-    toThousands: toThousands                //格式化数据格式字符串 没三位添加逗号
+    toThousands: toThousands,                //格式化数据格式字符串 没三位添加逗号
+    checkPwd: checkPwd                       //校验密码是否合法
 
 }
 
@@ -335,4 +336,9 @@ export function toThousands(num) {
     }
     if (num) { result = num + result; }
     return result;
+}
+
+export function checkPwd(pwd) {
+    var reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+    return reg.test(pwd)
 }
