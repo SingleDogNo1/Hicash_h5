@@ -147,10 +147,14 @@
                                 position: 'middle',
                                 text: this.errorMsg
                             })
+                            this.imgCode = ''
+                            if(data.resultCode=="5") {
+                                this.showToast1 = false;
+                                this.$emit('showToast', this.showToast1);
+                            }
                             // 图片验证码
                             this.newAuthPic = 'data:image/jpg;base64,' + res.data.authPic;
                             //this.authId = res.data.authId;
-                            this.imgCode = ''
                         }
                     });
             },
