@@ -71,6 +71,7 @@
                 line-height: 2.2rem;
                 color: #fff;
                 margin-right: .85rem;
+                outline: 0;
             }
         }
         .user-login {
