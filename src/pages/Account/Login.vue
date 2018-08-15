@@ -453,9 +453,10 @@
                             this.$vux.loading.show({
                                 text: '数据请求中'
                             })
-                            
+                            console.info('oldHicash onload request');
                             // TODU 新老嗨钱融合中的代码，后续优化
                             document.getElementById('oldHicash').onload=()=>{
+                                console.info('oldHicash onload success');
                                 if(data.isVip&&vipCount!="1"){
                                     this.utils.setCookie("vipCount", "0");
                                 }
