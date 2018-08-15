@@ -415,8 +415,8 @@
             afterLogin(data) {
                 return new Promise((resolve,reject)=> {
                     var params = new URLSearchParams();
-                    postData.append('userName', data.userName);
-                    postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                    params.append('userName', data.userName);
+                    params.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                     console.info('params', params);
                     this.common.getUserGrade(params)
                         .then((result)=>{
