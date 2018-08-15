@@ -352,16 +352,28 @@
                 postData.append('userName', userName);
                 postData.append('mobile', mobile);
                 postData.append('newPassword', _this.newPassword);
-                postData.append('newPassword', _this.newPassword);
+                postData.append('forgetPwdFlag', _this.repeatPassword);
                 common.resetPassword(postData)
                     .then((res)=>{
-                        _this.$vux.toast.show({
-                            position: 'middle',
-                            text: '密码修改成功'
-                        })
-                        setTimeout(function() {
-                            _this.$router.push({path: '/login', query: {redirect: _this.$route.fullPath}});
-                        },3000)
+                        if (data && data.resultCode == 1) {
+                            utils.setCookie("forgetPwdFlag","");
+                            utils.setCookie("forgetPwdUserName","");
+                            utils.setCookie("forgetPwdMobile","");
+                            _this.$vux.toast.show({
+                                position: 'middle',
+                                text: '密码修改成功'
+                            })
+                            setTimeout(function() {
+                                _this.$router.push({path: '/login', query: {redirect: _this.$route.fullPath}});
+                            },3000)
+                        } else {
+                            _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
+                        }
                     });
 
             }
