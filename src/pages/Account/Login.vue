@@ -44,7 +44,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     #oldHicash{
-        display: none;
+        width: 0;
+        height: 0;
     }
     .weui-tab__panel{
         padding-bottom: 0 !important;
