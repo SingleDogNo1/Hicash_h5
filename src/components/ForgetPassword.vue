@@ -355,10 +355,8 @@
                 postData.append('newPassword', _this.newPassword);
                 common.resetPassword(postData)
                     .then((res)=>{
-                        _this.$vux.toast.show({
-                            position: 'middle',
-                            text: '密码修改成功'
-                        })
+                         _this.$vux.toast.text(res.data.resultMsg, 'middle')
+                        
                         setTimeout(function() {
                             _this.$router.push({path: '/login', query: {redirect: _this.$route.fullPath}});
                         },3000)
