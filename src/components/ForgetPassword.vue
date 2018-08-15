@@ -330,7 +330,9 @@
                 var userName = utils.getCookie("forgetPwdUserName");
 
                 var errorMsg = "";
-                 if(_this.newPassword == ""){
+                if(!userName || !forgetPwdFlag || userName=="" || forgetPwdFlag==""){
+                    errorMsg="非法进入";
+                } else if(_this.newPassword == ""){
                     errorMsg = "请输入新密码";
                 } else if(!_this.utils.checkPwd(_this.newPassword)){
                     errorMsg = "新密码格式错误";
@@ -352,10 +354,10 @@
                 postData.append('userName', userName);
                 postData.append('mobile', mobile);
                 postData.append('newPassword', _this.newPassword);
-                postData.append('forgetPwdFlag', _this.repeatPassword);
+                postData.append('forgetPwdFlag', forgetPwdFlag);
                 common.resetPassword(postData)
                     .then((res)=>{
-                        if (data && data.resultCode == 1) {
+                        if (res.data && res.data.resultCode == 1) {
                             utils.setCookie("forgetPwdFlag","");
                             utils.setCookie("forgetPwdUserName","");
                             utils.setCookie("forgetPwdMobile","");
