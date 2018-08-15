@@ -72,6 +72,7 @@
         }
         .container {
             padding-top: 2.95rem;
+            margin-top: 0;
             width: 100%;
             .forget-password-form {
                 width: 14.3rem;
@@ -330,7 +331,9 @@
                 var userName = utils.getCookie("forgetPwdUserName");
 
                 var errorMsg = "";
-                 if(_this.newPassword == ""){
+                if(!userName || !forgetPwdFlag || userName=="" || forgetPwdFlag==""){
+                    errorMsg="非法进入";
+                } else if(_this.newPassword == ""){
                     errorMsg = "请输入新密码";
                 } else if(!_this.utils.checkPwd(_this.newPassword)){
                     errorMsg = "新密码格式错误";
@@ -352,14 +355,28 @@
                 postData.append('userName', userName);
                 postData.append('mobile', mobile);
                 postData.append('newPassword', _this.newPassword);
-                postData.append('newPassword', _this.newPassword);
+                postData.append('forgetPwdFlag', forgetPwdFlag);
                 common.resetPassword(postData)
                     .then((res)=>{
-                         _this.$vux.toast.text(res.data.resultMsg, 'middle')
-                        
-                        setTimeout(function() {
-                            _this.$router.push({path: '/login', query: {redirect: _this.$route.fullPath}});
-                        },3000)
+                        if (res.data && res.data.resultCode == 1) {
+                            utils.setCookie("forgetPwdFlag","");
+                            utils.setCookie("forgetPwdUserName","");
+                            utils.setCookie("forgetPwdMobile","");
+                            _this.$vux.toast.show({
+                                position: 'middle',
+                                text: '密码修改成功'
+                            })
+                            setTimeout(function() {
+                                _this.$router.push({path: '/login', query: {redirect: _this.$route.fullPath}});
+                            },3000)
+                        } else {
+                            _this.errorMsg = res.data.resultMsg;
+                            _this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: _this.errorMsg
+                            })
+                        }
                     });
 
             }

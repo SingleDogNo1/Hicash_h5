@@ -416,6 +416,7 @@
                     var params = new URLSearchParams();
                     params.userName = data.userName;
                     params.uuid = '0c8297d7-6d3a-46da-b782-0df2434f88b1';
+                    console.info('params', params);
                     this.common.getUserGrade(params)
                         .then((result)=>{
                             var source = this.utils.getCookie("source");

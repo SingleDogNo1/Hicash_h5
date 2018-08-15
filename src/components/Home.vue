@@ -9,7 +9,7 @@
         </header>
         <scroller lock-x @on-scroll="onScroll" ref="scroller">
             <div class="wrap">
-                <swiper :list="bannerList" :show-desc-mask="false" dots-position="center" :auto="true" :loop="true" :interval="5000"></swiper>
+                <swiper :list="bannerList" :show-desc-mask="false" :show-dots="showDots" dots-position="center" :auto="true" :loop="true" :interval="5000"></swiper>
                 <div class="products">
                     <div class="tips">
                         <span class="red-packet"><img src="../assets/images/red-packet.png"></span>
@@ -354,7 +354,8 @@
                 bannerList: [],
                 productsList: [],
                 smallBannerList: [],
-                noticeIcon: noticeWIcon
+                noticeIcon: noticeWIcon,
+                showDots: false
             }
         },
         ready () {
@@ -387,6 +388,9 @@
                             bannerList.push(item);
                         });
                         _this.bannerList = bannerList;
+                        if(_this.bannerList.length > 1) {
+                            _this.showDots = true;
+                        }
                         // _this.
                     }else if(params.cityCode === '000002'){
                         _this.smallBannerList = res.data.bannelList;

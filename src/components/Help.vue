@@ -1,7 +1,7 @@
 <template>
 	<div class="help_page">
 		<div class="wrap">
-			<header class="creditHeader" style="background-color:white;">
+			<header class="creditHeader" style="background-color:white;" v-if="isShowHead">
 				<!-- closeBtn -->
 				<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
 				<p class="title">帮助中心</p>
@@ -97,11 +97,17 @@
 				wx:false,
 				qq:false,
 				refreshText: '下拉刷新',
-				isShowAlert: false
+				isShowAlert: false,
+				isShowHead: true 
 			}
 		},
 		mounted() {
 			var _this = this;
+
+			let comeFrom = _this.utils.getPlatform();
+			if (comeFrom != 'H5') {
+				_this.isShowHead = false
+			}
 
 			_this.getSysParam();
 
