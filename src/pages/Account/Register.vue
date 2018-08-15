@@ -14,7 +14,7 @@
         <div class="register-wrap">
             <div class="register-form" >
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号码" keyboard="number" is-type="china-mobile" :max="11"></x-input>
-                <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" keyboard="number" type="tel" :max="5">
+                <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" keyboard="number" type="tel" :max="5" ref="content">
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')" :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
@@ -283,6 +283,7 @@
                     return;
                 }
                 this.imgCode = '';
+                this.$refs.content.focus();
                 var postData = new URLSearchParams();
                 postData.append('userName', this.mobile);
                 postData.append('mobile', this.mobile);
