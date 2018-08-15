@@ -323,7 +323,7 @@
                     return;
                 }
 
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
 
                 
 
@@ -371,7 +371,7 @@
                     this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
 
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
