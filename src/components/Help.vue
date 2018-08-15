@@ -1,10 +1,12 @@
 <template>
 	<div class="help_page">
 		<div class="wrap">
-			<header class="creditHeader" style="background-color:white;" v-if="isShowHead">
+			<header class="creditHeader" style="background-color:white;">
 				<!-- closeBtn -->
-				<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
-				<p class="title">帮助中心</p>
+				<div v-if="isShowHead">
+					<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
+					<p class="title">帮助中心</p>
+				</div>
 				<tab :line-width="1" custom-bar-width="60px">
 					<tab-item selected @on-item-click="onItemClick('RMWT')">热门问题</tab-item>
 					<tab-item @on-item-click="onItemClick('JKWT')">借款问题</tab-item>
