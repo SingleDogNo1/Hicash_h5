@@ -75,8 +75,8 @@
         .user-login {
             h2 {
                 margin: .5rem auto 0;
-                width: 4.65rem;
-                height: 1.8rem;
+                width: 136px;
+                height: 46px;
                 background: url(./logo_user.png) 0 0 no-repeat;
                 background-size: cover;
             }

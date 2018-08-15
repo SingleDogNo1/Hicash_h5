@@ -24,19 +24,19 @@
 				<flexbox>
 					<flexbox-item>
 						<div class="flex-demo" @click="phone=true">
-							<img src="../assets/images/phone.png" alt="" class="icon_image">
+							<img src="../assets/images/phone.png" alt="" class="icon_image1">
 							<span>在线客服</span>
 						</div>
 					</flexbox-item>
 					<flexbox-item>
 						<div class="flex-demo" @click="wx=true">
-							<img src="../assets/images/wx.png" alt="" class="icon_image">
+							<img src="../assets/images/wx.png" alt="" class="icon_image2">
 							<span>微信公众号</span>
 						</div>
 					</flexbox-item>
 					<flexbox-item>
 						<div class="flex-demo" @click="qq=true" >
-							<img src="../assets/images/qq.png" alt="" class="icon_image">
+							<img src="../assets/images/qq.png" alt="" class="icon_image3">
 							<span>联系QQ</span>
 						</div>
 					</flexbox-item>
@@ -224,12 +224,12 @@
 		}
 		footer {
 			position: absolute;
-			height: 40px;
-			line-height: 40px;
+			height: 49px;
+			line-height: 45px;
 			background-color: white;
-			border-top: 1px solid #efefef;
 			bottom: 0;
 			width: 100%;
+			box-shadow: 0 0 6px 0 rgba(0,0,0,0.15);
 		}
 
 		.vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active {
@@ -292,11 +292,23 @@
 			text-align:center;
 			padding:0;
 			position:relative;
-			img{
-				width:20px;
-				height:20px;
-				position:relative;
-				top:5px;
+			.icon_image1 {
+				width: 19px;
+				height: 20px;
+				position: relative;
+				top: 4px;
+			}
+			.icon_image2 {
+				width: 21px;
+				height: 17px;
+				position: relative;
+				top: 3px;
+			}
+			.icon_image3 {
+				width: 19px;
+				height: 21px;
+				position: relative;
+				top: 4px;
 			}
 			span{
 				font-size:rem(13px);
@@ -315,6 +327,9 @@
 		    color: #fff;
 		    font-size: 12px;
 		    background: rgba(7, 17, 27, 0.7);
+		}
+		.vux-flexbox {
+			height: 100%;
 		}
 	}
 </style>
