@@ -44,7 +44,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     #oldHicash{
-        display: none;
+        width: 0;
+        height: 0;
     }
     .weui-tab__panel{
         padding-bottom: 0 !important;
@@ -322,7 +323,7 @@
                     return;
                 }
 
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
 
                 
 
@@ -370,7 +371,7 @@
                     this.$vux.toast.text(errorMsg, 'middle');
                     return;
                 }
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile;
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
 
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
