@@ -72,6 +72,7 @@
         }
         .container {
             padding-top: 2.95rem;
+            margin-top: 0;
             width: 100%;
             .forget-password-form {
                 width: 14.3rem;
