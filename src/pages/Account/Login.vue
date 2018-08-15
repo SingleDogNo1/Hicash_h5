@@ -459,11 +459,13 @@
                             // TODU 新老嗨钱融合中的代码，后续优化
                             document.getElementById('oldHicash').onload=()=>{
                                 console.info('oldHicash onload success');
-                                if(data.isVip&&vipCount!="1"){
+                                if(data.isVip){
+                                    this.utils.setCookie("vipCount", "1");
+                                }else{
                                     this.utils.setCookie("vipCount", "0");
                                 }
                                 this.$vux.loading.hide();
-                                let jumpType;
+                                let jumpType = this.utils.getQueryString('jumpType');
 
                                 if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
                                     window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
@@ -498,7 +500,7 @@
                                     window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
                                     return false;
                                 }
-                                if(data.isVip&&this.utils.getCookie("vipCount")=="0"){
+                                if(data.isVip){
                                     window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
                                     return false;
                                 }
