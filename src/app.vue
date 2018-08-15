@@ -81,7 +81,7 @@ export default {
         min-width: 320px;
     }
     .weui-tabbar {
-        background: rgba(251,250,250,0.95) !important;
+        background: #F9F8F8 !important;
         height: 2.075rem !important;
     }
     .weui-tabbar__label {
