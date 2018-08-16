@@ -212,6 +212,7 @@
     }
     .weui-toast {
         width: auto !important;
+        padding: 0 15px !important;
     }
 </style>
 

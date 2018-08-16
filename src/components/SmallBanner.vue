@@ -26,6 +26,9 @@
             padding-bottom: 0;
             min-height: 100%;
             margin-top: 2.2rem;
+            img{
+                width: 100%;
+            }
         }
     }
 </style>
