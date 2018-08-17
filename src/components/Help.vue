@@ -157,6 +157,7 @@
 		methods: {
 			onItemClick: function(type){
 				this.subType = type;
+				this.scroll.scrollTo(0,0);
 				console.info(type);
 				this.getSysParam();
 			},
