@@ -14,7 +14,7 @@
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" rel="stylesheet/scss">
     .loan-strategy-body{
         width: 100%;
         height: auto;
@@ -26,6 +26,9 @@
             padding-bottom: 0;
             min-height: 100%;
             margin-top: 2.2rem;
+            img{
+                width: 100%;
+            }
         }
     }
 </style>
