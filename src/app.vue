@@ -13,13 +13,13 @@ export default {
     name: 'App',
     created(){
         
-        // //自动登录
-        // let userName = sessionStorage.getItem('userName');
-        // let token = sessionStorage.getItem('token');
+        //自动登录
+        let userName = sessionStorage.getItem('userName');
+        let token = sessionStorage.getItem('token');
 
-        // if(userName && token) {
-        //     this.jsCommon.setAuthorization(userNamem, token);
-        // }
+        if(userName && token) {
+            this.jsCommon.setAuthorization(userNamem, token);
+        }
     },
     components: {
         Home,
@@ -33,17 +33,14 @@ export default {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");
                 var mobile = this.utils.getCookie("mobile");
-
+ 
                 // 判断该路由是否需要登录权限
                 if(!userName || userName=="null"){
-                    
                     next({
                         // 将跳转的路由path作为参数，登录成功后跳转到该路由
                         path:'/login', query: {redirect: to.fullPath}
                     })
-
                 }else{
-
                     next();
                 }
             }else {
