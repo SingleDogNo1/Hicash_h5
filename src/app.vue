@@ -12,7 +12,14 @@ import MiaoDai from "./components/MiaoDai.vue"
 export default {
     name: 'App',
     created(){
-        this.jsCommon.setAuthorization();
+        
+        // //自动登录
+        // let userName = sessionStorage.getItem('userName');
+        // let token = sessionStorage.getItem('token');
+
+        // if(userName && token) {
+        //     this.jsCommon.setAuthorization(userNamem, token);
+        // }
     },
     components: {
         Home,
