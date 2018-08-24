@@ -19,17 +19,17 @@
 					<!-- <li v-for="(item,index) in list" :key="index">
 						<a :href="item.openUrl"><p>{{item.title}}</p></a>
 					</li> -->
-					<li class="clearfix">
+					<li class="clearfix" @click="selectCoupon(item)" v-for="item in list">
 						<div class="left-main left">
-							<span class="coupon-price left">4<em>元</em></span>
+							<span class="coupon-price left">{{item.money}}<em>元</em></span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
 						<div class="right-main left">
-							<span class="title">代金券<em>（共64张）</em></span>
+							<span class="title">代金券<em>（共{{item.num}}张）</em></span>
 							<span class="explain">可使用产品，可叠加使用</span>
-							<span class="data">有效期 2017.03.28-2017.05.04</span>
+							<span class="data">有效期 {{item.time}}</span>
 						</div>
-						<div class="help"></div>
+						<div class="help" @click.stop="clickHelp"></div>
 					</li>
 				</ul>
 			</div>
@@ -61,13 +61,28 @@
 		},
 		data() {
 			return {
-				list: [],
+				list: [
+					{
+						"money": '10',
+						"num": '3',
+						"time": '2017.03.28-2017.05.04'
+					},
+					{
+						"money": '4',
+						"num": '20',
+						"time": '2017.03.28-2017.05.04'
+					},
+					{
+						"money": '14',
+						"num": '12',
+						"time": '2017.03.28-2017.05.04'
+					}
+				],
 				subType: 'RMWT',
 				scroll:"",
 				refreshText: '下拉刷新',
-				isShowAlert: false,
 				isShowHead: true,
-				isShowPopup: true,
+				isShowPopup: false,
 				couponPopupTitle: '優惠券',
 				couponNum: 1,
 				minNum: 0,
@@ -82,7 +97,7 @@
 				_this.isShowHead = false
 			}
 
-			_this.getSysParam();
+			// _this.getSysParam();
 
 			
 			this.scroll = new BScroll(".wrapper", {
@@ -149,14 +164,27 @@
 					});
 				});
 			},
-			selectCoupon: function(){
-				
+			selectCoupon: function(data){
+				this.isShowPopup = true;
+				console.info('data', data);
+
+			},
+			clickHelp () {
+				this.$vux.alert.show({
+					title: '活动规则',
+					content: '用户充值还款时，系统默认使用抵扣券抵扣应还本金部分，可叠加使用并自由选择使用张数，并且不能超过该笔还款的金额',
+					onShow () {
+						console.log('活动规则alert，点击了确定！')
+					},
+					onHide () {
+						// console.log('Plugin: I\'m hiding now')
+					}
+				})
 			}
 		},
 		watch:{
 			couponNum(newValue, oldValue) {
 				if(newValue == 0){
-					console.info(typeof newValue);
 					this.isShowPopup = false;
 				}
 		　　}
