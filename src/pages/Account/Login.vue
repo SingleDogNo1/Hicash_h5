@@ -468,8 +468,6 @@
                                 }
                                 this.$vux.loading.hide();
                                 let jumpType = this.$route.query.jumpType;
-                                console.info('jumpType', jumpType);
-                                debugger;
                                 if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
                                     window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
                                     return;

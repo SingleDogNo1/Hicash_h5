@@ -148,13 +148,11 @@
 						}, 1000)
 					});
 				});
+			},
+			selectCoupon: function(){
+				
 			}
 		},
-		// computed: {
-		// 	couponChangeNum() {
-		// 　　　　return this.couponNum;
-		// 　　}
-		// },
 		watch:{
 			couponNum(newValue, oldValue) {
 				if(newValue == 0){
