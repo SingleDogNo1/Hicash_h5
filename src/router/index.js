@@ -19,6 +19,7 @@ import BandBank from '@/components/BandBank'
 import SmallBanner from '@/components/SmallBanner'
 import Help from '@/components/Help'
 import Notice  from '@/components/Notice'
+import Coupon from '@/pages/Coupon/Index'
 
 
 Vue.use(Router)
@@ -35,7 +36,8 @@ export default new Router({
         //嗨秒分期
         path: '/miaoDai',
         name: 'MiaoDai',
-        component: MiaoDai
+        component: MiaoDai,
+        meta: { title: '嗨秒分期' }
     },
     {
     	//个人中心
@@ -43,74 +45,86 @@ export default new Router({
       	name: 'Personal',
       	component: Personal,
         meta:{
-            requireAuth:true
+            requireAuth:true,
+            title: '个人中心'
         }
     },
     {
         //登录
         path: '/login',
         name: 'Login',
-        component: Login
+        component: Login,
+        meta: { title: '登录' }
     },
     {
         //忘记密码
         path: '/forgetPassword',
         name: 'ForgetPassword',
-        component: ForgetPassword
+        component: ForgetPassword,
+        meta: { title: '忘记密码' }
     },
     {
         //注册
         path: '/register',
         name: 'Register',
-        component: Register
+        component: Register,
+        meta: { title: '注册' }
     },
     {
         //综合评级
         path: '/compre-rat',
         name: 'CompreRat',
-        component: CompreRat
+        component: CompreRat,
+        meta: { title: '综合评级' }
     },
     {
         //费率计算
         path: '/rateCalculation',
         name: 'RateCalculation',
-        component: RateCalculation
+        component: RateCalculation,
+        meta: { title: '费率计算' }
     },
     {
         //身份认证
         path: '/identityAuthentication',
         name: 'IdentityAuthentication',
-        component: IdentityAuthentication
+        component: IdentityAuthentication,
+        meta: { title: '身份认证' }
     },
     {
         //借款攻略
         path: '/loanStrategy',
         name: 'LoanStrategy',
-        component: LoanStrategy
+        component: LoanStrategy,
+        meta: { title: '借款攻略' }
     },
     {
         //基本信息
         path: '/baseInfo',
         name: 'BaseInfo',
-        component: BaseInfo
+        component: BaseInfo,
+        meta: { title: '基本信息' }
     },
     {
         //选择地址
         path: '/chooseAddress',
         name: 'Address',
-        component: Address
+        component: Address,
+        meta: { title: '选择地址' }
     },
     {
         //联系人信息
         path: '/contactPerson',
         name: 'ContactPerson',
-        component: ContactPerson
+        component: ContactPerson,
+        meta: { title: '联系人信息' }
     },
     {
         //手机认证
         path: '/mobilePhonePrv',
         name: 'MobilePhonePrv',
-        component: MobilePhonePrv
+        component: MobilePhonePrv,
+        meta: { title: '手机认证' }
     },
     {
         //从潘多拉回来的页面
@@ -122,7 +136,8 @@ export default new Router({
         //绑定银行卡
         path: '/bandBank',
         name: 'BandBank',
-        component: BandBank
+        component: BandBank,
+        meta: { title: '绑定银行卡' }
     },
     {
         //small banner
@@ -134,13 +149,22 @@ export default new Router({
         //帮助中心
         path: '/help',
         name: 'help',
-        component: Help
+        component: Help,
+        meta: { title: '帮助中心' }
     },
     {
         //公告
         path: '/notice',
         name: 'notice',
-        component: Notice
+        component: Notice,
+        meta: { title: '公告' }
+    },
+    {
+        //优惠券
+        path: '/coupon',
+        name: 'Coupon',
+        component: Coupon,
+        meta: { title: '优惠券' }
     }
   ]
 })

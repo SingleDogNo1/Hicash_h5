@@ -23,16 +23,12 @@ module.exports = {
     /**
      * Source Maps
      */
-
-    // https://webpack.js.org/configuration/devtool/#development
     devtool: 'cheap-module-eval-source-map',
-
-    // If you have problems debugging vue-files in devtools,
-    // set this to false - it *may* help
-    // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
-
     cssSourceMap: true,
+    /**
+     * 添加新的代理的同时nginx也要增加，否则生产和测试环境无法生效 
+     */
     proxyTable: {
       '/HicashAppService':{
         target:' http://115.29.193.125:8081/HicashAppService',

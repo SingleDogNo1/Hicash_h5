@@ -467,17 +467,18 @@
                                     this.utils.setCookie("vipCount", "0");
                                 }
                                 this.$vux.loading.hide();
-                                let jumpType = this.utils.getQueryString('jumpType');
-
+                                let jumpType = this.$route.query.jumpType;
+                                console.info('jumpType', jumpType);
+                                debugger;
                                 if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
                                     window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
                                     return;
                                 }
 
                                 var ref=window.location.href;
-                                var from = this.utils.getQueryString("from");
+                                var from = this.utils.getQueryString("from") || this.$route.query.from;
                                 if(from == 'shixin'){
-                                    var _appNo = this.utils.getQueryString('appNo');
+                                    var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
                                     var postData = new URLSearchParams();
                                         postData.append('appNo', _appNo);
                                         postData.append('userName', this.utils.getCookie("userName"));
@@ -491,14 +492,16 @@
                                     
                                     return false;
                                 }
+
+                                let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
                                 
                                 if("sharkResult"==this.utils.getQueryString("from")){
-                                    var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
+                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
                                     window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
                                     return false;
                                 }
                                 if(ref.indexOf("sharkLogin.html")!=-1){
-                                    var custFrom=this.utils.getQueryString("custFrom")&&this.utils.getQueryString("custFrom")!="null"?this.utils.getQueryString("custFrom"):"H5";
+                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
                                     window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
                                     return false;
                                 }

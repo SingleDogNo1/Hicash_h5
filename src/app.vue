@@ -20,20 +20,30 @@ export default {
         if(userName && token) {
             this.jsCommon.setAuthorization(userNamem, token);
         }
+
+        if(this.$router.history.current.meta.title){
+            document.title = this.$router.history.current.meta.title;
+        }
+        
     },
     components: {
         Home,
         MiaoDai
     },
     mounted () {
-        
         this.$router.beforeEach((to, from, next) => {
+
             this.path = to.name;
+
+            if (to.meta.title) {
+                document.title = to.meta.title;
+            }
+
             if (to.matched.some(record => record.meta.requireAuth)) {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");
                 var mobile = this.utils.getCookie("mobile");
- 
+
                 // 判断该路由是否需要登录权限
                 if(!userName || userName=="null"){
                     next({

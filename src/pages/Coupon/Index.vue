@@ -1,0 +1,377 @@
+<template>
+	<div class="coupon_page">
+		<div class="wrap">
+			<header class="creditHeader" style="background-color:white;">
+				<!-- closeBtn -->
+				<div v-if="isShowHead">
+					<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
+					<p class="title">优惠券</p>
+				</div>
+				<tab :line-width="1" custom-bar-width="60px">
+					<tab-item selected @on-item-click="onItemClick('RMWT')">未使用</tab-item>
+					<tab-item @on-item-click="onItemClick('JKWT')">已使用</tab-item>
+					<tab-item @on-item-click="onItemClick('HKWT')">已过期</tab-item>
+				</tab>
+			</header>
+			<div class="wrapper">
+				<ul class="content">
+					<li class="ref"><inline-loading></inline-loading>{{refreshText}}</li>
+					<!-- <li v-for="(item,index) in list" :key="index">
+						<a :href="item.openUrl"><p>{{item.title}}</p></a>
+					</li> -->
+					<li class="clearfix">
+						<div class="left-main left">
+							<span class="coupon-price left">4<em>元</em></span>
+							<span class="coupon-tips">还款时使用</span>
+						</div>
+						<div class="right-main left">
+							<span class="title">代金券<em>（共64张）</em></span>
+							<span class="explain">可使用产品，可叠加使用</span>
+							<span class="data">有效期 2017.03.28-2017.05.04</span>
+						</div>
+						<div class="help"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<popup width="100%" height="150px" position="bottom" v-model="isShowPopup">
+			<div class="popup">
+				<div class="title">已选优惠卷</div>
+				<group>
+					<x-number v-model="couponNum"  :title="couponPopupTitle" :min=minNum :max=maxNum width="50px" button-style="round"></x-number>
+				</group>
+				<a class="go" href="#">去使用</a>
+			</div>
+		</popup>
+	</div>
+</template>
+<script type="text/javascript">
+	import {Tab, TabItem, Flexbox, FlexboxItem, InlineLoading, Popup, XNumber, Group} from 'vux';
+	import BScroll from 'better-scroll'
+	export default {
+		components: {
+			Tab,
+			TabItem,
+			Flexbox,
+			FlexboxItem,
+			InlineLoading,
+			Popup,
+			XNumber,
+			Group
+		},
+		data() {
+			return {
+				list: [],
+				subType: 'RMWT',
+				scroll:"",
+				refreshText: '下拉刷新',
+				isShowAlert: false,
+				isShowHead: true,
+				isShowPopup: true,
+				couponPopupTitle: '優惠券',
+				couponNum: 1,
+				minNum: 0,
+				maxNum: 50
+			}
+		},
+		mounted() {
+			var _this = this;
+
+			let comeFrom = _this.utils.getPlatform();
+			if (comeFrom != 'H5') {
+				_this.isShowHead = false
+			}
+
+			_this.getSysParam();
+
+			
+			this.scroll = new BScroll(".wrapper", {
+				click: true,
+				scrollY: true,
+				pullDownRefresh: {
+					threshold: 30, // 当下拉到超过顶部 30px 时，
+				},
+				probeType: 1
+			})
+			this.scroll.on('scroll', function (pos) {
+				console.info('scroll pos.y', pos.y);
+		        if (pos.y > 30 && pos.y < 40) {
+				
+
+		          _this.refreshText = '下拉刷新'
+		        }
+			})
+			this.scroll.on('touchEnd', function (pos) {
+				console.info('pos.y', pos.y);
+		  		if (pos.y > 40) {
+					_this.refreshText = '刷新数据中'
+					_this.getSysParam();
+		  		}
+			})
+		},
+		methods: {
+			onItemClick: function(type){
+				this.subType = type;
+				this.scroll.scrollTo(0,0);
+				console.info(type);
+				this.getSysParam();
+			},
+			getSysParam: function(){
+				// 获取产品列表
+				let postData = new URLSearchParams();
+					postData.append('paramCode', 'CJWT');
+					postData.append('requestSource', 'HTML5');
+					postData.append('maxLine', '10000');
+					postData.append('curPage', '1');
+					postData.append('subType', this.subType);
+
+				let _this = this;
+
+				this.common.getSysParam(postData)
+				.then(function(res){
+					let list = res.data.list;
+
+					_.each(res.data.list, function(v, i){
+						list[i].createTime = list[i].createTime.substring(0, 10);
+						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" + list[i].id;
+					});
+					
+					_this.list = list;
+
+					_this.$nextTick(function () {
+						setTimeout( () => {
+							_this.refreshText = '刷新成功'
+							setTimeout( () => {
+								_this.scroll.refresh();
+								_this.refreshText = '下拉刷新'
+							}, 500)
+						}, 1000)
+					});
+				});
+			}
+		},
+		// computed: {
+		// 	couponChangeNum() {
+		// 　　　　return this.couponNum;
+		// 　　}
+		// },
+		watch:{
+			couponNum(newValue, oldValue) {
+				if(newValue == 0){
+					console.info(typeof newValue);
+					this.isShowPopup = false;
+				}
+		　　}
+		}
+	}
+</script>
+
+<style lang="scss" rel="stylesheet/scss">
+	@import "../../../bower_components/sass-rem/rem";
+
+	.Coupon{
+		background-color: rgb(245, 245, 245);
+		.coupon_page {
+			height: 100%;
+			.wrap {
+				position:relative;
+				z-index:1;
+				height: 100%;
+				padding: 0;
+			}
+			header .go-history:before, header .go-back:before {
+				font-family: "iconfont";
+				position: absolute;
+				content: "\ED72";
+				left: 50%;
+				top: 0%;
+				font-size: 20px;
+				color: black;
+			}
+			header p {
+				font-size: rem(17px);
+				width: 100%;
+				text-align: center;
+				height: 50px;
+				line-height: 50px;
+			}
+			header {
+				height: 95px;
+				line-height: 95px;
+				display: block;
+				position: relative;
+			}
+
+			.vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active {
+				background-color: #fff !important;
+			}
+			.vux-tab .vux-tab-item.vux-tab-selected {
+				color: #FF7640
+			}
+			.vux-tab-bar-inner {
+				border: 1px solid #FF7640;
+			}
+			.wrapper {
+				height: calc(100% - 95px);
+				.content {
+					background-color: rgb(245, 245, 245);
+					min-height:calc(100% + 1px);
+					li {
+						width: 90%;
+						height: rem(83px);
+						margin: rem(10px) auto 0;
+						position: relative;
+						.help{
+							width: 16px;
+							height: 16px;
+							position: absolute;
+							right: rem(10px);
+							top: rem(10px);
+							background: url(./images/icon-help-black.png) no-repeat;
+							background-size: 100% 100%;
+						}
+						.left-main{
+							width: 32%;
+							height: rem(83px);
+							background: url(./images/icon_coupon.png) no-repeat;
+							background-size: 100% 100%;
+							span{
+								display: block;
+								color: #fff
+							}
+							.coupon-price{
+								width: 100%;
+								height: 70%;
+								font-size: rem(45px);
+								text-align: center;
+								em{
+									font-size: rem(20px);
+									font-style: inherit;
+								}
+							}
+							.coupon-tips{
+								width: 100%;
+								height: 30%;
+								text-align: center;
+								font-size: rem(12px);
+								clear: both;
+							}
+						}
+						.right-main{
+							width: 68%;
+							height: rem(83px);
+							background: #fff;
+							span{
+								display: block;
+								padding-left: rem(11px);
+								color: #999;
+								font-size: rem(10px);
+							}
+							.title{
+								color: #333;
+								font-size: rem(15px);
+								margin: rem(10px) 0;
+								padding-left: rem(11px);
+								em{
+									font-size: rem(13px);
+									font-style: inherit;
+									color: #999;
+								}
+							}
+						}
+						
+						.weui-loading {
+							margin-right: rem(10px);
+						}
+					}
+					li.ref{
+						position: absolute;
+						top: -48px;
+						left: 0;
+						padding-left: 0;
+						width: 100%;
+						font-size: 12px;
+						color: #333;
+						background-color: rgb(245, 245, 245);
+						text-align: center;
+						height: 48px;
+						line-height: 48px;
+						margin-top: 0;
+					}
+				}
+			}
+			.vux-flexbox {
+				height: 100%;
+			}
+		}
+		.popup{
+			padding: rem(10px 15px);
+			.title{
+				font-size: rem(15px);
+				color: #999999;
+			}
+			a.go{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: rem(50px);
+				display: block;
+				background: #FF7640;
+				color: #fff;
+				text-align: center;
+				line-height: rem(50px);
+				font-size: rem(15px);
+			}
+		}
+		.vux-popup-dialog{
+			background: #fff;
+		}
+
+		.weui-cell{
+			padding: 0;
+		}
+
+		.weui-cells:before, .weui-cells:after{
+			border: 0;
+		}
+		.vux-number-selector{
+			line-height: 0;
+		}
+		.vux-number-round .vux-number-selector-sub{
+			width: rem(16px);
+			height: rem(16px);
+			border: 1px solid #FF7640;
+			svg{
+				width: 100%;
+				height: 100%;
+				fill: #FF7640;
+				top: 0px;
+			}
+		}
+
+
+		.vux-number-round .vux-number-selector-plus{
+			width: rem(16px);
+			height: rem(16px);
+			border: 1px solid #FF7640;
+			background: #FF7640;
+			svg{
+				width: 100%;
+				height: 100%;
+				fill: #fff;
+			}
+		}
+
+		.vux-number-round .vux-number-selector-plus.vux-number-disabled{
+			background: #ececec;
+			svg{
+				fill: #fff;
+			}
+		}
+
+		.weui-cells{
+			font-size: rem(15px);
+		}
+	}
+</style>
