@@ -451,6 +451,7 @@
                             this.utils.setCookie("isDoubleSales", data.isDoubleSales);
                             this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
                             this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
+                            this.utils.setCookie("isHaveUnreadCoupon", data.isHaveUnreadCoupon);
 
                             const MWEB_PATH = this.config.MWEB_PATH;
 

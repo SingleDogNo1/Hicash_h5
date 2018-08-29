@@ -20,6 +20,7 @@ import SmallBanner from '@/components/SmallBanner'
 import Help from '@/components/Help'
 import Notice  from '@/components/Notice'
 import Coupon from '@/pages/Coupon/Index'
+import MyCoupon from '@/pages/Coupon/MyCoupon'
 
 
 Vue.use(Router)
@@ -160,11 +161,18 @@ export default new Router({
         meta: { title: '公告' }
     },
     {
-        //优惠券
+        //充值还款 - 优惠券
         path: '/coupon',
         name: 'Coupon',
         component: Coupon,
         meta: { title: '优惠券' }
+    },
+    {
+        //个人中心 - 我的优惠券
+        path: '/MyCoupon',
+        name: 'MyCoupon',
+        component: MyCoupon,
+        meta: { title: '我的优惠券' }
     }
   ]
 })
