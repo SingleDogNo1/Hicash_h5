@@ -336,7 +336,7 @@
                     errorMsg = "请输入您的手机号";
                 } else if (!this.utils.checkMobile(this.mobile)){
                     errorMsg = "手机号码格式错误";
-                } else if (this.inviteCode != "" && !this.utils.checkMobile(this.inviteCode)){
+                } else if (this.inviteCode != "" && !this.utils.checkInviteCode(this.inviteCode)){
                     errorMsg = "推荐码格式错误";
                 } else if (this.getMessageCodeText === '获取验证码') {
                     errorMsg="请点击获取验证码";
