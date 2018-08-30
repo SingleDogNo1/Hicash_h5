@@ -291,7 +291,7 @@ header {
             display: none;
         }
     }
-    .help_page .wrapper{
+    .help_page .wrapper, .coupon_page .wrapper{
         height: calc(100% - 44px - 41px);
     }
     .notice_page .wrapper{
@@ -302,4 +302,33 @@ header {
 .weui-toast{
     width: 5.6em !important;
     min-height: 0 !important;
+}
+
+.weui-dialog{
+    width: 70%;
+    border-radius: 5px;
+    .weui-dialog__hd{
+        height: rem(48px);
+        line-height: rem(48px);
+        background: #FF7640;
+        color: #fff;
+        padding: 0;
+        .weui-dialog__title{
+            font-size: rem(16px);
+        }
+    }
+    .weui-dialog__bd{
+        width: 90%;
+        padding: rem(10px);
+        margin: 0 auto;
+        font-size: rem(13px);
+        color: #333;
+        letter-spacing: -0.08px;
+    }
+    .weui-dialog__ft{
+        font-size: rem(15px);
+        a{
+            color: #FF7640;
+        }
+    }
 }

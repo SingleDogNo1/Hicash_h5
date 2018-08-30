@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './app'
 import router from './router'
-import { XHeader, Tabbar, TabbarItem, Toast } from 'vux'
+import { Tabbar, TabbarItem, Toast, Alert } from 'vux'
 
 import common from './api/common.js'
 import jsCommon from './assets/js/common.js'
@@ -22,6 +22,7 @@ Vue.component('tabbar-item', TabbarItem)
 Vue.component('toast', Toast)
 
 
+
 import  { ToastPlugin } from 'vux'
 Vue.use(ToastPlugin)
 
@@ -35,7 +36,8 @@ Vue.use(ConfirmPlugin)
 import VueClipboards from 'vue-clipboards';
 Vue.use(VueClipboards);
 
-
+import  { AlertPlugin } from 'vux'
+Vue.use(AlertPlugin)
 
 Vue.config.productionTip = false
 
