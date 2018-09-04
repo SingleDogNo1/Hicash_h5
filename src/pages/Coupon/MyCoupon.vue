@@ -21,7 +21,7 @@
 					</li> -->
 					<li class="clearfix" :class="{'gray':subType=='usedCouponList'||subType=='expiredCouponList'}" v-for="item in list[subType]">
 						<div class="left-main left">
-							<span class="coupon-price left">{{item.amount}}<em>元</em></span>
+							<span class="coupon-price left">{{item.bigNum}}<em>.{{item.smallNum}}元</em></span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
 						<div class="right-main left">
@@ -30,6 +30,10 @@
 							<span class="data">有效期 {{item.sendStartDate}}-{{item.sendEndDate}}</span>
 						</div>
 						<div class="help" @click.stop="clickHelp(item)"></div>
+					</li>
+					<li class="no-data">
+						<img src="images/bg-no-data.png" width="70%">
+						<p>这里暂时什么都没有</p>
 					</li>
 				</ul>
 			</div>
@@ -108,6 +112,29 @@
 				this.common.getCustHicashCoupon(postData)
 				.then(function(res){
 					let list = res.data;
+					if(list.canUseCouponList.length){
+						_.each(list.canUseCouponList, function(v,i){
+							var money = list.canUseCouponList[i].amount.split('.');
+							list.canUseCouponList[i].bigNum = money[0]
+							list.canUseCouponList[i].smallNum = money[1]
+						})
+					}
+
+					if(list.expiredCouponList.length){
+						_.each(list.expiredCouponList, function(v,i){
+							var money = list.expiredCouponList[i].amount.split('.');
+							list.expiredCouponList[i].bigNum = money[0]
+							list.expiredCouponList[i].smallNum = money[1]
+						})
+					}
+
+					if(list.usedCouponList.length){
+						_.each(list.usedCouponList, function(v,i){
+							var money = list.usedCouponList[i].amount.split('.');
+							list.usedCouponList[i].bigNum = money[0]
+							list.usedCouponList[i].smallNum = money[1]
+						})
+					}
 					
 					_this.list = list;
 					// this.repeatList = 
@@ -215,7 +242,7 @@
 							.coupon-price{
 								width: 100%;
 								height: 70%;
-								font-size: rem(25px);
+								font-size: rem(45px);
 								text-align: center;
 								em{
 									font-size: rem(20px);

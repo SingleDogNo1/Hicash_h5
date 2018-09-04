@@ -14,7 +14,7 @@
 					</li> -->
 					<li class="clearfix" @click="selectCoupon(item)" v-for="item in list">
 						<div class="left-main left">
-							<span class="coupon-price left">{{item.amount}}<em>元</em></span>
+							<span class="coupon-price left">{{item.bigNum}}<em>.{{item.smallNum}}元</em></span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
 						<div class="right-main left">
@@ -91,7 +91,6 @@
 			}
 
 			_this.getRechargeCoupon();
-
 			
 			this.scroll = new BScroll(".wrapper", {
 				click: true,
@@ -136,6 +135,12 @@
 				this.common.getRechargeCoupon(postData)
 				.then(function(res){
 					let list = res.data.canUseCouponList;
+
+					_.each(list, function(v,i){
+						var money = list[i].amount.split('.');
+						list[i].bigNum = money[0]
+						list[i].smallNum = money[1]
+					})
 					
 					_this.list = list;
 
