@@ -58,21 +58,14 @@ module.exports = {
         }
       },
       '/hicash-api-service':{
-        target:'http://ios11.dev.guolidai.xin:8081/hicash-api-service',
-        changeOrigin:true,
-        pathRewrite:{
-            '^/hicash-api-service':''
-        }
-      },
-      '/hicash-api-service':{
-        target:'http://ios11.dev.guolidai.xin:8081/hicash-api-service',
+        target:'http://ios11.dev.guolidai.xin/hicash-api-service',
         changeOrigin:true,
         pathRewrite:{
             '^/hicash-api-service':''
         }
       },
       '/creditservice':{
-        target:'http://ios3.dev.guolidai.xin/creditservice/',
+        target:'http://ios3.dev.guolidai.xin/creditservice',
         changeOrigin:true,
         pathRewrite:{
             '^/creditservice':''

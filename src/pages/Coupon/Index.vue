@@ -94,7 +94,7 @@
 			
 			this.scroll = new BScroll(".wrapper", {
 				click: true,
-				scrollY: true,
+				scrollY: true, 
 				pullDownRefresh: {
 					threshold: 30, // 当下拉到超过顶部 30px 时，
 				},

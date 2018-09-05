@@ -44,7 +44,8 @@ export default{
   indexAdvertising: indexAdvertising,
   deleteVerificationCodeCount: deleteVerificationCodeCount,
   getRechargeCoupon: getRechargeCoupon,
-  getCustHicashCoupon: getCustHicashCoupon
+  getCustHicashCoupon: getCustHicashCoupon,
+  checkResultBaiQiShi: checkResultBaiQiShi
 }
 
 
@@ -609,6 +610,19 @@ export function getRechargeCoupon(params){
 export function getCustHicashCoupon(params){
   return new Promise((resolve,reject)=>{
     axios.post("/NewHicashService/CustHicashCoupon",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  白骑士检测
+ */
+export function checkResultBaiQiShi(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/creditservice/baiqishi/checkResult.do",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

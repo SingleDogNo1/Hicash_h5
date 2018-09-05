@@ -8,6 +8,7 @@ import jsCommon from './assets/js/common.js'
 import utils from './assets/js/utils.js'
 import config from './config.json'
 import "./assets/js/growingIO.js"
+import "./assets/js/baiqishi.js"
 
 
 Vue.prototype.common = common;

@@ -22,7 +22,7 @@
                 <transition name="enter-recommend">
                     <x-input v-model="inviteCode" class="enter-recommend" type="text" placeholder="请输入推荐码" text-align="left" v-show="boxshow"></x-input>
                 </transition>
-                <button class="btn-register" @click="register('middle')">注册</button>
+                <button class="btn-register" @click="checkResultBaiQiShi">注册</button>
                 <div class="register-agreement-wrap">
                     <check-icon :value.sync="selected">
                         <span>注册即表示同意</span>
@@ -227,9 +227,6 @@
             font-size: 35px !important;
         }
     }
-    .weui-toast {
-        width: auto !important;
-    }
 </style>
 
 <script type="text/javascript">
@@ -271,6 +268,62 @@
         methods: {
             toggle () {
                 this.boxshow = !this.boxshow;
+            },
+            checkResultBaiQiShi (){
+                var mobile = this.mobile.replace(/\s/g,"");
+                var messageCode = this.messageCode.replace(/\s/g,"");
+                var password = this.password.replace(/\s/g,"");
+                var inviteCode = this.inviteCode;
+                var imgCode = this.imgCode.replace(/\s/g,"");
+                
+                var errorMsg="";
+                if(this.mobile == ""){
+                    errorMsg = "请输入您的手机号";
+                } else if (!this.utils.checkMobile(this.mobile)){
+                    errorMsg = "手机号码格式错误";
+                } else if (this.inviteCode != "" && !this.utils.checkInviteCode(this.inviteCode)){
+                    errorMsg = "推荐码格式错误";
+                } else if (this.getMessageCodeText === '获取验证码') {
+                    errorMsg="请点击获取验证码";
+                } else if (this.messageCode.length < 5) {
+                    errorMsg="短信验证码格式错误";
+                } else if (!this.selected){
+                    errorMsg = "请同意相关协议";
+                }
+
+                if(errorMsg!=""){
+                    this.$vux.toast.text(errorMsg, 'middle');
+                    return;
+                }
+
+                var postData = new URLSearchParams();
+                postData.append('idustryCode', 'HQ');
+                postData.append('idCard', '');
+                postData.append('mobile', this.mobile);
+                postData.append('name', '');
+                postData.append('eventType', 'register');
+                postData.append('tokenKey', this.utils.getCookie('uuid'));
+                postData.append('plateform', 'h5');
+                console.log('postData=====', postData)
+                this.$vux.loading.show({
+                    text: '数据请求中'
+                })
+                this.common.checkResultBaiQiShi(postData)
+                .then((res) => {
+                    console.info('res', res);
+                    let resultCode = res.data.resultCode;
+                    console.info(resultCode, this.type);
+                    if(resultCode == '1'){
+                        this.register();
+                    }else{
+                        this.$vux.loading.hide();
+                        this.$vux.toast.show({
+                            type: 'cancel',
+                            position: 'middle',
+                            text: res.data.resultMsg
+                        })
+                    }
+                })
             },
             getMessageCode (position) {
                 var errorMsg = "";
@@ -321,36 +374,10 @@
                     });
             },
             register () {
-                var mobile = this.mobile.replace(/\s/g,"");
-                var messageCode = this.messageCode.replace(/\s/g,"");
-                var custType = "KHL2";
-                var password = this.password.replace(/\s/g,"");
-                var inviteCode = this.inviteCode;
-                var imgCode = this.imgCode.replace(/\s/g,"");
                 var mediasource = "HY";
                 if(this.utils.getCookie("mediasource")){
                     mediasource = this.utils.getCookie("mediasource");
                 }
-                var errorMsg="";
-                if(this.mobile == ""){
-                    errorMsg = "请输入您的手机号";
-                } else if (!this.utils.checkMobile(this.mobile)){
-                    errorMsg = "手机号码格式错误";
-                } else if (this.inviteCode != "" && !this.utils.checkInviteCode(this.inviteCode)){
-                    errorMsg = "推荐码格式错误";
-                } else if (this.getMessageCodeText === '获取验证码') {
-                    errorMsg="请点击获取验证码";
-                } else if (this.messageCode.length < 5) {
-                    errorMsg="短信验证码格式错误";
-                } else if (!this.selected){
-                    errorMsg = "请同意相关协议";
-                }
-
-                if(errorMsg!=""){
-                    this.$vux.toast.text(errorMsg, 'middle');
-                    return;
-                }
-
                 var registerFrom = "HTML5";
                 if(mediasource == "iosddd"){
                     registerFrom = "iOS";
@@ -387,6 +414,7 @@
                 }
                 this.common.register(postData).then((res)=>{
                     // token为空代表异常情况，不为空代表注册成功
+                    this.$vux.loading.hide();
                     let data = res.data;
                     if (data.token !== '') {
                         console.log('res======', res);

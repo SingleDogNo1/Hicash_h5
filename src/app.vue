@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import Home from "./components/Home.vue"
 import MiaoDai from "./components/MiaoDai.vue"
 
@@ -24,7 +23,6 @@ export default {
         if(this.$router.history.current.meta.title){
             document.title = this.$router.history.current.meta.title;
         }
-        
     },
     components: {
         Home,
