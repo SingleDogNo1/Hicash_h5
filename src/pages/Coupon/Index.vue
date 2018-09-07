@@ -129,6 +129,7 @@
 					postData.append('userName', this.utils.getCookie("userName"));
 					postData.append('rechargeAmount', this.$route.query.rechargeAmount);
 					postData.append('uuid', this.utils.uuid());
+					postData.append('appNo', this.$route.query.appNo);
 
 				let _this = this;
 

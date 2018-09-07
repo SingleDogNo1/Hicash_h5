@@ -502,62 +502,64 @@
                                     this.utils.setCookie("vipCount", "0");
                                 }
                                 this.$vux.loading.hide();
-                                let jumpType = this.$route.query.jumpType;
-                                if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
-                                    window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
-                                    return;
-                                }
+                                setTimeout(()=>{
+                                    let jumpType = this.$route.query.jumpType;
+                                    if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
+                                        window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
+                                        return;
+                                    }
 
-                                var ref=window.location.href;
-                                var from = this.utils.getQueryString("from") || this.$route.query.from;
-                                if(from == 'shixin'){
-                                    var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
-                                    var postData = new URLSearchParams();
-                                        postData.append('appNo', _appNo);
-                                        postData.append('userName', this.utils.getCookie("userName"));
-                                        postData.append('comeFrom', this.utils.getPlatform());
-                                        postData.append('uuid', this.utils.uuid());
+                                    var ref=window.location.href;
+                                    var from = this.utils.getQueryString("from") || this.$route.query.from;
+                                    if(from == 'shixin'){
+                                        var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
+                                        var postData = new URLSearchParams();
+                                            postData.append('appNo', _appNo);
+                                            postData.append('userName', this.utils.getCookie("userName"));
+                                            postData.append('comeFrom', this.utils.getPlatform());
+                                            postData.append('uuid', this.utils.uuid());
 
-                                    this.common.navigateToRecharge(postData)
-                                    .then(function(){
-                                        window.location.href = data.rechargeUrl;
-                                    });
+                                        this.common.navigateToRecharge(postData)
+                                        .then(function(){
+                                            window.location.href = data.rechargeUrl;
+                                        });
+                                        
+                                        return false;
+                                    }
+
+                                    let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
                                     
-                                    return false;
-                                }
+                                    if("sharkResult"==this.utils.getQueryString("from")){
+                                        var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
+                                        window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
+                                        return false;
+                                    }
+                                    if(ref.indexOf("sharkLogin.html")!=-1){
+                                        var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
+                                        window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
+                                        return false;
+                                    }
+                                    if(data.isVip){
+                                        window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
+                                        return false;
+                                    }
+                                    if(dxObj && telObj){
+                                        this.utils.setCookie("dxObj",dxObj);
+                                        this.utils.setCookie("telObj",telObj);
+                                    }
 
-                                let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
-                                
-                                if("sharkResult"==this.utils.getQueryString("from")){
-                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
-                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
-                                    return false;
-                                }
-                                if(ref.indexOf("sharkLogin.html")!=-1){
-                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
-                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
-                                    return false;
-                                }
-                                if(data.isVip){
-                                    window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
-                                    return false;
-                                }
-                                if(dxObj && telObj){
-                                    this.utils.setCookie("dxObj",dxObj);
-                                    this.utils.setCookie("telObj",telObj);
-                                }
+                                    if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
+                                        window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
+                                    }
 
-                                if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
-                                    window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
-                                }
-
-                                if(from == 'perCenter'){
-                                    window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
-                                }
+                                    if(from == 'perCenter'){
+                                        window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
+                                    }
 
 
-                                console.log('result====', result)
-                                resolve(result);
+                                    console.log('result====', result)
+                                    resolve(result);
+                                }, 1000);
                             };
                         });
                 })
