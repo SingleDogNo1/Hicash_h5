@@ -69,7 +69,7 @@
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     @import "../../bower_components/sass-rem/rem";
 
     body{

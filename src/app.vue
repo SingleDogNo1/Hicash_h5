@@ -23,6 +23,16 @@ export default {
         if(this.$router.history.current.meta.title){
             document.title = this.$router.history.current.meta.title;
         }
+        console.info('this.utils', this.utils);
+        if(this.$router.history.current.meta.requireAuth){
+            var u = this.utils.getCookie("userName");
+
+            // 判断该路由是否需要登录权限
+            if(!u || u=="null"){
+                this.$router.push({name: '/login',params:{ redirect:this.$router.history.current.name}});
+            }
+        }  
+
     },
     components: {
         Home,
@@ -36,7 +46,6 @@ export default {
             if (to.meta.title) {
                 document.title = to.meta.title;
             }
-
             if (to.matched.some(record => record.meta.requireAuth)) {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");

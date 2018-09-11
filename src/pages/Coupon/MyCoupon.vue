@@ -31,7 +31,7 @@
 						</div>
 						<div class="help" @click.stop="clickHelp(item)">使用规则</div>
 					</li>
-					<li class="no-data" v-if="!list[subType].length">
+					<li class="no-data" v-if="!list || !list[subType] || !list[subType].length">
 						<img src="./images/bg-no-data.png" width="30%">
 						<p>这里暂时什么都没有</p>
 					</li>
