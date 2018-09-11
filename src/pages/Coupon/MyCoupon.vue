@@ -29,10 +29,10 @@
 							<span class="explain">可使用产品{{item.industryName}}，可叠加使用{{item.accumulationLimit}}次</span>
 							<span class="data">有效期 {{item.sendStartDate}}-{{item.sendEndDate}}</span>
 						</div>
-						<div class="help" @click.stop="clickHelp(item)"></div>
+						<div class="help" @click.stop="clickHelp(item)">使用规则</div>
 					</li>
-					<li class="no-data">
-						<img src="images/bg-no-data.png" width="70%">
+					<li class="no-data" v-if="!list[subType].length">
+						<img src="./images/bg-no-data.png" width="30%">
 						<p>这里暂时什么都没有</p>
 					</li>
 				</ul>
@@ -222,13 +222,16 @@
 						position: relative;
 						
 						.help{
-							width: 16px;
-							height: 16px;
+							width: auto;
+							height: auto;
+							padding: 1px 3px;
 							position: absolute;
 							right: rem(10px);
 							top: rem(10px);
-							background: url(./images/icon-help-black.png) no-repeat;
-							background-size: 100% 100%;
+							border: 1px solid #FD7F5F;
+							border-radius: 9px;
+							color: #FD7F5F;
+							font-size: rem(10px);
 						}
 						.left-main{
 							width: 32%;
@@ -295,8 +298,22 @@
 								}
 							}
 							.help{
-								background: url(./images/icon-help-gray.png) no-repeat;
-								background-size: 100% 100%;
+								color: #ccc;
+								border-color: #ccc;
+							}
+						}
+
+						&.no-data{
+							img{
+								display: block;
+								padding-top: rem(50px);
+								margin: 0px auto;
+							}
+							p{
+								text-align: center;
+								margin-top: rem(20px);
+								color: #666;
+								font-size: rem(12px);
 							}
 						}
 					}
