@@ -282,7 +282,6 @@
                 width: 11.675rem !important;
                 height: 15.85rem !important;
                 padding-bottom: 8px;
-                background: transparent !important;
                 border-radius: 0 !important;
                 overflow: auto !important;
             }

@@ -140,7 +140,6 @@
             .weui-dialog {
                 width: 11.525rem !important;
                 height: 19.3rem !important;
-                background-color:transparent !important;
                 overflow: visible !important;
                 .img-box {
                     width: 100%;
@@ -294,7 +293,6 @@
             .weui-dialog {
                 width: 14.5rem;
                 height: 9.625rem;
-                background-color:transparent !important;
                 .img-box {
                     width: 100%;
                     height: 100%;
