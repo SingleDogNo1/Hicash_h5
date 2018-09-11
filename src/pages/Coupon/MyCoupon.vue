@@ -227,7 +227,7 @@
 							padding: 1px 3px;
 							position: absolute;
 							right: rem(10px);
-							top: rem(10px);
+							top: rem(12px);
 							border: 1px solid #FD7F5F;
 							border-radius: 9px;
 							color: #FD7F5F;

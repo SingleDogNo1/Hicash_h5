@@ -22,7 +22,7 @@
 							<span class="explain">可使用产品{{item.industryName}}，可叠加使用{{item.accumulationLimit}}次</span>
 							<span class="data">有效期 {{item.sendStartDate}}-{{item.sendEndDate}}</span>
 						</div>
-						<div class="help" @click.stop="clickHelp(data)"></div>
+						<div class="help" @click.stop="clickHelp(item)">使用规则</div>
 					</li>
 				</ul>
 			</div>
@@ -234,13 +234,16 @@
 						margin: rem(10px) auto 0;
 						position: relative;
 						.help{
-							width: 16px;
-							height: 16px;
+							width: auto;
+							height: auto;
+							padding: 1px 3px;
 							position: absolute;
 							right: rem(10px);
-							top: rem(10px);
-							background: url(./images/icon-help-black.png) no-repeat;
-							background-size: 100% 100%;
+							top: rem(12px);
+							border: 1px solid #FD7F5F;
+							border-radius: 9px;
+							color: #FD7F5F;
+							font-size: rem(10px);
 						}
 						.left-main{
 							width: 32%;
