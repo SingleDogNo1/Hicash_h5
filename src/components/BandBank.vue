@@ -73,7 +73,7 @@
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
     .rate-calculation-body{
         width: 100%;
         height: 100%;
