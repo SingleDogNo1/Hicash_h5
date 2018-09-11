@@ -165,14 +165,20 @@ export default new Router({
         path: '/coupon',
         name: 'Coupon',
         component: Coupon,
-        meta: { title: '优惠券' }
+        meta: { 
+            requireAuth:true,
+            title: '优惠券' 
+        }
     },
     {
         //个人中心 - 我的优惠券
         path: '/MyCoupon',
         name: 'MyCoupon',
         component: MyCoupon,
-        meta: { title: '我的优惠券' }
+        meta: { 
+            requireAuth:true,
+            title: '我的优惠券' 
+        }
     }
   ]
 })
