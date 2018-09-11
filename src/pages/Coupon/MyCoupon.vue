@@ -402,9 +402,13 @@
 				fill: #fff;
 			}
 		}
-
+ 
 		.weui-cells{
 			font-size: rem(15px);
+		}
+
+		.weui-dialog{
+			background: #fff !important;
 		}
 	}
 </style>
