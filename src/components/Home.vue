@@ -464,11 +464,14 @@
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
 
-            console.info('进入首页');
-            if (window._czc) {
-                console.info('进入首页埋点');
-                window._czc.push(['_trackEvent', '首页', '首页打开的次数', '', '', 'SS']);
-            }
+            setTimeout(function(){
+                console.info('进入首页');
+                if (window._czc) {
+                    console.info('进入首页埋点');
+                    window._czc.push(['_trackEvent', '首页', '首页打开的次数', '', '', 'SS']);
+                }
+            }, 2000);
+            
 
 
             // 初始化scroller
