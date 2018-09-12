@@ -472,8 +472,6 @@
                 }
             }, 2000);
             
-
-
             // 初始化scroller
             setTimeout(function(){
                 _this.$refs.scroller.reset();
