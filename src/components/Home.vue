@@ -332,6 +332,8 @@
     import noticeWIcon from '../assets/images/icon-notice-w.png'
     import noticeBIcon from '../assets/images/icon-notice.png'
 
+    import "../assets/js/youmeng.js"
+
     export default {
         components: {
             Swiper,
