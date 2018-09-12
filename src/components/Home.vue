@@ -332,8 +332,6 @@
     import noticeWIcon from '../assets/images/icon-notice-w.png'
     import noticeBIcon from '../assets/images/icon-notice.png'
 
-    import "../assets/js/youmeng.js"
-
     export default {
         components: {
             Swiper,
@@ -465,6 +463,13 @@
             if(userName){
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
+
+            console.info('进入首页');
+            if (window._czc) {
+                console.info('进入首页埋点');
+                window._czc.push(['_trackEvent', '首页', '首页打开的次数', '', '', 'SS']);
+            }
+
 
             // 初始化scroller
             setTimeout(function(){

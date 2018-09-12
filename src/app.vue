@@ -31,8 +31,15 @@ export default {
         MiaoDai
     },
     mounted () {
-        this.$router.beforeEach((to, from, next) => {
 
+        //添加友盟埋点
+        const script = document.createElement('script')
+        script.src = 'https://s4.cnzz.com/z_stat.php?id=1261254264&web_id=1261254264'
+        script.language = 'JavaScript'
+        document.body.appendChild(script)
+
+        //监听路由跳转
+        this.$router.beforeEach((to, from, next) => {
             this.path = to.name;
 
             if (to.meta.title) {
