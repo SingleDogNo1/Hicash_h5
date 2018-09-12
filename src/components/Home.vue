@@ -325,12 +325,14 @@
 </style>
 
 <script type="text/javascript">
-    import { Swiper, Scroller, XDialog, TransferDom} from 'vux'
+    import { Swiper, Scroller, XDialog, TransferDom } from 'vux'
 
     import PageFooter from '../components/PageFooter.vue'
 
     import noticeWIcon from '../assets/images/icon-notice-w.png'
     import noticeBIcon from '../assets/images/icon-notice.png'
+
+    import "../assets/js/youmeng.js"
 
     export default {
         components: {
