@@ -34,7 +34,7 @@ export default {
 
         //添加友盟埋点
         const script = document.createElement('script')
-        script.src = 'https://s4.cnzz.com/z_stat.php?id=1261254264&web_id=1261254264'
+        script.src = 'https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143'
         script.language = 'JavaScript'
         document.body.appendChild(script)
 
