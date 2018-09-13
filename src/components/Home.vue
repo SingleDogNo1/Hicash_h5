@@ -466,6 +466,13 @@
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
 
+            //添加友盟埋点
+            setTimeout(function(){
+                if (window._czc) {
+                    window._czc.push(['_trackEvent', '首页', '首页打开的次数', '', '', 'SS']);
+                }
+            }, 2000);
+
             // 初始化scroller
             setTimeout(function(){
                 _this.$refs.scroller.reset();
