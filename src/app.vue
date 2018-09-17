@@ -23,7 +23,7 @@ export default {
         if(this.$router.history.current.meta.title){
             document.title = this.$router.history.current.meta.title;
         }
-        console.info('this.utils', this.utils);
+
         if(this.$router.history.current.meta.requireAuth){
             var u = this.utils.getCookie("userName");
 

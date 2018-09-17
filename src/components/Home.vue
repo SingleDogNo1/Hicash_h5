@@ -419,8 +419,8 @@
                                 img: v.proShowImg,
                                 industryCode: v.industryCode
                             }
-                            if(v.industryCode == 'MDCP'){
-                                obj.url = MWEB_PATH + 'newweb/product/miaodai.html'
+                            if(v.industryCode == 'MDCP' || v.industryCode == 'LDDD'){
+                                obj.url = MWEB_PATH + 'newweb/product/miaodai.html?industryCode='+v.industryCode
                             }else if(v.industryCode == 'VIPD'){
                                 obj.url = MWEB_PATH + 'newweb/product/vipdai.html'
                             }
