@@ -34,7 +34,7 @@ function getCookie(name) {
 var uuidVal = getCookie('uuid');
 console.info('uuidVal',uuidVal)
 
-if(!uuidVal){
+if(!uuidVal || !uuidVal.length){
     uuidVal = uuid();
     setCookie('uuid', uuidVal)
 }
