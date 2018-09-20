@@ -33,10 +33,12 @@ window.onload = function(){
              str.push('精度：' + data.accuracy + ' 米');
         }
         console.info('onComplete str', str);
+        alert('onComplete'+data.position.lng);
     }
     //解析定位错误信息
     function onError(data) {
         console.info('onComplete data', data);
+        alert('err'+data.message);
     }
 
 
