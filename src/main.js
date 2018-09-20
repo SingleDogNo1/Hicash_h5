@@ -9,6 +9,7 @@ import utils from './assets/js/utils.js'
 import config from './config.json'
 import "./assets/js/growingIO.js"
 import "./assets/js/baiqishi.js"
+import "./assets/js/gaode.js"
 
 
 Vue.prototype.common = common;
