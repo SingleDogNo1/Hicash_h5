@@ -304,7 +304,13 @@
                 postData.append('eventType', 'register');
                 postData.append('tokenKey', this.utils.getCookie('uuid'));
                 postData.append('plateform', 'h5');
-                console.log('postData=====', postData)
+                
+                var gpsArr = this.utils.getCookie('gpsArr'); 
+                if(gpsArr&&gpsArr!=''){
+                    gpsArr = gpsArr.split(',');
+                    postData.append('h5Longitude', gpsArr[0]);
+                    postData.append('h5Latitude', gpsArr[1]);
+                }
                 this.$vux.loading.show({
                     text: '数据请求中'
                 })
