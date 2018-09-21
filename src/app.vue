@@ -51,9 +51,11 @@ export default {
                 var gpsArr = [position.coords.longitude,position.coords.latitude];
                 _this.utils.setCookie("gpsArr", gpsArr);
                 console.info('Get GPS success', gpsArr);
+                alert('Get GPS success '+ JSON.stringify(gpsArr));
             },
             locationError=function (error) {
                 console.info('Get GPS failed', error);
+                alert('Get GPS failed '+ JSON.stringify(error));
             }
             getLocation();
         }
