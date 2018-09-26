@@ -27,7 +27,7 @@
             <div class="forget-password-form" v-if="step === 2">
                 <div class="new-password-wrap">
                     <i class="iconfont">&#xe623;</i>
-                    <x-input v-model="newPassword" class="new-password" placeholder="请输入新密码" type="password" :max="12">
+                    <x-input v-model="newPassword" class="new-password" placeholder="请输入6位至12位字母加数字组合" type="password" :max="12">
                     </x-input>
                 </div>
                 <div class="repeat-password-wrap">
