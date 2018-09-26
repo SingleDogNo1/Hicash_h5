@@ -15,14 +15,14 @@
                 </div>
                 <div class="message-code-wrap">
                     <i class="iconfont">&#xe66c;</i>
-                    <x-input v-model="messageCode" placeholder="输入短信验证码" class="weui-vcode message-code" keyboard="number" type="tel" :max="5">
+                    <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code" keyboard="number" type="tel" :max="5">
                         <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')" :class="{'time-text': isCountdown}">
                             {{getMessageCodeText}}
                         </x-button>
                     </x-input>
                 </div>
                 <toast v-model="showPositionValue" type="text" :time="3000" is-show-mask :position="position">{{errorMsg}}</toast>
-                <button class="btn-next" @click="nextStep1('middle')">下一步</button>
+                <button class="btn-next" @click="nextStep1('middle')">确认</button>
             </div>
             <div class="forget-password-form" v-if="step === 2">
                 <div class="new-password-wrap">
@@ -36,7 +36,7 @@
                     </x-input>
                 </div>
                 <toast v-model="showPositionValue" type="text" :time="3000" is-show-mask :position="position">{{errorMsg}}</toast>
-                <button class="btn-next" @click="nextStep2('middle')">下一步</button>
+                <button class="btn-next" @click="nextStep2('middle')">确认</button>
             </div>
         </div>
     </div>
@@ -234,7 +234,7 @@
                 step: 1,
                 newPassword: '',
                 repeatPassword: '',
-                title: '忘记密码'
+                title: '手机号验证'
             }
         },
         ready () {
