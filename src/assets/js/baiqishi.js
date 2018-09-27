@@ -1,3 +1,5 @@
+import config from '../../config.json'
+console.info('config', config);
 function uuid(){
     var s = [];
     var hexDigits ="0123456789abcdef";
@@ -39,10 +41,11 @@ if(!uuidVal || !uuidVal.length){
     setCookie('uuid', uuidVal)
 }
 
-_saber = {
+window._saber = {
     partnerId: 'dpandora', 
     tokenKey: uuidVal
 };
 var aa = document.createElement('script'); aa.async = true;
-aa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dfst.baiqishi.com/static/webdf/saber.js?t='	+	(new Date().getTime()/3600000).toFixed(0);
+aa.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + config.baiqishi_url +'?t='	+	(new Date().getTime()/3600000).toFixed(0);
 var bb = document.getElementsByTagName('script')[0]; bb.parentNode.insertBefore(aa, bb);
+
