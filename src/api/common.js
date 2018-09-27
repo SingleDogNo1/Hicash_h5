@@ -42,7 +42,10 @@ export default{
   getSmallBannerDetail: getSmallBannerDetail,
   navigateToRecharge: navigateToRecharge,
   indexAdvertising: indexAdvertising,
-  deleteVerificationCodeCount: deleteVerificationCodeCount
+  deleteVerificationCodeCount: deleteVerificationCodeCount,
+  getRechargeCoupon: getRechargeCoupon,
+  getCustHicashCoupon: getCustHicashCoupon,
+  checkResultBaiQiShi: checkResultBaiQiShi
 }
 
 
@@ -581,6 +584,45 @@ export function navigateToRecharge(params){
 export function indexAdvertising(params){
   return new Promise((resolve,reject)=>{
     axios.post("/NewHicashService/IndexAdvertising",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  充值还款-优惠券列表
+ */
+export function getRechargeCoupon(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/RechargeCoupon",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  个人中心-优惠券列表
+ */
+export function getCustHicashCoupon(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/CustHicashCoupon",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  白骑士检测
+ */
+export function checkResultBaiQiShi(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/creditservice/baiqishi/checkResult.do",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

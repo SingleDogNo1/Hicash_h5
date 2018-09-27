@@ -17,7 +17,6 @@
 <style lang="scss" rel="stylesheet/scss">
     .weui-dialog {
         width: 12rem /* 270/22.5 */;
-        background-color:transparent !important;
         border-radius: 5px;
         .pop-warp {
             width: 100%;

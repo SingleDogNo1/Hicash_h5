@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import Home from "./components/Home.vue"
 import MiaoDai from "./components/MiaoDai.vue"
 
@@ -16,6 +15,7 @@ export default {
         //自动登录
         let userName = sessionStorage.getItem('userName');
         let token = sessionStorage.getItem('token');
+        let _this = this;
 
         if(userName && token) {
             this.jsCommon.setAuthorization(userNamem, token);
@@ -24,6 +24,39 @@ export default {
         if(this.$router.history.current.meta.title){
             document.title = this.$router.history.current.meta.title;
         }
+
+        if(this.$router.history.current.meta.requireAuth){
+            var u = this.utils.getCookie("userName");
+
+            // 判断该路由是否需要登录权限
+            if(!u || u=="null"){
+                this.$router.push({name: '/login',params:{ redirect:this.$router.history.current.name}});
+            }
+        }  
+
+        var usergps = this.utils.getCookie("gpsArr");
+        if(!usergps || usergps == ''){
+            var getLocation=function () {
+            if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(locationSuccess,
+                        locationError, {
+                            enableHighAcuracy : true, // 指示浏览器获取高精度的位置，默认为false
+                            timeout : 50000, // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+                            maximumAge : 3000 // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+                        });
+                }
+            },
+            locationSuccess=function (position) {
+                //将经纬度转换为坐标数组
+                var gpsArr = [position.coords.longitude,position.coords.latitude];
+                _this.utils.setCookie("gpsArr", gpsArr);
+                console.info('Get GPS success', gpsArr);
+            },
+            locationError=function (error) {
+                console.info('Get GPS failed', error);
+            }
+            getLocation();
+        }
         
     },
     components: {
@@ -31,6 +64,14 @@ export default {
         MiaoDai
     },
     mounted () {
+        //添加友盟埋点
+        const script = document.createElement('script')
+        script.src = 'https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143'
+        script.language = 'JavaScript'
+        document.body.appendChild(script)
+
+        //监听路由跳转
+        this.$router.beforeEach((to, from, next) => {
 
         //添加友盟埋点
         const script = document.createElement('script')
@@ -45,7 +86,6 @@ export default {
             if (to.meta.title) {
                 document.title = to.meta.title;
             }
-
             if (to.matched.some(record => record.meta.requireAuth)) {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");

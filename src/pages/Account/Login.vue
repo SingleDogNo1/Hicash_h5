@@ -19,16 +19,16 @@
             </tab>
             <div class="message-login-form" v-if="type === 'message'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code" @keyup.enter.native="messageLogin" keyboard="number" type="tel" :max="5" ref="content" >
+                <x-input v-model="messageCode" placeholder="请输入短信验证码" class="weui-vcode message-code" @keyup.enter.native="checkResultBaiQiShi" keyboard="number" type="tel" :max="5" ref="content" >
                     <x-button slot="right" type="primary" mini @click.native="getMessageCode('middle')"  :disabled="isDisabled">
                     {{getMessageCodeText}}</x-button>
                 </x-input>
-                <button class="btn-login" @click="messageLogin('middle')"> 登录</button>
+                <button class="btn-login" @click="checkResultBaiQiShi">登录</button>
             </div>
             <div class="message-login-form" v-if="type === 'password'">
                 <x-input v-model="mobile" class="mobile" name="mobile" placeholder="请输入手机号" keyboard="number" is-type="china-mobile" :max="11" autocomplete="off"></x-input>
-                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"  @keyup.enter.native="passwordLogin"></x-input>
-                <button class="btn-login" @click="passwordLogin">登录</button>
+                <x-input v-model="password" class="password" name="password" placeholder="请输入密码" type="password"  @keyup.enter.native="checkResultBaiQiShi"></x-input>
+                <button class="btn-login" @click="checkResultBaiQiShi">登录</button>
                 <router-link class="go-to-forget-pwd" :to="{name: 'ForgetPassword'}">
                     忘记密码?
                 </router-link>
@@ -259,6 +259,82 @@
             onItemClick (index) {
                 index === 0 ? this.type = 'message' : this.type = 'password'
             },
+            checkResultBaiQiShi (){
+                if(this.type == 'message'){
+                   var errorMsg="";
+                    if (this.mobile == "") {
+                        errorMsg="请输入您的手机号";
+                    } else if (!this.utils.checkMobile(this.mobile)) {
+                        errorMsg="手机号码格式错误";
+                    } else if (this.getMessageCodeText === '获取验证码') {
+                        errorMsg="请点击获取验证码";
+                    } else if (this.messageCode.length < 5) {
+                        errorMsg="短信验证码格式错误";
+                    } else if (this.messageCode == "") {
+                        errorMsg="请输入短信验证码";
+                    }
+                    if(errorMsg!="") {
+                        this.$vux.toast.text(errorMsg, 'middle');
+                        return;
+                    }
+                }else if(this.type == 'password'){
+                    var errorMsg="";
+                    if (this.mobile == "") {
+                        errorMsg="请输入您的手机号";
+                    } else if (!this.utils.checkMobile(this.mobile)) {
+                        errorMsg="手机号码格式错误";
+                    } else if (this.password == "") {
+                        errorMsg="请输入密码";
+                    }
+                    if(errorMsg!="") {
+                        this.$vux.toast.text(errorMsg, 'middle');
+                        return;
+                    }
+                }
+    //name,value,domain,path,expires,httpOnly,secure
+// gpsArr,117.20543448188623%2C39.122510101513974,192.168.9.48,/,会话,false,false
+               
+                var postData = new URLSearchParams();
+                postData.append('idustryCode', 'HQ');
+                postData.append('idCard', '');
+                postData.append('mobile', this.mobile);
+                postData.append('name', '');
+                postData.append('eventType', 'login');
+                postData.append('tokenKey', this.utils.getCookie('uuid'));
+                postData.append('plateform', 'h5');
+
+                var gpsArr = this.utils.getCookie('gpsArr'); 
+                if(gpsArr&&gpsArr!=''){
+                    gpsArr = gpsArr.split(',');
+                    postData.append('h5Longitude', gpsArr[0]);
+                    postData.append('h5Latitude', gpsArr[1]);
+                }
+               
+                console.log('postData=====', postData)
+                this.$vux.loading.show({
+                    text: '数据请求中'
+                })
+                this.common.checkResultBaiQiShi(postData)
+                .then((res) => {
+                    console.info('res', res);
+                    let resultCode = res.data.resultCode;
+                    console.info(resultCode, this.type);
+                    if(resultCode == '1'){
+                        if(this.type == 'message'){
+                            this.messageLogin();
+                        }else if(this.type == 'password'){
+                            this.passwordLogin();
+                        }
+                    }else{
+                        this.$vux.loading.hide();
+                        this.$vux.toast.show({
+                            type: 'cancel',
+                            position: 'middle',
+                            text: res.data.resultMsg
+                        })
+                    }
+                })
+            },
             getMessageCode (position) {
                 var errorMsg = "";
                 if (this.mobile == "") {
@@ -308,27 +384,6 @@
                     });
             },
             messageLogin (position) {
-                var errorMsg="";
-                if (this.mobile == "") {
-                    errorMsg="请输入您的手机号";
-                } else if (!this.utils.checkMobile(this.mobile)) {
-                    errorMsg="手机号码格式错误";
-                } else if (this.getMessageCodeText === '获取验证码') {
-                    errorMsg="请点击获取验证码";
-                } else if (this.messageCode.length < 5) {
-                    errorMsg="短信验证码格式错误";
-                } else if (this.messageCode == "") {
-                    errorMsg="请输入短信验证码";
-                }
-                if(errorMsg!="") {
-                    this.$vux.toast.text(errorMsg, 'middle');
-                    return;
-                }
-
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
-
-                
-
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                 postData.append('cityCode', '310100');
@@ -349,6 +404,7 @@
                                 this.$router.push({path: redirect});
                             });
                         } else {
+                            this.$vux.loading.hide();
                             this.errorMsg = data.resultMsg;
                             this.$vux.toast.show({
                                 type: 'cancel',
@@ -361,19 +417,8 @@
 
             },
             passwordLogin () {
-                var errorMsg="";
-                if (this.mobile == "") {
-                    errorMsg="请输入您的手机号";
-                } else if (!this.utils.checkMobile(this.mobile)) {
-                    errorMsg="手机号码格式错误";
-                } else if (this.password == "") {
-                    errorMsg="请输入密码";
-                }
-                if(errorMsg!="") {
-                    this.$vux.toast.text(errorMsg, 'middle');
-                    return;
-                }
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
+                
+                
 
                 var postData = new URLSearchParams();
                 postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
@@ -392,6 +437,7 @@
                                 this.$router.push({path: redirect});
                             });
                         } else {
+                            this.$vux.loading.hide();
                             this.errorMsg = data.resultMsg;
                             this.$vux.toast.show({
                                 type: 'cancel',
@@ -451,13 +497,12 @@
                             this.utils.setCookie("isDoubleSales", data.isDoubleSales);
                             this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
                             this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
+                            this.utils.setCookie("isHaveUnreadCoupon", data.isHaveUnreadCoupon);
 
                             const MWEB_PATH = this.config.MWEB_PATH;
 
-                            this.$vux.loading.show({
-                                text: '数据请求中'
-                            })
                             console.info('oldHicash onload request');
+                            this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
                             // TODU 新老嗨钱融合中的代码，后续优化
                             document.getElementById('oldHicash').onload=()=>{
                                 console.info('oldHicash onload success');
@@ -467,62 +512,64 @@
                                     this.utils.setCookie("vipCount", "0");
                                 }
                                 this.$vux.loading.hide();
-                                let jumpType = this.$route.query.jumpType;
-                                if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
-                                    window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
-                                    return;
-                                }
+                                setTimeout(()=>{
+                                    let jumpType = this.$route.query.jumpType;
+                                    if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
+                                        window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
+                                        return;
+                                    }
 
-                                var ref=window.location.href;
-                                var from = this.utils.getQueryString("from") || this.$route.query.from;
-                                if(from == 'shixin'){
-                                    var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
-                                    var postData = new URLSearchParams();
-                                        postData.append('appNo', _appNo);
-                                        postData.append('userName', this.utils.getCookie("userName"));
-                                        postData.append('comeFrom', this.utils.getPlatform());
-                                        postData.append('uuid', this.utils.uuid());
+                                    var ref=window.location.href;
+                                    var from = this.utils.getQueryString("from") || this.$route.query.from;
+                                    if(from == 'shixin'){
+                                        var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
+                                        var postData = new URLSearchParams();
+                                            postData.append('appNo', _appNo);
+                                            postData.append('userName', this.utils.getCookie("userName"));
+                                            postData.append('comeFrom', this.utils.getPlatform());
+                                            postData.append('uuid', this.utils.uuid());
 
-                                    this.common.navigateToRecharge(postData)
-                                    .then(function(){
-                                        window.location.href = data.rechargeUrl;
-                                    });
+                                        this.common.navigateToRecharge(postData)
+                                        .then(function(){
+                                            window.location.href = data.rechargeUrl;
+                                        });
+                                        
+                                        return false;
+                                    }
+
+                                    let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
                                     
-                                    return false;
-                                }
+                                    if("sharkResult"==this.utils.getQueryString("from")){
+                                        var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
+                                        window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
+                                        return false;
+                                    }
+                                    if(ref.indexOf("sharkLogin.html")!=-1){
+                                        var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
+                                        window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
+                                        return false;
+                                    }
+                                    if(data.isVip){
+                                        window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
+                                        return false;
+                                    }
+                                    if(dxObj && telObj){
+                                        this.utils.setCookie("dxObj",dxObj);
+                                        this.utils.setCookie("telObj",telObj);
+                                    }
 
-                                let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
-                                
-                                if("sharkResult"==this.utils.getQueryString("from")){
-                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
-                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
-                                    return false;
-                                }
-                                if(ref.indexOf("sharkLogin.html")!=-1){
-                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
-                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
-                                    return false;
-                                }
-                                if(data.isVip){
-                                    window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
-                                    return false;
-                                }
-                                if(dxObj && telObj){
-                                    this.utils.setCookie("dxObj",dxObj);
-                                    this.utils.setCookie("telObj",telObj);
-                                }
+                                    if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
+                                        window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
+                                    }
 
-                                if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
-                                    window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
-                                }
-
-                                if(from == 'perCenter'){
-                                    window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
-                                }
+                                    if(from == 'perCenter'){
+                                        window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
+                                    }
 
 
-                                console.log('result====', result)
-                                resolve(result);
+                                    console.log('result====', result)
+                                    resolve(result);
+                                }, 1000);
                             };
                         });
                 })
@@ -530,6 +577,10 @@
         },
         mounted: function () {
             this.type = 'message';
+
+            // var gpsArr = this.utils.getCookie('gpsArr'); 
+            //     console.info('gpsArr', typeof(gpsArr));
+            //     console.info('JSON.parse(gpsArr),', gpsArr.split(','));
             // common.getImgCode()
             //     .then((res)=>{
             //         // 图片验证码

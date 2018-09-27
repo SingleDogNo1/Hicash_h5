@@ -261,7 +261,6 @@
         .weui-dialog {
             width: 14.5rem;
             height: auto;
-            background-color:transparent !important;
             border-radius: 5px;
             .img-box {
                 width: 100%;

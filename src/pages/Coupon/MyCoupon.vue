@@ -1,10 +1,17 @@
 <template>
 	<div class="coupon_page">
 		<div class="wrap">
-			<header class="credit-header" style="background-color:white;">
+			<header class="creditHeader" style="background-color:white;">
 				<!-- closeBtn -->
-				<a class="go-history" href="javascript:history.go(-1);"></a>
-				<h1>优惠券</h1>
+				<div v-if="isShowHead">
+					<a class="go-history" href="javascript:history.go(-1);" style="left:.85rem;top:40%"></a>
+					<p class="title">优惠券</p>
+				</div>
+				<tab :line-width="1" custom-bar-width="60px">
+					<tab-item selected @on-item-click="onItemClick('canUseCouponList')">未使用</tab-item>
+					<tab-item @on-item-click="onItemClick('usedCouponList')">已使用</tab-item>
+					<tab-item @on-item-click="onItemClick('expiredCouponList')">已过期</tab-item>
+				</tab>
 			</header>
 			<div class="wrapper">
 				<ul class="content">
@@ -12,34 +19,29 @@
 					<!-- <li v-for="(item,index) in list" :key="index">
 						<a :href="item.openUrl"><p>{{item.title}}</p></a>
 					</li> -->
-					<li class="clearfix" @click="selectCoupon(item)" v-for="item in list">
+					<li class="clearfix" :class="{'gray':subType=='usedCouponList'||subType=='expiredCouponList'}" v-for="item in list[subType]">
 						<div class="left-main left">
 							<span class="coupon-price left">{{item.bigNum}}<em>.{{item.smallNum}}元</em></span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
 						<div class="right-main left">
-							<span class="title">{{item.couponRuleName}}<em>（共{{item.canUseMaxNum}}张）</em></span>
+							<span class="title">{{item.couponRuleName}}<em>（共{{item.num}}张）</em></span>
 							<span class="explain">可使用产品{{item.industryName}}，可叠加使用{{item.accumulationLimit}}次</span>
 							<span class="data">有效期 {{item.sendStartDate}}-{{item.sendEndDate}}</span>
 						</div>
 						<div class="help" @click.stop="clickHelp(item)">使用规则</div>
 					</li>
+					<li class="no-data" v-if="!list || !list[subType] || !list[subType].length">
+						<img src="./images/bg-no-data.png" width="30%">
+						<p>这里暂时什么都没有</p>
+					</li>
 				</ul>
 			</div>
 		</div>
-		<popup width="100%" height="150px" position="bottom" v-model="isShowPopup">
-			<div class="popup">
-				<div class="title">已选优惠卷</div>
-				<group>
-					<x-number v-model="couponNum"  :title="couponPopupTitle" :min=minNum :max=maxNum width="50px" button-style="round"></x-number>
-				</group>
-				<a class="go" :href="goUseCouponHref + 'appNo=' + appNo + '&userName=' + userName + '&rechargeAmount=' + rechargeAmount + '&couponNum=' + couponNum + '&couponRuleId=' + couponId + '&couponAmount=' + couponAmount">去使用</a>
-			</div>
-		</popup>
 	</div>
 </template>
 <script type="text/javascript">
-	import {Tab, TabItem, Flexbox, FlexboxItem, InlineLoading, Popup, XNumber, Group} from 'vux';
+	import {Tab, TabItem, Flexbox, FlexboxItem, InlineLoading} from 'vux';
 	import BScroll from 'better-scroll'
 	export default {
 		components: {
@@ -47,31 +49,16 @@
 			TabItem,
 			Flexbox,
 			FlexboxItem,
-			InlineLoading,
-			Popup,
-			XNumber,
-			Group
+			InlineLoading
 		},
 		data() {
 			return {
 				list: [],
-				subType: 'RMWT',
+				repeatList: [],
+				subType: 'canUseCouponList',
 				scroll:"",
 				refreshText: '下拉刷新',
-				isShowHead: true,
-				isShowPopup: false,
-				couponPopupTitle: '',
-				couponNum: 1,
-				couponId: '',
-				couponAmount: '',
-				minNum: 0,
-				maxNum: 50,
-				curCouponData:[],
-				unit: 0,
-				goUseCouponHref: '',
-				appNo: null,
-				userName:  this.utils.getCookie("userName"),
-				rechargeAmount: this.$route.query.rechargeAmount
+				isShowHead: true
 			}
 		},
 		mounted() {
@@ -82,69 +69,75 @@
 				_this.isShowHead = false
 			}
 
-			this.appNo = this.$route.query.appNo;
+			_this.getCustHicashCoupon();
 
-			if(this.$route.query.source == '1'){		//普通充值
-				this.goUseCouponHref = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?' 
-			}else{
-				this.goUseCouponHref = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay_smile.html?' 
-			}
-
-			_this.getRechargeCoupon();
 			
 			this.scroll = new BScroll(".wrapper", {
 				click: true,
-				scrollY: true, 
+				scrollY: true,
 				pullDownRefresh: {
 					threshold: 30, // 当下拉到超过顶部 30px 时，
 				},
 				probeType: 1
 			})
 			this.scroll.on('scroll', function (pos) {
-				console.info('scroll pos.y', pos.y);
-		        if (pos.y > 30 && pos.y < 40) {
-				
-
+		        if (pos.y > 30 && pos.y < 40) { 
 		          _this.refreshText = '下拉刷新'
 		        }
 			})
 			this.scroll.on('touchEnd', function (pos) {
-				console.info('pos.y', pos.y);
 		  		if (pos.y > 40) {
 					_this.refreshText = '刷新数据中'
-					_this.getRechargeCoupon();
+					_this.getCustHicashCoupon();
 		  		}
 			})
+
+			this.utils.setCookie('isHaveUnreadCoupon', 0);
 		},
 		methods: {
 			onItemClick: function(type){
 				this.subType = type;
 				this.scroll.scrollTo(0,0);
 				console.info(type);
-				this.getRechargeCoupon();
+				// this.getCustHicashCoupon();
 			},
-			getRechargeCoupon: function(){
+			getCustHicashCoupon: function(){
 				// 获取产品列表
 				let postData = new URLSearchParams();
 					postData.append('userName', this.utils.getCookie("userName"));
-					postData.append('rechargeAmount', this.$route.query.rechargeAmount);
 					postData.append('uuid', this.utils.uuid());
-					postData.append('appNo', this.$route.query.appNo);
 
 				let _this = this;
 
-				this.common.getRechargeCoupon(postData)
+				this.common.getCustHicashCoupon(postData)
 				.then(function(res){
-					let list = res.data.canUseCouponList;
+					let list = res.data;
+					if(list.canUseCouponList.length){
+						_.each(list.canUseCouponList, function(v,i){
+							var money = list.canUseCouponList[i].amount.split('.');
+							list.canUseCouponList[i].bigNum = money[0]
+							list.canUseCouponList[i].smallNum = money[1]
+						})
+					}
 
-					_.each(list, function(v,i){
-						var money = list[i].amount.split('.');
-						list[i].bigNum = money[0]
-						list[i].smallNum = money[1]
-					})
+					if(list.expiredCouponList.length){
+						_.each(list.expiredCouponList, function(v,i){
+							var money = list.expiredCouponList[i].amount.split('.');
+							list.expiredCouponList[i].bigNum = money[0]
+							list.expiredCouponList[i].smallNum = money[1]
+						})
+					}
+
+					if(list.usedCouponList.length){
+						_.each(list.usedCouponList, function(v,i){
+							var money = list.usedCouponList[i].amount.split('.');
+							list.usedCouponList[i].bigNum = money[0]
+							list.usedCouponList[i].smallNum = money[1]
+						})
+					}
 					
 					_this.list = list;
-
+					// this.repeatList = 
 					_this.$nextTick(function () {
 						setTimeout( () => {
 							_this.refreshText = '刷新成功'
@@ -155,26 +148,6 @@
 						}, 1000)
 					});
 				});
-			},
-			selectCoupon: function(data){
-				this.isShowPopup = true;
-				this.curCouponData = data;
-
-				switch(data.type)
-				{
-					case '1':
-						this.unit = '元';
-						break;
-					case '2':
-						this.unit = '%';
-						break;
-				}
-				this.couponPopupTitle = data.amount+this.unit+data.couponRuleName,
-				this.maxNum = parseInt(data.canUseMaxNum);
-				this.couponId = data.couponRuleId;
-				this.couponAmount = data.amount;
-
-				
 			},
 			clickHelp (data) {
 				this.$vux.alert.show({
@@ -188,13 +161,6 @@
 					}
 				})
 			}
-		},
-		watch:{
-			couponNum(newValue, oldValue) {
-				if(newValue == 0){
-					this.isShowPopup = false;
-				}
-		　　}
 		}
 	}
 </script>
@@ -202,7 +168,7 @@
 <style lang="scss" rel="stylesheet/scss">
 	@import "../../../bower_components/sass-rem/rem";
 
-	.Coupon{
+	.MyCoupon{
 		background-color: rgb(245, 245, 245);
 		.coupon_page {
 			height: 100%;
@@ -211,6 +177,28 @@
 				z-index:1;
 				height: 100%;
 				padding: 0;
+			}
+			header .go-history:before, header .go-back:before {
+				font-family: "iconfont";
+				position: absolute;
+				content: "\ED72";
+				left: 50%;
+				top: 0%;
+				font-size: 20px;
+				color: black;
+			}
+			header p {
+				font-size: rem(17px);
+				width: 100%;
+				text-align: center;
+				height: 50px;
+				line-height: 50px;
+			}
+			header {
+				height: 95px;
+				line-height: 95px;
+				display: block;
+				position: relative;
 			}
 
 			.vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active {
@@ -224,7 +212,6 @@
 			}
 			.wrapper {
 				height: calc(100% - 95px);
-				margin-top: 60px;
 				.content {
 					background-color: rgb(245, 245, 245);
 					min-height:calc(100% + 1px);
@@ -233,6 +220,7 @@
 						height: rem(83px);
 						margin: rem(10px) auto 0;
 						position: relative;
+						
 						.help{
 							width: auto;
 							height: auto;
@@ -297,6 +285,36 @@
 						
 						.weui-loading {
 							margin-right: rem(10px);
+						}
+
+						&.gray{
+							.left-main{
+								background: #ccc;
+							}
+							.title, .explain, .data{
+								color: #ccc;
+								em{
+									color: #ccc;
+								}
+							}
+							.help{
+								color: #ccc;
+								border-color: #ccc;
+							}
+						}
+
+						&.no-data{
+							img{
+								display: block;
+								padding-top: rem(50px);
+								margin: 0px auto;
+							}
+							p{
+								text-align: center;
+								margin-top: rem(20px);
+								color: #666;
+								font-size: rem(12px);
+							}
 						}
 					}
 					li.ref{
@@ -384,9 +402,13 @@
 				fill: #fff;
 			}
 		}
-
+ 
 		.weui-cells{
 			font-size: rem(15px);
+		}
+
+		.weui-dialog{
+			background: #fff !important;
 		}
 	}
 </style>

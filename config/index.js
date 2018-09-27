@@ -19,7 +19,6 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
     /**
      * Source Maps
      */
@@ -31,43 +30,50 @@ module.exports = {
      */
     proxyTable: {
       '/HicashAppService':{
-        target:' http://115.29.193.125:8081/HicashAppService',
+        target:' http://ios5.dev.guolidai.xin/HicashAppService',
         changeOrigin:true,
         pathRewrite:{
             '^/HicashAppService':''
         }
       },
       '/NewHicashService':{
-        target:'http://115.29.250.40:8081/NewHicashService',
+        target:'http://ios2.dev.guolidai.xin:8081/NewHicashService',
         changeOrigin:true,
         pathRewrite:{
             '^/NewHicashService':''
         }
       },
       '/HicashService':{
-        target:'http://115.29.250.40:8080/HicashService',
+        target:'http://ios2.dev.guolidai.xin/HicashService',
         changeOrigin:true,
         pathRewrite:{
             '^/HicashService':''
         }
       },
       '/ruleService':{
-        target:'http://218.244.138.24:8086/ruleService',
+        target:'http://ios4.dev.guolidai.xin/ruleService',
         changeOrigin:true,
         pathRewrite:{
             '^/ruleService':''
         }
       },
       '/hicash-api-service':{
-        target:'http://47.104.254.92:30079/hicash-api-service',
+        target:'http://ios11.dev.guolidai.xin/hicash-api-service',
         changeOrigin:true,
         pathRewrite:{
             '^/hicash-api-service':''
         }
+      },
+      '/creditservice':{
+        target:'http://ios3.dev.guolidai.xin/creditservice',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/creditservice':''
+        }
       }
     }
   },
-
+//http://112.124.126.196:8081/creditservice/baiqishi/checkResult.do
   build: {
     env: require('./prod.env'),
     // Template for index.html

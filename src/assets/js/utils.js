@@ -17,7 +17,6 @@ export default {
     getPlatform: getPlatform,                //获取comeFrom
     toThousands: toThousands,                //格式化数据格式字符串 没三位添加逗号
     checkPwd: checkPwd                       //校验密码是否合法
-
 }
 
 export function uuid() {

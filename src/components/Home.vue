@@ -71,256 +71,256 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
     @import "../../bower_components/sass-rem/rem";
-
     body{
         background: #f2f2f2 !important;
     }
-    header.home-header{
-        position: fixed;
-        z-index: 999;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: rem(44px);
-        background: transparent;
-        .bg{
-            background: #fff;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            position: absolute;
+    .Home{
+        header.home-header{
+            position: fixed;
+            z-index: 999;
             top: 0;
             left: 0;
-            z-index: 1;
-            font-size: rem(17px);
-			text-align: center;
-			height:rem(44px);
-            line-height: rem(44px);
-            color: #3f3f3f;
-        }
-        .title{
             width: 100%;
-            font-size: rem(17px);
-			text-align: center;
-			height:rem(44px);
-            line-height: rem(44px);
-            color: #3f3f3f;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 2;
-        }
-        img{
-            top: rem(10px);
-            right: rem(10px);
-            z-index: 2;
-            position: absolute;
-            width: 22px;
-            display: block;
-        }
-    }
-    .wrap{
-        height: auto;
-        position: relative;
-
-        
-    }
-    .products{
-        width: 100%;
-        height: auto;
-        background: #fff;
-        padding: rem(10px) 0;
-        margin-bottom: rem(5px);
-
-        .tips{
-            width: 86%;
-            height: rem(30px);
-            line-height: rem(30px);
-            background: #FFEEE5;
-            border-radius: rem(20px);
-            font-family: PingFangSC-Regular;
-            font-size: rem(12px);
-            color: #FF7640;
-            letter-spacing: 0;
-            text-align: center;
-            margin: 0 auto rem(10px);
-            position: relative;
-            .red-packet{
-                display: inline-block;
+            height: rem(44px);
+            background: transparent;
+            .bg{
+                background: #fff;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
                 position: absolute;
-                top: rem(5px);
-                left: rem(70px);
-                img{
-                    height: rem(20px);
-                }
+                top: 0;
+                left: 0;
+                z-index: 1;
+                font-size: rem(17px);
+                text-align: center;
+                height:rem(44px);
+                line-height: rem(44px);
+                color: #3f3f3f;
+            }
+            .title{
+                width: 100%;
+                font-size: rem(17px);
+                text-align: center;
+                height:rem(44px);
+                line-height: rem(44px);
+                color: #3f3f3f;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 2;
+            }
+            img{
+                top: rem(10px);
+                right: rem(10px);
+                z-index: 2;
+                position: absolute;
+                width: 22px;
+                display: block;
             }
         }
-
-        .product-lists{
-            width: 90%;
+        .wrap{
             height: auto;
-            margin: 0 auto;
-            ul li{
-                width: 100%;
-                height: auto;
-                // margin-bottom: rem(5px);
-                img{
-                    width: 100%;
+            position: relative;
+
+            
+        }
+        .products{
+            width: 100%;
+            height: auto;
+            background: #fff;
+            padding: rem(10px) 0;
+            margin-bottom: rem(5px);
+
+            .tips{
+                width: 86%;
+                height: rem(30px);
+                line-height: rem(30px);
+                background: #FFEEE5;
+                border-radius: rem(20px);
+                font-family: PingFangSC-Regular;
+                font-size: rem(12px);
+                color: #FF7640;
+                letter-spacing: 0;
+                text-align: center;
+                margin: 0 auto rem(10px);
+                position: relative;
+                .red-packet{
+                    display: inline-block;
+                    position: absolute;
+                    top: rem(5px);
+                    left: rem(70px);
+                    img{
+                        height: rem(20px);
+                    }
                 }
             }
-        }
-    }
 
-    .small-banner{
-        width: 100%;
-        height: auto;
-        padding: rem(10px) 0;
-        overflow-x: auto;
-        background: #fff;
-        &::-webkit-scrollbar{
-            width: 0;
-            height: 0;
-        }
-        .small-banner-scroll-wrap{
-            width: 100%;
-            padding: 0 5%;
-            ul{
-                width: 100%;
-                li{
-                    width: 130px;
-                    height: 75px;
-                    float: left;
-                    margin-right: 10px;
+            .product-lists{
+                width: 90%;
+                height: auto;
+                margin: 0 auto;
+                ul li{
+                    width: 100%;
+                    height: auto;
                     // margin-bottom: rem(5px);
                     img{
                         width: 100%;
-                        height: 100%;
                     }
                 }
-                li:last-child{
-                    margin-right: 0;
-                }
-            } 
+            }
         }
-    }
 
-    .link {
-        height: 2rem;
-        background: #fff;
-        margin: 0;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-        padding: 0 1rem;
-        font-size: rem(14px);
-        list-style: none;
-        li {
-            position: relative;
-            color: #333;
-            float: left;
-            line-height: 2rem;
+        .small-banner{
+            width: 100%;
+            height: auto;
+            padding: rem(10px) 0;
+            overflow-x: auto;
+            background: #fff;
+            &::-webkit-scrollbar{
+                width: 0;
+                height: 0;
+            }
+            .small-banner-scroll-wrap{
+                width: 100%;
+                padding: 0 5%;
+                ul{
+                    width: 100%;
+                    li{
+                        width: 130px;
+                        height: 75px;
+                        float: left;
+                        margin-right: 10px;
+                        // margin-bottom: rem(5px);
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    li:last-child{
+                        margin-right: 0;
+                    }
+                } 
+            }
+        }
+
+        .link {
+            height: 2rem;
+            background: #fff;
+            margin: 0;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0 1rem;
+            font-size: rem(14px);
+            list-style: none;
+            li {
+                position: relative;
+                color: #333;
+                float: left;
+                line-height: 2rem;
+                text-align: center;
+                width: 50%;
+                .quick-repayment-ico{
+                    height: 20px;
+                    display: inline-block;
+                    background: url(../assets/images/icon_s.png) left no-repeat;
+                    line-height:20px;
+                    padding-left:30px;
+                    background-size: 20px 20px;
+                }
+                .help-center-ico{
+                    height: 20px;
+                    display: inline-block;
+                    background: url(../assets/images/icon_q.png) left no-repeat;
+                    line-height:20px;
+                    padding-left:30px;
+                    background-size: 20px 20px;
+                }
+                a {
+                    color: #3f3f3f;
+                    i {
+                        font-size: 0.8rem;
+                        color: #ff743d;
+                        padding-right: 0.35rem;
+                        vertical-align: middle;
+                    }
+                }
+            }
+            li:first-child {
+                a:after {
+                    position: absolute;
+                    content: "";
+                    width: 1px;
+                    height: 1rem;
+                    top: 0.5rem;
+                    right: 0;
+                    background: #DADADA;
+                }
+            }
+        }
+
+        .footer-tips{
+            width: 100%;
             text-align: center;
-            width: 50%;
-            .quick-repayment-ico{
-                height: 20px;
-                display: inline-block;
-                background: url(../assets/images/icon_s.png) left no-repeat;
-                line-height:20px;
-                padding-left:30px;
-                background-size: 20px 20px;
+            font-family: PingFangSC-Regular;
+            font-size: rem(15px);
+            color: #999999;
+            letter-spacing: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        #oldHicash{
+            display: none;
+        }
+
+        .vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active {
+            background-color: #fff !important;
+        }
+
+        .ad-pop {
+            .weui-dialog{
+                width: 11.675rem !important;
+                height: 15.85rem !important;
+                padding-bottom: 8px;
+                border-radius: 0 !important;
+                overflow: auto !important;
             }
-            .help-center-ico{
-                height: 20px;
-                display: inline-block;
-                background: url(../assets/images/icon_q.png) left no-repeat;
-                line-height:20px;
-                padding-left:30px;
-                background-size: 20px 20px;
+            .dialog-title {
+                line-height: 30px;
+                color: #666;
             }
-            a {
-                color: #3f3f3f;
-                i {
-                    font-size: 0.8rem;
-                    color: #ff743d;
-                    padding-right: 0.35rem;
-                    vertical-align: middle;
+            .img-box {
+                height: 100%;
+                overflow: hidden;
+                img{
+                    border-radius: 10px;
                 }
             }
-        }
-        li:first-child {
-            a:after {
+            .ad-close {
                 position: absolute;
-                content: "";
-                width: 1px;
-                height: 1rem;
-                top: 0.5rem;
-                right: 0;
-                background: #DADADA;
-            }
-        }
-    }
-
-    .footer-tips{
-        width: 100%;
-        text-align: center;
-        font-family: PingFangSC-Regular;
-        font-size: rem(15px);
-        color: #999999;
-        letter-spacing: 0;
-        margin-bottom: 0.5rem;
-    }
-
-    #oldHicash{
-        display: none;
-    }
-
-    .vux-slider > .vux-indicator > a > .vux-icon-dot.active, .vux-slider .vux-indicator-right > a > .vux-icon-dot.active {
-        background-color: #fff !important;
-    }
-
-    .ad-pop {
-        .weui-dialog{
-            width: 11.675rem !important;
-            height: 15.85rem !important;
-            padding-bottom: 8px;
-            background: transparent !important;
-            border-radius: 0 !important;
-            overflow: auto !important;
-        }
-        .dialog-title {
-            line-height: 30px;
-            color: #666;
-        }
-        .img-box {
-            height: 100%;
-            overflow: hidden;
-            img{
-                border-radius: 10px;
-            }
-        }
-        .ad-close {
-            position: absolute;
-            width: 1.375rem;
-            height: 1.375rem;
-            top: -2.075rem;
-            right: 0;
-            background: none;
-            display: block;
-            z-index: 99999;
-            &:before {
-                position: absolute;
-                content: '';
                 width: 1.375rem;
                 height: 1.375rem;
-                background: url('../assets/images/ad-close.png');
-                background-size: 1.375rem 1.375rem;
-                font-family: 'iconfont';
-                font-size: 1.375rem;
-                color: #fff;
-                top: 0;
-                left: 0;
+                top: -2.075rem;
+                right: 0;
+                background: none;
+                display: block;
+                z-index: 99999;
+                &:before {
+                    position: absolute;
+                    content: '';
+                    width: 1.375rem;
+                    height: 1.375rem;
+                    background: url('../assets/images/ad-close.png');
+                    background-size: 1.375rem 1.375rem;
+                    font-family: 'iconfont';
+                    font-size: 1.375rem;
+                    color: #fff;
+                    top: 0;
+                    left: 0;
+                }
             }
+            
         }
-        
     }
 </style>
 
@@ -331,6 +331,8 @@
 
     import noticeWIcon from '../assets/images/icon-notice-w.png'
     import noticeBIcon from '../assets/images/icon-notice.png'
+
+    import "../assets/js/youmeng.js"
 
     export default {
         components: {
@@ -417,8 +419,8 @@
                                 img: v.proShowImg,
                                 industryCode: v.industryCode
                             }
-                            if(v.industryCode == 'MDCP'){
-                                obj.url = MWEB_PATH + 'newweb/product/miaodai.html'
+                            if(v.industryCode == 'MDCP' || v.industryCode == 'LDDD'){
+                                obj.url = MWEB_PATH + 'newweb/product/miaodai.html?industryCode='+v.industryCode
                             }else if(v.industryCode == 'VIPD'){
                                 obj.url = MWEB_PATH + 'newweb/product/vipdai.html'
                             }
@@ -464,14 +466,13 @@
                 this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
             }
 
+            //添加友盟埋点
             setTimeout(function(){
-                console.info('进入首页');
                 if (window._czc) {
-                    console.info('进入首页埋点');
                     window._czc.push(['_trackEvent', '首页', '首页打开的次数', '', '', 'SS']);
                 }
             }, 2000);
-            
+
             // 初始化scroller
             setTimeout(function(){
                 _this.$refs.scroller.reset();
