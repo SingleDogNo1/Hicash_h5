@@ -72,15 +72,6 @@ export default {
 
         //监听路由跳转
         this.$router.beforeEach((to, from, next) => {
-
-        //添加友盟埋点
-        const script = document.createElement('script')
-        script.src = 'https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143'
-        script.language = 'JavaScript'
-        document.body.appendChild(script)
-
-        //监听路由跳转
-        this.$router.beforeEach((to, from, next) => {
             this.path = to.name;
 
             if (to.meta.title) {
