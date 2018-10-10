@@ -500,7 +500,7 @@
             // 获取产品列表
             var postData = new URLSearchParams();
                 postData.append('requestSource', 'HTML5');
-                postData.append('platform', '');
+                postData.append('platform', 'HTML5');
                 postData.append('version', '');
                 postData.append('uuid', this.utils.uuid());
             this.getIndexMain(postData);
