@@ -6,5 +6,6 @@
 	"newHicashServerUrl": "http://115.29.250.40:8081",
 	"hicashServerUrl": "http://115.29.250.40:8080",
 	"MWEB_PATH": "http://192.168.9.48:8080/mweb/",
-	"pic_path": "http://file.dev.guolidai.xin/"
+	"pic_path": "http://file.dev.guolidai.xin/",
+	"baiqishi_url": "dfst.baiqishi.com/static/webdf/saber.js"
 }
