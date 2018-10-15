@@ -527,7 +527,7 @@
                                         window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
                                         return;
                                     }else if(jumpType === 'didaAct'){
-                                        window.location.href = MWEB_PATH + "/newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
+                                        window.location.href = MWEB_PATH + "newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
                                         return;
                                     }
 
