@@ -10,7 +10,7 @@
         </header>
         <!-- header -->
         <div class="user-login">
-            <h2></h2>
+            <h2 :class="{'dida-logo': logoType === 'dida'}"></h2>
         </div>
         <div class="user-login-wrap">
             <tab :line-width="1" :custom-bar-width="getBarWidth" class="tab-container">
@@ -81,6 +81,13 @@
                 height: 46px;
                 background: url(./logo_user.png) 0 0 no-repeat;
                 background-size: cover;
+            }
+            h2.dida-logo {
+                margin: .5rem auto 0;
+                width: 136px;
+                height: 46px;
+                background: url(./icon_dida_logo.png) 0 0 no-repeat;
+                background-size: 100%;
             }
         }
         .user-login-wrap {
@@ -250,7 +257,8 @@
                 showToast: false,
                 oldHicash: '',
                 authPic: '',
-                isDisabled: false
+                isDisabled: false,
+                logoType: ''
             }
         },
         ready () {
@@ -513,9 +521,13 @@
                                 }
                                 this.$vux.loading.hide();
                                 setTimeout(()=>{
+                                    
                                     let jumpType = this.$route.query.jumpType;
                                     if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
                                         window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
+                                        return;
+                                    }else if(jumpType === 'didaAct'){
+                                        window.location.href = MWEB_PATH + "newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
                                         return;
                                     }
 
@@ -578,16 +590,10 @@
         mounted: function () {
             this.type = 'message';
 
-            // var gpsArr = this.utils.getCookie('gpsArr'); 
-            //     console.info('gpsArr', typeof(gpsArr));
-            //     console.info('JSON.parse(gpsArr),', gpsArr.split(','));
-            // common.getImgCode()
-            //     .then((res)=>{
-            //         // 图片验证码
-            //         this.authPic = 'data:image/jpg;base64,' + res.data.authPic;
-            //         this.authId = res.data.authId;
-            //         console.log('res====', res)
-            //     });
+            let jumpType = this.$route.query.jumpType;
+            if(jumpType === 'didaAct'){
+                this.logoType = 'dida'
+            }
         }
     }
 </script>
