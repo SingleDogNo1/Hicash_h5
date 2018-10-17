@@ -537,6 +537,7 @@
                                         var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
                                         var postData = new URLSearchParams();
                                             postData.append('appNo', _appNo);
+                                            postData.append('requestSource', "H5");
                                             postData.append('userName', this.utils.getCookie("userName"));
                                             postData.append('comeFrom', this.utils.getPlatform());
                                             postData.append('uuid', this.utils.uuid());
