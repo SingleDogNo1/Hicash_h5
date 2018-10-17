@@ -506,7 +506,7 @@
             this.getIndexMain(postData);
 
             //快速还款URL
-            this.quickRepaymentUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html';
+            this.quickRepaymentUrl = this.config.MWEB_PATH + 'newweb/personalCenter/myBrrow.html';
 
             //首页弹屏广告
             var postData = new URLSearchParams();
