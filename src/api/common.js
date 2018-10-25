@@ -1,5 +1,8 @@
 import axios from 'axios'
 import config from '../config.json'
+import jsCommon from '../assets/js/common.js'
+
+let cache = jsCommon.Cache();
 
 export default{
   ShowPI: ShowPI,
@@ -102,7 +105,6 @@ export function getAllLoanApplication(){
   })
 }
 
-
 /*
  *  查询申请件进度
  */
@@ -114,11 +116,20 @@ export function getAccountInfo(params){
             + '&uuid=' + params.uuid
             + '&version=' + config.version;
     return new Promise((resolve,reject)=>{
-        axios.get(url).then((res)=>{
-          resolve(res)
-        },(err)=>{
-          reject(err)
-        })
+		
+		//从内存中获取数据，如内存中不存在在请求server
+		let accountInfoData = cache.get('AccountInfo');
+		if(accountInfoData){
+			resolve(accountInfoData);
+			return false;
+		}
+
+		axios.get(url).then((res)=>{
+		cache.put('AccountInfo', res);
+			resolve(res)
+		},(err)=>{
+			reject(err)
+		})
     })
 }
 
