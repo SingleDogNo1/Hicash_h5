@@ -14,6 +14,7 @@ Vue.prototype.common = common;
 Vue.prototype.utils = utils;
 Vue.prototype.config = config;
 Vue.prototype.jsCommon = jsCommon;
+Vue.prototype.cache = jsCommon.Cache();
 
 // Vue.component('x-header', XHeader)
 Vue.component('tabbar', Tabbar)

@@ -3,7 +3,8 @@ import axios from 'axios'
 
 
 export default{
-    setAuthorization:setAuthorization
+    setAuthorization:setAuthorization,
+    Cache:Cache
 }
 
 /*
@@ -27,3 +28,30 @@ export function setAuthorization(userName, token){
     })
 }
 
+/*
+ *  cache对象
+ */
+export function Cache(){
+    let obj = {};
+    return {
+        //获取cache
+        get: (k)=>{
+            return obj[k] || null;
+        },
+
+        //存储cache
+        put: (k, v)=>{
+            obj[k] = v;
+        },
+
+        //移除cache
+        remove: (k)=>{
+            delete obj[k];
+        },
+
+        //删除所有cache
+        clean: ()=>{
+            obj = {};
+        }
+    }
+}
