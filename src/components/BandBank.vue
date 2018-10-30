@@ -74,6 +74,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss" scoped>
+.BandBank{
     .rate-calculation-body{
         width: 100%;
         height: 100%;
@@ -316,6 +317,7 @@
     .weui-cell_access .weui-cell__ft:after {
         border-width: 0px 2px 2px 0px !important;
     }
+}
 </style>
 
 <script type="text/javascript">

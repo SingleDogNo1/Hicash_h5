@@ -74,6 +74,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
+.ContactPerson{
     .rate-calculation-body{
         background: #efeff4;
         header {
@@ -270,6 +271,7 @@
             }
         }
     }
+}
 </style>
 
 <script type="text/javascript">
