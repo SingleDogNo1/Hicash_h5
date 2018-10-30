@@ -11,7 +11,7 @@
                 <p class="per-num">{{userMobile}}</p>
             </div>
             <p class="current-rating">
-                当前评级: {{userGrade}}<i class="iconfont"> &#xe672;</i>
+                当前评级: {{userGrade}}<a :href="helpLick"><i class="iconfont"> &#xe672;</i></a>
             </p>
         </div>
         <!-- 额度信息 -->
@@ -27,34 +27,42 @@
         </div>
     </section>
     <group>
-        <cell title="我的分期" is-link :border-intent="true">
+        <cell title="我的分期" is-link :border-intent="true" :link="brrowLink">
             <span class="cell-ico my-money" slot="icon" width="20"></span>
         </cell>
-        <cell title="交易明细" is-link>
+        <cell title="交易明细" is-link :link="transactDetailLink">
             <span class="cell-ico my-details" slot="icon" width="20"></span>
         </cell>
     </group>
 
     <group>
-        <cell title="我的优惠券"  is-link>
+        <cell title="我的优惠券"  is-link :link="{path:'/MyCoupon'}">
             <span class="cell-ico my-coupon" slot="icon" width="20"></span>
-            <badge></badge>
+            <badge v-if="newCoupon"></badge>
         </cell>
-        <cell title="我的消息" is-link>
+        <cell title="我的消息" is-link :link="myNewslLink">
             <span class="cell-ico my-msg" slot="icon" width="20"></span>
-            <badge></badge>
+            <badge v-if="newMsg"></badge>
         </cell>
-        <cell title="我的邀请" is-link>
+        <cell title="我的邀请" is-link :link="invitePageLink">
             <span class="cell-ico my-invitation" slot="icon" width="20"></span>
+            <span class="my-invit-des">{{invitDes}}</span>
+            <span class="my-invit-icon"><img :src="invitIcon" /></span>
         </cell>
     </group>
 
     <group>
-        
-        <cell title="关于我们" is-link>
+        <cell title="关于我们" is-link :link="aboutLink">
             <span class="cell-ico about-us" slot="icon" width="20"></span>
         </cell>
     </group>
+
+    <group v-if="customGroupIsShow">
+        <cell :title="customGroupTitle" is-link :link="customGroupLink">
+            <img  class="cell-ico" slot="icon" width="20"  :src="customGroupIcon">
+        </cell>
+    </group>
+ 
     <page-footer></page-footer>
 </div>
 </template>
@@ -112,6 +120,9 @@
                 font-size: rem(15px);
                 float: right;
                 text-align: right;
+                a{
+                    color: #fff;
+                }
             }
 
         }
@@ -166,7 +177,18 @@
             border: 0;
         }
     }
-
+    .my-invit-des{
+        font-size: rem(14px);
+        color: #ff7640;
+        vertical-align: super;
+        margin-right: rem(10px);
+    }
+    .my-invit-icon{
+        width: rem(19px);
+        img{
+            width: rem(19px);
+        }
+    }
     .brrow-active{
         background: #fff;
         padding: rem(10px 30px);
@@ -294,7 +316,7 @@
     .weui-cells{
         margin-top: 0;
         margin-bottom: rem(8px);
-        font-size: rem(16px);
+        font-size: rem(15px);
         color: #333;
     }
     .weui-wepay-flow__li_done .weui-wepay-flow__state,.weui-wepay-flow__process, [class^="weui-wepay-flow__info-"]{
@@ -349,14 +371,29 @@ export default {
         rechargeButton: false,
         detailButton: false,
 		isRefuse: false,
-		userGrade: ''
+        userGrade: '',
+        invitDes:'',
+        invitIcon: '',
+        customGroupTitle:'',
+        customGroupIcon:'',
+        customGroupLink:'',
+        customGroupIsShow: false,
+        brrowLink: this.config.MWEB_PATH + 'newweb/personalCenter/myBrrow.html',
+        transactDetailLink: this.config.MWEB_PATH + 'newweb/personalCenter/transactDetail.html',
+        myNewslLink: this.config.MWEB_PATH + 'newweb/personalCenter/myNews.html',
+        invitePageLink: this.config.MWEB_PATH + 'newweb/personalCenter/invitePage.html',
+        aboutLink: this.config.MWEB_PATH + 'newweb/personalCenter/about.html',
+        helpLick: this.config.MWEB_PATH + 'newweb/personalCenter/compreRat.html',
+        newMsg: false,
+        newCoupon: false
     }
   },
   methods: {
 	  	getAccountInfo (getAccountInfoDatas){
 			this.common.getAccountInfo(getAccountInfoDatas)
 			.then((res) => {
-				let data = res.data;
+                let data = res.data;
+                console.info('getAccountInfo', data);
 				if(data.resultCode != '1'){
 					this.$vux.toast.text(data.resultMsg);
 					this.$router.push({path:"/login", query: {redirect: this.$route.fullPath}});
@@ -372,17 +409,54 @@ export default {
 					}
 				}
 			});
-		}
+        },
+        OwnPageShow (OwnPageShowData){
+            this.common.OwnPageShow(OwnPageShowData)
+            .then((res)=>{
+                let data = res.data;
+                console.info('OwnPageShow data', data);
+                this.invitDes = data.inviteMsg;
+                this.invitIcon = data.inviteIcon;
+                this.customGroupTitle = data.guoXinBaoMsg;
+                this.customGroupLink = data.guoXinBaoUrl;
+                this.customGroupIcon = data.inviteIcon;
+                this.customGroupIsShow = data.guoXinBaoShow;
+            })
+        },
+        QueryMyMsg (QueryMyMsgData){
+            this.common.QueryMyMsg(QueryMyMsgData)
+            .then((res)=>{
+                let data = res.data;
+                this.newCoupon = data.noMsgNum > 0;
+            })
+        }
 	  	
   	},
   	mounted () {
-		const getAccountInfoDatas = {
+		let getAccountInfoDatas = {
 			'userName': this.utils.getCookie("userName"),
 			'curPage': 1,
 			'maxLine': 1,
 			'uuid': this.utils.uuid()
 		}
-		getAccountInfo(getAccountInfoDatas);
+        this.getAccountInfo(getAccountInfoDatas);
+        
+        let OwnPageShowData = new URLSearchParams();
+        OwnPageShowData.append('userName',  this.utils.getCookie("userName"));
+        OwnPageShowData.append('uuid', this.utils.uuid());
+        this.OwnPageShow(OwnPageShowData);
+
+        let QueryMyMsgData = new URLSearchParams();
+        QueryMyMsgData.append('userName',  this.utils.getCookie("userName"));
+        QueryMyMsgData.append('uuid', this.utils.uuid());
+        QueryMyMsgData.append('curPage', 1);
+        QueryMyMsgData.append('maxLine', 1);
+        this.QueryMyMsg(QueryMyMsgData);
+
+        let isHaveUnreadCoupon = this.utils.getCookie('isHaveUnreadCoupon');
+        if(isHaveUnreadCoupon > 0){
+            this.newCoupon = true;
+        }
   	}
 }
 </script>

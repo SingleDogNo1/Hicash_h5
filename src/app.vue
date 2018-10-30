@@ -17,6 +17,7 @@ export default {
         let token = localStorage.getItem('token') ||  this.utils.getCookie("token");
         let _this = this;
 
+
         if(userName && token) {
             this.jsCommon.setAuthorization(userName, token);
         }
@@ -28,7 +29,7 @@ export default {
         if(this.$router.history.current.meta.requireAuth){
             // 判断该路由是否需要登录权限
             if(!userName || userName=="null"){
-                this.$router.push({name: '/login',params:{ redirect:this.$router.history.current.name}});
+                this.$router.push({name: 'Login',query:{ redirect:this.$router.history.current.fullPath}});
             }
         }  
 
@@ -72,6 +73,7 @@ export default {
         this.$router.beforeEach((to, from, next) => {
 
             this.path = to.name;
+            console.info('this.path', this.name);
 
             if (to.meta.title) {
                 document.title = to.meta.title;

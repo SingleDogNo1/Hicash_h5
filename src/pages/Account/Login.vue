@@ -319,9 +319,9 @@
                 }
                
                 console.log('postData=====', postData)
-                // this.$vux.loading.show({
-                //     text: '数据请求中'
-                // })
+                this.$vux.loading.show({
+                    text: '数据请求中'
+                })
                 this.common.checkResultBaiQiShi(postData)
                 .then((res) => {
                     console.info('res', res);
@@ -475,106 +475,106 @@
                     params.append('userName', data.userName);
                     params.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                     this.common.getUserGrade(params)
-                        .then((result)=>{
-                            this.utils.clearCookie();
-                            if(result.data.userGrade){
-                                var getUserPj = this.utils.getCookie("pj");
-                                if(!getUserPj||getUserPj!=result.data.userGrade){
-                                    this.utils.setCookie("pj",result.data.userGrade);
-                                    this.utils.setCookie("pjread","0");
-                                }
+                    .then((result)=>{
+                        this.utils.clearCookie();
+                        if(result.data.userGrade){
+                            var getUserPj = this.utils.getCookie("pj");
+                            if(!getUserPj||getUserPj!=result.data.userGrade){
+                                this.utils.setCookie("pj",result.data.userGrade);
+                                this.utils.setCookie("pjread","0");
                             }
-                            
-                            this.utils.setCookie("token", data.token);
-                            this.utils.setCookie("userName", data.userName);
-                            this.utils.setCookie("realName", data.realName);
-                            this.utils.setCookie("mobile", data.mobile);
-                            this.utils.setCookie("identityCode", data.identityNo);
-                            this.utils.setCookie("custType", data.custType);
-                            this.utils.setCookie("isDoubleSales", data.isDoubleSales);
-                            this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
-                            this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
-                            this.utils.setCookie("isHaveUnreadCoupon", data.isHaveUnreadCoupon);
+                        }
+                        
+                        this.utils.setCookie("token", data.token);
+                        this.utils.setCookie("userName", data.userName);
+                        this.utils.setCookie("realName", data.realName);
+                        this.utils.setCookie("mobile", data.mobile);
+                        this.utils.setCookie("identityCode", data.identityNo);
+                        this.utils.setCookie("custType", data.custType);
+                        this.utils.setCookie("isDoubleSales", data.isDoubleSales);
+                        this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
+                        this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
+                        this.utils.setCookie("isHaveUnreadCoupon", data.isHaveUnreadCoupon);
 
-                            const MWEB_PATH = this.config.MWEB_PATH;
+                        const MWEB_PATH = this.config.MWEB_PATH;
 
-                            console.info('oldHicash onload request');
-                            this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
-                            // TODU 新老嗨钱融合中的代码，后续优化
-                            // document.getElementById('oldHicash').onload=()=>{
-                            //     console.info('oldHicash onload success');
-                            //     if(data.isVip){
-                            //         this.utils.setCookie("vipCount", "1");
-                            //     }else{
-                            //         this.utils.setCookie("vipCount", "0");
-                            //     }
-                            //     this.$vux.loading.hide();
-                            //     setTimeout(()=>{
+                        console.info('oldHicash onload request');
+                        this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
+                        //TODO 新老嗨钱融合中的代码，后续优化
+                        document.getElementById('oldHicash').onload=()=>{
+                            console.info('oldHicash onload success');
+                            if(data.isVip){
+                                this.utils.setCookie("vipCount", "1");
+                            }else{
+                                this.utils.setCookie("vipCount", "0");
+                            }
+                            this.$vux.loading.hide();
+                            setTimeout(()=>{
+                                
+                                let jumpType = this.$route.query.jumpType;
+                                if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
+                                    window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
+                                    return;
+                                }else if(jumpType === 'didaAct'){
+                                    window.location.href = MWEB_PATH + "newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
+                                    return;
+                                }
+
+                                var ref=window.location.href;
+                                var from = this.utils.getQueryString("from") || this.$route.query.from;
+                                if(from == 'shixin'){
+                                    var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
+                                    var postData = new URLSearchParams();
+                                        postData.append('appNo', _appNo);
+                                        postData.append('requestSource', "H5");
+                                        postData.append('userName', this.utils.getCookie("userName"));
+                                        postData.append('comeFrom', this.utils.getPlatform());
+                                        postData.append('uuid', this.utils.uuid());
+
+                                    this.common.navigateToRecharge(postData)
+                                    .then(function(){
+                                        window.location.href = data.rechargeUrl;
+                                    });
                                     
-                            //         let jumpType = this.$route.query.jumpType;
-                            //         if(jumpType === 'bindCard'){	//如果是绑卡的快捷入口隐藏返回和注册按钮
-                            //             window.location.href = MWEB_PATH + 'newweb/creditInfo/bandBank.html?jumpType=bindCard';
-                            //             return;
-                            //         }else if(jumpType === 'didaAct'){
-                            //             window.location.href = MWEB_PATH + "newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
-                            //             return;
-                            //         }
+                                    return false;
+                                }
 
-                            //         var ref=window.location.href;
-                            //         var from = this.utils.getQueryString("from") || this.$route.query.from;
-                            //         if(from == 'shixin'){
-                            //             var _appNo = this.utils.getQueryString('appNo') || this.$route.query.appNo;
-                            //             var postData = new URLSearchParams();
-                            //                 postData.append('appNo', _appNo);
-                            //                 postData.append('requestSource', "H5");
-                            //                 postData.append('userName', this.utils.getCookie("userName"));
-                            //                 postData.append('comeFrom', this.utils.getPlatform());
-                            //                 postData.append('uuid', this.utils.uuid());
+                                let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
+                                
+                                if("sharkResult"==this.utils.getQueryString("from")){
+                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
+                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
+                                    return false;
+                                }
+                                if(ref.indexOf("sharkLogin.html")!=-1){
+                                    var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
+                                    window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
+                                    return false;
+                                }
+                                if(data.isVip){
+                                    window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
+                                    return false;
+                                }
+                                if(dxObj && telObj){
+                                    this.utils.setCookie("dxObj",dxObj);
+                                    this.utils.setCookie("telObj",telObj);
+                                }
 
-                            //             this.common.navigateToRecharge(postData)
-                            //             .then(function(){
-                            //                 window.location.href = data.rechargeUrl;
-                            //             });
-                                        
-                            //             return false;
-                            //         }
+                                if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
+                                    window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
+                                }
 
-                            //         let custFromParams = this.utils.getQueryString("custFrom") || this.$route.query.custFrom;
-                                    
-                            //         if("sharkResult"==this.utils.getQueryString("from")){
-                            //             var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
-                            //             window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkResult.html?custFrom="+custFrom;
-                            //             return false;
-                            //         }
-                            //         if(ref.indexOf("sharkLogin.html")!=-1){
-                            //             var custFrom=custFromParams&&custFromParams!="null"?custFromParams:"H5";
-                            //             window.location.href=MWEB_PATH+"newweb/sharkActivity/sharkIndex.html?custFrom="+custFrom;
-                            //             return false;
-                            //         }
-                            //         if(data.isVip){
-                            //             window.location.href=MWEB_PATH+"newweb/product/vipdai.html";
-                            //             return false;
-                            //         }
-                            //         if(dxObj && telObj){
-                            //             this.utils.setCookie("dxObj",dxObj);
-                            //             this.utils.setCookie("telObj",telObj);
-                            //         }
-
-                            //         if(this.utils.getCookie("afFrom") && this.utils.getCookie("afFrom") == "miaodai"){
-                            //             window.location.href = MWEB_PATH+"newweb/product/vipdai.html";
-                            //         }
-
-                            //         if(from == 'perCenter'){
-                            //             window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
-                            //         }
+                                if(from == 'perCenter'){
+                                    window.location.href = MWEB_PATH + 'newweb/personalCenter/perCenter.html';
+                                }
 
 
-                            //         console.log('result====', result)
-                            //         resolve(result);
-                            //     }, 1000);
-                            // };
-                            resolve(result);
-                        });
+                                console.log('result====', result)
+                                resolve(result);
+                            }, 1000);
+                        };
+                        // resolve(result);
+                    });
                 })
             }
         },

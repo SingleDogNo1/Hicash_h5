@@ -1,6 +1,6 @@
 <template>
     <tabbar class="vux-demo-tabbar footer" slot="bottom">
-        <tabbar-item :link="{path:'/'}"  :selected="$route.path === '/'">>
+        <tabbar-item :link="{path:'/'}"  :selected="$route.path === '/'">
             <span class="icon-home" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">首页</span>
         </tabbar-item>
@@ -8,7 +8,7 @@
             <span class="icon-broke-promise-area" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">失信专区</span>
         </tabbar-item>
-        <tabbar-item :link="{path: 'personal'}" :show-dot="personCenterDotShow">
+        <tabbar-item :link="{path: 'personal'}" :show-dot="personCenterDotShow" :selected="$route.path === '/personal'">
             <span class="icon-me" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">我的</span>
         </tabbar-item>

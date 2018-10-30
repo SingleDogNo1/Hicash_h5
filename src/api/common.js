@@ -48,7 +48,9 @@ export default{
   deleteVerificationCodeCount: deleteVerificationCodeCount,
   getRechargeCoupon: getRechargeCoupon,
   getCustHicashCoupon: getCustHicashCoupon,
-  checkResultBaiQiShi: checkResultBaiQiShi
+  checkResultBaiQiShi: checkResultBaiQiShi,
+  OwnPageShow: OwnPageShow,
+  QueryMyMsg: QueryMyMsg
 }
 
 
@@ -125,11 +127,13 @@ export function getAccountInfo(params){
 		}
 
 		axios.get(url).then((res)=>{
-		cache.put('AccountInfo', res);
-			resolve(res)
-		},(err)=>{
-			reject(err)
-		})
+        if(res.data.resultCode == '1'){
+          cache.put('AccountInfo', res);
+        }
+        resolve(res)
+      },(err)=>{
+        reject(err)
+      })
     })
 }
 
@@ -628,12 +632,44 @@ export function getCustHicashCoupon(params){
   })
 }
 
-/*
+/**
  *  白骑士检测
  */
 export function checkResultBaiQiShi(params){
   return new Promise((resolve,reject)=>{
     axios.post("/creditservice/baiqishi/checkResult.do",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/**
+ * 我的页面部分内容控制
+ */
+export function OwnPageShow(params){
+  return new Promise((resolve,reject)=>{
+    let OwnPageShowData = cache.get('OwnPageShow');
+    if(OwnPageShowData){
+      resolve(OwnPageShowData);
+      return false;
+    }
+    axios.post("/HicashAppService/OwnPageShow",params).then((res)=>{
+      cache.put('OwnPageShow', res);
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/**
+ * 查询我的消息
+ */
+export function QueryMyMsg(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/QueryMyMsg",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
