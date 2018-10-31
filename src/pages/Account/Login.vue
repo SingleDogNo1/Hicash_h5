@@ -470,7 +470,7 @@
             afterLogin(data) {
                 return new Promise((resolve,reject)=> {
                     console.info('data', data);
-
+                    window.gio('setUserId', data.userName);
                     var params = new URLSearchParams();
                     params.append('userName', data.userName);
                     params.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
