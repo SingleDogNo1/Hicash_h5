@@ -148,7 +148,7 @@ export default {
     }
     .icon-home {
         display: block;
-        width: .7rem;
+        width: .8rem;
         height: 0.85rem;
         margin-top: 0.2rem;
         background: url("./assets/images/icon_home.png") center center no-repeat;

@@ -45,7 +45,8 @@ export default{
   deleteVerificationCodeCount: deleteVerificationCodeCount,
   getRechargeCoupon: getRechargeCoupon,
   getCustHicashCoupon: getCustHicashCoupon,
-  checkResultBaiQiShi: checkResultBaiQiShi
+  checkResultBaiQiShi: checkResultBaiQiShi,
+  loseCreditInfo: loseCreditInfo
 }
 
 
@@ -629,3 +630,17 @@ export function checkResultBaiQiShi(params){
     })
   })
 }
+
+/*
+ *  失信列表信息接口
+ */
+export function loseCreditInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/loseCreditInfo",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+

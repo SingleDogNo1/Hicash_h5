@@ -4,7 +4,7 @@
             <span class="icon-home" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">首页</span>
         </tabbar-item>
-        <tabbar-item :href="sxUrl">
+        <tabbar-item :link="{path: 'breakPromise'}">
             <span class="icon-broke-promise-area" slot="icon" style="position:relative;top: -2px;">&#xe637;</span>
             <span slot="label">失信专区</span>
         </tabbar-item>

@@ -21,6 +21,8 @@ import Help from '@/components/Help'
 import Notice  from '@/components/Notice'
 import Coupon from '@/pages/Coupon/Index'
 import MyCoupon from '@/pages/Coupon/MyCoupon'
+import BreakPromise from '@/pages/BreakPromise/Index'
+import Result from '@/pages/BreakPromise/Result'
 
 
 Vue.use(Router)
@@ -178,6 +180,24 @@ export default new Router({
         meta: { 
             requireAuth:true,
             title: '我的优惠券' 
+        }
+    },
+    {
+        //失信专区首页
+        path: '/breakPromise',
+        name: 'BreakPromise',
+        component: BreakPromise,
+        meta: { 
+            title: '失信专区' 
+        }
+    },
+    {
+        //失信专区结果页
+        path: '/result',
+        name: 'Result',
+        component: Result,
+        meta: { 
+            title: '查询结果' 
         }
     }
   ]
