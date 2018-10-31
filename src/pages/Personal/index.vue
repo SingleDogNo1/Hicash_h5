@@ -352,11 +352,11 @@ export default {
     FlowLine,
     PageFooter,
     Toast
-  },
+  },//mobile.length>10?mobile.substring(0,3)+"****"+mobile.substring(7,11):mobile
   data () {
     return {
         realName: this.utils.getCookie('realName'),
-        userMobile: this.utils.getCookie('mobile'),
+        userMobile: this.utils.getCookie('mobile').substring(0,4)+"****"+this.utils.getCookie('mobile').substring(8,11),
         lateTotal: 0.00,
         balance: 0.00,
         accountPays:[],
@@ -419,7 +419,7 @@ export default {
                 this.invitIcon = data.inviteIcon;
                 this.customGroupTitle = data.guoXinBaoMsg;
                 this.customGroupLink = data.guoXinBaoUrl;
-                this.customGroupIcon = data.inviteIcon;
+                this.customGroupIcon = data.guoXinBaoIcon;
                 this.customGroupIsShow = data.guoXinBaoShow;
             })
         },
