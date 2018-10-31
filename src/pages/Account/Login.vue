@@ -476,6 +476,17 @@
                     params.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
                     this.common.getUserGrade(params)
                     .then((result)=>{
+                        var source = this.utils.getCookie("source");
+                        var vipCount = this.utils.getCookie("vipCount");
+                        var dxObj = this.utils.getCookie("dxObj");
+                        var telObj = this.utils.getCookie("telObj");
+                        var mediasource = this.utils.getCookie("mediasource");
+                        var afFrom = this.utils.getCookie("afFrom");
+                        var siji_realName = this.utils.getCookie("siji_realName");
+                        var siji_didiMobile = this.utils.getCookie("siji_didiMobile");
+                        var siji_loanAmount = this.utils.getCookie("siji_loanAmount");
+                        var siji_proid = this.utils.getCookie("siji_proid");
+
                         this.utils.clearCookie();
                         if(result.data.userGrade){
                             var getUserPj = this.utils.getCookie("pj");
