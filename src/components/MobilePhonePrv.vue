@@ -39,6 +39,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
+.MobilePhonePrv{
     .rate-calculation-body{
             width: 100%;
             height: 100%;
@@ -241,6 +242,7 @@
             }
         }
     }
+}
 </style>
 
 <script type="text/javascript">

@@ -112,6 +112,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
+.BaseInfo{
     .rate-calculation-body{
         background: #efeff4;
         header {
@@ -295,6 +296,7 @@
     .weui-cell_access .weui-cell__ft:after {
         border-width: 0px 2px 2px 0px !important;
     }
+}
 </style>
 
 <script type="text/javascript">
