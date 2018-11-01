@@ -73,6 +73,7 @@
 @import "../../../bower_components/sass-rem/rem";
 .Personal{
     background: rgb(239, 239, 244);
+    padding-bottom: rem(80px);
     .personal-header-wrap {
         width: 100%;
         height: rem(190px);

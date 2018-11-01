@@ -510,7 +510,7 @@
                         const MWEB_PATH = this.config.MWEB_PATH;
 
                         console.info('oldHicash onload request');
-                        this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime();
+                        this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + this.mobile + '&t=' + new Date().getTime() + '&authorization='+sessionStorage.getItem("authorization");
                         //TODO 新老嗨钱融合中的代码，后续优化
                         document.getElementById('oldHicash').onload=()=>{
                             console.info('oldHicash onload success');
