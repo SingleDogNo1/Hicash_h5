@@ -77,7 +77,7 @@
             </div>
 
             <!-- 弹出框 -->
-            <div class="letter-notice-pop">
+            <div class="letter-notice-pop" v-if="isShowLetterDialog">
                 <div class="close" @click="closePopLetterNotice">×</div>
                 <div class="letter-notice-pop-main">
                     <div class="title">{{noticeDetail}}</div>
@@ -144,12 +144,13 @@
 </template>
 
 <style lang="scss" scoped>
+    @import 'weui/dist/style/weui.min.css';
     .Result {
         height: auto;
     }
     .break-promise-result {
         width: 100%;
-        height: 100%;
+        height: calc(100% - 2.888889rem);
         background: #eee;
         padding-top: 2.888889rem;
         .vux-header {
@@ -185,9 +186,104 @@
                         }
                     }
                 }
-                .swiper-slide {
-                    border-radius: 7px;
-                    background: #fff;
+                .detail-container{
+                    padding-bottom: 30px !important;
+                    .swiper-slide {
+                        border-radius: 7px;
+                        background: #fff;
+                        .detail-wrap-list {
+                            height: auto;
+                            padding: 0.5rem 1rem;
+                            li {
+                                width: 100%;
+                                height: auto;
+                                font-family: PingFangSC-Regular;
+                                font-size: 15px;
+                                color: #333333;
+                                letter-spacing: 0;
+                                margin-bottom: 8px;
+                            }
+                        }
+                        .actions {
+                            margin: 0 auto;
+                            padding: 0 1rem 0.7rem;
+                            button {
+                                display: block;
+                                width: 5.777778rem /* 130/22.5 */;
+                                height: 44px;
+                                border-radius: 5px;
+                                border: none;
+                                background: #F28BB1;
+                                font-family: PingFangSC-Regular;
+                                font-size: 15px;
+                                color: #FFFFFF;
+                                letter-spacing: 0;
+                            }
+                            .btn-broke-promise {
+                                float: left;
+                            }
+                            .btn-litigation,
+                            .btn-arbitration,
+                            .btn-repay {
+                                float: right;
+                            }
+                        }
+
+                    }
+                    /deep/ .swiper-pagination-bullet{
+                        width: 6px !important;
+                        height: 6px !important;
+                        background: #F28BB1 !important;
+                        opacity: .3 !important;
+                    }
+                    /deep/ .swiper-pagination-bullet-active{
+                        background: #F28BB1 !important;
+                        opacity: 1 !important;
+                    }
+                }
+                .toRecharge{
+                    width: 100%;
+                    height: 44px;
+                    background: #F28BB1;
+                    color: #fff;
+                    font-size: 15px;
+                    display: block;
+                    border-radius: 5px;
+                    margin: 0 auto;
+                    margin-top: 0.5rem;
+                    border: 0;
+                }
+                .tips {
+                    width: 100%;
+                    height: auto;
+                    font-family: PingFangSC-Semibold;
+                    font-size: 13px;
+                    color: #3F3F3F;
+                    letter-spacing: 0;
+                    margin: 0 auto;
+                    text-align: justify;
+                    margin-top: 0.5rem;
+                    span {
+                        color: #F28BB1;
+                        font-weight: bold;
+                    }
+                }
+                .case-container{
+                    height: 100px;
+                    .swiper-slide{
+                        background: transparent !important;
+                        border-radius: 7px;
+                    }
+                    .noticeAll{
+                        position: absolute;
+                        bottom: 5px;
+                        right: 0;
+                        font-family: PingFangSC-Regular;
+                        font-size: 13px;
+                        color: #999999;
+                        z-index: 9999;
+                        border-bottom: 1px solid #999;
+                    }
                 }
             }
             .pop_wrap {
@@ -275,6 +371,102 @@
                 left: 0;
                 z-index: 9998;
                 overflow-y:auto;
+                .close{
+                    position: fixed;
+                    right: 12px;
+                    top: 4px;
+                    font-size: 28px;
+                    color: #ccc;
+                }
+                .letter-notice-pop-main{
+                    width: 90%;
+                    height: 100%;
+                    margin: 0 auto;
+                    font-family: PingFangSC-Semibold;
+                    color: #333333;
+                    padding: 7% 0;
+                    .title{
+                        font-size: 17px;
+                        text-align: center;
+                        margin-bottom: 2%;
+                    }
+                    .tab{
+                        width: 75%;
+                        margin: 0 auto;
+                        .mint-tab-item {
+                            position: relative;
+                            padding: 12px 0 !important;
+                            /deep/ .mint-tab-item-label {
+                                font-size: 15px !important;
+                            }
+                        }
+                        .is-selected {
+                            margin-bottom: 0 !important;
+                            color: #F28BB1 !important;
+                            border-bottom: none !important;;
+                        }
+                        .is-selected:after {
+                            position: absolute;
+                            content: '';
+                            background-color:#F28BB1;
+                            width: 1.422222rem /* 32/22.5 */;
+                            height: 2px;
+                            bottom: .03rem;
+                            left: 50%;
+                            transform: translate(-50%, 0);
+                            z-index: 99;
+                        }
+                    }
+                    .pic-before-text {
+                        display: block;
+                        width: 100%;
+                        margin-top: 1.111111rem /* 25/22.5 */;
+                        font-family: PingFangSC-Regular;
+                        font-size: 13px;
+                        text-align: left;
+                        color: #F28BB1;
+                        text-indent: 28px;
+                        text-decoration: underline;
+                    }
+                    .tips{
+                        font-size: 15px;
+                        text-align: center;
+                        margin-bottom: 5%;
+                    }
+                    .big-img{
+                        width: 100%;
+                        height: auto;
+                        .img-box{
+                            padding: 2% 5%;
+                            border: 1px solid #EEEEEE;
+                            border-radius: 0;
+                        }
+                        .letter-container {
+                            width: 100%;
+                            height: auto;
+                            margin-left: auto;
+                            margin-right: auto;
+
+                            .swiper-slide {
+                                background-size: cover;
+                                background-position: center;
+                            }
+                        }
+                        .gallery-top {
+                            height: 80%;
+                            width: 100%;
+                            .swiper-slide {
+                                padding: 2% 5%;
+                                border: 1px solid #EEEEEE;
+                                border-radius: 0;
+                            }
+                        }
+                        .img-swiper-pagination {
+                            width: 100%;
+                            text-align: center;
+                        }
+                    }
+                }
             }
         }
         .no-result {
@@ -316,12 +508,13 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import PageFooter from '@/components/PageFooter.vue'
-    import Button from 'mint-ui/lib/button';
+    import Swiper from 'swiper';
 
     export default {
         components: {
             PageHeader,
-            PageFooter
+            PageFooter,
+            Swiper
         }, 
         data () {
             return {
@@ -332,6 +525,7 @@
                 noticeTitle: '',
                 hotNews: [],
                 isShowCallDialog: false,
+                isShowLetterDialog: false,
                 noticeTitle: '',
                 noticeDetail: '',
                 noticeName: '',
@@ -342,13 +536,74 @@
         },
         methods: {
             popLetterNotice: function() {
+                this.isShowLetterDialog = true;
+                window.setTimeout(function(){
+                    _czc.push(['_trackEvent', '失信案例', '抓取查询结果页面“个人失信案例”点击量', '', '', 'SXAL']);
+                }, 2000);
+                setTimeout( () => {
+                    let initialSlide;
+                    if(this.detailList[0].type === 'ZC' && this.detailList[0].picList.length > 2 || this.detailList[0].type === 'SS' && this.detailList[0].picList.length > 2) {
+                        initialSlide = 1;
+                    } else {
+                        initialSlide = 0;
+                    }
+                    var galleryTop = new Swiper('.gallery-top', {
+                        paginationClickable: true,
+                        observer:true,
+                        observeParents:true,
+                        loopAdditionalSlides: 1,
+                        initialSlide: 0,
+                        effect: 'coverflow',
+                        slidesPerView: 1.3, // 一屏装几个slider
+                        centeredSlides: true,
+                        coverflowEffect: {
+                            rotate: 0,
+                            stretch: -40, // slider 间距，越小间距越大
+                            depth: 230,
+                            modifier: 1,
+                            slideShadows: false
+                        },
+                        pagination: {
+                            el: '.img-swiper-pagination',
+                            clickable: true,
+                        }
+                    });
+                }, 100);
+            },
+            SysParam: function() {
+                let _params = new URLSearchParams();
+                    _params.append('paramCode', 'SXAL');
+                    _params.append('maxLine', 10000);
 
+                this.common.getSysParam(_params)
+                    .then( res => {
+                        let data = res.data;
+                        data.list.forEach( (val, index) =>　{
+                            val.newUrl = './hotNewsDetails.html?id='+val.id+'&code=SXAL';
+                            val.mediaImage = this.config.pic_path + val.mediaImage;
+                            this.hotNews.push(val);
+                        });
+                        setTimeout(function(){
+                            // 轮播图
+                            var mySwiper = new Swiper ('.case-container', {
+                                direction: 'vertical',
+                                autoplay: {
+                                    delay: 4300,
+                                    disableOnInteraction: false,
+                                },
+                                loop:true
+                            });
+                        }, 500);
+                    })
             },
             caseAll: function () {
 
             },
             closePopLetterNotice: function() {
-
+                this.isShowLetterDialog = false;
+            },
+            returnId : function(index) {
+                return index.toString()
             }
 
         },
@@ -358,9 +613,14 @@
             
             let storage = window.sessionStorage;
             let loseCreditDetailList = JSON.parse(storage.getItem("loseCreditDetailList"));
-            console.log('loseCreditDetailList====', loseCreditDetailList)
+
             if(loseCreditDetailList[0].overDueFlag == '1' && loseCreditDetailList[0].invUsername == 'huarong_finance'){
                 this.isShowCallDialog = true;
+            }
+
+            //弹出告知函浮层
+            if(loseCreditDetailList.length){
+                this.popLetterNotice();
             }
 
             //浮层告知函主标题
@@ -375,7 +635,24 @@
             //告知函last image
             this.noticeImg = this.config.pic_path + loseCreditDetailList[loseCreditDetailList.length - 1].imageUrl;
 
+            // 获取失信案例
+            this.SysParam();
+
             this.loseCreditDetailList = loseCreditDetailList;
+            this.detailList = loseCreditDetailList[0].detailList;
+
+            // 轮播图
+            var mySwiper = new Swiper ('.detail-container', {
+                paginationClickable: true,
+                initialSlide :0,
+                observer:true,
+                observeParents:true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                spaceBetween: 20
+            }); 
         }
     }
 </script>

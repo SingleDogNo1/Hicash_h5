@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import App from './app'
 import router from './router'
-import { Tabbar, TabbarItem, Toast, Alert } from 'vux'
-import MintUI from 'mint-ui'
+import { Tabbar, TabbarItem, Toast } from 'vux'
 
 import common from './api/common.js'
 import jsCommon from './assets/js/common.js'
@@ -11,7 +10,9 @@ import config from './config.json'
 import "./assets/js/growingIO.js"
 import "./assets/js/baiqishi.js"
 import 'swiper/dist/css/swiper.css'
-import 'mint-ui/lib/button/style.css';
+
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 
 Vue.prototype.common = common;
 Vue.prototype.utils = utils;
