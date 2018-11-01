@@ -13,12 +13,13 @@ export default {
     created(){
         
         //自动登录
-        let userName = sessionStorage.getItem('userName');
-        let token = sessionStorage.getItem('token');
+        let userName = localStorage.getItem('userName') || this.utils.getCookie("userName");
+        let token = localStorage.getItem('token') ||  this.utils.getCookie("token");
         let _this = this;
 
+
         if(userName && token) {
-            this.jsCommon.setAuthorization(userNamem, token);
+            this.jsCommon.setAuthorization(userName, token);
         }
 
         if(this.$router.history.current.meta.title){
@@ -26,11 +27,9 @@ export default {
         }
 
         if(this.$router.history.current.meta.requireAuth){
-            var u = this.utils.getCookie("userName");
-
             // 判断该路由是否需要登录权限
-            if(!u || u=="null"){
-                this.$router.push({name: '/login',params:{ redirect:this.$router.history.current.name}});
+            if(!userName || userName=="null"){
+                this.$router.push({name: 'Login',query:{ redirect:this.$router.history.current.fullPath}});
             }
         }  
 
@@ -73,6 +72,7 @@ export default {
         //监听路由跳转
         this.$router.beforeEach((to, from, next) => {
             this.path = to.name;
+            console.info('this.path', this.name);
 
             if (to.meta.title) {
                 document.title = to.meta.title;
@@ -81,6 +81,8 @@ export default {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");
                 var mobile = this.utils.getCookie("mobile");
+
+                console.info('userName', userName);
 
                 // 判断该路由是否需要登录权限
                 if(!userName || userName=="null"){

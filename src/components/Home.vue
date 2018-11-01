@@ -463,7 +463,7 @@
             let _this = this;
             var userName = this.utils.getCookie("userName") || '';
             if(userName){
-                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName;
+                this.oldHicash = this.config.MWEB_PATH + 'newweb/template/fromAppTemp.html?userName=' + userName + '&authorization='+sessionStorage.getItem("authorization");
             }
 
             //添加友盟埋点
