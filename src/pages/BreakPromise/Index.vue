@@ -268,6 +268,68 @@
                         let data = res.data;
                         var storage = window.sessionStorage;
 
+                        data = {
+                            "loseCreditDetailList":  [{
+                            "hyApplicationNo": "31801092600003",
+                            "productName": "滴答贷",
+                            "applyPeriod": "1",
+                            "contractAmount": "500.00元",
+                            "sxType": "1",
+                            "invUsername": "david_fu",
+                            "sxButton": "",
+                            "button": "ss",
+                            "overDueFlag": "0",
+                            "noticeTitle": "点击查看：《诉讼文书》",
+                            "noticeDetail": "关于李文月逾期欠款处置详情",
+                            "detailList": [{
+                                "bigTitle": "诉讼文书",
+                                "type": "SS",
+                                "picBeforeText": "图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字",
+                                "picBeforeUrl": "图片前文字点击链接",
+                                "picList": [{
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }, {
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }, {
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }, {
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }],
+                                "picAfterText": "图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字",
+                                "picAfterTextList": [{
+                                    "text": "11111"
+                                }, {
+                                    "text": "22222"
+                                }]
+
+                            },
+                            {
+                                "bigTitle": "仲裁文书",
+                                "type": "ZC",
+                                "picList": [{
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }, {
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }, {
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }, {
+                                    "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
+                                    "picPrefix": "http://file.dev.guolidai.xin/"
+                                }]
+                            }]
+                        }],
+                         "resultCode": "1",
+                        "resultMsg": "SUCCESS"
+                    }
+
+
                         storage.setItem("loseCreditDetailList", JSON.stringify(data.loseCreditDetailList));
                         //window.location.href = MWEB_PATH + "newweb/infoList/searchResult.html?comefrom=h5";
                         this.$router.push({path: 'result'});

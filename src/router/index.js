@@ -24,7 +24,6 @@ import MyCoupon from '@/pages/Coupon/MyCoupon'
 import BreakPromise from '@/pages/BreakPromise/Index'
 import Result from '@/pages/BreakPromise/Result'
 
-
 Vue.use(Router)
 
 export default new Router({

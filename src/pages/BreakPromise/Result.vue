@@ -7,7 +7,7 @@
                     <div class="letter-notice-img"><img src="./images/icon_default.png"></div>
                     {{noticeTitle}}
                 </div>
-                <div class="swiper-container detail-container" ref="slider">
+                <div class="swiper-container detail-container">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="(loseCreditDetailListItem, index) in loseCreditDetailList" :key="loseCreditDetailListItem.hyApplicationNo">
                             <ul class="detail-wrap-list" :class="{'bg-flip': index === 0 && loseCreditDetailList.length >= 2}">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
                 </div>
-                <input type="button" class="toRecharge btn" value="立即还款" />
+                <input type="button" class="toRecharge btn" value="立即还款" @click="toRecharge"/>
                 <div class="tips"><span>！还款至嗨钱指定账户，未经嗨钱同意，您不得将借款归还到其他任何账户。</span>及时还款后可恢复您的信用状态，您的个人信用将不再产生任何影响！</div>
                 <div class="swiper-container case-container">
                     <div class="swiper-wrapper">
@@ -85,25 +85,24 @@
                         <li class="active">{{detailItem.bigTitle}}<i style="display:block"></i></li>
                     </ul> -->
                     <mt-navbar v-model="selected" class="tab">
-                        <mt-tab-item :id="returnId(index + 1)" v-for="(detailItem, index) in detailList" :key="index" >{{detailItem.bigTitle}}</mt-tab-item>
+                        <mt-tab-item :id="returnId(index + 1)" v-for="(detailItem, index) in detailList" :key="index" @click.native="setCurrentType(detailItem)">{{detailItem.bigTitle}}</mt-tab-item>
                     </mt-navbar>
                     
                     <!-- tab-container -->
                     <mt-tab-container v-model="selected">
-                        <mt-tab-container-item :id="returnId(index + 1)" v-for="(detailItem, index) in detailList" :key="index" >
+                        <mt-tab-container-item :id="returnId(index + 1)" v-for="(detailItem, index) in detailList" :key="index">
                             <a class="pic-before-text" :href="detailItem.picBeforeUrl">{{detailItem.picBeforeText}}</a>
                             <div class="tips">{{detailItem.smallTitle}}</div>
                             <div class="big-img" v-if="detailItem.type === 'ZC' || detailItem.type === 'SS'">
                                 <div class="swiper-container letter-container gallery-top">
                                     <div class="swiper-wrapper demo-gallery" :class="detailItem.type">
-                                        <div class="swiper-slide" v-for="item in detailItem.picList">
-                                            <a :href="item.picPrefix + item.picUrl" v-bind:data-size="detailItem.originSize" v-bind:data-med="item.picPrefix + item.picUrl" v-bind:data-med-size="detailItem.previewSize">
-                                                <img :src="item.picPrefix + item.picUrl">
-                                            </a>
+                                        <div class="swiper-slide" v-for="(item, index) in detailItem.picList">
+                                            <img class="previewer-demo-img" :src="item.picPrefix + item.picUrl" @click="show(index)">
+                                            <div v-transfer-dom></div>
                                         </div>
                                     </div>
+                                <div slot="pagination" class="img-swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
                                 </div>
-                                <div v-if="detailItem.picList.length > 1" class="img-swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
                                 <!-- <div  class="demo-gallery">
 
                                         <a href="https://farm4.staticflickr.com/3894/15008518202_c265dfa55f_h.jpg" data-size="1600x1600" data-med="https://farm4.staticflickr.com/3894/15008518202_b016d7d289_b.jpg" data-med-size="1024x1024" data-author="Folkert Gorter" class="demo-gallery__img--main">
@@ -114,9 +113,7 @@
                             <div class="big-img" v-if="detailItem.type === 'SX' || detailItem.type === 'ZX'">
                                 <div class="img-box demo-gallery" :class="detailItem.type">
                                     <div>
-                                        <a :href="detailItem.picList[0].picPrefix + detailItem.picList[0].picUrl" v-bind:data-size="detailItem.originSize" v-bind:data-med="detailItem.picList[0].picPrefix + detailItem.picList[0].picUrl" v-bind:data-med-size="detailItem.previewSize">
-                                            <img :src="detailItem.picList[0].picPrefix + detailItem.picList[0].picUrl">
-                                        </a>
+                                        <img :src="detailItem.picList[0].picPrefix + detailItem.picList[0].picUrl">
                                     </div>
                                 </div>
                             </div>
@@ -139,15 +136,14 @@
                 
                 </div>
             </div>
+            <previewer v-if="isShow && this.currentType === 'SS'" :list="ssDetailList[0].picList" ref="previewer" :options="options" @on-index-change="logIndexChange"></previewer>
+            <previewer v-if="isShow && this.currentType === 'ZC'" :list="zcDetailList[0].picList" ref="previewer" :options="options" @on-index-change="logIndexChange"></previewer>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
     @import 'weui/dist/style/weui.min.css';
-    .Result {
-        height: auto;
-    }
     .break-promise-result {
         width: 100%;
         height: calc(100% - 2.888889rem);
@@ -274,6 +270,9 @@
                         background: transparent !important;
                         border-radius: 7px;
                     }
+                    .weui-media-box {
+                        padding: 0;
+                    }
                     .noticeAll{
                         position: absolute;
                         bottom: 5px;
@@ -379,12 +378,11 @@
                     color: #ccc;
                 }
                 .letter-notice-pop-main{
+                    padding: 7% 0;
                     width: 90%;
-                    height: 100%;
                     margin: 0 auto;
                     font-family: PingFangSC-Semibold;
                     color: #333333;
-                    padding: 7% 0;
                     .title{
                         font-size: 17px;
                         text-align: center;
@@ -440,23 +438,35 @@
                             padding: 2% 5%;
                             border: 1px solid #EEEEEE;
                             border-radius: 0;
+                            img {
+                                width: 95%;
+                                height: auto;
+                                margin: 0 auto;
+                                display: block;
+                                padding: 2% 0;
+                            }
                         }
                         .letter-container {
                             width: 100%;
                             height: auto;
                             margin-left: auto;
                             margin-right: auto;
-
                             .swiper-slide {
                                 background-size: cover;
                                 background-position: center;
+                                img {
+                                    width: 95%;
+                                    height: auto;
+                                    margin: 0 auto;
+                                    display: block;
+                                    padding: 2% 0;
+                                }
                             }
                         }
                         .gallery-top {
                             height: 80%;
                             width: 100%;
                             .swiper-slide {
-                                padding: 2% 5%;
                                 border: 1px solid #EEEEEE;
                                 border-radius: 0;
                             }
@@ -464,9 +474,49 @@
                         .img-swiper-pagination {
                             width: 100%;
                             text-align: center;
+                            /deep/ .swiper-pagination-bullet{
+                                width: 6px !important;
+                                height: 6px !important;
+                                background: #F28BB1 !important;
+                                opacity: .3 !important;
+                                margin: 0 4px;
+                                cursor: pointer;
+                            }
+                            /deep/ .swiper-pagination-bullet-active{
+                                background: #F28BB1 !important;
+                                opacity: 1 !important;
+                            }
+                        }
+                    }
+                    .pic-after-text {
+                        display: block;
+                        width: 100%;
+                        margin-top: .6rem /* 18/22.5 */;
+                        font-family: PingFangSC-Regular;
+                        font-size: 13px;
+                        color: #999999;
+                        text-align: left;
+                        text-indent: 28px;
+                    }
+                    .pic-after-text-list {
+                        margin-top: .5rem /* 14/22.5 */;
+                        font-family: PingFangSC-Medium;
+                        font-size: 13px;
+                        color: #333333;
+                        line-height: 20px;
+                        li {
+                            width: 100%;
+                            height: .533333rem /* 12/22.5 */;
+                            background: url(./images/icon_li.png) left 8px no-repeat;
+                            background-size: 3px 3px;
+                            margin-bottom: .311111rem /* 7/22.5 */;
+                            padding-left: .533333rem /* 12/22.5 */;  
                         }
                     }
                 }
+            }
+            .pswp {
+                z-index: 15000;
             }
         }
         .no-result {
@@ -508,12 +558,18 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import PageFooter from '@/components/PageFooter.vue'
+    import { Previewer, TransferDom } from 'vux'
     import Swiper from 'swiper';
 
+
     export default {
+        directives: {
+            TransferDom
+        },
         components: {
             PageHeader,
             PageFooter,
+            Previewer,
             Swiper
         }, 
         data () {
@@ -531,7 +587,26 @@
                 noticeName: '',
                 noticeImg: '',
                 selected: '1',
-                detailList: []
+                detailList: [],
+                zcDetailList: [],
+                ssDetailList: [],
+                isShow: false,
+                currentType: '',
+                options: {
+                getThumbBoundsFn (index) {
+                    // find thumbnail element
+                    let thumbnail = document.querySelectorAll('.previewer-demo-img')[index]
+                    // get window scroll Y
+                    let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+                    // optionally get horizontal scroll
+                    // get position of element relative to viewport
+                    let rect = thumbnail.getBoundingClientRect()
+                    // w = width
+                    return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+                    // Good guide on how to get element coordinates:
+                    // http://javascript.info/tutorial/coordinates
+                    }
+                }
             }
         },
         methods: {
@@ -552,7 +627,7 @@
                         observer:true,
                         observeParents:true,
                         loopAdditionalSlides: 1,
-                        initialSlide: 0,
+                        initialSlide: initialSlide,
                         effect: 'coverflow',
                         slidesPerView: 1.3, // 一屏装几个slider
                         centeredSlides: true,
@@ -602,10 +677,42 @@
             closePopLetterNotice: function() {
                 this.isShowLetterDialog = false;
             },
-            returnId : function(index) {
+            returnId: function(index) {
                 return index.toString()
-            }
+            },
+            logIndexChange: function (arg) {
+            },
+            show: function (index) {
+                this.$refs.previewer.show(index)
+            },
+            setCurrentType: function(detailItem) {
+                this.currentType = detailItem.type;
+            },
+            toRecharge: function() {
+                _czc.push(['_trackEvent', '查询还款', '统计“查询结果页面”的“立即还款”按钮点击量', '', '', 'CXHK']);
 
+                let appNo = this.$route.query.hyApplicationNo || '';
+                let platform = this.utils.getPlatform();
+                let userName = this.utils.getCookie("userName");
+                console.log('platform===', platform)
+                if( platform== "APP" ){
+                    window.hicashJSCommunication.onCallApp(JSON.stringify({"type":"h5_chargerepay","app_no":appNo}));
+                    return false;
+                }
+                if(userName){
+                    let postData = new URLSearchParams();
+                        postData.append('appNo', appNo);
+                        postData.append('userName', userName);
+                        postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
+                        postData.append('requestSource', 'H5');
+                    this.common.navigateToRecharge(postData)
+                    .then( res => {
+                        window.location.href = res.data.rechargeUrl;
+                    })
+                }else{
+                    this.$router.push({path:"/login", query: {from: 'shixin', appNo: appNo}})
+                }
+            }
         },
         mounted () {
             let jsinner = $('<script src="https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143" language="JavaScript"><\/script>');
@@ -640,6 +747,23 @@
 
             this.loseCreditDetailList = loseCreditDetailList;
             this.detailList = loseCreditDetailList[0].detailList;
+            this.zcDetailList = this.detailList.filter( (item, index)=> {
+                return item.type === 'ZC'
+            })
+            this.ssDetailList = this.detailList.filter( (item, index)=> {
+                return item.type === 'SS'
+            })
+            this.currentType = this.detailList[0].type
+            this.isShow = true
+
+            for (let i = 0; i < this.detailList.length; i++) {
+                const picList = this.detailList[i].picList;
+                for (let j = 0; j < picList.length; j++) {
+                    picList[j].msrc = picList[j].picPrefix + picList[j].picUrl;
+                    picList[j].src = picList[j].picPrefix + picList[j].picUrl;
+                }
+                this.detailList[i].picList = picList;
+            }
 
             // 轮播图
             var mySwiper = new Swiper ('.detail-container', {
