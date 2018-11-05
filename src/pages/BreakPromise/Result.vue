@@ -1,5 +1,5 @@
 <template>
-    <div class="break-promise-result" :class="{'bg-no-result': loseCreditDetailList.length === 0}">
+    <div class="break-promise-result" :class="{'bg-no-result': loseCreditDetailList.length === 0}" v-cloak>
         <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
         <div class="result-wrap" v-cloak>
             <div class="detail-wrap" v-show="loseCreditDetailList.length > 0">
@@ -37,11 +37,11 @@
                     </div>
                     <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
                 </div>
-                <input type="button" class="toRecharge btn" value="立即还款" @click="toRecharge"/>
+                <toRecharge></toRecharge>
                 <div class="tips"><span>！还款至嗨钱指定账户，未经嗨钱同意，您不得将借款归还到其他任何账户。</span>及时还款后可恢复您的信用状态，您的个人信用将不再产生任何影响！</div>
                 <div class="swiper-container case-container">
                     <div class="swiper-wrapper">
-                        <a :href='item.newUrl' class="weui-media-box weui-media-box_appmsg swiper-slide" v-for="item in hotNews">
+                        <router-link class="weui-media-box weui-media-box_appmsg swiper-slide" :to="{name: 'HotNewsDetail', query: {id: item.id, code: 'SXAL'}}" v-for="(item, index) in hotNews" :key="index">
                             <div class="weui-media-box__hd">
                                 <img class="weui-media-box__thumb" :src="item.mediaImage">
                             </div>
@@ -51,7 +51,7 @@
                                     <li class="weui-media-box__info__meta">&nbsp;</li>
                                 </ul>
                             </div>
-                        </a>
+                        </router-link>
                     </div>
                     <div class="noticeAll" @click="caseAll">查看全部</div>
                 </div>
@@ -70,8 +70,8 @@
                         详询：400-020-5566
                     </div>
                     <div class="pop_bottom">
-                        <div class="btn cannel">取消</div>
-                        <div class="btn confirm" data-tel="4000205566">呼叫</div>
+                        <div class="btn cannel" @click="closeCallDialog">取消</div>
+                        <div class="btn confirm" @click="call('4000205566')">呼叫</div>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                             <div class="big-img" v-if="detailItem.type === 'ZC' || detailItem.type === 'SS'">
                                 <div class="swiper-container letter-container gallery-top">
                                     <div class="swiper-wrapper demo-gallery" :class="detailItem.type">
-                                        <div class="swiper-slide" v-for="(item, index) in detailItem.picList">
+                                        <div class="swiper-slide" v-for="(item, index) in detailItem.picList" :key="index">
                                             <img class="previewer-demo-img" :src="item.picPrefix + item.picUrl" @click="show(index)">
                                             <div v-transfer-dom></div>
                                         </div>
@@ -119,7 +119,7 @@
                             </div>
                             <p class="pic-after-text">{{detailItem.picAfterText}}</p>
                             <ul class="pic-after-text-list">
-                                <li v-for="picAfterTextItem in detailItem.picAfterTextList" >{{picAfterTextItem.text}}</li>
+                                <li v-for="(picAfterTextItem, index) in detailItem.picAfterTextList" :key="index">{{picAfterTextItem.text}}</li>
                             </ul>
                         </mt-tab-container-item>
                     </mt-tab-container>
@@ -222,6 +222,15 @@
                             .btn-arbitration,
                             .btn-repay {
                                 float: right;
+                            }
+                            .only-btn-broke-promise {
+                                float: none;
+                                margin: 0 auto;
+                            }
+
+                            .btn-litigation.only-btn-repay,
+                            .btn-arbitration.only-btn-repay {
+                                margin-bottom: .5rem;
                             }
                         }
 
@@ -558,6 +567,7 @@
 <script>
     import PageHeader from '@/components/PageHeader.vue'
     import PageFooter from '@/components/PageFooter.vue'
+    import ToRecharge from '@/components/ToRecharge.vue'
     import { Previewer, TransferDom } from 'vux'
     import Swiper from 'swiper';
 
@@ -569,6 +579,7 @@
         components: {
             PageHeader,
             PageFooter,
+            ToRecharge,
             Previewer,
             Swiper
         }, 
@@ -610,6 +621,28 @@
             }
         },
         methods: {
+            toDetail: function(type, hyApplicationNo) {
+                switch (type){
+                    case 0:
+                        this.$router.push({path:"/breakPromiseDetail", query: {type: type, hyApplicationNo: hyApplicationNo}});
+                        break;
+                    case 1:
+                        this.$router.push({path:"/breakPromiseDetail", query: {type: type, hyApplicationNo: hyApplicationNo}});
+                        break;
+                    case 2:
+                        this.$router.push({path:"/breakPromiseDetail", query: {type: type, hyApplicationNo: hyApplicationNo}});
+                        break;
+                    case 3:
+                        let userName = getCookie("userName");
+                        let platform = this.utils.getPlatform();
+                        if( platform === "APP" ){
+                            window.location.href = MWEB_PATH+"newweb/infoList/redEnvelopeRepay.html?userName=" + userName + '&comeFrom=APP';
+                        } else {
+                            window.location.href = MWEB_PATH+"newweb/infoList/redEnvelopeRepay.html?userName=" + userName;
+                        }
+                        break;
+                }
+            },
             popLetterNotice: function() {
                 this.isShowLetterDialog = true;
                 window.setTimeout(function(){
@@ -654,7 +687,8 @@
                     .then( res => {
                         let data = res.data;
                         data.list.forEach( (val, index) =>　{
-                            val.newUrl = './hotNewsDetails.html?id='+val.id+'&code=SXAL';
+
+                            //val.newUrl = './hotNewsDetails.html?id='+val.id+'&code=SXAL';
                             val.mediaImage = this.config.pic_path + val.mediaImage;
                             this.hotNews.push(val);
                         });
@@ -672,7 +706,7 @@
                     })
             },
             caseAll: function () {
-
+                this.$router.push({path:"/hotNews", query: {code: 'SXAL'}})
             },
             closePopLetterNotice: function() {
                 this.isShowLetterDialog = false;
@@ -688,30 +722,11 @@
             setCurrentType: function(detailItem) {
                 this.currentType = detailItem.type;
             },
-            toRecharge: function() {
-                _czc.push(['_trackEvent', '查询还款', '统计“查询结果页面”的“立即还款”按钮点击量', '', '', 'CXHK']);
-
-                let appNo = this.$route.query.hyApplicationNo || '';
-                let platform = this.utils.getPlatform();
-                let userName = this.utils.getCookie("userName");
-                console.log('platform===', platform)
-                if( platform== "APP" ){
-                    window.hicashJSCommunication.onCallApp(JSON.stringify({"type":"h5_chargerepay","app_no":appNo}));
-                    return false;
-                }
-                if(userName){
-                    let postData = new URLSearchParams();
-                        postData.append('appNo', appNo);
-                        postData.append('userName', userName);
-                        postData.append('uuid', '0c8297d7-6d3a-46da-b782-0df2434f88b1');
-                        postData.append('requestSource', 'H5');
-                    this.common.navigateToRecharge(postData)
-                    .then( res => {
-                        window.location.href = res.data.rechargeUrl;
-                    })
-                }else{
-                    this.$router.push({path:"/login", query: {from: 'shixin', appNo: appNo}})
-                }
+            call: function(phoneNum) {
+                window.hicashJSCommunication.onCallApp(JSON.stringify({ "type": "h5_service", "tell_number": String(phoneNum) }));
+            },
+            closeCallDialog: function () {
+                this.isShowCallDialog = false;
             }
         },
         mounted () {

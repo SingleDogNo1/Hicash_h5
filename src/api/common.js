@@ -46,7 +46,9 @@ export default{
   getRechargeCoupon: getRechargeCoupon,
   getCustHicashCoupon: getCustHicashCoupon,
   checkResultBaiQiShi: checkResultBaiQiShi,
-  loseCreditInfo: loseCreditInfo
+  loseCreditInfo: loseCreditInfo,
+  loseCreditDetail: loseCreditDetail,
+  GsdtHyzxDetailMsg: GsdtHyzxDetailMsg
 }
 
 
@@ -637,6 +639,32 @@ export function checkResultBaiQiShi(params){
 export function loseCreditInfo(params){
   return new Promise((resolve,reject)=>{
     axios.post("/NewHicashService/loseCreditInfo",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  失信详情接口
+ */
+export function loseCreditDetail(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/loseCreditDetail",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  近期新闻详情接口
+ */
+export function GsdtHyzxDetailMsg(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/GsdtHyzxDetailMsg",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

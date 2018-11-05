@@ -1,5 +1,5 @@
 <template>
-    <div class="break-promise">
+    <div class="break-promise" v-cloak>
         <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
         <div class="content">
             <div class="loan">
@@ -9,7 +9,7 @@
             <div class="hot-wrap">
                 <p>
                     <span>热点推荐</span>
-                    <a href="./hotNewsList.html">更多</a>
+                     <router-link :to="{name: 'HotNews'}">更多</router-link>
                 </p>
             </div>
 
@@ -23,10 +23,10 @@
                             </a>
                         </swiper-item>
                     </swiper> -->
-                    <a class="arrow_box swiper-slide" :href="item.newUrl" v-for="(item, index) in hotNews" :key="index">
-                        {{item.title}}
+                    <router-link class="arrow_box swiper-slide" :to="{name: 'HotNewsDetail', query: {id: item.id}}" v-for="(item, index) in hotNews" :key="index">
+                         {{item.title}}
                         <span class="ico" v-if="item.marker && item.marker != ''"><img :src="require('./images/' + item.marker + '-ico.png')" /></span>
-                    </a>
+                    </router-link>
                 </div>
             </div>
 
@@ -268,70 +268,70 @@
                         let data = res.data;
                         var storage = window.sessionStorage;
 
-                        data = {
-                            "loseCreditDetailList":  [{
-                            "hyApplicationNo": "31801092600003",
-                            "productName": "滴答贷",
-                            "applyPeriod": "1",
-                            "contractAmount": "500.00元",
-                            "sxType": "1",
-                            "invUsername": "david_fu",
-                            "sxButton": "",
-                            "button": "ss",
-                            "overDueFlag": "0",
-                            "noticeTitle": "点击查看：《诉讼文书》",
-                            "noticeDetail": "关于李文月逾期欠款处置详情",
-                            "detailList": [{
-                                "bigTitle": "诉讼文书",
-                                "type": "SS",
-                                "picBeforeText": "图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字",
-                                "picBeforeUrl": "图片前文字点击链接",
-                                "picList": [{
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }, {
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }, {
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }, {
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }],
-                                "picAfterText": "图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字",
-                                "picAfterTextList": [{
-                                    "text": "11111"
-                                }, {
-                                    "text": "22222"
-                                }]
+                        // data = {
+                        //     "loseCreditDetailList":  [{
+                        //     "hyApplicationNo": "31801092600003",
+                        //     "productName": "滴答贷",
+                        //     "applyPeriod": "1",
+                        //     "contractAmount": "500.00元",
+                        //     "sxType": "1",
+                        //     "invUsername": "david_fu",
+                        //     "sxButton": "",
+                        //     "button": "ss",
+                        //     "overDueFlag": "0",
+                        //     "noticeTitle": "点击查看：《诉讼文书》",
+                        //     "noticeDetail": "关于李文月逾期欠款处置详情",
+                        //     "detailList": [{
+                        //         "bigTitle": "诉讼文书",
+                        //         "type": "SS",
+                        //         "picBeforeText": "图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字",
+                        //         "picBeforeUrl": "图片前文字点击链接",
+                        //         "picList": [{
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }, {
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }, {
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }, {
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }],
+                        //         "picAfterText": "图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字",
+                        //         "picAfterTextList": [{
+                        //             "text": "11111"
+                        //         }, {
+                        //             "text": "22222"
+                        //         }]
 
-                            },
-                            {
-                                "bigTitle": "仲裁文书",
-                                "type": "ZC",
-                                "picList": [{
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }, {
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }, {
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }, {
-                                    "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
-                                    "picPrefix": "http://file.dev.guolidai.xin/"
-                                }]
-                            }]
-                        }],
-                         "resultCode": "1",
-                        "resultMsg": "SUCCESS"
-                    }
+                        //     },
+                        //     {
+                        //         "bigTitle": "仲裁文书",
+                        //         "type": "ZC",
+                        //         "picList": [{
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }, {
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }, {
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }, {
+                        //             "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
+                        //             "picPrefix": "http://file.dev.guolidai.xin/"
+                        //         }]
+                        //     }]
+                        // }],
+                        //  "resultCode": "1",
+                        // "resultMsg": "SUCCESS"
+                        // }
 
 
                         storage.setItem("loseCreditDetailList", JSON.stringify(data.loseCreditDetailList));
-                        //window.location.href = MWEB_PATH + "newweb/infoList/searchResult.html?comefrom=h5";
+                        // 跳转到结果页
                         this.$router.push({path: 'result'});
                         var err_code = parseInt(data.resultCode);
                         switch (err_code) {
@@ -357,11 +357,12 @@
                 this.common.getSysParam(_params)
                     .then( res => {
                         let data = res.data;
-                        data.list.forEach( (val, index) => {
-                            val.newUrl = './hotNewsDetails.html?id=' + val.id;
-                            this.hotNews.push(val);
-                        });
-                        console.log('res====', res)
+                        // data.list.forEach( (val, index) => {
+
+                        //     val.newUrl = './hotNewsDetails.html?id=' + val.id;
+                        //     this.hotNews.push(val);
+                        // });
+                        this.hotNews = data.list
                         setTimeout(() => {
                             var swiper = new Swiper('.swiper-container', {
                                 slidesPerView: 'auto',
@@ -375,13 +376,12 @@
             },
             adClick: function () {
                 _czc.push(['_trackEvent', '天下信用', '天下信用打开的次数', '', '', 'TXXY']);
-                // $('.txxyIframe').show();
-                // $('.sxsy').hide();
-                // $('#app').css("overflow-y", "hidden");
                 window.location.href = 'https://m.tianxiaxinyong.com/cooperation/crp-op/product-select-v2.html?channel1=L1R6ZXcxSzhoNWZub2swUlFoalFhZz09&channel2=N3hUZmtVR0dET1VrTzVncE9hMjRPQT09&channel3=YkFCK3BUc3VSbFJPZ2RwSDJ4VXpUUT09';
             },
             adShiXin: function() {
-               // window.location.href = MWEB_PATH + 'newweb/infoList/hotNewsList.html?code=SXAL' 
+                // 跳转到热点新闻列表页
+                this.$router.push({path: 'hotNews', query: {code: 'SXAL'}});
+                // window.location.href = MWEB_PATH + 'newweb/infoList/hotNewsList.html?code=SXAL' 
             }
         },
         mounted () {
@@ -393,7 +393,7 @@
             window.setTimeout(function(){
                 _czc.push(['_trackEvent', '失信公告', '记录失信公告页面打开的次数', '','','SXGG']);
             },2000);
-            var source = this.$route.query.source
+            var source = this.$route.query.source;
             if(source=='message'){
                 window.setTimeout(function(){
                     _czc.push(['_trackEvent', '通过短信进入失信页面', '记录通过短信进入失信页面打开的次数', '','','DXSX']);

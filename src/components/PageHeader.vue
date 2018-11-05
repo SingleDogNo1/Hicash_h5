@@ -50,7 +50,7 @@
     import { XHeader } from 'vux'
     export default {
         props: {
-            title: '',
+            title: String,
             showBack: Boolean,
             showBtnClose: Boolean
         },
