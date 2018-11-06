@@ -33,7 +33,7 @@
     .hot-news {
         width: 100%;
         height: auto;
-        padding-top: 44px;
+        padding-top: 50px;
         overflow-y: auto;
         background: #fff;
         .vux-header {

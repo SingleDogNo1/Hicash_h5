@@ -94,6 +94,7 @@
             .arrow_box {
                 width        : 80%;
                 height       : auto;
+                padding      : 0 14px;
                 border-radius: 5px;
                 position     : relative;
                 background   : #f5f5f5;
@@ -136,7 +137,7 @@
                 -o-transform: rotate(135deg);
             }
             .swiper-slide {
-                width : 70% !important;
+                width : 62% !important;
                 height: 72px !important;
                 /* Center slide text vertically */
                 display                : -webkit-box;
