@@ -25,7 +25,7 @@
         methods: {
             toRecharge: function () {
                 if(this.type) {
-                    if(type === 1) {
+                    if(this.type === 1) {
                         _czc.push(['_trackEvent', '诉讼还款', '统计“诉讼详情”页的“立即还款”按钮点击量', '', '', 'SSHK']);
                     } else {
                         _czc.push(['_trackEvent', '仲裁还款', '统计“仲裁详情”页的“立即还款”按钮点击量', '', '', 'ZCHK']);
