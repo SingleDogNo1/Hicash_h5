@@ -624,13 +624,13 @@
             toDetail: function(type, hyApplicationNo) {
                 switch (type){
                     case 0:
-                        this.$router.push({path:"/breakPromiseDetail", query: {type: type, hyApplicationNo: hyApplicationNo}});
+                        this.$router.push({path:"/breakPromiseDetail", query: {type: String(type), hyApplicationNo: hyApplicationNo}});
                         break;
                     case 1:
-                        this.$router.push({path:"/breakPromiseDetail", query: {type: type, hyApplicationNo: hyApplicationNo}});
+                        this.$router.push({path:"/breakPromiseDetail", query: {type: String(type), hyApplicationNo: hyApplicationNo}});
                         break;
                     case 2:
-                        this.$router.push({path:"/breakPromiseDetail", query: {type: type, hyApplicationNo: hyApplicationNo}});
+                        this.$router.push({path:"/breakPromiseDetail", query: {type: String(type), hyApplicationNo: hyApplicationNo}});
                         break;
                     case 3:
                         let userName = getCookie("userName");
