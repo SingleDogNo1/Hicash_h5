@@ -24,7 +24,7 @@
             <div class="weui-loadmore weui-loadmore_line" v-if="!showMore">
                 <span class="weui-loadmore__tips">已经到底了</span>
             </div>
-        </div>
+         </div>
     </div>
 </template>
 

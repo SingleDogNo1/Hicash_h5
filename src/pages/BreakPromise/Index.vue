@@ -38,7 +38,7 @@
                 <input  v-model="name" class="name" type="text" name="name" placeholder="姓名" maxlength="10">
                 <input v-model="number" class="tel" type="text" name="tel" placeholder="身份证号/手机号" maxlength="20">
                 <button @click="search" class="btn-search" name="search">查询</button>
-                <p class="advice-info">如有任何疑问<br />可拨打<a class="btn-tel" data-href="4000205566">400-020-5566</a>咨询</p>
+                <p class="advice-info" @click="call('4000205566')">如有任何疑问<br />可拨打<a class="btn-tel" data-href="4000205566">400-020-5566</a>咨询</p>
                 </div>
             </div>
             <div class="loan" title="失信案例库">
@@ -385,6 +385,9 @@
                 // 跳转到热点新闻列表页
                 this.$router.push({path: 'hotNews', query: {code: 'SXAL'}});
                 // window.location.href = MWEB_PATH + 'newweb/infoList/hotNewsList.html?code=SXAL' 
+            },
+            call: function (phoneNum) {
+                window.hicashJSCommunication.onCallApp(JSON.stringify({ "type": "h5_service", "tell_number": String(phoneNum) }));
             }
         },
         mounted () {
