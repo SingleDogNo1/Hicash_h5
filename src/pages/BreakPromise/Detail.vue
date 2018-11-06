@@ -32,9 +32,10 @@
 <style lang="scss" scoped>
     .break-promise-detail {
         width: 100%;
-        height: calc(100% - 3rem);
+        height: auto;
         background: #eee;
         padding-top: 3rem;
+        padding-bottom: 2rem;
         .vux-header {
             border-bottom: 1px solid #ccc;
         }
