@@ -10,22 +10,16 @@
         width: 100%;
         background-color: #fff;
         z-index: 100;
-        /deep/ .vux-header-left {
-            /deep/ .left-arrow::before {
-                border: 1px solid #333;
-                content: "";
-                position: absolute;
-                width: 12px;
-                height: 12px;
-                border-width: 1px 0 0 1px;
-                -webkit-transform: rotate(315deg);
-                transform: rotate(315deg);
-                top: 8px;
-                left: 7px;
-            }
-        }
+        padding: 0;
+        height: 1.955556rem /* 44/22.5 */;
+        line-height: 1.955556rem /* 44/22.5 */;
         /deep/ .vux-header-title {
+            height: 1.955556rem /* 44/22.5 */;
+            line-height: 1.955556rem /* 44/22.5 */;
             color: #333;
+        }
+        /deep/　.vux-header-right {
+            right:　.444444rem /* 10/22.5 */;
         }
         .btn-close:before {
             font-family: "iconfont";

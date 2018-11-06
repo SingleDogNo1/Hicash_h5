@@ -55,7 +55,7 @@
 <style lang="scss" scoped>
     .content {
         width      : 100%;
-        margin-bottom: 1.8rem;
+        padding-bottom: 1.8rem;
         padding-top: 46px;
         background : #fff;
         .loan {
@@ -172,7 +172,7 @@
                 }
                 .name {
                     display      : block;
-                    width        : 100%;
+                    width        : 95%;
                     height       : 1.96rem;
                     margin-top   : 0.5rem;
                     padding-left : 0.56rem;
@@ -182,7 +182,7 @@
                 }
                 .tel {
                     display      : block;
-                    width        : 100%;
+                    width        : 95%;
                     height       : 1.96rem;
                     margin-top   : 0.44rem;
                     padding-left : 0.56rem;
