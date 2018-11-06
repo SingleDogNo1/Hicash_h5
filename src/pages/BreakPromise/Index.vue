@@ -1,7 +1,7 @@
 <template>
     <div class="break-promise" v-cloak>
         <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
-        <div class="content">
+        <div class="content" :class="{'appContent': platform === 'APP'}">
             <div class="loan">
                 <img src="./images/bg_broke_promise.png" width="100%" />
             </div>
@@ -48,7 +48,7 @@
                 <img @click="adClick" src="./images/ad.png" width="100%" />
             </div>
         </div>
-        <page-footer></page-footer>
+        <page-footer v-if="platform === 'H5'"></page-footer>
     </div>
 </template>
 
@@ -211,6 +211,9 @@
             }
         }
     }
+    .appContent {
+        padding-bottom: 0;
+    }
 </style>
 
 
@@ -234,7 +237,8 @@
                 name: '',
                 number: '',
                 loseCreditDetailList: [],
-                hotNews: []
+                hotNews: [],
+                platform: ''
             }
         },
         methods: {
@@ -246,12 +250,10 @@
                 if(this.name !== '' && this.number === '') {
                     errorMsg = '请输入身份证号或手机号';
                 }
-                console.log(this.utils.checkMobile(this.number))
                 if((this.name !== '' && this.number !== '' && !this.utils.checkMobile(this.number)) && (this.name !== '' && this.number !== '' && !this.utils.checkIdCardNumber(this.number))) {
                     errorMsg = '身份证号或手机号输入有误';
                 }
                 if(errorMsg!="") {
-                    console.log(this.$vux.toast)
                     // /this.$vux.toast.width('auto')
                     this.$vux.toast.text(errorMsg, 'middle');
                     return;
@@ -385,6 +387,9 @@
             }
         },
         mounted () {
+            let platform = this.utils.getPlatform();
+            this.platform = platform;
+
             this.SysParam();
 
             var jsinner = $('<script src="https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143" language="JavaScript"><\/script>');

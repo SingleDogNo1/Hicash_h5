@@ -655,6 +655,7 @@
                     } else {
                         initialSlide = 0;
                     }
+                    console.log('initialSlide==', initialSlide)
                     var galleryTop = new Swiper('.gallery-top', {
                         paginationClickable: true,
                         observer:true,

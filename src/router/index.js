@@ -217,7 +217,7 @@ export default new Router({
         name: 'HotNews',
         component: HotNews,
         meta: { 
-            title: '详情列表' 
+            title: '热点推荐' 
         }
     },
     {
@@ -226,7 +226,7 @@ export default new Router({
         name: 'HotNewsDetail',
         component: HotNewsDetail,
         meta: { 
-            title: '详情列表' 
+            title: '热点推荐' 
         }
     }
   ]

@@ -94,7 +94,6 @@
                             val.mediaImage = this.config.pic_path + val.mediaImage;
                             this.hotNews.push(val);
                         });
-                        console.log(data.list.length)
                         if(data.list.length == 10) {
                             this.sw = true;
                             this.curPage++;

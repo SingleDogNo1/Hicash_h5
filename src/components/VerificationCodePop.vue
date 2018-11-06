@@ -105,7 +105,6 @@
         },
         methods: {
             btnSubmit() {
-                console.log('this.type====', this.type)
                 let sendType;
                 this.type === 'register' ? sendType = 'regist' : sendType = 'login'
                 var errorMsg = "";
@@ -129,7 +128,6 @@
                     .then((res)=>{
                         let data = res.data;
                         if(data.resultCode=="1"){
-                            console.log('data====', data)
                             this.showToast1 = false;
                             this.$emit('showToast', this.showToast1);
                             // this.$emit('newAuthId', data.authId);

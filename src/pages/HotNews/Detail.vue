@@ -119,7 +119,6 @@
                         }
                     },
                     fnDoShare: function (type) {
-                        console.log(1);
                     }
                 };
                 share.Mshare.popup(config);
