@@ -9,7 +9,7 @@
             <div class="hot-wrap">
                 <p>
                     <span>热点推荐</span>
-                     <router-link :to="{name: 'HotNews'}">更多</router-link>
+                    <router-link :to="{name: 'HotNews'}">更多</router-link>
                 </p>
             </div>
 
@@ -393,6 +393,11 @@
         mounted () {
             let platform = this.utils.getPlatform();
             this.platform = platform;
+
+            // 告诉APP域名
+            setTimeout(function(){
+                window.hicashJSCommunication.getDomainName('http://' + window.location.host + '/');
+            }, 3000);
 
             this.SysParam();
 

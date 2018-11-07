@@ -37,7 +37,8 @@ if(!window.hicashJSCommunication){
     window.hicashJSCommunication = {
         'jumpPage': jumpPage,
         'getComeFrom': getComeFrom,
-        'onCallApp': onCallApp
+        'onCallApp': onCallApp,
+        'getDomainName': getDomainName
     }
 }
 
@@ -73,3 +74,7 @@ export function onCallApp(params) {
     }
 }
 
+//告诉APP域名
+export function getDomainName(url) {
+	return '';
+}
