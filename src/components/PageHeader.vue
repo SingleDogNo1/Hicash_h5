@@ -10,6 +10,12 @@
         width: 100%;
         background-color: #fff;
         z-index: 100;
+        /deep/ .vux-header-left {
+            /deep/ .left-arrow:before {
+                border-left: 1px solid #333;
+                border-top: 1px solid #333;
+            }
+        }
         /deep/ .vux-header-title {
             height: 1.955556rem /* 44/22.5 */;
             line-height: 1.955556rem /* 44/22.5 */;
