@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Personal from '@/pages/Personal/index'
+import PersonIndex from '@/pages/Personal/Person/index'
 import MiaoDai from '@/components/MiaoDai'
 import Login from '@/pages/Account/Login'
 import ForgetPassword from '@/components/ForgetPassword'
@@ -43,12 +44,30 @@ export default new Router({
     {
     	//个人中心
       	path: '/personal',
-      	name: 'Personal',
-      	component: Personal,
-        meta:{
-            requireAuth:true,
-            title: '个人中心'
-        }
+        name: 'Personal',
+        component: Personal,
+        redirect: '/personal/personIndex',
+        children: [
+            {
+                path: 'personIndex',
+                name: 'PersonIndex',
+                component: PersonIndex,
+                meta:{
+                    requireAuth:true,
+                    title: '个人中心'
+                },
+            },
+            {
+                //个人中心 - 我的优惠券
+                path: 'myCoupon',
+                name: 'MyCoupon',
+                component: MyCoupon,
+                meta: { 
+                    requireAuth:true,
+                    title: '我的优惠券' 
+                }
+            }
+        ]
     },
     {
         //登录
