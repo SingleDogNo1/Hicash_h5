@@ -50,10 +50,8 @@ export default {
                 //将经纬度转换为坐标数组
                 var gpsArr = [position.coords.longitude,position.coords.latitude];
                 _this.utils.setCookie("gpsArr", gpsArr);
-                console.info('Get GPS success', gpsArr);
             },
             locationError=function (error) {
-                console.info('Get GPS failed', error);
             }
             getLocation();
         }
@@ -128,6 +126,9 @@ export default {
     #app {
         width: 100%;
         height: 100%;
+    }
+    .BreakPromiseDetail, .Result {
+        background: #eee;
     }
     .footer{
         max-width: 640px;

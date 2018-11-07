@@ -33,9 +33,9 @@
     .break-promise-detail {
         width: 100%;
         height: auto;
-        background: #eee;
         padding-top: 3rem;
         padding-bottom: 2rem;
+        background: #eee !important;
         .vux-header {
             border-bottom: 1px solid #ccc;
         }
@@ -65,7 +65,7 @@
             }
             .detial {
                 margin: 0 0.5rem;
-               .title {
+            .title {
                     float: left;
                     width: 40%;
                     font-size: 15px;
