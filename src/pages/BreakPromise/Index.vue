@@ -35,7 +35,7 @@
                 <p class="search-form-tips">
                     本专区为您提供全面准确的个人财务状况，您可以通过输入<span class="pink">“姓名” + “身份证号码”</span>或<span class="pink">“姓名” + “手机号码”</span>进行查询，便于您及时掌握相关信息。
                 </p>
-                <input  v-model="name" class="name" type="text" name="name" placeholder="姓名" maxlength="10">
+                <input v-model="name" class="name" type="text" name="name" placeholder="姓名" maxlength="10">
                 <input v-model="number" class="tel" type="text" name="tel" placeholder="身份证号/手机号" maxlength="20">
                 <button @click="search" class="btn-search" name="search">查询</button>
                 <p class="advice-info" @click="call('4000205566')">如有任何疑问<br />可拨打<a class="btn-tel" data-href="4000205566">400-020-5566</a>咨询</p>
