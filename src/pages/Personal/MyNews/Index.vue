@@ -15,90 +15,6 @@
                         </div>
                     </div>
                 </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="news-wrap">
-                        <div class="news-title clearfix">
-                            <p class="status">订单审核结果消息</p>
-                            <span class="date">2018-08-07</span>
-                        </div>
-                        <div class="news-content clearfix">
-                            <p class="desc">很抱歉,您的嗨秒贷审核未通过，可至【磐多拉信用】申请，选择更多、通过率更高</p>
-                            <a class="action" href="#">立即前往</a>
-                        </div>
-                    </div>
-                </li>
             </ul>
         </div>
     </div>
@@ -172,6 +88,20 @@
                 title: '我的消息',
                 showBack: true,
                 showBtnClose: false,
+            }
+        },
+        methods: {
+            queryMyMsg: function() {
+                let postData = new URLSearchParams();
+                    postData.append('username', this.getCookie("userName"));
+                    postData.append('uuid', 'c3b522f8-72d3-4135-a04d-22b75b457e6b');
+                    postData.append('curPage', this.page);
+                    postData.append('maxLine', 10);
+                this.common.QueryMyMsg(postData)
+                    .then( res => {
+                        let data = res.data;
+                        console.log('data====', data)
+                    })
             }
         }
     }   
