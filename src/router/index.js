@@ -21,7 +21,11 @@ import Help from '@/components/Help'
 import Notice  from '@/components/Notice'
 import Coupon from '@/pages/Coupon/Index'
 import MyCoupon from '@/pages/Coupon/MyCoupon'
-
+import BreakPromise from '@/pages/BreakPromise/Index'
+import Result from '@/pages/BreakPromise/Result'
+import BreakPromiseDetail from '@/pages/BreakPromise/Detail'
+import HotNews from '@/pages/HotNews/Index'
+import HotNewsDetail from '@/pages/HotNews//Detail'
 
 Vue.use(Router)
 
@@ -178,6 +182,51 @@ export default new Router({
         meta: { 
             requireAuth:true,
             title: '我的优惠券' 
+        }
+    },
+    {
+        //失信专区首页
+        path: '/breakPromise',
+        name: 'BreakPromise',
+        component: BreakPromise,
+        meta: { 
+            title: '失信专区' 
+        }
+    },
+    {
+        //失信专区结果页
+        path: '/result',
+        name: 'Result',
+        component: Result,
+        meta: { 
+            title: '查询结果' 
+        }
+    },
+    {
+        //失信专区详情页
+        path: '/breakPromiseDetail',
+        name: 'BreakPromiseDetail',
+        component: BreakPromiseDetail,
+        meta: { 
+            title: '详情列表' 
+        }
+    },
+    {
+        //热点新闻页面
+        path: '/hotNews',
+        name: 'HotNews',
+        component: HotNews,
+        meta: { 
+            title: '热点推荐' 
+        }
+    },
+    {
+        //热点新闻详情页
+        path: '/hotNewsDetail',
+        name: 'HotNewsDetail',
+        component: HotNewsDetail,
+        meta: { 
+            title: '热点推荐' 
         }
     }
   ]

@@ -5,7 +5,6 @@ function ymtj(){
 ymtj();
 
 setTimeout(function(){
-    console.info('youmeng');
     if(_czc){
         _czc.push(['_trackEvent', '首页', '首页打开的次数', '', '', 'SS']);
     } 

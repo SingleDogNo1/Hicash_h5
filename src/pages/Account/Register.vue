@@ -316,9 +316,7 @@
                 })
                 this.common.checkResultBaiQiShi(postData)
                 .then((res) => {
-                    console.info('res', res);
                     let resultCode = res.data.resultCode;
-                    console.info(resultCode, this.type);
                     if(resultCode == '1'){
                         this.register();
                     }else{
@@ -357,7 +355,6 @@
                     .then((res)=>{
                         let data = res.data;
                         if(data.resultCode=="1" || data.resultCode=="2"){
-                            console.log('data-----', data)
                             // 是否显示图片验证码 （1显示，0不显示）
                             if(data.showAuthPic === "0") {
                                 this.isDisabled = true;
@@ -423,7 +420,6 @@
                     this.$vux.loading.hide();
                     let data = res.data;
                     if (data.token !== '') {
-                        console.log('res======', res);
                         window.gio('setUserId', data.loginInfo.userName);
                         this.jsCommon.setAuthorization(data.loginInfo.userName, data.loginInfo.token);
                         this.imgCode = '';
@@ -493,11 +489,9 @@
                 this.getMessageCodeText = timeCount;
                 this.isDisabled = true;
                 if(this.getMessageCodeText === '获取验证码') this.isDisabled = false;
-                console.log('this.getMessageCodeText====', this.getMessageCodeText)
             },
             newImgCode(newImgCode) {
                 this.imgCode = newImgCode;
-                console.log('newImgCode====', newImgCode)
             },
             showToast1(showToast1) {
                 this.showToast = showToast1;
