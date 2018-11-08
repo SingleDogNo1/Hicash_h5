@@ -683,6 +683,9 @@ export function loseCreditInfo(params){
 export function QueryMyMsg(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashAppService/QueryMyMsg",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
     })
   })
 }

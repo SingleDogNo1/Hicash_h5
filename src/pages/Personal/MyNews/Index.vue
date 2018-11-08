@@ -88,21 +88,26 @@
                 title: '我的消息',
                 showBack: true,
                 showBtnClose: false,
+                page: 1
             }
         },
         methods: {
             queryMyMsg: function() {
                 let postData = new URLSearchParams();
-                    postData.append('username', this.getCookie("userName"));
+                    postData.append('username', this.utils.getCookie("userName"));
                     postData.append('uuid', 'c3b522f8-72d3-4135-a04d-22b75b457e6b');
                     postData.append('curPage', this.page);
                     postData.append('maxLine', 10);
+                    console.log(postData)
                 this.common.QueryMyMsg(postData)
                     .then( res => {
                         let data = res.data;
                         console.log('data====', data)
                     })
             }
+        },
+        mounted () {
+            this.queryMyMsg();
         }
     }   
 </script>

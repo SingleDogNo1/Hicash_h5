@@ -205,16 +205,6 @@ export default new Router({
         }
     },
     {
-        //个人中心 - 我的优惠券
-        path: '/MyCoupon',
-        name: 'MyCoupon',
-        component: MyCoupon,
-        meta: { 
-            requireAuth:true,
-            title: '我的优惠券' 
-        }
-    },
-    {
         //失信专区首页
         path: '/breakPromise',
         name: 'BreakPromise',
