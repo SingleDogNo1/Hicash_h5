@@ -21,13 +21,13 @@ import SmallBanner from '@/components/SmallBanner'
 import Help from '@/components/Help'
 import Notice  from '@/components/Notice'
 import Coupon from '@/pages/Coupon/Index'
-import MyCoupon from '@/pages/Coupon/MyCoupon'
 import BreakPromise from '@/pages/BreakPromise/Index'
 import Result from '@/pages/BreakPromise/Result'
 import BreakPromiseDetail from '@/pages/BreakPromise/Detail'
 import HotNews from '@/pages/HotNews/Index'
 import HotNewsDetail from '@/pages/HotNews//Detail'
 import MyNews from '@/pages/Personal/MyNews/Index'
+import MyCoupon from '@/pages/Personal/Coupon/MyCoupon'
 
 Vue.use(Router)
 

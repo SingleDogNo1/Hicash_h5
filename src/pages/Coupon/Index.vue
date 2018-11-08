@@ -200,7 +200,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-	@import "../../../bower_components/sass-rem/rem";
+	@import "~bowerComponents/sass-rem/_rem.scss";
 
 	.Coupon{
 		background-color: rgb(245, 245, 245);
