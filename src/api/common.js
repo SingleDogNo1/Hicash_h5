@@ -50,7 +50,10 @@ export default{
   getCustHicashCoupon: getCustHicashCoupon,
   checkResultBaiQiShi: checkResultBaiQiShi,
   OwnPageShow: OwnPageShow,
-  QueryMyMsg: QueryMyMsg
+  QueryMyMsg: QueryMyMsg,
+  loseCreditInfo: loseCreditInfo,
+  loseCreditDetail: loseCreditDetail,
+  GsdtHyzxDetailMsg: GsdtHyzxDetailMsg
 }
 
 
@@ -657,6 +660,16 @@ export function OwnPageShow(params){
     }
     axios.post("/HicashAppService/OwnPageShow",params).then((res)=>{
       cache.put('OwnPageShow', res);
+    })
+  })
+}
+    
+/*
+ *  失信列表信息接口
+ */
+export function loseCreditInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/loseCreditInfo",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
@@ -670,9 +683,32 @@ export function OwnPageShow(params){
 export function QueryMyMsg(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashAppService/QueryMyMsg",params).then((res)=>{
+    })
+  })
+}
+/*
+ *  失信详情接口
+ */
+export function loseCreditDetail(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/loseCreditDetail",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
     })
   })
 }
+
+/*
+ *  近期新闻详情接口
+ */
+export function GsdtHyzxDetailMsg(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/NewHicashService/GsdtHyzxDetailMsg",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+

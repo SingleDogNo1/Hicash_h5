@@ -1,5 +1,4 @@
 import config from '../../config.json'
-console.info('config', config);
 function uuid(){
     var s = [];
     var hexDigits ="0123456789abcdef";
@@ -34,7 +33,6 @@ function getCookie(name) {
 }
 
 var uuidVal = getCookie('uuid');
-console.info('uuidVal',uuidVal)
 
 if(!uuidVal || !uuidVal.length){
     uuidVal = uuid();

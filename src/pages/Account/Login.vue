@@ -318,15 +318,12 @@
                     postData.append('h5Latitude', gpsArr[1]);
                 }
                
-                console.log('postData=====', postData)
                 this.$vux.loading.show({
                     text: '数据请求中'
                 })
                 this.common.checkResultBaiQiShi(postData)
                 .then((res) => {
-                    console.info('res', res);
                     let resultCode = res.data.resultCode;
-                    console.info(resultCode, this.type);
                     if(resultCode == '1'){
                         if(this.type == 'message'){
                             this.messageLogin();
@@ -368,7 +365,6 @@
                     .then((res)=>{
                         let data = res.data;
                         if(data.resultCode=="1" || data.resultCode=="2"){
-                            console.log('data-----', data)
                             // 是否显示图片验证码 （1显示，0不显示）
                             if(data.showAuthPic === "0") {
                                 this.isDisabled = true;
@@ -378,7 +374,6 @@
                                 });
                             } else {
                                 this.showToast = true;
-                                console.log('this.showToast====', this.showToast)
                                 this.authPic = 'data:image/jpg;base64,' + data.authPic;
                             }
                         } else {
@@ -399,10 +394,8 @@
                 postData.append('passWord', this.messageCode);
                 postData.append('type', 2);
                 postData.append('requestSource', 'h5');
-                console.log('postData=====', postData)
                 this.common.login(postData)
                     .then((res)=>{
-                        console.info('res', res);
                         let data = res.data;
                         if(data.resultCode === '1') {
                             this.jsCommon.setAuthorization(data.userName, data.token);

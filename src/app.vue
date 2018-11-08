@@ -49,10 +49,8 @@ export default {
                 //将经纬度转换为坐标数组
                 var gpsArr = [position.coords.longitude,position.coords.latitude];
                 _this.utils.setCookie("gpsArr", gpsArr);
-                console.info('Get GPS success', gpsArr);
             },
             locationError=function (error) {
-                console.info('Get GPS failed', error);
             }
             getLocation();
         }
@@ -131,6 +129,9 @@ export default {
         width: 100%;
         height: 100%;
     }
+    .BreakPromiseDetail, .Result {
+        background: #eee;
+    }
     .footer{
         max-width: 640px;
         min-width: 320px;
@@ -150,7 +151,7 @@ export default {
     }
     .icon-home {
         display: block;
-        width: .7rem;
+        width: .8rem;
         height: 0.85rem;
         margin-top: 0.2rem;
         background: url("./assets/images/icon_home.png") center center no-repeat;

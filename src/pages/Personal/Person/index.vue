@@ -40,7 +40,7 @@
             <span class="cell-ico my-coupon" slot="icon" width="20"></span>
             <badge v-if="newCoupon"></badge>
         </cell>
-        <cell title="我的消息" is-link :link="myNewslLink">
+        <cell title="我的消息" is-link :link="{path:'/personal/MyNews'}">
             <span class="cell-ico my-msg" slot="icon" width="20"></span>
             <badge v-if="newMsg"></badge>
         </cell>
