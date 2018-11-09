@@ -14,8 +14,6 @@ import 'swiper/dist/css/swiper.css'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
-import "./assets/js/mShare"
-
 Vue.prototype.common = common;
 Vue.prototype.utils = utils;
 Vue.prototype.config = config;

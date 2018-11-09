@@ -6,18 +6,19 @@
 				<tab-item selected @on-item-click="onItemClick" :key="0" >逾期订单</tab-item>
 				<tab-item @on-item-click="onItemClick" :key="1" >正常订单</tab-item>
 			</tab>
-			<swiper v-model="index" height="100px" :show-dots="false">
+			<swiper v-model="index" height="500px" :show-dots="false">
 				<swiper-item :key="0">
-					<instalment-normal></instalment-normal>
+					<instalment-overdue></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
-					<instalment-overdue></instalment-overdue>
+					<instalment-normal></instalment-normal>
 				</swiper-item>
 			</swiper>
 		</div>
 		
 	</div>
 </template>
+
 <script type="text/javascript">
 	import {Tab, TabItem, Swiper, SwiperItem} from 'vux';
 	import PageHeader from '@/components/PageHeader.vue';
@@ -68,6 +69,10 @@
 			}
 			.vux-tab .vux-tab-item{
 				background: 0;
+			}
+			.vux-slider > .vux-swiper > .vux-swiper-item {
+				height: calc(100% - 46px);
+				overflow: auto;
 			}
 		}
 	}
