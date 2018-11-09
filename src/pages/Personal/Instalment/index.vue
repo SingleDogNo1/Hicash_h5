@@ -3,8 +3,8 @@
 		<page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
 		<div class="content">
 			<tab custom-bar-width="60px" active-color="#FF7640" bar-active-color="#FF7640" v-model="index">
-				<tab-item selected @on-item-click="onItemClick" :key="0" >逾期订单</tab-item>
-				<tab-item @on-item-click="onItemClick" :key="1" >正常订单</tab-item>
+				<tab-item selected :key="0" >逾期订单</tab-item>
+				<tab-item :key="1" >正常订单</tab-item>
 			</tab>
 			<swiper v-model="index"  :show-dots="false">
 				<swiper-item :key="0">
@@ -38,17 +38,14 @@
 				title: this.$router.history.current.meta.title,
 				showBtnClose: false,
 				showBack: true,
-				index: 0,
-				swiperHeight: 0
+				index: 0
 			}
 		},
 		mounted() {
 			
 		},
 		methods: {
-			onItemClick: function(type){
-				
-			}
+			
 		}
 	}
 </script>
