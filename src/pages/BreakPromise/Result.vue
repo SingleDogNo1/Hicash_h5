@@ -634,7 +634,7 @@
                         break;
                     case 3:
                         let userName = getCookie("userName");
-                        let platform = this.utils.getPlatform();
+                        const platform = this.utils.getPlatform();
                         if( platform === "APP" ){
                             window.location.href = MWEB_PATH+"newweb/infoList/redEnvelopeRepay.html?userName=" + userName + '&comeFrom=APP';
                         } else {

@@ -53,7 +53,8 @@ export default{
   QueryMyMsg: QueryMyMsg,
   loseCreditInfo: loseCreditInfo,
   loseCreditDetail: loseCreditDetail,
-  GsdtHyzxDetailMsg: GsdtHyzxDetailMsg
+  GsdtHyzxDetailMsg: GsdtHyzxDetailMsg,
+  UpdateMsgStatus: UpdateMsgStatus
 }
 
 
@@ -715,3 +716,15 @@ export function GsdtHyzxDetailMsg(params){
   })
 }
 
+/*
+ *  更新是否已读接口
+ */
+export function UpdateMsgStatus(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/UpdateMsgStatus",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
