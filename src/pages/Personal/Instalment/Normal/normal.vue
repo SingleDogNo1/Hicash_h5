@@ -10,13 +10,15 @@
 
 
 <script>
+    import { Checker, CheckerItem } from 'vux'
 
     export default {
         props: {
 
         },
         components: {
-            
+            Checker,
+            CheckerItem
         },
         data () {
             return {

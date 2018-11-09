@@ -6,7 +6,7 @@
 				<tab-item selected @on-item-click="onItemClick" :key="0" >逾期订单</tab-item>
 				<tab-item @on-item-click="onItemClick" :key="1" >正常订单</tab-item>
 			</tab>
-			<swiper v-model="index" height="100px" :show-dots="false">
+			<swiper v-model="index"  :show-dots="false">
 				<swiper-item :key="0">
 					<instalment-normal></instalment-normal>
 				</swiper-item>
@@ -21,8 +21,8 @@
 <script type="text/javascript">
 	import {Tab, TabItem, Swiper, SwiperItem} from 'vux';
 	import PageHeader from '@/components/PageHeader.vue';
-	import InstalmentNormal from '@/pages/Personal/Instalment/Normal/normal.vue'
-	import InstalmentOverdue from '@/pages/Personal/Instalment/Overdue/overdue.vue'
+	import InstalmentNormal from '@/pages/Personal/Instalment/Normal/normal.vue';
+	import InstalmentOverdue from '@/pages/Personal/Instalment/Overdue/overdue.vue';
 	export default {
 		components: {
 			Tab,
@@ -38,7 +38,8 @@
 				title: this.$router.history.current.meta.title,
 				showBtnClose: false,
 				showBack: true,
-				index: 0
+				index: 0,
+				swiperHeight: 0
 			}
 		},
 		mounted() {
@@ -54,10 +55,11 @@
 
 <style lang="scss" rel="stylesheet/scss">
 	@import "~bowerComponents/sass-rem/_rem.scss";
+
 	.MyInstalment{
 		background: #f2f2f2;
 		.content{
-			height: calc(100% - rem(50px));
+			height: calc(100vh - 2.26667rem);
 			padding-top: rem(51px);
 			.vux-tab-wrap{
 				background: #fff;
@@ -68,6 +70,9 @@
 			}
 			.vux-tab .vux-tab-item{
 				background: 0;
+			}
+			.vux-swiper{
+				height: calc(100vh - 4.26667rem) !important;
 			}
 		}
 	}
