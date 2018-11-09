@@ -28,6 +28,7 @@ import HotNews from '@/pages/HotNews/Index'
 import HotNewsDetail from '@/pages/HotNews//Detail'
 import MyNews from '@/pages/Personal/MyNews/Index'
 import MyCoupon from '@/pages/Personal/Coupon/MyCoupon'
+import MyInstalment from '@/pages/Personal/Instalment/index'
 
 Vue.use(Router)
 
@@ -61,6 +62,16 @@ export default new Router({
                     requireAuth:true,
                     title: '个人中心'
                 },
+            },
+            {
+                //个人中心 - 我的分期
+                path: 'myInstalment',
+                name: 'MyInstalment',
+                component: MyInstalment,
+                meta:{
+                    requireAuth:true,
+                    title: '我的分期'
+                }
             },
             {
                 //个人中心 - 我的优惠券

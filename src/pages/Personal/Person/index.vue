@@ -27,7 +27,7 @@
         </div>
     </section>
     <group>
-        <cell title="我的分期" is-link :border-intent="true" :link="brrowLink">
+        <cell title="我的分期" is-link :border-intent="true" :link="{path:'/personal/myInstalment'}">
             <span class="cell-ico my-money" slot="icon" width="20"></span>
         </cell>
         <cell title="交易明细" is-link :link="transactDetailLink">
