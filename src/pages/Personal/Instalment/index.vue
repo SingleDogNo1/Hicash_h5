@@ -70,7 +70,7 @@
 				background: 0;
 			}
 			.vux-swiper{
-				height: calc(100vh - 4.1rem) !important;
+				height: calc(100vh - 4.26667rem) !important;
 				overflow-y: auto;
 			}
 		}
