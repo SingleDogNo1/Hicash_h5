@@ -8,10 +8,10 @@
 			</tab>
 			<swiper v-model="index"  :show-dots="false">
 				<swiper-item :key="0">
-					<instalment-normal></instalment-normal>
+					<instalment-overdue></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
-					<instalment-overdue></instalment-overdue>
+					<instalment-normal></instalment-normal>
 				</swiper-item>
 			</swiper>
 		</div>
@@ -45,7 +45,7 @@
 			
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
