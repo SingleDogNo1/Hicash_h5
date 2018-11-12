@@ -28,7 +28,7 @@
                         <span>注册即表示同意</span>
                         <a :href="agreementUrl1" class="go-to-forget-pwd" >《嗨钱网注册协议》</a>
                         <span>及</span>
-                        <a :href="agreementUrl2" class="go-to-forget-pwd" >《信息收集授权协议》</a>
+                        <a :href="agreementUrl2" class="go-to-forget-pwd" >《隐私政策协议》</a>
                     </check-icon>
                 </div>
             </div>
