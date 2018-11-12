@@ -21,10 +21,13 @@
                     
 
                     <flow>
-                        <flow-state state="1" title="1111" is-done></flow-state>
+                        <flow-state  title="1111" is-done>
+                            <icon type="success"></icon>
+                        </flow-state>
                         <flow-line is-done></flow-line>
 
-                        <flow-state state="2" is-done>
+                        <flow-state state="2" is-done class="aaaa">
+                            <icon type="success"></icon>
                             <span slot="title">2222</span>
                         </flow-state>
                         <flow-line></flow-line>
