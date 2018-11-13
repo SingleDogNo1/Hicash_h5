@@ -371,6 +371,7 @@
         },
 		mounted() {
 			this.$nextTick(() => {
+                console.info('nextTick');
                 this.$refs.scrollerBottom.reset({top: 0})
             })
 		},
