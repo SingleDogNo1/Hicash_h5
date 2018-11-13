@@ -1,25 +1,25 @@
 <template>
     <div class="overdue">
         <div class="overdue-content">
-            <group style="display:none">
-                <cell :title="title" :link="{path:'/demo'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                <cell :title="title" :link="{path:'/demo'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                <cell :title="title" :link="{path:'/demo'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                <cell :title="title" :link="{path:'/demo'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+            <group v-if="currentType === 'default'">
+                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额{{currentType}}</p></slot></cell>
+                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
             </group>
 
             <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">
             </checklist> -->
-            <group >
-                <checker v-model="demo21" type="checkbox" default-item-class="default-item" selected-item-class="item-selected">
-                    <checker-item :value="item" v-for="(item, index) in items1" :key="index">
+            <group v-if="currentType === 'batchRepayment'">
+                <checker v-model="currentValue" type="checkbox" default-item-class="default-item" selected-item-class="item-selected" @on-change="change">
+                    <checker-item :value="item" v-for="(item, index) in list" :key="index">
                         <cell is-link :title="title" :inline-desc='desc'>
                             <i slot="icon"></i>
                             <slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
                     </checker-item>
                 </checker>
             </group>
-            <button class="btn-recharge">充值还款</button>
+            <!--<button class="btn-recharge">充值还款</button>-->
         </div>
     </div>
 </template> 
@@ -42,7 +42,7 @@
                     color: #999999;
                 }
                 /deep/ .weui-cell__ft {
-                    padding-right: rem(28px); 
+                    padding-right: rem(26px); 
                     /deep/ .amount {
                         font-size: 15px;
                         color: #FF7640;
@@ -57,7 +57,6 @@
             }
         }
         .vux-checker-box {
-            margin-bottom: 20px;
             .vux-checker-item {
                 position: relative;
                 width: 100%;
@@ -77,6 +76,7 @@
                     display: block;
                 }
                 .weui-cell {
+                     padding: 10px rem(16px);
                     /deep/ .vux-label {
                         font-size: 15px;
                     }
@@ -84,8 +84,8 @@
                         font-size: 13px;
                         color: #999999;
                     }
-                    .weui-cell__ft {
-                        padding-right: rem(28px); 
+                    /deep/ .weui-cell__ft {
+                        padding-right: rem(2px); 
                         .amount {
                             font-size: 15px;
                             color: #FF7640;
@@ -124,28 +124,21 @@
                 }
             }
         }
-        .btn-recharge {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: rem(49px);
-            background: #FF7640;
-            border: 0;
-            font-size: 15px;
-            color: #fff;
-        }
     }
 </style>
 
 
 <script>
+    import PageFooter from '@/components/PageFooter.vue'
     import { Cell, Group, Checker, CheckerItem, CheckIcon } from 'vux'
+
     export default {
         props: {
-            value: ''
+            value: String,
+            currentType: String
         },
         components: {
+            PageFooter,
             Cell,
             Group,
             Checker,
@@ -156,9 +149,8 @@
             return {
                 title: '嗨秒分期',
                 desc: '订单号:21231231321',
-                demo1: false,
-                demo21: [{key: '2', value: 'B'}],
-                items1: [{
+                currentValue: [],
+                list: [{
                     key: '1',
                     value: 'A'
                 }, {
@@ -185,13 +177,16 @@
                 }, {
                     key: '9',
                     value: 'C'
-                }],
+                }]
             }
         },
         methods: {
             change: function () {
-
+                this.$emit('selectedItems', this.currentValue);
             }
+        },
+        mounted () {
+            console.log('this.currentType===', this.currentType)
         }
     }
 </script>

@@ -132,6 +132,9 @@ export default {
     .BreakPromiseDetail, .Result {
         background: #eee;
     }
+    .OverdueDetail {
+        background: #f2f2f2;
+    }
     .footer{
         max-width: 640px;
         min-width: 320px;

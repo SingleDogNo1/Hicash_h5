@@ -29,6 +29,8 @@ import HotNewsDetail from '@/pages/HotNews//Detail'
 import MyNews from '@/pages/Personal/MyNews/Index'
 import MyCoupon from '@/pages/Personal/Coupon/MyCoupon'
 import MyInstalment from '@/pages/Personal/Instalment/index'
+import AllIndex from '@/pages/Personal/Instalment/All/index'
+import OverdueDetail from '@/pages/Personal/Instalment/Overdue/OverdueDetail'
 
 Vue.use(Router)
 
@@ -68,10 +70,28 @@ export default new Router({
                 path: 'myInstalment',
                 name: 'MyInstalment',
                 component: MyInstalment,
-                meta:{
-                    requireAuth:true,
-                    title: '我的分期'
-                }
+                redirect: '/personal/myInstalment/allIndex',
+                children: [
+                    {
+                        path: 'allIndex',
+                        name: 'AllIndex',
+                        component: AllIndex,
+                        meta:{
+                            requireAuth:true,
+                            title: '我的分期'
+                        },
+                    },
+                    {
+                        //个人中心 - 我的分期 - 逾期详情
+                        path: 'overdueDetail',
+                        name: 'OverdueDetail',
+                        component: OverdueDetail,
+                        meta:{
+                            requireAuth:true,
+                            title: '逾期订单'
+                        }
+                    }  
+                ]
             },
             {
                 //个人中心 - 我的优惠券
