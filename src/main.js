@@ -28,8 +28,6 @@ Vue.component('tabbar-item', TabbarItem)
 // Vue.component('view-box', ViewBox)
 Vue.component('toast', Toast)
 
-
-
 import  { ToastPlugin } from 'vux'
 Vue.use(ToastPlugin)
 

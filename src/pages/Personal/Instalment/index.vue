@@ -38,7 +38,7 @@
 				title: this.$router.history.current.meta.title,
 				showBtnClose: false,
 				showBack: true,
-				index: 0
+				index: 1
 			}
 		},
 		mounted() {
