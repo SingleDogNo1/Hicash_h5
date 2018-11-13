@@ -22,24 +22,49 @@
                 </ul>
             </div>
 
-            <div class="action">
-                <a href="javascript:void(0);" class="btn-expand-all" :class="showOtherOrder ? 'up': 'down'" @click="showOtherOrder = !showOtherOrder"><span>展开所有</span><i></i></a>
+            <div class="actions">
+                <a href="javascript:void(0);" class="btn-expand-all" :class="showOtherOrder ? 'up': 'down'" @click="showOtherOrder = !showOtherOrder" v-if="!showOtherOrder"><span>展开所有</span><i></i></a>
                 <a href="javascript:void(0);" class="btn-recharge">充值还款</a>
             </div>
 
             <div class="other-order" :class="showOtherOrder?'animate':''">
                 <div class="each-other-order-wrap clearfix">
-                    <div class="content-wrap">
+                    <div class="content-wrap clearfix">
                         <div class="left-wrap">
                             <label class="title">分期订单</label>
                             <p class="amount">借款金额：<span>¥2000.00元</span></p>
                         </div>
                         <p class="right-wrap">期数：3期</p>
                     </div>
-                    <div>
-                    <a class="btn-repayment-plan"><span>还款计划</span><x-icon type="ios-plus-empty" size="20"></x-icon></a>
+                    <div class="actions">
+                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
                     </div>
                 </div>
+                <div class="each-other-order-wrap clearfix">
+                    <div class="content-wrap clearfix">
+                        <div class="left-wrap">
+                            <label class="title">分期订单</label>
+                            <p class="amount">借款金额：<span>¥2000.00元</span></p>
+                        </div>
+                        <p class="right-wrap">期数：3期</p>
+                    </div>
+                    <div class="actions">
+                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
+                    </div>
+                </div>
+                <div class="each-other-order-wrap clearfix">
+                    <div class="content-wrap clearfix">
+                        <div class="left-wrap">
+                            <label class="title">分期订单</label>
+                            <p class="amount">借款金额：<span>¥2000.00元</span></p>
+                        </div>
+                        <p class="right-wrap">期数：3期</p>
+                    </div>
+                    <div class="actions">
+                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
+                    </div>
+                </div>
+                <a href="javascript:void(0);" class="btn-takeup-all" :class="showOtherOrder ? 'up': 'down'" @click="showOtherOrder = !showOtherOrder"><span>收起所有</span><i></i></a>
             </div>
         </section>
     </div>
@@ -110,7 +135,7 @@
                 }
             }
         }
-        .action {
+        .actions {
             width: 100%;
             height: rem(30px);
             margin-top: rem(8px);
@@ -167,9 +192,10 @@
                 margin-top: rem(16px);
                 width: 100%;
                 height: 100%;
-                padding: rem(16px) 0;
+                padding-top: rem(16px);
                 border-top: 1px solid #eee;
                 .content-wrap {
+                    height: 100%;
                     .left-wrap {
                         float: left;
                         width: 70%;
@@ -196,8 +222,32 @@
                         text-align: right;
                     }
                 }
-                .btn-repayment-plan {
-                   position: relative;
+                .actions {
+                    width: 30%;
+                    margin: 0 auto;
+                    margin-top: 0.35556rem;
+                    .btn-repayment-plan {
+                        position: relative;
+                        display: block;
+                        float: left;
+                        border: 1px solid #FF7640;
+                        border-radius: 13px;
+                        font-size: 12px;
+                        color: #FF7640;
+                        padding: rem(4px) rem(10px);
+                        span {
+                            display: block;
+                            float: left;
+                            margin-right: rem(3px);
+                        }
+                        i {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .btn-takeup-all {
+                position: relative;
                 display: block;
                 float: left;
                 text-align: left;
@@ -206,13 +256,26 @@
                 font-size: 12px;
                 color: #FF7640;
                 padding: rem(6px) rem(10px);
-                    span {
-                        display: block;
-                        float: left;
-                    }
-                    .vux-x-icon-ios-plus-empty {
-                        float: left;
-                    }
+                margin-top: rem(20px);
+                span {
+                    display: block;
+                    float: left;
+                }
+                i {
+                    content: " ";
+                    display: block;
+                    float: left;
+                    height: 8px;
+                    width: 8px;
+                    border-width: 1px 1px 0 0;
+                    border-color: #FF7640;
+                    border-style: solid;
+                    -webkit-transform: matrix(.71,.71,-.71,.71,0,0) rotate(270deg);
+                    transform: matrix(.71,.71,-.71,.71,0,0) rotate(270deg);
+                    position: relative;
+                    top: 50%;
+                    margin-top: 6px;
+                    margin-left: 6px;
                 }
             }
         }
@@ -228,7 +291,8 @@
     export default {
         data () {
             return {
-                showOtherOrder: false
+                showOtherOrder: false,
+
             }
         }
     }

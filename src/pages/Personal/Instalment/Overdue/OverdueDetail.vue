@@ -33,7 +33,7 @@
             return {
                 title: '逾期订单',
 				showBtnClose: false,
-				showBack: true,
+				showBack: true
             }
         }
     }

@@ -132,7 +132,7 @@ export default {
     .BreakPromiseDetail, .Result {
         background: #eee;
     }
-    .OverdueDetail {
+    .OverdueDetail, .RepaymentPlan {
         background: #f2f2f2;
     }
     .footer{

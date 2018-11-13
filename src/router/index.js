@@ -31,6 +31,7 @@ import MyCoupon from '@/pages/Personal/Coupon/MyCoupon'
 import MyInstalment from '@/pages/Personal/Instalment/index'
 import AllIndex from '@/pages/Personal/Instalment/All/index'
 import OverdueDetail from '@/pages/Personal/Instalment/Overdue/OverdueDetail'
+import RepaymentPlan from '@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan'
 
 Vue.use(Router)
 
@@ -89,6 +90,16 @@ export default new Router({
                         meta:{
                             requireAuth:true,
                             title: '逾期订单'
+                        }
+                    },
+                    {
+                        //个人中心 - 我的分期 - 还款计划
+                        path: 'repaymentPlan',
+                        name: 'RepaymentPlan',
+                        component: RepaymentPlan,
+                        meta:{
+                            requireAuth:true,
+                            title: '还款计划'
                         }
                     }  
                 ]
