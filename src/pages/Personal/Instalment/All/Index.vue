@@ -11,7 +11,7 @@
 					:disabled="disabled">
 					<div class="tab-wrap">
 						<tab custom-bar-width="60px" active-color="#FF7640" bar-active-color="#FF7640" v-model="index">
-							<tab-item selected :key="0" >逾期订单<badge text="123"></badge></tab-item>
+							<tab-item selected :key="0" >逾期订单</tab-item>
 							<tab-item :key="1" >正常订单</tab-item>
 						</tab>
 						<button class="btn-batch-repayment" v-if="currentType === 'default'" @click="batchRepayment">批量还款</button>
@@ -34,7 +34,7 @@
 </template>
 
 <script type="text/javascript">
-	import {Tab, TabItem, Swiper, SwiperItem, Sticky, Badge } from 'vux';
+	import {Tab, TabItem, Swiper, SwiperItem, Sticky } from 'vux';
 	import PageHeader from '@/components/PageHeader.vue';
 	import ConfirmDialog from '@/components/Dialog.vue'
 	import InstalmentNormal from '@/pages/Personal/Instalment/Normal/normal.vue';
@@ -49,7 +49,6 @@
 			Swiper,
 			SwiperItem,
 			Sticky,
-			Badge,
 			InstalmentNormal,
 			InstalmentOverdue
 		},
