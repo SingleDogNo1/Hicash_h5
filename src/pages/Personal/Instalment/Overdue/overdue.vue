@@ -1,57 +1,64 @@
 <template>
     <div class="overdue">
-        <div class="overdue-content">
-            <group v-if="currentType === 'default'">
-                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额{{currentType}}</p></slot></cell>
-                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-            </group>
+        <scroller lock-x height="-150px" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+            <div class="overdue-content">
+                <group v-if="currentType === 'default'" class="default-group">
+                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value" class="amont-wrap"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                </group>
 
-            <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">
-            </checklist> -->
-            <group v-if="currentType === 'batchRepayment'">
-                <checker v-model="currentValue" type="checkbox" default-item-class="default-item" selected-item-class="item-selected" @on-change="change">
-                    <checker-item :value="item" v-for="(item, index) in list" :key="index">
-                        <cell is-link :title="title" :inline-desc='desc'>
-                            <i slot="icon"></i>
-                            <slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                    </checker-item>
-                </checker>
-            </group>
-            <!--<button class="btn-recharge">充值还款</button>-->
-        </div>
+                <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">
+                </checklist> -->
+                <group v-if="currentType === 'batchRepayment'">
+                    <checker v-model="currentValue" type="checkbox" default-item-class="default-item" selected-item-class="item-selected" @on-change="change">
+                        <checker-item :value="item" v-for="(item, index) in list" :key="index">
+                            <cell is-link :title="title" :inline-desc='desc'>
+                                <i slot="icon"></i>
+                                <slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                        </checker-item>
+                    </checker>
+                </group>
+                <!--<button class="btn-recharge">充值还款</button>-->
+            </div>
+        </scroller>
     </div>
 </template> 
 
 <style lang="scss" scoped>
     @import "~bowerComponents/sass-rem/_rem.scss";
+
     .overdue-content {
         width: 100%;
         height: 100%;
         margin-top: rem(8px);
         background: #fff;
-        /deep/ .weui-cells {
-            margin-top: 0;
-            /deep/ .weui-cell {
-                /deep/ .vux-label {
-                    font-size: 15px;
-                }
-                /deep/ .vux-label-desc {
-                    font-size: 13px;
-                    color: #999999;
-                }
-                /deep/ .weui-cell__ft {
-                    padding-right: rem(26px); 
-                    /deep/ .amount {
-                        font-size: 15px;
-                        color: #FF7640;
-                        margin-top: rem(2px);
-                        margin-bottom: rem(4px);
+        .default-group {
+            /deep/ .weui-cells {
+                margin-top: 0;
+                .weui-cell {
+                    .vux-cell-primary {
+                        /deep/ .vux-label {
+                            font-size: 15px;
+                        }
+                        /deep/ .vux-label-desc {
+                            font-size: 13px;
+                            color: #999999;
+                        }
                     }
-                    /deep/ .tip {
-                        font-size: 13px;
-                        color: #999999;
+                    .weui-cell__ft {
+                        padding-right: rem(26px); 
+                        .amount {
+                            font-size: 15px;
+                            color: #FF7640;
+                            margin-top: rem(2px);
+                            margin-bottom: rem(4px);
+                        }
+                        .tip {
+                            font-size: 13px;
+                            color: #999999;
+                        }
                     }
                 }
             }
@@ -116,6 +123,9 @@
                 -webkit-transform: scaleY(0.5);
                 transform: scaleY(0.5);
             }
+            .vux-checker-item:last-child {
+                margin-bottom: rem(16px);
+            }
             .item-selected {
                 background: rgba(255,118,64,0.10);
                 i:before {
@@ -130,7 +140,7 @@
 
 <script>
     import PageFooter from '@/components/PageFooter.vue'
-    import { Cell, Group, Checker, CheckerItem, CheckIcon } from 'vux'
+    import { Cell, Group, Checker, CheckerItem, CheckIcon, Scroller, LoadMore } from 'vux'
 
     export default {
         props: {
@@ -143,7 +153,9 @@
             Group,
             Checker,
             CheckerItem,
-            CheckIcon
+            CheckIcon,
+            Scroller,
+            LoadMore
         },
         data () {
             return {
@@ -183,6 +195,21 @@
         methods: {
             change: function () {
                 this.$emit('selectedItems', this.currentValue);
+            },
+            onScrollBottom () {
+                if (this.onFetching) {
+                    // do nothing
+                    // console.info('onFetching');
+                } else {
+                    this.onFetching = true;
+                    setTimeout(() => {
+                        this.$nextTick(() => {
+                            this.$refs.scrollerBottom.reset();
+                        })
+                        this.onFetching = false;
+                        console.info('请求中。。。');
+                    }, 2000)
+                }
             }
         },
         mounted () {

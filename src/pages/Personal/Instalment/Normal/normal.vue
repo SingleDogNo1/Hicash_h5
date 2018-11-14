@@ -140,7 +140,7 @@
 
 <style lang="scss">
     @import "~bowerComponents/sass-rem/_rem.scss";
-    .MyInstalment {
+    .AllIndex {
         .checker-wrap{
             width: 100%;
             background: #fff;
