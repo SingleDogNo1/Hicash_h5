@@ -291,8 +291,7 @@
     export default {
         data () {
             return {
-                showOtherOrder: false,
-
+                showOtherOrder: false
             }
         }
     }

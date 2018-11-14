@@ -21,13 +21,17 @@
 			</div>
 			<swiper v-model="index"  :show-dots="false" :class="{'selected-swiper': currentType === 'batchRepayment'}">
 				<swiper-item :key="0">
-					<instalment-overdue @selectedItems="getSelectedItems" :currentType="currentType"></instalment-overdue>
+					<instalment-overdue @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
 					<instalment-normal></instalment-normal>
 				</swiper-item>
 			</swiper>
-			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment'">充值还款</button>
+			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment'" :class="{'hide-banner': !isShowBanner}">充值还款</button>
+		</div>
+		<div class="banner" v-if="isShowBanner">
+			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
+			<img src="../images/icon_coupon.png"/>
 		</div>
 		<confirm-dialog :isShowDialog="isShowDialog" :dialogTitle="dialogTitle" :dialogDefaultTitle="dialogDefaultTitle" :appNoList="appNoList" :totalAmount="totalAmount" :popType="popType" @showDialog="showDialog"></confirm-dialog>
 	</div>
@@ -68,7 +72,8 @@
 				appNoList: ['1232412441252515','1232412441252515','1232412441252515'],
 				totalAmount: '的订单共计<span>1238.00</span>元进行还款吗？',
 				showSpace: false,
-      			disabled: typeof navigator !== 'undefined' && /iphone/i.test(navigator.userAgent) && /ucbrowser/i.test(navigator.userAgent)
+      			disabled: typeof navigator !== 'undefined' && /iphone/i.test(navigator.userAgent) && /ucbrowser/i.test(navigator.userAgent),
+                isShowBanner: true
 			}
 		},
 		mounted() {
@@ -86,11 +91,12 @@
 			},
 			btnRecharge: function () {
 				this.isShowDialog = true;
-				console.log(this.isShowDialog)
 			},
 			showDialog: function(showDialog) {
-				console.log('showDialog====', showDialog)
 				this.isShowDialog = showDialog;
+			},
+			hideBanner: function () {
+				this.isShowBanner = false;
 			}
 		},
 		watch: {
@@ -153,7 +159,7 @@
 			.btn-recharge {
 				position: absolute;
 				left: 0;
-				bottom: 0;
+				bottom: rem(70px);
 				width: 100%;
 				height: rem(49px);
 				background: #FF7640;
@@ -164,6 +170,30 @@
 			.btn-recharge:disabled {
 				background-color: #ddd;
     			color: #fff;
+			}
+			.btn-recharge.hide-banner {
+				bottom: 0;
+			}
+		}
+		.banner {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: rem(70px);
+			border: 0;
+			font-size: 15px;
+			color: #fff;
+			.btn-close {
+				position: absolute;
+				display: block;
+				font-size: 20px;
+				top: 0; 
+				right: rem(8px);
+				color: #fff;
+			}
+			img {
+				width: 100%;
 			}
 		}
 	}

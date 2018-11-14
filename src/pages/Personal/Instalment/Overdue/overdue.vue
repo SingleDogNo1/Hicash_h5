@@ -1,6 +1,6 @@
 <template>
     <div class="overdue">
-        <scroller lock-x height="-150px" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
                     <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value" class="amont-wrap"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
@@ -11,7 +11,7 @@
 
                 <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">
                 </checklist> -->
-                <group v-if="currentType === 'batchRepayment'">
+                <group v-if="currentType === 'batchRepayment'" class="repaymen-group">
                     <checker v-model="currentValue" type="checkbox" default-item-class="default-item" selected-item-class="item-selected" @on-change="change">
                         <checker-item :value="item" v-for="(item, index) in list" :key="index">
                             <cell is-link :title="title" :inline-desc='desc'>
@@ -33,7 +33,6 @@
         width: 100%;
         height: 100%;
         margin-top: rem(8px);
-        background: #fff;
         .default-group {
             /deep/ .weui-cells {
                 margin-top: 0;
@@ -63,74 +62,79 @@
                 }
             }
         }
-        .vux-checker-box {
-            .vux-checker-item {
-                position: relative;
-                width: 100%;
-                i {
-                    margin-right: 13px;
-                    display: inline-block;
-                    vertical-align: middle;
-                    font: normal normal normal 14px/1 "weui";
-                    font-size: inherit;
-                    text-rendering: auto;
-                    -webkit-font-smoothing: antialiased;
-                }
-                i:before {
-                    content: '\EA01';
-                    color: #C9C9C9;
-                    font-size: 23px;
-                    display: block;
-                }
-                .weui-cell {
-                     padding: 10px rem(16px);
-                    /deep/ .vux-label {
-                        font-size: 15px;
+        .repaymen-group {
+            /deep/ .weui-cells{
+                margin-bottom: rem(50px);
+                .vux-checker-box {
+                    .vux-checker-item {
+                        position: relative;
+                        width: 100%;
+                        i {
+                            margin-right: 13px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            font: normal normal normal 14px/1 "weui";
+                            font-size: inherit;
+                            text-rendering: auto;
+                            -webkit-font-smoothing: antialiased;
+                        }
+                        i:before {
+                            content: '\EA01';
+                            color: #C9C9C9;
+                            font-size: 23px;
+                            display: block;
+                        }
+                        .weui-cell {
+                            padding: 10px rem(16px);
+                            /deep/ .vux-label {
+                                font-size: 15px;
+                            }
+                            /deep/ .vux-label-desc {
+                                font-size: 13px;
+                                color: #999999;
+                            }
+                            /deep/ .weui-cell__ft {
+                                padding-right: rem(2px); 
+                                .amount {
+                                    font-size: 15px;
+                                    color: #FF7640;
+                                    margin-top: rem(2px);
+                                    margin-bottom: rem(4px);
+                                }
+                                .tip {
+                                    font-size: 13px;
+                                    color: #999999;
+                                }
+                            }
+                            /deep/ .weui-cell__ft:after {
+                                display: none;
+                            }
+                        }
                     }
-                    /deep/ .vux-label-desc {
-                        font-size: 13px;
-                        color: #999999;
+                    .vux-checker-item:before {
+                        content: " ";
+                        position: absolute;
+                        left: 15px;
+                        top: 0;
+                        right: 0;
+                        height: 1px;
+                        border-top: 1px solid #D9D9D9;
+                        color: #D9D9D9;
+                        -webkit-transform-origin: 0 0;
+                        transform-origin: 0 0;
+                        -webkit-transform: scaleY(0.5);
+                        transform: scaleY(0.5);
                     }
-                    /deep/ .weui-cell__ft {
-                        padding-right: rem(2px); 
-                        .amount {
-                            font-size: 15px;
+                    .vux-checker-item:last-child {
+                        //margin-bottom: rem(20px);
+                    }
+                    .item-selected {
+                        background: rgba(255,118,64,0.10);
+                        i:before {
+                            content: '\EA06';
                             color: #FF7640;
-                            margin-top: rem(2px);
-                            margin-bottom: rem(4px);
-                        }
-                        .tip {
-                            font-size: 13px;
-                            color: #999999;
                         }
                     }
-                    /deep/ .weui-cell__ft:after {
-                        display: none;
-                    }
-                }
-            }
-            .vux-checker-item:before {
-                content: " ";
-                position: absolute;
-                left: 15px;
-                top: 0;
-                right: 0;
-                height: 1px;
-                border-top: 1px solid #D9D9D9;
-                color: #D9D9D9;
-                -webkit-transform-origin: 0 0;
-                transform-origin: 0 0;
-                -webkit-transform: scaleY(0.5);
-                transform: scaleY(0.5);
-            }
-            .vux-checker-item:last-child {
-                margin-bottom: rem(16px);
-            }
-            .item-selected {
-                background: rgba(255,118,64,0.10);
-                i:before {
-                    content: '\EA06';
-                    color: #FF7640;
                 }
             }
         }
@@ -144,8 +148,18 @@
 
     export default {
         props: {
-            value: String,
-            currentType: String
+            value: {
+                type: String,
+                default: ''
+            },
+            currentType: {
+                type: String,
+                default: ''
+            },
+            isShowBanner: {
+                type: Boolean,
+                default: true
+            }
         },
         components: {
             PageFooter,
@@ -189,7 +203,8 @@
                 }, {
                     key: '9',
                     value: 'C'
-                }]
+                }],
+                scrollHeight: '-200px'
             }
         },
         methods: {
@@ -212,8 +227,18 @@
                 }
             }
         },
+        watch: {
+            isShowBanner: function (val, oldVal) {
+                this.isShowBanner = val;
+                this.scrollHeight = this.isShowBanner ? '-200px' : '-150px';
+                if(!this.isShowBanner) {
+                    this.$nextTick(() => {
+                        this.$refs.scrollerBottom.reset({top: 0})
+                    })
+                }
+            }
+        },
         mounted () {
-            console.log('this.currentType===', this.currentType)
         }
     }
 </script>
