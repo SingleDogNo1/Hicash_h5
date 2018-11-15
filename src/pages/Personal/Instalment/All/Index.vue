@@ -2,7 +2,7 @@
 	<div>
 		<page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
 		<div id="content" class="content">
-			<div style="height:44px;">
+			<div>
 				<sticky
 					scroll-box="content"
 					ref="sticky"
@@ -14,8 +14,8 @@
 							<tab-item selected :key="0" >逾期订单</tab-item>
 							<tab-item :key="1" >正常订单</tab-item>
 						</tab>
-						<button class="btn-batch-repayment" v-if="currentType === 'default'" @click="batchRepayment">批量还款</button>
-						<button class="btn-cancel" v-if="currentType === 'batchRepayment'" @click="cancel">取消</button>
+						<button class="btn-batch-repayment" v-if="currentType === 'default' && index === 0" @click="batchRepayment">批量还款</button>
+						<button class="btn-cancel" v-if="currentType === 'batchRepayment' && index === 0" @click="cancel">取消</button>
 					</div>
 				</sticky>
 			</div>
@@ -27,7 +27,7 @@
 					<instalment-normal></instalment-normal>
 				</swiper-item>
 			</swiper>
-			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment'" :class="{'hide-banner': !isShowBanner}">充值还款</button>
+			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment' && index === 0" :class="{'hide-banner': !isShowBanner}">充值还款</button>
 		</div>
 		<div class="banner" v-if="isShowBanner">
 			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
@@ -152,9 +152,6 @@
 			.vux-swiper{
 				height: calc(100vh - 4.26667rem) !important;
 				//overflow-y: auto;
-			}
-			.vux-slider.selected-swiper {
-				//margin-bottom: rem(50px);
 			}
 			.btn-recharge {
 				position: absolute;

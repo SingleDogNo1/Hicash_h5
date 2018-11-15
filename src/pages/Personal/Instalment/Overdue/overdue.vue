@@ -1,6 +1,6 @@
 <template>
     <div class="overdue">
-        <scroller lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller v-if="list.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
                     <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value" class="amont-wrap"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
@@ -14,7 +14,7 @@
                 <group v-if="currentType === 'batchRepayment'" class="repaymen-group">
                     <checker v-model="currentValue" type="checkbox" default-item-class="default-item" selected-item-class="item-selected" @on-change="change">
                         <checker-item :value="item" v-for="(item, index) in list" :key="index">
-                            <cell is-link :title="title" :inline-desc='desc'>
+                            <cell :is-link="false" :title="title" :inline-desc='desc'>
                                 <i slot="icon"></i>
                                 <slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
                         </checker-item>
@@ -23,6 +23,9 @@
                 <!--<button class="btn-recharge">充值还款</button>-->
             </div>
         </scroller>
+        <div class="bg-instalment-empty" v-if="list.length === 0">
+            <p>这里暂时什么都没有</p>
+        </div>
     </div>
 </template> 
 
@@ -37,6 +40,7 @@
             /deep/ .weui-cells {
                 margin-top: 0;
                 .weui-cell {
+                    padding: rem(10px) rem(20px);
                     .vux-cell-primary {
                         /deep/ .vux-label {
                             font-size: 15px;
@@ -86,14 +90,16 @@
                         }
                         .weui-cell {
                             padding: 10px rem(16px);
-                            /deep/ .vux-label {
-                                font-size: 15px;
+                            .vux-cell-primary {
+                                /deep/ .vux-label {
+                                    font-size: 15px;
+                                }
+                                /deep/ .vux-label-desc {
+                                    font-size: 13px;
+                                    color: #999999;
+                                }
                             }
-                            /deep/ .vux-label-desc {
-                                font-size: 13px;
-                                color: #999999;
-                            }
-                            /deep/ .weui-cell__ft {
+                            .weui-cell__ft {
                                 padding-right: rem(2px); 
                                 .amount {
                                     font-size: 15px;
@@ -137,6 +143,22 @@
                     }
                 }
             }
+        }
+    }
+    .bg-instalment-empty {
+        width: 50%;
+        height: rem(200px);
+        margin: 0 auto;
+        margin-top: 40%;
+        background: url("../images/bg_instalment_empty.png") center rem(35px) no-repeat;
+        background-size: rem(61px) rem(40px);
+        p {
+            text-align: center;
+            color: #999;
+            height: rem(200px);
+            line-height: rem(200px);
+            font-size: 12px;
+            margin-top: rem(10px);
         }
     }
 </style>
