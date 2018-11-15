@@ -1,31 +1,44 @@
 <template>
 	<div>
 		<page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
-		<div class="content">
-			<div class="tab-wrap">
-				<tab custom-bar-width="60px" active-color="#FF7640" bar-active-color="#FF7640" v-model="index">
-					<tab-item selected :key="0" >逾期订单</tab-item>
-					<tab-item :key="1" >正常订单</tab-item>
-				</tab>
-				<button class="btn-batch-repayment" v-if="currentType === 'default'" @click="batchRepayment">批量还款</button>
-				<button class="btn-cancel" v-if="currentType === 'batchRepayment'" @click="cancel">取消</button>
+		<div id="content" class="content">
+			<div style="height:44px;">
+				<sticky
+					scroll-box="content"
+					ref="sticky"
+					:offset="46"
+					:check-sticky-support="false"
+					:disabled="disabled">
+					<div class="tab-wrap">
+						<tab custom-bar-width="60px" active-color="#FF7640" bar-active-color="#FF7640" v-model="index">
+							<tab-item selected :key="0" >逾期订单</tab-item>
+							<tab-item :key="1" >正常订单</tab-item>
+						</tab>
+						<button class="btn-batch-repayment" v-if="currentType === 'default'" @click="batchRepayment">批量还款</button>
+						<button class="btn-cancel" v-if="currentType === 'batchRepayment'" @click="cancel">取消</button>
+					</div>
+				</sticky>
 			</div>
 			<swiper v-model="index"  :show-dots="false" :class="{'selected-swiper': currentType === 'batchRepayment'}">
 				<swiper-item :key="0">
-					<instalment-overdue @selectedItems="getSelectedItems" :currentType="currentType"></instalment-overdue>
+					<instalment-overdue @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
 					<instalment-normal></instalment-normal>
 				</swiper-item>
 			</swiper>
-			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment'">充值还款</button>
+			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment'" :class="{'hide-banner': !isShowBanner}">充值还款</button>
 		</div>
-		<confirm-dialog :isShowDialog="isShowDialog" :dialogTitle="dialogTitle" :dialogDefaultTitle="dialogDefaultTitle" :appNoList="appNoList" :totalAmount="totalAmount" :popType="popType"></confirm-dialog>
+		<div class="banner" v-if="isShowBanner">
+			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
+			<img src="../images/bg_banner.png"/>
+		</div>
+		<confirm-dialog :isShowDialog="isShowDialog" :dialogTitle="dialogTitle" :dialogDefaultTitle="dialogDefaultTitle" :appNoList="appNoList" :totalAmount="totalAmount" :popType="popType" @showDialog="showDialog"></confirm-dialog>
 	</div>
 </template>
 
 <script type="text/javascript">
-	import {Tab, TabItem, Swiper, SwiperItem} from 'vux';
+	import {Tab, TabItem, Swiper, SwiperItem, Sticky } from 'vux';
 	import PageHeader from '@/components/PageHeader.vue';
 	import ConfirmDialog from '@/components/Dialog.vue'
 	import InstalmentNormal from '@/pages/Personal/Instalment/Normal/normal.vue';
@@ -39,6 +52,7 @@
 			ConfirmDialog,
 			Swiper,
 			SwiperItem,
+			Sticky,
 			InstalmentNormal,
 			InstalmentOverdue
 		},
@@ -56,7 +70,10 @@
 				popType: 'rechargePop',
 				dialogDefaultTitle: '您确认要对订单号为',
 				appNoList: ['1232412441252515','1232412441252515','1232412441252515'],
-				totalAmount: '的订单共计<span>1238.00</span>元进行还款吗？'
+				totalAmount: '的订单共计<span>1238.00</span>元进行还款吗？',
+				showSpace: false,
+      			disabled: typeof navigator !== 'undefined' && /iphone/i.test(navigator.userAgent) && /ucbrowser/i.test(navigator.userAgent),
+                isShowBanner: true
 			}
 		},
 		mounted() {
@@ -73,8 +90,13 @@
 				this.currentType = 'default';
 			},
 			btnRecharge: function () {
-				this.isShowDialog = true
-				console.log(this.isShowDialog)
+				this.isShowDialog = true;
+			},
+			showDialog: function(showDialog) {
+				this.isShowDialog = showDialog;
+			},
+			hideBanner: function () {
+				this.isShowBanner = false;
 			}
 		},
 		watch: {
@@ -94,6 +116,7 @@
 		.content{
 			height: calc(100vh - 2.26667rem);
 			padding-top: rem(51px);
+			//overflow-y: auto;
 			.tab-wrap {
 				position: relative;
 				.vux-tab-wrap{
@@ -128,15 +151,15 @@
 			}
 			.vux-swiper{
 				height: calc(100vh - 4.26667rem) !important;
-				overflow-y: auto;
+				//overflow-y: auto;
 			}
 			.vux-slider.selected-swiper {
-				margin-bottom: rem(50px);
+				//margin-bottom: rem(50px);
 			}
 			.btn-recharge {
 				position: absolute;
 				left: 0;
-				bottom: 0;
+				bottom: rem(70px);
 				width: 100%;
 				height: rem(49px);
 				background: #FF7640;
@@ -147,6 +170,30 @@
 			.btn-recharge:disabled {
 				background-color: #ddd;
     			color: #fff;
+			}
+			.btn-recharge.hide-banner {
+				bottom: 0;
+			}
+		}
+		.banner {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: rem(70px);
+			border: 0;
+			font-size: 15px;
+			color: #fff;
+			.btn-close {
+				position: absolute;
+				display: block;
+				font-size: 20px;
+				top: 0; 
+				right: rem(8px);
+				color: #fff;
+			}
+			img {
+				width: 100%;
 			}
 		}
 	}

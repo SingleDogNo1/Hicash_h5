@@ -234,7 +234,7 @@
                         border-radius: 13px;
                         font-size: 12px;
                         color: #FF7640;
-                        padding: rem(4px) rem(10px);
+                        padding: rem(4px) rem(8px) rem(4px) rem(10px);
                         span {
                             display: block;
                             float: left;
@@ -291,8 +291,7 @@
     export default {
         data () {
             return {
-                showOtherOrder: false,
-
+                showOtherOrder: false
             }
         }
     }
