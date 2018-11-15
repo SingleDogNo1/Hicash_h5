@@ -47,7 +47,7 @@
 				title: this.$router.history.current.meta.title,
 				showBtnClose: false,
 				showBack: true,
-				index: 0,
+				index: 1,
 				isDisabled: true,
 				selectedItems: [],
 				currentType: 'default',	// 分为默认和批量还款两种类型
