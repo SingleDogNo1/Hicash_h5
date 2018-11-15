@@ -31,7 +31,7 @@
 		</div>
 		<div class="banner" v-if="isShowBanner">
 			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
-			<img src="../images/icon_coupon.png"/>
+			<img src="../images/bg_banner.png"/>
 		</div>
 		<confirm-dialog :isShowDialog="isShowDialog" :dialogTitle="dialogTitle" :dialogDefaultTitle="dialogDefaultTitle" :appNoList="appNoList" :totalAmount="totalAmount" :popType="popType" @showDialog="showDialog"></confirm-dialog>
 	</div>
