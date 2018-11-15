@@ -14,6 +14,8 @@ import 'swiper/dist/css/swiper.css'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
+
+
 Vue.prototype.common = common;
 Vue.prototype.utils = utils;
 Vue.prototype.config = config;
@@ -25,6 +27,9 @@ Vue.component('tabbar', Tabbar)
 Vue.component('tabbar-item', TabbarItem)
 // Vue.component('view-box', ViewBox)
 Vue.component('toast', Toast)
+
+import { Icon } from 'vant';
+Vue.use(Icon);
 
 import  { ToastPlugin } from 'vux'
 Vue.use(ToastPlugin)
