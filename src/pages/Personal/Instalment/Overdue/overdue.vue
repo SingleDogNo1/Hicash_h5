@@ -65,6 +65,7 @@
         }
         .repaymen-group {
             /deep/ .weui-cells{
+                margin-top: 0;
                 margin-bottom: rem(50px);
                 .vux-checker-box {
                     .vux-checker-item {
