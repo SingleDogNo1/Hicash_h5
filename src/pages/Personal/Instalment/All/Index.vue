@@ -88,12 +88,7 @@
 			this.bannerImgUrl = 'https://img-blog.csdn.net/20170929115026555?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvR29zc2lwSEhI/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast';
 			this.bannerUrl = 'http://www.baidu.com';
 			this.overdueNum = parseInt('10');
-			this.normalNum = parseInt('0') + parseInt('0') + parseInt('0');
-			if((this.overdueNum > 0 && this.normalNum === 0) || (this.overdueNum > 0 && this.normalNum > 0 ) || (this.overdueNum === 0 && this.normalNum === 0 )) {
-				this.tabTitle = '逾期订单'
-			} else {
-				this.tabTitle = '正常订单'
-			}
+			this.tabTitle = this.overdueNum > 0 ? '正常订单' : '逾期订单';
 			this.overdueNum = this.overdueNum === 0 ? '' : String(this.overdueNum);
 
 			let tabList = [{
@@ -115,12 +110,7 @@
 				this.bannerImgUrl = data.bannerImgUrl;
 				this.bannerUrl = data.bannerUrl;
 				this.overdueNum = data.overdueNum;
-				this.normalNum = parseInt(data.applyingNum) + parseInt(data.repayListNum) + parseInt(data.endNum);
-				if(this.overdueNum > 0 && this.normalNum === 0 || this.overdueNum === 0 && this.normalNum ) {
-					this.index = 0;
-				} else {
-					this.index = 1;
-				}
+				this.index = this.overdueNum > 0 ? 0 : 1;
 			})
 		},
 		methods: {
@@ -151,9 +141,6 @@
 				const amountList = _.pluck(this.selectedItems, 'amount');
 				var sum = _.reduce(amountList, function(memo, num){ return memo + num; }, 0);
 				this.totalAmount = '的订单共计<span>' + sum + '</span>元进行还款吗？';
-			},
-			index: function (val, oldVal) {
-				console.log('val====', val)
 			}
 		}
 	}

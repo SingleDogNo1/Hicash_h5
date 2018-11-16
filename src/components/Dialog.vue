@@ -158,7 +158,8 @@
             onConfirm: function() {
                 this.showDialog = false;
                 this.$emit('showDialog', this.showDialog);
-                console.log('confirm')
+                let appNoStr = this.appNoList.join(',');
+                window.location.href = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo=' + appNoStr;
             }
         },
         watch: {

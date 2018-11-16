@@ -3,7 +3,7 @@
         <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
-                    <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
+                    <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value, 'createDate': item.createDate, 'amount': item.amount, 'repayDate': item.repayDate, 'repayStatus': item,repayStatus}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
                 </group>
 
                 <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">

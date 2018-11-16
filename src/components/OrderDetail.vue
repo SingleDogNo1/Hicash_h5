@@ -4,9 +4,9 @@
             <div class="content-wrap">
                 <div class="left-wrap">
                     <label class="title">嗨秒分期</label>
-                    <p class="order-num">订单号:21231231321</p>
+                    <p class="order-num">订单号：{{appNo}}</p>
                 </div>
-                <p class="right-wrap">2017-07-19</p>
+                <p class="right-wrap">{{createDate}}</p>
             </div>
 
             <div class="detail-list">
@@ -16,15 +16,15 @@
                     <li>状态</li>
                 </ol>
                 <ul>
-                    <li>650.00元</li>
-                    <li>2018.10.21</li>
+                    <li>{{amount}}元</li>
+                    <li>{{repayDate}}</li>
                     <li>逾期立即还款</li>
                 </ul>
             </div>
 
             <div class="actions">
                 <a href="javascript:void(0);" class="btn-expand-all" :class="showOtherOrder ? 'up': 'down'" @click="expandAll" v-if="!showOtherOrder"><span>展开所有</span><i></i></a>
-                <a href="javascript:void(0);" class="btn-recharge">充值还款</a>
+                <a href="javascript:void(0);" class="btn-recharge" @click="btnRecharge">充值还款</a>
             </div>
 
             <div class="other-order" :class="showOtherOrder?'animate':''">
@@ -40,6 +40,7 @@
                         <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan', query:{'appNo': appNo, 'type': item.type}}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
                     </div>
                 </div>
+                <a href="javascript:void(0);" class="btn-takeup-all" :class="showOtherOrder ? 'up': 'down'" @click="showOtherOrder = !showOtherOrder"><span>收起所有</span><i></i></a>
             </div>
         </section>
     </div>
@@ -268,7 +269,10 @@
             return {
                 showOtherOrder: false,
                 appDetail: [],
-                appNo: ''
+                appNo: '',
+                createDate: '',
+                amount: '',
+                repayDate: ''
             }
         },
         methods: {
@@ -309,7 +313,20 @@
                         let data = res.data;
                         this.appDetail = data.appDetail;
                     })
+            },
+            btnRecharge: function() {
+                window.location.href = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo=' + this.appNo;
             }
+        },
+        mounted () {
+            let appNo = this.$route.query.appNo;
+            let createDate = this.$route.query.createDate;
+            let amount = this.$route.query.amount;
+            let repayDate = this.$route.query.repayDate;
+            this.appNo = appNo;
+            this.createDate = createDate;
+            this.amount = amount;
+            this.repayDate = repayDate;
         }
     }
 </script>
