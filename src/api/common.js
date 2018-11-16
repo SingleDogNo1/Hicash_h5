@@ -54,7 +54,11 @@ export default{
   loseCreditInfo: loseCreditInfo,
   loseCreditDetail: loseCreditDetail,
   GsdtHyzxDetailMsg: GsdtHyzxDetailMsg,
-  UpdateMsgStatus: UpdateMsgStatus
+  UpdateMsgStatus: UpdateMsgStatus,
+  accountOrderPage: accountOrderPage,
+  accountOrderList: accountOrderList,
+  orderDetailInfo: orderDetailInfo,
+  repayPlan: repayPlan
 }
 
 
@@ -722,6 +726,58 @@ export function GsdtHyzxDetailMsg(params){
 export function UpdateMsgStatus(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashAppService/UpdateMsgStatus",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  我的分期页面 数据接口
+ */
+export function accountOrderPage(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/accountOrderPage",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  我的分期 订单列表内容接口
+ */
+export function accountOrderList(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/accountOrderList",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  我的分期 订单展开信息接口
+ */
+export function orderDetailInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/orderDetailInfo",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  还款计划页面接口
+ */
+export function repayPlan(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/repayPlan",params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)

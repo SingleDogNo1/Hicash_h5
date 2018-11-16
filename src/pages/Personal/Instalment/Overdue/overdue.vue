@@ -1,29 +1,26 @@
 <template>
     <div class="overdue">
-        <scroller v-if="list.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
-                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value" class="amont-wrap"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
-                    <cell :title="title" :link="{path:'/personal/myInstalment/overdueDetail'}" :inline-desc='desc'><slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                    <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
                 </group>
 
                 <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">
                 </checklist> -->
                 <group v-if="currentType === 'batchRepayment'" class="repaymen-group">
                     <checker v-model="currentValue" type="checkbox" default-item-class="default-item" selected-item-class="item-selected" @on-change="change">
-                        <checker-item :value="item" v-for="(item, index) in list" :key="index">
-                            <cell :is-link="false" :title="title" :inline-desc='desc'>
+                        <checker-item :value="item" v-for="(item, index) in overdueList" :key="index">
+                            <cell :is-link="false" :title="item.industryName" :inline-desc='item.appNo'>
                                 <i slot="icon"></i>
-                                <slot name="value"><p class="amount">654.00元</p><p class="tip">逾期金额</p></slot></cell>
+                                <slot name="value"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
                         </checker-item>
                     </checker>
                 </group>
                 <!--<button class="btn-recharge">充值还款</button>-->
             </div>
         </scroller>
-        <div class="bg-instalment-empty" v-if="list.length === 0">
+        <div class="bg-instalment-empty" v-if="overdueList.length === 0">
             <p>这里暂时什么都没有</p>
         </div>
     </div>
@@ -198,35 +195,10 @@
                 title: '嗨秒分期',
                 desc: '订单号:21231231321',
                 currentValue: [],
-                list: [{
-                    key: '1',
-                    value: 'A'
-                }, {
-                    key: '2',
-                    value: 'B'
-                }, {
-                    key: '3',
-                    value: 'C'
-                }, {
-                    key: '4',
-                    value: 'C'
-                }, {
-                    key: '5',
-                    value: 'C'
-                }, {
-                    key: '6',
-                    value: 'C'
-                }, {
-                    key: '7',
-                    value: 'C'
-                }, {
-                    key: '8',
-                    value: 'C'
-                }, {
-                    key: '9',
-                    value: 'C'
-                }],
-                scrollHeight: '-200px'
+                scrollHeight: '-200px',
+                maxPage: '20',
+                curNum: '1',
+                overdueList: []
             }
         },
         methods: {
@@ -261,6 +233,134 @@
             }
         },
         mounted () {
+             const list = [{
+                    'appNo': '21231231321',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '651.01',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231322',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '652.02',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231323',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '653.03',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231324',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '654.06',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231325',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '655.05',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                }]
+                list.forEach( (val, index) => {
+                    val.key = index + 1;
+                    val.value = val.appNo;
+                    val.amountStr = val.amount;
+                    val.amount = Number(val.amount);
+                    val.appNo = '订单号：' + val.appNo;
+                    this.overdueList.push(val);
+                });
+
+            let userName = this.utils.getCookie('userName');
+            let postData = new URLSearchParams();
+                postData.append('userName', userName);
+                postData.append('type', 'overdue');
+                postData.append('maxPage', this.maxPage);
+                postData.append('curNum', this.curNum);
+            this.common.accountOrderList(postData)
+            .then( res => {
+                let data = res.data;
+                const list = [{
+                    'appNo': '21231231321',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '654.00',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231321',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '654.00',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231321',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '654.00',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231321',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '654.00',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                },
+                {
+                    'appNo': '21231231321',
+                    'industryCode': 'MDFQ',
+                    'industryName': '嗨秒分期',
+                    'createDate': '2017-07-19',
+                    'amount': '654.00',
+                    'period': '3',
+                    'repayDate': '2017-07-19',
+                    'repayStatus': 'SSS'
+                }]
+                list.forEach( (val, index) => {
+                    val.key = index + 1;
+                    val.value = val.appNo;
+                    val.amountStr = val.amount;
+                    val.amount = Number(val.amount);
+                    val.appNo = '订单号：' + val.appNo;
+                    this.overdueList.push(val);
+                });
+                //this.list = data.list;
+            })
         }
     }
 </script>

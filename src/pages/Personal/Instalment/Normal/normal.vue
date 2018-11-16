@@ -14,7 +14,7 @@
 
        
 
-        <scroller lock-x height="-150px" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller lock-x :height="scrollHeight" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <flexbox orient="vertical"  class="order-list">
                 <!-- 申请中 -->
                 <flexbox-item v-if="checkerType == 'applying'">
@@ -50,7 +50,7 @@
                 </flexbox-item>
 
                 <!-- 还款中 -->
-                <flexbox-item v-if="checkerType == 'repay'" v-for="(item, index) in items">
+                <flexbox-item v-if="checkerType == 'repay'" v-for="(item, index) in items" :key="index">
                     <div class="flex-order-item" ref="flexboxItem">
                         <div class="order-top">
                             <div class="order-des">
@@ -133,7 +133,7 @@
                 </flexbox-item>
 
                 <!-- 已完成 -->
-                <flexbox-item v-if="checkerType == 'end'" v-for="(item, index) in items">
+                <flexbox-item v-if="checkerType == 'end'" v-for="(item, index) in items" :key="index">
                     <div class="flex-order-item"  ref="flexboxItem">
                         <div class="order-top">
                             <div class="order-des">
@@ -216,7 +216,7 @@
             .checker-default{
                 color: #999;
                 border: 1px solid #999;
-                font-size: rem(15px);
+                font-size: 15px;
                 padding:rem(2px 3px);
                 border-radius: rem(3px);
                 margin-right: rem(10px);
@@ -255,12 +255,12 @@
                         float: left;
                         .order-title{
                         font-family: PingFangSC-Medium;
-                        font-size: rem(15px);
+                        font-size: 15px;
                         color: #333333;
                         }
                         .order-num{
                             font-family: PingFangSC-Regular;
-                            font-size: rem(11px);
+                            font-size: 11px;
                             color: #999999;
                         }
                     }
@@ -279,7 +279,7 @@
                     }
                     .order-bottom-des{
                         font-family: PingFangSC-Regular;
-                        font-size: rem(15px);
+                        font-size: 15px;
                         color: #666666;
                         letter-spacing: 0;
                         text-align: left;
@@ -295,7 +295,7 @@
 
         .notice{
             font-family: PingFangSC-Regular;
-            font-size: rem(11px);
+            font-size: 11px;
             color: #D0021B;
             letter-spacing: 0;
             text-align: left;
@@ -494,13 +494,13 @@
         }
 
         .vux-table{
-            margin-top: rem(30px);
+            margin-top: rem(8px);
             &:after{
                 border: 0;
             }
             th{
                 font-family: PingFangSC-Regular;
-                font-size: rem(13px);
+                font-size: 13px;
                 color: #666666;
                 letter-spacing: 0;
                 text-align: center;
@@ -510,7 +510,7 @@
             }
             tr{
                 font-family: PingFangSC-Regular;
-                font-size: rem(15px);
+                font-size: 15px;
                 color: #FF7640;
                 letter-spacing: 0;
                 text-align: center;
@@ -659,7 +659,7 @@
         background: #FFFFFF;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
         font-family: PingFangSC-Medium;
-        font-size: rem(11px);
+        font-size: 11px;
         color: #333333;
         letter-spacing: 0;
         text-align: center;
@@ -681,7 +681,10 @@
 
     export default {
         props: {
-
+            isShowBanner: {
+                type: Boolean,
+                default: true
+            }
         },
         components: {
             Checker,
@@ -717,7 +720,8 @@
                     showOtherOrder: false
                 },{
                     showOtherOrder: false
-                }]
+                }],
+                scrollHeight: '-180px',
             }
         },
 		mounted() {
@@ -762,6 +766,7 @@
                     console.info('this.$refs.flexboxItem === ', this.$refs.flexboxItem);
                     let _top = 0;
                     if(index > 0){
+                        console.log('_', _)
                         _.each(this.$refs.flexboxItem, (item, i)=>{ 
                             if(i >= index) return false;
                             console.info('this.$refs.flexboxItem', this.$refs.flexboxItem);
@@ -790,6 +795,17 @@
                     this.$refs.scrollerBottom.reset();
                 }, 501)
             }
-		}
+        },
+        watch: {
+            isShowBanner: function (val, oldVal) {
+                this.isShowBanner = val;
+                this.scrollHeight = this.isShowBanner ? '-180px' : '-150px';
+                if(!this.isShowBanner) {
+                    this.$nextTick(() => {
+                        this.$refs.scrollerBottom.reset({top: 0})
+                    })
+                }
+            }
+        }
     }
 </script>

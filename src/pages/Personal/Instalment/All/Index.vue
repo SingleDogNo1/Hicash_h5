@@ -11,8 +11,9 @@
 					:disabled="disabled">
 					<div class="tab-wrap">
 						<tab custom-bar-width="60px" active-color="#FF7640" bar-active-color="#FF7640" v-model="index">
-							<tab-item selected :key="0" >逾期订单</tab-item>
-							<tab-item :key="1" >正常订单</tab-item>
+							<!-- <tab-item badge-label="1" :selected="(tabTitle === '逾期订单')" :key="0" >逾期订单</tab-item>
+							<tab-item badge-label="1" :key="1" >正常订单</tab-item> -->
+							<tab-item :badge-label="item.num" :selected="tabTitle === item.title" v-for="(item, index) in tabList" @click="demo2 = item.title" :key="index">{{item.title}}</tab-item>
 						</tab>
 						<button class="btn-batch-repayment" v-if="currentType === 'default' && index === 0" @click="batchRepayment">批量还款</button>
 						<button class="btn-cancel" v-if="currentType === 'batchRepayment' && index === 0" @click="cancel">取消</button>
@@ -24,15 +25,15 @@
 					<instalment-overdue @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
-					<instalment-normal></instalment-normal>
+					<instalment-normal :isShowBanner="isShowBanner"></instalment-normal>
 				</swiper-item>
 			</swiper>
 			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment' && index === 0" :class="{'hide-banner': !isShowBanner}">充值还款</button>
 		</div>
-		<div class="banner" v-if="isShowBanner">
+		<a class="banner" :href="bannerUrl" v-if="isShowBanner">
 			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
-			<img src="../images/bg_banner.png"/>
-		</div>
+			<img :src="bannerImgUrl"/>
+		</a>
 		<confirm-dialog :isShowDialog="isShowDialog" :dialogTitle="dialogTitle" :dialogDefaultTitle="dialogDefaultTitle" :appNoList="appNoList" :totalAmount="totalAmount" :popType="popType" @showDialog="showDialog"></confirm-dialog>
 	</div>
 </template>
@@ -61,7 +62,7 @@
 				title: this.$router.history.current.meta.title,
 				showBtnClose: false,
 				showBack: true,
-				index: 1,
+				index: 0,
 				isDisabled: true,
 				selectedItems: [],
 				currentType: 'default',	// 分为默认和批量还款两种类型
@@ -69,15 +70,58 @@
 				dialogTitle: '充值确认',
 				popType: 'rechargePop',
 				dialogDefaultTitle: '您确认要对订单号为',
-				appNoList: ['1232412441252515','1232412441252515','1232412441252515'],
+				appNoList: [],
 				totalAmount: '的订单共计<span>1238.00</span>元进行还款吗？',
 				showSpace: false,
       			disabled: typeof navigator !== 'undefined' && /iphone/i.test(navigator.userAgent) && /ucbrowser/i.test(navigator.userAgent),
-                isShowBanner: true
+				isShowBanner: true,
+				bannerImgUrl: '',
+				bannerUrl: '',
+				overdueNum: 0,
+				normalNum: 0,
+				tabTitle: '逾期订单',
+				tabList: []
 			}
 		},
 		mounted() {
+
+			this.bannerImgUrl = 'https://img-blog.csdn.net/20170929115026555?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvR29zc2lwSEhI/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast';
+			this.bannerUrl = 'http://www.baidu.com';
+			this.overdueNum = parseInt('10');
+			this.normalNum = parseInt('0') + parseInt('0') + parseInt('0');
+			if((this.overdueNum > 0 && this.normalNum === 0) || (this.overdueNum > 0 && this.normalNum > 0 ) || (this.overdueNum === 0 && this.normalNum === 0 )) {
+				this.tabTitle = '逾期订单'
+			} else {
+				this.tabTitle = '正常订单'
+			}
+			this.overdueNum = this.overdueNum === 0 ? '' : String(this.overdueNum);
+
+			let tabList = [{
+				title: '逾期订单',
+				num: this.overdueNum
+			},{
+				title: '正常订单',
+				num: ''
+			}]
+
+			this.tabList = tabList;
+			let userName = this.utils.getCookie('userName');
+            let postData = new URLSearchParams();
+				postData.append('userName', userName);
 			
+			this.common.accountOrderPage(postData)
+            .then( res => {
+				let data = res.data;
+				this.bannerImgUrl = data.bannerImgUrl;
+				this.bannerUrl = data.bannerUrl;
+				this.overdueNum = data.overdueNum;
+				this.normalNum = parseInt(data.applyingNum) + parseInt(data.repayListNum) + parseInt(data.endNum);
+				if(this.overdueNum > 0 && this.normalNum === 0 || this.overdueNum === 0 && this.normalNum ) {
+					this.index = 0;
+				} else {
+					this.index = 1;
+				}
+			})
 		},
 		methods: {
 			getSelectedItems: function(selectedItems) {
@@ -103,7 +147,14 @@
 			selectedItems: function (val, oldVal) {
 				this.selectedItems = val;
 				this.isDisabled = this.selectedItems.length > 0 ? false : true;
-            },
+				this.appNoList = _.pluck(this.selectedItems, 'value');
+				const amountList = _.pluck(this.selectedItems, 'amount');
+				var sum = _.reduce(amountList, function(memo, num){ return memo + num; }, 0);
+				this.totalAmount = '的订单共计<span>' + sum + '</span>元进行还款吗？';
+			},
+			index: function (val, oldVal) {
+				console.log('val====', val)
+			}
 		}
 	}
 </script>
@@ -128,6 +179,15 @@
 				}
 				.vux-tab .vux-tab-item{
 					background: 0;
+					.vux-tab-item-badge {
+						top: rem(-14px);
+						bottom: 0;
+						height: rem(12px);
+						padding: 0 rem(6px);
+						margin: auto 0 auto rem(-4px);
+						line-height: rem(12px);
+						background: #D0021B !important;
+					}
 				}
 				.btn-batch-repayment, .btn-cancel {
 					position: absolute;

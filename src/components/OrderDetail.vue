@@ -23,48 +23,23 @@
             </div>
 
             <div class="actions">
-                <a href="javascript:void(0);" class="btn-expand-all" :class="showOtherOrder ? 'up': 'down'" @click="showOtherOrder = !showOtherOrder" v-if="!showOtherOrder"><span>展开所有</span><i></i></a>
+                <a href="javascript:void(0);" class="btn-expand-all" :class="showOtherOrder ? 'up': 'down'" @click="expandAll" v-if="!showOtherOrder"><span>展开所有</span><i></i></a>
                 <a href="javascript:void(0);" class="btn-recharge">充值还款</a>
             </div>
 
             <div class="other-order" :class="showOtherOrder?'animate':''">
-                <div class="each-other-order-wrap clearfix">
+                <div class="each-other-order-wrap clearfix" v-for="(item, index) in appDetail" :key="index">
                     <div class="content-wrap clearfix">
                         <div class="left-wrap">
-                            <label class="title">分期订单</label>
-                            <p class="amount">借款金额：<span>¥2000.00元</span></p>
+                            <label class="title">{{item.title}}</label>
+                            <p class="amount">{{item.amountName}}：<span>¥{{item.amount}}元</span></p>
                         </div>
-                        <p class="right-wrap">期数：3期</p>
+                        <p class="right-wrap">期数：{{item.period}}期</p>
                     </div>
                     <div class="actions">
-                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
+                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan', query:{'appNo': appNo, 'type': item.type}}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
                     </div>
                 </div>
-                <div class="each-other-order-wrap clearfix">
-                    <div class="content-wrap clearfix">
-                        <div class="left-wrap">
-                            <label class="title">分期订单</label>
-                            <p class="amount">借款金额：<span>¥2000.00元</span></p>
-                        </div>
-                        <p class="right-wrap">期数：3期</p>
-                    </div>
-                    <div class="actions">
-                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
-                    </div>
-                </div>
-                <div class="each-other-order-wrap clearfix">
-                    <div class="content-wrap clearfix">
-                        <div class="left-wrap">
-                            <label class="title">分期订单</label>
-                            <p class="amount">借款金额：<span>¥2000.00元</span></p>
-                        </div>
-                        <p class="right-wrap">期数：3期</p>
-                    </div>
-                    <div class="actions">
-                        <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
-                    </div>
-                </div>
-                <a href="javascript:void(0);" class="btn-takeup-all" :class="showOtherOrder ? 'up': 'down'" @click="showOtherOrder = !showOtherOrder"><span>收起所有</span><i></i></a>
             </div>
         </section>
     </div>
@@ -291,7 +266,49 @@
     export default {
         data () {
             return {
-                showOtherOrder: false
+                showOtherOrder: false,
+                appDetail: [],
+                appNo: ''
+            }
+        },
+        methods: {
+            expandAll: function () {
+                this.showOtherOrder = !this.showOtherOrder;
+                let appDetail = [
+                    {
+                        "title": "分期订单", 
+                        "amountName": "借款金额", 
+                        "amount": "2000.00", 
+                        "period": "3",
+                        "type": "loanFee"
+                    },
+                    {
+                        "title": "会员订单", 
+                        "amountName": "会员服务费金额", 
+                        "amount": "84.00", 
+                        "period": "3",
+                        "type": "infoFee"
+                    },
+                    {
+                        "title": "消费综合订单", 
+                        "amountName": "消费综合费金额", 
+                        "amount": "36.00", 
+                        "period": "3",
+                        "type": "mthFee"
+                    }
+                ]
+                this.appDetail = appDetail;
+                let userName = this.utils.getCookie('userName');
+                let appNo = this.$route.query.appNo;
+                this.appNo = appNo;
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('appNo', appNo);
+                this.common.orderDetailInfo(postData)
+                    .then( res => {
+                        let data = res.data;
+                        this.appDetail = data.appDetail;
+                    })
             }
         }
     }
