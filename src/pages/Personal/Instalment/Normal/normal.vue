@@ -794,6 +794,9 @@
                 setTimeout(() => {
                     this.$refs.scrollerBottom.reset();
                 }, 501)
+            },
+            parentHandleclick: function () {
+                this.init();
             }
         },
         watch: {
