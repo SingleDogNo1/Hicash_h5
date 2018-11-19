@@ -14,7 +14,7 @@
 
        
 
-        <scroller lock-x :height="scrollHeight" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <flexbox orient="vertical"  class="order-list">
                 <!-- 申请中 -->
                 <flexbox-item v-if="checkerType == 'applying'">
@@ -199,7 +199,9 @@
                         </div>
                     </div>
                 </flexbox-item>
-                <load-more tip="loading"></load-more>
+
+                <!-- 数据加载中 -->
+                <load-more v-if="listDataloading" tip="数据加载中"></load-more>
             </flexbox>
         </scroller>
     </div>
@@ -697,18 +699,18 @@
             Scroller,
             LoadMore,
             XTable,
-            Popover
+            Popover 
         },
         data () {
             return {
-                checkerType: 'applying',
-                active: 2,
-                onFetching: false,
-                showOtherOrder: false,
-                btnStatus: 'ENDNODE',
-                scrollTop: '0',
-                otherOrderHeight: 0,
-                items:[{
+                active: 2,                  // * 初始化一级 Tag 属性
+                checkerType: 'applying',    // * 初始化二级 Tag 属性
+                onFetching: false,          // * 给 Scroller 分页加锁
+                showOtherOrder: false,      // * 初始化还款计划显示状态
+                btnStatus: 'ENDNODE',       // TODO 测试属性，调试API之后删除
+                scrollTop: '0',             // * 初始化滚动条位置
+                otherOrderHeight: 0,        // * 初始化还款计划高度
+                items:[{                    // * 初始化列表数据
                     showOtherOrder: false
                 },{
                     showOtherOrder: false
@@ -721,39 +723,39 @@
                 },{
                     showOtherOrder: false
                 }],
-                scrollHeight: '-180px',
+                scrollHeight: '-180px',     // * 初始化列表高度
+                pageSize: '20',             // * 设置每页最大数
+                pageNo: '1',                // * 初始化当前页
+                listDataloading: true       // * 初始化Loading显示状态 
             }
         },
 		mounted() {
+            
+
+            this.checkerStatus();                         // * 获取默认数据
 			this.$nextTick(() => {
-                
-                this.$refs.scrollerBottom.reset({top: 0})
+                this.$refs.scrollerBottom.reset({top: 0});          // * 初始化scroller的高度
             })
 		},
 		methods: {
+            /**
+             *  ! 监听二级Tag的变化
+             *  ! 获取对应数据
+             *  ! 初始化状态
+             * */
             checkerStatus:function(type){
-                console.info('type===', type);
-                this.checkerType = type;
-                this.$refs.scrollerBottom.reset({top: 0})
-            },
-            onScrollBottom () {
-                if (this.onFetching) {
-                    // do nothing
-                    // console.info('onFetching');
-                } else {
-                    this.onFetching = true;
-                    setTimeout(() => {
-                        this.$nextTick(() => {
-                            this.$refs.scrollerBottom.reset();
-                        })
-                        this.onFetching = false;
-                        console.info('请求中。。。');
-                    }, 2000)
+                console.info('mounted');
+                if(this.checkerType !== type){
+                    this.items = [];                                // * 初始化数据
+                    this.pageNo = '1';                              // * 初始化页码
+                    this.getListData(type);                         // * 请求列表数据
+                    this.listDataloading = true;                    // * Loading
+                    this.checkerType = type;                        // * 更新当前的Tag
+                    this.$refs.scrollerBottom.reset({top: 0});      // * 初始化Scroller的高度
+                    this.onFetching = false;                        // * 初始化分页锁定状态
                 }
             },
-            onScroll (pos){
-                this.scrollTop = pos.top;
-            },
+            // ! 展开还款计划
             openAll (item, index){
                 this.items[index].showOtherOrder = !this.items[index].showOtherOrder;
                 setTimeout(() => {
@@ -763,21 +765,22 @@
                     })
                 }, 1000)
 
-                    console.info('this.$refs.flexboxItem === ', this.$refs.flexboxItem);
-                    let _top = 0;
-                    if(index > 0){
-                        console.log('_', _)
-                        _.each(this.$refs.flexboxItem, (item, i)=>{ 
-                            if(i >= index) return false;
-                            console.info('this.$refs.flexboxItem', this.$refs.flexboxItem);
-                            _top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
-                        });
-                    }
-                    this.$nextTick(() => {
-                        this.$refs.scrollerBottom.reset({top: _top});
-                    })
+                console.info('this.$refs.flexboxItem === ', this.$refs.flexboxItem);
+                let _top = 0;
+                if(index > 0){
+                    console.log('_', _)
+                    _.each(this.$refs.flexboxItem, (item, i)=>{ 
+                        if(i >= index) return false;
+                        console.info('this.$refs.flexboxItem', this.$refs.flexboxItem);
+                        _top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
+                    });
+                }
+                this.$nextTick(() => {
+                    this.$refs.scrollerBottom.reset({top: _top});
+                })
                     
             },
+            // ! 收起还款计划
             closeAll (item, index){
                 let _otherHeight = this.$refs.otherOrder[0].offsetHeight;
 
@@ -794,7 +797,64 @@
                 setTimeout(() => {
                     this.$refs.scrollerBottom.reset();
                 }, 501)
-            }
+            },
+            // ! 获取列表数据
+            getListData (type){
+                console.info(type);
+                let userName = this.utils.getCookie('userName');
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('type', type);
+                    postData.append('pageSize', this.pageSize);
+                    postData.append('pageNo', this.pageNo);
+                this.common.accountOrderList(postData)
+                .then( res => {
+                    console.info('getListData ==> res', res);
+                    
+                    console.info('this.pageNo', this.pageNo);
+                    let data = res.data;
+                    if(data.resultCode == '1'){
+                        data.forEach( (val, index) => {
+                            // val.key = index + 1;
+                            // val.value = val.appNo;
+                            // val.amountStr = val.amount;
+                            // val.amount = Number(val.amount);
+                            // val.appNo = '订单号：' + val.appNo;
+                            val.showOtherOrder = false;
+                            this.items.push(val);
+                        });
+
+                        this.$nextTick(() => {
+                            this.$refs.scrollerBottom.reset();
+                        })
+                        this.onFetching = false;
+                        
+                    }else{
+                        this.$vux.toast.text(data.resultMsg, 'middle')
+                    }
+                    
+                    this.pageNo ++
+                    //this.list = data.list;
+                })
+            },
+            // ! 监听滚动事件
+            onScrollBottom () {
+                if (this.onFetching) {
+                    // do nothing
+                    // console.info('onFetching');
+                } else {
+                    this.onFetching = true;
+                    // setTimeout(() => {
+                    //     this.$nextTick(() => {
+                    //         this.$refs.scrollerBottom.reset();
+                    //     })
+                    //     this.onFetching = false;
+                    //     console.info('请求中。。。');
+                    // }, 2000)
+                    
+                    this.getListData(this.checkerType);
+                }
+            },
         },
         watch: {
             isShowBanner: function (val, oldVal) {
