@@ -1,5 +1,5 @@
 <template>
-    <div class="overdue" :class="{'overdue-empty': overdueList.length === 0}">
+    <div v-cloak class="overdue" :class="{'overdue-empty': overdueList.length === 0}">
         <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">

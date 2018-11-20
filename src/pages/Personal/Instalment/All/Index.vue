@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-cloak>
 		<page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
 		<div id="content" class="content">
 			<div>
@@ -32,7 +32,7 @@
 		</div>
 		<a class="banner" :href="bannerUrl" v-if="isShowBanner">
 			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
-			<img :src="bannerImgUrl"/>
+			<img :src="bannerImgUrl" width="100%" height="100%"/>
 		</a>
 		<confirm-dialog :isShowDialog="isShowDialog" :dialogTitle="dialogTitle" :dialogDefaultTitle="dialogDefaultTitle" :appNoList="appNoList" :totalAmount="totalAmount" :popType="popType" @showDialog="showDialog"></confirm-dialog>
 	</div>
@@ -170,6 +170,7 @@
 				.vux-tab .vux-tab-item{
 					background: 0;
 					.vux-tab-item-badge {
+						font-size: 12px;
 						top: rem(-14px);
 						bottom: 0;
 						height: rem(12px);

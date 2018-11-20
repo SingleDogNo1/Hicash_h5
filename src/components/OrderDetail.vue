@@ -32,7 +32,7 @@
                     <div class="content-wrap clearfix">
                         <div class="left-wrap">
                             <label class="title">{{item.title}}</label>
-                            <p class="amount">{{item.amountName}}：<span>¥{{item.amount}}元</span></p>
+                            <p class="amount">{{item.amountName}}<span>¥{{item.amount}}元</span></p>
                         </div>
                         <p class="right-wrap">期数：{{item.period}}期</p>
                     </div>
@@ -282,10 +282,9 @@
                 let userName = this.utils.getCookie('userName');
                 let appNo = this.$route.query.appNo;
                 this.appNo = appNo;
-                let postData = {
-                    userName: userName,
-                    appNo: appNo
-                }
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('appNo', appNo);
                 this.common.orderDetailInfo(postData)
                     .then( res => {
                         let data = res.data;
@@ -302,7 +301,7 @@
                                         break;
                                     case 'mthFee':
                                         val.title = '消费综合订单';
-                                        val.amountName = '消费综合订单';
+                                        val.amountName = '消费综合订单：';
                                         break;
                                     case 'addFee':
                                         val.title = '保费订单';

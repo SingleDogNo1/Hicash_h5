@@ -102,11 +102,10 @@
             let userName = this.utils.getCookie('userName');
             let appNo = this.$route.query.appNo;
             let type = this.$route.query.type;
-            let postData = {
-                userName: userName,
-                appNo: appNo,
-                type: type
-            }
+            let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('appNo', appNo);
+                    postData.append('type', type);
             this.common.repayPlan(postData)
                 .then( res => {
                     let data = res.data;

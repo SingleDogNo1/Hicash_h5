@@ -153,7 +153,6 @@
             onCancel: function() {
                 this.showDialog = false;
                 this.$emit('showDialog', this.showDialog);
-                console.log('cancel')
             },
             onConfirm: function() {
                 this.showDialog = false;
