@@ -102,90 +102,43 @@
             let userName = this.utils.getCookie('userName');
             let appNo = this.$route.query.appNo;
             let type = this.$route.query.type;
-
-            let appDetail = [
-                 {
-                    "repayStatus": "WTRP", 
-                    "repayDate": "2018.12.23", 
-                    "amount": "84.00", 
-                    "period": "3"
-                },
-                {
-                    "repayStatus": "REXP", 
-                    "repayDate": "2018.12.23", 
-                    "amount": "84.00", 
-                    "period": "3"
-                },
-                {
-                    "repayStatus": "WTRP", 
-                    "repayDate": "2018.12.23", 
-                    "amount": "84.00", 
-                    "period": "3"
-                },
-                {
-                    "repayStatus": "NMRF", 
-                    "repayDate": "2018.12.23", 
-                    "amount": "84.00", 
-                    "period": "3"
-                },
-                {
-                    "repayStatus": "EPRF", 
-                    "repayDate": "2018.12.23", 
-                    "amount": "84.00", 
-                    "period": "3"
-                }
-            ]
-            appDetail.forEach( (val, index) => {
-                let filterRepayStatus;
-                switch (val.repayStatus) {
-                    case 'WTRP':
-                        filterRepayStatus = '待还';
-                        break;
-                    case 'REXP':
-                        filterRepayStatus = '逾期';
-                        break;
-                    case 'NMRF':
-                        filterRepayStatus = '正常还完';
-                        break;
-                    case 'EPRF':
-                        filterRepayStatus = '逾期还完';
-                        break;
-                    default:
-                        break;
-                }
-                val.filterRepayStatus = filterRepayStatus;
-                this.detailList.push(val)
-            })
-            console.log(this.detailList)
-            let postData = new URLSearchParams();
-                postData.append('userName', userName);
-                postData.append('appNo', appNo);
-                postData.append('type', type);
+            let postData = {
+                userName: userName,
+                appNo: appNo,
+                type: type
+            }
             this.common.repayPlan(postData)
                 .then( res => {
                     let data = res.data;
-                    this.appDetail = data.appDetail;
-                    this.appDetail.forEach( (val, index) => {
-                        let filterRepayStatus;
-                        switch (val.repayStatus) {
-                            case 'WTRP':
-                                filterRepayStatus = '待还';
-                                break;
-                            case 'REXP':
-                                filterRepayStatus = '逾期';
-                                break;
-                            case 'NMRF':
-                                filterRepayStatus = '正常还完';
-                                break;
-                            case 'EPRF':
-                                filterRepayStatus = '逾期还完';
-                                break;
-                            default:
-                                break;
-                        }
-                        val.filterRepayStatus = filterRepayStatus;
-                        this.detailList.push(val)
-                    })
+                    if(data.resultCode === '1') {
+                        data.appDetail.forEach( (val, index) => {
+                            let filterRepayStatus;
+                            switch (val.repayStatus) {
+                                case 'WTRP':
+                                    filterRepayStatus = '待还';
+                                    break;
+                                case 'REXP':
+                                    filterRepayStatus = '逾期';
+                                    break;
+                                case 'NMRF':
+                                    filterRepayStatus = '正常还完';
+                                    break;
+                                case 'EPRF':
+                                    filterRepayStatus = '逾期还完';
+                                    break;
+                                default:
+                                    break;
+                            }
+                            val.filterRepayStatus = filterRepayStatus;
+                        })
+                        this.detailList = data.appDetail;
+                    } else {
+                        this.$vux.toast.show({
+                            type: 'cancel',
+                            position: 'middle',
+                            text: res.data.resultMsg
+                        })
+                    }
                 })
         }
     }

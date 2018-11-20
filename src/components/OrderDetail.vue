@@ -18,7 +18,7 @@
                 <ul>
                     <li>{{amount}}元</li>
                     <li>{{repayDate}}</li>
-                    <li>逾期立即还款</li>
+                    <li>{{repayStatus}}</li>
                 </ul>
             </div>
 
@@ -272,46 +272,32 @@
                 appNo: '',
                 createDate: '',
                 amount: '',
-                repayDate: ''
+                repayDate: '',
+                repayStatus: '逾期立即还款'
             }
         },
         methods: {
             expandAll: function () {
                 this.showOtherOrder = !this.showOtherOrder;
-                let appDetail = [
-                    {
-                        "title": "分期订单", 
-                        "amountName": "借款金额", 
-                        "amount": "2000.00", 
-                        "period": "3",
-                        "type": "loanFee"
-                    },
-                    {
-                        "title": "会员订单", 
-                        "amountName": "会员服务费金额", 
-                        "amount": "84.00", 
-                        "period": "3",
-                        "type": "infoFee"
-                    },
-                    {
-                        "title": "消费综合订单", 
-                        "amountName": "消费综合费金额", 
-                        "amount": "36.00", 
-                        "period": "3",
-                        "type": "mthFee"
-                    }
-                ]
-                this.appDetail = appDetail;
                 let userName = this.utils.getCookie('userName');
                 let appNo = this.$route.query.appNo;
                 this.appNo = appNo;
-                let postData = new URLSearchParams();
-                    postData.append('userName', userName);
-                    postData.append('appNo', appNo);
+                let postData = {
+                    userName: userName,
+                    appNo: appNo
+                }
                 this.common.orderDetailInfo(postData)
                     .then( res => {
                         let data = res.data;
-                        this.appDetail = data.appDetail;
+                        if(data.resultCode === '1') {
+                            this.appDetail = data.appDetail;
+                        } else{
+                            this.$vux.toast.show({
+                                type: 'cancel',
+                                position: 'middle',
+                                text: res.data.resultMsg
+                            })
+                        }
                     })
             },
             btnRecharge: function() {
