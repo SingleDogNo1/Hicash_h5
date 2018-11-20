@@ -143,7 +143,7 @@
 				this.appNoList = _.pluck(this.selectedItems, 'value');
 				const amountList = _.pluck(this.selectedItems, 'amount');
 				var sum = _.reduce(amountList, function(memo, num){ return memo + num; }, 0);
-				this.totalAmount = '的订单共计<span>' + sum + '</span>元进行还款吗？';
+				this.totalAmount = '的订单共计<span>' + sum + '元</span>进行还款吗？';
 			}
 		}
 	}
