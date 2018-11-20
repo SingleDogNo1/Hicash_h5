@@ -60,14 +60,14 @@
                             <tr style="background-color: #F7F7F7">
                                 <th>当期应还金额</th>
                                 <th>当期应还时间</th>
-                                <th>状态</th>
+                                <th width="100">状态</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td v-html="item.appStatus === 'WITHDRAWALNODE' ? '金额计算中' : item.amount+'元'"></td>
+                                <td v-html="item.appStatus === 'WITHDRAWALNODE' || item.appStatus === 'WITHDRAWALING' || item.appStatus==='WITHDRAWALSUCCESS'? '金额计算中' : item.amount+'元'"></td>
                                 <td>{{item.repayDate}}
-                                    <popover placement="bottom"  v-if="item.appStatus==='WITHDRAWALNODE' || item.appStatus==='WITHDRAWALING'">
+                                    <popover placement="bottom"  v-if="item.appStatus==='WITHDRAWALNODE' || item.appStatus==='WITHDRAWALING'  || item.appStatus==='WITHDRAWALSUCCESS'">
                                         <div slot="content" class="popover-content">
                                             放款成功，已经开始计息
                                         </div>
@@ -79,44 +79,20 @@
                             </tbody>
                         </x-table>
 
-                        <div class="actions">
+                        <div class="actions" v-if="item.appStatus !== 'WITHDRAWALING' && item.appStatus !== 'WITHDRAWALSUCCESS'">
                             <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && item.appStatus==='REPAYNODE'"><span>展开所有</span><i></i></a>
                             <a href="javascript:void(0);" class="btn btn-recharge" v-if="item.appStatus==='REPAYNODE'">充值还款</a>
                             <a href="javascript:void(0);" class="btn btn-recharge" v-if="item.appStatus==='WITHDRAWALNODE'">提现</a>
                         </div>
 
                         <div class="other-order" ref="otherOrder" :class="item.showOtherOrder?'animate':''">
-                            <div class="each-other-order-wrap clearfix">
+                            <div class="each-other-order-wrap clearfix" v-for="(plan, planIndex) in item.appDetail" :key="planIndex">
                                 <div class="content-wrap clearfix">
                                     <div class="left-wrap">
-                                        <label class="title">分期订单</label>
-                                        <p class="amount">借款金额：<span>¥2000.00元</span></p>
+                                        <label class="title">{{plan.title}}</label>
+                                        <p class="amount">{{plan.amountName}}：<span>¥{{plan.amount}}元</span></p>
                                     </div>
-                                    <p class="right-wrap">期数：3期</p>
-                                </div>
-                                <div class="actions">
-                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
-                                </div>
-                            </div>
-                            <div class="each-other-order-wrap clearfix">
-                                <div class="content-wrap clearfix">
-                                    <div class="left-wrap">
-                                        <label class="title">分期订单</label>
-                                        <p class="amount">借款金额：<span>¥2000.00元</span></p>
-                                    </div>
-                                    <p class="right-wrap">期数：3期</p>
-                                </div>
-                                <div class="actions">
-                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
-                                </div>
-                            </div>
-                            <div class="each-other-order-wrap clearfix">
-                                <div class="content-wrap clearfix">
-                                    <div class="left-wrap">
-                                        <label class="title">分期订单</label>
-                                        <p class="amount">借款金额：<span>¥2000.00元</span></p>
-                                    </div>
-                                    <p class="right-wrap">期数：3期</p>
+                                    <p class="right-wrap">期数：{{plan.period}}期</p>
                                 </div>
                                 <div class="actions">
                                     <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
@@ -157,42 +133,19 @@
                         </div>
 
                         <div class="other-order" ref="otherOrder" :class="item.showOtherOrder?'animate':''">
-                            <div class="each-other-order-wrap clearfix">
+                            <div class="each-other-order-wrap clearfix" v-for="(plan, planIndex) in item.appDetail" :key="planIndex">
                                 <div class="content-wrap clearfix">
                                     <div class="left-wrap">
-                                        <label class="title">分期订单</label>
-                                        <p class="amount">借款金额：<span>¥2000.00元</span></p>
+                                        <label class="title">{{plan.title}}</label>
+                                        <p class="amount">{{plan.amountName}}：<span>¥{{plan.amount}}元</span></p>
                                     </div>
-                                    <p class="right-wrap">期数：3期</p>
+                                    <p class="right-wrap">期数：{{plan.period}}期</p>
                                 </div>
                                 <div class="actions">
                                     <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
                                 </div>
                             </div>
-                            <div class="each-other-order-wrap clearfix">
-                                <div class="content-wrap clearfix">
-                                    <div class="left-wrap">
-                                        <label class="title">分期订单</label>
-                                        <p class="amount">借款金额：<span>¥2000.00元</span></p>
-                                    </div>
-                                    <p class="right-wrap">期数：3期</p>
-                                </div>
-                                <div class="actions">
-                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
-                                </div>
-                            </div>
-                            <div class="each-other-order-wrap clearfix">
-                                <div class="content-wrap clearfix">
-                                    <div class="left-wrap">
-                                        <label class="title">分期订单</label>
-                                        <p class="amount">借款金额：<span>¥2000.00元</span></p>
-                                    </div>
-                                    <p class="right-wrap">期数：3期</p>
-                                </div>
-                                <div class="actions">
-                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
-                                </div>
-                            </div>
+                            
                             <a href="javascript:void(0);" class="btn-takeup-all" :class="item.showOtherOrder ? 'up': 'down'" @click="closeAll(item, index)"><span>收起所有</span><i></i></a>
                         </div>
                     </div>
@@ -799,7 +752,32 @@
                 this.$nextTick(() => {
                     this.$refs.scrollerBottom.reset({top: _top});
                 })
-                    
+
+                console.info('1111111111'); 
+                let vm = this;
+                let userName = this.utils.getCookie('userName');
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('appNo', item.appNo);
+                this.common.orderDetailInfo(postData)
+                .then( res => {
+                    let data = res.data;
+                    if(data.resultCode == '1'){
+                        this.otherOrderHeight = this.$refs.otherOrder[index].offsetHeight; 
+                        this.$nextTick(() => {
+                            this.$refs.scrollerBottom.reset();
+                        })
+                        console.info('this.$vue', this);
+                        let newAppDetail = _.map(data.appDetail, (list)=>{
+                            return this.planMapping(list);
+                        });
+                        console.info('newAppDetail', newAppDetail);
+                        this.$set(this.items[index], 'appDetail', newAppDetail);
+                        // this.items[index].appDetail = data.appDetail;
+                    }else{
+                        this.$vux.toast.text(data.resultMsg, 'middle')
+                    }
+                })
             },
             // ! 收起还款计划
             closeAll (item, index){
@@ -897,7 +875,7 @@
             CancelAppPayByPad (itemOrder){
                 // 显示
                 this.$vux.loading.show({
-                    text: 'Loading'
+                    text: '取消中...'
                 })
                 let userName = this.utils.getCookie('userName');
                 let postData = new URLSearchParams();
@@ -906,7 +884,7 @@
                     postData.append('cancelReason', '客户自己取消');
                     postData.append('appPayNo', itemOrder.appNo);
                     postData.append('uuid', this.utils.uuid());
-                this.common.accountOrderList(postData)
+                this.common.CancelAppPayByPad(postData)
                 .then( res => {
                     this.$vux.loading.hide();
                     let data = res.data;
@@ -934,7 +912,29 @@
                         vm.CancelAppPayByPad(itemOrder);
                     }
                 })
-            }
+            },
+            // ! 根据订单类型映射 title 和 amountName
+            planMapping: function(mapObj){
+                switch (mapObj.type) {
+                    case 'loanFee':     // * 订单费用
+                        mapObj.title = '分期订单';
+                        mapObj.amountName = '借款金额';
+                        break;
+                    case 'infoFee':     // * 会员费
+                        mapObj.title = '会员订单';
+                        mapObj.amountName = '会员服务费金额';
+                        break;
+                    case 'mthFee':      // * 综合消费
+                        mapObj.title = '消费综合订单';
+                        mapObj.amountName = '消费综合费金额';    
+                            break;
+                    case 'addFee':      // * 保费
+                        mapObj.title = '保费订单';
+                        mapObj.amountName = '保费金额';    
+                            break;
+                }
+                return mapObj;
+            }   
         },
         watch: {
             isShowBanner: function (val, oldVal) {
