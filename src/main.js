@@ -40,7 +40,6 @@ Vue.use(LoadingPlugin)
 import  { ConfirmPlugin } from 'vux'
 Vue.use(ConfirmPlugin)
 
-
 import VueClipboards from 'vue-clipboards';
 Vue.use(VueClipboards);
 
