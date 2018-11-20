@@ -12,39 +12,34 @@
             <div @click="checkerStatus('end')"  :class="checkerType == 'end' ? 'checker-selected' : ''" class="checker-default">已完成</div>
         </div>
 
-       
-
-        <scroller lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller v-if="items.length" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <flexbox orient="vertical"  class="order-list">
                 <!-- 申请中 -->
-                <flexbox-item v-if="checkerType == 'applying'">
+                <flexbox-item v-if="checkerType == 'applying'"  v-for="(item, index) in items" :key="index">
                     <div class="flex-order-item">
                         <div class="order-top">
                             <div class="order-des">
-                                <div class="order-title">嗨秒分期</div>
-                                <div class="order-num">订单号:21231231321</div>
+                                <div class="order-title">{{item.industryName}}</div>
+                                <div class="order-num">订单号:{{item.appNo}}</div>
                             </div>
-                            <div class="order-date">2017-07-19</div>
+                            <div class="order-date">{{item.createDate}}</div>
                         </div>
-                        <!-- passed 完成 | chat 等待 | close 失败 | gray 灰-->
-                        <van-steps :active="active" active-color="#FF7640">
-                            <van-step class="passed">申请订单</van-step>
-                            <van-step class="chat">待签约</van-step>
-                            <van-step class="close">审核失败</van-step>
-                            <van-step class="gray">放款</van-step>
+                        <!-- success 完成 | wait 等待 | failed 失败 | grep 灰-->
+                        <van-steps :active="item.nodeList.length - item.nodeGrepNum - 1" active-color="#FF7640">
+                            <van-step  v-for="(step, index) in item.nodeList" :key="index" :class="step.nodeStyle">{{step.nodeName}}</van-step>
                         </van-steps>
 
                         <div class="order-bottom">
-                            <div class="order-bottom-des left">借款金额：<span>650.00元</span></div>
-                            <div class="order-bottom-des right">期数：<span>3期</span></div>
+                            <div class="order-bottom-des left">借款金额：<span>{{item.amount}}</span></div>
+                            <div class="order-bottom-des right">期数：<span>{{item.period}}期</span></div>
                         </div>
 
-                        <div v-if="btnStatus === 'REJECTNODE'" class="notice">很抱歉，您的审核未通过，<br />查看此次被拒原因</div>
+                        <div v-if="item.appStatus === 'REJECTNODE'" class="notice">很抱歉，您的审核未通过，<br />查看此次被拒原因</div>
 
-                        <div class="actions">
-                            <a v-if="btnStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
-                            <a v-if="btnStatus === 'SIGNNODE'" href="javascript:void(0);" class="btn btn-recharge">签约</a>
-                            <a v-if="btnStatus === 'NEWNODE' || btnStatus === 'AUDITNODE' || btnStatus === 'SIGNNODE'" href="javascript:void(0);" class="btn btn-channel">取消订单</a>
+                        <div class="actions" v-if="item.appStatus !== 'LOANFAILED' && item.appStatus !== 'LOAN'">
+                            <a v-if="item.appStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
+                            <a v-if="item.appStatus === 'SIGNNODE'" href="javascript:void(0);" class="btn btn-sign">签约</a>
+                            <a v-if="item.appStatus === 'NEWNODE' || item.appStatus === 'AUDITNODE' || item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="cancelOrder(item)" class="btn btn-channel">取消订单</a>
                         </div>
                     </div>
                 </flexbox-item>
@@ -54,10 +49,10 @@
                     <div class="flex-order-item" ref="flexboxItem">
                         <div class="order-top">
                             <div class="order-des">
-                                <div class="order-title">嗨秒分期</div>
-                                <div class="order-num">订单号:21231231321</div>
+                                <div class="order-title">{{item.industryName}}</div>
+                                <div class="order-num">订单号:{{item.appNo}}</div>
                             </div>
-                            <div class="order-date">2017-07-19</div>
+                            <div class="order-date">{{item.createDate}}</div>
                         </div>
                         
                         <x-table :cell-bordered="false"  :content-bordered="false" style="background-color:#fff;">
@@ -70,24 +65,24 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>金额计算中</td>
-                                <td>2018.10.21 
-                                    <popover placement="bottom"  v-if="btnStatus==='WITHDRAWALNODE' || btnStatus==='WITHDRAWALING'">
+                                <td v-html="item.appStatus === 'WITHDRAWALNODE' ? '金额计算中' : item.amount+'元'"></td>
+                                <td>{{item.repayDate}}
+                                    <popover placement="bottom"  v-if="item.appStatus==='WITHDRAWALNODE' || item.appStatus==='WITHDRAWALING'">
                                         <div slot="content" class="popover-content">
-                                        放款成功，已经开始计息
+                                            放款成功，已经开始计息
                                         </div>
                                         <van-icon class="question" size="14px" name="question" color="#FF7640" />
                                     </popover>
                                 </td>
-                                <td>待提现</td>
+                                <td>{{item.repayStatus}}</td>
                             </tr>
                             </tbody>
                         </x-table>
 
                         <div class="actions">
-                            <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && btnStatus==='REPAYNODE'"><span>展开所有</span><i></i></a>
-                            <a href="javascript:void(0);" class="btn btn-recharge" v-if="btnStatus==='REPAYNODE'">充值还款</a>
-                            <a href="javascript:void(0);" class="btn btn-recharge" v-if="btnStatus==='WITHDRAWALNODE'">提现</a>
+                            <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && item.appStatus==='REPAYNODE'"><span>展开所有</span><i></i></a>
+                            <a href="javascript:void(0);" class="btn btn-recharge" v-if="item.appStatus==='REPAYNODE'">充值还款</a>
+                            <a href="javascript:void(0);" class="btn btn-recharge" v-if="item.appStatus==='WITHDRAWALNODE'">提现</a>
                         </div>
 
                         <div class="other-order" ref="otherOrder" :class="item.showOtherOrder?'animate':''">
@@ -137,25 +132,28 @@
                     <div class="flex-order-item"  ref="flexboxItem">
                         <div class="order-top">
                             <div class="order-des">
-                                <div class="order-title">嗨秒分期</div>
-                                <div class="order-num">订单号:21231231321</div>
+                                <div class="order-title">{{item.industryName}}</div>
+                                <div class="order-num">订单号:{{item.appNo}}</div>
                             </div>
-                            <div class="order-date">2017-07-19</div>
+                            <div class="order-date">{{item.createDate}}</div>
                         </div>
                         
                         <x-table class="finish-item" :cell-bordered="false"  :content-bordered="false">
                             <thead>
                                 <tr>
-                                    <th>借款金额：<span>2000.00元</span></th>
-                                    <th>期数：3期</th>
+                                    <th>借款金额：<span>{{item.amount}}</span></th>
+                                    <th>期数：{{item.period}}期</th>
                                 </tr>
                             </thead> 
                         </x-table>
+                        
+                        <div v-if="item.appStatus === 'REJECTNODE'" class="notice">很抱歉，您的审核未通过，<br />查看此次被拒原因</div>
 
                         <div class="actions">
-                            <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && btnStatus==='ENDNODE'"><span>展开所有</span><i></i></a>
-                            <a href="javascript:void(0);" class="btn btn-channel" v-if="btnStatus==='ENDNODE'">订单已完成</a>
-                            <a href="javascript:void(0);" class="btn btn-canceled" v-if="btnStatus==='CANCLEED'">订单已取消</a>
+                            <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && item.appStatus==='ENDNODE'"><span>展开所有</span><i></i></a>
+                            <a href="javascript:void(0);" class="btn btn-channel" v-if="item.appStatus==='ENDNODE'">订单已完成</a>
+                            <a href="javascript:void(0);" class="btn btn-canceled" v-if="item.appStatus==='CANCLEED'">订单已取消</a>
+                            <a v-if="item.appStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
                         </div>
 
                         <div class="other-order" ref="otherOrder" :class="item.showOtherOrder?'animate':''">
@@ -204,6 +202,11 @@
                 <load-more v-if="listDataloading" tip="数据加载中"></load-more>
             </flexbox>
         </scroller>
+
+        <div class="bg-instalment-empty" v-if="showNoData">
+            <p>这里暂时什么都没有</p>
+        </div>
+        <load-more v-if="listDataloading" tip=""></load-more>
     </div>
 </template> 
 
@@ -321,6 +324,7 @@
                 text-align: center;
                 margin-left: rem(8px);
                 border: 1px solid #FF7640;
+                bottom: inherit;
             }
             .btn-expand-all {
                 position: relative;
@@ -353,7 +357,7 @@
                     margin-left: 6px;
                 }
             }
-            .btn-recharge {
+            .btn-recharge, .btn-sign {
                 background: #FF7640;
                 color: #FFFFFF;
             }
@@ -540,6 +544,23 @@
             }
         }
 
+        .bg-instalment-empty {
+            width: 50%;
+            height: rem(200px);
+            margin: 0 auto;
+            margin-top: 40%;
+            background: url("../images/bg_instalment_empty.png") center rem(35px) no-repeat;
+            background-size: rem(61px) rem(40px);
+            p {
+                text-align: center;
+                color: #999;
+                height: rem(200px);
+                line-height: rem(200px);
+                font-size: 12px;
+                margin-top: rem(10px);
+            }
+        }
+
         .van-steps{
             overflow: inherit;
         }
@@ -596,14 +617,14 @@
             font-style:normal;font-weight:400;font-family:vant-icon;src:url(https://img.yzcdn.cn/vant/vant-icon-872dd0.ttf) format('truetype')
         }
 
-        .van-step.close .van-step__title{
+        .van-step.failed .van-step__title{
             color: #D0021B !important;
         }
         .van-step__title{
             width: 60px;
             text-align: center;
         }
-        .van-step.passed .van-step__circle,.van-step.passed .van-icon-checked{
+        .van-step.success .van-step__circle,.van-step.success .van-icon-checked{
             background-color: #fff;
             font-size: 16px;
             &:before {
@@ -616,7 +637,7 @@
                 text-rendering: auto
             }
         }
-        .van-step.chat .van-step__circle, .van-step.chat .van-icon-checked{
+        .van-step.wait .van-step__circle, .van-step.wait .van-icon-checked{
             background-color: #fff;
             font-size: 16px;
             &:before {
@@ -629,7 +650,7 @@
                 text-rendering: auto
             }
         }
-        .van-step.close .van-step__circle, .van-step.close .van-icon-checked{
+        .van-step.failed .van-step__circle, .van-step.failed .van-icon-checked{
             background-color: #fff;
             font-size: 16px;
             &:before {
@@ -642,13 +663,21 @@
                 text-rendering: auto
             }
         }
-        .van-step.gray .van-step__circle{
+        .van-step.grep .van-step__circle-container{
+            background-color: transparent;
+        }
+        .van-step.grep .van-step__circle, .van-step.grep .van-icon-checked{
             display: block;
             width: 12px;
             height: 12px;
             border-radius: 50%;
             background-color: #ccc;
             margin-top: 3px;
+            font-size: 16px;
+            color: #ccc;
+            &:before {
+                content: "";
+            }
         }
     }
 
@@ -669,6 +698,9 @@
     }
     .vux-popover-arrow-up{
         display: none;
+    }
+    .weui-dialog__btn_primary{
+        color: #FF7640;
     }
 </style>
 
@@ -710,23 +742,12 @@
                 btnStatus: 'ENDNODE',       // TODO 测试属性，调试API之后删除
                 scrollTop: '0',             // * 初始化滚动条位置
                 otherOrderHeight: 0,        // * 初始化还款计划高度
-                items:[{                    // * 初始化列表数据
-                    showOtherOrder: false
-                },{
-                    showOtherOrder: false
-                },{
-                    showOtherOrder: false
-                },{
-                    showOtherOrder: false
-                },{
-                    showOtherOrder: false
-                },{
-                    showOtherOrder: false
-                }],
+                items:[],                   // * 初始化列表数据
                 scrollHeight: '-180px',     // * 初始化列表高度
                 pageSize: '20',             // * 设置每页最大数
                 pageNo: '1',                // * 初始化当前页
-                listDataloading: true       // * 初始化Loading显示状态 
+                listDataloading: true,      // * 初始化Loading显示状态 
+                showNoData: false           // * 初始化无数据页面
             }
         },
 		mounted() {
@@ -748,9 +769,9 @@
                 if(this.checkerType !== type){
                     this.items = [];                                // * 初始化数据
                     this.pageNo = '1';                              // * 初始化页码
-                    this.getListData(type);                         // * 请求列表数据
+                    this.checkerType = type || 'applying';          // * 更新当前的Tag
+                    this.getListData(this.checkerType);             // * 请求列表数据
                     this.listDataloading = true;                    // * Loading
-                    this.checkerType = type;                        // * 更新当前的Tag
                     this.$refs.scrollerBottom.reset({top: 0});      // * 初始化Scroller的高度
                     this.onFetching = false;                        // * 初始化分页锁定状态
                 }
@@ -801,6 +822,7 @@
             // ! 获取列表数据
             getListData (type){
                 console.info(type);
+                this.listDataloading = true;
                 let userName = this.utils.getCookie('userName');
                 let postData = new URLSearchParams();
                     postData.append('userName', userName);
@@ -814,13 +836,19 @@
                     console.info('this.pageNo', this.pageNo);
                     let data = res.data;
                     if(data.resultCode == '1'){
-                        data.forEach( (val, index) => {
+                        data.list.forEach( (val, index) => {
                             // val.key = index + 1;
                             // val.value = val.appNo;
                             // val.amountStr = val.amount;
                             // val.amount = Number(val.amount);
                             // val.appNo = '订单号：' + val.appNo;
                             val.showOtherOrder = false;
+                            if(val.nodeList){
+                                let nodeGrep = _.filter(val.nodeList, function(node){
+                                    return node.nodeStyle == "grep"; 
+                                });
+                                val.nodeGrepNum = nodeGrep.length;
+                            }
                             this.items.push(val);
                         });
 
@@ -829,6 +857,12 @@
                         })
                         this.onFetching = false;
                         
+                    }else if(data.resultCode == '-1'){
+                        // this.items = [];
+                        if(!this.items){
+                            this.showNoData = true;
+                        }
+                        this.listDataloading = false;
                     }else{
                         this.$vux.toast.text(data.resultMsg, 'middle')
                     }
@@ -855,14 +889,60 @@
                     this.getListData(this.checkerType);
                 }
             },
+            parentHandleclick: function () {
+                console.info('parentHandleclick');
+                this.checkerStatus();
+            },
+            // ! 取消订单接口
+            CancelAppPayByPad (itemOrder){
+                // 显示
+                this.$vux.loading.show({
+                    text: 'Loading'
+                })
+                let userName = this.utils.getCookie('userName');
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('cancelType', 'CUST');
+                    postData.append('cancelReason', '客户自己取消');
+                    postData.append('appPayNo', itemOrder.appNo);
+                    postData.append('uuid', this.utils.uuid());
+                this.common.accountOrderList(postData)
+                .then( res => {
+                    this.$vux.loading.hide();
+                    let data = res.data;
+                    if(data.resultCode == '1'){
+                        this.$vux.toast.show({
+                            text: '取消成功',
+                            type: 'success',
+                            time: 1000
+                        })
+                    }else{
+                        this.$vux.toast.text(data.resultMsg, 'middle')
+                    }
+                })
+            },
+            // ! 取消订单对话框
+            cancelOrder: function(itemOrder){
+                let vm = this;
+                this.$vux.confirm.show({
+                    title: '提示',
+                    content: '确定要取消订单吗？',
+                    onCancel () {
+                    console.log('plugin cancel')
+                    },
+                    onConfirm () {
+                        vm.CancelAppPayByPad(itemOrder);
+                    }
+                })
+            }
         },
         watch: {
             isShowBanner: function (val, oldVal) {
                 this.isShowBanner = val;
-                this.scrollHeight = this.isShowBanner ? '-180px' : '-150px';
+                this.scrollHeight = this.isShowBanner ? '-300px' : '-150px';
                 if(!this.isShowBanner) {
                     this.$nextTick(() => {
-                        this.$refs.scrollerBottom.reset({top: 0})
+                        this.$refs.scrollerBottom.reset()
                     })
                 }
             }

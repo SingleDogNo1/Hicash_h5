@@ -3,7 +3,7 @@
         <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
-                    <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value, 'createDate': item.createDate, 'amount': item.amount, 'repayDate': item.repayDate, 'repayStatus': item,repayStatus}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
+                    <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value, 'createDate': item.createDate, 'amount': item.amount, 'repayDate': item.repayDate, 'repayStatus': item.repayStatus}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
                 </group>
 
                 <!-- <checklist :options="inlineDescList" v-model="inlineDescListValue" @on-change="change">
@@ -197,8 +197,8 @@
                 desc: '订单号:21231231321',
                 currentValue: [],
                 scrollHeight: '-200px',
-                maxPage: '20',
-                curNum: '1',
+                pageSize: '20',
+                pageNo: '1',
                 overdueList: []
             }
         },
@@ -220,21 +220,9 @@
                         console.info('请求中。。。');
                     }, 2000)
                 }
-            }
-        },
-        watch: {
-            isShowBanner: function (val, oldVal) {
-                this.isShowBanner = val;
-                this.scrollHeight = this.isShowBanner ? '-200px' : '-150px';
-                if(!this.isShowBanner) {
-                    this.$nextTick(() => {
-                        this.$refs.scrollerBottom.reset({top: 0})
-                    })
-                }
-            }
-        },
-        mounted () {
-             const list = [{
+            },
+            init: function() {
+                const list = [{
                     'appNo': '21231231321',
                     'industryCode': 'MDFQ',
                     'industryName': '嗨秒分期',
@@ -290,78 +278,96 @@
                     val.amountStr = val.amount;
                     val.amount = Number(val.amount);
                     val.appNo = '订单号：' + val.appNo;
-                    this.overdueList.push(val);
                 });
+                this.overdueList = list;
 
-            let userName = this.utils.getCookie('userName');
-            let postData = new URLSearchParams();
-                postData.append('userName', userName);
-                postData.append('type', 'overdue');
-                postData.append('maxPage', this.maxPage);
-                postData.append('curNum', this.curNum);
-            this.common.accountOrderList(postData)
-            .then( res => {
-                let data = res.data;
-                const list = [{
-                    'appNo': '21231231321',
-                    'industryCode': 'MDFQ',
-                    'industryName': '嗨秒分期',
-                    'createDate': '2017-07-19',
-                    'amount': '654.00',
-                    'period': '3',
-                    'repayDate': '2017-07-19',
-                    'repayStatus': 'SSS'
-                },
-                {
-                    'appNo': '21231231321',
-                    'industryCode': 'MDFQ',
-                    'industryName': '嗨秒分期',
-                    'createDate': '2017-07-19',
-                    'amount': '654.00',
-                    'period': '3',
-                    'repayDate': '2017-07-19',
-                    'repayStatus': 'SSS'
-                },
-                {
-                    'appNo': '21231231321',
-                    'industryCode': 'MDFQ',
-                    'industryName': '嗨秒分期',
-                    'createDate': '2017-07-19',
-                    'amount': '654.00',
-                    'period': '3',
-                    'repayDate': '2017-07-19',
-                    'repayStatus': 'SSS'
-                },
-                {
-                    'appNo': '21231231321',
-                    'industryCode': 'MDFQ',
-                    'industryName': '嗨秒分期',
-                    'createDate': '2017-07-19',
-                    'amount': '654.00',
-                    'period': '3',
-                    'repayDate': '2017-07-19',
-                    'repayStatus': 'SSS'
-                },
-                {
-                    'appNo': '21231231321',
-                    'industryCode': 'MDFQ',
-                    'industryName': '嗨秒分期',
-                    'createDate': '2017-07-19',
-                    'amount': '654.00',
-                    'period': '3',
-                    'repayDate': '2017-07-19',
-                    'repayStatus': 'SSS'
-                }]
-                list.forEach( (val, index) => {
-                    val.key = index + 1;
-                    val.value = val.appNo;
-                    val.amountStr = val.amount;
-                    val.amount = Number(val.amount);
-                    val.appNo = '订单号：' + val.appNo;
-                    this.overdueList.push(val);
-                });
-                //this.list = data.list;
-            })
+                let userName = this.utils.getCookie('userName');
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('type', 'overdue');
+                    postData.append('pageSize', this.pageSize);
+                    postData.append('pageNo', this.pageNo);
+                this.common.accountOrderList(postData)
+                    .then( res => {
+                        let data = res.data;
+                        const list = [{
+                            'appNo': '21231231321',
+                            'industryCode': 'MDFQ',
+                            'industryName': '嗨秒分期',
+                            'createDate': '2017-07-19',
+                            'amount': '654.00',
+                            'period': '3',
+                            'repayDate': '2017-07-19',
+                            'repayStatus': 'SSS'
+                        },
+                        {
+                            'appNo': '21231231321',
+                            'industryCode': 'MDFQ',
+                            'industryName': '嗨秒分期',
+                            'createDate': '2017-07-19',
+                            'amount': '654.00',
+                            'period': '3',
+                            'repayDate': '2017-07-19',
+                            'repayStatus': 'SSS'
+                        },
+                        {
+                            'appNo': '21231231321',
+                            'industryCode': 'MDFQ',
+                            'industryName': '嗨秒分期',
+                            'createDate': '2017-07-19',
+                            'amount': '654.00',
+                            'period': '3',
+                            'repayDate': '2017-07-19',
+                            'repayStatus': 'SSS'
+                        },
+                        {
+                            'appNo': '21231231321',
+                            'industryCode': 'MDFQ',
+                            'industryName': '嗨秒分期',
+                            'createDate': '2017-07-19',
+                            'amount': '654.00',
+                            'period': '3',
+                            'repayDate': '2017-07-19',
+                            'repayStatus': 'SSS'
+                        },
+                        {
+                            'appNo': '21231231321',
+                            'industryCode': 'MDFQ',
+                            'industryName': '嗨秒分期',
+                            'createDate': '2017-07-19',
+                            'amount': '654.00',
+                            'period': '3',
+                            'repayDate': '2017-07-19',
+                            'repayStatus': 'SSS'
+                        }]
+                        list.forEach( (val, index) => {
+                            val.key = index + 1;
+                            val.value = val.appNo;
+                            val.amountStr = val.amount;
+                            val.amount = Number(val.amount);
+                            val.appNo = '订单号：' + val.appNo;
+                            this.overdueList.push(val);
+                        });
+                        //this.list = data.list;
+                    })
+            },
+            parentHandleclick: function () {
+                this.init();
+            }
+        },
+        watch: {
+            isShowBanner: function (val, oldVal) {
+                this.isShowBanner = val;
+                this.scrollHeight = this.isShowBanner ? '-200px' : '-150px';
+                if(!this.isShowBanner) {
+                    this.$nextTick(() => {
+                        this.$refs.scrollerBottom.reset({top: 0})
+                    })
+                }
+            }
+        },
+        mounted () {
+            this.init();
         }
     }
 </script>

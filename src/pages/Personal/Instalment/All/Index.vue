@@ -20,12 +20,12 @@
 					</div>
 				</sticky>
 			</div>
-			<swiper v-model="index"  :show-dots="false" :class="{'selected-swiper': currentType === 'batchRepayment'}">
+			<swiper @on-index-change="onIndexChange" v-model="index"  :show-dots="false" :class="{'selected-swiper': currentType === 'batchRepayment'}">
 				<swiper-item :key="0">
-					<instalment-overdue @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
+					<instalment-overdue ref="overdue" @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
-					<instalment-normal :isShowBanner="isShowBanner"></instalment-normal>
+					<instalment-normal ref="normal" :isShowBanner="isShowBanner"></instalment-normal>
 				</swiper-item>
 			</swiper>
 			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment' && index === 0" :class="{'hide-banner': !isShowBanner}">充值还款</button>
@@ -85,21 +85,6 @@
 		},
 		mounted() {
 
-			this.bannerImgUrl = 'https://img-blog.csdn.net/20170929115026555?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvR29zc2lwSEhI/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast';
-			this.bannerUrl = 'http://www.baidu.com';
-			this.overdueNum = parseInt('10');
-			this.tabTitle = this.overdueNum > 0 ? '正常订单' : '逾期订单';
-			this.overdueNum = this.overdueNum === 0 ? '' : String(this.overdueNum);
-
-			let tabList = [{
-				title: '逾期订单',
-				num: this.overdueNum
-			},{
-				title: '正常订单',
-				num: ''
-			}]
-
-			this.tabList = tabList;
 			let userName = this.utils.getCookie('userName');
             let postData = new URLSearchParams();
 				postData.append('userName', userName);
@@ -110,7 +95,17 @@
 				this.bannerImgUrl = data.bannerImgUrl;
 				this.bannerUrl = data.bannerUrl;
 				this.overdueNum = data.overdueNum;
-				this.index = this.overdueNum > 0 ? 0 : 1;
+				this.tabTitle = this.overdueNum > 0 ? '逾期订单' : '正常订单';
+				this.overdueNum = this.overdueNum === 0 ? '' : String(this.overdueNum);
+
+				let tabList = [{
+					title: '逾期订单',
+					num: this.overdueNum
+				},{
+					title: '正常订单',
+					num: ''
+				}]
+				this.tabList = tabList;
 			})
 		},
 		methods: {
@@ -131,6 +126,14 @@
 			},
 			hideBanner: function () {
 				this.isShowBanner = false;
+			},
+			onIndexChange: function(index) {
+				console.log('index===', index)
+				if(index === 0) {
+					this.$refs.overdue.parentHandleclick();
+				} else {
+					this.$refs.normal.parentHandleclick();
+				}
 			}
 		},
 		watch: {
@@ -238,6 +241,8 @@
 			}
 			img {
 				width: 100%;
+				height: 100%;
+				object-fit: cover;
 			}
 		}
 	}

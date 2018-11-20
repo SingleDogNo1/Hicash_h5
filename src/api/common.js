@@ -58,7 +58,8 @@ export default{
   accountOrderPage: accountOrderPage,
   accountOrderList: accountOrderList,
   orderDetailInfo: orderDetailInfo,
-  repayPlan: repayPlan
+  repayPlan: repayPlan,
+  CancelAppPayByPad: CancelAppPayByPad
 }
 
 
@@ -778,6 +779,19 @@ export function orderDetailInfo(params){
 export function repayPlan(params){
   return new Promise((resolve,reject)=>{
     axios.post("/hicash-api-service/repayPlan",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  取消订单
+ */
+export function CancelAppPayByPad(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashService/CancelAppPayByPad", params).then((res)=>{
       resolve(res)
     },(err)=>{
       reject(err)
