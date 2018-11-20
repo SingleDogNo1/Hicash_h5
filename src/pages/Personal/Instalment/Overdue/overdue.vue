@@ -303,7 +303,6 @@
                                 val.amountStr = val.amount;
                                 val.amount = Number(val.amount);
                                 val.appNo = '订单号：' + val.appNo;
-                                this.overdueList.push(val);
                             });
                             this.overdueList = data.list;
                         } else {

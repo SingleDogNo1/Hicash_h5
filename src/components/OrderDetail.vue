@@ -290,6 +290,28 @@
                     .then( res => {
                         let data = res.data;
                         if(data.resultCode === '1') {
+                            data.appDetail.forEach( (val, index) => {
+                                switch (val.type) {
+                                    case 'loanFee':
+                                        val.title = '分期订单';
+                                        val.amountName = '借款金额：';
+                                        break;
+                                    case 'infoFee':
+                                        val.title = '会员订单';
+                                        val.amountName = '会员服务费金额：';
+                                        break;
+                                    case 'mthFee':
+                                        val.title = '消费综合订单';
+                                        val.amountName = '消费综合订单';
+                                        break;
+                                    case 'addFee':
+                                        val.title = '保费订单';
+                                        val.amountName = '保费金额：';
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
                             this.appDetail = data.appDetail;
                         } else{
                             this.$vux.toast.show({
