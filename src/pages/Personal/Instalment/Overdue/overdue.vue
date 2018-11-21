@@ -1,6 +1,6 @@
 <template>
-    <div v-cloak class="overdue" :class="{'overdue-empty': overdueList.length === 0}">
-        <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+    <div v-cloak class="overdue" :class="{'overdue-empty': overdueList.length === 0 && !listDataloading}">
+        <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
                     <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value, 'createDate': item.createDate, 'amount': item.amount, 'repayDate': item.repayDate }}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
@@ -18,11 +18,14 @@
                     </checker>
                 </group>
                 <!--<button class="btn-recharge">充值还款</button>-->
+                <!-- 数据加载中 -->
+                <load-more v-if="listDataloading" tip="数据加载中"></load-more>
             </div>
         </scroller>
-        <div class="bg-instalment-empty" v-if="overdueList.length === 0">
+        <div class="bg-instalment-empty" v-if="showNoData">
             <p>这里暂时什么都没有</p>
         </div>
+        <load-more v-if="listDataloading" tip=""></load-more>
     </div>
 </template> 
 
@@ -202,10 +205,13 @@
                 title: '嗨秒分期',
                 desc: '订单号:21231231321',
                 currentValue: [],
-                scrollHeight: '-200px',
-                pageSize: '20',
+                scrollHeight: '-180px',
+                pageSize: '5',
                 pageNo: '1',
-                overdueList: []
+                overdueList: [],
+                onFetching: false,
+                listDataloading: true,
+                showNoData: false
             }
         },
         methods: {
@@ -218,75 +224,10 @@
                     // console.info('onFetching');
                 } else {
                     this.onFetching = true;
-                    setTimeout(() => {
-                        this.$nextTick(() => {
-                            this.$refs.scrollerBottom.reset();
-                        })
-                        this.onFetching = false;
-                        console.info('请求中。。。');
-                    }, 2000)
+                    this.init();
                 }
             },
             init: function() {
-                // const list = [{
-                //     'appNo': '21231231321',
-                //     'industryCode': 'MDFQ',
-                //     'industryName': '嗨秒分期',
-                //     'createDate': '2017-07-19',
-                //     'amount': '651.01',
-                //     'period': '3',
-                //     'repayDate': '2017-07-19',
-                //     'repayStatus': 'SSS'
-                // },
-                // {
-                //     'appNo': '21231231322',
-                //     'industryCode': 'MDFQ',
-                //     'industryName': '嗨秒分期',
-                //     'createDate': '2017-07-19',
-                //     'amount': '652.02',
-                //     'period': '3',
-                //     'repayDate': '2017-07-19',
-                //     'repayStatus': 'SSS'
-                // },
-                // {
-                //     'appNo': '21231231323',
-                //     'industryCode': 'MDFQ',
-                //     'industryName': '嗨秒分期',
-                //     'createDate': '2017-07-19',
-                //     'amount': '653.03',
-                //     'period': '3',
-                //     'repayDate': '2017-07-19',
-                //     'repayStatus': 'SSS'
-                // },
-                // {
-                //     'appNo': '21231231324',
-                //     'industryCode': 'MDFQ',
-                //     'industryName': '嗨秒分期',
-                //     'createDate': '2017-07-19',
-                //     'amount': '654.06',
-                //     'period': '3',
-                //     'repayDate': '2017-07-19',
-                //     'repayStatus': 'SSS'
-                // },
-                // {
-                //     'appNo': '21231231325',
-                //     'industryCode': 'MDFQ',
-                //     'industryName': '嗨秒分期',
-                //     'createDate': '2017-07-19',
-                //     'amount': '655.05',
-                //     'period': '3',
-                //     'repayDate': '2017-07-19',
-                //     'repayStatus': 'SSS'
-                // }]
-                // list.forEach( (val, index) => {
-                //     val.key = index + 1;
-                //     val.value = val.appNo;
-                //     val.amountStr = val.amount;
-                //     val.amount = Number(val.amount);
-                //     val.appNo = '订单号：' + val.appNo;
-                // });
-                // this.overdueList = list;
-
                 let userName = this.utils.getCookie('userName');
                 let postData = new URLSearchParams();
                     postData.append('userName', userName);
@@ -296,6 +237,66 @@
                 this.common.accountOrderList(postData)
                     .then( res => {
                         let data = res.data;
+                        //  data.list = [{
+                        //     amount: "819.00",
+                        //     appNo:"31811190100015",
+                        //     appStatus:null,
+                        //     createDate:"2018-11-19",
+                        //     industryCode:null,
+                        //     industryName:"嗨秒分期",
+                        //     nodeList:null,
+                        //     period:null,
+                        //     repayDate:"2018.12.20",
+                        //     repayStatus:null
+                        // },
+                        // {
+                        //     amount: "819.00",
+                        //     appNo:"31811190100015",
+                        //     appStatus:null,
+                        //     createDate:"2018-11-19",
+                        //     industryCode:null,
+                        //     industryName:"嗨秒分期",
+                        //     nodeList:null,
+                        //     period:null,
+                        //     repayDate:"2018.12.20",
+                        //     repayStatus:null
+                        // },
+                        // {
+                        //     amount: "819.00",
+                        //     appNo:"31811190100015",
+                        //     appStatus:null,
+                        //     createDate:"2018-11-19",
+                        //     industryCode:null,
+                        //     industryName:"嗨秒分期",
+                        //     nodeList:null,
+                        //     period:null,
+                        //     repayDate:"2018.12.20",
+                        //     repayStatus:null
+                        // },
+                        // {
+                        //     amount: "819.00",
+                        //     appNo:"31811190100015",
+                        //     appStatus:null,
+                        //     createDate:"2018-11-19",
+                        //     industryCode:null,
+                        //     industryName:"嗨秒分期",
+                        //     nodeList:null,
+                        //     period:null,
+                        //     repayDate:"2018.12.20",
+                        //     repayStatus:null
+                        // },
+                        // {
+                        //     amount: "819.00",
+                        //     appNo:"31811190100015",
+                        //     appStatus:null,
+                        //     createDate:"2018-11-19",
+                        //     industryCode:null,
+                        //     industryName:"嗨秒分期",
+                        //     nodeList:null,
+                        //     period:null,
+                        //     repayDate:"2018.12.20",
+                        //     repayStatus:null
+                        // }]
                         if(data.resultCode === '1') {
                             data.list.forEach( (val, index) => {
                                 val.key = index + 1;
@@ -303,25 +304,43 @@
                                 val.amountStr = val.amount;
                                 val.amount = Number(val.amount);
                                 val.appNo = '订单号：' + val.appNo;
+                                this.overdueList.push(val);
                             });
-                            this.overdueList = data.list;
-                        } else {
+                            this.listDataloading = false;
+                            this.$nextTick(() => {
+                                this.$refs.scrollerBottom.reset();
+                            })
+                            this.onFetching = false;
+                            if(this.overdueList.length === 0){
+                                this.showNoData = true;
+                            }
+                        } else if(data.resultCode == '-1'){
+                            if(this.overdueList.length === 0){
+                                this.showNoData = true;
+                            }
+                            this.listDataloading = false;
+                        }  else {
                             this.$vux.toast.show({
                                 type: 'cancel',
                                 position: 'middle',
                                 text: res.data.resultMsg
                             })
                         }
+                        this.pageNo ++
                     })
             },
             parentHandleclick: function () {
+                this.pageNo = '1';
+                this.overdueList = [];
+                this.listDataloading = true;
+                this.onFetching = false;
                 this.init();
             }
         },
         watch: {
             isShowBanner: function (val, oldVal) {
                 this.isShowBanner = val;
-                this.scrollHeight = this.isShowBanner ? '-200px' : '-150px';
+                this.scrollHeight = this.isShowBanner ? '-180px' : '-150px';
                 if(!this.isShowBanner) {
                     this.$nextTick(() => {
                         this.$refs.scrollerBottom.reset({top: 0})
