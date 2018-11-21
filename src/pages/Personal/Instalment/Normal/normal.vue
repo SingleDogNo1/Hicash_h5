@@ -706,10 +706,10 @@
 		mounted() {
             
 
-            this.checkerStatus();                         // * 获取默认数据
-			this.$nextTick(() => {
-                this.$refs.scrollerBottom.reset({top: 0});          // * 初始化scroller的高度
-            })
+            //this.checkerStatus();                         // * 获取默认数据
+			// this.$nextTick(() => {
+            //     this.$refs.scrollerBottom.reset({top: 0});          // * 初始化scroller的高度
+            // })
 		},
 		methods: {
             /**
@@ -718,14 +718,12 @@
              *  ! 初始化状态
              * */
             checkerStatus:function(type){
-                console.info('mounted');
                 if(this.checkerType !== type){
                     this.items = [];                                // * 初始化数据
                     this.pageNo = '1';                              // * 初始化页码
                     this.checkerType = type || 'applying';          // * 更新当前的Tag
                     this.getListData(this.checkerType);             // * 请求列表数据
                     this.listDataloading = true;                    // * Loading
-                    this.$refs.scrollerBottom.reset({top: 0});      // * 初始化Scroller的高度
                     this.onFetching = false;                        // * 初始化分页锁定状态
                 }
             },
@@ -739,13 +737,10 @@
                     })
                 }, 1000)
 
-                console.info('this.$refs.flexboxItem === ', this.$refs.flexboxItem);
                 let _top = 0;
                 if(index > 0){
-                    console.log('_', _)
                     _.each(this.$refs.flexboxItem, (item, i)=>{ 
                         if(i >= index) return false;
-                        console.info('this.$refs.flexboxItem', this.$refs.flexboxItem);
                         _top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
                     });
                 }
@@ -753,7 +748,6 @@
                     this.$refs.scrollerBottom.reset({top: _top});
                 })
 
-                console.info('1111111111'); 
                 let vm = this;
                 let userName = this.utils.getCookie('userName');
                 let postData = new URLSearchParams();
@@ -767,13 +761,10 @@
                         this.$nextTick(() => {
                             this.$refs.scrollerBottom.reset();
                         })
-                        console.info('this.$vue', this);
                         let newAppDetail = _.map(data.appDetail, (list)=>{
                             return this.planMapping(list);
                         });
-                        console.info('newAppDetail', newAppDetail);
                         this.$set(this.items[index], 'appDetail', newAppDetail);
-                        // this.items[index].appDetail = data.appDetail;
                     }else{
                         this.$vux.toast.text(data.resultMsg, 'middle')
                     }
@@ -786,7 +777,6 @@
                 this.items[index].showOtherOrder = !this.items[index].showOtherOrder;
                 
                     this.$nextTick(() => {
-                        console.info('this.scrollTop - this.otherOrderHeight', this.scrollTop - this.otherOrderHeight);
                         let _top = this.scrollTop - this.otherOrderHeight;
                         if(_top<-0) _top=0;
                         this.$refs.scrollerBottom.reset({top: _top},500,'ease');
@@ -799,7 +789,6 @@
             },
             // ! 获取列表数据
             getListData (type){
-                console.info(type);
                 this.listDataloading = true;
                 let userName = this.utils.getCookie('userName');
                 let postData = new URLSearchParams();
@@ -809,9 +798,6 @@
                     postData.append('pageNo', this.pageNo);
                 this.common.accountOrderList(postData)
                 .then( res => {
-                    console.info('getListData ==> res', res);
-                    
-                    console.info('this.pageNo', this.pageNo);
                     let data = res.data;
                     if(data.resultCode == '1'){
                         data.list.forEach( (val, index) => {
@@ -853,22 +839,12 @@
             onScrollBottom () {
                 if (this.onFetching) {
                     // do nothing
-                    // console.info('onFetching');
                 } else {
                     this.onFetching = true;
-                    // setTimeout(() => {
-                    //     this.$nextTick(() => {
-                    //         this.$refs.scrollerBottom.reset();
-                    //     })
-                    //     this.onFetching = false;
-                    //     console.info('请求中。。。');
-                    // }, 2000)
-                    
                     this.getListData(this.checkerType);
                 }
             },
             parentHandleclick: function () {
-                console.info('parentHandleclick');
                 this.checkerStatus();
             },
             // ! 取消订单接口
@@ -906,7 +882,6 @@
                     title: '提示',
                     content: '确定要取消订单吗？',
                     onCancel () {
-                    console.log('plugin cancel')
                     },
                     onConfirm () {
                         vm.CancelAppPayByPad(itemOrder);
