@@ -29,7 +29,7 @@ import HotNewsDetail from '@/pages/HotNews/Detail'
 import MyNews from '@/pages/Personal/MyNews/Index'
 import MyCoupon from '@/pages/Personal/Coupon/MyCoupon'
 import MyInstalment from '@/pages/Personal/Instalment/index'
-import AllIndex from '@/pages/Personal/Instalment/All/index'
+import AllIndex from '@/pages/Personal/Instalment/All/Index'
 import OverdueDetail from '@/pages/Personal/Instalment/Overdue/OverdueDetail'
 import RepaymentPlan from '@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan'
 
