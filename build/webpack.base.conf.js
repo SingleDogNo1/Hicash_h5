@@ -28,7 +28,8 @@ const webpackConfig = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'jquery': 'jquery',
-      '_': 'underscore'
+      '_': 'underscore',
+      'bowerComponents': resolve('bower_components')
     }
   },
   module: {

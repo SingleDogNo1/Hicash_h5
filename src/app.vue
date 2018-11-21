@@ -71,7 +71,6 @@ export default {
         this.$router.beforeEach((to, from, next) => {
 
             this.path = to.name;
-            console.info('this.path', this.name);
 
             if (to.meta.title) {
                 document.title = to.meta.title;
@@ -80,8 +79,6 @@ export default {
                 var userName = this.utils.getCookie("userName");
                 var realName = this.utils.getCookie("realName");
                 var mobile = this.utils.getCookie("mobile");
-
-                console.info('userName', userName);
 
                 // 判断该路由是否需要登录权限
                 if(!userName || userName=="null"){
@@ -131,6 +128,9 @@ export default {
     }
     .BreakPromiseDetail, .Result {
         background: #eee;
+    }
+    .OverdueDetail, .RepaymentPlan {
+        background: #f2f2f2;
     }
     .footer{
         max-width: 640px;

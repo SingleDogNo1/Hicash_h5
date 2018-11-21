@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Personal from '@/pages/Personal/index'
+import PersonIndex from '@/pages/Personal/Person/index'
 import MiaoDai from '@/components/MiaoDai'
 import Login from '@/pages/Account/Login'
 import ForgetPassword from '@/components/ForgetPassword'
@@ -20,12 +21,17 @@ import SmallBanner from '@/components/SmallBanner'
 import Help from '@/components/Help'
 import Notice  from '@/components/Notice'
 import Coupon from '@/pages/Coupon/Index'
-import MyCoupon from '@/pages/Coupon/MyCoupon'
 import BreakPromise from '@/pages/BreakPromise/Index'
 import Result from '@/pages/BreakPromise/Result'
 import BreakPromiseDetail from '@/pages/BreakPromise/Detail'
 import HotNews from '@/pages/HotNews/Index'
-import HotNewsDetail from '@/pages/HotNews//Detail'
+import HotNewsDetail from '@/pages/HotNews/Detail'
+import MyNews from '@/pages/Personal/MyNews/Index'
+import MyCoupon from '@/pages/Personal/Coupon/MyCoupon'
+import MyInstalment from '@/pages/Personal/Instalment/index'
+import AllIndex from '@/pages/Personal/Instalment/All/index'
+import OverdueDetail from '@/pages/Personal/Instalment/Overdue/OverdueDetail'
+import RepaymentPlan from '@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan'
 
 Vue.use(Router)
 
@@ -47,12 +53,78 @@ export default new Router({
     {
     	//个人中心
       	path: '/personal',
-      	name: 'Personal',
-      	component: Personal,
-        meta:{
-            requireAuth:true,
-            title: '个人中心'
-        }
+        name: 'Personal',
+        component: Personal,
+        redirect: '/personal/personIndex',
+        children: [
+            {
+                path: 'personIndex',
+                name: 'PersonIndex',
+                component: PersonIndex,
+                meta:{
+                    requireAuth:true,
+                    title: '个人中心'
+                },
+            },
+            {
+                //个人中心 - 我的分期
+                path: 'myInstalment',
+                name: 'MyInstalment',
+                component: MyInstalment,
+                redirect: '/personal/myInstalment/allIndex',
+                children: [
+                    {
+                        path: 'allIndex',
+                        name: 'AllIndex',
+                        component: AllIndex,
+                        meta:{
+                            requireAuth:true,
+                            title: '我的分期'
+                        },
+                    },
+                    {
+                        //个人中心 - 我的分期 - 逾期详情
+                        path: 'overdueDetail',
+                        name: 'OverdueDetail',
+                        component: OverdueDetail,
+                        meta:{
+                            requireAuth:true,
+                            title: '逾期订单'
+                        }
+                    },
+                    {
+                        //个人中心 - 我的分期 - 还款计划
+                        path: 'repaymentPlan',
+                        name: 'RepaymentPlan',
+                        component: RepaymentPlan,
+                        meta:{
+                            requireAuth:true,
+                            title: '还款计划'
+                        }
+                    }  
+                ]
+            },
+            {
+                //个人中心 - 我的优惠券
+                path: 'myCoupon',
+                name: 'MyCoupon',
+                component: MyCoupon,
+                meta: { 
+                    requireAuth:true,
+                    title: '我的优惠券' 
+                }
+            },
+            {
+                //个人中心 - 我的消息
+                path: 'myNews',
+                name: 'MyNews',
+                component: MyNews,
+                meta: { 
+                    requireAuth:true,
+                    title: '我的消息' 
+                }
+            }
+        ]
     },
     {
         //登录
@@ -172,16 +244,6 @@ export default new Router({
         meta: { 
             requireAuth:true,
             title: '优惠券' 
-        }
-    },
-    {
-        //个人中心 - 我的优惠券
-        path: '/MyCoupon',
-        name: 'MyCoupon',
-        component: MyCoupon,
-        meta: { 
-            requireAuth:true,
-            title: '我的优惠券' 
         }
     },
     {

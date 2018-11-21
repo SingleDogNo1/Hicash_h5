@@ -53,7 +53,14 @@ export default{
   QueryMyMsg: QueryMyMsg,
   loseCreditInfo: loseCreditInfo,
   loseCreditDetail: loseCreditDetail,
-  GsdtHyzxDetailMsg: GsdtHyzxDetailMsg
+  GsdtHyzxDetailMsg: GsdtHyzxDetailMsg,
+  UpdateMsgStatus: UpdateMsgStatus,
+  accountOrderPage: accountOrderPage,
+  accountOrderList: accountOrderList,
+  orderDetailInfo: orderDetailInfo,
+  repayPlan: repayPlan,
+  CancelAppPayByPad: CancelAppPayByPad,
+  QueryWithdrawData: QueryWithdrawData
 }
 
 
@@ -682,10 +689,12 @@ export function loseCreditInfo(params){
 export function QueryMyMsg(params){
   return new Promise((resolve,reject)=>{
     axios.post("/HicashAppService/QueryMyMsg",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
     })
   })
 }
-
 /*
  *  失信详情接口
  */
@@ -707,6 +716,94 @@ export function GsdtHyzxDetailMsg(params){
     axios.post("/NewHicashService/GsdtHyzxDetailMsg",params).then((res)=>{
       resolve(res)
     },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  更新是否已读接口
+ */
+export function UpdateMsgStatus(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashAppService/UpdateMsgStatus",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  我的分期页面 数据接口
+ */
+export function accountOrderPage(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/accountOrderPage",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  我的分期 订单列表内容接口
+ */
+export function accountOrderList(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/accountOrderList",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  我的分期 订单展开信息接口
+ */
+export function orderDetailInfo(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/orderDetailInfo",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  还款计划页面接口
+ */
+export function repayPlan(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/hicash-api-service/repayPlan",params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+/*
+ *  取消订单
+ */
+export function CancelAppPayByPad(params){
+  return new Promise((resolve,reject)=>{
+    axios.post("/HicashService/CancelAppPayByPad", params).then((res)=>{
+      resolve(res)
+    },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+export function QueryWithdrawData(params){
+  return new Promise((resolve, reject)=>{
+    axios.post('/HicashAppService/QueryWithdrawData', params).then((res)=>{
+      resolve(res)
+    }, (err)=>{
       reject(err)
     })
   })
