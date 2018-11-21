@@ -661,10 +661,10 @@
 
 <script>
     import { Checker, CheckerItem, Badge, Flexbox, FlexboxItem, Scroller, LoadMore, XTable, Popover } from 'vux'
-    import vanStep from 'vant/lib/Step';
-    import 'vant/lib/Step/style';
-    import vanSteps from 'vant/lib/Steps';
-    import 'vant/lib/Steps/style';
+    import vanStep from 'nodeModules/vant/lib/Step';
+    import 'nodeModules/vant/lib/Step/style';
+    import vanSteps from 'nodeModules/vant/lib/Steps';
+    import 'nodeModules/vant/lib/Steps/style';
 
     export default {
         props: {

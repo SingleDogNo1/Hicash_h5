@@ -43,7 +43,7 @@
 	import PageHeader from '@/components/PageHeader.vue';
 	import ConfirmDialog from '@/components/Dialog.vue'
 	import InstalmentNormal from '@/pages/Personal/Instalment/Normal/normal.vue';
-	import InstalmentOverdue from '@/pages/Personal/Instalment/Overdue/Overdue.vue';
+	import InstalmentOverdue from '@/pages/Personal/Instalment/Overdue/overdue.vue';
 	
 	export default {
 		components: {

@@ -29,7 +29,8 @@ const webpackConfig = {
       '@': resolve('src'),
       'jquery': 'jquery',
       '_': 'underscore',
-      'bowerComponents': resolve('bower_components')
+      'bowerComponents': resolve('bower_components'),
+      'nodeModules': resolve('node_modules')
     }
   },
   module: {
