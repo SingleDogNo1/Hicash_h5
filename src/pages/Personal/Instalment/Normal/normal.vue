@@ -3,11 +3,11 @@
         <div class="checker-wrap">
             <div @click="checkerStatus('applying')"  :class="checkerType == 'applying' ? 'checker-selected' : ''" class="checker-default">
                 申请中
-                <badge></badge>
+                <badge v-if="applyingStatus"></badge>
             </div>
             <div @click="checkerStatus('repay')"  :class="checkerType == 'repay' ? 'checker-selected' : ''" class="checker-default">
                 还款中
-                <badge></badge>
+                <badge v-if="repayStatus"></badge>
             </div>
             <div @click="checkerStatus('end')"  :class="checkerType == 'end' ? 'checker-selected' : ''" class="checker-default">已完成</div>
         </div>
@@ -38,7 +38,7 @@
 
                         <div class="actions" v-if="item.appStatus !== 'LOANFAILED' && item.appStatus !== 'LOAN'">
                             <a v-if="item.appStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
-                            <a v-if="item.appStatus === 'SIGNNODE'" href="javascript:void(0);" class="btn btn-sign">签约</a>
+                            <a v-if="item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="sign(item)" class="btn btn-sign">签约</a>
                             <a v-if="item.appStatus === 'NEWNODE' || item.appStatus === 'AUDITNODE' || item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="cancelOrder(item)" class="btn btn-channel">取消订单</a>
                         </div>
                     </div>
@@ -81,8 +81,8 @@
 
                         <div class="actions" v-if="item.appStatus !== 'WITHDRAWALING' && item.appStatus !== 'WITHDRAWALSUCCESS'">
                             <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && item.appStatus==='REPAYNODE'"><span>展开所有</span><i></i></a>
-                            <a href="javascript:void(0);" class="btn btn-recharge" v-if="item.appStatus==='REPAYNODE'">充值还款</a>
-                            <a href="javascript:void(0);" class="btn btn-recharge" v-if="item.appStatus==='WITHDRAWALNODE'">提现</a>
+                            <a :href="item.rechargeUrl" class="btn btn-recharge" v-if="item.appStatus==='REPAYNODE'">充值还款</a>
+                            <a href="javascript:void(0);" class="btn btn-recharge" @click="withdrawals(item)" v-if="item.appStatus==='WITHDRAWALNODE'">提现</a>
                         </div>
 
                         <div class="other-order" ref="otherOrder" :class="item.showOtherOrder?'animate':''">
@@ -95,7 +95,7 @@
                                     <p class="right-wrap">期数：{{plan.period}}期</p>
                                 </div>
                                 <div class="actions">
-                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
+                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan', query:{'appNo': item.appNo, 'type': plan.type}}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
                                 </div>
                             </div>
                             <a href="javascript:void(0);" class="btn-takeup-all" :class="item.showOtherOrder ? 'up': 'down'" @click="closeAll(item, index)"><span>收起所有</span><i></i></a>
@@ -142,7 +142,7 @@
                                     <p class="right-wrap">期数：{{plan.period}}期</p>
                                 </div>
                                 <div class="actions">
-                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan'}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
+                                    <router-link class="btn-repayment-plan" :to="{'path': '/personal/myInstalment/repaymentPlan', query:{'appNo': item.appNo, 'type': plan.type}}"><span>还款计划</span><i class="iconfont">&#58999;</i></router-link>
                                 </div>
                             </div>
                             
@@ -159,7 +159,7 @@
         <div class="bg-instalment-empty" v-if="showNoData">
             <p>这里暂时什么都没有</p>
         </div>
-        <load-more v-if="listDataloading" tip=""></load-more>
+        <load-more tip=""></load-more>
     </div>
 </template> 
 
@@ -696,11 +696,13 @@
                 scrollTop: '0',             // * 初始化滚动条位置
                 otherOrderHeight: 0,        // * 初始化还款计划高度
                 items:[],                   // * 初始化列表数据
-                scrollHeight: '-180px',     // * 初始化列表高度
+                scrollHeight: '-220px',     // * 初始化列表高度
                 pageSize: '20',             // * 设置每页最大数
                 pageNo: '1',                // * 初始化当前页
                 listDataloading: true,      // * 初始化Loading显示状态 
-                showNoData: false           // * 初始化无数据页面
+                showNoData: false,          // * 初始化无数据页面
+                applyingStatus: false,      // * 申请中小红点显示状态
+                repayStatus: false          // * 还款中小红点显示状态
             }
         },
 		mounted() {
@@ -717,15 +719,54 @@
              *  ! 获取对应数据
              *  ! 初始化状态
              * */
-            checkerStatus:function(type){
+            checkerStatus (type){
                 if(this.checkerType !== type){
                     this.items = [];                                // * 初始化数据
                     this.pageNo = '1';                              // * 初始化页码
                     this.checkerType = type || 'applying';          // * 更新当前的Tag
                     this.getListData(this.checkerType);             // * 请求列表数据
-                    this.listDataloading = true;                    // * Loading
                     this.onFetching = false;                        // * 初始化分页锁定状态
                 }
+            },
+            // ! 签约
+            sign (item){
+                console.info('item', item);
+                return false;
+                const appNo = item.appNo;
+                const applyAmount = item.amount;
+                const loanProduct = item.loanProduct;
+                const industryCode = item.industryCode;
+                this.utils.setCookie("prodetailInfo",applyAmount+":"+loanProduct);
+                if(this.utils.getPlatform()=="APP"){
+                    window.hicashJSCommunication.onCallApp(JSON.stringify({"type":"h5_sign","industry_code":industryCode,"app_no":appNo}));
+                    return false;
+                }
+                window.location.href=this.config.MWEB_PATH + "newweb/personalCenter/signature.html?comefrom=H5&appNo="+appNo;
+            },
+            // ! 充值
+            recharge(){
+
+            },
+            // ! 提现
+            withdrawals(item){
+                let userName = this.utils.getCookie('userName');
+                let postData = new URLSearchParams();
+                    postData.append('userName', userName);
+                    postData.append('txAmount', item.amount);
+                    postData.append('uuid', this.utils.uuid());
+                    postData.append('appNo', item.appNo);
+
+                this.common.QueryWithdrawData(postData)
+                .then( res => {
+                    let data = res.data;
+                    let _data = JSON.parse(data);
+
+                    if(_data.followUrl && _data.followUrl !== ''){
+                        window.location.href = _data.followUrl;
+                    }else{
+                        window.location.href = MWEB_PATH+"newweb/personalCenter/withdrawalsTransfer.html?txAmount=" + item.amount + '&appNo=' + item.appNo + '&userName=' + userName;
+                    }
+                })
             },
             // ! 展开还款计划
             openAll (item, index){
@@ -789,6 +830,7 @@
             },
             // ! 获取列表数据
             getListData (type){
+                console.info('getListData ==== ');
                 this.listDataloading = true;
                 let userName = this.utils.getCookie('userName');
                 let postData = new URLSearchParams();
@@ -801,12 +843,11 @@
                     let data = res.data;
                     if(data.resultCode == '1'){
                         data.list.forEach( (val, index) => {
-                            // val.key = index + 1;
-                            // val.value = val.appNo;
-                            // val.amountStr = val.amount;
-                            // val.amount = Number(val.amount);
-                            // val.appNo = '订单号：' + val.appNo;
                             val.showOtherOrder = false;
+                            if(val.appStatus === 'WITHDRAWALNODE'){
+                                val.rechargeUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo= '+ val.appNo +'&userName=' + userName
+                            }
+                            
                             if(val.nodeList){
                                 let nodeGrep = _.filter(val.nodeList, function(node){
                                     return node.nodeStyle == "grep"; 
@@ -816,19 +857,25 @@
                             this.items.push(val);
                         });
 
-                        this.$nextTick(() => {
-                            this.$refs.scrollerBottom.reset();
-                        })
+                        if(data.list.length < 20){
+                            this.listDataloading = false;
+                        }
+
                         this.onFetching = false;
                         
                     }else if(data.resultCode == '-1'){
-                        // this.items = [];
-                        if(!this.items){
+                        this.listDataloading = false;
+                        if(!this.items.length){
                             this.showNoData = true;
                         }
-                        this.listDataloading = false;
+                        
                     }else{
                         this.$vux.toast.text(data.resultMsg, 'middle')
+                    }
+                    if(this.items.length){
+                        this.$nextTick(() => {
+                            this.$refs.scrollerBottom.reset();
+                        })
                     }
                     
                     this.pageNo ++
@@ -841,10 +888,13 @@
                     // do nothing
                 } else {
                     this.onFetching = true;
+                    
                     this.getListData(this.checkerType);
                 }
             },
-            parentHandleclick: function () {
+            parentHandleclick: function (headerData) {
+                this.applyingStatus = headerData.applyingShowTip ? true : false;
+                this.repayStatus = headerData.repayShowTip ? true : false;
                 this.checkerStatus();
             },
             // ! 取消订单接口
@@ -913,10 +963,12 @@
         },
         watch: {
             isShowBanner: function (val, oldVal) {
+                console.info('this.isShowBanner', this.isShowBanner);
                 this.isShowBanner = val;
-                this.scrollHeight = this.isShowBanner ? '-300px' : '-150px';
+                this.scrollHeight = this.isShowBanner ? '-220px' : '-160px';
                 if(!this.isShowBanner) {
                     this.$nextTick(() => {
+                        console.info('this.$refs.scrollerBottom == ', this.isShowBanner);
                         this.$refs.scrollerBottom.reset()
                     })
                 }
