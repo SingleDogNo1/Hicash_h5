@@ -840,7 +840,7 @@
                         data.list.forEach( (val, index) => {
                             val.showOtherOrder = false;
                             if(val.appStatus === 'REPAYNODE'){
-                                val.rechargeUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo= '+ val.appNo +'&userName=' + userName
+                                val.rechargeUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo='+ val.appNo +'&userName=' + userName
                             }
                             
                             if(val.nodeList){
