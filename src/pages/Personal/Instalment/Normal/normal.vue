@@ -727,8 +727,6 @@
             },
             // ! 签约
             sign (item){
-                console.info('item', item);
-                return false;
                 const appNo = item.appNo;
                 const applyAmount = item.amount;
                 const loanProduct = item.loanProduct;
@@ -841,8 +839,8 @@
                     if(data.resultCode == '1'){
                         data.list.forEach( (val, index) => {
                             val.showOtherOrder = false;
-                            if(val.appStatus === 'WITHDRAWALNODE'){
-                                val.rechargeUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo= '+ val.appNo +'&userName=' + userName
+                            if(val.appStatus === 'REPAYNODE'){
+                                val.rechargeUrl = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo='+ val.appNo +'&userName=' + userName
                             }
                             
                             if(val.nodeList){
