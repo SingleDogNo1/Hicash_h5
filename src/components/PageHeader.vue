@@ -63,10 +63,7 @@
         methods: {
             jump: function () {
                 if(this.jumpRouteName) {
-                    this.preventGoBack = true
                     this.$router.push({name: this.jumpRouteName});
-                } else {
-                    this.preventGoBack = true
                 }
             }
         },
