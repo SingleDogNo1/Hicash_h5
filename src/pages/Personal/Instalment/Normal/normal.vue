@@ -653,7 +653,7 @@
         display: none;
     }
     .weui-dialog__btn_primary{
-        color: #FF7640;
+        color: #FF7640 !important;
     }
 </style>
 
