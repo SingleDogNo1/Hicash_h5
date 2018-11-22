@@ -15,8 +15,8 @@
 							<tab-item badge-label="1" :key="1" >正常订单</tab-item> -->
 							<tab-item :badge-label="item.num" :selected="tabTitle === item.title" v-for="(item, index) in tabList" @click="demo2 = item.title" :key="index">{{item.title}}</tab-item>
 						</tab>
-						<button class="btn-batch-repayment" v-if="currentType === 'default' && index === 0" @click="batchRepayment">批量还款</button>
-						<button class="btn-cancel" v-if="currentType === 'batchRepayment' && index === 0" @click="cancel">取消</button>
+						<button class="btn-batch-repayment" v-if="currentType === 'default' && index === 0 && overdueNum > 0" @click="batchRepayment">批量还款</button>
+						<button class="btn-cancel" v-if="currentType === 'batchRepayment' && index === 0 && overdueNum > 0" @click="cancel">取消</button>
 					</div>
 				</sticky>
 			</div>
