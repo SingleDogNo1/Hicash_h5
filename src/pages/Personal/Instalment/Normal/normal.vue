@@ -159,7 +159,7 @@
         <div class="bg-instalment-empty" v-if="showNoData">
             <p>这里暂时什么都没有</p>
         </div>
-        <load-more tip=""></load-more>
+        <load-more v-if="!showNoData" tip=""></load-more>
     </div>
 </template> 
 
@@ -693,7 +693,7 @@
                 scrollTop: '0',             // * 初始化滚动条位置
                 otherOrderHeight: 0,        // * 初始化还款计划高度
                 items:[],                   // * 初始化列表数据
-                scrollHeight: '-220px',     // * 初始化列表高度
+                scrollHeight: this.utils.getPlatform() == 'APP' ? '-170px' : '-220px',     // * 初始化列表高度
                 pageSize: '20',             // * 设置每页最大数
                 pageNo: '1',                // * 初始化当前页
                 listDataloading: true,      // * 初始化Loading显示状态 
@@ -962,7 +962,7 @@
             isShowBanner: function (val, oldVal) {
                 console.info('this.isShowBanner', this.isShowBanner);
                 this.isShowBanner = val;
-                this.scrollHeight = this.isShowBanner ? '-220px' : '-160px';
+                this.scrollHeight = this.isShowBanner ? this.utils.getPlatform() == 'APP' ? '-170px' : '-220px' : this.utils.getPlatform() == 'APP' ? '-110px' : '-160px';
                 if(!this.isShowBanner) {
                     this.$nextTick(() => {
                         console.info('this.$refs.scrollerBottom == ', this.isShowBanner);
