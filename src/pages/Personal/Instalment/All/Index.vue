@@ -1,7 +1,7 @@
 <template>
 	<div v-cloak>
-		<page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
-		<div id="content" class="content">
+		<page-header v-if="this.utils.getPlatform() != 'APP'" :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+		<div id="content" class="content" :style="{'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'}">
 			<div>
 				<sticky
 					scroll-box="content"
