@@ -279,7 +279,7 @@
         methods: {
             expandAll: function () {
                 this.showOtherOrder = !this.showOtherOrder;
-                let userName = this.utils.getCookie('userName');
+                const userName = this.utils.getCookie('userName');
                 let appNo = this.$route.query.appNo;
                 this.appNo = appNo;
                 let postData = new URLSearchParams();
@@ -322,7 +322,8 @@
                     })
             },
             btnRecharge: function() {
-                window.location.href = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo=' + this.appNo;
+                const userName = this.utils.getCookie('userName');
+                window.location.href = this.config.MWEB_PATH + 'newweb/personalCenter/rechargePay.html?appNo=' + this.appNo + '&userName=' + userName;
             }
         },
         mounted () {
