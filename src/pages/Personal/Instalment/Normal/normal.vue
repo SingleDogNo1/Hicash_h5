@@ -727,8 +727,6 @@
             },
             // ! 签约
             sign (item){
-                console.info('item', item);
-                return false;
                 const appNo = item.appNo;
                 const applyAmount = item.amount;
                 const loanProduct = item.loanProduct;
