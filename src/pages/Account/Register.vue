@@ -420,7 +420,6 @@
                     this.$vux.loading.hide();
                     let data = res.data;
                     if (data.token !== '') {
-                        console.log('res======', res);
                         window.gio('setUserId', data.loginInfo.userName);
                         this.jsCommon.setAuthorization(data.loginInfo.userName, data.loginInfo.token);
                         this.imgCode = '';

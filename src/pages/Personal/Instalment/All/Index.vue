@@ -43,7 +43,7 @@
 	import PageHeader from '@/components/PageHeader.vue';
 	import ConfirmDialog from '@/components/Dialog.vue'
 	import InstalmentNormal from '@/pages/Personal/Instalment/Normal/normal.vue';
-	import InstalmentOverdue from '@/pages/Personal/Instalment/Overdue/Overdue.vue';
+	import InstalmentOverdue from '@/pages/Personal/Instalment/Overdue/overdue.vue';
 	
 	export default {
 		components: {
@@ -80,7 +80,8 @@
 				overdueNum: 0,
 				normalNum: 0,
 				tabTitle: '逾期订单',
-				tabList: []
+				tabList: [],
+				accountOrderPageData: ''
 			}
 		},
 		mounted() {
@@ -92,6 +93,7 @@
 			this.common.accountOrderPage(postData)
             .then( res => {
 				let data = res.data;
+				this.accountOrderPageData = data;
 				this.bannerImgUrl = data.bannerImgUrl;
 				this.bannerUrl = data.bannerUrl;
 				this.overdueNum = data.overdueNum;
@@ -132,7 +134,7 @@
 				if(index === 0) {
 					this.$refs.overdue.parentHandleclick();
 				} else {
-					this.$refs.normal.parentHandleclick();
+					this.$refs.normal.parentHandleclick(this.accountOrderPageData);
 				}
 			}
 		},

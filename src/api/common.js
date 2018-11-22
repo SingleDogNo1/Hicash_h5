@@ -59,7 +59,8 @@ export default{
   accountOrderList: accountOrderList,
   orderDetailInfo: orderDetailInfo,
   repayPlan: repayPlan,
-  CancelAppPayByPad: CancelAppPayByPad
+  CancelAppPayByPad: CancelAppPayByPad,
+  QueryWithdrawData: QueryWithdrawData
 }
 
 
@@ -669,7 +670,6 @@ export function OwnPageShow(params){
     })
   })
 }
-    
 /*
  *  失信列表信息接口
  */
@@ -794,6 +794,16 @@ export function CancelAppPayByPad(params){
     axios.post("/HicashService/CancelAppPayByPad", params).then((res)=>{
       resolve(res)
     },(err)=>{
+      reject(err)
+    })
+  })
+}
+
+export function QueryWithdrawData(params){
+  return new Promise((resolve, reject)=>{
+    axios.post('/HicashAppService/QueryWithdrawData', params).then((res)=>{
+      resolve(res)
+    }, (err)=>{
       reject(err)
     })
   })
