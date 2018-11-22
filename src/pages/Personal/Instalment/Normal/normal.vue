@@ -661,11 +661,7 @@
 
 <script>
     import { Checker, CheckerItem, Badge, Flexbox, FlexboxItem, Scroller, LoadMore, XTable, Popover } from 'vux'
-    import vanStep from 'nodeModules/vant/lib/Step';
-    import 'nodeModules/vant/lib/Step/style';
-    import vanSteps from 'nodeModules/vant/lib/Steps';
-    import 'nodeModules/vant/lib/Steps/style';
-
+    import { Step, Steps, Icon } from 'vant';
     export default {
         props: {
             isShowBanner: {
@@ -679,12 +675,13 @@
             Badge,
             Flexbox,
             FlexboxItem,
-            vanSteps,
-            vanStep,
             Scroller,
             LoadMore,
             XTable,
-            Popover 
+            Popover,
+            [Step.name]:Step,
+            [Steps.name]:Steps,
+            [Icon.name]:Icon
         },
         data () {
             return {

@@ -22,14 +22,9 @@ Vue.prototype.config = config;
 Vue.prototype.jsCommon = jsCommon;
 Vue.prototype.cache = jsCommon.Cache();
 
-// Vue.component('x-header', XHeader)
 Vue.component('tabbar', Tabbar)
 Vue.component('tabbar-item', TabbarItem)
-// Vue.component('view-box', ViewBox)
 Vue.component('toast', Toast)
-
-import { Icon } from 'vant';
-Vue.use(Icon);
 
 import  { ToastPlugin } from 'vux'
 Vue.use(ToastPlugin)
