@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak class="overdue" :class="{'overdue-empty': overdueList.length === 0 && !listDataloading}">
+    <div v-cloak class="overdue">
         <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
@@ -25,7 +25,7 @@
         <div class="bg-instalment-empty" v-if="showNoData">
             <p>这里暂时什么都没有</p>
         </div>
-        <load-more v-if="listDataloading" tip=""></load-more>
+        <load-more v-if="listDataloading" tip="" :class="{'empty-loading': showNoData}"></load-more>
     </div>
 </template> 
 
@@ -150,23 +150,23 @@
         }
         .bg-instalment-empty {
             width: 50%;
-            height: rem(200px);
+            height: rem(100px);
             margin: 0 auto;
             padding-top: 40%;
-            background: url("../images/bg_instalment_empty.png") center rem(200px) no-repeat;
+            background: url("../images/bg_instalment_empty.png") center rem(150px) no-repeat;
             background-size: rem(61px) rem(40px);
             p {
                 text-align: center;
                 color: #999;
-                height: rem(200px);
-                line-height: rem(200px);
+                height: rem(100px);
+                line-height: rem(100px);
                 font-size: 12px;
                 margin-top: rem(10px);
             }
         }
-    }
-    .overdue-empty {
-        background: #fff;
+        .empty-loading {
+            margin-top: rem(-30px)
+        }
     }
 </style>
 
