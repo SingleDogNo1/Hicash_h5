@@ -1,5 +1,5 @@
 <template>
-    <x-header :left-options="{backText: '', showBack: showBack}">{{title}}<a class="btn-close" slot="right" v-if="showBtnClose"></a></x-header>
+    <x-header :left-options="{backText: '', showBack: showBack, preventGoBack: preventGoBack}" @on-click-back="jump">{{title}}<a class="btn-close" slot="right" v-if="showBtnClose"></a></x-header>
 </template> 
 
 <style lang="scss" scoped>
@@ -49,14 +49,26 @@
         props: {
             title: String,
             showBack: Boolean,
-            showBtnClose: Boolean
+            showBtnClose: Boolean,
+            jumpRouteName: String
         },
         components: {
             XHeader
         },
         data () {
             return {
+                preventGoBack: false
             }
+        },
+        methods: {
+            jump: function () {
+                if(this.jumpRouteName) {
+                    this.$router.push({name: this.jumpRouteName});
+                }
+            }
+        },
+        mounted () {
+            this.preventGoBack = this.jumpRouteName ? true : false;
         }
     }
 </script>
