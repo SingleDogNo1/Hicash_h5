@@ -39,7 +39,7 @@
                         <div class="actions" v-if="item.appStatus !== 'LOANFAILED' && item.appStatus !== 'LOAN'">
                             <a v-if="item.appStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
                             <a v-if="item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="sign(item)" class="btn btn-sign">签约</a>
-                            <a v-if="item.appStatus === 'NEWNODE' || item.appStatus === 'AUDITNODE' || item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="cancelOrder(item)" class="btn btn-channel">取消订单</a>
+                            <a v-if="item.appStatus === 'NEWNODE' || item.appStatus === 'AUDITNODE' || item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="cancelOrder(item, index)" class="btn btn-channel">取消订单</a>
                         </div>
                     </div>
                 </flexbox-item>
@@ -893,7 +893,7 @@
                 this.checkerStatus();
             },
             // ! 取消订单接口
-            CancelAppPayByPad (itemOrder){
+            CancelAppPayByPad (itemOrder, index){
                 // 显示
                 this.$vux.loading.show({
                     text: '取消中...'
@@ -907,7 +907,14 @@
                     postData.append('uuid', this.utils.uuid());
                 this.common.CancelAppPayByPad(postData)
                 .then( res => {
+                    //更新红点已经列表数据状态
+                    console.info('更新红点已经列表数据状态');
+                    this.$emit('watchChild', true);
                     this.$vux.loading.hide();
+                    // this.items.splice(index,1);
+                    // if(!this.items.length){
+                    //     this.showNoData = true;
+                    // }
                     let data = res.data;
                     if(data.resultCode == '1'){
                         this.$vux.toast.show({
