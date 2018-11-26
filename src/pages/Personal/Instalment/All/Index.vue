@@ -131,7 +131,6 @@
 				this.isShowBanner = false;
 			},
 			onIndexChange: function(index) {
-				console.log('index===', index)
 				if(index === 0) {
 					this.$refs.overdue.parentHandleclick();
 				} else {
