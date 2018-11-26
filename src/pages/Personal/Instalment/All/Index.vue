@@ -25,7 +25,7 @@
 					<instalment-overdue ref="overdue" @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1">
-					<instalment-normal ref="normal" :isShowBanner="isShowBanner"></instalment-normal>
+					<instalment-normal ref="normal"  @watchChild="accountOrderPage" :isShowBanner="isShowBanner"></instalment-normal>
 				</swiper-item>
 			</swiper>
 			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment' && index === 0" :class="{'hide-banner': !isShowBanner}">充值还款</button>
@@ -86,32 +86,38 @@
 			}
 		},
 		mounted() {
-
-			let userName = this.utils.getCookie('userName');
-            let postData = new URLSearchParams();
-				postData.append('userName', userName);
-			
-			this.common.accountOrderPage(postData)
-            .then( res => {
-				let data = res.data;
-				this.accountOrderPageData = data;
-				this.bannerImgUrl = data.bannerImgUrl;
-				this.bannerUrl = data.bannerUrl;
-				this.overdueNum = data.overdueNum;
-				this.tabTitle = this.overdueNum > 0 ? '逾期订单' : '正常订单';
-				this.overdueNum = this.overdueNum === 0 ? '' : String(this.overdueNum);
-
-				let tabList = [{
-					title: '逾期订单',
-					num: this.overdueNum
-				},{
-					title: '正常订单',
-					num: ''
-				}]
-				this.tabList = tabList;
-			})
+			this.accountOrderPage();
 		},
 		methods: {
+			accountOrderPage(refApplyingStatus){
+				console.info('refApplyingStatus', refApplyingStatus);
+				let userName = this.utils.getCookie('userName');
+				let postData = new URLSearchParams();
+					postData.append('userName', userName);
+				
+				this.common.accountOrderPage(postData)
+				.then( res => {
+					let data = res.data;
+					this.accountOrderPageData = data;
+					this.bannerImgUrl = data.bannerImgUrl;
+					this.bannerUrl = data.bannerUrl;
+					this.overdueNum = data.overdueNum;
+					this.tabTitle = this.overdueNum > 0 ? '逾期订单' : '正常订单';
+					this.overdueNum = this.overdueNum === 0 ? '' : String(this.overdueNum);
+
+					let tabList = [{
+						title: '逾期订单',
+						num: this.overdueNumoverdueNum
+					},{
+						title: '正常订单',
+						num: ''
+					}]
+					this.tabList = tabList;
+					if(refApplyingStatus){
+						this.$refs.normal.parentHandleclick(data);
+					}
+				})
+			},
 			getSelectedItems: function(selectedItems) {
 				this.selectedItems = selectedItems;
 			},
@@ -164,7 +170,7 @@
 				position: relative;
 				.vux-tab-wrap{
 					background: #fff;
-					border-bottom: 1px solid #f2f2f2;
+					border-bottom: 1px solid #eee;
 				}
 				.vux-tab-container{
 					width: 50%;
