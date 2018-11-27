@@ -20,7 +20,7 @@
 					</div>
 				</sticky>
 			</div>
-			<swiper @on-index-change="onIndexChange" v-model="index"  :show-dots="false" :class="{'selected-swiper': currentType === 'batchRepayment'}">
+			<swiper @on-index-change="onIndexChange" v-model="index"  :show-dots="false" :threshold='150' :class="{'selected-swiper': currentType === 'batchRepayment'}">
 				<swiper-item :key="0">
 					<instalment-overdue ref="overdue" @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
