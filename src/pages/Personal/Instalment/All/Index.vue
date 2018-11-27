@@ -107,7 +107,7 @@
 
 					let tabList = [{
 						title: '逾期订单',
-						num: this.overdueNumoverdueNum
+						num: this.overdueNum
 					},{
 						title: '正常订单',
 						num: ''
@@ -115,6 +115,10 @@
 					this.tabList = tabList;
 					if(refApplyingStatus){
 						this.$refs.normal.parentHandleclick(data);
+					}
+			
+					if(this.bannerImgUrl === '' && this.bannerUrl === '') {
+						this.isShowBanner = false;
 					}
 				})
 			},
