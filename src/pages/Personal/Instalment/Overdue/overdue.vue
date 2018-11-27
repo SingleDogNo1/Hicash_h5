@@ -205,7 +205,7 @@
                 title: '嗨秒分期',
                 desc: '订单号:21231231321',
                 currentValue: [],
-                scrollHeight: '-180px',
+                scrollHeight: '-150px',
                 pageSize: '20',
                 pageNo: '1',
                 overdueList: [],
@@ -335,17 +335,6 @@
                 this.listDataloading = true;
                 this.onFetching = false;
                 this.init();
-            }
-        },
-        watch: {
-            isShowBanner: function (val, oldVal) {
-                this.isShowBanner = val;
-                this.scrollHeight = this.isShowBanner ? '-180px' : '-150px';
-                if(!this.isShowBanner) {
-                    this.$nextTick(() => {
-                        this.$refs.scrollerBottom.reset({top: 0})
-                    })
-                }
             }
         },
         mounted () {
