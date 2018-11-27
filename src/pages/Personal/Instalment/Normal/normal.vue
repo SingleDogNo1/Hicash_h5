@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="checker-wrap">
+        <div class="checker-wrap" ref="checkerBody">
             <div @click="checkerStatus('applying')"  :class="checkerType == 'applying' ? 'checker-selected' : ''" class="checker-default">
                 申请中
                 <badge v-if="applyingStatus"></badge>
@@ -11,8 +11,7 @@
             </div>
             <div @click="checkerStatus('end')"  :class="checkerType == 'end' ? 'checker-selected' : ''" class="checker-default">已完成</div>
         </div>
-
-        <scroller v-if="items.length" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller v-if="items.length" lock-x :height="swiperHeight-bannerADHeight-checkerBodyHeight-8+'px'" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <flexbox orient="vertical"  class="order-list">
                 <!-- 申请中 -->
                 <flexbox-item v-if="checkerType == 'applying'"  v-for="(item, index) in items" :key="index">
@@ -34,10 +33,10 @@
                             <div class="order-bottom-des right">期数：<span>{{item.period}}期</span></div>
                         </div>
 
-                        <div v-if="item.appStatus === 'REJECTNODE'" class="notice">很抱歉，您的审核未通过，<br />查看此次被拒原因</div>
+                        <div v-if="item.appStatus === 'REJECTNODE'" class="notice">{{item.rejectMsg}}</div>
 
                         <div class="actions" v-if="item.appStatus !== 'LOANFAILED' && item.appStatus !== 'LOAN'">
-                            <a v-if="item.appStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
+                            <a v-if="item.appStatus === 'REJECTNODE'" :href="item.rejectUrl" class="btn btn-go">立即前往</a>
                             <a v-if="item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="sign(item)" class="btn btn-sign">签约</a>
                             <a v-if="item.appStatus === 'NEWNODE' || item.appStatus === 'AUDITNODE' || item.appStatus === 'SIGNNODE'" href="javascript:void(0);" @click="cancelOrder(item, index)" class="btn btn-channel">取消订单</a>
                         </div>
@@ -123,13 +122,13 @@
                             </thead> 
                         </x-table>
                         
-                        <div v-if="item.appStatus === 'REJECTNODE'" class="notice">很抱歉，您的审核未通过，<br />查看此次被拒原因</div>
+                        <div v-if="item.appStatus === 'REJECTNODE'" class="notice">{{item.rejectMsg}}</div>
 
                         <div class="actions">
                             <a href="javascript:void(0);" class="btn-expand-all" :class="item.showOtherOrder ? 'up': 'down'" @click="openAll(item, index)" v-if="!item.showOtherOrder && item.appStatus==='ENDNODE'"><span>展开所有</span><i></i></a>
                             <a href="javascript:void(0);" class="btn btn-channel" v-if="item.appStatus==='ENDNODE'">订单已完成</a>
                             <a href="javascript:void(0);" class="btn btn-canceled" v-if="item.appStatus==='CANCLEED'">订单已取消</a>
-                            <a v-if="item.appStatus === 'REJECTNODE'" href="javascript:void(0);" class="btn btn-go">立即前往</a>
+                            <a v-if="item.appStatus === 'REJECTNODE'" :href="item.rejectUrl" class="btn btn-go">立即前往</a>
                         </div>
 
                         <div class="other-order" ref="otherOrder" :class="item.showOtherOrder?'animate':''">
@@ -667,6 +666,14 @@
             isShowBanner: {
                 type: Boolean,
                 default: true
+            },
+            bannerADHeight:{
+                type: Number,
+                default: 50
+            },
+            swiperHeight:{
+                type: Number,
+                default: 50
             }
         },
         components: {
@@ -699,12 +706,17 @@
                 listDataloading: true,      // * 初始化Loading显示状态 
                 showNoData: false,          // * 初始化无数据页面
                 applyingStatus: false,      // * 申请中小红点显示状态
-                repayStatus: false          // * 还款中小红点显示状态
+                repayStatus: false,          // * 还款中小红点显示状态
+                checkerBodyHeight: 0
             }
         },
 		mounted() {
-            
-
+            // setTimeout(()=>{
+                this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
+                this.scrollHeight = this.swiperHeight - this.bannerADHeight - this.$refs.checkerBody.offsetHeight + 'px';
+            console.info('this.scrollHeight', this.swiperHeight, this.bannerADHeight, this.$refs.checkerBody.offsetHeight,this.scrollHeight);
+            // }, 1000)
+            console.info('this.checkerBodyHeight', this.checkerBodyHeight);
             //this.checkerStatus();                         // * 获取默认数据
 			// this.$nextTick(() => {
             //     this.$refs.scrollerBottom.reset({top: 0});          // * 初始化scroller的高度
@@ -738,10 +750,6 @@
                 }
                 window.location.href=this.config.MWEB_PATH + "newweb/personalCenter/signature.html?comefrom=H5&appNo="+appNo;
             },
-            // ! 充值
-            recharge(){
-
-            },
             // ! 提现
             withdrawals(item){
                 let userName = this.utils.getCookie('userName');
@@ -753,8 +761,8 @@
 
                 this.common.QueryWithdrawData(postData)
                 .then( res => {
-                    let data = res.data;
-                    let _data = JSON.parse(data);
+                    let _data = res.data;
+                    if(typeof data === 'string') _data = JSON.parse(data);
 
                     if(_data.followUrl && _data.followUrl !== ''){
                         window.location.href = _data.followUrl;
@@ -961,7 +969,19 @@
                             break;
                 }
                 return mapObj;
-            }   
-        }
+            },
+            onScroll(pos){
+                console.info('top', pos.top);
+                this.scrollTop = pos.top;
+            }
+        },
+        watch: {
+			isShowBanner: function (val, oldVal) {
+                this.$nextTick(() => {
+                    const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
+                    this.$refs.scrollerBottom.reset({top: top});       
+                })
+			}
+		}
     }
 </script>

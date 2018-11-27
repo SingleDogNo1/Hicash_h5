@@ -1,7 +1,7 @@
 <template>
 	<div v-cloak>
 		<page-header :jumpRouteName="jumpRouteName" v-if="this.utils.getPlatform() != 'APP'" :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
-		<div id="content" class="content" :style="{'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'}">
+		<div id="content" class="content" :style="{'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem', 'height': '100vh'}">
 			<div>
 				<sticky
 					scroll-box="content"
@@ -20,17 +20,17 @@
 					</div>
 				</sticky>
 			</div>
-			<swiper @on-index-change="onIndexChange" v-model="index"  :show-dots="false" :threshold='150' :class="{'selected-swiper': currentType === 'batchRepayment'}">
+			<swiper @on-index-change="onIndexChange" v-model="index"  :show-dots="false" :threshold='150' :class="{'selected-swiper': currentType === 'batchRepayment', 'app-swiper': this.utils.getPlatform() == 'APP'}">
 				<swiper-item :key="0">
 					<instalment-overdue ref="overdue" @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
-				<swiper-item :key="1">
-					<instalment-normal ref="normal"  @watchChild="accountOrderPage" :isShowBanner="isShowBanner"></instalment-normal>
+				<swiper-item :key="1" ref="swiperItemRef">
+					<instalment-normal ref="normal"  @watchChild="accountOrderPage" :bannerADHeight="bannerADHeight" :swiperHeight="swiperHeight" :isShowBanner="isShowBanner"></instalment-normal>
 				</swiper-item>
 			</swiper>
 			<button class="btn-recharge" @click="btnRecharge" :disabled="isDisabled" v-if="currentType === 'batchRepayment' && index === 0" :class="{'hide-banner': !isShowBanner}">充值还款</button>
 		</div>
-		<a class="banner" :href="bannerUrl" v-if="isShowBanner">
+		<a class="banner" :href="bannerUrl" v-if="isShowBanner" ref="bannerAD">
 			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
 			<img :src="bannerImgUrl" width="100%" height="100%"/>
 		</a>
@@ -82,7 +82,9 @@
 				tabTitle: '逾期订单',
 				tabList: [],
 				accountOrderPageData: '',
-				jumpRouteName: 'Personal'
+				jumpRouteName: 'Personal',
+				bannerADHeight: 0,
+				swiperHeight: 0
 			}
 		},
 		mounted() {
@@ -90,6 +92,7 @@
 		},
 		methods: {
 			accountOrderPage(refApplyingStatus){
+				
 				console.info('refApplyingStatus', refApplyingStatus);
 				let userName = this.utils.getCookie('userName');
 				let postData = new URLSearchParams();
@@ -116,6 +119,8 @@
 					if(refApplyingStatus){
 						this.$refs.normal.parentHandleclick(data);
 					}
+					this.bannerADHeight = this.$refs.bannerAD.offsetHeight;
+					this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight;
 				})
 			},
 			getSelectedItems: function(selectedItems) {
@@ -134,6 +139,7 @@
 				this.isShowDialog = showDialog;
 			},
 			hideBanner: function () {
+				this.bannerADHeight = 0;
 				this.isShowBanner = false;
 			},
 			onIndexChange: function(index) {
@@ -211,6 +217,9 @@
 			.vux-swiper{
 				height: calc(100vh - 4.26667rem) !important;
 				//overflow-y: auto;
+			}
+			.app-swiper .vux-swiper{
+				height: calc(100vh - 2rem) !important;
 			}
 			.btn-recharge {
 				position: absolute;
