@@ -117,7 +117,7 @@
 						this.$refs.normal.parentHandleclick(data);
 					}
 			
-					if(this.bannerImgUrl === '' && this.bannerUrl === '') {
+					if(!this.bannerImgUrl && !this.bannerUrl) {
 						this.isShowBanner = false;
 					}
 				})
