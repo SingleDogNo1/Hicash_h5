@@ -3,7 +3,7 @@
         <section class="detail-wrap">
             <div class="content-wrap">
                 <div class="left-wrap">
-                    <label class="title">嗨秒分期</label>
+                    <label class="title">{{industryName}}</label>
                     <p class="order-num">订单号：{{appNo}}</p>
                 </div>
                 <p class="right-wrap">{{createDate}}</p>
@@ -273,7 +273,8 @@
                 createDate: '',
                 amount: '',
                 repayDate: '',
-                repayStatus: '逾期立即还款'
+                repayStatus: '逾期立即还款',
+                industryName: ''
             }
         },
         methods: {
@@ -331,10 +332,12 @@
             let createDate = this.$route.query.createDate;
             let amount = this.$route.query.amount;
             let repayDate = this.$route.query.repayDate;
+            let industryName = this.$route.query.industryName;
             this.appNo = appNo;
             this.createDate = createDate;
             this.amount = amount;
             this.repayDate = repayDate;
+            this.industryName = industryName;
         }
     }
 </script>
