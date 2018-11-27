@@ -110,7 +110,7 @@
 
 					let tabList = [{
 						title: '逾期订单',
-						num: this.overdueNumoverdueNum
+						num: this.overdueNum
 					},{
 						title: '正常订单',
 						num: ''
@@ -121,6 +121,10 @@
 					}
 					this.bannerADHeight = this.$refs.bannerAD.offsetHeight;
 					this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight;
+			
+					if(!this.bannerImgUrl && !this.bannerUrl) {
+						this.isShowBanner = false;
+					}
 				})
 			},
 			getSelectedItems: function(selectedItems) {
@@ -156,7 +160,22 @@
 				this.isDisabled = this.selectedItems.length > 0 ? false : true;
 				this.appNoList = _.pluck(this.selectedItems, 'value');
 				const amountList = _.pluck(this.selectedItems, 'amount');
-				var sum = _.reduce(amountList, function(memo, num){ return memo + num; }, 0);
+				let sum = _.reduce(amountList, function(memo, num){ return memo + num; }, 0);
+				//保留2位小数，如：2，会在2后面补上00.即2.00				
+				function toDecimal2(x) {
+					var f = Math.round(x * 100) / 100;
+					var s = f.toString();
+					var rs = s.indexOf('.');
+					if (rs < 0) {
+						rs = s.length;
+						s += '.';
+					}
+					while (s.length <= rs + 2) {
+						s += '0';
+					}
+					return s;
+				}
+				sum = toDecimal2(sum);
 				this.totalAmount = '的订单共计<span>' + sum + '元</span>进行还款吗？';
 			}
 		}

@@ -1,7 +1,7 @@
 <template>
     <div class="overdue-detail">
-        <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
-        <div class="content">
+        <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" v-if="this.utils.getPlatform() != 'APP'" ></page-header>
+        <div class="content" :style="{'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'}">
             <order-detail></order-detail>
         </div>
     </div>
@@ -15,7 +15,6 @@
         height: 100%;
         .content {
             height: 100%;
-		    padding-top: rem(51px);
         }
     }
 </style>

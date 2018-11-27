@@ -1,7 +1,7 @@
 <template>
     <div class="my-news" v-cloak>
         <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" v-if="platform === 'H5'"></page-header>
-        <div class="content">
+        <div class="content" :style="{'padding-top': platform === 'APP' ? 0 : '2.44444rem'}">
             <ul>
                 <li v-for="(item, index) in news" :key="index">
                     <div class="news-wrap">
@@ -32,7 +32,6 @@
 <style lang="scss" scoped>
     @import 'weui/dist/style/weui.min.css';
     .content {
-        padding-top: 2.444444rem /* 55/22.5 */;
         margin-top: .325rem;
         background: #fff;
         padding-bottom: 1.025rem;
@@ -176,8 +175,6 @@
                                                         ref = value;
                                                     }
                                                 }
-                                                const platform = this.utils.getPlatform();
-                                                this.platform = platform;
                                                 const ua = navigator.userAgent;
                                                 const comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
 
@@ -229,6 +226,9 @@
             }
         },
         mounted () {
+            const platform = this.utils.getPlatform();
+            this.platform = platform
+                                                
             this.queryMyMsg();
 
             // 缓存指针
