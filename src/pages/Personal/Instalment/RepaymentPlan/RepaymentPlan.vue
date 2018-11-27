@@ -1,7 +1,7 @@
 <template>
     <div class="repayment-plan">
         <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
-            <div class="content">
+            <div class="content" :style="{'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'}">
             <section class="detail-wrap">
                 <p class="title">分期订单</p>
                 <div class="detail-list">
@@ -32,7 +32,6 @@
         height: 100%;
         .content {
             height: 100%;
-            padding-top: rem(51px);
             .detail-wrap {
                 height: 100%;
                 margin-top: rem(8px);
