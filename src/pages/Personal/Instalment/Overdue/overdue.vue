@@ -1,6 +1,6 @@
 <template>
     <div v-cloak class="overdue">
-        <scroller v-if="overdueList.length > 0" lock-x :height="swiperHeight - bannerADHeight +'px'" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller v-if="overdueList.length > 0" lock-x :height="isShowBanner ? swiperHeight - bannerADHeight +'px' : swiperHeight +'px'" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
                     <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value, 'createDate': item.createDate, 'amount': item.amountStr, 'repayDate': item.repayDate, 'industryName': item.industryName}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
@@ -290,12 +290,13 @@
             }
         },
         mounted () {
-            this.scrollHeight = this.swiperHeight - this.bannerADHeight + 'px';
+            this.scrollHeight = this.isShowBanner ? this.swiperHeight - this.bannerADHeight + 'px' : this.swiperHeight + 'px';
 
             this.init();
         },
         watch: {
 			isShowBanner: function (val, oldVal) {
+                this.isShowBanner = val;
                 this.$nextTick(() => {
                     const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
                     this.$refs.scrollerBottom.reset({top: top});       

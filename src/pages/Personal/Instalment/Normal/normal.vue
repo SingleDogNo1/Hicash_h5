@@ -11,7 +11,7 @@
             </div>
             <div @click="checkerStatus('end')"  :class="checkerType == 'end' ? 'checker-selected' : ''" class="checker-default">已完成</div>
         </div>
-        <scroller v-if="items.length" lock-x :height="swiperHeight-bannerADHeight-checkerBodyHeight-8+'px'" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
+        <scroller v-if="items.length" lock-x :height="isShowBanner ? swiperHeight-bannerADHeight-checkerBodyHeight-8+'px' : swiperHeight-checkerBodyHeight-8+'px'" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <flexbox orient="vertical"  class="order-list">
                 <!-- 申请中 -->
                 <flexbox-item v-if="checkerType == 'applying'"  v-for="(item, index) in items" :key="index">
@@ -712,8 +712,8 @@
         },
 		mounted() {
             // setTimeout(()=>{
-                this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
-                this.scrollHeight = this.swiperHeight - this.bannerADHeight - this.$refs.checkerBody.offsetHeight + 'px';
+            this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
+            this.scrollHeight = this.isShowBanner ? this.swiperHeight - this.bannerADHeight - this.$refs.checkerBody.offsetHeight + 'px' : this.swiperHeight - this.$refs.checkerBody.offsetHeight + 'px';
             console.info('this.scrollHeight', this.swiperHeight, this.bannerADHeight, this.$refs.checkerBody.offsetHeight,this.scrollHeight);
             // }, 1000)
             console.info('this.checkerBodyHeight', this.checkerBodyHeight);
@@ -977,6 +977,7 @@
         },
         watch: {
 			isShowBanner: function (val, oldVal) {
+                this.isShowBanner = val;
                 this.$nextTick(() => {
                     const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
                     this.$refs.scrollerBottom.reset({top: top});       
