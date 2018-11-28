@@ -1,6 +1,6 @@
 <template>
     <div v-cloak class="overdue">
-        <scroller v-if="overdueList.length > 0" lock-x :height="scrollHeight" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
+        <scroller v-if="overdueList.length > 0" lock-x :height="swiperHeight - bannerADHeight +'px'" @on-scroll="onScroll" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="200">
             <div class="overdue-content">
                 <group v-if="currentType === 'default'" class="default-group">
                     <cell v-for="(item, index) in overdueList" :key="index" :title="item.industryName" :link="{path:'/personal/myInstalment/overdueDetail', query: {'appNo': item.value, 'createDate': item.createDate, 'amount': item.amountStr, 'repayDate': item.repayDate, 'industryName': item.industryName}}" :inline-desc='item.appNo'><slot name="value" class="amont-wrap"><p class="amount">{{item.amountStr}}元</p><p class="tip">逾期金额</p></slot></cell>
@@ -188,6 +188,14 @@
             isShowBanner: {
                 type: Boolean,
                 default: true
+            },
+            bannerADHeight:{
+                type: Number,
+                default: 50
+            },
+            swiperHeight:{
+                type: Number,
+                default: 50
             }
         },
         components: {
@@ -205,7 +213,7 @@
                 title: '嗨秒分期',
                 desc: '订单号:21231231321',
                 currentValue: [],
-                scrollHeight: '-150px',
+                scrollHeight: '-180px',
                 pageSize: '20',
                 pageNo: '1',
                 overdueList: [],
@@ -237,66 +245,6 @@
                 this.common.accountOrderList(postData)
                     .then( res => {
                         let data = res.data;
-                        //  data.list = [{
-                        //     amount: "819.00",
-                        //     appNo:"31811190100015",
-                        //     appStatus:null,
-                        //     createDate:"2018-11-19",
-                        //     industryCode:null,
-                        //     industryName:"嗨秒分期",
-                        //     nodeList:null,
-                        //     period:null,
-                        //     repayDate:"2018.12.20",
-                        //     repayStatus:null
-                        // },
-                        // {
-                        //     amount: "819.00",
-                        //     appNo:"31811190100015",
-                        //     appStatus:null,
-                        //     createDate:"2018-11-19",
-                        //     industryCode:null,
-                        //     industryName:"嗨秒分期",
-                        //     nodeList:null,
-                        //     period:null,
-                        //     repayDate:"2018.12.20",
-                        //     repayStatus:null
-                        // },
-                        // {
-                        //     amount: "819.00",
-                        //     appNo:"31811190100015",
-                        //     appStatus:null,
-                        //     createDate:"2018-11-19",
-                        //     industryCode:null,
-                        //     industryName:"嗨秒分期",
-                        //     nodeList:null,
-                        //     period:null,
-                        //     repayDate:"2018.12.20",
-                        //     repayStatus:null
-                        // },
-                        // {
-                        //     amount: "819.00",
-                        //     appNo:"31811190100015",
-                        //     appStatus:null,
-                        //     createDate:"2018-11-19",
-                        //     industryCode:null,
-                        //     industryName:"嗨秒分期",
-                        //     nodeList:null,
-                        //     period:null,
-                        //     repayDate:"2018.12.20",
-                        //     repayStatus:null
-                        // },
-                        // {
-                        //     amount: "819.00",
-                        //     appNo:"31811190100015",
-                        //     appStatus:null,
-                        //     createDate:"2018-11-19",
-                        //     industryCode:null,
-                        //     industryName:"嗨秒分期",
-                        //     nodeList:null,
-                        //     period:null,
-                        //     repayDate:"2018.12.20",
-                        //     repayStatus:null
-                        // }]
                         if(data.resultCode === '1') {
                             data.list.forEach( (val, index) => {
                                 val.key = index + 1;
@@ -335,11 +283,25 @@
                 this.listDataloading = true;
                 this.onFetching = false;
                 this.init();
+            },
+            onScroll(pos){
+                console.info('top', pos.top);
+                this.scrollTop = pos.top;
             }
         },
         mounted () {
+            this.scrollHeight = this.swiperHeight - this.bannerADHeight + 'px';
+
             this.init();
-        }
+        },
+        watch: {
+			isShowBanner: function (val, oldVal) {
+                this.$nextTick(() => {
+                    const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
+                    this.$refs.scrollerBottom.reset({top: top});       
+                })
+			}
+		}
     }
 </script>
  
