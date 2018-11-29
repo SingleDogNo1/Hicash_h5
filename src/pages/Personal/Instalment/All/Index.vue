@@ -22,7 +22,7 @@
 			</div>
 			<swiper @on-index-change="onIndexChange" v-model="index"  :show-dots="false" :threshold='150' :class="{'selected-swiper': currentType === 'batchRepayment', 'app-swiper': this.utils.getPlatform() == 'APP'}">
 				<swiper-item :key="0">
-					<instalment-overdue ref="overdue" @selectedItems="getSelectedItems" :currentType="currentType" :isShowBanner="isShowBanner"></instalment-overdue>
+					<instalment-overdue ref="overdue" @selectedItems="getSelectedItems" :currentType="currentType" :bannerADHeight="bannerADHeight" :swiperHeight="swiperHeight" :isShowBanner="isShowBanner"></instalment-overdue>
 				</swiper-item>
 				<swiper-item :key="1" ref="swiperItemRef">
 					<instalment-normal ref="normal"  @watchChild="accountOrderPage" :bannerADHeight="bannerADHeight" :swiperHeight="swiperHeight" :isShowBanner="isShowBanner"></instalment-normal>
