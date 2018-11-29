@@ -566,7 +566,7 @@
         }
 
         @font-face {
-            font-style:normal;font-weight:400;font-family:vant-icon;src:url(https://img.yzcdn.cn/vant/vant-icon-872dd0.ttf) format('truetype')
+            font-style:normal;font-weight:400;font-family:vant-icon;
         }
 
         .van-step.failed .van-step__title{

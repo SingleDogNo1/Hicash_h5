@@ -29,7 +29,7 @@
     "sass-loader": "^6.0.7",
     "swiper": "^4.4.1",
     "underscore": "^1.9.0",
-    "vant": "^1.4.4",
+    "vant": "1.4.4",
     "vue": "^2.5.2",
     "vue-clipboards": "^1.2.4",
     "vue-file-upload": "^0.1.12",
