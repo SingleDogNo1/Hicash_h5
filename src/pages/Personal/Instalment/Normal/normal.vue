@@ -563,6 +563,7 @@
         }
         .van-step--horizontal .van-step__title{
             margin-left: 0px;
+            font-size: 15px;
         }
 
         @font-face {
