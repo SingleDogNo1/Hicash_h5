@@ -152,6 +152,7 @@
 				} else {
 					this.$refs.normal.parentHandleclick(this.accountOrderPageData);
 				}
+				this.accountOrderPage();
 			}
 		},
 		watch: {
