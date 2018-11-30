@@ -260,6 +260,8 @@
             text-align: left;
             float: left;
             margin-top: rem(13px);
+            word-break: break-word;
+            text-align: justify;
         }
 
         .actions {
@@ -565,6 +567,7 @@
         }
         .van-step--horizontal .van-step__title{
             margin-left: 0px;
+            font-size: 15px;
         }
 
         @font-face {
