@@ -251,6 +251,7 @@
         }
 
         .notice{
+            width: 40%;
             font-family: PingFangSC-Regular;
             font-size: 11px;
             color: #D0021B;
@@ -258,6 +259,8 @@
             text-align: left;
             float: left;
             margin-top: rem(13px);
+            word-break: break-word;
+            text-align: justify;
         }
 
         .actions {
