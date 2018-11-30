@@ -63,7 +63,7 @@
 		}
 		.content-total-amount {
 			margin-bottom: 5px;
-			/deep/ span {
+			span {
 				color: #ff7640;
 			}
 		}
