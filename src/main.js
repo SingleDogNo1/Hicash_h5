@@ -1,6 +1,8 @@
 import 'babel-polyfill'
+import Es6Promise from 'es6-promise'
+require('es6-promise').polyfill()
+Es6Promise.polyfill()
 import Vue from 'vue'
-Vue.config.debug = true;
 import App from './app'
 import router from './router'
 import { Tabbar, TabbarItem, Toast } from 'vux'
