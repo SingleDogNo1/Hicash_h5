@@ -38,6 +38,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       uglifyOptions: {
         compress: {
           warnings: false
+        },
+        output: {
+          comments: false // 删除注释
         }
       },
       sourceMap: config.build.productionSourceMap,
