@@ -199,7 +199,7 @@
                     }
                 }
                 .actions {
-                    width: 23%;
+                    width: 25%;
                     margin: 0 auto;
                     margin-top: 0.35556rem;
                     .btn-repayment-plan {
