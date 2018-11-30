@@ -220,7 +220,7 @@
 					right: rem(16px);
 					width: rem(60px);
 					height: rem(26px);
-					line-height: rem(26px);
+					line-height: rem(28px);
 					background: #FF7640;
 					border-radius: 5px;
 					border: 0;

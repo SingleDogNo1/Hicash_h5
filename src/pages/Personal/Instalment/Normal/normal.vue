@@ -190,6 +190,7 @@
                 right: rem(-3px);
                 top: rem(-3px);
                 display: block;
+                background: #D0021B;
             }
         }
         .order-list{
@@ -251,6 +252,7 @@
         }
 
         .notice{
+            width: 40%;
             font-family: PingFangSC-Regular;
             font-size: 11px;
             color: #D0021B;
