@@ -190,6 +190,7 @@
                 right: rem(-3px);
                 top: rem(-3px);
                 display: block;
+                background: #D0021B;
             }
         }
         .order-list{

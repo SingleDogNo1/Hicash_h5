@@ -151,7 +151,7 @@
                 float: right;
                 width: rem(106px);
                 height: rem(30px);
-                line-height: rem(30px);
+                line-height: rem(32px);
                 background: #FF7640;
                 border-radius: 5px;
                 font-size: 15px;
@@ -199,7 +199,7 @@
                     }
                 }
                 .actions {
-                    width: 30%;
+                    width: 25%;
                     margin: 0 auto;
                     margin-top: 0.35556rem;
                     .btn-repayment-plan {
@@ -210,7 +210,7 @@
                         border-radius: 13px;
                         font-size: 12px;
                         color: #FF7640;
-                        padding: rem(4px) rem(8px) rem(4px) rem(10px);
+                        padding: rem(4px) rem(8px) rem(3px) rem(10px);
                         span {
                             display: block;
                             float: left;
