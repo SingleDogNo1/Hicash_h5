@@ -814,6 +814,7 @@ export function OwnPageShow(params) {
 		}
 		axios.post("/HicashAppService/OwnPageShow", params).then(res => {
 			cache.put("OwnPageShow", res);
+			resolve(res);
 		});
 	});
 }
