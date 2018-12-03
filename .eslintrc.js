@@ -6,7 +6,7 @@ module.exports = {
     },
     extends: [
         "plugin:prettier/recommended"
-    ]
+    ],
     env: {
       browser: true,//预定义的全局变量，这里是浏览器环境
     },
