@@ -13,7 +13,8 @@ function resolve (dir) {
 const webpackConfig = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    // app: './src/main.js'
+    app: ["babel-polyfill", "./src/main.js"]
   },
   output: {
     path: config.build.assetsRoot,
@@ -28,7 +29,9 @@ const webpackConfig = {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'jquery': 'jquery',
-      '_': 'underscore'
+      '_': 'underscore',
+      'bowerComponents': resolve('bower_components'),
+      'nodeModules': resolve('node_modules')
     }
   },
   module: {
