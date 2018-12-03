@@ -483,6 +483,7 @@ export default {
 		let OwnPageShowData = new URLSearchParams();
 		OwnPageShowData.append("userName", this.utils.getCookie("userName"));
 		OwnPageShowData.append("uuid", this.utils.uuid());
+		OwnPageShowData.append("requestSource", 'H5');
 		this.OwnPageShow(OwnPageShowData);
 
 		let QueryMyMsgData = new URLSearchParams();
