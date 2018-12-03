@@ -453,6 +453,8 @@ export default {
 			});
 		},
 		OwnPageShow(OwnPageShowData) {
+		debugger;
+
 			this.common.OwnPageShow(OwnPageShowData).then(res => {
 				let data = res.data;
 				console.info("OwnPageShow data", data);
