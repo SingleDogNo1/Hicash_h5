@@ -422,10 +422,7 @@ export default {
 				setTimeout(() => {
 					var swiper = new Swiper(".swiper-container", {
 						slidesPerView: "auto",
-						autoplay: {
-							delay: 2500,
-							disableOnInteraction: false
-						}
+						autoplay: 2500
 					});
 				}, 500);
 			});
