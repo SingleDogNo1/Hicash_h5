@@ -65,9 +65,9 @@
 				</div>
 				<ul class="link">
 					<li>
-						<a :href="quickRepaymentUrl">
+						<router-link :to="{ name: 'AllIndex' }">
 							<span class="quick-repayment-ico"> 快速还款 </span>
-						</a>
+						</router-link>
 					</li>
 					<li>
 						<router-link :to="{ name: 'help' }">
