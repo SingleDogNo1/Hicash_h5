@@ -1164,6 +1164,10 @@ export default {
 			postData.append("pageNo", this.pageNo);
 			this.common.accountOrderList(postData).then(res => {
 				let data = res.data;
+
+				// ! 排除非本list的data插入
+				if(data.type != this.checkerType) return false;
+
 				if (data.resultCode == "1") {
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
