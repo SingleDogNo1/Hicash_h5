@@ -4,6 +4,7 @@
 			:title="title"
 			:showBack="showBack"
 			:showBtnClose="showBtnClose"
+			:params="urlParams"
 			v-if="this.utils.getPlatform() != 'APP'"
 		></page-header>
 		<div
@@ -103,7 +104,8 @@ export default {
 			title: "还款计划",
 			showBtnClose: false,
 			showBack: true,
-			detailList: []
+			detailList: [],
+			urlParams: this.$route.query.from ? "jumpType="+this.$route.query.from : ''
 		};
 	},
 	mounted() {

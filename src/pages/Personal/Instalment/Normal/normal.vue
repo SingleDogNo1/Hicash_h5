@@ -39,6 +39,7 @@
 			@on-scroll-bottom="onScrollBottom"
 			ref="scrollerBottom"
 			:scroll-bottom-offst="200"
+			:bounce="false"
 		>
 			<flexbox orient="vertical" class="order-list">
 				<!-- 申请中 -->
@@ -268,7 +269,8 @@
 												'/personal/myInstalment/repaymentPlan',
 											query: {
 												appNo: item.appNo,
-												type: plan.type
+												type: plan.type,
+												from: checkerType
 											}
 										}"
 										><span>还款计划</span
@@ -395,7 +397,8 @@
 												'/personal/myInstalment/repaymentPlan',
 											query: {
 												appNo: item.appNo,
-												type: plan.type
+												type: plan.type,
+												from: checkerType
 											}
 										}"
 										><span>还款计划</span
@@ -433,7 +436,6 @@
 @import "~bowerComponents/sass-rem/_rem.scss";
 .AllIndex {
 	.checker-wrap {
-		width: 100%;
 		background: #fff;
 		padding: rem(10px 15px);
 		margin-bottom: 8px;
