@@ -600,6 +600,11 @@ export default {
 									MWEB_PATH +
 									"newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
 								return;
+							}else if(jumpType === "myInstalment"){
+								this.$router.push({
+									name: "MyInstalment"
+								});
+								return;
 							}
 
 							var ref = window.location.href;
