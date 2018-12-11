@@ -25,6 +25,9 @@ export default {
 			document.title = this.$router.history.current.meta.title;
 		}
 
+		console.info('userName', userName);
+
+
 		if (this.$router.history.current.meta.requireAuth) {
 			// 判断该路由是否需要登录权限
 			if (!userName || userName == "null") {
@@ -76,6 +79,7 @@ export default {
 
 		//监听路由跳转
 		this.$router.beforeEach((to, from, next) => {
+			console.info('this.utils.getCookie("userName")', this.utils.getCookie("userName"));
 			this.path = to.name;
 
 			if (to.meta.title) {
