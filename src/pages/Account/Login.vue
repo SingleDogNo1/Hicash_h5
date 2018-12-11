@@ -607,6 +607,12 @@ export default {
 								return;
 							}
 
+							let redirect = this.$route.query.redirect;
+							if(redirect){
+								this.$router.push({ path: redirect });
+								return;
+							}
+
 							var ref = window.location.href;
 							var from =
 								this.utils.getQueryString("from") ||
