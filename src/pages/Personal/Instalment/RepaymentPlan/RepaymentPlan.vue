@@ -4,7 +4,8 @@
 			:title="title"
 			:showBack="showBack"
 			:showBtnClose="showBtnClose"
-			:params="urlParams"
+			:jumpRouteName="jumpRouteName"
+			:query="query"
 			v-if="this.utils.getPlatform() != 'APP'"
 		></page-header>
 		<div
@@ -105,7 +106,8 @@ export default {
 			showBtnClose: false,
 			showBack: true,
 			detailList: [],
-			urlParams: this.$route.query.from ? "jumpType="+this.$route.query.from : ''
+			jumpRouteName: 'AllIndex',
+			query: this.$route.query.from ? {'from': this.$route.query.from} : {}
 		};
 	},
 	mounted() {
