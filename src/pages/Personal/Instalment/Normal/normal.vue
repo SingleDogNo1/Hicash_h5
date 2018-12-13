@@ -205,10 +205,7 @@
 
 						<div
 							class="actions"
-							v-if="
-								item.appStatus !== 'WITHDRAWALING' &&
-									item.appStatus !== 'WITHDRAWALSUCCESS'
-							"
+							v-if="item.appStatus !== 'WITHDRAWALSUCCESS'"
 						>
 							<div
 								v-if="item.appStatus === 'WITHDRAWALNODE' || item.appStatus === 'WITHDRAWALING'"
