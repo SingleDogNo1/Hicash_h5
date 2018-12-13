@@ -211,7 +211,7 @@
 							"
 						>
 							<div
-								v-if="item.appStatus === 'WITHDRAWALNODE'"
+								v-if="item.appStatus === 'WITHDRAWALNODE' || item.appStatus === 'WITHDRAWALING'"
 								class="tx-amount"
 							>
 								借款金额：<span>{{ item.amount }}元</span>
