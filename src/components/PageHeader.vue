@@ -56,7 +56,8 @@ export default {
 		title: String,
 		showBack: Boolean,
 		showBtnClose: Boolean,
-		jumpRouteName: String
+		jumpRouteName: String,
+		query: Object
 	},
 	components: {
 		XHeader
@@ -69,7 +70,16 @@ export default {
 	methods: {
 		jump: function() {
 			if (this.jumpRouteName) {
-				this.$router.push({ name: this.jumpRouteName });
+				
+				const params = {
+					name: this.jumpRouteName,
+				}
+
+				if(!_.isEmpty(this.query)){
+					params.query = this.query;
+				}
+
+				this.$router.push(params);
 			}
 		}
 	},

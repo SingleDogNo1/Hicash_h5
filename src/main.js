@@ -13,6 +13,7 @@ import utils from "./assets/js/utils.js";
 import config from "./config.json";
 import "./assets/js/growingIO.js";
 import "./assets/js/baiqishi.js";
+import 'url-search-params-polyfill';
 import "swiper/dist/css/swiper.css";
 import 'url-search-params-polyfill';
 

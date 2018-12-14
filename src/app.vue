@@ -9,6 +9,7 @@ import MiaoDai from "./components/MiaoDai.vue";
 export default {
 	name: "App",
 	created() {
+		console.info('.this.$router.history.current', this.$router.history.current);
 		//自动登录
 		let userName =
 			localStorage.getItem("userName") ||
@@ -28,12 +29,23 @@ export default {
 		if (this.$router.history.current.meta.requireAuth) {
 			// 判断该路由是否需要登录权限
 			if (!userName || userName == "null") {
-				this.$router.push({
+				const params = {
 					name: "Login",
-					query: { redirect: this.$router.history.current.fullPath }
-				});
+				}
+				if(this.$router.history.current.query.jumpType){
+					params.query = {
+						jumpType: this.$router.history.current.query.jumpType
+					}
+				}else{
+					params.query = {
+						redirect: this.$router.history.current.fullPath
+					}
+				}
+				this.$router.push(params);
 			}
 		}
+
+		
 
 		var usergps = this.utils.getCookie("gpsArr");
 		if (!usergps || usergps == "") {

@@ -193,7 +193,8 @@ export default {
 				this.bannerImgUrl = data.bannerImgUrl;
 				this.bannerUrl = data.bannerUrl;
 				this.overdueNum = data.overdueNum;
-				this.tabTitle = this.overdueNum > 0 ? "逾期订单" : "正常订单";
+				this.tabTitle = !this.$route.query.from && this.overdueNum > 0 ? "逾期订单" : "正常订单";
+				
 				this.overdueNum =
 					this.overdueNum === 0 ? "" : String(this.overdueNum);
 

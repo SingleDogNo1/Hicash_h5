@@ -4,6 +4,8 @@
 			:title="title"
 			:showBack="showBack"
 			:showBtnClose="showBtnClose"
+			:jumpRouteName="jumpRouteName"
+			:query="query"
 			v-if="this.utils.getPlatform() != 'APP'"
 		></page-header>
 		<div
@@ -103,7 +105,9 @@ export default {
 			title: "还款计划",
 			showBtnClose: false,
 			showBack: true,
-			detailList: []
+			detailList: [],
+			jumpRouteName: 'AllIndex',
+			query: this.$route.query.from ? {'from': this.$route.query.from} : {}
 		};
 	},
 	mounted() {

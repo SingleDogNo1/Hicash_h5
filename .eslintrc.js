@@ -21,5 +21,6 @@ module.exports = {
     // add your custom rules here
     'rules': {
       //这里写自定义规则
+      "jsxBracketSameLine": true,  // 多行JSX中的>放置在最后一行的结尾，而不是另起一行
     }
   }

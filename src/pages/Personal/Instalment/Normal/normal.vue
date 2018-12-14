@@ -39,6 +39,7 @@
 			@on-scroll-bottom="onScrollBottom"
 			ref="scrollerBottom"
 			:scroll-bottom-offst="200"
+			:bounce="false"
 		>
 			<flexbox orient="vertical" class="order-list">
 				<!-- 申请中 -->
@@ -204,11 +205,14 @@
 
 						<div
 							class="actions"
-							v-if="
-								item.appStatus !== 'WITHDRAWALING' &&
-									item.appStatus !== 'WITHDRAWALSUCCESS'
-							"
+							v-if="item.appStatus !== 'WITHDRAWALSUCCESS'"
 						>
+							<div
+								v-if="item.appStatus === 'WITHDRAWALNODE' || item.appStatus === 'WITHDRAWALING'"
+								class="tx-amount"
+							>
+								借款金额：<span>{{ item.amount }}元</span>
+							</div>
 							<a
 								href="javascript:void(0);"
 								class="btn-expand-all"
@@ -268,7 +272,8 @@
 												'/personal/myInstalment/repaymentPlan',
 											query: {
 												appNo: item.appNo,
-												type: plan.type
+												type: plan.type,
+												from: checkerType
 											}
 										}"
 										><span>还款计划</span
@@ -395,7 +400,8 @@
 												'/personal/myInstalment/repaymentPlan',
 											query: {
 												appNo: item.appNo,
-												type: plan.type
+												type: plan.type,
+												from: checkerType
 											}
 										}"
 										><span>还款计划</span
@@ -433,7 +439,6 @@
 @import "~bowerComponents/sass-rem/_rem.scss";
 .AllIndex {
 	.checker-wrap {
-		width: 100%;
 		background: #fff;
 		padding: rem(10px 15px);
 		margin-bottom: 8px;
@@ -528,6 +533,22 @@
 		margin-top: rem(13px);
 		word-break: break-word;
 		text-align: justify;
+	}
+
+	.tx-amount {
+		width: 60%;
+		font-family: PingFangSC-Regular;
+		letter-spacing: 0;
+		text-align: left;
+		float: left;
+		margin-top: rem(5px);
+		word-break: break-word;
+		text-align: justify;
+		font-size: rem(15px);
+		color: #333333;
+		span {
+			color: #ff7640;
+		}
 	}
 
 	.actions {
@@ -981,7 +1002,7 @@ export default {
 	data() {
 		return {
 			active: 2, // * 初始化一级 Tag 属性
-			checkerType: "applying", // * 初始化二级 Tag 属性
+			checkerType: this.$route.query.from || "applying", // * 初始化二级 Tag 属性
 			onFetching: false, // * 给 Scroller 分页加锁
 			showOtherOrder: false, // * 初始化还款计划显示状态
 			btnStatus: "ENDNODE", // TODO 测试属性，调试API之后删除
@@ -1032,7 +1053,7 @@ export default {
 			if (this.checkerType !== type) {
 				this.items = []; // * 初始化数据
 				this.pageNo = "1"; // * 初始化页码
-				this.checkerType = type || "applying"; // * 更新当前的Tag
+				this.checkerType = type || this.$route.query.from || "applying"; // * 更新当前的Tag
 				this.getListData(this.checkerType); // * 请求列表数据
 				this.onFetching = false; // * 初始化分页锁定状态
 			}
