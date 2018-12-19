@@ -44,7 +44,7 @@ export function getQueryString(name) {
 }
 
 export function checkMobile(mobile) {
-	var reg = /^1(3|4|5|7|8)\d{9}$/;
+	var reg = /^1(3|4|5|7|8|9)\d{9}$/;
 	return reg.test(mobile);
 }
 
