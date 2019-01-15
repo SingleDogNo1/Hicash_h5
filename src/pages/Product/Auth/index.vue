@@ -56,9 +56,18 @@
 				</ul>
 			</div>
 			<div class="nextStep">
-				<a href="javascript:;" id="authNextBtn" onclick="">下一步</a>
+				<a href="javascript:;" id="authNextBtn">下一步</a>
 			</div>
 		</section>
+		<confirm-dialog
+			:isShowDialog="isShowDialog"
+			:dialogTitle="dialogTitle"
+			:dialogDefaultTitle="dialogDefaultTitle"
+			:appNoList="appNoList"
+			:popType="popType"
+			@showDialog="showDialog"
+			:totalAmount="totalAmount"
+		></confirm-dialog>
 	</div>
 </template>
 
@@ -68,10 +77,10 @@
 	height: rem(800px);
 	background: rgb(239, 239, 244);
 	.newActive {
-		width: rem(375px);
+		width: 100%;
 		height: rem(107px);
 		background: #FC905C;
-		margin-top: rem(42px);
+		margin-top: rem(65px);
 		text-align: center;
 		img {
 			display: inline-block;
@@ -139,6 +148,7 @@
 				border: 1px solid #DDDDDD;
 				border-radius: 4px;
 				margin: auto;
+				position: relative;
 				.takeIdcard {
 					width: rem(207px);
 					height: rem(132px);
@@ -149,6 +159,7 @@
 				form {
     				width: rem(207px);
 					height: rem(132px);
+					position: absolute;
 					i {
 						width: rem(43px);
 						height: rem(43px);
@@ -160,12 +171,15 @@
 						margin-top: rem(-132px/2);
 					}
 					p {
+						width: rem(207px);
 						font-family: PingFangSC-Regular;
 						font-size: 14px;
 						color: #999999;
 						letter-spacing: 0;
 						text-align: center;
 						padding-top: 94px;
+						position: absolute;
+						display: inline-block;
 					}
 					input {
 						width: rem(207px);
@@ -173,6 +187,7 @@
 						outline: none;
 						opacity: 0;
 						cursor: pointer;
+						position: absolute;
 					}
 				}
 			}
@@ -245,22 +260,32 @@
 <script>
 // import {} from "vux";
 import PageHeader from "@/components/PageHeader.vue";
+import ConfirmDialog from "@/components/Dialog.vue";
 import axios from "axios";
 
 export default {
 	components: {
-		PageHeader
+		PageHeader,
+		ConfirmDialog
 	}, 
 	data() {
 		return {
 			title: this.$router.history.current.meta.title,
 			showBack: true,
 			showBtnClose: true,
-			platform: this.utils.getPlatform()
+			platform: this.utils.getPlatform(),
+			isShowDialog: false,
+			dialogTitle: "提示",
+			popType: "rechargePop",
+			dialogDefaultTitle: "",
+			appNoList: [],
+			totalAmount: "视频校验失败！"
 		};
 	},
 	methods: {
-		
+		showDialog: function(showDialog) {
+			this.isShowDialog = showDialog;
+		}
 	},
 	mounted() {
 		
