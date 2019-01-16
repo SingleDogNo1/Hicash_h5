@@ -23,35 +23,35 @@
 					</span>
 				</div>
 				<div class="cardImg">
-					<form action="">
+					<form @click="uploadFileInput('ZL02')" v-if="!idCardInfo[0].bigPath">
 						<i class="addImg"></i>
 						<p>身份证正面</p>
-						<input type="file" name="file">
 					</form>
+					<img width="100%" height="100%" :src="idCardInfo[0].bigPath" v-if="idCardInfo[0].bigPath">
 				</div>
 				<ul class="first">
 					<li class="idCardName">
 						<span class="title">姓名</span>
-						<span class="val">张政</span>
+						<span class="val">{{idCardInfo[0].faceResult.name.result}}</span>
 					</li>
 					<li class="idCardNo">
 						<span class="title">身份证号</span>
-						<span class="val">120110199309151832</span>
+						<span class="val">{{idCardInfo[0].faceResult.idcard_number.result}}</span>
 					</li>
 				</ul>
 			</div>
 			<div class="content opposite">
 				<div class="cardImg">
-					<form action="">
+					<form  @click="uploadFileInput('ZL03')" v-if="!idCardInfo[1].bigPath">
 						<i class="addImg"></i>
 						<p>身份证反面</p>
-						<input type="file" name="file">
 					</form>
+					<img width="100%" height="100%" :src="idCardInfo[1].bigPath" v-if="idCardInfo[1].bigPath">
 				</div>
 				<ul class="second">
 					<li class="idCardTime">
 						<span class="title">有效期限</span>
-						<span class="val">2018.01.12</span>
+						<span class="val">{{idCardInfo[1].faceResult.valid_date_start.result}}-{{idCardInfo[1].faceResult.valid_date_end.result}}</span>
 					</li>
 				</ul>
 			</div>
@@ -59,6 +59,10 @@
 				<a href="javascript:;" id="authNextBtn">下一步</a>
 			</div>
 		</section>
+		<ajax-form class="uploadImgForm" :action="action" :method="method" :enctype="enctype" :responsetype="responsetype" :error="error" :complete="complete">
+			<input ref="submit" type="submit" />
+			<input ref="fileInput" @change="uploadIdcard" type="file" name="file">
+		</ajax-form>
 		<confirm-dialog
 			:isShowDialog="isShowDialog"
 			:dialogTitle="dialogTitle"
@@ -254,6 +258,9 @@
 			}
 		}
 	}
+	.uploadImgForm{
+		display: none;
+	}
 }
 </style>
 
@@ -261,12 +268,13 @@
 // import {} from "vux";
 import PageHeader from "@/components/PageHeader.vue";
 import ConfirmDialog from "@/components/Dialog.vue";
-import axios from "axios";
+import ajaxForm from 'vue2-ajax-form'
 
 export default {
 	components: {
 		PageHeader,
-		ConfirmDialog
+		ConfirmDialog,
+		ajaxForm
 	}, 
 	data() {
 		return {
@@ -279,16 +287,97 @@ export default {
 			popType: "rechargePop",
 			dialogDefaultTitle: "",
 			appNoList: [],
-			totalAmount: "视频校验失败！"
-		};
+			totalAmount: "视频校验失败！",
+			idCard: '',
+			action: 'aaa', // ajax 请求地址 (必须)
+			method: 'POST', // ajax 请求方法 POST | GET (默认: POST)
+			enctype: 'multipart/form-data', // ajax 请求编码 application/x-www-form-urlencoded | multipart/form-data | text/plain (默认: multipart/form-data)
+			responsetype: 'json', // ajax 请求数据类型 blob | document | json | text (默认: json)
+			uploadType: '',
+			idCardInfo:[
+				{
+					bigPath: '',
+					faceResult:{
+						name:{
+							result: ''
+						},
+						idcard_number:{
+							result: ''
+						}
+					}
+				},
+				{
+					bigPath: '',
+					faceResult:{
+						valid_date_end:{
+							result: ''
+						},
+						valid_date_start:{
+							result: ''
+						}
+					}
+				}
+			]
+		}
 	},
 	methods: {
 		showDialog: function(showDialog) {
 			this.isShowDialog = showDialog;
+		},
+		uploadFileInput: function(type) {
+			this.uploadType = type;
+			this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
+			this.$refs.fileInput.click();
+		},
+		uploadIdcard: function(e) {
+			let fileFize = e.target.files[0].size;
+			if(fileFize > 10485760){
+				this.$vux.toast.text('上传图片不得大于10M', 'middle')
+				return false;
+			}
+			console.info('this.uploadType', this.uploadType);
+			console.info('this.action', this.action);
+			this.$vux.loading.show({
+				text: '加载中，请稍等……',
+				position: 'absolute'
+			})
+			this.$refs.submit.click();
+		},
+		error(err) {
+            console.log(err)
+            // ajax请求出现错误
+        },
+        complete(response) {
+			this.$vux.loading.hide();
+			let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
+			response.bigPath = this.config.pic_path + response.bigPath
+			// this.idCardInfo[arrIndex] = response;
+			this.$set(this.idCardInfo,arrIndex,response) 
+			console.log('this.idCardInfo', this.idCardInfo)
+			console.info('this.idCardInfo[arrIndex]', this.idCardInfo[arrIndex]);
+            // ajax请求完成
+		},
+		UpdateTempAppInfo(params){
+			this.common.UpdateTempAppInfo(params)
+			.then((res)=>{
+				console.info('UpdateTempAppInfo', res);
+			});
 		}
 	},
 	mounted() {
-		
+		let updateTempAppInfoData = new URLSearchParams();
+		updateTempAppInfoData.append("tempAppNo", this.utils.getCookie("appFlowNo").split(":")[1]);
+		updateTempAppInfoData.append("applyFrom", '03');
+		updateTempAppInfoData.append("custType", this.utils.getCookie("custType"));
+		updateTempAppInfoData.append("industryCode", this.utils.getCookie("industryCode"));
+		updateTempAppInfoData.append("node", '01');
+		updateTempAppInfoData.append("status", '05');
+		this.UpdateTempAppInfo(updateTempAppInfoData);
+	},
+	watch:{
+		idCard: function(val, oldVal){
+			console.info(val, oldVal);
+		}
 	}
 };
 </script>
