@@ -26,7 +26,7 @@ export default {
 	checkSupportApp: checkSupportApp,
 	fastLoanFirst: fastLoanFirst,
 	uploadPic: uploadPic,
-	updateTempAppInfo: updateTempAppInfo,
+	UpdateTempAppInfo: UpdateTempAppInfo,
 	updatePicStatus: updatePicStatus,
 	stuInfoQuery: stuInfoQuery,
 	collarPersonInfo: collarPersonInfo,
@@ -455,7 +455,7 @@ export function uploadPic(params) {
 /*
  *  临时申请件表保存验证状态
  */
-export function updateTempAppInfo(params) {
+export function UpdateTempAppInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("HicashAppService/UpdateTempAppInfo", params).then(
 			res => {
