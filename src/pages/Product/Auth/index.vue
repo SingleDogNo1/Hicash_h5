@@ -688,7 +688,7 @@ export default {
 			confirmText: "如何录制",
 			cancelText: "重新录制",
 			position: "bottom",
-			isPopupShow: true,
+			isPopupShow: false,
 			height: "",
 			hideOnBlur: false,
 			width: "100%",
