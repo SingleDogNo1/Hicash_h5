@@ -457,7 +457,7 @@ export function uploadPic(params) {
  */
 export function UpdateTempAppInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/UpdateTempAppInfo", params).then(
+		axios.post("/HicashAppService/UpdateTempAppInfo", params).then(
 			res => {
 				resolve(res);
 			},
@@ -473,7 +473,7 @@ export function UpdateTempAppInfo(params) {
  */
 export function updatePicStatus(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/UpdatePicStatus", params).then(
+		axios.post("/HicashAppService/UpdatePicStatus", params).then(
 			res => {
 				resolve(res);
 			},
@@ -489,7 +489,7 @@ export function updatePicStatus(params) {
  */
 export function stuInfoQuery(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/StuInfoQuery", params).then(
+		axios.post("/HicashAppService/StuInfoQuery", params).then(
 			res => {
 				resolve(res);
 			},
@@ -505,7 +505,7 @@ export function stuInfoQuery(params) {
  */
 export function collarPersonInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/CollarPersonInfo", params).then(
+		axios.post("/HicashAppService/CollarPersonInfo", params).then(
 			res => {
 				resolve(res);
 			},

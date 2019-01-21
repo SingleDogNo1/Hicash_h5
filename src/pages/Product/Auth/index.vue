@@ -123,7 +123,7 @@
 					请使用&nbsp;&nbsp;
 					<span>前置摄像头</span>
 					<br>请用&nbsp;&nbsp;
-					<span>普通话</span>&nbsp;&nbsp;读&nbsp;&nbsp;
+					<span>普通话</span>&nbsp;读&nbsp;
 					<span>一遍</span>
 					视频时长&nbsp;&nbsp;
 					<span>3-5秒</span>
