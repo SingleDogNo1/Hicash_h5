@@ -1014,7 +1014,7 @@ export function QueryWithdrawData(params) {
  */
 export function UpdateCustCard(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/UpdateCustCard", params).then(
+		axios.post("/HicashAppService/UpdateCustCard", params).then(
 			res => {
 				resolve(res);
 			},
@@ -1030,7 +1030,7 @@ export function UpdateCustCard(params) {
  */
 export function GetRandomNumber(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/GetRandomNumber", params).then(
+		axios.post("/HicashAppService/GetRandomNumber", params).then(
 			res => {
 				resolve(res);
 			},
@@ -1046,7 +1046,7 @@ export function GetRandomNumber(params) {
  */
 export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/VerifyVideo", params).then(
+		axios.post("/HicashAppService/VerifyVideo", params).then(
 			res => {
 				resolve(res);
 			},
