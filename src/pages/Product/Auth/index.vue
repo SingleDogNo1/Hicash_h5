@@ -122,9 +122,11 @@
 				<p class="tipContent">
 					请使用&nbsp;&nbsp;
 					<span>前置摄像头</span>
-					<br>请用&nbsp;&nbsp;
+					<br />
+					<br>请用&nbsp;
 					<span>普通话</span>&nbsp;读&nbsp;
 					<span>一遍</span>
+					<br />
 					视频时长&nbsp;&nbsp;
 					<span>3-5秒</span>
 				</p>
@@ -176,12 +178,12 @@
     }
     ul {
       clear: both;
-      width: rem(220px);
+      width: 244px;
       height: rem(20px);
       margin: 0 auto;
 	  position: relative;
 	  li{
-		  	width: rem(56px);
+		  	width: 62px;
 			font-family: PingFangSC-Regular;
 			font-size: rem(14px);
 			color: #fff;
@@ -513,7 +515,7 @@
             }
           }
           .v-tips {
-            width: rem(143px);
+            width: 143px;
             height: rem(95px);
             font-family: PingFangSC-Regular;
             font-size: rem(15px);
@@ -686,7 +688,7 @@ export default {
 			confirmText: "如何录制",
 			cancelText: "重新录制",
 			position: "bottom",
-			isPopupShow: false,
+			isPopupShow: true,
 			height: "",
 			hideOnBlur: false,
 			width: "100%",
@@ -795,7 +797,11 @@ export default {
         },
         complete(response) {
 			this.$vux.loading.hide();
-			if(response.resultCode != '1'){
+			if(response.resultCode == '50608'){
+				this.$router.push({
+					name: "Home"
+				});
+			}else if(response.resultCode != '1'){
 				if(this.uploadType=='video'){
 					this.exit();
 					this.isShowDialog = true;
