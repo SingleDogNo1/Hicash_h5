@@ -748,20 +748,20 @@ export default {
 			console.log("重新录制")
 			this.isShowDialog = false;
 			this.isPopupShow = true;
+			this.inputAccept = 'video/*';
 		},
 		nextStep() {
-			// if(this.idCardInfo[0].bigPath == ''){
-			// 	this.$vux.toast.text('请上传正面照', 'middle')
-			// }else if(this.idCardInfo[1].bigPath == ''){
-			// 	this.$vux.toast.text('请上传反面照', 'middle')
-			// }else{
+			if(this.idCardInfo[0].bigPath == ''){
+				this.$vux.toast.text('请上传正面照', 'middle')
+			}else if(this.idCardInfo[1].bigPath == ''){
+				this.$vux.toast.text('请上传反面照', 'middle')
+			}else{
 				let getRandomNumberData = new URLSearchParams();
 				getRandomNumberData.append("userName", this.utils.getCookie("userName"));
 				getRandomNumberData.append("uuid", this.utils.uuid());
 				this.inputAccept = 'video/*';
 				this.GetRandomNumber(getRandomNumberData);
-			// }
-			
+			}
 		},
 		exit() {
 			this.inputAccept = 'image/*';
