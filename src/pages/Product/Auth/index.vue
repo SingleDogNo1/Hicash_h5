@@ -1,17 +1,22 @@
 <template>
-	<div class="auth">
+	<div class="auth-content">
 		<page-header
 			:title="title"
 			:showBack="showBack"
 			:showBtnClose="showBtnClose"
+			:isShowCloseDialog="false"
+			:closeDialogTitle="closeDialogTitle"
+			:closeDialogContent="closeDialogContent"
+			:closeDialogConfirmText="closeDialogConfirmText"
+			:closeDialogCancelText="closeDialogCancelText"
 			v-if="platform === 'H5'"
 		></page-header>
 		<div class="newActive">
 			<img src="./images/newHeaderSteats1.png" alt="">
 			<ul>
 				<li class="active">身份认证</li>
-				<li class="active">基本信息</li>
-				<li class="active">信用认证</li>
+				<li class="">基本信息</li>
+				<li class="">信用认证</li>
 			</ul>
 		</div>
 		<section class="creditMain">
@@ -23,10 +28,11 @@
 					</span>
 				</div>
 				<div class="cardImg">
-					<form @click="uploadFileInput('ZL02')" v-if="!idCardInfo[0].bigPath">
+					<div @click="uploadFileInput('ZL02')" v-if="!idCardInfo[0].bigPath" class="idcard-frontal"></div>
+					<!-- <form @click="uploadFileInput('ZL02')" v-if="!idCardInfo[0].bigPath">
 						<i class="addImg"></i>
 						<p>身份证正面</p>
-					</form>
+					</form> -->
 					<img width="100%" height="100%" :src="idCardInfo[0].bigPath" v-if="idCardInfo[0].bigPath">
 				</div>
 				<ul class="first">
@@ -43,21 +49,22 @@
 			<div class="content opposite">
 				<div class="tips">
 					<span class="tipContent">
-						身份证背面（卡片完整，字迹清晰）
+						身份证反面（卡片完整，字迹清晰）
 						<img src="./images/tips.png" alt @click="photoIsShow">
 					</span>
 				</div>
 				<div class="cardImg">
-					<form  @click="uploadFileInput('ZL03')" v-if="!idCardInfo[1].bigPath">
+					<div @click="uploadFileInput('ZL03')" v-if="!idCardInfo[1].bigPath" class="idcard-reverse"></div>
+					<!-- <form  @click="uploadFileInput('ZL03')" v-if="!idCardInfo[1].bigPath">
 						<i class="addImg"></i>
 						<p>身份证反面</p>
-					</form>
+					</form> -->
 					<img width="100%" height="100%" :src="idCardInfo[1].bigPath" v-if="idCardInfo[1].bigPath">
 				</div>
 				<ul class="second">
 					<li class="idCardTime">
 						<span class="title">有效期限</span>
-						<span class="val">{{idCardInfo[1].faceResult.valid_date_start.result}}-{{idCardInfo[1].faceResult.valid_date_end.result}}</span>
+						<span class="val" v-if="idCardInfo[1].faceResult.valid_date_start.result">{{idCardInfo[1].faceResult.valid_date_start.result}}-{{idCardInfo[1].faceResult.valid_date_end.result}}</span>
 					</li>
 				</ul>
 			</div>
@@ -67,13 +74,14 @@
 		</section>
 		<ajax-form class="uploadImgForm" :action="action" :method="method" :enctype="enctype" :responsetype="responsetype" :error="error" :complete="complete">
 			<input ref="submit" type="submit" />
-			<input ref="fileInput" @change="uploadIdcard" type="file" name="file">
+			<input ref="fileInput" @change="uploadIdcard" type="file" name="file" :accept="inputAccept">
 		</ajax-form>
 		<Confirm
 		v-model="isShowDialog"
 		:title="dialogTitle"
 		:confirm-text="confirmText"
 		:cancel-text="cancelText"
+		:close-on-confirm="false"
 		class="confirmDialog"
 		@on-confirm="videoIsShow"
 		@on-cancel="onCancel"
@@ -95,9 +103,9 @@
 		</alert>
 		<Popup
 		v-model="isPopupShow"
-		:height="height"
 		:hide-on-blur="hideOnBlur"
 		:width="width"
+		:height="height"
 		:position="position"
 		:show-mask="showMask"
 		:hide-on-deactivated="hideOnDeactivated"
@@ -123,7 +131,7 @@
 				</div>
 			</div>
 			<div class="v-num">
-				<span>3333</span>
+				<span>{{videoNumber}}</span>
 			</div>
 			</div>
 			<div class="v-notice">
@@ -133,8 +141,8 @@
 			</div>
 			<div class="startPlayBtn">
 			<form action="">
-				<span>开始录制视频</span>
-				<input type="file" name="file">
+				<span @click="uploadFileInput('video')">开始录制视频</span>
+				<!-- <input type="file" name="file"> -->
 			</form>
 			</div>
 			<div class="exit">
@@ -150,11 +158,15 @@
 .Auth {
   height: rem(800px);
   background: rgb(239, 239, 244);
+  .auth-content{
+	height: 100%;
+    background: #efeff4;
+  }
   .newActive {
     width: 100%;
     height: rem(107px);
     background: #fc905c;
-    margin-top: rem(65px);
+    margin-top: rem(55px);
     text-align: center;
     img {
       display: inline-block;
@@ -167,24 +179,27 @@
       width: rem(220px);
       height: rem(20px);
       margin: 0 auto;
-      position: relative;
-      .active {
-        width: rem(56px);
-        font-family: PingFangSC-Regular;
-        font-size: rem(14px);
-        color: #333333;
-        letter-spacing: 0;
-        float: left;
-        margin-right: rem(26px);
+	  position: relative;
+	  li{
+		  	width: rem(56px);
+			font-family: PingFangSC-Regular;
+			font-size: rem(14px);
+			color: #fff;
+			letter-spacing: 0;
+			float: left;
+			margin-right: rem(26px);
+	  }
+      li.active {
+        color: #333;
       }
-      .active:last-of-type {
+      li:last-of-type {
         margin-right: rem(-26px);
       }
     }
   }
   .creditMain {
     width: 100%;
-    height: rem(560px);
+    height: auto;
     padding-top: rem(32px);
     .content {
       width: 100%;
@@ -219,7 +234,22 @@
         border: 1px solid #dddddd;
         border-radius: 4px;
         margin: auto;
-        position: relative;
+		position: relative;
+		.idcard-frontal{
+			width: 100%;
+			height: 100%;
+			background: url('./images/idCardFrontal.png') no-repeat 50% 50%;
+			background-size: 100% 100%;
+		}
+		.idcard-reverse{
+			width: 100%;
+			height: 100%;
+			background: url('./images/idCardReverse.png') no-repeat 50% 50%;
+			background-size: 100% 100%;
+		}
+		img{
+			object-fit: contain;
+		}
         .takeIdcard {
           width: rem(207px);
           height: rem(132px);
@@ -345,13 +375,13 @@
         .dialog-content {
           padding: 0;
           width: 100%;
-          height: 88px;
+          min-height: 40px;
           font-family: PingFangSC-Regular;
           font-size: 13px;
           color: #333333;
           letter-spacing: -0.08px;
           text-align: center;
-          line-height: 88px;
+          padding-top: 20px;
         }
       }
       .weui-dialog__ft {
@@ -447,6 +477,7 @@
   }
   .vux-popup-dialog {
     background: rgb(239, 239, 244);
+	height: calc(100vh - 50px);
     .video-wrap {
       width: rem(345px);
       margin: auto;
@@ -656,7 +687,7 @@ export default {
 			cancelText: "重新录制",
 			position: "bottom",
 			isPopupShow: false,
-			height: "94%",
+			height: "",
 			hideOnBlur: false,
 			width: "100%",
 			showMask: false,
@@ -668,6 +699,7 @@ export default {
 			enctype: 'multipart/form-data', // ajax 请求编码 application/x-www-form-urlencoded | multipart/form-data | text/plain (默认: multipart/form-data)
 			responsetype: 'json', // ajax 请求数据类型 blob | document | json | text (默认: json)
 			uploadType: '',
+			inputAccept: 'image/*',
 			idCardInfo:[
 				{
 					bigPath: '',
@@ -691,7 +723,14 @@ export default {
 						}
 					}
 				}
-			]
+			],
+			closeDialogTitle: '是否放弃填写',
+			closeDialogContent: '信息尚未填写完成，是否放弃申请？现金曾离你这么近，难道就舍它而去？',
+			closeDialogConfirmText: '放弃填写',
+			closeDialogCancelText: '继续填写',
+			videoNumber: '',
+			bizNo: '',
+			token: ''
 		}
 	},
 	methods: {
@@ -707,17 +746,34 @@ export default {
 		},
 		onCancel () {
 			console.log("重新录制")
+			this.isShowDialog = false;
 			this.isPopupShow = true;
 		},
 		nextStep() {
-			this.isPopupShow = true;
+			// if(this.idCardInfo[0].bigPath == ''){
+			// 	this.$vux.toast.text('请上传正面照', 'middle')
+			// }else if(this.idCardInfo[1].bigPath == ''){
+			// 	this.$vux.toast.text('请上传反面照', 'middle')
+			// }else{
+				let getRandomNumberData = new URLSearchParams();
+				getRandomNumberData.append("userName", this.utils.getCookie("userName"));
+				getRandomNumberData.append("uuid", this.utils.uuid());
+				this.inputAccept = 'video/*';
+				this.GetRandomNumber(getRandomNumberData);
+			// }
+			
 		},
 		exit() {
+			this.inputAccept = 'image/*';
 			this.isPopupShow = false;
 		},
 		uploadFileInput: function(type) {
 			this.uploadType = type;
-			this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
+			if(type == 'video'){
+				this.action = '/HicashAppService/VerifyVideo?bizNo='+ this.bizNo +'&userName='+ this.utils.getCookie('userName') +'&token='+ this.token +'&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b' + '&randomNum=' + this.videoNumber + '&tempAppNo=' + this.utils.getCookie("appFlowNo").split(":")[1];
+			}else{
+				this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
+			}
 			this.$refs.fileInput.click();
 		},
 		uploadIdcard: function(e) {
@@ -739,15 +795,86 @@ export default {
         },
         complete(response) {
 			this.$vux.loading.hide();
-			let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
-			response.bigPath = this.config.pic_path + response.bigPath
-			this.$set(this.idCardInfo,arrIndex,response) 
+			if(response.resultCode != '1'){
+				if(this.uploadType=='video'){
+					this.exit();
+					this.isShowDialog = true;
+					return false;
+				}
+				this.$vux.toast.text(response.resultMsg)
+			}else if(response.resultCode == '1'){
+				if(this.uploadType=='video'){
+					let updateCustCardrData = new URLSearchParams();
+					updateCustCardrData.append("userName", this.utils.getCookie("userName"));	//string	用户名
+					updateCustCardrData.append("permanentAddressProvince", '000000');			//string	户籍省
+					updateCustCardrData.append("permanentAddressCity", '000000');				//string	户籍市
+					updateCustCardrData.append("permanentAddressArea", '000000');				//string	户籍区
+					updateCustCardrData.append("permanentAddressRaod", this.idCardInfo[0].faceResult.address.result);						//string	户籍详细地址
+					updateCustCardrData.append("nation", this.idCardInfo[0].faceResult.nationality.result);										//string	民族
+					updateCustCardrData.append("idCardValStartDate", this.idCardInfo[1].faceResult.valid_date_start.result);							//string	身份证有效期开始时间
+					updateCustCardrData.append("idCardValEndDate", this.idCardInfo[1].faceResult.valid_date_end.result);							//string	身份证有效期结束时间
+					updateCustCardrData.append("identityNo", this.idCardInfo[0].faceResult.idcard_number.result);									//string	身份证号码
+					updateCustCardrData.append("idcardFrom", this.idCardInfo[1].faceResult.issued_by.result);									//string	签发机关
+					updateCustCardrData.append("name", this.idCardInfo[0].faceResult.name.result);										//string	真实姓名
+					this.UpdateCustCard(updateCustCardrData)
+				}else {
+					let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
+					response.bigPath = this.config.pic_path + response.bigPath
+					this.$set(this.idCardInfo,arrIndex,response) 
+				}
+			}
+			
 		},
 		UpdateTempAppInfo(params){
 			this.common.UpdateTempAppInfo(params)
 			.then((res)=>{
 				console.info('UpdateTempAppInfo', res);
 			});
+		},
+		GetRandomNumber(params){
+			this.common.GetRandomNumber(params)
+			.then((res)=>{
+				console.info('GetRandomNumber', res);
+				this.videoNumber = res.data.number;
+				this.bizNo = res.data.bizNo;
+				this.token = res.data.token;
+				this.isPopupShow = true;
+			});
+		},
+		UpdateCustCard(params){
+			this.common.UpdateCustCard(params)
+			.then((res)=>{
+				console.info('GetRandomNumber', res);
+				if(res.data.resultCode === '1'){
+					let updatePicStatusData = new URLSearchParams();
+					updatePicStatusData.append("userName", this.utils.getCookie("userName"));
+					updatePicStatusData.append("uuid", "1b5f9201-773b-4d14-8ed5-b9f4c8538730");
+					
+					this.updatePicStatus(updatePicStatusData);
+				}else{
+					this.$vux.toast.text(res.data.resultMsg, 'middle')
+				}
+			});
+		},
+		updatePicStatus(params){
+			this.common.updatePicStatus(params)
+			.then((res)=>{
+				let data = res.data;
+				if(data.resultCode=="1"){
+					let custType = this.utils.getCookie("custType");
+					let industryCode = this.utils.getCookie("industryCode");
+					let hqljb = this.utils.getCookie("hqljb");
+					if(industryCode=="DDCP" && hqljb=="1"){
+						window.location = this.config.MWEB_PATH + "newweb/creditInfo/editablePage.html?back=1";
+					}else if(custType == "KHL2"){
+						window.location = this.config.MWEB_PATH + "newweb/creditInfo/collarBaseInfo.html";
+					}else{
+						window.location = this.config.MWEB_PATH + "newweb/creditInfo/stuBaseInfo.html";
+					}
+				}else{
+					this.$vux.toast.text(data.resultMsg, 'middle')
+				}
+			})
 		}
 	},
 	mounted() {
