@@ -120,15 +120,20 @@
 				</div>
 				<div class="v-tips">
 				<p class="tipContent">
-					请使用&nbsp;&nbsp;
-					<span>前置摄像头</span>
-					<br />
-					<br>请用&nbsp;
-					<span>普通话</span>&nbsp;读&nbsp;
-					<span>一遍</span>
-					<br />
-					视频时长&nbsp;&nbsp;
-					<span>3-5秒</span>
+					<div>
+						请使用
+						<span>前置摄像头</span>
+					</div>
+					<div>
+							请用
+						<span>普通话</span>
+						读
+						<span>一遍</span>
+					</div>
+					<div>
+						视频时长
+						<span>3-5秒</span>
+					</div>
 				</p>
 				</div>
 			</div>
@@ -219,14 +224,15 @@
           color: #333333;
           letter-spacing: rem(0px);
           line-height: rem(21px);
-          opacity: 1;
+					opacity: 1;
+					
           img {
             display: inline-block;
             position: relative;
             top: 0.12rem;
             width: rem(16px);
             height: rem(16px);
-          }
+					}
         }
       }
       .cardImg {
@@ -240,13 +246,13 @@
 		.idcard-frontal{
 			width: 100%;
 			height: 100%;
-			background: url('./images/idCardFrontal.png') no-repeat 50% 50%;
+			background: url('./images/iCardPosit.jpg') no-repeat 50% 50%;
 			background-size: 100% 100%;
 		}
 		.idcard-reverse{
 			width: 100%;
 			height: 100%;
-			background: url('./images/idCardReverse.png') no-repeat 50% 50%;
+			background: url('./images/iCardBack.jpg') no-repeat 50% 50%;
 			background-size: 100% 100%;
 		}
 		img{
@@ -523,16 +529,14 @@
             letter-spacing: -0.36px;
             text-align: left;
             display: inline-block;
-            float: right;
-            p {
-              line-height: rem(37px);
-              span {
-                font-family: PingFangSC-Regular;
-                font-size: rem(15px);
-                color: #ff7640;
-                letter-spacing: -0.36px;
-              }
-            }
+						float: right;
+						line-height: rem(37px);
+						font-size: rem(15px);
+						span{
+							display: inline-block;
+							padding: 0 5px;
+							color: #FF7640;
+						}
           }
         }
         .v-num {
@@ -688,7 +692,7 @@ export default {
 			confirmText: "如何录制",
 			cancelText: "重新录制",
 			position: "bottom",
-			isPopupShow: false,
+			isPopupShow: true,
 			height: "",
 			hideOnBlur: false,
 			width: "100%",
@@ -798,9 +802,12 @@ export default {
         complete(response) {
 			this.$vux.loading.hide();
 			if(response.resultCode == '50608'){
-				this.$router.push({
-					name: "Home"
-				});
+				this.$vux.toast.text(response.resultMsg);
+				setTimeout(()=>{
+					this.$router.push({
+						name: "Home"
+					});
+				}, 2000)
 			}else if(response.resultCode != '1'){
 				if(this.uploadType=='video'){
 					this.exit();
