@@ -16,7 +16,8 @@ export default {
 	checkCardNum: checkCardNum, //校验借记卡号
 	getPlatform: getPlatform, //获取comeFrom
 	toThousands: toThousands, //格式化数据格式字符串 没三位添加逗号
-	checkPwd: checkPwd //校验密码是否合法
+	checkPwd: checkPwd, //校验密码是否合法
+	getDevice: getDevice	//判断是否是移动端
 };
 
 export function uuid() {
@@ -94,6 +95,17 @@ export function clearCookie() {
 		}
 	}
 }
+
+// 判断是否是移动端
+export function getDevice() {
+	if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+		return "mobile";
+	}
+	else {
+		return "pc";
+	}
+}
+
 /**
  * base64 编码、 解码
  */

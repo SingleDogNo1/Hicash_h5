@@ -757,6 +757,10 @@ export default {
 			this.inputAccept = 'video/*';
 		},
 		nextStep() {
+			if(this.utils.getDevice() == 'pc'){
+				this.$vux.toast.text('摄像功能无法开启 请更换设备', 'middle')
+				return false;
+			}
 			if(this.idCardInfo[0].bigPath == ''){
 				this.$vux.toast.text('请上传正面照', 'middle')
 			}else if(this.idCardInfo[1].bigPath == ''){
