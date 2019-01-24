@@ -32,6 +32,9 @@ import MyInstalment from "@/pages/Personal/Instalment/index";
 import AllIndex from "@/pages/Personal/Instalment/All/Index";
 import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
 import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
+import Product from "@/pages/Product";
+import Auth from "@/pages/Product/Auth";
+
 
 Vue.use(Router);
 
@@ -122,6 +125,24 @@ export default new Router({
 					meta: {
 						requireAuth: true,
 						title: "我的消息"
+					}
+				}
+			]
+		},
+		{
+			//申请产品流程
+			path: "/product",
+			name: "Product",
+			component: Product,
+			redirect: "/product/auth",
+			children: [
+				{
+					path: "auth",
+					name: "Auth",
+					component: Auth,
+					meta: {
+						requireAuth: true,
+						title: "身份认证"
 					}
 				}
 			]

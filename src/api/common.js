@@ -26,7 +26,7 @@ export default {
 	checkSupportApp: checkSupportApp,
 	fastLoanFirst: fastLoanFirst,
 	uploadPic: uploadPic,
-	updateTempAppInfo: updateTempAppInfo,
+	UpdateTempAppInfo: UpdateTempAppInfo,
 	updatePicStatus: updatePicStatus,
 	stuInfoQuery: stuInfoQuery,
 	collarPersonInfo: collarPersonInfo,
@@ -60,7 +60,10 @@ export default {
 	orderDetailInfo: orderDetailInfo,
 	repayPlan: repayPlan,
 	CancelAppPayByPad: CancelAppPayByPad,
-	QueryWithdrawData: QueryWithdrawData
+	QueryWithdrawData: QueryWithdrawData,
+	GetRandomNumber: GetRandomNumber,
+	UpdateCustCard: UpdateCustCard,
+	VerifyVideo: VerifyVideo
 };
 
 /*
@@ -452,9 +455,9 @@ export function uploadPic(params) {
 /*
  *  临时申请件表保存验证状态
  */
-export function updateTempAppInfo(params) {
+export function UpdateTempAppInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/UpdateTempAppInfo", params).then(
+		axios.post("/HicashAppService/UpdateTempAppInfo", params).then(
 			res => {
 				resolve(res);
 			},
@@ -470,7 +473,7 @@ export function updateTempAppInfo(params) {
  */
 export function updatePicStatus(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/UpdatePicStatus", params).then(
+		axios.post("/HicashAppService/UpdatePicStatus", params).then(
 			res => {
 				resolve(res);
 			},
@@ -486,7 +489,7 @@ export function updatePicStatus(params) {
  */
 export function stuInfoQuery(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/StuInfoQuery", params).then(
+		axios.post("/HicashAppService/StuInfoQuery", params).then(
 			res => {
 				resolve(res);
 			},
@@ -502,7 +505,7 @@ export function stuInfoQuery(params) {
  */
 export function collarPersonInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/CollarPersonInfo", params).then(
+		axios.post("/HicashAppService/CollarPersonInfo", params).then(
 			res => {
 				resolve(res);
 			},
@@ -980,6 +983,70 @@ export function CancelAppPayByPad(params) {
 export function QueryWithdrawData(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/QueryWithdrawData", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+// /*
+//  * 保存图片信息
+//  */
+// export function UploadAppPic() {
+// 	return new Promise((resolve, reject) => {
+// 		axios.post("/HicashAppService/UploadAppPic").then(
+// 			res => {
+// 				resolve(res);
+// 			},
+// 			err => {
+// 				reject(err);
+// 			}
+// 		);
+// 	});
+// }
+
+/*
+ *  保存身份证信息接口
+ */
+export function UpdateCustCard(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/UpdateCustCard", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  活体检测--获取随机数字
+ */
+export function GetRandomNumber(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/GetRandomNumber", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  活体检测--上传视频
+ */
+export function VerifyVideo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/VerifyVideo", params).then(
 			res => {
 				resolve(res);
 			},
