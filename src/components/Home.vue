@@ -551,7 +551,7 @@ export default {
 		postData.append("platform", "HTML5");
 		postData.append("version", "");
 		postData.append("uuid", this.utils.uuid());
-
+		postData.append("userName", userName);
 		this.getIndexMain(postData);
 
 		//快速还款URL
