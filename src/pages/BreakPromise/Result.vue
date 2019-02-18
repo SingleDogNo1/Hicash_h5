@@ -923,7 +923,7 @@ export default {
 		SysParam: function() {
 			let _params = new URLSearchParams();
 			_params.append("paramCode", "SXAL");
-			_params.append("maxLine", 10000);
+			_params.append("maxLine", 20);
 
 			this.common.getSysParam(_params).then(res => {
 				let data = res.data;
@@ -936,10 +936,8 @@ export default {
 					// 轮播图
 					var mySwiper = new Swiper(".case-container", {
 						direction: "vertical",
-						autoplay: {
-							delay: 4300,
-							disableOnInteraction: false
-						},
+						slidesPerView: "auto",
+						autoplay: 4300,
 						loop: true
 					});
 				}, 500);
