@@ -437,7 +437,7 @@ export default {
 				"TXXY"
 			]);
 			window.location.href =
-				"https://m.tianxiaxinyong.cn/cooperation/crp-op/product-select-v2.html?channel1=L1R6ZXcxSzhoNWZub2swUlFoalFhZz09&channel2=N3hUZmtVR0dET1VrTzVncE9hMjRPQT09&channel3=YkFCK3BUc3VSbFJPZ2RwSDJ4VXpUUT09";
+				"https://m.tianxiaxinyong.cn/cooperation/common/guanjia.html?txxychannel=eWtJUHVCaGxiRWUzRllEU1pTRk5DZz09#/";
 		},
 		adShiXin: function() {
 			// 跳转到热点新闻列表页
