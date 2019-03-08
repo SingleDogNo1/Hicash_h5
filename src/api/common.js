@@ -63,7 +63,8 @@ export default {
 	QueryWithdrawData: QueryWithdrawData,
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
-	VerifyVideo: VerifyVideo
+	VerifyVideo: VerifyVideo,
+	IsBottomShow: IsBottomShow
 };
 
 /*
@@ -1048,6 +1049,32 @@ export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/VerifyVideo", params).then(
 			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/**
+ * 底部导航
+ */
+export function IsBottomShow(params) {
+	return new Promise((resolve, reject) => {
+		//从内存中获取数据，如内存中不存在在请求server
+		let IsBottomShowData = cache.get("IsBottomShow");
+		if (IsBottomShowData) {
+			resolve(IsBottomShowData);
+			return false;
+		}
+
+		axios.post("/HicashAppService/IsBottomShow", params).then(
+			res => {
+				if (res.data.resultCode == "1") {
+					cache.put("IsBottomShow", res);
+				}
 				resolve(res);
 			},
 			err => {

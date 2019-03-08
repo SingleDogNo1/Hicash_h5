@@ -34,7 +34,7 @@ import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
 import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
 import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
-
+import Inquiry from "@/pages/Inquiry";
 
 Vue.use(Router);
 
@@ -52,6 +52,13 @@ export default new Router({
 			name: "MiaoDai",
 			component: MiaoDai,
 			meta: { title: "嗨秒分期" }
+		},
+		{
+			//征信
+			path: "/inquiry",
+			name: "Inquiry",
+			component: Inquiry,
+			meta: { title: "征信" }
 		},
 		{
 			//个人中心

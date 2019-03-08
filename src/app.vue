@@ -194,6 +194,14 @@ body {
 		no-repeat;
 	background-size: cover;
 }
+.icon-inquiry {
+	display: block;
+	width: 0.8rem;
+	height: 0.85rem;
+	margin-top: 0.15rem;
+	background: url("./assets/images/icon-inquiry.png") center center no-repeat;
+	background-size: cover;
+}
 .icon-me {
 	display: block;
 	width: 0.8rem;
@@ -225,6 +233,10 @@ body {
 	}
 	.weui-tabbar__label {
 		color: #ff6700 !important;
+	}
+	.icon-inquiry {
+		background: url("./assets/images/icon-inquiry-select.png") center center no-repeat;
+		background-size: cover;
 	}
 }
 .weui-tabbar__item:last-child {
