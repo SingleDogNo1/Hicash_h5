@@ -318,6 +318,14 @@ export default new Router({
 			meta: {
 				title: '征信报告'
 			}
+		},
+		{
+			path: '/jingdong',
+			name: 'jingdong',
+			component: () => import('@/pages/Credit/Report/Jingdong'),
+			meta: {
+				title: '征信报告'
+			}
 		}
 	]
 });

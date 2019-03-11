@@ -111,7 +111,7 @@
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import F2Pie from "@/components/F2Pie.vue";
-import { XCircle, Scroller, TransferDom } from "vux";
+import { XCircle } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
 
@@ -120,11 +120,7 @@ export default {
   components: {
     PageHeader,
     F2Pie,
-    XCircle,
-    Scroller
-  },
-  directives: {
-    TransferDom
+    XCircle
   },
   data() {
     return {
@@ -265,13 +261,11 @@ export default {
         justify-content: space-between;
         h1 {
           display: block;
-          width: rem(150px);
           font-size: 30px;
           font-weight: 400;
         }
         .refresh {
           display: block;
-          width: rem(55px);
           height: rem(45px);
           .icon-refresh {
             display: block;
@@ -468,7 +462,7 @@ export default {
         .title {
           font-size: 15px;
           color: #333333;
-          margin-bottom: rem(8px);
+          margin-bottom: rem(4px);
         }
         .desc {
           font-size: 13px;
