@@ -34,6 +34,10 @@ import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
 import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
 import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
+import ActivityIntroduction from "@/pages/credit/introduce";
+import FailedLoad from "@/pages/credit/failedLoad";
+import Loading from "@/pages/credit/loading";
+import ConsumptionTrend from "@/components/consumptionTrend";
 
 
 Vue.use(Router);
@@ -310,6 +314,42 @@ export default new Router({
 			component: HotNewsDetail,
 			meta: {
 				title: "热点推荐"
+			}
+		},
+		{
+			//征信活动介绍
+			path: "/activityIntroduction",
+			name: "ActivityIntroduction",
+			component: ActivityIntroduction,
+			meta: {
+				title: "征信活动介绍"
+			}
+		},
+		{
+			//征信报告 加载失败页
+			path: "/failedLoad",
+			name: "FailedLoad",
+			component: FailedLoad,
+			meta: {
+				title: "征信报告"
+			}
+		},
+		{
+			//征信报告加载中
+			path: "/loading",
+			name: "Loading",
+			component: Loading,
+			meta: {
+				title: "征信报告"
+			}
+		},
+		{
+			//组件 仅用于开发 删除
+			path: "/consumptionTrend",
+			name: "ConsumptionTrend",
+			component: ConsumptionTrend,
+			meta: {
+				title: "征信报告"
 			}
 		}
 	]
