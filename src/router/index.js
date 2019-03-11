@@ -46,274 +46,290 @@ export default new Router({
 	routes: [
 		{
 			//首页
-			path: "/",
-			name: "Home",
+			path: '/',
+			name: 'Home',
 			component: Home
 		},
 		{
 			//嗨秒分期
-			path: "/miaoDai",
-			name: "MiaoDai",
+			path: '/miaoDai',
+			name: 'MiaoDai',
 			component: MiaoDai,
-			meta: { title: "嗨秒分期" }
+			meta: { title: '嗨秒分期' }
 		},
 		{
 			//个人中心
-			path: "/personal",
-			name: "Personal",
+			path: '/personal',
+			name: 'Personal',
 			component: Personal,
-			redirect: "/personal/personIndex",
+			redirect: '/personal/personIndex',
 			children: [
 				{
-					path: "personIndex",
-					name: "PersonIndex",
+					path: 'personIndex',
+					name: 'PersonIndex',
 					component: PersonIndex,
 					meta: {
 						requireAuth: true,
-						title: "个人中心"
+						title: '个人中心'
 					}
 				},
 				{
 					//个人中心 - 我的分期
-					path: "myInstalment",
-					name: "MyInstalment",
+					path: 'myInstalment',
+					name: 'MyInstalment',
 					component: MyInstalment,
-					redirect: "/personal/myInstalment/allIndex",
+					redirect: '/personal/myInstalment/allIndex',
 					children: [
 						{
-							path: "allIndex",
-							name: "AllIndex",
+							path: 'allIndex',
+							name: 'AllIndex',
 							component: AllIndex,
 							meta: {
 								requireAuth: true,
-								title: "我的分期"
+								title: '我的分期'
 							}
 						},
 						{
 							//个人中心 - 我的分期 - 逾期详情
-							path: "overdueDetail",
-							name: "OverdueDetail",
+							path: 'overdueDetail',
+							name: 'OverdueDetail',
 							component: OverdueDetail,
 							meta: {
 								requireAuth: true,
-								title: "逾期订单"
+								title: '逾期订单'
 							}
 						},
 						{
 							//个人中心 - 我的分期 - 还款计划
-							path: "repaymentPlan",
-							name: "RepaymentPlan",
+							path: 'repaymentPlan',
+							name: 'RepaymentPlan',
 							component: RepaymentPlan,
 							meta: {
 								requireAuth: true,
-								title: "还款计划"
+								title: '还款计划'
 							}
 						}
 					]
 				},
 				{
 					//个人中心 - 我的优惠券
-					path: "myCoupon",
-					name: "MyCoupon",
+					path: 'myCoupon',
+					name: 'MyCoupon',
 					component: MyCoupon,
 					meta: {
 						requireAuth: true,
-						title: "我的优惠券"
+						title: '我的优惠券'
 					}
 				},
 				{
 					//个人中心 - 我的消息
-					path: "myNews",
-					name: "MyNews",
+					path: 'myNews',
+					name: 'MyNews',
 					component: MyNews,
 					meta: {
 						requireAuth: true,
-						title: "我的消息"
+						title: '我的消息'
 					}
 				}
 			]
 		},
 		{
 			//申请产品流程
-			path: "/product",
-			name: "Product",
+			path: '/product',
+			name: 'Product',
 			component: Product,
-			redirect: "/product/auth",
+			redirect: '/product/auth',
 			children: [
 				{
-					path: "auth",
-					name: "Auth",
+					path: 'auth',
+					name: 'Auth',
 					component: Auth,
 					meta: {
 						requireAuth: true,
-						title: "身份认证"
+						title: '身份认证'
 					}
 				}
 			]
 		},
 		{
 			//登录
-			path: "/login",
-			name: "Login",
+			path: '/login',
+			name: 'Login',
 			component: Login,
-			meta: { title: "登录" }
+			meta: { title: '登录' }
 		},
 		{
 			//忘记密码
-			path: "/forgetPassword",
-			name: "ForgetPassword",
+			path: '/forgetPassword',
+			name: 'ForgetPassword',
 			component: ForgetPassword,
-			meta: { title: "忘记密码" }
+			meta: { title: '忘记密码' }
 		},
 		{
 			//注册
-			path: "/register",
-			name: "Register",
+			path: '/register',
+			name: 'Register',
 			component: Register,
-			meta: { title: "注册" }
+			meta: { title: '注册' }
 		},
 		{
 			//综合评级
-			path: "/compre-rat",
-			name: "CompreRat",
+			path: '/compre-rat',
+			name: 'CompreRat',
 			component: CompreRat,
-			meta: { title: "综合评级" }
+			meta: { title: '综合评级' }
 		},
 		{
 			//费率计算
-			path: "/rateCalculation",
-			name: "RateCalculation",
+			path: '/rateCalculation',
+			name: 'RateCalculation',
 			component: RateCalculation,
-			meta: { title: "费率计算" }
+			meta: { title: '费率计算' }
 		},
 		{
 			//身份认证
-			path: "/identityAuthentication",
-			name: "IdentityAuthentication",
+			path: '/identityAuthentication',
+			name: 'IdentityAuthentication',
 			component: IdentityAuthentication,
-			meta: { title: "身份认证" }
+			meta: { title: '身份认证' }
 		},
 		{
 			//借款攻略
-			path: "/loanStrategy",
-			name: "LoanStrategy",
+			path: '/loanStrategy',
+			name: 'LoanStrategy',
 			component: LoanStrategy,
-			meta: { title: "借款攻略" }
+			meta: { title: '借款攻略' }
 		},
 		{
 			//基本信息
-			path: "/baseInfo",
-			name: "BaseInfo",
+			path: '/baseInfo',
+			name: 'BaseInfo',
 			component: BaseInfo,
-			meta: { title: "基本信息" }
+			meta: { title: '基本信息' }
 		},
 		{
 			//选择地址
-			path: "/chooseAddress",
-			name: "Address",
+			path: '/chooseAddress',
+			name: 'Address',
 			component: Address,
-			meta: { title: "选择地址" }
+			meta: { title: '选择地址' }
 		},
 		{
 			//联系人信息
-			path: "/contactPerson",
-			name: "ContactPerson",
+			path: '/contactPerson',
+			name: 'ContactPerson',
 			component: ContactPerson,
-			meta: { title: "联系人信息" }
+			meta: { title: '联系人信息' }
 		},
 		{
 			//手机认证
-			path: "/mobilePhonePrv",
-			name: "MobilePhonePrv",
+			path: '/mobilePhonePrv',
+			name: 'MobilePhonePrv',
 			component: MobilePhonePrv,
-			meta: { title: "手机认证" }
+			meta: { title: '手机认证' }
 		},
 		{
 			//从潘多拉回来的页面
-			path: "/dpandoraBackPage",
-			name: "DpandoraBackPage",
+			path: '/dpandoraBackPage',
+			name: 'DpandoraBackPage',
 			component: DpandoraBackPage
 		},
 		{
 			//绑定银行卡
-			path: "/bandBank",
-			name: "BandBank",
+			path: '/bandBank',
+			name: 'BandBank',
 			component: BandBank,
-			meta: { title: "绑定银行卡" }
+			meta: { title: '绑定银行卡' }
 		},
 		{
 			//small banner
-			path: "/smallBanner",
-			name: "SmallBanner",
+			path: '/smallBanner',
+			name: 'SmallBanner',
 			component: SmallBanner
 		},
 		{
 			//帮助中心
-			path: "/help",
-			name: "help",
+			path: '/help',
+			name: 'help',
 			component: Help,
-			meta: { title: "帮助中心" }
+			meta: { title: '帮助中心' }
 		},
 		{
 			//公告
-			path: "/notice",
-			name: "notice",
+			path: '/notice',
+			name: 'notice',
 			component: Notice,
-			meta: { title: "公告" }
+			meta: { title: '公告' }
 		},
 		{
 			//充值还款 - 优惠券
-			path: "/coupon",
-			name: "Coupon",
+			path: '/coupon',
+			name: 'Coupon',
 			component: Coupon,
 			meta: {
 				requireAuth: true,
-				title: "优惠券"
+				title: '优惠券'
 			}
 		},
 		{
 			//失信专区首页
-			path: "/breakPromise",
-			name: "BreakPromise",
+			path: '/breakPromise',
+			name: 'BreakPromise',
 			component: BreakPromise,
 			meta: {
-				title: "失信专区"
+				title: '失信专区'
 			}
 		},
 		{
 			//失信专区结果页
-			path: "/result",
-			name: "Result",
+			path: '/result',
+			name: 'Result',
 			component: Result,
 			meta: {
-				title: "查询结果"
+				title: '查询结果'
 			}
 		},
 		{
 			//失信专区详情页
-			path: "/breakPromiseDetail",
-			name: "BreakPromiseDetail",
+			path: '/breakPromiseDetail',
+			name: 'BreakPromiseDetail',
 			component: BreakPromiseDetail,
 			meta: {
-				title: "详情列表"
+				title: '详情列表'
 			}
 		},
 		{
 			//热点新闻页面
-			path: "/hotNews",
-			name: "HotNews",
+			path: '/hotNews',
+			name: 'HotNews',
 			component: HotNews,
 			meta: {
-				title: "热点推荐"
+				title: '热点推荐'
 			}
 		},
 		{
 			//热点新闻详情页
-			path: "/hotNewsDetail",
-			name: "HotNewsDetail",
+			path: '/hotNewsDetail',
+			name: 'HotNewsDetail',
 			component: HotNewsDetail,
 			meta: {
-				title: "热点推荐"
+				title: '热点推荐'
+			}
+		},
+		{
+			path: '/operator',
+			name: 'operator',
+			component: () => import('@/pages/Credit/Report/Operator'),
+			meta: {
+				title: '征信报告'
+			}
+		},
+		{
+			path: '/jingdong',
+			name: 'jingdong',
+			component: () => import('@/pages/Credit/Report/Jingdong'),
+			meta: {
+				title: '征信报告'
 			}
 		},
 		{

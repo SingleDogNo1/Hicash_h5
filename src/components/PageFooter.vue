@@ -10,6 +10,18 @@
 			<span slot="label">首页</span>
 		</tabbar-item>
 		<tabbar-item
+			:link="{ name: 'Credit' }"
+			:selected="$route.path === '/credit'"
+		>
+			<span
+				class="icon-credit"
+				slot="icon"
+				style="position:relative;top: -2px;"
+				>&#xe637;</span
+			>
+			<span slot="label">征信</span>
+		</tabbar-item>
+		<tabbar-item
 			:link="{ name: 'BreakPromise' }"
 			:selected="$route.path === '/breakPromise'"
 		>

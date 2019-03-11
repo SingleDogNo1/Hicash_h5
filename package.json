@@ -16,6 +16,7 @@
     "prod": "cross-env NODE_ENV=production node build/dev-server.js build/webpack.dev.conf.js"
   },
   "dependencies": {
+    "@antv/f2": "^3.3.5",
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "better-scroll": "^1.12.6",
