@@ -22,59 +22,36 @@
 						v-for="(item, index) in hotNews"
 						:key="index"
 					>
-						
+						<img src="./images/ad.png" alt="">
 					</router-link>
 				</div>
 			</div>
 
-			<div class="search-wrap">
-				<div class="search-form">
-					<p class="search-form-tips">
-						本专区为您提供全面准确的个人财务状况，您可以通过输入<span
-							class="pink"
-							>“姓名” + “身份证号码”</span
-						>或<span class="pink">“姓名” + “手机号码”</span
-						>进行查询，便于您及时掌握相关信息。
-					</p>
-					<input
-						v-model="name"
-						class="name"
-						type="text"
-						name="name"
-						placeholder="姓名"
-						maxlength="10"
-					/>
-					<input
-						v-model="number"
-						class="tel"
-						type="text"
-						name="tel"
-						placeholder="身份证号/手机号"
-						maxlength="20"
-					/>
-					<button @click="search" class="btn-search" name="search">
-						查询
-					</button>
-					<p class="advice-info" @click="call('4000205566')">
-						如有任何疑问<br />可拨打<a
-							class="btn-tel"
-							data-href="4000205566"
-							>400-020-5566</a
-						>咨询
-					</p>
-				</div>
-			</div>
-			<div class="loan" title="失信案例库">
-				<img
-					@click="adShiXin"
-					src="./images/ad-shixin.png"
-					width="100%"
-				/>
-			</div>
-			<div class="loan" title="天下信用">
-				<img @click="adClick" src="./images/ad.png" width="100%" />
-			</div>
+			<flexbox class="list" :gutter="0" wrap="wrap">
+				<flexbox-item :span="1/3">
+					<img  src="./images/icon.png" alt="">
+					<h4>饿了么</h4>
+					<h5>已认证</h5>
+				</flexbox-item>
+				<flexbox-item :span="1/3">
+					<img  src="./images/icon.png" alt="">
+					<h4>饿了么</h4>
+					<h5>已认证</h5>
+				</flexbox-item>
+				<flexbox-item :span="1/3">
+					<img  src="./images/icon.png" alt="">
+					<h4>饿了么</h4>
+					<h5>已认证</h5>
+				</flexbox-item>
+				<flexbox-item :span="1/3">
+					<img  src="./images/icon.png" alt="">
+					<h4>饿了么</h4>
+					<h5>已认证</h5>
+				</flexbox-item>
+
+			</flexbox>
 		</div>
+		<p class="des">丰富以上模块信息，构建您的信用体系<br />磐多拉征信提供数据支持</p>
 		<page-footer v-if="platform === 'H5'"></page-footer>
 	</div>
 </template>
@@ -82,52 +59,20 @@
 <style lang="scss">
 @import "~bowerComponents/sass-rem/_rem.scss";
 .Inquiry{
+	background: #f5f5f5;
 	.content {
 		width: 100%;
-		padding-bottom: 1.8rem;
 		padding-top: 46px;
 		background: #fff;
-		.loan {
-			width: 100%;
-			height: auto;
-		}
-		.hot-wrap {
-			width: 90%;
-			border-radius: 8px;
-			margin: 0.5rem auto 1rem auto;
-			font-size: 0.53rem;
-			p {
-				width: 100%;
-				height: 0.75rem;
-				margin-bottom: 0.75rem;
-				span {
-					display: block;
-					float: left;
-					font-weight: bold;
-					color: #333;
-				}
-				a {
-					display: block;
-					float: right;
-					color: #999;
-				}
-			}
-			&:after {
-				content: " ";
-				clear: both;
-			}
-		}
 		.swiper-container {
 			width: 100%;
 			.arrow_box {
 				width: 70%;
 				height: auto;
-				padding: 0 14px;
 				border-radius: 5px;
 				position: relative;
 				background: #f5f5f5;
 				font-size: 0.65rem;
-				margin-right: 30px !important;
 				display: block;
 				color: #333 !important;
 				.ico {
@@ -145,9 +90,8 @@
 			}
 			
 			.swiper-slide {
-				width: 70%;
+				width: 90%;
 				height: rem(150px);
-				padding-left:10%;
 				/* Center slide text vertically */
 				display: -webkit-box;
 				display: -ms-flexbox;
@@ -161,65 +105,48 @@
 				-ms-flex-align: center;
 				-webkit-align-items: center;
 				align-items: center;
+				img{
+					width: 100%;
+				}
 			}
 		}
-		.search-wrap {
-			width: 90%;
-			border-radius: 8px;
-			background: #f5f5f5;
-			margin: 1rem auto;
-			.search-form {
-				padding: 0.75rem;
-				.search-form-tips {
-					width: 100%;
+		.list{
+			width: 100%;
+			margin-top: rem(25px);
+			.vux-flexbox-item{
+				text-align: center;
+				margin-bottom: rem(25px);
+				img{
 					margin: 0 auto;
-					font-size: 0.53rem;
-					line-height: 0.888889rem;
-					color: #333;
+					width: rem(70px);
 				}
-				.pink {
-					color: #f28bb1;
+				h4{
+					font-size: rem(14px);
+					color: #666666;
+					letter-spacing: 0;
+					margin-top: rem(-6px);
 				}
-				.name {
-					display: block;
-					width: 95%;
-					height: 1.96rem;
-					margin-top: 0.5rem;
-					padding-left: 0.56rem;
-					border: 1px solid #ccc;
-					border-radius: 5px;
-					font-size: 14px;
-				}
-				.tel {
-					display: block;
-					width: 95%;
-					height: 1.96rem;
-					margin-top: 0.44rem;
-					padding-left: 0.56rem;
-					border: 1px solid #ccc;
-					border-radius: 5px;
-					font-size: 14px;
-				}
-				.btn-search {
-					display: block;
-					width: 100%;
-					height: 1.96rem;
-					margin-top: 0.5rem;
-					background: #fd87bf;
-					border: none;
-					border-radius: 5px;
-					color: #fff;
-					font-size: 0.65rem;
-				}
-				.advice-info {
-					width: 100%;
-					margin-top: 0.5rem;
-					font-size: 0.53rem;
-					color: #999;
-					text-align: center;
+				h5{
+					width: rem(54px);
+					font-size: rem(12px);
+					color: #23BC66;
+					letter-spacing: 0;
+					padding: rem(3px 0px);
+					background: #E7FCEB;
+					border-radius: 4px;
+					margin: 0 auto;
+					margin-top: rem(6px);
 				}
 			}
+			
 		}
+	}
+	.des{
+		margin-top: rem(15px);
+		font-size: rem(12px);
+		color: #999999;
+		letter-spacing: 0.3px;
+		text-align: center;
 	}
 	.appContent {
 		padding-bottom: 0;
@@ -231,12 +158,15 @@
 import PageHeader from "@/components/PageHeader.vue";
 import PageFooter from "@/components/PageFooter.vue";
 import Swiper from "swiper";
+import { Flexbox, FlexboxItem } from 'vux'
 
 export default {
 	components: {
 		PageHeader,
 		PageFooter,
-		Swiper
+		Swiper,
+		Flexbox, 
+		FlexboxItem
 	},
 	data() {
 		return {
@@ -285,67 +215,7 @@ export default {
 				let data = res.data;
 				var storage = window.sessionStorage;
 
-				// data = {
-				//     "loseCreditDetailList":  [{
-				//     "hyApplicationNo": "31801092600003",
-				//     "productName": "滴答贷",
-				//     "applyPeriod": "1",
-				//     "contractAmount": "500.00元",
-				//     "sxType": "1",
-				//     "invUsername": "david_fu",
-				//     "sxButton": "",
-				//     "button": "ss",
-				//     "overDueFlag": "0",
-				//     "noticeTitle": "点击查看：《诉讼文书》",
-				//     "noticeDetail": "关于李文月逾期欠款处置详情",
-				//     "detailList": [{
-				//         "bigTitle": "诉讼文书",
-				//         "type": "SS",
-				//         "picBeforeText": "图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字",
-				//         "picBeforeUrl": "图片前文字点击链接",
-				//         "picList": [{
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }],
-				//         "picAfterText": "图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字",
-				//         "picAfterTextList": [{
-				//             "text": "11111"
-				//         }, {
-				//             "text": "22222"
-				//         }]
-
-				//     },
-				//     {
-				//         "bigTitle": "仲裁文书",
-				//         "type": "ZC",
-				//         "picList": [{
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }]
-				//     }]
-				// }],
-				//  "resultCode": "1",
-				// "resultMsg": "SUCCESS"
-				// }
-
+				
 				storage.setItem(
 					"loseCreditDetailList",
 					JSON.stringify(data.loseCreditDetailList)
@@ -381,12 +251,21 @@ export default {
 				//     this.hotNews.push(val);
 				// });
 				this.hotNews = data.list;
-				setTimeout(() => {
-					var swiper = new Swiper(".swiper-container", {
-						slidesPerView: "auto",
-						autoplay: 2500
-					});
-				}, 500);
+					// var swiper = new Swiper(".swiper-container", {
+					// 	slidesPerView: "auto",
+					// 	autoplay: 2500
+					// });
+					setTimeout(function(){
+						var swiper = new Swiper(".swiper-container", {
+							pagination: '.swiper-pagination',
+							slidesPerView: 'auto',
+							centeredSlides: true,
+							paginationClickable: true,
+							spaceBetween: 10
+						});
+					}, 500)
+					
+					
 			});
 		},
 		adClick: function() {
