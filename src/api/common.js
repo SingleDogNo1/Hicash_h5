@@ -63,7 +63,8 @@ export default {
 	QueryWithdrawData: QueryWithdrawData,
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
-	VerifyVideo: VerifyVideo
+	VerifyVideo: VerifyVideo,
+	QueryCreditUrl:QueryCreditUrl
 };
 
 /*
@@ -1047,6 +1048,22 @@ export function GetRandomNumber(params) {
 export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/VerifyVideo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取征信认证链接
+ */
+export function QueryCreditUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
 			res => {
 				resolve(res);
 			},

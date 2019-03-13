@@ -4,22 +4,24 @@
     <div class="box">
       <div class="box-top">
         <div class="warn">
-          <img src="./images/loading.png" alt="">
+          <img src="./images/loading.png" alt>
           <!-- <progress-ring :complete="complete"/> -->
         </div>
-        <div class="tips">报告生成需要一点时间，成功后立即告诉您<br/>推荐您先看看别的～</div>
-      </div>
-
-      <div class="authentication">
-        <p class="recommend">推荐：饿了么外卖认证</p>
-        <div class="btn">
-          <button class="buttons waiting">继续等待</button>
-          <button class="buttons go_authentication">去认证</button>
+        <div class="tips">报告生成需要一点时间，成功后立即告诉您
+          <br>推荐您先看看别的～
         </div>
       </div>
-      <div class="authentication no">
+
+      <div class="authentication" v-show="isDisappear">
+        <p class="recommend">推荐：饿了么外卖认证</p>
         <div class="btn">
-          <button class="buttons waiting">继续等待</button>
+          <button class="buttons waiting" @click="isWait()">继续等待</button>
+          <button class="buttons go_authentication" @click="goAuthentication()">去认证</button>
+        </div>
+      </div>
+      <div class="authentication no" v-show="isDisappear">
+        <div class="btn">
+          <button class="buttons waiting" @click="isWait()">继续等待</button>
           <button class="buttons go_authentication">看看别的</button>
         </div>
       </div>
@@ -39,8 +41,17 @@ export default {
       // complete: false,
       title: "征信报告",
       showBack: true,
-      showBtnClose: false
+      showBtnClose: false,
+      isDisappear: true
     };
+  },
+  methods: {
+    isWait() {
+      this.isDisappear = false;
+    },
+    goAuthentication(){
+      
+    }
   },
   mounted() {
     // setTimeout(() => {
@@ -68,7 +79,7 @@ export default {
         width: rem(66px);
         height: rem(66px);
         margin: 0 auto;
-        img{
+        img {
           width: 100%;
         }
       }

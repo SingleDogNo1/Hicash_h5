@@ -359,14 +359,14 @@ export default new Router({
 				title: "征信报告"
 			}
 		},
-		{
-			//组件 仅用于开发 删除
-			path: "/consumptionTrend",
-			name: "ConsumptionTrend",
-			component: ConsumptionTrend,
-			meta: {
-				title: "征信报告"
-			}
-		}
+		// {
+		// 	//组件 仅用于开发 删除
+		// 	path: "/consumptionTrend",
+		// 	name: "ConsumptionTrend",
+		// 	component: ConsumptionTrend,
+		// 	meta: {
+		// 		title: "征信报告"
+		// 	}
+		// }
 	]
 });

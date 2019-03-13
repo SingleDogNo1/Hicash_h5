@@ -2,18 +2,20 @@
   <div class="content">
     <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
     <div class="box">
-      <div class="banner"></div>
+      <div class="banner">
+        <img src="./images/banner.png" alt>
+      </div>
       <div class="list">
         <div class="list-row row1">
           <div class="list-box">
             <div class="icon">
-              <img src="./images/operator.png">
+              <img src="./images/operator.png" @click="goAuthentication('operator')">
             </div>
             <div class="txt">运营商</div>
           </div>
           <div class="list-box">
             <div class="icon">
-              <img src="./images/jd.png">
+              <img src="./images/jd.png" @click="goAuthentication('jd')">
             </div>
             <div class="txt">京东</div>
           </div>
@@ -21,13 +23,13 @@
         <div class="list-row row2">
           <div class="list-box">
             <div class="icon">
-              <img src="./images/element.png">
+              <img src="./images/element.png" @click="goAuthentication('eleme')">
             </div>
             <div class="txt">饿了么</div>
           </div>
           <div class="list-box">
             <div class="icon">
-              <img src="./images/haluo.png">
+              <img src="./images/haluo.png" @click="goAuthentication('helloBike')">
             </div>
             <div class="txt">哈罗单车</div>
           </div>
@@ -62,6 +64,26 @@ export default {
       showBack: true,
       showBtnClose: false
     };
+  },
+  methods: {
+    // goOperator(){
+    //   this.$router.push({
+    //     name:'operator'
+    //   })
+    // },
+    // goJingdong(){
+    //   this.$router.push({
+    //     name:'jingdong'
+    //   })
+    // },
+    goAuthentication(val) {
+      let obj = {};
+      obj.userName = this.utils.getCookie("userName");
+      obj.creditType = val;
+      this.common.QueryCreditUrl(obj).then(res => {
+        console.log(res)
+      });
+    }
   }
 };
 </script>
@@ -78,7 +100,11 @@ export default {
     background: #fff;
     .banner {
       height: rem(150px);
-      background: yellowgreen;
+      width: rem(345px);
+      margin: 0 auto;
+      img {
+        width: 100%;
+      }
     }
     .list {
       padding: rem(24px) 0 rem(32px);
