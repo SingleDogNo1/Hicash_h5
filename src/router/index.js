@@ -35,6 +35,8 @@ import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPl
 import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
 import Inquiry from "@/pages/Inquiry";
+import IdentityAuth from "@/pages/Inquiry/IdentityAuth";
+
 
 Vue.use(Router);
 
@@ -59,6 +61,14 @@ export default new Router({
 			name: "Inquiry",
 			component: Inquiry,
 			meta: { title: "征信" }
+			
+		},
+		{
+			//身份认证
+			path: '/identityAuth',
+			name: 'IdentityAuth',
+			component: IdentityAuth,
+			meta: { title: "身份认证"}
 		},
 		{
 			//个人中心

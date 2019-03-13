@@ -135,7 +135,9 @@ export default {
 	},
 	methods: {
 		jump: function() {
-			if (this.jumpRouteName) {
+			if (this.jumpRouteName == 'popOutAuth') {
+				this.$emit("onDiologStatus", this.jumpRouteName);
+			}else if (this.jumpRouteName) {
 				
 				const params = {
 					name: this.jumpRouteName,
