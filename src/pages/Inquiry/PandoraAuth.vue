@@ -3,11 +3,18 @@
 		<x-header
 		:left-options="{
 			backText: '',
-			showBack: true
+			showBack: true,
+			preventGoBack: preventGoBack
 		}"
 			@on-click-back="jump"
-			>{{ title }}<a class="btn-close" slot="right"></a
+			>{{ title }}<a class="btn-close" @click="jump" slot="right"></a
 		></x-header>
+		<iframe
+			:src="dpandoraUrl"
+			id="dpandoraUrl"
+			style="width: 100%;height: 100%;"
+			frameborder="0"
+		></iframe>
 		<div>
 			<x-dialog v-model="showDialog" class="dialog">
 				<div class="img-box">
@@ -64,16 +71,16 @@
 	}
 }
 .dialog {
-	.weui-dialog{
+	/deep/ .weui-dialog{
 		background: transparent;
 		border-radius: 8px;
 		padding-bottom: 8px;
 	}
-	.dialog-title {
+	/deep/ .dialog-title {
 		line-height: 30px;
 		color: #666;
 	}
-	.img-box {
+	/deep/ .img-box {
 		position: relative;
 		img{
 			width: 100%;
@@ -124,7 +131,9 @@ export default {
 	data() {
 		return {
 			title: this.$route.meta.title,
-			showDialog: false
+			showDialog: false,
+			preventGoBack: false,
+			dpandoraUrl: ''
 		};
 	},
 	methods: {
@@ -132,11 +141,22 @@ export default {
 			this.showDialog = true
 		},
 		cancel(){
-			
+			this.$router.push({
+				name: "Inquiry"
+			});
+		},
+		queryCreditUrl(){
+			let postData = new URLSearchParams();
+			postData.append("userName", this.utils.getCookie('userName'));
+			postData.append("creditType", this.utils.getCookie('creditType'));
+			this.common.queryCreditUrl()
+			.then(res => {
+				this.dpandoraUrl = res.data.url;
+			})
 		}
 	},
 	mounted() {
-		
+		this.queryCreditUrl();
 	}
 };
 </script>

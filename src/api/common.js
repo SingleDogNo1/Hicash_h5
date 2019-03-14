@@ -64,7 +64,8 @@ export default {
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
-	IsBottomShow: IsBottomShow
+	IsBottomShow: IsBottomShow,
+	queryCreditUrl: queryCreditUrl
 };
 
 /*
@@ -1075,6 +1076,22 @@ export function IsBottomShow(params) {
 				if (res.data.resultCode == "1") {
 					cache.put("IsBottomShow", res);
 				}
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取征信认证链接
+ */
+export function queryCreditUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
+			res => {
 				resolve(res);
 			},
 			err => {

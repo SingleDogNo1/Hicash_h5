@@ -69,14 +69,14 @@ export default new Router({
 			path: '/identityAuth',
 			name: 'IdentityAuth',
 			component: IdentityAuth,
-			meta: { title: "身份认证"}
+			meta: { title: "身份认证",requireAuth: true}
 		},
 		{
 			//磐多拉认证
 			path: '/pandoraAuth',
 			name: 'PandoraAuth',
 			component: PandoraAuth,
-			meta: { title: "磐多拉认证"}
+			meta: { title: "磐多拉认证", requireAuth: true}
 		},
 		{
 			//个人中心
