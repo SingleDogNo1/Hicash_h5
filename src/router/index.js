@@ -36,6 +36,7 @@ import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
 import Inquiry from "@/pages/Inquiry";
 import IdentityAuth from "@/pages/Inquiry/IdentityAuth";
+import PandoraAuth from "@/pages/Inquiry/PandoraAuth";
 
 
 Vue.use(Router);
@@ -69,6 +70,13 @@ export default new Router({
 			name: 'IdentityAuth',
 			component: IdentityAuth,
 			meta: { title: "身份认证"}
+		},
+		{
+			//磐多拉认证
+			path: '/pandoraAuth',
+			name: 'PandoraAuth',
+			component: PandoraAuth,
+			meta: { title: "磐多拉认证"}
 		},
 		{
 			//个人中心

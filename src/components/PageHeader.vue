@@ -121,6 +121,7 @@ export default {
 		closeDialogConfirmText: String,
 		closeDialogCancelText: String,
 		jumpRouteName: String,
+		closeJumpRouteName: String,
 		query: Object
 	},
 	components: {

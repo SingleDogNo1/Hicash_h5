@@ -18,7 +18,7 @@
 		<button class="btn">确认</button>
 
 		<div>
-			<x-dialog v-model="showDialog" class="dialog-demo">
+			<x-dialog v-model="showDialog" class="dialog">
 				<div class="img-box">
 					<img src="./images/goout-pop.png" alt="">
 					<div class="btns">
@@ -73,7 +73,7 @@
 		color: #fff;
 		border: 0;
 	}
-	.dialog-demo {
+	.dialog {
 		.weui-dialog{
 			background: transparent;
 			border-radius: 8px;
