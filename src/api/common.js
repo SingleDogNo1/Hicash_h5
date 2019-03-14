@@ -64,7 +64,8 @@ export default {
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
-	QueryCreditUrl:QueryCreditUrl
+	QueryCreditUrl: QueryCreditUrl,
+	CheckCreditResult: CheckCreditResult
 };
 
 /*
@@ -107,11 +108,11 @@ export function getHomePagePic(params) {
 		axios
 			.get(
 				"/HicashService/HomePagePic?cityCode=" +
-					params.cityCode +
-					"&uuid=" +
-					params.uuid +
-					"&position=" +
-					params.position
+				params.cityCode +
+				"&uuid=" +
+				params.uuid +
+				"&position=" +
+				params.position
 			)
 			.then(
 				res => {
@@ -1064,6 +1065,20 @@ export function VerifyVideo(params) {
 export function QueryCreditUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+// 是否获取到征信报告
+export function CheckCreditResult(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/checkCreditResult", params).then(
 			res => {
 				resolve(res);
 			},

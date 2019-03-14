@@ -66,17 +66,8 @@ export default {
     };
   },
   methods: {
-    // goOperator(){
-    //   this.$router.push({
-    //     name:'operator'
-    //   })
-    // },
-    // goJingdong(){
-    //   this.$router.push({
-    //     name:'jingdong'
-    //   })
-    // },
     goAuthentication(val) {
+      this.utils.setCookie("creditType",val);
       let obj = {};
       obj.userName = this.utils.getCookie("userName");
       obj.creditType = val;

@@ -45,12 +45,29 @@ export default {
       isDisappear: true
     };
   },
+  created() {
+    this.CheckCreditResult();
+  },
   methods: {
     isWait() {
       this.isDisappear = false;
     },
-    goAuthentication(){
-      
+    goAuthentication() {
+      this.CheckCreditResult();
+    },
+    CheckCreditResult() {
+      let obj = {};
+      obj.username = this.utils.getCookie("userName");
+      obj.creditType = this.utils.getCookie("creditType");
+      // let checkCreditResultTimer = setInterval(() => {
+      //   this.common.CheckCreditResult(obj).then(res => {
+      //     console.log(1)
+      //     clearInterval(timer)
+      //     if(res.data.data==1){
+      //       clearInterval(checkCreditResultTimer)
+      //     }
+      //   });
+      // }, 5000);
     }
   },
   mounted() {
@@ -132,6 +149,7 @@ export default {
     }
     .no {
       margin-top: 0;
+      padding-top: 0;
     }
   }
 }
