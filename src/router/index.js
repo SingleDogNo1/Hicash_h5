@@ -1,39 +1,44 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from '@/components/Home';
-import Personal from '@/pages/Personal/index';
-import PersonIndex from '@/pages/Personal/Person/index';
-import MiaoDai from '@/components/MiaoDai';
-import Login from '@/pages/Account/Login';
-import ForgetPassword from '@/components/ForgetPassword';
-import Register from '@/pages/Account/Register';
-import CompreRat from '@/components/CompreRat';
-import RateCalculation from '@/components/RateCalculation';
-import IdentityAuthentication from '@/components/IdentityAuthentication';
-import LoanStrategy from '@/components/LoanStrategy';
-import BaseInfo from '@/components/BaseInfo';
-import Address from '@/components/Address';
-import ContactPerson from '@/components/ContactPerson';
-import MobilePhonePrv from '@/components/MobilePhonePrv';
-import DpandoraBackPage from '@/components/DpandoraBackPage';
-import BandBank from '@/components/BandBank';
-import SmallBanner from '@/components/SmallBanner';
-import Help from '@/components/Help';
-import Notice from '@/components/Notice';
-import Coupon from '@/pages/Coupon/Index';
-import BreakPromise from '@/pages/BreakPromise/Index';
-import Result from '@/pages/BreakPromise/Result';
-import BreakPromiseDetail from '@/pages/BreakPromise/Detail';
-import HotNews from '@/pages/HotNews/Index';
-import HotNewsDetail from '@/pages/HotNews/Detail';
-import MyNews from '@/pages/Personal/MyNews/Index';
-import MyCoupon from '@/pages/Personal/Coupon/MyCoupon';
-import MyInstalment from '@/pages/Personal/Instalment/index';
-import AllIndex from '@/pages/Personal/Instalment/All/Index';
-import OverdueDetail from '@/pages/Personal/Instalment/Overdue/OverdueDetail';
-import RepaymentPlan from '@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan';
-import Product from '@/pages/Product';
-import Auth from '@/pages/Product/Auth';
+import Vue from "vue";
+import Router from "vue-router";
+import Home from "@/components/Home";
+import Personal from "@/pages/Personal/index";
+import PersonIndex from "@/pages/Personal/Person/index";
+import MiaoDai from "@/components/MiaoDai";
+import Login from "@/pages/Account/Login";
+import ForgetPassword from "@/components/ForgetPassword";
+import Register from "@/pages/Account/Register";
+import CompreRat from "@/components/CompreRat";
+import RateCalculation from "@/components/RateCalculation";
+import IdentityAuthentication from "@/components/IdentityAuthentication";
+import LoanStrategy from "@/components/LoanStrategy";
+import BaseInfo from "@/components/BaseInfo";
+import Address from "@/components/Address";
+import ContactPerson from "@/components/ContactPerson";
+import MobilePhonePrv from "@/components/MobilePhonePrv";
+import DpandoraBackPage from "@/components/DpandoraBackPage";
+import BandBank from "@/components/BandBank";
+import SmallBanner from "@/components/SmallBanner";
+import Help from "@/components/Help";
+import Notice from "@/components/Notice";
+import Coupon from "@/pages/Coupon/Index";
+import BreakPromise from "@/pages/BreakPromise/Index";
+import Result from "@/pages/BreakPromise/Result";
+import BreakPromiseDetail from "@/pages/BreakPromise/Detail";
+import HotNews from "@/pages/HotNews/Index";
+import HotNewsDetail from "@/pages/HotNews/Detail";
+import MyNews from "@/pages/Personal/MyNews/Index";
+import MyCoupon from "@/pages/Personal/Coupon/MyCoupon";
+import MyInstalment from "@/pages/Personal/Instalment/index";
+import AllIndex from "@/pages/Personal/Instalment/All/Index";
+import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
+import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
+import Product from "@/pages/Product";
+import Auth from "@/pages/Product/Auth";
+import ActivityIntroduction from "@/pages/credit/introduce";
+import FailedLoad from "@/pages/credit/failedLoad";
+import Loading from "@/pages/credit/loading";
+import ConsumptionTrend from "@/components/consumptionTrend";
+
 
 Vue.use(Router);
 
@@ -341,6 +346,33 @@ export default new Router({
 			component: () => import('@/pages/Credit/Report/Eleme'),
 			meta: {
 				title: '征信报告'
+			}
+		},
+		{
+			//征信活动介绍
+			path: "/activityIntroduction",
+			name: "ActivityIntroduction",
+			component: ActivityIntroduction,
+			meta: {
+				title: "征信活动介绍"
+			}
+		},
+		{
+			//征信报告 加载失败页
+			path: "/failedLoad",
+			name: "FailedLoad",
+			component: FailedLoad,
+			meta: {
+				title: "征信报告"
+			}
+		},
+		{
+			//征信报告加载中
+			path: "/loading",
+			name: "Loading",
+			component: Loading,
+			meta: {
+				title: "征信报告"
 			}
 		}
 	]
