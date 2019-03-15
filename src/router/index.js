@@ -313,7 +313,7 @@ export default new Router({
 		},
 		{
 			path: '/operator',
-			name: 'operator',
+			name: 'Operator',
 			component: () => import('@/pages/Credit/Report/Operator'),
 			meta: {
 				title: '征信报告'
@@ -321,8 +321,24 @@ export default new Router({
 		},
 		{
 			path: '/jingdong',
-			name: 'jingdong',
+			name: 'Jingdong',
 			component: () => import('@/pages/Credit/Report/Jingdong'),
+			meta: {
+				title: '征信报告'
+			}
+		},
+		{
+			path: '/haluo',
+			name: 'Haluo',
+			component: () => import('@/pages/Credit/Report/Haluo'),
+			meta: {
+				title: '征信报告'
+			}
+		},
+		{
+			path: '/eleme',
+			name: 'Eleme',
+			component: () => import('@/pages/Credit/Report/Eleme'),
 			meta: {
 				title: '征信报告'
 			}

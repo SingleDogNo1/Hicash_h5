@@ -63,7 +63,8 @@ export default {
 	QueryWithdrawData: QueryWithdrawData,
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
-	VerifyVideo: VerifyVideo
+	VerifyVideo: VerifyVideo,
+	getReport: getReport
 };
 
 /*
@@ -1047,6 +1048,22 @@ export function GetRandomNumber(params) {
 export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/VerifyVideo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  活体检测--上传视频
+ */
+export function getReport() {
+	return new Promise((resolve, reject) => {
+		axios.get("https://api-t.dpandora.cn/portal/reports/2058523800378690351?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYW5kb3JhIiwiYXVkIjoiOTIiLCJpYXQiOjE1NTI1NDI0MDAsImV4cCI6MTU1MjU0MzAwMCwidG9rZW5fc2VxX25vIjoiZGQ4MWM4ZWY1MjI4YjhjYjA2NzQ3MzU0ZTY3YjhmMDIifQ.3PPhk912WFC7L6aeUAiDC8wJcCvOFHhqveaj5Nsptk8").then(
 			res => {
 				resolve(res);
 			},

@@ -53,13 +53,11 @@ export default {
   methods: {
     init() {
       this.historyListShow = this.historyListShow.reverse();
-      console.log(this.historyListShow)
       var mySwiper = new Swiper("#swiper-history .swiper-container", {
         virtualTranslate: true,
         preventClicks: false,
         pagination: "#swiper-history .swiper-pagination",
         paginationBulletRender: (swiper, index, className) => {
-          //console.log(swiper)
           let marginLeft, time;
           if (index > 0) {
             var day1 = new Date(
@@ -74,15 +72,15 @@ export default {
             marginLeft = 0;
           }
           return (
-            '<div style="display:flex;align-items: center;height:50px;position:relative;"><p class="amount' +
-            index +
-            '" style="font-size: 11px;width: 100%;top: -2px;position: absolute;text-align: center;right: -23px;">' +
+            '<div class="line-wrap"><p class="amount amount'+
+            index + '">' +
             this.historyListShow[index]["detail"] +
             '</p><span class="' +
             className +
             '" style="margin-left:' +
             marginLeft +
-            'px;display:block"></span><p class="current-date'+index+'" style="font-size: 15px;width: 100%;bottom: -5px;position: absolute;text-align: center;right: -23px;">' +
+            'px;display:block"></span><p class="current-date current-date' +
+            index + '">' +
             this.historyListShow[index]["date"] +
             "</p></div>"
           );
@@ -106,38 +104,7 @@ export default {
           swiper.slideTo(12);
         },
         onSlideChangeStart: swiper => {
-          console.log("swiper==", swiper);
-          let datePrev,
-            detailPrev,
-            dateActive,
-            dateActive1,
-            detailActive,
-            moveDay1,
-            moveDay2,
-            moveTime,
-            moveDistance,
-            move;
-          // detailPrev = swiper.slides[swiper.previousIndex].querySelector(
-          //   ".detail"
-          // );
-          // datePrev = swiper.slides[swiper.previousIndex].querySelector(".date");
-          // detailPrev.offsetHeight;
-          // datePrev.offsetHeight;
-          // swiper.slides[swiper.previousIndex].style.zIndex = 1;
-          // detailPrev.style.opacity = datePrev.style.opacity = 0;
-          // detailPrev.style.transform = datePrev.style.transform =
-          //   "translate3d(0px, 0px, 0px)";
-
-          // detailActive = swiper.slides[swiper.activeIndex].querySelector(
-          //   ".detail"
-          // );
-          // dateActive = swiper.slides[swiper.activeIndex].querySelector(".date");
-          // detailActive.offsetHeight;
-          // dateActive.offsetHeight;
-          // swiper.slides[swiper.activeIndex].style.zIndex = 999;
-          // detailActive.style.opacity = dateActive.style.opacity = 1;
-          // detailActive.style.transform = "translate3d(0px, 10px, 0px)";
-          // dateActive.style.transform = "translate3d(0px, -10px, 0px)";
+          let moveDay1, moveDay2, moveTime, moveDistance, move;
           let currentAmount = ".amount" + swiper.activeIndex;
           let currentDate = ".current-date" + swiper.activeIndex;
           let prevAmount = ".amount" + swiper.previousIndex;
@@ -243,6 +210,30 @@ export default {
           left: 50%;
           top: 50%;
           transform: translate(-50%, -50%) scale(1);
+        }
+      }
+      .line-wrap {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        position: relative;
+        .amount {
+          font-size: 11px;
+          width: 100%;
+          top: -2px;
+          position: absolute;
+          color: #999999;
+          text-align: center;
+          right: -23px;
+        }
+        .current-date {
+          font-size: 11px;
+          width: 100%;
+          bottom: -5px;
+          position: absolute;
+          text-align: center;
+          right: -23px;
+          color: #999999;
         }
       }
     }
