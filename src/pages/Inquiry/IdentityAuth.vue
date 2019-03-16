@@ -97,7 +97,7 @@
 					height: rem(40px);
 					border: 0;
 					border-radius: 25px;
-					background: #FFEF71;//FFDB3D
+					background: linear-gradient(#FFEF71, #FFDB3D); /* 标准的语法 */
 					color: #FE3F20;
 					font-size: rem(15px);
 					display: block;
@@ -155,8 +155,22 @@ export default {
 			this.showDialog = true
 		},
 		cancel: function () {
-			console.info('cancel');
-		}
+			this.$route.push({name: 'Inquiry'});
+		},
+		saveUserCreditInfo(){
+			let _params = new URLSearchParams();
+			_params.append("userName", this.utils.getCookie('userName'));
+			_params.append("realName", this.name);
+			_params.append("idNo", this.idCard);
+
+			this.common.saveUserCreditInfo(_params)
+			.then(res => {
+				let data = res.data;
+				if(data.resultCode == '1'){
+					this.$route.push({name: 'PandoraAuth'});
+				}
+			});
+		},
 	}
 };
 </script>

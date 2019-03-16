@@ -65,7 +65,9 @@ export default {
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
 	IsBottomShow: IsBottomShow,
-	queryCreditUrl: queryCreditUrl
+	queryCreditUrl: queryCreditUrl,
+	getUserCreditReports: getUserCreditReports,
+	saveUserCreditInfo: saveUserCreditInfo
 };
 
 /*
@@ -1091,6 +1093,38 @@ export function IsBottomShow(params) {
 export function queryCreditUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  征信状态列表接口
+ */
+export function getUserCreditReports(params) {
+	return new Promise((resolve, reject) => {
+		axios.get("/hicash-api-service/credit/getUserCreditReports/"+params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  保存用户征信信息
+ */
+export function saveUserCreditInfo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/saveUserCreditInfo", params).then(
 			res => {
 				resolve(res);
 			},

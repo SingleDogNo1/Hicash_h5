@@ -8,7 +8,7 @@
 				>&#xe637;</span
 			>
 			
-			<span slot="label">首页{{$route.name}}</span>
+			<span slot="label">首页</span>
 		</tabbar-item>
 		<tabbar-item
 			:link="{ name: 'Inquiry' }"

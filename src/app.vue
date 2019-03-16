@@ -1,15 +1,29 @@
 <template>
-	<div id="app" :class="[path, platform]"><router-view></router-view></div>
+	<div id="app" :class="[path, platform]">
+		<router-view></router-view>
+		<x-dialog v-model="authShowDialog" class="dialog">
+			<div class="img-box">
+				<img src="./assets/images/pop-coupon.png" alt="">
+				<div class="btns">
+					<button @click="authShowDialog=false" class="auth-btn confirm">看优惠券</button>
+					<button @click="cancel" class="auth-btn cancel">看新报告</button>
+				</div>
+			</div>
+			<div @click="authShowDialog=false">
+				<span class="vux-close"></span>
+			</div>
+		</x-dialog>
+	</div>
 </template>
 
 <script>
-import Home from "./components/Home.vue";
-import MiaoDai from "./components/MiaoDai.vue";
+import Home from "@/components/Home.vue";
+import MiaoDai from "@/components/MiaoDai.vue";
+import { XDialog } from "vux";
 
 export default {
 	name: "App",
 	created() {
-		console.info('.this.$router.history.current', this.$router.history.current);
 		//自动登录
 		let userName =
 			localStorage.getItem("userName") ||
@@ -76,7 +90,8 @@ export default {
 	},
 	components: {
 		Home,
-		MiaoDai
+		MiaoDai,
+		XDialog
 	},
 	mounted() {
 		//添加友盟埋点
@@ -116,14 +131,21 @@ export default {
 	data() {
 		return {
 			path: this.$route.name,
-			platform: this.utils.getPlatform()
+			platform: this.utils.getPlatform(),
+			authShowDialog: true
 		};
+	},
+	methods: {
+		cancel(){
+			
+		}
 	}
 };
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
 @import "./assets/css/common.scss";
+@import "~bowerComponents/sass-rem/_rem.scss";
 a {
 	text-decoration: none;
 }
@@ -246,5 +268,48 @@ body {
 }
 .weui-cell:before {
 	height: 1px;
+}
+
+.dialog {
+	/deep/ .weui-dialog{
+		background: transparent;
+		border-radius: 8px;
+		padding-bottom: 8px;
+	}
+	/deep/ .dialog-title {
+		line-height: 30px;
+		color: #666;
+	}
+	/deep/ .img-box {
+		position: relative;
+		img{
+			width: 100%;
+		}
+		.btns{
+			width: 100%;
+			position: absolute;
+			bottom: rem(60px);
+			.auth-btn{
+				width: 70%;
+				height: rem(40px);
+				border: 0;
+				border-radius: 25px;
+				background: linear-gradient(#FFF2A7, #FFD96F); /* 标准的语法 */
+				color: #E63F06;
+				font-size: rem(15px);
+				display: block;
+				margin: 0 auto;
+				margin-bottom: rem(20px);
+			}
+		}
+	}
+	.vux-close {
+		width: rem(37px);
+		height: rem(37px);
+		background: url('./assets/images/pop-close-coupon.png') no-repeat;
+		display: block;
+		margin: rem(20px) auto;
+		background-size: rem(37px) rem(37px);
+	}
 }
 </style>

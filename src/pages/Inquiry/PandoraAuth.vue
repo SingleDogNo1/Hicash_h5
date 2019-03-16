@@ -34,6 +34,9 @@
 
 <style lang="scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
+#dpandoraUrl{
+	margin-top: 50px;
+}
 .vux-header {
 	position: fixed;
 	top: 0;
@@ -94,11 +97,12 @@
 				height: rem(40px);
 				border: 0;
 				border-radius: 25px;
-				background: #FFEF71;//FFDB3D
+				background: linear-gradient(#FFEF71, #FFDB3D);
 				color: #FE3F20;
 				font-size: rem(15px);
 				display: block;
 				margin: 0 auto;
+				
 			}
 			.cancel{
 				background: transparent;
@@ -139,6 +143,9 @@ export default {
 	methods: {
 		jump(){
 			this.showDialog = true
+			this.$router.push({
+				name: "Inquiry"
+			});
 		},
 		cancel(){
 			this.$router.push({
