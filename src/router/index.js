@@ -333,6 +333,22 @@ export default new Router({
 			}
 		},
 		{
+			path: '/haluo',
+			name: 'Haluo',
+			component: () => import('@/pages/Credit/Report/Haluo'),
+			meta: {
+				title: '征信报告'
+			}
+		},
+		{
+			path: '/eleme',
+			name: 'Eleme',
+			component: () => import('@/pages/Credit/Report/Eleme'),
+			meta: {
+				title: '征信报告'
+			}
+		},
+		{
 			//征信活动介绍
 			path: "/activityIntroduction",
 			name: "ActivityIntroduction",
@@ -358,15 +374,6 @@ export default new Router({
 			meta: {
 				title: "征信报告"
 			}
-		},
-		// {
-		// 	//组件
-		// 	path: "/consumptionTrend",
-		// 	name: "ConsumptionTrend",
-		// 	component: ConsumptionTrend,
-		// 	meta: {
-		// 		title: "征信报告"
-		// 	}
-		// }
+		}
 	]
 });

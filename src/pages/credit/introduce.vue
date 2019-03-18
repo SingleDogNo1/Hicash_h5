@@ -72,7 +72,7 @@ export default {
       obj.userName = this.utils.getCookie("userName");
       obj.creditType = val;
       this.common.QueryCreditUrl(obj).then(res => {
-        console.log(res)
+        console.log(res.data.userInfo)
       });
     }
   }

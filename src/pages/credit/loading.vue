@@ -59,15 +59,15 @@ export default {
       let obj = {};
       obj.username = this.utils.getCookie("userName");
       obj.creditType = this.utils.getCookie("creditType");
-      // let checkCreditResultTimer = setInterval(() => {
-      //   this.common.CheckCreditResult(obj).then(res => {
-      //     console.log(1)
-      //     clearInterval(checkCreditResultTimer)
-      //     if(res.data.data==1){
-      //       clearInterval(checkCreditResultTimer)
-      //     }
-      //   });
-      // }, 5000);
+      let checkCreditResultTimer = setInterval(() => {
+        this.common.CheckCreditResult(obj).then(res => {
+          console.log(1)
+          clearInterval(checkCreditResultTimer)
+          if(res.data.data==1){
+            clearInterval(checkCreditResultTimer)
+          }
+        });
+      }, 5000);
     }
   },
   mounted() {
