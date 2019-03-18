@@ -212,12 +212,16 @@ export default {
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
       let postData = {
+        "reportType": 'jd',
         "userName": this.utils.getCookie("userName"),
         "realName": this.utils.getCookie("realName"),
         "mobile": this.utils.getCookie("mobile"),
-        "identityNo": this.utils.getCookie("idNo")
+        "identityNo": this.utils.getCookie("identityCode")
       }
-      this.common.getCreditReport(postData).then(res => {
+      this.common.getCreditReportUrl(postData).then(res => {
+        let data = res.data.data;
+        console.log('data==', data)
+        this.common.getReport(data).then(res => {
         // res.data = {
         //   addresses: [
         //     {
@@ -891,6 +895,7 @@ export default {
         let billsDetailBySort = _.sortBy(billsDetail, "total_price").reverse();
         this.billsDetailBySort = billsDetailBySort.splice(0, 3);
         console.log('this.billsDetailBySort====', this.billsDetailBySort)
+        });
       });
     },
     yearSwitch() {

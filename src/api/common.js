@@ -65,12 +65,13 @@ export default {
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
-	getCreditReport: getCreditReport,
+	getCreditReportUrl: getCreditReportUrl,
 	IsBottomShow: IsBottomShow,
 	queryCreditUrl: queryCreditUrl,
 	getUserCreditReports: getUserCreditReports,
 	saveUserCreditInfo: saveUserCreditInfo,
 	CheckCreditResult: CheckCreditResult,
+	getReport: getReport
 };
 
 /*
@@ -1155,9 +1156,25 @@ export function saveUserCreditInfo(params) {
 /*
  *  请求用户征信报告
  */
-export function getCreditReport(data) {
+export function getCreditReportUrl(params) {
 	return new Promise((resolve, reject) => {
-		axios.get("/credit-service/creditReport" + data.reportType, data).then(
+		axios.post("/credit-service/creditReport/" + params.reportType, params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  请求用户征信报告
+ */
+export function getReport(url) {
+	return new Promise((resolve, reject) => {
+		axios.get(url).then(
 			res => {
 				resolve(res);
 			},
