@@ -6,7 +6,7 @@
         <div class="title-wrap">
           <h1>哈啰单车报告</h1>
           <div class="refresh">
-            <i class="icon-refresh"></i>
+            <i class="icon-refresh" @click="refresh"></i>
             <p class="date">{{date}}</p>
           </div>
         </div>
@@ -180,102 +180,121 @@ export default {
     };
   },
   methods: {
+    refresh() {
+      let postData = {
+        userName: this.utils.getCookie("userName"),
+        creditType: 'helloBike'
+      }
+      this.common.queryCreditUrl(postData).then( res=> {
+        let data = res.data;
+        if (data.resultCode === "1") {
+          let url = data.url;
+          window.location.href = url;
+        } else {
+          this.$vux.toast.show({
+						type: "cancel",
+						position: "middle",
+						text: res.data.resultMsg
+					});
+        }
+      })
+    },
     getReportInfo() {
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
-      this.common.getReport().then(res => {
-        res.data = {
-          data: {
-            profile: {
-              create_date: "2018-05-29",
-              credit_desc: "\u4fe1\u7528\u826f\u597d",
-              credit_score: 4530,
-              credit_time: "2019-03-11",
-              deposit: null,
-              deposit_status: null,
-              deposit_status_restlu: null,
-              id_card_no: null,
-              mobile: "15320108090",
-              real_name: "\u8463\u6d2a\u5cf0",
-              sex: 1,
-              type: "hellobike",
-              verified: false
-            },
-            summary: {
-              sum_distance: 0,
-              sum_fee: null,
-              sum_number: 4,
-              sum_time: 48
-            },
-            traffic_detail: [
-              {
-                actual_fee: 1.0,
-                begin_time: "2019-01-06 07:31:25",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u54c8\u5c14\u6ee8\u90539\u53f7",
-                end_time: "2019-01-06 07:45:59",
-                seconds: 8740,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u4f53\u80b2\u9986\u8857\u9053\u5357\u4eac\u8def169\u53f7"
-              },
-              {
-                actual_fee: 1.0,
-                begin_time: "2018-12-15 07:33:15",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u8d64\u5cf0\u90532\u53f7",
-                end_time: "2018-12-15 07:47:01",
-                seconds: 8260,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u4f53\u80b2\u9986\u8857\u9053\u5357\u4eac\u8def169\u53f7"
-              },
-              {
-                actual_fee: 1.0,
-                begin_time: "2018-11-24 08:53:31",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u5b89\u5fbd\u8def6\u53f7",
-                end_time: "2018-11-24 09:01:44",
-                seconds: 4930,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u529d\u4e1a\u573a\u8857\u9053\u6cb3\u5317\u8def175\u53f7"
-              },
-              {
-                actual_fee: 1.0,
-                begin_time: "2018-11-24 08:53:31",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u5b89\u5fbd\u8def6\u53f7",
-                end_time: "2018-11-24 09:01:44",
-                seconds: 4930,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u529d\u4e1a\u573a\u8857\u9053\u6cb3\u5317\u8def175\u53f7"
-              }
-            ],
-            update_time: "2019-03-14 10:38:45"
-          },
-          data_source: {
-            mobile: "15320108090",
-            name: "\u54c8\u5570\u5355\u8f66",
-            type: "\u5171\u4eab\u5355\u8f66"
-          },
-          org_biz_no: "02ade42e-688c-40a3-abee-17373da1fa93",
-          profile: {
-            age: 41,
-            birth_place:
-              "\u5c71\u4e1c\u7701/\u5fb7\u5dde\u5730\u533a/\u4e34\u9091\u53bf",
-            constellation: "\u5de8\u87f9\u5ea7",
-            full_name: "\u8463\u6d2a\u5cf0",
-            gender: 1,
-            id: "372428197806230311"
-          },
-          report_id: "2058523800378690351",
-          report_time: "2019-03-14 10:38:39",
-          status: 0
-        };
+      this.common.getCreditReport().then(res => {
+        // res.data = {
+        //   data: {
+        //     profile: {
+        //       create_date: "2018-05-29",
+        //       credit_desc: "\u4fe1\u7528\u826f\u597d",
+        //       credit_score: 4530,
+        //       credit_time: "2019-03-11",
+        //       deposit: null,
+        //       deposit_status: null,
+        //       deposit_status_restlu: null,
+        //       id_card_no: null,
+        //       mobile: "15320108090",
+        //       real_name: "\u8463\u6d2a\u5cf0",
+        //       sex: 1,
+        //       type: "hellobike",
+        //       verified: false
+        //     },
+        //     summary: {
+        //       sum_distance: 0,
+        //       sum_fee: null,
+        //       sum_number: 4,
+        //       sum_time: 48
+        //     },
+        //     traffic_detail: [
+        //       {
+        //         actual_fee: 1.0,
+        //         begin_time: "2019-01-06 07:31:25",
+        //         distance: 0,
+        //         end_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u54c8\u5c14\u6ee8\u90539\u53f7",
+        //         end_time: "2019-01-06 07:45:59",
+        //         seconds: 8740,
+        //         start_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u4f53\u80b2\u9986\u8857\u9053\u5357\u4eac\u8def169\u53f7"
+        //       },
+        //       {
+        //         actual_fee: 1.0,
+        //         begin_time: "2018-12-15 07:33:15",
+        //         distance: 0,
+        //         end_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u8d64\u5cf0\u90532\u53f7",
+        //         end_time: "2018-12-15 07:47:01",
+        //         seconds: 8260,
+        //         start_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u4f53\u80b2\u9986\u8857\u9053\u5357\u4eac\u8def169\u53f7"
+        //       },
+        //       {
+        //         actual_fee: 1.0,
+        //         begin_time: "2018-11-24 08:53:31",
+        //         distance: 0,
+        //         end_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u5b89\u5fbd\u8def6\u53f7",
+        //         end_time: "2018-11-24 09:01:44",
+        //         seconds: 4930,
+        //         start_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u529d\u4e1a\u573a\u8857\u9053\u6cb3\u5317\u8def175\u53f7"
+        //       },
+        //       {
+        //         actual_fee: 1.0,
+        //         begin_time: "2018-11-24 08:53:31",
+        //         distance: 0,
+        //         end_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u5b89\u5fbd\u8def6\u53f7",
+        //         end_time: "2018-11-24 09:01:44",
+        //         seconds: 4930,
+        //         start_location:
+        //           "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u529d\u4e1a\u573a\u8857\u9053\u6cb3\u5317\u8def175\u53f7"
+        //       }
+        //     ],
+        //     update_time: "2019-03-14 10:38:45"
+        //   },
+        //   data_source: {
+        //     mobile: "15320108090",
+        //     name: "\u54c8\u5570\u5355\u8f66",
+        //     type: "\u5171\u4eab\u5355\u8f66"
+        //   },
+        //   org_biz_no: "02ade42e-688c-40a3-abee-17373da1fa93",
+        //   profile: {
+        //     age: 41,
+        //     birth_place:
+        //       "\u5c71\u4e1c\u7701/\u5fb7\u5dde\u5730\u533a/\u4e34\u9091\u53bf",
+        //     constellation: "\u5de8\u87f9\u5ea7",
+        //     full_name: "\u8463\u6d2a\u5cf0",
+        //     gender: 1,
+        //     id: "372428197806230311"
+        //   },
+        //   report_id: "2058523800378690351",
+        //   report_time: "2019-03-14 10:38:39",
+        //   status: 0
+        // };
         let data = res.data.data;
         let profile = data.profile;
         this.profile.verified = profile.verified;

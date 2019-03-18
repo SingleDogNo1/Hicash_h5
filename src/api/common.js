@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
+import qs from 'qs'
 
 let cache = jsCommon.Cache();
 
@@ -64,7 +65,9 @@ export default {
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
-	getReport: getReport
+	queryCreditUrl: queryCreditUrl,
+	getReport: getReport,
+	getCreditReport: getCreditReport
 };
 
 /*
@@ -1059,11 +1062,11 @@ export function VerifyVideo(params) {
 }
 
 /*
- *  活体检测--上传视频
+ *  获取征信认证链接
  */
-export function getReport() {
+export function queryCreditUrl(data) {
 	return new Promise((resolve, reject) => {
-		axios.get("https://api-t.dpandora.cn/portal/reports/2058523800378690351?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYW5kb3JhIiwiYXVkIjoiOTIiLCJpYXQiOjE1NTI1NDI0MDAsImV4cCI6MTU1MjU0MzAwMCwidG9rZW5fc2VxX25vIjoiZGQ4MWM4ZWY1MjI4YjhjYjA2NzQ3MzU0ZTY3YjhmMDIifQ.3PPhk912WFC7L6aeUAiDC8wJcCvOFHhqveaj5Nsptk8").then(
+		axios.post("/hicash-api-service/credit/queryCreditUrl", data).then(
 			res => {
 				resolve(res);
 			},
@@ -1073,3 +1076,20 @@ export function getReport() {
 		);
 	});
 }
+
+/*
+ *  获取征信认证链接
+ */
+export function getCreditReport(data) {
+	return new Promise((resolve, reject) => {
+		axios.get("/credit-service/creditReport" + data.reportType, data).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
