@@ -360,7 +360,7 @@ export default new Router({
 			}
 		},
 		// {
-		// 	//组件 仅用于开发 删除
+		// 	//组件
 		// 	path: "/consumptionTrend",
 		// 	name: "ConsumptionTrend",
 		// 	component: ConsumptionTrend,

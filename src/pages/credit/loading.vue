@@ -62,7 +62,7 @@ export default {
       // let checkCreditResultTimer = setInterval(() => {
       //   this.common.CheckCreditResult(obj).then(res => {
       //     console.log(1)
-      //     clearInterval(timer)
+      //     clearInterval(checkCreditResultTimer)
       //     if(res.data.data==1){
       //       clearInterval(checkCreditResultTimer)
       //     }
