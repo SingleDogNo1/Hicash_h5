@@ -67,7 +67,9 @@ export default {
 	IsBottomShow: IsBottomShow,
 	queryCreditUrl: queryCreditUrl,
 	getUserCreditReports: getUserCreditReports,
-	saveUserCreditInfo: saveUserCreditInfo
+	saveUserCreditInfo: saveUserCreditInfo,
+	CheckCreditResult: CheckCreditResult,
+	getReport: getReport
 };
 
 /*
@@ -110,11 +112,11 @@ export function getHomePagePic(params) {
 		axios
 			.get(
 				"/HicashService/HomePagePic?cityCode=" +
-					params.cityCode +
-					"&uuid=" +
-					params.uuid +
-					"&position=" +
-					params.position
+				params.cityCode +
+				"&uuid=" +
+				params.uuid +
+				"&position=" +
+				params.position
 			)
 			.then(
 				res => {
@@ -1119,12 +1121,41 @@ export function getUserCreditReports(params) {
 	});
 }
 
+// 是否获取到征信报告
+export function CheckCreditResult(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/checkCreditResult", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
 /*
  *  保存用户征信信息
  */
 export function saveUserCreditInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/saveUserCreditInfo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+/*
+ *  活体检测--上传视频
+ */
+export function getReport() {
+	return new Promise((resolve, reject) => {
+		axios.get("https://api-t.dpandora.cn/portal/reports/2058523800378690351?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwYW5kb3JhIiwiYXVkIjoiOTIiLCJpYXQiOjE1NTI1NDI0MDAsImV4cCI6MTU1MjU0MzAwMCwidG9rZW5fc2VxX25vIjoiZGQ4MWM4ZWY1MjI4YjhjYjA2NzQ3MzU0ZTY3YjhmMDIifQ.3PPhk912WFC7L6aeUAiDC8wJcCvOFHhqveaj5Nsptk8").then(
 			res => {
 				resolve(res);
 			},
