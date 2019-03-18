@@ -71,15 +71,15 @@ export default {
       let obj = {};
       obj.userName = this.utils.getCookie("userName");
       obj.creditType = val;
-      this.utils.setCookie("creditType", item.reportType);
 
-      this.common.queryCreditUrl(_params).then(res => {
+      this.common.queryCreditUrl(obj).then(res => {
         let data = res.data;
-        console.info("data", data);
+        // console.info("data", data);
+        console.log(this.$router)
         if (data.userInfo) {
-          this.$route.push({ name: "PandoraAuth" });
+          this.$router.push({ name: "PandoraAuth" });
         } else {
-          this.$route.push({ name: "IdentityAuth" });
+          this.$router.push({ name: "IdentityAuth" });
         }
       });
     }

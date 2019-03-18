@@ -47,13 +47,28 @@ export default {
   },
   created() {
     this.CheckCreditResult();
+    this.getUserCreditReports();
   },
   methods: {
     isWait() {
       this.isDisappear = false;
     },
-    goAuthentication() {
-      this.CheckCreditResult();
+    goAuthentication(val) {
+      this.utils.setCookie("creditType", val);
+      let obj = {};
+      obj.userName = this.utils.getCookie("userName");
+      obj.creditType = val;
+
+      this.common.queryCreditUrl(obj).then(res => {
+        let data = res.data;
+        // console.info("data", data);
+        // console.log(this.$router)
+        if (data.userInfo) {
+          this.$router.push({ name: "PandoraAuth" });
+        } else {
+          this.$router.push({ name: "IdentityAuth" });
+        }
+      });
     },
     CheckCreditResult() {
       let obj = {};
@@ -61,13 +76,18 @@ export default {
       obj.creditType = this.utils.getCookie("creditType");
       // let checkCreditResultTimer = setInterval(() => {
         this.common.CheckCreditResult(obj).then(res => {
-          console.log(res.data.data)
+          // console.log(res.data.data)
           // clearInterval(checkCreditResultTimer)
-          if(res.data.data==1){
-            // clearInterval(checkCreditResultTimer)
-          }
+          // if(res.data.data.status==1){
+          //   // clearInterval(checkCreditResultTimer)
+          // }
         });
       // }, 5000);
+    },
+    getUserCreditReports(){
+      this.common.getUserCreditReports(this.utils.getCookie("userName")).then(res=>{
+        console.log(res)
+      })
     }
   },
   mounted() {
