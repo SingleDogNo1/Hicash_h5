@@ -32,10 +32,12 @@
 			</div>
 
 			<flexbox class="list" :gutter="0" wrap="wrap">
-				<flexbox-item :span="1/3" @click="queryCreditUrl(item)" v-for="(item ,  i) in list" :key="i">
-					<img  :src="item.iconUrl" alt="">
-					<h4>{{item.reportName}}</h4>
-					<h5 v-if="!authStatus">已认证</h5>
+				<flexbox-item :span="1/3" v-for="(item ,  i) in list" :key="i">
+					<div @click.stop="queryCreditUrl(item)">
+						<img  :src="item.iconUrl" alt="">
+						<h4>{{item.reportName}}</h4>
+						<h5 v-if="authStatus">已认证</h5>
+					</div>
 				</flexbox-item>
 			</flexbox>
 		</div>
@@ -165,14 +167,12 @@ export default {
 			number: "",
 			list: [],
 			platform: this.utils.getPlatform(),
-			userName: this.utils.getCookie('userName'),
+			userName: this.utils.getCookie('userName') || '',
 			authStatus: false
 		};
 	},
 	methods: {
 		getUserCreditReports(){
-			// let _params = new URLSearchParams();
-			// _params.append("username", this.userName);
 			this.common.getUserCreditReports(this.userName)
 			.then(res => {
 				let data = res.data.data;
@@ -182,11 +182,28 @@ export default {
 		},
 		queryCreditUrl(item){
 			console.info('item', item);
-			let _params = new URLSearchParams();
-			_params.append("userName", this.userName);
-			_params.append("creditType", item.creditType);
+			if(!this.userName){
 
-			this.utils.setCookie('creditType', item.creditType);
+				const params = {
+					name: "Login",
+					query: {
+						redirect: this.$router.history.current.fullPath
+					}
+				}
+				this.$router.push(params);
+				return false;
+
+			}
+			let _params = {
+				"userName": this.userName,
+				"creditType": item.reportType
+			};
+
+			// let _params = new URLSearchParams();
+			// _params.append("userName",this.userName);
+			// _params.append("creditType", item.reportType);
+
+			this.utils.setCookie('creditType', item.reportType);
 
 			this.common.queryCreditUrl(_params)
 			.then(res => {
