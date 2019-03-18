@@ -7,14 +7,15 @@
 				style="position:relative;top: -2px;"
 				>&#xe637;</span
 			>
+			
 			<span slot="label">首页</span>
 		</tabbar-item>
 		<tabbar-item
-			:link="{ name: 'Credit' }"
-			:selected="$route.path === '/credit'"
+			:link="{ name: 'Inquiry' }"
+			:selected="$route.name === 'Inquiry'"
 		>
 			<span
-				class="icon-credit"
+				class="icon-inquiry"
 				slot="icon"
 				style="position:relative;top: -2px;"
 				>&#xe637;</span
@@ -77,6 +78,17 @@ export default {
 		if (this.utils.getCookie("isHaveUnreadCoupon") > "0") {
 			this.personCenterDotShow = true;
 		}
-	}
+		let postData = new URLSearchParams();
+			postData.append("comeFrom", 'H5');
+		this.IsBottomShow(postData);
+	},
+	methods: {
+		IsBottomShow(postData){
+			this.common.IsBottomShow(postData)
+			.then((res)=>{
+				console.info('res', res);
+			})
+		}
+	},
 };
 </script>

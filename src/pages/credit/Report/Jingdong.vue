@@ -211,7 +211,13 @@ export default {
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
-      this.common.getCreditReport().then(res => {
+      let postData = {
+        "userName": this.utils.getCookie("userName"),
+        "realName": this.utils.getCookie("realName"),
+        "mobile": this.utils.getCookie("mobile"),
+        "identityNo": this.utils.getCookie("idNo")
+      }
+      this.common.getCreditReport(postData).then(res => {
         // res.data = {
         //   addresses: [
         //     {

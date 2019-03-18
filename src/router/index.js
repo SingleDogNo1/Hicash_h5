@@ -34,11 +34,12 @@ import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
 import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
 import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
+import Inquiry from "@/pages/Inquiry";
+import IdentityAuth from "@/pages/Inquiry/IdentityAuth";
+import PandoraAuth from "@/pages/Inquiry/PandoraAuth";
 import ActivityIntroduction from "@/pages/credit/introduce";
 import FailedLoad from "@/pages/credit/failedLoad";
 import Loading from "@/pages/credit/loading";
-import ConsumptionTrend from "@/components/consumptionTrend";
-
 
 Vue.use(Router);
 
@@ -56,6 +57,28 @@ export default new Router({
 			name: 'MiaoDai',
 			component: MiaoDai,
 			meta: { title: '嗨秒分期' }
+		},
+		{
+			//征信
+			path: "/inquiry",
+			name: "Inquiry",
+			component: Inquiry,
+			meta: { title: "征信" }
+			
+		},
+		{
+			//身份认证
+			path: '/identityAuth',
+			name: 'IdentityAuth',
+			component: IdentityAuth,
+			meta: { title: "身份认证",requireAuth: true}
+		},
+		{
+			//磐多拉认证
+			path: '/pandoraAuth',
+			name: 'PandoraAuth',
+			component: PandoraAuth,
+			meta: { title: "磐多拉认证", requireAuth: true}
 		},
 		{
 			//个人中心
@@ -318,7 +341,7 @@ export default new Router({
 		},
 		{
 			path: '/operator',
-			name: 'Operator',
+			name: 'operator',
 			component: () => import('@/pages/Credit/Report/Operator'),
 			meta: {
 				title: '征信报告'
@@ -326,7 +349,7 @@ export default new Router({
 		},
 		{
 			path: '/jingdong',
-			name: 'Jingdong',
+			name: 'jingdong',
 			component: () => import('@/pages/Credit/Report/Jingdong'),
 			meta: {
 				title: '征信报告'
