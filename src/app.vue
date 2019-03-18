@@ -96,24 +96,32 @@ export default {
 		script.language = "JavaScript";
 		document.body.appendChild(script);
 
-    if (to.meta.title) {
-      document.title = to.meta.title;
-    }
-    if (to.matched.some(record => record.meta.requireAuth)) {
-      var userName = this.utils.getCookie("userName");
-      var realName = this.utils.getCookie("realName");
-      var mobile = this.utils.getCookie("mobile");
-        // 判断该路由是否需要登录权限
-        if (!userName || userName == "null") {
-          next({
-            // 将跳转的路由path作为参数，登录成功后跳转到该路由
-            path: "/login",
-            query: { redirect: to.fullPath }
-          });
-        } else {
-          next();
-        }
-		};
+    this.$router.beforeEach((to, from, next) => {
+			this.path = to.name;
+
+			if (to.meta.title) {
+				document.title = to.meta.title;
+			}
+			if (to.matched.some(record => record.meta.requireAuth)) {
+				var userName = this.utils.getCookie("userName");
+				var realName = this.utils.getCookie("realName");
+				var mobile = this.utils.getCookie("mobile");
+
+				// 判断该路由是否需要登录权限
+				if (!userName || userName == "null") {
+					next({
+						// 将跳转的路由path作为参数，登录成功后跳转到该路由
+						path: "/login",
+						query: { redirect: to.fullPath }
+					});
+				} else {
+					next();
+				}
+			} else {
+				next();
+			}
+		});
+
 	},
 	data() {
 		return {
