@@ -1063,7 +1063,7 @@ export function VerifyVideo(params) {
 /*
  *  获取征信认证链接
  */
-export function QueryCreditUrl(params) {
+export function queryCreditUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/queryCreditUrl", params)
 		.then(

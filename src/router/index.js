@@ -37,7 +37,6 @@ import Auth from "@/pages/Product/Auth";
 import ActivityIntroduction from "@/pages/credit/introduce";
 import FailedLoad from "@/pages/credit/failedLoad";
 import Loading from "@/pages/credit/loading";
-import ConsumptionTrend from "@/components/consumptionTrend";
 
 
 Vue.use(Router);

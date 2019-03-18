@@ -67,12 +67,20 @@ export default {
   },
   methods: {
     goAuthentication(val) {
-      this.utils.setCookie("creditType",val);
+      this.utils.setCookie("creditType", val);
       let obj = {};
       obj.userName = this.utils.getCookie("userName");
       obj.creditType = val;
-      this.common.QueryCreditUrl(obj).then(res => {
-        console.log(res.data.userInfo)
+      this.utils.setCookie("creditType", item.reportType);
+
+      this.common.queryCreditUrl(_params).then(res => {
+        let data = res.data;
+        console.info("data", data);
+        if (data.userInfo) {
+          this.$route.push({ name: "PandoraAuth" });
+        } else {
+          this.$route.push({ name: "IdentityAuth" });
+        }
       });
     }
   }
