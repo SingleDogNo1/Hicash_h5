@@ -155,7 +155,7 @@ export default {
 			this.showDialog = true
 		},
 		cancel: function () {
-			this.$route.push({name: 'Inquiry'});
+			this.$router.push({name: 'Inquiry'});
 		},
 		saveUserCreditInfo(){
 			let _params = new URLSearchParams();
@@ -167,7 +167,7 @@ export default {
 			.then(res => {
 				let data = res.data;
 				if(data.resultCode == '1'){
-					this.$route.push({name: 'PandoraAuth'});
+					this.$router.push({name: 'PandoraAuth'});
 				}
 			});
 		},
