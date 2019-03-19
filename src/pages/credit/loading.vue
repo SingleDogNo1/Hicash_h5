@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
+    <page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+      :jumpRouteName="'Inquiry'"
+    ></page-header>
     <div class="box">
       <div class="box-top">
         <div class="warn">
@@ -34,7 +39,7 @@
         <button class="cancel buttons" @click="isShowDialog=false">取消</button>
         <button class="confirm buttons" @click="confirm()">看报告</button>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 <script>
@@ -58,9 +63,9 @@ export default {
       report: ""
     };
   },
-  // created() {
-  //   // this.getUserCreditReports();
-  // },
+  created() {
+    this.getUserCreditReports();
+  },
   methods: {
     // confirm() {
     //   switch (this.utils.getCookie("creditType")) {
@@ -124,22 +129,25 @@ export default {
         .then(res => {
           // console.log(res.data);
           let arr = res.data.data;
+          let arr1 = [];
           arr.map(item => {
             if (item.status == 0) {
+              arr1.push(item);
               this.isDisappear = true;
             }
             if (item.reportName == "饿了么") {
               item.reportName = "饿了么外卖";
             }
           });
-          let number = Math.round(Math.random() * (arr.length - 1));
-          this.msg = arr[number].reportName;
+          let number = Math.round(Math.random() * (arr1.length - 1));
+          this.msg = arr1[number].reportName;
         });
     },
-    others(){//看看别的
-      this.$router.push({name:"Inquiry"})
+    others() {
+      //看看别的
+      this.$router.push({ name: "Inquiry" });
     }
-  },
+  }
   // mounted() {
   //   // setTimeout(() => {
   //   //   this.complete = true;
