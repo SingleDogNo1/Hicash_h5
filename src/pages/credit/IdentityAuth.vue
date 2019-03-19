@@ -192,7 +192,7 @@ export default {
 			this.showDialog = true
 		},
 		cancel: function () {
-			this.$route.push({name: 'Inquiry'});
+			this.$router.push({name: 'Inquiry'});
 		},
 		saveUserCreditInfo(){
 			// let _params = new URLSearchParams();

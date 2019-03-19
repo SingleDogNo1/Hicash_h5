@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
     <div class="box">
       <div class="box-top">
         <div class="warn">
@@ -11,19 +11,28 @@
           <br>推荐您先看看别的～
         </div>
       </div>
-
-      <div class="authentication" v-show="isDisappear">
-        <p class="recommend">推荐：饿了么外卖认证</p>
-        <div class="btn">
-          <button class="buttons waiting" @click="isWait()">继续等待</button>
-          <button class="buttons go_authentication" @click="goAuthentication()">去认证</button>
+      <div class="btn-box" v-show="isShow">
+        <div class="authentication" v-show="isDisappear">
+          <p class="recommend">推荐：{{msg}}认证</p>
+          <div class="btn">
+            <button class="buttons waiting" @click="isWait()">继续等待</button>
+            <button class="buttons go_authentication" @click="goAuthentication()">去认证</button>
+          </div>
+        </div>
+        <div class="authentication no" v-show="!isDisappear">
+          <div class="btn">
+            <button class="buttons waiting" @click="isWait()">继续等待</button>
+            <button class="buttons go_authentication" @click="others()">看看别的</button>
+          </div>
         </div>
       </div>
-      <div class="authentication no" v-show="isDisappear">
-        <div class="btn">
-          <button class="buttons waiting" @click="isWait()">继续等待</button>
-          <button class="buttons go_authentication">看看别的</button>
-        </div>
+    </div>
+    <div class="dialog" v-show="isShowDialog">
+      <h3>报告获取成功</h3>
+      <p class="dialog-p">新鲜的报告已经准备好了，快来看看</p>
+      <div class="dialog-btn">
+        <button class="cancel buttons" @click="isShowDialog=false">取消</button>
+        <button class="confirm buttons" @click="confirm()">看报告</button>
       </div>
     </div>
   </div>
@@ -42,32 +51,89 @@ export default {
       title: "征信报告",
       showBack: true,
       showBtnClose: false,
-      isDisappear: true
+      isDisappear: false,
+      isShow: true,
+      msg: "",
+      isShowDialog: false,
+      report: ""
     };
   },
   created() {
-    this.CheckCreditResult();
+    this.getUserCreditReports();
   },
   methods: {
-    isWait() {
-      this.isDisappear = false;
+    confirm() {
+      switch (this.utils.getCookie("creditType")) {
+        case "operator":
+          this.report = "operator";
+          break;
+        case "jd":
+          this.report = "jingdong";
+          break;
+        case "helloBike":
+          this.report = "Haluo";
+          break;
+        case "eleme":
+          this.report = "Eleme";
+          break;
+      }
+      this.$router.push({ name: this.report });
     },
-    goAuthentication() {
+    isWait() {
+      // 继续等待
       this.CheckCreditResult();
+      this.isShow = false;
+    },
+    goAuthentication(val) {
+      // 去认证
+      let obj = {};
+      obj.userName = this.utils.getCookie("userName");
+      obj.creditType = this.utils.getCookie("creditType");
+
+      this.common.queryCreditUrl(obj).then(res => {
+        let data = res.data;
+        // console.info("data", data);
+        // console.log(this.$router)
+        if (data.userInfo) {
+          this.$router.push({ name: "PandoraAuth" });
+        } else {
+          this.$router.push({ name: "IdentityAuth" });
+        }
+      });
     },
     CheckCreditResult() {
       let obj = {};
-      obj.username = this.utils.getCookie("userName");
+      obj.userName = this.utils.getCookie("userName");
       obj.creditType = this.utils.getCookie("creditType");
       let checkCreditResultTimer = setInterval(() => {
         this.common.CheckCreditResult(obj).then(res => {
-          console.log(1)
-          clearInterval(checkCreditResultTimer)
-          if(res.data.data==1){
-            clearInterval(checkCreditResultTimer)
+          if (res.data.data.status == 2) {
+            clearInterval(checkCreditResultTimer);
+            this.isShowDialog = true;
           }
         });
       }, 5000);
+    },
+    getUserCreditReports() {
+      this.common
+        .getUserCreditReports(this.utils.getCookie("userName"))
+        .then(res => {
+          console.log(res.data);
+          let arr = res.data.data;
+          arr.map(item => {
+            if (item.status == 0) {
+              this.isDisappear = true;
+            }
+            if (item.reportName == "饿了么") {
+              item.reportName = "饿了么外卖";
+            }
+          });
+          let number = Math.round(Math.random() * (arr.length - 1));
+          this.msg = arr[number].reportName;
+        });
+    },
+    others(){//看看别的
+      this.$router.push({name:"Inquiry"})
     }
   },
   mounted() {
@@ -109,47 +175,99 @@ export default {
         margin-top: rem(36px);
       }
     }
-    .authentication {
-      margin-top: rem(10px);
-      background: #fff;
-      padding-top: rem(32.6px);
-      padding-bottom: rem(32px);
-      .recommend {
-        text-align: center;
-        font-size: rem(18px);
-        color: #ff7640;
-        letter-spacing: rem(0.45px);
-        line-height: rem(25px);
-        margin-bottom: rem(24px);
-      }
-      .btn {
-        width: rem(282px);
-        display: flex;
-        justify-content: space-between;
-        margin: 0 auto;
-        .buttons {
-          border-radius: 6px;
-          font-size: rem(14px);
-          letter-spacing: rem(0.35px);
+    .btn-box {
+      .authentication {
+        margin-top: rem(10px);
+        background: #fff;
+        padding-top: rem(32.6px);
+        padding-bottom: rem(32px);
+        .recommend {
           text-align: center;
-          width: rem(125px);
-          height: rem(35px);
-          line-height: rem(35px);
-          border: 1px solid #ff7640;
-        }
-        .waiting {
-          background: #fff;
+          font-size: rem(18px);
           color: #ff7640;
+          letter-spacing: rem(0.45px);
+          line-height: rem(25px);
+          margin-bottom: rem(24px);
         }
-        .go_authentication {
-          background: #ff7640;
-          color: #ffffff;
+        .btn {
+          width: rem(282px);
+          display: flex;
+          justify-content: space-between;
+          margin: 0 auto;
+          .buttons {
+            border-radius: 6px;
+            font-size: rem(14px);
+            letter-spacing: rem(0.35px);
+            text-align: center;
+            width: rem(125px);
+            height: rem(35px);
+            line-height: rem(35px);
+            border: 1px solid #ff7640;
+          }
+          .waiting {
+            background: #fff;
+            color: #ff7640;
+          }
+          .go_authentication {
+            background: #ff7640;
+            color: #ffffff;
+          }
         }
+      }
+      .no {
+        margin-top: 0;
+        padding-top: 0;
       }
     }
-    .no {
-      margin-top: 0;
-      padding-top: 0;
+  }
+  .dialog {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: rem(180px);
+    width: 80%;
+    background: #fff;
+    text-align: center;
+    border: 1px solid #666;
+    border-radius: rem(10px);
+    h3 {
+      font-size: rem(18px);
+      color: #444;
+      margin-top: rem(28px);
+      letter-spacing: rem(0.38px);
+    }
+    .dialog-p {
+      font-size: rem(15px);
+      line-height: rem(60px);
+      color: #666666;
+      letter-spacing: rem(0.38px);
+      text-align: center;
+    }
+    .dialog-btn {
+      display: flex;
+      justify-content: space-around;
+      margin: 0 auto;
+      .buttons {
+        border-radius: 6px;
+        font-size: rem(14px);
+        letter-spacing: rem(0.35px);
+        text-align: center;
+        width: rem(100px);
+        height: rem(35px);
+        line-height: rem(35px);
+        border: 1px solid #ff7640;
+      }
+      .cancel {
+        background: #fff;
+        color: #ff7640;
+      }
+      .confirm {
+        background: #ff7640;
+        color: #ffffff;
+      }
     }
   }
 }

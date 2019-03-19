@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
     <div class="box">
       <div class="banner">
         <img src="./images/banner.png" alt>
@@ -67,12 +67,20 @@ export default {
   },
   methods: {
     goAuthentication(val) {
-      this.utils.setCookie("creditType",val);
+      this.utils.setCookie("creditType", val);
       let obj = {};
       obj.userName = this.utils.getCookie("userName");
       obj.creditType = val;
-      this.common.QueryCreditUrl(obj).then(res => {
-        console.log(res.data.userInfo)
+
+      this.common.queryCreditUrl(obj).then(res => {
+        let data = res.data;
+        // console.info("data", data);
+        console.log(this.$router)
+        if (data.userInfo) {
+          this.$router.push({ name: "PandoraAuth" });
+        } else {
+          this.$router.push({ name: "IdentityAuth" });
+        }
       });
     }
   }

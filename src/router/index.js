@@ -41,6 +41,7 @@ import ActivityIntroduction from "@/pages/credit/introduce";
 import FailedLoad from "@/pages/credit/failedLoad";
 import Loading from "@/pages/credit/loading";
 
+
 Vue.use(Router);
 
 export default new Router({
@@ -64,7 +65,7 @@ export default new Router({
 			name: "Inquiry",
 			component: Inquiry,
 			meta: { title: "征信" }
-			
+
 		},
 		{
 			//身份认证

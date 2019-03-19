@@ -1,12 +1,17 @@
 <template>
   <div class="haluo">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+      :jumpRouteName="'Inquiry'"
+    ></page-header>
     <div class="content">
       <div class="haluo-report-wrap">
         <div class="title-wrap">
           <h1>哈啰单车报告</h1>
           <div class="refresh">
-            <i class="icon-refresh"></i>
+            <i class="icon-refresh" @click="refresh"></i>
             <p class="date">{{date}}</p>
           </div>
         </div>
@@ -99,7 +104,7 @@
           </div>
         </div>
       </div>
-      <div class="frequent-address">
+      <div class="frequent-address" v-if="frequentAddress.length > 0">
         <h3>常去地址</h3>
         <div class="address-ranking">
           <p>
@@ -119,6 +124,12 @@
           <p class="title">报告说明</p>
           <p class="desc">通过对骑行次数、距离、常去地址的汇总，有效的运动轨迹和稳定的生活圈，将会有利于您的还款能力评估。</p>
         </div>
+      </div>
+      <div class="frequent-address-empty" v-else>
+        <h3>常去地址</h3>
+        <p class="desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
       </div>
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
       <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
@@ -144,13 +155,13 @@ export default {
   },
   data() {
     return {
-      title: '征信报告',
+      title: "征信报告",
       showBack: true,
       showBtnClose: false,
-      situation: '',
+      situation: "",
       contactsArr: [],
       shareBox: false,
-      date: '',
+      date: "",
       profile: {
         creditScore: 0,
         percent: 0,
@@ -180,167 +191,114 @@ export default {
     };
   },
   methods: {
+    refresh() {
+      let postData = {
+        userName: this.utils.getCookie("userName"),
+        creditType: "helloBike"
+      };
+      this.common.queryCreditUrl(postData).then(res => {
+        let data = res.data;
+        if (data.resultCode === "1") {
+          let url = data.url;
+          window.location.href = url;
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
+        }
+      });
+    },
     getReportInfo() {
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
-      this.common.getReport().then(res => {
-        res.data = {
-          data: {
-            profile: {
-              create_date: "2018-05-29",
-              credit_desc: "\u4fe1\u7528\u826f\u597d",
-              credit_score: 4530,
-              credit_time: "2019-03-11",
-              deposit: null,
-              deposit_status: null,
-              deposit_status_restlu: null,
-              id_card_no: null,
-              mobile: "15320108090",
-              real_name: "\u8463\u6d2a\u5cf0",
-              sex: 1,
-              type: "hellobike",
-              verified: false
-            },
-            summary: {
-              sum_distance: 0,
-              sum_fee: null,
-              sum_number: 4,
-              sum_time: 48
-            },
-            traffic_detail: [
-              {
-                actual_fee: 1.0,
-                begin_time: "2019-01-06 07:31:25",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u54c8\u5c14\u6ee8\u90539\u53f7",
-                end_time: "2019-01-06 07:45:59",
-                seconds: 8740,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u4f53\u80b2\u9986\u8857\u9053\u5357\u4eac\u8def169\u53f7"
-              },
-              {
-                actual_fee: 1.0,
-                begin_time: "2018-12-15 07:33:15",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u8d64\u5cf0\u90532\u53f7",
-                end_time: "2018-12-15 07:47:01",
-                seconds: 8260,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u4f53\u80b2\u9986\u8857\u9053\u5357\u4eac\u8def169\u53f7"
-              },
-              {
-                actual_fee: 1.0,
-                begin_time: "2018-11-24 08:53:31",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u5b89\u5fbd\u8def6\u53f7",
-                end_time: "2018-11-24 09:01:44",
-                seconds: 4930,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u529d\u4e1a\u573a\u8857\u9053\u6cb3\u5317\u8def175\u53f7"
-              },
-              {
-                actual_fee: 1.0,
-                begin_time: "2018-11-24 08:53:31",
-                distance: 0,
-                end_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u5c0f\u767d\u697c\u8857\u9053\u5b89\u5fbd\u8def6\u53f7",
-                end_time: "2018-11-24 09:01:44",
-                seconds: 4930,
-                start_location:
-                  "\u5929\u6d25\u5e02\u548c\u5e73\u533a\u529d\u4e1a\u573a\u8857\u9053\u6cb3\u5317\u8def175\u53f7"
+      let postData = {
+        reportType: "helloBike",
+        userName: this.utils.getCookie("userName")
+      };
+      this.common.getCreditReport(postData).then(res => {
+        console.log("res.data=", res.data);
+        if (res.data.resultCode === "1") {
+          let data = JSON.parse(res.data.data).data;
+          let profile = data.profile;
+          this.profile.verified = profile.verified;
+          this.profile.creditScore = !profile.credit_score
+            ? 0
+            : profile.credit_score;
+          this.profile.percent =
+            this.profile.creditScore > 1000
+              ? 100
+              : (this.profile.creditScore / 1000) * 100;
+          let summary = data.summary;
+          this.summary.sumNumber = !summary.sum_number ? 0 : summary.sum_number;
+          this.summary.sumTime = !summary.sum_time ? 0 : summary.sum_time;
+          this.summary.sumDistance = !summary.sum_distance
+            ? 0
+            : summary.sum_distance;
+          this.summary.sumFee = !summary.sum_fee ? 0 : summary.sum_fee;
+
+          let trafficDetail = data.traffic_detail;
+          trafficDetail.forEach(item => {
+            item.speed = item.distance / item.seconds;
+          });
+          let distanceObj = _.max(trafficDetail, item => {
+            return item.distance;
+          });
+          let speedObj = _.max(trafficDetail, item => {
+            return item.speed;
+          });
+          this.distanceObj.distance = distanceObj.distance;
+          this.distanceObj.startLocation = distanceObj.start_location
+            ? distanceObj.start_location
+            : "暂无数据";
+          this.distanceObj.endLocation = distanceObj.end_location
+            ? distanceObj.end_location
+            : "暂无数据";
+          this.distanceObj.time = this.utils.formatSeconds(distanceObj.seconds);
+          this.distanceObj.speed =
+            parseInt((distanceObj.distance / distanceObj.seconds) * 3.6) +
+            "km/h";
+
+          this.speedObj.distance = speedObj.distance;
+          this.speedObj.startLocation = speedObj.start_location;
+          this.speedObj.endLocation = speedObj.end_location;
+          this.speedObj.time = this.utils.formatSeconds(speedObj.seconds);
+          this.speedObj.speed =
+            parseInt((speedObj.distance / speedObj.seconds) * 3.6) + "km/h";
+
+          let endLocationArr = _.pluck(trafficDetail, "end_location");
+          let sortByCount = function(arr) {
+            let arrUni = [];
+            let arrCnt = [];
+            arr.forEach(val => {
+              let idx = arrUni.indexOf(val);
+              if (idx < 0) {
+                arrUni.push(val);
+                arrCnt.push(1);
+              } else {
+                arrCnt[idx]++;
               }
-            ],
-            update_time: "2019-03-14 10:38:45"
-          },
-          data_source: {
-            mobile: "15320108090",
-            name: "\u54c8\u5570\u5355\u8f66",
-            type: "\u5171\u4eab\u5355\u8f66"
-          },
-          org_biz_no: "02ade42e-688c-40a3-abee-17373da1fa93",
-          profile: {
-            age: 41,
-            birth_place:
-              "\u5c71\u4e1c\u7701/\u5fb7\u5dde\u5730\u533a/\u4e34\u9091\u53bf",
-            constellation: "\u5de8\u87f9\u5ea7",
-            full_name: "\u8463\u6d2a\u5cf0",
-            gender: 1,
-            id: "372428197806230311"
-          },
-          report_id: "2058523800378690351",
-          report_time: "2019-03-14 10:38:39",
-          status: 0
-        };
-        let data = res.data.data;
-        let profile = data.profile;
-        this.profile.verified = profile.verified;
-        this.profile.creditScore = !profile.credit_score
-          ? 0
-          : profile.credit_score;
-        this.profile.percent =
-          this.profile.creditScore > 1000
-            ? 100
-            : (this.profile.creditScore / 1000) * 100;
-        let summary = data.summary;
-        this.summary.sumNumber = !summary.sum_number ? 0 : summary.sum_number;
-        this.summary.sumTime = !summary.sum_time ? 0 : summary.sum_time;
-        this.summary.sumDistance = !summary.sum_distance
-          ? 0
-          : summary.sum_distance;
-        this.summary.sumFee = !summary.sum_fee ? 0 : summary.sum_fee;
-
-        let trafficDetail = data.traffic_detail;
-        trafficDetail.forEach(item => {
-          item.speed = item.distance / item.seconds;
-        });
-        let distanceObj = _.max(trafficDetail, item => {
-          return item.distance;
-        });
-        let speedObj = _.max(trafficDetail, item => {
-          return item.speed;
-        });
-        this.distanceObj.distance = distanceObj.distance;
-        this.distanceObj.startLocation = distanceObj.start_location;
-        this.distanceObj.endLocation = distanceObj.end_location;
-        this.distanceObj.time = this.utils.formatSeconds(distanceObj.seconds);
-        this.distanceObj.speed =
-          (distanceObj.distance / distanceObj.seconds) * 3.6 + "km/h";
-
-        this.speedObj.distance = speedObj.distance;
-        this.speedObj.startLocation = speedObj.start_location;
-        this.speedObj.endLocation = speedObj.end_location;
-        this.speedObj.time = this.utils.formatSeconds(speedObj.seconds);
-        this.speedObj.speed =
-          (speedObj.distance / speedObj.seconds) * 3.6 + "km/h";
-
-        let endLocationArr = _.pluck(trafficDetail, "end_location");
-        let sortByCount = function(arr) {
-          let arrUni = [];
-          let arrCnt = [];
-          arr.forEach(val => {
-            let idx = arrUni.indexOf(val);
-            if (idx < 0) {
-              arrUni.push(val);
-              arrCnt.push(1);
-            } else {
-              arrCnt[idx]++;
-            }
+            });
+            let arrTmp = arrUni.slice();
+            arrUni.sort((a, b) => {
+              let idxa = arrTmp.indexOf(a);
+              let idxb = arrTmp.indexOf(b);
+              return arrCnt[idxb] - arrCnt[idxa];
+            });
+            return arrUni;
+          };
+          this.frequentAddress = sortByCount(endLocationArr).splice(0, 3);
+          this.frequentAddress = [];
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
           });
-          let arrTmp = arrUni.slice();
-          arrUni.sort((a, b) => {
-            let idxa = arrTmp.indexOf(a);
-            let idxb = arrTmp.indexOf(b);
-            return arrCnt[idxb] - arrCnt[idxa];
-          });
-          return arrUni;
-        };
-        this.frequentAddress = sortByCount(endLocationArr).splice(0,3)
-        console.log("this.frequentAddress===", this.frequentAddress);
+        }
       });
     },
     shareMethods() {
@@ -481,7 +439,8 @@ export default {
       }
     }
     .trip-summary-wrap,
-    .frequent-address {
+    .frequent-address,
+    .frequent-address-empty {
       margin-top: rem(8px);
       padding: rem(15px) 0 rem(16px) 0;
       background: #fff;
@@ -576,6 +535,13 @@ export default {
           color: #999999;
           line-height: rem(20px);
         }
+      }
+      .desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
       }
     }
     .longest-trip-wrap,

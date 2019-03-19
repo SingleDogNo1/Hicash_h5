@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
     <div class="box">
       <div class="image">
         <img src="./images/failedLoad.png" alt>

@@ -1,12 +1,17 @@
 <template>
   <div class="eleme">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+      :jumpRouteName="'Inquiry'"
+    ></page-header>
     <div class="content">
       <div class="eleme-report-wrap">
         <div class="title-wrap">
           <h1>饿了么消费报告</h1>
           <div class="refresh">
-            <i class="icon-refresh"></i>
+            <i class="icon-refresh" @click="refresh"></i>
             <p class="date">2019.02.14</p>
           </div>
         </div>
@@ -22,15 +27,15 @@
         </div>
         <ul class="consumption-list">
           <li>
-            <p class="value">325012</p>
+            <p class="value">{{totalPriceSum}}</p>
             <p class="title">总消费(元)</p>
           </li>
           <li>
-            <p class="value">325012</p>
+            <p class="value">{{monthAverage}}</p>
             <p class="title">月均消费(元)</p>
           </li>
           <li>
-            <p class="value">325012</p>
+            <p class="value">{{countSum}}</p>
             <p class="title">消费次数</p>
           </li>
         </ul>
@@ -41,7 +46,7 @@
       </div>
       <div class="consumption-trend">
         <h3>消费走势</h3>
-        <consumption-trend-line></consumption-trend-line>
+        <consumption-trend-line :historyList="historyList"></consumption-trend-line>
         <div class="consumption-tips">
           <p class="title">消费走势说明</p>
           <p class="desc">消费走势反映您消费情况的稳定性，平稳的消费走势一般表示您收入及消费水平的稳定，将有利于您的还款能力评估。</p>
@@ -56,35 +61,47 @@
         </p>
         <p class="desc">
           <span class="small">与</span>
-          <span class="large">38</span>
+          <span class="large">{{shopNameSum}}</span>
           <span class="small">家商家发生纯洁的供求关系</span>
         </p>
       </div>
-      <div class="most-expensive-meal">
+      <div class="most-expensive-meal" v-if="thisYearOrderListSortBy.length > 0">
         <p class="title">今年最壕一餐是</p>
         <div class="name">
           <i class="icon-meal-left"></i>
-          <span class="value">将太无二日料</span>
+          <span class="value">{{mostExpensiveMealName}}</span>
           <i class="icon-meal-right"></i>
         </div>
         <p class="total-price">
           <span class="small">总消费</span>
-          <span class="price">509</span>
+          <span class="price">{{mostExpensiveMealPrice}}</span>
           <span class="small">元</span>
         </p>
       </div>
-      <div class="usually-favorite">
+      <div class="most-expensive-meal-empty" v-else>
+        <p class="title">今年最壕一餐是</p>
+        <p class="desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
+      </div>
+      <div class="usually-favorite" v-if="favoriteFoodName">
         <h3>平时最爱吃</h3>
         <div class="favorite-food-wrap">
           <div class="favorite-food">
-            <p class="name">张亮麻辣烫</p>
+            <p class="name">{{favoriteFoodName}}</p>
             <p class="frequency">
               点餐次数
-              <span class="value">23</span>次
+              <span class="value">{{favoriteFoodCount}}</span>次
             </p>
           </div>
           <div class="bg-usually-favorite"></div>
         </div>
+      </div>
+      <div class="usually-favorite-empty" v-else>
+        <h3>平时最爱吃</h3>
+        <p class="desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
       </div>
 
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
@@ -111,19 +128,198 @@ export default {
   },
   data() {
     return {
-      title: '征信报告',
+      title: "征信报告",
       showBack: true,
       showBtnClose: false,
       percent: 0,
       situation: "",
       contactsArr: [],
       shareBox: false,
-      selected: 0
+      selected: 0,
+      totalPriceSum: 0,
+      thisTotalPriceSum: 0,
+      lastTotalPriceSum: 0,
+      monthAverage: 0,
+      thisMonthAverage: 0,
+      lastMonthAverage: 0,
+      countSum: 0,
+      thisCountSum: 0,
+      lastCountSum: 0,
+      historyList: [],
+      shopNameSum: 0,
+      favoriteFoodCount: 0,
+      favoriteFoodName: "",
+      mostExpensiveMealName: "",
+      mostExpensiveMealPrice: "",
+      thisYearOrderListSortBy: []
     };
   },
   methods: {
+    refresh() {
+      let postData = {
+        userName: this.utils.getCookie("userName"),
+        creditType: "eleme"
+      };
+      this.common.queryCreditUrl(postData).then(res => {
+        let data = res.data;
+        if (data.resultCode === "1") {
+          let url = data.url;
+          window.location.href = url;
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
+        }
+      });
+    },
+    getReportInfo() {
+      let year = new Date().getFullYear();
+      let month = new Date().getMonth() + 1;
+      let day = new Date().getDate();
+      this.date = year + "." + month + "." + day;
+      let postData = {
+        reportType: "eleme",
+        userName: this.utils.getCookie("userName")
+      };
+      this.common.getCreditReport(postData).then(res => {
+        if (res.data.resultCode === "1") {
+          let data = JSON.parse(res.data.data);
+          let monthSummary = data.month_summary;
+          let thisYearSummary = monthSummary.filter(item => {
+            return item.month.slice(0, 4) == new Date().getFullYear();
+          });
+          let lastYearSummary = monthSummary.filter(item => {
+            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+          });
+          let thisTotalPrice = _.pluck(thisYearSummary, "price");
+          let lastTotalPrice = _.pluck(lastYearSummary, "price");
+          let thisCount = _.pluck(thisYearSummary, "count");
+          let lastCount = _.pluck(lastYearSummary, "count");
+          this.thisTotalPriceSum = parseInt(
+            _.reduce(
+              thisTotalPrice,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.lastTotalPriceSum = parseInt(
+            _.reduce(
+              lastTotalPrice,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.thisCountSum = parseInt(
+            _.reduce(
+              thisCount,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.lastCountSum = parseInt(
+            _.reduce(
+              lastCount,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.thisMonthAverage =
+            thisYearSummary.length === 0
+              ? 0
+              : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+          this.lastMonthAverage =
+            lastYearSummary.length === 0
+              ? 0
+              : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+          this.yearSwitch();
+          let originalConsumptionTrend = [];
+          let date = new Date();
+          let year = date.getFullYear();
+          date.setMonth(date.getMonth() + 1, 1); //获取到当前月份,设置月份
+          for (let i = 0; i < 12; i++) {
+            date.setMonth(date.getMonth() - 1); //每次循环一次 月份值减1
+            let m = date.getMonth() + 1;
+            m = m < 10 ? "0" + m : m;
+            let item = {
+              detail: 0,
+              date: date.getFullYear() + "-" + m
+            };
+            originalConsumptionTrend.push(item);
+          }
+          let serverConsumptionTrend = [];
+          for (let j = 0; j < monthSummary.length; j++) {
+            let val = {
+              detail: parseInt(monthSummary[j].price),
+              date: monthSummary[j].month
+            };
+            serverConsumptionTrend.push(val);
+          }
+          serverConsumptionTrend = serverConsumptionTrend
+            .reverse()
+            .splice(0, 12);
+          const obj = {};
+          const historyList = [];
+          originalConsumptionTrend
+            .concat(serverConsumptionTrend)
+            .forEach(item => {
+              obj[item.date] = item.detail;
+            });
+          for (let o in obj) {
+            historyList.push({ detail: obj[o], date: o });
+          }
+          this.historyList = historyList.reverse();
+          let orderList = data.order_list;
+          let thisYearOrderList = orderList.filter(item => {
+            return item.setup_time.slice(0, 4) == new Date().getFullYear();
+          });
+          let thisYearOrderListSortBy = _.sortBy(
+            thisYearOrderList,
+            "price"
+          ).reverse();
+          this.thisYearOrderListSortBy = thisYearOrderListSortBy;
+          this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
+          this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
+          let shopNameArr = _.pluck(orderList, "shop_name");
+          this.shopNameSum = _.uniq(shopNameArr).length;
+          let favoriteFood = _.countBy(orderList, "shop_name");
+          let favoriteFoodValues = _.values(favoriteFood);
+          let favoriteFoodValuesSort = favoriteFoodValues.sort((a, b) => {
+            return b - a;
+          });
+          this.favoriteFoodCount = favoriteFoodValuesSort[0];
+          function findKey(obj, value, compare = (a, b) => a === b) {
+            return Object.keys(obj).find(k => compare(obj[k], value));
+          }
+          this.favoriteFoodName = findKey(favoriteFood, this.favoriteFoodCount);
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
+        }
+      });
+    },
     yearSwitch() {
-      console.log(this.selected);
+      this.selected === 0
+        ? (this.totalPriceSum = this.lastTotalPriceSum)
+        : (this.totalPriceSum = this.thisTotalPriceSum);
+      this.selected === 0
+        ? (this.monthAverage = this.lastMonthAverage)
+        : (this.monthAverage = this.thisMonthAverage);
+      this.selected === 0
+        ? (this.countSum = this.lastCountSum)
+        : (this.countSum = this.thisCountSum);
     },
     getActiveSituation() {
       let status = (this.status = 3);
@@ -176,7 +372,7 @@ export default {
     }
   },
   mounted() {
-    this.getActiveSituation();
+    this.getReportInfo();
   }
 };
 </script>
@@ -453,7 +649,8 @@ export default {
         }
       }
     }
-    .most-expensive-meal {
+    .most-expensive-meal,
+    .most-expensive-meal-empty {
       width: 100%;
       height: rem(141px);
       background: #fff;
@@ -465,11 +662,13 @@ export default {
       .name {
         text-align: center;
         margin-top: rem(20px);
+        //height: rem(40px);
+        //line-height: rem(40px);
         i {
           display: inline-block;
           width: rem(24px);
           height: rem(41px);
-          vertical-align: middle;
+          vertical-align: top;
           &.icon-meal-left {
             background: url("./images/icon_meal_left.png") center center
               no-repeat;
@@ -483,6 +682,11 @@ export default {
         }
         .value {
           display: inline-block;
+          width: rem(156px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-top: rem(4px);
         }
       }
       .total-price {
@@ -498,8 +702,16 @@ export default {
           color: #ff7640;
         }
       }
+      .desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
+      }
     }
-    .usually-favorite {
+    .usually-favorite,
+    .usually-favorite-empty {
       margin-top: rem(8px);
       padding: rem(15px) rem(15px) rem(10px) rem(15px);
       background: #fff;
@@ -512,8 +724,12 @@ export default {
         justify-content: space-between;
         .favorite-food {
           padding-top: rem(17px);
+          width: rem(200px);
           .name {
             font-size: 26px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .frequency {
             margin-top: rem(4px);
@@ -531,6 +747,13 @@ export default {
             no-repeat;
           background-size: cover;
         }
+      }
+      .desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
       }
     }
     .btn {
