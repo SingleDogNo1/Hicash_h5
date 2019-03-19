@@ -4,22 +4,32 @@
 		<x-dialog v-model="authShowDialog" class="dialog">
 			<div class="img-box">
 				<img src="./assets/images/pop-coupon.png" alt="">
+        <p>恭喜获得 <span>50元</span> 优惠券</p>
 				<div class="btns">
-					<button @click="authShowDialog=false" class="auth-btn confirm">看优惠券</button>
-					<button @click="cancel" class="auth-btn cancel">看新报告</button>
+					<button @click="seeCoupon" class="auth-btn confirm">看优惠券</button>
+					<button @click="seeCredit" class="auth-btn cancel">看新报告</button>
 				</div>
 			</div>
 			<div @click="authShowDialog=false">
 				<span class="vux-close"></span>
 			</div>
 		</x-dialog>
+    <confirm
+      v-model="getReportSuccess"
+      :close-on-confirm="false"
+      title="获取报告成功"
+      @on-confirm="onConfirmReport"
+      confirm-text="看报告"
+      class="reportConfirm">
+      <p style="text-align:center;">新鲜的报告已经准备好了，快来看看</p>
+    </confirm>
 	</div>
 </template>
 
 <script>
 import Home from "@/components/Home.vue";
 import MiaoDai from "@/components/MiaoDai.vue";
-import { XDialog } from "vux";
+import { XDialog, Confirm } from "vux";
 
 export default {
 	name: "App",
@@ -86,7 +96,8 @@ export default {
 	components: {
 		Home,
 		MiaoDai,
-		XDialog
+    XDialog,
+    Confirm
 	},
 	mounted() {
 		//添加友盟埋点
@@ -127,13 +138,22 @@ export default {
 		return {
 			path: this.$route.name,
 			platform: this.utils.getPlatform(),
-			authShowDialog: true
+      authShowDialog: true,
+      getReportSuccess: false
 		};
 	},
 	methods: {
-		cancel(){
+    seeCoupon(){
+      this.authShowDialog = false;
+      this.$router.push({'name': 'MyCoupon'});
+    },
+		seeCredit(){
 			
-		}
+    },
+    onConfirmReport(){
+      this.getReportSuccess = false;
+      // thie.$router.push({'name': 'MyCoupon'});
+    }
 	}
 };
 </script>
@@ -277,7 +297,8 @@ body {
 	/deep/ .weui-dialog{
 		background: transparent;
 		border-radius: 8px;
-		padding-bottom: 8px;
+    padding-bottom: 8px;
+    max-width: auto;
 	}
 	/deep/ .dialog-title {
 		line-height: 30px;
@@ -287,11 +308,25 @@ body {
 		position: relative;
 		img{
 			width: 100%;
-		}
+    }
+    p{
+      width: 100%;
+      position: absolute;
+			top: rem(100px);
+      color: #FF7E53;
+      font-size: rem(18px);
+      text-align: center;
+      font-weight: 500;
+      span{
+        color: #E63F06;
+        font-weight: 600;
+        font-size: rem(24px);
+      }
+    }
 		.btns{
 			width: 100%;
 			position: absolute;
-			bottom: rem(60px);
+			bottom: rem(45px);
 			.auth-btn{
 				width: 70%;
 				height: rem(40px);
@@ -314,5 +349,34 @@ body {
 		margin: rem(20px) auto;
 		background-size: rem(37px) rem(37px);
 	}
+}
+
+.reportConfirm{
+  .weui-dialog__hd{
+    padding: 0;
+    height: 50px;
+    line-height: 50px;
+    background: #FF7640;
+    font-size: 17px;
+    color: #FFFFFF;
+  }
+  .weui-dialog__bd{
+    padding: 36px 0;
+    font-size: 13px;
+    color: #333333;
+    letter-spacing: -0.08px;
+    min-height: auto;
+
+  }
+  .weui-dialog__btn_primary{
+    font-size: 15px;
+    color: #FF7640;
+    letter-spacing: -0.36px;
+  }
+  .weui-dialog__btn_default{
+    font-size: 15px;
+    color: #999999;
+    letter-spacing: -0.36px;
+  }
 }
 </style>

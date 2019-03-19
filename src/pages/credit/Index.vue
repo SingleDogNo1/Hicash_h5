@@ -18,16 +18,16 @@
                     </swiper> -->
 					<router-link
 						class="arrow_box swiper-slide"
-						:to="{ name: 'HotNewsDetail'}"
+						:to="{ name: 'ActivityIntroduction'}"
 					>
 						<img src="./images/auth-banner-hicash.png" alt="">
 					</router-link>
-					<router-link
+					<div
 						class="arrow_box swiper-slide"
-						:to="{ name: 'HotNewsDetail'}"
+						@click.stop="queryCreditUrl({'reportType': 'jd'})"
 					>
 						<img src="./images/auth-banner-jd.png" alt="">
-					</router-link>
+					</div>
 				</div>
 			</div>
 
@@ -36,7 +36,7 @@
 					<div @click.stop="queryCreditUrl(item)">
 						<img  :src="item.iconUrl" alt="">
 						<h4>{{item.reportName}}</h4>
-						<h5 v-if="authStatus">已认证</h5>
+						<h5 v-if="authStatus" :class=" {'uncertified': item.status == '0' ,'certification': item.status == '2'} ">{{item.statusFont}}</h5>
 					</div>
 				</flexbox-item>
 			</flexbox>
@@ -126,6 +126,14 @@
 					border-radius: 4px;
 					margin: 0 auto;
 					margin-top: rem(6px);
+					&.uncertified{
+						color: #FA741B;
+						background: rgba(255,243,236,0.86);
+					}
+					&.certification{
+						color: #34A6EA;
+						background: #F0F9FF;
+					}
 				}
 			}
 			
@@ -176,12 +184,22 @@ export default {
 			this.common.getUserCreditReports(this.userName)
 			.then(res => {
 				let data = res.data.data;
+				
+				_.each(data, function(v,i){
+					if(v.status == '0'){
+						data[i].statusFont = '未认证';
+					}else if(v.status == '1'){
+						data[i].statusFont = '已认证';
+					}else if(v.status == '2'){
+						data[i].statusFont = '认证中';
+					}else{
+						data[i].statusFont = '';
+					}
+				})
 				this.list = data;
-				console.info('data', data);
 			});
 		},
 		queryCreditUrl(item){
-			console.info('item', item);
 			if(!this.userName){
 
 				const params = {
@@ -210,9 +228,9 @@ export default {
 				let data = res.data;
 				console.info('data', data);
 				if(data.userInfo){
-					this.$route.push({name: 'PandoraAuth'});
+					this.$router.push({name: 'PandoraAuth'});
 				}else{
-					this.$route.push({name: 'IdentityAuth'});
+					this.$router.push({name: 'IdentityAuth'});
 				}
 			});
 		}
