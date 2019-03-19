@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="pandoraWrap">
 		<x-header
 		:left-options="{
 			backText: '',
@@ -34,6 +34,9 @@
 
 <style lang="scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
+.pandoraWrap{
+	height: 100%;
+}
 #dpandoraUrl{
 	margin-top: 50px;
 }
@@ -142,10 +145,10 @@ export default {
 	},
 	methods: {
 		jump(){
-			this.showDialog = true
-			this.$router.push({
-				name: "Inquiry"
-			});
+			this.showDialog = true;
+			// this.$router.push({
+			// 	name: "Inquiry"
+			// });
 		},
 		cancel(){
 			this.$router.push({
@@ -153,10 +156,11 @@ export default {
 			});
 		},
 		queryCreditUrl(){
-			let postData = new URLSearchParams();
-			postData.append("userName", this.utils.getCookie('userName'));
-			postData.append("creditType", this.utils.getCookie('creditType'));
-			this.common.queryCreditUrl()
+			let postData = {
+				"userName": this.utils.getCookie('userName'),
+				"creditType": this.utils.getCookie('creditType')
+			};
+			this.common.queryCreditUrl(postData)
 			.then(res => {
 				this.dpandoraUrl = res.data.url;
 			})
