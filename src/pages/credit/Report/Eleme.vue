@@ -60,7 +60,7 @@
           <span class="small">家商家发生纯洁的供求关系</span>
         </p>
       </div>
-      <div class="most-expensive-meal">
+      <div class="most-expensive-meal" v-if="thisYearOrderListSortBy.length > 0">
         <p class="title">今年最壕一餐是</p>
         <div class="name">
           <i class="icon-meal-left"></i>
@@ -73,7 +73,13 @@
           <span class="small">元</span>
         </p>
       </div>
-      <div class="usually-favorite">
+      <div class="most-expensive-meal-empty" v-else>
+        <p class="title">今年最壕一餐是</p>
+        <p class="desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
+      </div>
+      <div class="usually-favorite" v-if="favoriteFoodName">
         <h3>平时最爱吃</h3>
         <div class="favorite-food-wrap">
           <div class="favorite-food">
@@ -85,6 +91,12 @@
           </div>
           <div class="bg-usually-favorite"></div>
         </div>
+      </div>
+      <div class="usually-favorite-empty" v-else>
+        <h3>平时最爱吃</h3>
+        <p class="desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
       </div>
 
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
@@ -133,7 +145,8 @@ export default {
       favoriteFoodCount: 0,
       favoriteFoodName: '',
       mostExpensiveMealName: '',
-      mostExpensiveMealPrice: ''
+      mostExpensiveMealPrice: '',
+      thisYearOrderListSortBy: []
     };
   },
   methods: {
@@ -161,7 +174,11 @@ export default {
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
-      this.common.getCreditReport().then(res => {
+      let postData = {
+        "reportType": 'eleme',
+        "userName": this.utils.getCookie("userName")
+      }
+      this.common.getCreditReport(postData).then(res => {
         // res.data = {
         //   address_summary: [
         //     {
@@ -4228,7 +4245,7 @@ export default {
         //   report_time: "2019-03-18 14:28:15",
         //   status: 0
         // };
-        let data = res.data;
+        let data = JSON.parse(res.data.data);
         console.log("data===", data);
         let monthSummary = data.month_summary;
         let thisYearSummary = monthSummary.filter( (item)=> {
@@ -4245,8 +4262,8 @@ export default {
         this.lastTotalPriceSum = parseInt(_.reduce(lastTotalPrice, function(memo, num){ return memo + num; }, 0));
         this.thisCountSum = parseInt(_.reduce(thisCount, function(memo, num){ return memo + num; }, 0));
         this.lastCountSum = parseInt(_.reduce(lastCount, function(memo, num){ return memo + num; }, 0));
-        this.thisMonthAverage = parseInt(this.thisTotalPriceSum / thisYearSummary.length);
-        this.lastMonthAverage = parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+        this.thisMonthAverage = thisYearSummary.length === 0 ? 0 : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+        this.lastMonthAverage = lastYearSummary.length === 0 ? 0 : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
         this.yearSwitch();
         let originalConsumptionTrend = [];
         let date = new Date();
@@ -4289,6 +4306,8 @@ export default {
           return item.setup_time.slice(0,4) == new Date().getFullYear();
         })
         let thisYearOrderListSortBy = _.sortBy(thisYearOrderList, 'price').reverse();
+        this.thisYearOrderListSortBy = thisYearOrderListSortBy;
+        console.log('thisYearOrderListSortBy===', thisYearOrderListSortBy)
         this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
         this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
         let shopNameArr = _.pluck(orderList, 'shop_name');
@@ -4313,6 +4332,7 @@ export default {
       this.selected === 0 ? this.totalPriceSum = this.lastTotalPriceSum : this.totalPriceSum = this.thisTotalPriceSum;
       this.selected === 0 ? this.monthAverage = this.lastMonthAverage : this.monthAverage = this.thisMonthAverage;
       this.selected === 0 ? this.countSum = this.lastCountSum : this.countSum = this.thisCountSum;
+      console.log('this.monthAverage===', this.monthAverage)
     },
     getActiveSituation() {
       let status = (this.status = 3);
@@ -4642,7 +4662,7 @@ export default {
         }
       }
     }
-    .most-expensive-meal {
+    .most-expensive-meal, .most-expensive-meal-empty{
       width: 100%;
       height: rem(141px);
       background: #fff;
@@ -4694,8 +4714,15 @@ export default {
           color: #ff7640;
         }
       }
+      .desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
+      }
     }
-    .usually-favorite {
+    .usually-favorite, .usually-favorite-empty {
       margin-top: rem(8px);
       padding: rem(15px) rem(15px) rem(10px) rem(15px);
       background: #fff;
@@ -4731,6 +4758,13 @@ export default {
             no-repeat;
           background-size: cover;
         }
+      }
+      .desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
       }
     }
     .btn {

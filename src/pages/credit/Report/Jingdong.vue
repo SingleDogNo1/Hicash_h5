@@ -63,7 +63,7 @@
           <p class="desc">消费走势反映您消费情况的稳定性，平稳的消费走势一般表示您收入及消费水平的稳定，将有利于您的还款能力评估。</p>
         </div>
       </div>
-      <div class="price-wrap">
+      <div class="price-wrap" v-if="billsDetailBySort.length > 0">
         <h3>单品价格前三</h3>
         <div class="price-ranking">
           <!-- <div class="first">
@@ -88,6 +88,12 @@
           <p class="title">消费价格说明</p>
           <p class="desc">消费价格评估将您购买产品的单价进行排名，评估您的消费承受能力，单品价格越高，越有利于对您还款能力的评估。</p>
         </div>
+      </div>
+      <div class="price-wrap-empty" v-else>
+        <h3>单品价格前三</h3>
+        <p class="empty-desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
       </div>
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
       <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
@@ -213,15 +219,10 @@ export default {
       this.date = year + "." + month + "." + day;
       let postData = {
         "reportType": 'jd',
-        "userName": this.utils.getCookie("userName"),
-        "realName": this.utils.getCookie("realName"),
-        "mobile": this.utils.getCookie("mobile"),
-        "identityNo": this.utils.getCookie("identityCode")
+        "userName": this.utils.getCookie("userName")
       }
-      this.common.getCreditReportUrl(postData).then(res => {
-        let data = res.data.data;
-        console.log('data==', data)
-        this.common.getReport(data).then(res => {
+      this.common.getCreditReport(postData).then(res => {
+        let data = JSON.parse(res.data.data);
         // res.data = {
         //   addresses: [
         //     {
@@ -831,8 +832,6 @@ export default {
         //   report_time: "2019-03-15 17:33:21",
         //   status: 0
         // };
-        let data = res.data;
-        console.log("data===", data);
         this.baiScore = data.basic_info.bai_score;
         this.profile.verified = data.basic_info.is_validate_real_name;
         let billsDetail = data.bills_detail;
@@ -894,8 +893,8 @@ export default {
         
         let billsDetailBySort = _.sortBy(billsDetail, "total_price").reverse();
         this.billsDetailBySort = billsDetailBySort.splice(0, 3);
+        this.billsDetailBySort = []
         console.log('this.billsDetailBySort====', this.billsDetailBySort)
-        });
       });
     },
     yearSwitch() {
@@ -1073,7 +1072,8 @@ export default {
     }
     .year-consumption-wrap,
     .consumption-trend,
-    .price-wrap {
+    .price-wrap,
+    .price-wrap-empty {
       margin-top: rem(8px);
       padding: rem(15px) 0 rem(16px) 0;
       background: #fff;
@@ -1248,6 +1248,13 @@ export default {
           color: #999999;
           line-height: rem(20px);
         }
+      }
+      .empty-desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
       }
     }
 

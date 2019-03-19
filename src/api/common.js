@@ -65,13 +65,12 @@ export default {
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
-	getCreditReportUrl: getCreditReportUrl,
+	getCreditReport: getCreditReport,
 	IsBottomShow: IsBottomShow,
 	queryCreditUrl: queryCreditUrl,
 	getUserCreditReports: getUserCreditReports,
 	saveUserCreditInfo: saveUserCreditInfo,
-	CheckCreditResult: CheckCreditResult,
-	getReport: getReport
+	CheckCreditResult: CheckCreditResult
 };
 
 /*
@@ -1156,9 +1155,9 @@ export function saveUserCreditInfo(params) {
 /*
  *  请求用户征信报告
  */
-export function getCreditReportUrl(params) {
+export function getCreditReport(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/credit-service/creditReport/" + params.reportType, params).then(
+		axios.get("hicash-api-service/credit/getUserCreditRepostByType/" + params.reportType + "/" + params.userName).then(
 			res => {
 				resolve(res);
 			},
@@ -1168,20 +1167,3 @@ export function getCreditReportUrl(params) {
 		);
 	});
 }
-
-/*
- *  请求用户征信报告
- */
-export function getReport(url) {
-	return new Promise((resolve, reject) => {
-		axios.get(url).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
-}
-

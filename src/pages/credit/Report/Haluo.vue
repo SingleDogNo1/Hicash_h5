@@ -99,7 +99,7 @@
           </div>
         </div>
       </div>
-      <div class="frequent-address">
+      <div class="frequent-address" v-if="frequentAddress.length > 0">
         <h3>常去地址</h3>
         <div class="address-ranking">
           <p>
@@ -119,6 +119,12 @@
           <p class="title">报告说明</p>
           <p class="desc">通过对骑行次数、距离、常去地址的汇总，有效的运动轨迹和稳定的生活圈，将会有利于您的还款能力评估。</p>
         </div>
+      </div>
+      <div class="frequent-address-empty" v-else>
+        <h3>常去地址</h3>
+        <p class="desc">没有获取到您的记录哦，
+          <br>快去更新报告吧！
+        </p>
       </div>
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
       <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
@@ -204,7 +210,11 @@ export default {
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
-      this.common.getCreditReport().then(res => {
+      let postData = {
+        "reportType": 'helloBike',
+        "userName": this.utils.getCookie("userName")
+      }
+      this.common.getCreditReport(postData).then(res => {
         // res.data = {
         //   data: {
         //     profile: {
@@ -295,7 +305,8 @@ export default {
         //   report_time: "2019-03-14 10:38:39",
         //   status: 0
         // };
-        let data = res.data.data;
+        let data = JSON.parse(res.data.data).data;
+        console.log('data==', data)
         let profile = data.profile;
         this.profile.verified = profile.verified;
         this.profile.creditScore = !profile.credit_score
@@ -324,18 +335,18 @@ export default {
           return item.speed;
         });
         this.distanceObj.distance = distanceObj.distance;
-        this.distanceObj.startLocation = distanceObj.start_location;
-        this.distanceObj.endLocation = distanceObj.end_location;
+        this.distanceObj.startLocation = distanceObj.start_location ? distanceObj.start_location : '暂无数据';
+        this.distanceObj.endLocation = distanceObj.end_location ? distanceObj.end_location : '暂无数据';
         this.distanceObj.time = this.utils.formatSeconds(distanceObj.seconds);
         this.distanceObj.speed =
-          (distanceObj.distance / distanceObj.seconds) * 3.6 + "km/h";
+          parseInt((distanceObj.distance / distanceObj.seconds) * 3.6) + "km/h";
 
         this.speedObj.distance = speedObj.distance;
         this.speedObj.startLocation = speedObj.start_location;
         this.speedObj.endLocation = speedObj.end_location;
         this.speedObj.time = this.utils.formatSeconds(speedObj.seconds);
         this.speedObj.speed =
-          (speedObj.distance / speedObj.seconds) * 3.6 + "km/h";
+          parseInt((speedObj.distance / speedObj.seconds) * 3.6) + "km/h";
 
         let endLocationArr = _.pluck(trafficDetail, "end_location");
         let sortByCount = function(arr) {
@@ -359,6 +370,7 @@ export default {
           return arrUni;
         };
         this.frequentAddress = sortByCount(endLocationArr).splice(0,3)
+        this.frequentAddress = []
         console.log("this.frequentAddress===", this.frequentAddress);
       });
     },
@@ -500,7 +512,7 @@ export default {
       }
     }
     .trip-summary-wrap,
-    .frequent-address {
+    .frequent-address, .frequent-address-empty {
       margin-top: rem(8px);
       padding: rem(15px) 0 rem(16px) 0;
       background: #fff;
@@ -595,6 +607,13 @@ export default {
           color: #999999;
           line-height: rem(20px);
         }
+      }
+      .desc {
+        padding: rem(39px) 0 rem(30px) 0;
+        font-size: 15px;
+        color: #999999;
+        text-align: center;
+        line-height: rem(26px);
       }
     }
     .longest-trip-wrap,

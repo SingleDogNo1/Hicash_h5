@@ -193,7 +193,11 @@ export default {
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
       this.date = year + "." + month + "." + day;
-      this.common.getCreditReport().then(res => {
+      let postData = {
+        "reportType": 'operator',
+        "userName": this.utils.getCookie("userName")
+      }
+      this.common.getCreditReport(postData).then(res => {
         // res.data = {
         //   call_data_summary: [
         //     {
@@ -2123,7 +2127,7 @@ export default {
         //   report_time: "2019-03-15 10:15:49",
         //   status: 0
         // };
-        let data = res.data;
+        let data = JSON.parse(res.data.data);
         console.log("data===", data);
         let profile = data.profile;
         this.profile.verified = profile.verified;
