@@ -1,6 +1,6 @@
 <template>
   <div class="operator">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
     <div class="content">
       <div class="operator-report-wrap">
         <div class="title-wrap">

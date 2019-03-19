@@ -210,9 +210,9 @@ export default {
 				let data = res.data;
 				console.info('data', data);
 				if(data.userInfo){
-					this.$route.push({name: 'PandoraAuth'});
+					this.$router.push({name: 'PandoraAuth'});
 				}else{
-					this.$route.push({name: 'IdentityAuth'});
+					this.$router.push({name: 'IdentityAuth'});
 				}
 			});
 		}
