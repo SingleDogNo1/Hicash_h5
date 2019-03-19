@@ -8,51 +8,68 @@
 </template>
 
 <script>
+let moment = require("moment");
 export default {
+  props: {
+    // 是否显示弹框
+    historyList: {
+      type: Array,
+      default: []
+    }
+  },
   data() {
     return {
       modifier: 1.8,
-      historyList: [
-        { detail: "69元", date: "2018-03-01" },
-        { detail: "12345元", date: "2018-04-01" },
-        { detail: "12345元", date: "2018-05-01" },
-        { detail: "12345元", date: "2018-06-01" },
-        { detail: "12345元", date: "2018-07-01" },
-        { detail: "12345元", date: "2018-08-01" },
-        {
-          detail: "12345元",
-          date: "2018-09-01"
-        },
-        { detail: "12345元", date: "2018-10-01" },
-        { detail: "12345元", date: "2018-11-01" },
-        { detail: "12345元", date: "2018-12-01" },
-        { detail: "12345元", date: "2019-01-01" },
-        { detail: "12345元", date: "2019-02-01" },
-        { detail: "12345元", date: "2019-03-01" }
-      ],
-      historyListShow: [
-        { detail: "69元", date: "3月" },
-        { detail: "12345元", date: "2月" },
-        { detail: "12345元", date: "1月" },
-        { detail: "12345元", date: "2018.12" },
-        { detail: "12345元", date: "2018.11" },
-        { detail: "12345元", date: "2018.10" },
-        {
-          detail: "12345元",
-          date: "2018.09"
-        },
-        { detail: "12345元", date: "2018.08" },
-        { detail: "12345元", date: "2018.07" },
-        { detail: "12345元", date: "2018.06" },
-        { detail: "12345元", date: "2018.05" },
-        { detail: "12345元", date: "2018.04" },
-        { detail: "12345元", date: "2018.03" }
-      ]
+      // historyList: [
+      //   { detail: "69元", date: "2018-03-01" },
+      //   { detail: "12345元", date: "2018-04-01" },
+      //   { detail: "12345元", date: "2018-05-01" },
+      //   { detail: "12345元", date: "2018-06-01" },
+      //   { detail: "12345元", date: "2018-07-01" },
+      //   { detail: "12345元", date: "2018-08-01" },
+      //   {
+      //     detail: "12345元",
+      //     date: "2018-09-01"
+      //   },
+      //   { detail: "12345元", date: "2018-10-01" },
+      //   { detail: "12345元", date: "2018-11-01" },
+      //   { detail: "12345元", date: "2018-12-01" },
+      //   { detail: "12345元", date: "2019-01-01" },
+      //   { detail: "12345元", date: "2019-02-01" },
+      //   { detail: "12345元", date: "2019-03-01" }
+      // ],
+      // historyListShow: [
+      //   { detail: "69元", date: "3月" },
+      //   { detail: "12345元", date: "2月" },
+      //   { detail: "12345元", date: "1月" },
+      //   { detail: "12345元", date: "2018.12" },
+      //   { detail: "12345元", date: "2018.11" },
+      //   { detail: "12345元", date: "2018.10" },
+      //   {
+      //     detail: "12345元",
+      //     date: "2018.09"
+      //   },
+      //   { detail: "12345元", date: "2018.08" },
+      //   { detail: "12345元", date: "2018.07" },
+      //   { detail: "12345元", date: "2018.06" },
+      //   { detail: "12345元", date: "2018.05" },
+      //   { detail: "12345元", date: "2018.04" },
+      //   { detail: "12345元", date: "2018.03" }
+      // ]
     };
   },
   methods: {
-    init() {
-      this.historyListShow = this.historyListShow.reverse();
+    init(historyList) {
+      historyList.forEach( (item)=> {
+        console.log('item====', item.date.slice(0, 4), item.date.slice(0, 4) == new Date().getFullYear())
+        item.detail = item.detail + '元'
+        item.showDate = item.date.slice(0, 4) == new Date().getFullYear() ? moment(item.date).format("M") + '月' : moment(item.date).format("YYYY.MM");
+        item.date = item.date + '-01'
+      })
+       console.log('historyList===', historyList)
+      //this.historyListShow = historyList;
+      // console.log('this.historyListShow===', this.historyListShow)
+      // this.historyListShow = this.historyListShow.reverse();
       var mySwiper = new Swiper("#swiper-history .swiper-container", {
         virtualTranslate: true,
         preventClicks: false,
@@ -61,10 +78,10 @@ export default {
           let marginLeft, time;
           if (index > 0) {
             var day1 = new Date(
-              this.historyList[index]["date"].replace(/-/g, "/")
+              historyList[index]["date"].replace(/-/g, "/")
             );
             var day2 = new Date(
-              this.historyList[index - 1]["date"].replace(/-/g, "/")
+              historyList[index - 1]["date"].replace(/-/g, "/")
             );
             time = day1 - day2;
             marginLeft = parseInt(time / (1000 * 60 * 60 * 24)) * this.modifier;
@@ -74,28 +91,28 @@ export default {
           return (
             '<div class="line-wrap"><p class="amount amount'+
             index + '">' +
-            this.historyListShow[index]["detail"] +
+            historyList[index]["detail"] +
             '</p><span class="' +
             className +
             '" style="margin-left:' +
             marginLeft +
             'px;display:block"></span><p class="current-date current-date' +
             index + '">' +
-            this.historyListShow[index]["date"] +
+            historyList[index]["showDate"] +
             "</p></div>"
           );
         },
 
         onInit: swiper => {
           let mySlides = "";
-          for (var i = 0; i < this.historyList.length; i++) {
+          for (var i = 0; i < historyList.length; i++) {
             swiper.appendSlide(
               '<div class="swiper-slide slide' +
                 i +
                 '"><span class="detail">' +
-                this.historyList[i]["detail"] +
+                historyList[i]["detail"] +
                 '</span><span class="date">' +
-                this.historyList[i]["date"] +
+                historyList[i]["showDate"] +
                 "</span></div>"
             );
             // swiper.slides[i].style.transform =
@@ -118,13 +135,13 @@ export default {
           prevAmountEl.style.color = "#999999";
           prevAmountEl.style.fontSize = "11px";
           prevAmountEl.style.top = "-2px";
-          firstAmountEl.style.right = "20px";
-          firstDateEl.style.right = "20px";
+          firstAmountEl.style.right = "8px";
+          firstDateEl.style.right = "16px";
 
           moveDay1 = new Date(
-            this.historyList[swiper.activeIndex]["date"].replace(/-/g, "/")
+            historyList[swiper.activeIndex]["date"].replace(/-/g, "/")
           );
-          moveDay2 = new Date(this.historyList[0]["date"].replace(/-/g, "/"));
+          moveDay2 = new Date(historyList[0]["date"].replace(/-/g, "/"));
           moveTime = moveDay1 - moveDay2;
           moveDistance =
             parseInt(moveTime / (1000 * 60 * 60 * 24)) * this.modifier +
@@ -137,7 +154,12 @@ export default {
     }
   },
   mounted() {
-    this.init();
+    //this.init();
+  },
+  watch: {
+		historyList: function(val, oldVal) {
+      this.init(val)
+    }
   }
 };
 </script>
@@ -224,7 +246,13 @@ export default {
           position: absolute;
           color: #999999;
           text-align: center;
-          right: -23px;
+          right: -28px;
+          &.amount0 {
+            right: -10px;
+          }
+          &.amount11 {
+            right: -24px;
+          }
         }
         .current-date {
           font-size: 11px;
@@ -232,8 +260,14 @@ export default {
           bottom: -5px;
           position: absolute;
           text-align: center;
-          right: -23px;
+          right: -28px;
           color: #999999;
+          &.current-date0 {
+            right: -10px;
+          }
+          &.current-date11 {
+            right: -24px;
+          }
         }
       }
     }

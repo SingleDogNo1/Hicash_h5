@@ -163,6 +163,9 @@ export default {
 			_params.append("realName", this.name);
 			_params.append("idNo", this.idCard);
 
+			this.utils.setCookie('realName', this.name);
+			this.utils.setCookie('idNo', this.idCard);
+
 			this.common.saveUserCreditInfo(_params)
 			.then(res => {
 				let data = res.data;
