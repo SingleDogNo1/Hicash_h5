@@ -170,7 +170,7 @@ export default {
           this.$vux.toast.show({
             type: "cancel",
             position: "middle",
-            text: res.data.resultMsg
+            text: data.resultMsg
           });
         }
       });
@@ -211,106 +211,117 @@ export default {
         userName: this.utils.getCookie("userName")
       };
       this.common.getCreditReport(postData).then(res => {
-        let data = JSON.parse(res.data.data);
-        this.baiScore = data.basic_info.bai_score;
-        this.profile.verified = data.basic_info.is_validate_real_name;
-        let billsDetail = data.bills_detail;
-        let lastTransTime = moment(billsDetail[0].trans_time).format(
-          "YYYY-MM-DD"
-        );
-        let currentTime = moment(new Date()).format("YYYY-MM-DD");
-        this.getActiveSituation(lastTransTime, currentTime);
-        let billsSummary = data.bills_summary;
-        let thisYearSummary = billsSummary.filter(item => {
-          return item.month.slice(0, 4) == new Date().getFullYear();
-        });
-        let lastYearSummary = billsSummary.filter(item => {
-          return item.month.slice(0, 4) == new Date().getFullYear() - 1;
-        });
-        let thisTotalPrice = _.pluck(thisYearSummary, "total_price");
-        let lastTotalPrice = _.pluck(lastYearSummary, "total_price");
-        let thisCount = _.pluck(thisYearSummary, "count");
-        let lastCount = _.pluck(lastYearSummary, "count");
-        this.thisTotalPriceSum = parseInt(
-          _.reduce(
-            thisTotalPrice,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.lastTotalPriceSum = parseInt(
-          _.reduce(
-            lastTotalPrice,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.thisCountSum = parseInt(
-          _.reduce(
-            thisCount,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.lastCountSum = parseInt(
-          _.reduce(
-            lastCount,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.thisMonthAverage = parseInt(
-          this.thisTotalPriceSum / thisYearSummary.length
-        );
-        this.lastMonthAverage = parseInt(
-          this.lastTotalPriceSum / lastYearSummary.length
-        );
-        this.yearSwitch();
-        let originalConsumptionTrend = [];
-        let date = new Date();
-        let year = date.getFullYear();
-        date.setMonth(date.getMonth() + 1, 1); //获取到当前月份,设置月份
-        for (let i = 0; i < 12; i++) {
-          date.setMonth(date.getMonth() - 1); //每次循环一次 月份值减1
-          let m = date.getMonth() + 1;
-          m = m < 10 ? "0" + m : m;
-          let item = {
-            detail: 0,
-            date: date.getFullYear() + "-" + m
-          };
-          originalConsumptionTrend.push(item);
-        }
-        let serverConsumptionTrend = [];
-        for (let j = 0; j < billsSummary.length; j++) {
-          let val = {
-            detail: parseInt(billsSummary[j].total_price),
-            date: billsSummary[j].month
-          };
-          serverConsumptionTrend.push(val);
-        }
-        const obj = {};
-        const historyList = [];
-        originalConsumptionTrend
-          .concat(serverConsumptionTrend)
-          .forEach(item => {
-            obj[item.date] = item.detail;
+        if (res.data.resultCode === "1") {
+          let data = JSON.parse(res.data.data);
+          this.baiScore = data.basic_info.bai_score;
+          this.profile.verified = data.basic_info.is_validate_real_name;
+          let billsDetail = data.bills_detail;
+          let lastTransTime = moment(billsDetail[0].trans_time).format(
+            "YYYY-MM-DD"
+          );
+          let currentTime = moment(new Date()).format("YYYY-MM-DD");
+          this.getActiveSituation(lastTransTime, currentTime);
+          let billsSummary = data.bills_summary;
+          let thisYearSummary = billsSummary.filter(item => {
+            return item.month.slice(0, 4) == new Date().getFullYear();
           });
-        for (let o in obj) {
-          historyList.push({ detail: obj[o], date: o });
-        }
-        this.historyList = historyList.reverse();
+          let lastYearSummary = billsSummary.filter(item => {
+            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+          });
+          let thisTotalPrice = _.pluck(thisYearSummary, "total_price");
+          let lastTotalPrice = _.pluck(lastYearSummary, "total_price");
+          let thisCount = _.pluck(thisYearSummary, "count");
+          let lastCount = _.pluck(lastYearSummary, "count");
+          this.thisTotalPriceSum = parseInt(
+            _.reduce(
+              thisTotalPrice,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.lastTotalPriceSum = parseInt(
+            _.reduce(
+              lastTotalPrice,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.thisCountSum = parseInt(
+            _.reduce(
+              thisCount,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.lastCountSum = parseInt(
+            _.reduce(
+              lastCount,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.thisMonthAverage = parseInt(
+            this.thisTotalPriceSum / thisYearSummary.length
+          );
+          this.lastMonthAverage = parseInt(
+            this.lastTotalPriceSum / lastYearSummary.length
+          );
+          this.yearSwitch();
+          let originalConsumptionTrend = [];
+          let date = new Date();
+          let year = date.getFullYear();
+          date.setMonth(date.getMonth() + 1, 1); //获取到当前月份,设置月份
+          for (let i = 0; i < 12; i++) {
+            date.setMonth(date.getMonth() - 1); //每次循环一次 月份值减1
+            let m = date.getMonth() + 1;
+            m = m < 10 ? "0" + m : m;
+            let item = {
+              detail: 0,
+              date: date.getFullYear() + "-" + m
+            };
+            originalConsumptionTrend.push(item);
+          }
+          let serverConsumptionTrend = [];
+          for (let j = 0; j < billsSummary.length; j++) {
+            let val = {
+              detail: parseInt(billsSummary[j].total_price),
+              date: billsSummary[j].month
+            };
+            serverConsumptionTrend.push(val);
+          }
+          const obj = {};
+          const historyList = [];
+          originalConsumptionTrend
+            .concat(serverConsumptionTrend)
+            .forEach(item => {
+              obj[item.date] = item.detail;
+            });
+          for (let o in obj) {
+            historyList.push({ detail: obj[o], date: o });
+          }
+          this.historyList = historyList.reverse();
 
-        let billsDetailBySort = _.sortBy(billsDetail, "total_price").reverse();
-        this.billsDetailBySort = billsDetailBySort.splice(0, 3);
-        this.billsDetailBySort = [];
+          let billsDetailBySort = _.sortBy(
+            billsDetail,
+            "total_price"
+          ).reverse();
+          this.billsDetailBySort = billsDetailBySort.splice(0, 3);
+          this.billsDetailBySort = [];
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
+        }
       });
     },
     yearSwitch() {

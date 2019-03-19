@@ -184,120 +184,130 @@ export default {
         userName: this.utils.getCookie("userName")
       };
       this.common.getCreditReport(postData).then(res => {
-        let data = JSON.parse(res.data.data);
-        let monthSummary = data.month_summary;
-        let thisYearSummary = monthSummary.filter(item => {
-          return item.month.slice(0, 4) == new Date().getFullYear();
-        });
-        let lastYearSummary = monthSummary.filter(item => {
-          return item.month.slice(0, 4) == new Date().getFullYear() - 1;
-        });
-        let thisTotalPrice = _.pluck(thisYearSummary, "price");
-        let lastTotalPrice = _.pluck(lastYearSummary, "price");
-        let thisCount = _.pluck(thisYearSummary, "count");
-        let lastCount = _.pluck(lastYearSummary, "count");
-        this.thisTotalPriceSum = parseInt(
-          _.reduce(
-            thisTotalPrice,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.lastTotalPriceSum = parseInt(
-          _.reduce(
-            lastTotalPrice,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.thisCountSum = parseInt(
-          _.reduce(
-            thisCount,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.lastCountSum = parseInt(
-          _.reduce(
-            lastCount,
-            function(memo, num) {
-              return memo + num;
-            },
-            0
-          )
-        );
-        this.thisMonthAverage =
-          thisYearSummary.length === 0
-            ? 0
-            : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
-        this.lastMonthAverage =
-          lastYearSummary.length === 0
-            ? 0
-            : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
-        this.yearSwitch();
-        let originalConsumptionTrend = [];
-        let date = new Date();
-        let year = date.getFullYear();
-        date.setMonth(date.getMonth() + 1, 1); //获取到当前月份,设置月份
-        for (let i = 0; i < 12; i++) {
-          date.setMonth(date.getMonth() - 1); //每次循环一次 月份值减1
-          let m = date.getMonth() + 1;
-          m = m < 10 ? "0" + m : m;
-          let item = {
-            detail: 0,
-            date: date.getFullYear() + "-" + m
-          };
-          originalConsumptionTrend.push(item);
-        }
-        let serverConsumptionTrend = [];
-        for (let j = 0; j < monthSummary.length; j++) {
-          let val = {
-            detail: parseInt(monthSummary[j].price),
-            date: monthSummary[j].month
-          };
-          serverConsumptionTrend.push(val);
-        }
-        serverConsumptionTrend = serverConsumptionTrend.reverse().splice(0, 12);
-        const obj = {};
-        const historyList = [];
-        originalConsumptionTrend
-          .concat(serverConsumptionTrend)
-          .forEach(item => {
-            obj[item.date] = item.detail;
+        if (res.data.resultCode === "1") {
+          let data = JSON.parse(res.data.data);
+          let monthSummary = data.month_summary;
+          let thisYearSummary = monthSummary.filter(item => {
+            return item.month.slice(0, 4) == new Date().getFullYear();
           });
-        for (let o in obj) {
-          historyList.push({ detail: obj[o], date: o });
+          let lastYearSummary = monthSummary.filter(item => {
+            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+          });
+          let thisTotalPrice = _.pluck(thisYearSummary, "price");
+          let lastTotalPrice = _.pluck(lastYearSummary, "price");
+          let thisCount = _.pluck(thisYearSummary, "count");
+          let lastCount = _.pluck(lastYearSummary, "count");
+          this.thisTotalPriceSum = parseInt(
+            _.reduce(
+              thisTotalPrice,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.lastTotalPriceSum = parseInt(
+            _.reduce(
+              lastTotalPrice,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.thisCountSum = parseInt(
+            _.reduce(
+              thisCount,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.lastCountSum = parseInt(
+            _.reduce(
+              lastCount,
+              function(memo, num) {
+                return memo + num;
+              },
+              0
+            )
+          );
+          this.thisMonthAverage =
+            thisYearSummary.length === 0
+              ? 0
+              : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+          this.lastMonthAverage =
+            lastYearSummary.length === 0
+              ? 0
+              : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+          this.yearSwitch();
+          let originalConsumptionTrend = [];
+          let date = new Date();
+          let year = date.getFullYear();
+          date.setMonth(date.getMonth() + 1, 1); //获取到当前月份,设置月份
+          for (let i = 0; i < 12; i++) {
+            date.setMonth(date.getMonth() - 1); //每次循环一次 月份值减1
+            let m = date.getMonth() + 1;
+            m = m < 10 ? "0" + m : m;
+            let item = {
+              detail: 0,
+              date: date.getFullYear() + "-" + m
+            };
+            originalConsumptionTrend.push(item);
+          }
+          let serverConsumptionTrend = [];
+          for (let j = 0; j < monthSummary.length; j++) {
+            let val = {
+              detail: parseInt(monthSummary[j].price),
+              date: monthSummary[j].month
+            };
+            serverConsumptionTrend.push(val);
+          }
+          serverConsumptionTrend = serverConsumptionTrend
+            .reverse()
+            .splice(0, 12);
+          const obj = {};
+          const historyList = [];
+          originalConsumptionTrend
+            .concat(serverConsumptionTrend)
+            .forEach(item => {
+              obj[item.date] = item.detail;
+            });
+          for (let o in obj) {
+            historyList.push({ detail: obj[o], date: o });
+          }
+          this.historyList = historyList.reverse();
+          let orderList = data.order_list;
+          let thisYearOrderList = orderList.filter(item => {
+            return item.setup_time.slice(0, 4) == new Date().getFullYear();
+          });
+          let thisYearOrderListSortBy = _.sortBy(
+            thisYearOrderList,
+            "price"
+          ).reverse();
+          this.thisYearOrderListSortBy = thisYearOrderListSortBy;
+          this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
+          this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
+          let shopNameArr = _.pluck(orderList, "shop_name");
+          this.shopNameSum = _.uniq(shopNameArr).length;
+          let favoriteFood = _.countBy(orderList, "shop_name");
+          let favoriteFoodValues = _.values(favoriteFood);
+          let favoriteFoodValuesSort = favoriteFoodValues.sort((a, b) => {
+            return b - a;
+          });
+          this.favoriteFoodCount = favoriteFoodValuesSort[0];
+          function findKey(obj, value, compare = (a, b) => a === b) {
+            return Object.keys(obj).find(k => compare(obj[k], value));
+          }
+          this.favoriteFoodName = findKey(favoriteFood, this.favoriteFoodCount);
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
         }
-        this.historyList = historyList.reverse();
-        let orderList = data.order_list;
-        let thisYearOrderList = orderList.filter(item => {
-          return item.setup_time.slice(0, 4) == new Date().getFullYear();
-        });
-        let thisYearOrderListSortBy = _.sortBy(
-          thisYearOrderList,
-          "price"
-        ).reverse();
-        this.thisYearOrderListSortBy = thisYearOrderListSortBy;
-        this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
-        this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
-        let shopNameArr = _.pluck(orderList, "shop_name");
-        this.shopNameSum = _.uniq(shopNameArr).length;
-        let favoriteFood = _.countBy(orderList, "shop_name");
-        let favoriteFoodValues = _.values(favoriteFood);
-        let favoriteFoodValuesSort = favoriteFoodValues.sort((a, b) => {
-          return b - a;
-        });
-        this.favoriteFoodCount = favoriteFoodValuesSort[0];
-        function findKey(obj, value, compare = (a, b) => a === b) {
-          return Object.keys(obj).find(k => compare(obj[k], value));
-        }
-        this.favoriteFoodName = findKey(favoriteFood, this.favoriteFoodCount);
       });
     },
     yearSwitch() {

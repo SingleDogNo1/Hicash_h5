@@ -220,75 +220,85 @@ export default {
         userName: this.utils.getCookie("userName")
       };
       this.common.getCreditReport(postData).then(res => {
-        let data = JSON.parse(res.data.data).data;
-        let profile = data.profile;
-        this.profile.verified = profile.verified;
-        this.profile.creditScore = !profile.credit_score
-          ? 0
-          : profile.credit_score;
-        this.profile.percent =
-          this.profile.creditScore > 1000
-            ? 100
-            : (this.profile.creditScore / 1000) * 100;
-        let summary = data.summary;
-        this.summary.sumNumber = !summary.sum_number ? 0 : summary.sum_number;
-        this.summary.sumTime = !summary.sum_time ? 0 : summary.sum_time;
-        this.summary.sumDistance = !summary.sum_distance
-          ? 0
-          : summary.sum_distance;
-        this.summary.sumFee = !summary.sum_fee ? 0 : summary.sum_fee;
+        console.log("res.data=", res.data);
+        if (res.data.resultCode === "1") {
+          let data = JSON.parse(res.data.data).data;
+          let profile = data.profile;
+          this.profile.verified = profile.verified;
+          this.profile.creditScore = !profile.credit_score
+            ? 0
+            : profile.credit_score;
+          this.profile.percent =
+            this.profile.creditScore > 1000
+              ? 100
+              : (this.profile.creditScore / 1000) * 100;
+          let summary = data.summary;
+          this.summary.sumNumber = !summary.sum_number ? 0 : summary.sum_number;
+          this.summary.sumTime = !summary.sum_time ? 0 : summary.sum_time;
+          this.summary.sumDistance = !summary.sum_distance
+            ? 0
+            : summary.sum_distance;
+          this.summary.sumFee = !summary.sum_fee ? 0 : summary.sum_fee;
 
-        let trafficDetail = data.traffic_detail;
-        trafficDetail.forEach(item => {
-          item.speed = item.distance / item.seconds;
-        });
-        let distanceObj = _.max(trafficDetail, item => {
-          return item.distance;
-        });
-        let speedObj = _.max(trafficDetail, item => {
-          return item.speed;
-        });
-        this.distanceObj.distance = distanceObj.distance;
-        this.distanceObj.startLocation = distanceObj.start_location
-          ? distanceObj.start_location
-          : "暂无数据";
-        this.distanceObj.endLocation = distanceObj.end_location
-          ? distanceObj.end_location
-          : "暂无数据";
-        this.distanceObj.time = this.utils.formatSeconds(distanceObj.seconds);
-        this.distanceObj.speed =
-          parseInt((distanceObj.distance / distanceObj.seconds) * 3.6) + "km/h";
-
-        this.speedObj.distance = speedObj.distance;
-        this.speedObj.startLocation = speedObj.start_location;
-        this.speedObj.endLocation = speedObj.end_location;
-        this.speedObj.time = this.utils.formatSeconds(speedObj.seconds);
-        this.speedObj.speed =
-          parseInt((speedObj.distance / speedObj.seconds) * 3.6) + "km/h";
-
-        let endLocationArr = _.pluck(trafficDetail, "end_location");
-        let sortByCount = function(arr) {
-          let arrUni = [];
-          let arrCnt = [];
-          arr.forEach(val => {
-            let idx = arrUni.indexOf(val);
-            if (idx < 0) {
-              arrUni.push(val);
-              arrCnt.push(1);
-            } else {
-              arrCnt[idx]++;
-            }
+          let trafficDetail = data.traffic_detail;
+          trafficDetail.forEach(item => {
+            item.speed = item.distance / item.seconds;
           });
-          let arrTmp = arrUni.slice();
-          arrUni.sort((a, b) => {
-            let idxa = arrTmp.indexOf(a);
-            let idxb = arrTmp.indexOf(b);
-            return arrCnt[idxb] - arrCnt[idxa];
+          let distanceObj = _.max(trafficDetail, item => {
+            return item.distance;
           });
-          return arrUni;
-        };
-        this.frequentAddress = sortByCount(endLocationArr).splice(0, 3);
-        this.frequentAddress = [];
+          let speedObj = _.max(trafficDetail, item => {
+            return item.speed;
+          });
+          this.distanceObj.distance = distanceObj.distance;
+          this.distanceObj.startLocation = distanceObj.start_location
+            ? distanceObj.start_location
+            : "暂无数据";
+          this.distanceObj.endLocation = distanceObj.end_location
+            ? distanceObj.end_location
+            : "暂无数据";
+          this.distanceObj.time = this.utils.formatSeconds(distanceObj.seconds);
+          this.distanceObj.speed =
+            parseInt((distanceObj.distance / distanceObj.seconds) * 3.6) +
+            "km/h";
+
+          this.speedObj.distance = speedObj.distance;
+          this.speedObj.startLocation = speedObj.start_location;
+          this.speedObj.endLocation = speedObj.end_location;
+          this.speedObj.time = this.utils.formatSeconds(speedObj.seconds);
+          this.speedObj.speed =
+            parseInt((speedObj.distance / speedObj.seconds) * 3.6) + "km/h";
+
+          let endLocationArr = _.pluck(trafficDetail, "end_location");
+          let sortByCount = function(arr) {
+            let arrUni = [];
+            let arrCnt = [];
+            arr.forEach(val => {
+              let idx = arrUni.indexOf(val);
+              if (idx < 0) {
+                arrUni.push(val);
+                arrCnt.push(1);
+              } else {
+                arrCnt[idx]++;
+              }
+            });
+            let arrTmp = arrUni.slice();
+            arrUni.sort((a, b) => {
+              let idxa = arrTmp.indexOf(a);
+              let idxb = arrTmp.indexOf(b);
+              return arrCnt[idxb] - arrCnt[idxa];
+            });
+            return arrUni;
+          };
+          this.frequentAddress = sortByCount(endLocationArr).splice(0, 3);
+          this.frequentAddress = [];
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
+        }
       });
     },
     shareMethods() {

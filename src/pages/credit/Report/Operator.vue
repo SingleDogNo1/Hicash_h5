@@ -203,119 +203,100 @@ export default {
         userName: this.utils.getCookie("userName")
       };
       this.common.getCreditReport(postData).then(res => {
-        let data = JSON.parse(res.data.data);
-        let profile = data.profile;
-        this.profile.verified = profile.verified;
-        this.profile.creditScore = !profile.credit_score
-          ? 0
-          : profile.credit_score;
-        this.profile.percent =
-          this.profile.creditScore > 1000
-            ? 100
-            : (this.profile.creditScore / 1000) * 100;
+        if (res.data.resultCode === "1") {
+          let data = JSON.parse(res.data.data);
+          let profile = data.profile;
+          this.profile.verified = profile.verified;
+          this.profile.creditScore = !profile.credit_score
+            ? 0
+            : profile.credit_score;
+          this.profile.percent =
+            this.profile.creditScore > 1000
+              ? 100
+              : (this.profile.creditScore / 1000) * 100;
 
-        let dataSource = data.data_source;
-        this.dataSource.name = dataSource.name;
-        let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
-        let currentTime = moment(new Date()).format("YYYY-MM-DD");
-        function datemonth(date1, date2) {
-          // 拆分年月日
-          date1 = date1.split("-");
-          // 得到月数
-          date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
-          // 拆分年月日
-          date2 = date2.split("-");
-          // 得到月数
-          date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
-          var m = Math.abs(date1 - date2);
-          return m;
-        }
-        this.dataSource.useTime = datemonth(netInTime, currentTime) + "月";
+          let dataSource = data.data_source;
+          this.dataSource.name = dataSource.name;
+          let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
+          let currentTime = moment(new Date()).format("YYYY-MM-DD");
+          function datemonth(date1, date2) {
+            // 拆分年月日
+            date1 = date1.split("-");
+            // 得到月数
+            date1 = parseInt(date1[0]) * 12 + parseInt(date1[1]);
+            // 拆分年月日
+            date2 = date2.split("-");
+            // 得到月数
+            date2 = parseInt(date2[0]) * 12 + parseInt(date2[1]);
+            var m = Math.abs(date1 - date2);
+            return m;
+          }
+          this.dataSource.useTime = datemonth(netInTime, currentTime) + "月";
 
-        let contactsRegionSummary = data.contacts_region_summary;
-        let callerCountArr = _.pluck(contactsRegionSummary, "caller_count");
-        let calleeCountArr = _.pluck(contactsRegionSummary, "callee_count");
-        let callerCountSum = _.reduce(
-          callerCountArr,
-          function(memo, num) {
-            return memo + num;
-          },
-          0
-        );
-        let calleeCounttSum = _.reduce(
-          calleeCountArr,
-          function(memo, num) {
-            return memo + num;
-          },
-          0
-        );
-        let totlaSum = callerCountSum + calleeCounttSum;
-        contactsRegionSummary.forEach(item => {
-          item.assetType = item.region;
-          item.percent =
-            Math.round(
-              ((item.caller_count + item.callee_count) / totlaSum) * 100
-            ) / 100;
-          item.const = "const";
-        });
-        this.charData = contactsRegionSummary.splice(0, 5);
-        // this.charData = [
-        //   {
-        //     assetType: "天津市",
-        //     percent: 0.4,
-        //     const: "const"
-        //   },
-        //   {
-        //     assetType: "广东省",
-        //     percent: 0.2,
-        //     const: "const"
-        //   },
-        //   {
-        //     assetType: "河北省",
-        //     percent: 0.18,
-        //     const: "const"
-        //   },
-        //   {
-        //     assetType: "河南省",
-        //     percent: 0.15,
-        //     const: "const"
-        //   },
-        //   {
-        //     assetType: "山东省",
-        //     percent: 12.05,
-        //     const: "const"
-        //   }
-        // ];
-
-        let contactsArr = data.call_data_summary.filter(item => {
-          return item.title === "常用联系人";
-        });
-        this.contactsArr = contactsArr[0].items.splice(0, 5);
-        this.contactsArr.forEach(item => {
-          let len = item.peer_mobile.mobile.length;
-          item.peer_mobile.mobile =
-            item.peer_mobile.mobile.substring(0, 3) +
-            "****" +
-            item.peer_mobile.mobile.substring(len - 4, len);
-        });
-        setTimeout(() => {
-          var swiper = new Swiper(".swiper-container", {
-            slidesPerView: "auto"
+          let contactsRegionSummary = data.contacts_region_summary;
+          let callerCountArr = _.pluck(contactsRegionSummary, "caller_count");
+          let calleeCountArr = _.pluck(contactsRegionSummary, "callee_count");
+          let callerCountSum = _.reduce(
+            callerCountArr,
+            function(memo, num) {
+              return memo + num;
+            },
+            0
+          );
+          let calleeCounttSum = _.reduce(
+            calleeCountArr,
+            function(memo, num) {
+              return memo + num;
+            },
+            0
+          );
+          let totlaSum = callerCountSum + calleeCounttSum;
+          contactsRegionSummary.forEach(item => {
+            item.assetType = item.region;
+            item.percent =
+              Math.round(
+                ((item.caller_count + item.callee_count) / totlaSum) * 100
+              ) / 100;
+            item.const = "const";
           });
-        }, 500);
+          this.charData = contactsRegionSummary.splice(0, 5);
 
-        let infoVerification = data.info_verification;
-        let specialNumAll = infoVerification.filter(item => {
-          return item.title === "用户行为检测";
-        });
-        let specialNum1Arr = specialNumAll[0].items.filter(item => {
-          return item.check_point === "contact_110";
-        });
-        let specialNum2Arr = specialNumAll[0].items.filter(item => {
-          return item.check_point === "contact_loan";
-        });
-        this.specialNum1 = specialNum1Arr[0].remarks;
-        this.specialNum2 = specialNum2Arr[0].remarks;
+          let contactsArr = data.call_data_summary.filter(item => {
+            return item.title === "常用联系人";
+          });
+          this.contactsArr = contactsArr[0].items.splice(0, 5);
+          this.contactsArr.forEach(item => {
+            let len = item.peer_mobile.mobile.length;
+            item.peer_mobile.mobile =
+              item.peer_mobile.mobile.substring(0, 3) +
+              "****" +
+              item.peer_mobile.mobile.substring(len - 4, len);
+          });
+          setTimeout(() => {
+            var swiper = new Swiper(".swiper-container", {
+              slidesPerView: "auto"
+            });
+          }, 500);
+
+          let infoVerification = data.info_verification;
+          let specialNumAll = infoVerification.filter(item => {
+            return item.title === "用户行为检测";
+          });
+          let specialNum1Arr = specialNumAll[0].items.filter(item => {
+            return item.check_point === "contact_110";
+          });
+          let specialNum2Arr = specialNumAll[0].items.filter(item => {
+            return item.check_point === "contact_loan";
+          });
+          this.specialNum1 = specialNum1Arr[0].remarks;
+          this.specialNum2 = specialNum2Arr[0].remarks;
+        } else {
+          this.$vux.toast.show({
+            type: "cancel",
+            position: "middle",
+            text: res.data.resultMsg
+          });
+        }
       });
     },
     shareMethods: function() {
