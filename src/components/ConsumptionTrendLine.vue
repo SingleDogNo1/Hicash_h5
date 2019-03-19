@@ -19,57 +19,16 @@ export default {
   },
   data() {
     return {
-      modifier: 1.8,
-      // historyList: [
-      //   { detail: "69元", date: "2018-03-01" },
-      //   { detail: "12345元", date: "2018-04-01" },
-      //   { detail: "12345元", date: "2018-05-01" },
-      //   { detail: "12345元", date: "2018-06-01" },
-      //   { detail: "12345元", date: "2018-07-01" },
-      //   { detail: "12345元", date: "2018-08-01" },
-      //   {
-      //     detail: "12345元",
-      //     date: "2018-09-01"
-      //   },
-      //   { detail: "12345元", date: "2018-10-01" },
-      //   { detail: "12345元", date: "2018-11-01" },
-      //   { detail: "12345元", date: "2018-12-01" },
-      //   { detail: "12345元", date: "2019-01-01" },
-      //   { detail: "12345元", date: "2019-02-01" },
-      //   { detail: "12345元", date: "2019-03-01" }
-      // ],
-      // historyListShow: [
-      //   { detail: "69元", date: "3月" },
-      //   { detail: "12345元", date: "2月" },
-      //   { detail: "12345元", date: "1月" },
-      //   { detail: "12345元", date: "2018.12" },
-      //   { detail: "12345元", date: "2018.11" },
-      //   { detail: "12345元", date: "2018.10" },
-      //   {
-      //     detail: "12345元",
-      //     date: "2018.09"
-      //   },
-      //   { detail: "12345元", date: "2018.08" },
-      //   { detail: "12345元", date: "2018.07" },
-      //   { detail: "12345元", date: "2018.06" },
-      //   { detail: "12345元", date: "2018.05" },
-      //   { detail: "12345元", date: "2018.04" },
-      //   { detail: "12345元", date: "2018.03" }
-      // ]
+      modifier: 1.8
     };
   },
   methods: {
     init(historyList) {
       historyList.forEach( (item)=> {
-        console.log('item====', item.date.slice(0, 4), item.date.slice(0, 4) == new Date().getFullYear())
         item.detail = item.detail + '元'
         item.showDate = item.date.slice(0, 4) == new Date().getFullYear() ? moment(item.date).format("M") + '月' : moment(item.date).format("YYYY.MM");
         item.date = item.date + '-01'
       })
-       console.log('historyList===', historyList)
-      //this.historyListShow = historyList;
-      // console.log('this.historyListShow===', this.historyListShow)
-      // this.historyListShow = this.historyListShow.reverse();
       var mySwiper = new Swiper("#swiper-history .swiper-container", {
         virtualTranslate: true,
         preventClicks: false,
@@ -115,8 +74,6 @@ export default {
                 historyList[i]["showDate"] +
                 "</span></div>"
             );
-            // swiper.slides[i].style.transform =
-            //   "translate3d(" + -i * swiper.width + "px, 0px, 0px)";
           }
           swiper.slideTo(12);
         },
