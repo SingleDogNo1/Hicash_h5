@@ -1158,7 +1158,7 @@ export function saveUserCreditInfo(params) {
  */
 export function getCreditReport(params) {
 	return new Promise((resolve, reject) => {
-		axios.get("hicash-api-service/credit/getUserCreditRepostByType/" + params.reportType + "/" + params.userName).then(
+		axios.get("/hicash-api-service/credit/getUserCreditRepostByType/" + params.reportType + "/" + params.userName).then(
 			res => {
 				resolve(res);
 			},
@@ -1174,7 +1174,7 @@ export function getCreditReport(params) {
  */
 export function getCreditResult(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("hicash-api-service/credit/getCreditResult", params).then(
+		axios.post("/hicash-api-service/credit/getCreditResult", params).then(
 			res => {
 				resolve(res);
 			},
