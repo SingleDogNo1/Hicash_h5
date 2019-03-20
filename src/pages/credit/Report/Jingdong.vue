@@ -168,7 +168,7 @@ export default {
           window.location.href = url;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: data.resultMsg
           });
@@ -317,7 +317,7 @@ export default {
           this.billsDetailBySort = [];
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });
