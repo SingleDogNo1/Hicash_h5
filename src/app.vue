@@ -4,7 +4,7 @@
 		<x-dialog v-model="authShowDialog" class="dialog">
 			<div class="img-box">
 				<img src="./assets/images/pop-coupon.png" alt="">
-        <p>恭喜获得 <span>50元</span> 优惠券</p>
+        <p>恭喜获得 <span>{{couponAmount}}元</span> 优惠券</p>
 				<div class="btns">
 					<button @click="seeCoupon" class="auth-btn confirm">看优惠券</button>
 					<button @click="seeCredit" class="auth-btn cancel">看新报告</button>
@@ -69,6 +69,8 @@ export default {
       }
     }
 
+    this.getCreditResult(); //拉取征信报告
+
     var usergps = this.utils.getCookie("gpsArr");
     if (!usergps || usergps == "") {
       var getLocation = function() {
@@ -109,7 +111,7 @@ export default {
 
     this.$router.beforeEach((to, from, next) => {
 			this.path = to.name;
-
+      this.getCreditResult(); //拉取征信报告
 			if (to.meta.title) {
 				document.title = to.meta.title;
       }
@@ -138,8 +140,11 @@ export default {
 		return {
 			path: this.$route.name,
 			platform: this.utils.getPlatform(),
-      authShowDialog: true,
-      getReportSuccess: false
+      authShowDialog: false,
+      getReportSuccess: false,
+      couponAmount: '',
+      creditType: '',
+      creditRouterName: ''
 		};
 	},
 	methods: {
@@ -148,11 +153,78 @@ export default {
       this.$router.push({'name': 'MyCoupon'});
     },
 		seeCredit(){
-			
+      console.info('this.routerNameMapping', this.routerNameMapping());
+      this.authShowDialog = false;
+      this.$router.push({'name': this.routerNameMapping()});
     },
     onConfirmReport(){
+      console.info('this.routerNameMapping', this.routerNameMapping());
       this.getReportSuccess = false;
-      // thie.$router.push({'name': 'MyCoupon'});
+      this.$router.push({'name': this.routerNameMapping()});
+    },
+    getCreditResult(){
+      let userName = this.utils.getCookie("userName");
+      let whiteList = [ // 拉取报告白名单页面列表
+                        'Inquiry', 
+                        'IdentityAuth', 
+                        'PandoraAuth', 
+                        'Personal', 
+                        'Home', 
+                        'BreakPromise', 
+                        'operator',
+                        'jingdong',
+                        'Haluo',
+                        'Eleme',
+                        'ActivityIntroduction',
+                        'FailedLoad',
+                        'Loading'
+                      ]
+      if(!userName || whiteList.indexOf(this.path) < 0) return false;
+      let getCreditResultData = new URLSearchParams();
+				getCreditResultData.append("userName", this.utils.getCookie("userName"));
+      this.common.getCreditResult(getCreditResultData)
+      .then(res => {
+
+        if(res.data.resultCode != '1') return false;
+
+        this.creditType = res.data.creditType;
+        let _params = {
+          "userName": res.data.userName,
+          "creditType": this.creditType
+        };
+
+        this.checkCreditResult(_params);
+      });
+    },
+    checkCreditResult(_params){
+      this.common.CheckCreditResult(_params)
+      .then(res => {
+        let data = res.data.data;
+        if(data.firstRecevie){
+          this.couponAmount = data.amount;
+          this.authShowDialog = true;
+        }else{
+          this.getReportSuccess = true;
+        }
+      });
+    },
+    routerNameMapping(){
+      let creditRouterName = '';
+      switch (this.creditType) {
+				case "operator": // * 运营商
+					creditRouterName = 'operator';
+					break;
+				case "jd": // * 京东
+					creditRouterName = 'jingdong';
+					break;
+				case "helloBike": // * 哈啰单车
+					creditRouterName = 'Haluo';
+					break;
+				case "eleme": // * 饿了么
+					creditRouterName = 'Eleme';
+					break;
+			}
+			return creditRouterName;
     }
 	}
 };

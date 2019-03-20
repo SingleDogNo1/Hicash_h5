@@ -70,7 +70,8 @@ export default {
 	queryCreditUrl: queryCreditUrl,
 	getUserCreditReports: getUserCreditReports,
 	saveUserCreditInfo: saveUserCreditInfo,
-	CheckCreditResult: CheckCreditResult
+	CheckCreditResult: CheckCreditResult,
+	getCreditResult: getCreditResult
 };
 
 /*
@@ -1158,6 +1159,22 @@ export function saveUserCreditInfo(params) {
 export function getCreditReport(params) {
 	return new Promise((resolve, reject) => {
 		axios.get("hicash-api-service/credit/getUserCreditRepostByType/" + params.reportType + "/" + params.userName).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  该用户未推送的征信报告类型
+ */
+export function getCreditResult(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("hicash-api-service/credit/getCreditResult", params).then(
 			res => {
 				resolve(res);
 			},
