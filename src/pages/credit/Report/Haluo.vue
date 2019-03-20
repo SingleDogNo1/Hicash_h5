@@ -291,7 +291,6 @@ export default {
             return arrUni;
           };
           this.frequentAddress = sortByCount(endLocationArr).splice(0, 3);
-          this.frequentAddress = [];
         } else {
           this.$vux.toast.show({
             type: "text",
