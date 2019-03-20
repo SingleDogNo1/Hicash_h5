@@ -114,11 +114,11 @@ export default {
       this.getCreditResult(); //拉取征信报告
 			if (to.meta.title) {
 				document.title = to.meta.title;
-			}
+      }
 			if (to.matched.some(record => record.meta.requireAuth)) {
 				var userName = this.utils.getCookie("userName");
 				var realName = this.utils.getCookie("realName");
-				var mobile = this.utils.getCookie("mobile");
+        var mobile = this.utils.getCookie("mobile");
 
 				// 判断该路由是否需要登录权限
 				if (!userName || userName == "null") {

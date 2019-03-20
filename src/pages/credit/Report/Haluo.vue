@@ -155,7 +155,7 @@ export default {
   },
   data() {
     return {
-      title: "征信报告",
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
       situation: "",
@@ -165,7 +165,7 @@ export default {
       profile: {
         creditScore: 0,
         percent: 0,
-        verified: true
+        verified: false
       },
       summary: {
         sumNumber: 0,

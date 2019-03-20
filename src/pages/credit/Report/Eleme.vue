@@ -12,7 +12,7 @@
           <h1>饿了么消费报告</h1>
           <div class="refresh">
             <i class="icon-refresh" @click="refresh"></i>
-            <p class="date">2019.02.14</p>
+            <p class="date">{{date}}</p>
           </div>
         </div>
       </div>
@@ -128,9 +128,10 @@ export default {
   },
   data() {
     return {
-      title: "征信报告",
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
+      date: "",
       percent: 0,
       situation: "",
       contactsArr: [],

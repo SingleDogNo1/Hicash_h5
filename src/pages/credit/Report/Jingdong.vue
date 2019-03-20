@@ -26,8 +26,8 @@
               <span class="score-value">{{profile.situation}}</span>
               <p class="score-text">账号活动情况</p>
             </x-circle>
-            <p class="icon-verified">实名认证</p>
-            <!--<p>未实名</p>-->
+            <p class="icon-verified" v-if="profile.verified">实名认证</p>
+            <p class="icon-not-verified" v-else>未实名</p>
             <p class="score-tips">小白信用分 {{baiScore}}</p>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default {
   },
   data() {
     return {
-      title: "征信报告",
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
       date: "",
@@ -136,7 +136,7 @@ export default {
       profile: {
         creditScore: 0,
         percent: 0,
-        verified: true,
+        verified: false,
         situation: ""
       },
       contactsArr: [],
@@ -449,6 +449,20 @@ export default {
           margin-top: rem(-20px);
           background: #209eff;
           box-shadow: 0 2px 4px 0 rgba(32, 158, 255, 0.4);
+          border-radius: 14px;
+          font-size: 13px;
+          color: #ffffff;
+          text-align: center;
+          z-index: 100;
+        }
+        .icon-not-verified {
+          position: relative;
+          width: rem(75px);
+          height: rem(28px);
+          line-height: rem(28px);
+          margin: 0 auto;
+          margin-top: rem(-20px);
+          background: #cccccc;
           border-radius: 14px;
           font-size: 13px;
           color: #ffffff;

@@ -152,14 +152,14 @@ export default {
   },
   data() {
     return {
-      title: "征信报告",
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
       date: "",
       profile: {
         creditScore: 0,
         percent: 0,
-        verified: true
+        verified: false
       },
       dataSource: {
         name: "",

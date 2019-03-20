@@ -345,6 +345,7 @@ export default new Router({
 			name: 'operator',
 			component: () => import('@/pages/Credit/Report/Operator'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
@@ -353,6 +354,7 @@ export default new Router({
 			name: 'jingdong',
 			component: () => import('@/pages/Credit/Report/Jingdong'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
@@ -361,6 +363,7 @@ export default new Router({
 			name: 'Haluo',
 			component: () => import('@/pages/Credit/Report/Haluo'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
@@ -369,6 +372,7 @@ export default new Router({
 			name: 'Eleme',
 			component: () => import('@/pages/Credit/Report/Eleme'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},

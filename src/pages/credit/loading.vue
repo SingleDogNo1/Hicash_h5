@@ -1,6 +1,11 @@
 <template>
   <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
+    <page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+      :jumpRouteName="'Inquiry'"
+    ></page-header>
     <div class="box">
       <div class="box-top">
         <div class="warn">
@@ -15,26 +20,26 @@
         <div class="authentication" v-show="isDisappear">
           <p class="recommend">推荐：{{msg}}认证</p>
           <div class="btn">
-            <button class="buttons waiting" @click="isWait()">继续等待</button>
+            <!-- <button class="buttons waiting" @click="isWait()">继续等待</button> -->
             <button class="buttons go_authentication" @click="goAuthentication()">去认证</button>
           </div>
         </div>
         <div class="authentication no" v-show="!isDisappear">
           <div class="btn">
-            <button class="buttons waiting" @click="isWait()">继续等待</button>
+            <!-- <button class="buttons waiting" @click="isWait()">继续等待</button> -->
             <button class="buttons go_authentication" @click="others()">看看别的</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="dialog" v-show="isShowDialog">
+    <!-- <div class="dialog" v-show="isShowDialog">
       <h3>报告获取成功</h3>
       <p class="dialog-p">新鲜的报告已经准备好了，快来看看</p>
       <div class="dialog-btn">
         <button class="cancel buttons" @click="isShowDialog=false">取消</button>
         <button class="confirm buttons" @click="confirm()">看报告</button>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 <script>
@@ -54,7 +59,7 @@ export default {
       isDisappear: false,
       isShow: true,
       msg: "",
-      isShowDialog: false,
+      // isShowDialog: true,
       report: ""
     };
   },
@@ -62,28 +67,29 @@ export default {
     this.getUserCreditReports();
   },
   methods: {
-    confirm() {
-      switch (this.utils.getCookie("creditType")) {
-        case "operator":
-          this.report = "operator";
-          break;
-        case "jd":
-          this.report = "jingdong";
-          break;
-        case "helloBike":
-          this.report = "Haluo";
-          break;
-        case "eleme":
-          this.report = "Eleme";
-          break;
-      }
-      this.$router.push({ name: this.report });
-    },
-    isWait() {
-      // 继续等待
-      this.CheckCreditResult();
-      this.isShow = false;
-    },
+    // confirm() {
+      // switch (this.utils.getCookie("creditType")) {
+      //   case "operator":
+      //     this.report = "operator";
+      //     break;
+      //   case "jd":
+      //     this.report = "jingdong";
+      //     break;
+      //   case "helloBike":
+      //     this.report = "Haluo";
+      //     break;
+      //   case "eleme":
+      //     this.report = "Eleme";
+      //     break;
+      // }
+    //   this.$router.push({ name: this.report });
+    // },
+    // isWait() {
+    //   // 继续等待
+    //   // this.CheckCreditResult();
+    //   this.isShow = false;
+    //   window.location.reload()
+    // },
     goAuthentication(val) {
       // 去认证
       let obj = {};
@@ -101,46 +107,52 @@ export default {
         }
       });
     },
-    CheckCreditResult() {
-      let obj = {};
-      obj.userName = this.utils.getCookie("userName");
-      obj.creditType = this.utils.getCookie("creditType");
-      let checkCreditResultTimer = setInterval(() => {
-        this.common.CheckCreditResult(obj).then(res => {
-          if (res.data.data.status == 2) {
-            clearInterval(checkCreditResultTimer);
-            this.isShowDialog = true;
-          }
-        });
-      }, 5000);
-    },
+    // CheckCreditResult() {
+    //   let obj = {};
+    //   obj.userName = this.utils.getCookie("userName");
+    //   obj.creditType = this.utils.getCookie("creditType");
+    //   let checkCreditResultTimer = setInterval(() => {
+    //     this.common.CheckCreditResult(obj).then(res => {
+    //       if (res.data.data.status == 2) {
+    //         clearInterval(checkCreditResultTimer);
+    //         // this.isShowDialog = true;
+    //       }
+    //       if(res.data.resultCode==-1){
+    //         this.$router.push({name:"FailedLoad"})
+    //       }
+    //     });
+    //   }, 5000);
+    // },
     getUserCreditReports() {
       this.common
         .getUserCreditReports(this.utils.getCookie("userName"))
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           let arr = res.data.data;
+          let arr1 = [];
           arr.map(item => {
             if (item.status == 0) {
+              arr1.push(item);
               this.isDisappear = true;
             }
             if (item.reportName == "饿了么") {
               item.reportName = "饿了么外卖";
             }
           });
-          let number = Math.round(Math.random() * (arr.length - 1));
-          this.msg = arr[number].reportName;
+          let number = Math.round(Math.random() * (arr1.length - 1));
+          this.msg = arr1[number].reportName;
         });
     },
-    others(){//看看别的
-      this.$router.push({name:"Inquiry"})
+    others() {
+      //看看别的
+      this.$router.push({ name: "Inquiry" });
     }
-  },
-  mounted() {
-    // setTimeout(() => {
-    //   this.complete = true;
-    // }, 2000);
   }
+  // mounted() {
+  //   // setTimeout(() => {
+  //   //   this.complete = true;
+  //   // }, 2000);
+  // }
 };
 </script>
 <style lang="scss" scoped>
@@ -192,7 +204,7 @@ export default {
         .btn {
           width: rem(282px);
           display: flex;
-          justify-content: space-between;
+          justify-content: space-around;
           margin: 0 auto;
           .buttons {
             border-radius: 6px;
@@ -220,55 +232,55 @@ export default {
       }
     }
   }
-  .dialog {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: rem(180px);
-    width: 80%;
-    background: #fff;
-    text-align: center;
-    border: 1px solid #666;
-    border-radius: rem(10px);
-    h3 {
-      font-size: rem(18px);
-      color: #444;
-      margin-top: rem(28px);
-      letter-spacing: rem(0.38px);
-    }
-    .dialog-p {
-      font-size: rem(15px);
-      line-height: rem(60px);
-      color: #666666;
-      letter-spacing: rem(0.38px);
-      text-align: center;
-    }
-    .dialog-btn {
-      display: flex;
-      justify-content: space-around;
-      margin: 0 auto;
-      .buttons {
-        border-radius: 6px;
-        font-size: rem(14px);
-        letter-spacing: rem(0.35px);
-        text-align: center;
-        width: rem(100px);
-        height: rem(35px);
-        line-height: rem(35px);
-        border: 1px solid #ff7640;
-      }
-      .cancel {
-        background: #fff;
-        color: #ff7640;
-      }
-      .confirm {
-        background: #ff7640;
-        color: #ffffff;
-      }
-    }
-  }
+  // .dialog {
+  //   position: absolute;
+  //   left: 0;
+  //   right: 0;
+  //   top: 0;
+  //   bottom: 0;
+  //   margin: auto;
+  //   height: rem(180px);
+  //   width: 80%;
+  //   background: #fff;
+  //   text-align: center;
+  //   border: 1px solid #666;
+  //   border-radius: rem(10px);
+  //   h3 {
+  //     font-size: rem(18px);
+  //     color: #444;
+  //     margin-top: rem(28px);
+  //     letter-spacing: rem(0.38px);
+  //   }
+  //   .dialog-p {
+  //     font-size: rem(15px);
+  //     line-height: rem(60px);
+  //     color: #666666;
+  //     letter-spacing: rem(0.38px);
+  //     text-align: center;
+  //   }
+  //   .dialog-btn {
+  //     display: flex;
+  //     justify-content: space-around;
+  //     margin: 0 auto;
+  //     .buttons {
+  //       border-radius: 6px;
+  //       font-size: rem(14px);
+  //       letter-spacing: rem(0.35px);
+  //       text-align: center;
+  //       width: rem(100px);
+  //       height: rem(35px);
+  //       line-height: rem(35px);
+  //       border: 1px solid #ff7640;
+  //     }
+  //     .cancel {
+  //       background: #fff;
+  //       color: #ff7640;
+  //     }
+  //     .confirm {
+  //       background: #ff7640;
+  //       color: #ffffff;
+  //     }
+  //   }
+  // }
 }
 </style>
