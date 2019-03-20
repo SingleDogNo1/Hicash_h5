@@ -155,7 +155,7 @@ export default {
   },
   data() {
     return {
-      title: "征信报告",
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
       situation: "",
@@ -165,7 +165,7 @@ export default {
       profile: {
         creditScore: 0,
         percent: 0,
-        verified: true
+        verified: false
       },
       summary: {
         sumNumber: 0,
@@ -203,7 +203,7 @@ export default {
           window.location.href = url;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });
@@ -294,7 +294,7 @@ export default {
           this.frequentAddress = [];
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });

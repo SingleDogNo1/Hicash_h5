@@ -152,14 +152,14 @@ export default {
   },
   data() {
     return {
-      title: "征信报告",
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
       date: "",
       profile: {
         creditScore: 0,
         percent: 0,
-        verified: true
+        verified: false
       },
       dataSource: {
         name: "",
@@ -186,7 +186,7 @@ export default {
           window.location.href = url;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });
@@ -292,7 +292,7 @@ export default {
           this.specialNum2 = specialNum2Arr[0].remarks;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });

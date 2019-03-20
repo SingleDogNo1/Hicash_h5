@@ -343,32 +343,36 @@ export default new Router({
 		{
 			path: '/operator',
 			name: 'operator',
-			component: () => import('@/pages/Credit/Report/Operator'),
+			component: () => import('@/pages/credit/Report/Operator'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
 		{
 			path: '/jingdong',
 			name: 'jingdong',
-			component: () => import('@/pages/Credit/Report/Jingdong'),
+			component: () => import('@/pages/credit/Report/Jingdong'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
 		{
 			path: '/haluo',
 			name: 'Haluo',
-			component: () => import('@/pages/Credit/Report/Haluo'),
+			component: () => import('@/pages/credit/Report/Haluo'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
 		{
 			path: '/eleme',
 			name: 'Eleme',
-			component: () => import('@/pages/Credit/Report/Eleme'),
+			component: () => import('@/pages/credit/Report/Eleme'),
 			meta: {
+				requireAuth: true,
 				title: '征信报告'
 			}
 		},
