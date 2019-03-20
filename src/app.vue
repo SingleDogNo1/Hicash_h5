@@ -176,8 +176,8 @@ export default {
                         'Haluo',
                         'Eleme',
                         'ActivityIntroduction',
-                        'FailedLoad',
-                        'Loading'
+                        'CreditFailedLoad',
+                        'CreditLoading'
                       ]
       if(!userName || whiteList.indexOf(this.path) < 0) return false;
       let getCreditResultData = new URLSearchParams();
