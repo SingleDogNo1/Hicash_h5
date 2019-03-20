@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
+import qs from 'qs'
 
 let cache = jsCommon.Cache();
 
@@ -63,7 +64,14 @@ export default {
 	QueryWithdrawData: QueryWithdrawData,
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
-	VerifyVideo: VerifyVideo
+	VerifyVideo: VerifyVideo,
+	getCreditReport: getCreditReport,
+	IsBottomShow: IsBottomShow,
+	queryCreditUrl: queryCreditUrl,
+	getUserCreditReports: getUserCreditReports,
+	saveUserCreditInfo: saveUserCreditInfo,
+	CheckCreditResult: CheckCreditResult,
+	getCreditResult: getCreditResult
 };
 
 /*
@@ -106,11 +114,11 @@ export function getHomePagePic(params) {
 		axios
 			.get(
 				"/HicashService/HomePagePic?cityCode=" +
-					params.cityCode +
-					"&uuid=" +
-					params.uuid +
-					"&position=" +
-					params.position
+				params.cityCode +
+				"&uuid=" +
+				params.uuid +
+				"&position=" +
+				params.position
 			)
 			.then(
 				res => {
@@ -1047,6 +1055,126 @@ export function GetRandomNumber(params) {
 export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/VerifyVideo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/**
+ * 底部导航
+ */
+export function IsBottomShow(params) {
+	return new Promise((resolve, reject) => {
+		//从内存中获取数据，如内存中不存在在请求server
+		let IsBottomShowData = cache.get("IsBottomShow");
+		if (IsBottomShowData) {
+			resolve(IsBottomShowData);
+			return false;
+		}
+
+		axios.post("/HicashAppService/IsBottomShow", params).then(
+			res => {
+				if (res.data.resultCode == "1") {
+					cache.put("IsBottomShow", res);
+				}
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取征信认证链接
+ */
+export function queryCreditUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  征信状态列表接口
+ */
+export function getUserCreditReports(params) {
+	return new Promise((resolve, reject) => {
+		axios.get("/hicash-api-service/credit/getUserCreditReports/"+params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+// 是否获取到征信报告
+export function CheckCreditResult(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/checkCreditResult", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  保存用户征信信息
+ */
+export function saveUserCreditInfo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/saveUserCreditInfo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  请求用户征信报告
+ */
+export function getCreditReport(params) {
+	return new Promise((resolve, reject) => {
+		axios.get("hicash-api-service/credit/getUserCreditRepostByType/" + params.reportType + "/" + params.userName).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  该用户未推送的征信报告类型
+ */
+export function getCreditResult(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("hicash-api-service/credit/getCreditResult", params).then(
 			res => {
 				resolve(res);
 			},
