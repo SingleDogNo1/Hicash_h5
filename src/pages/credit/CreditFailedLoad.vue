@@ -26,7 +26,7 @@ export default {
   methods:{
     retry(){
       this.$router.push({
-        name:'Loading'
+        name:'CreditLoading'
       })
     }
   }
