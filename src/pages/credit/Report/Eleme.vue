@@ -128,7 +128,7 @@ export default {
   },
   data() {
     return {
-      title: title: this.$route.meta.title,,
+      title: this.$route.meta.title,
       showBack: true,
       showBtnClose: false,
       date: "",
