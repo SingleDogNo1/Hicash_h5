@@ -168,7 +168,7 @@ export default {
           window.location.href = url;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });
@@ -304,7 +304,7 @@ export default {
           this.favoriteFoodName = findKey(favoriteFood, this.favoriteFoodCount);
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });

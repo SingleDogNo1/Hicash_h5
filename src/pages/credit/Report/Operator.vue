@@ -186,7 +186,7 @@ export default {
           window.location.href = url;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });
@@ -292,7 +292,7 @@ export default {
           this.specialNum2 = specialNum2Arr[0].remarks;
         } else {
           this.$vux.toast.show({
-            type: "cancel",
+            type: "text",
             position: "middle",
             text: res.data.resultMsg
           });
