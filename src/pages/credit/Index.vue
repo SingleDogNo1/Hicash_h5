@@ -36,7 +36,7 @@
 					<div @click.stop="queryCreditUrl(item)">
 						<img  :src="item.iconUrl" alt="">
 						<h4>{{item.reportName}}</h4>
-						<h5 v-if="authStatus" :class=" {'uncertified': item.status == '0' ,'certification': item.status == '2'} ">{{item.statusFont}}</h5>
+						<h5 v-if="authStatus" :class=" {'uncertified': item.status == '0' ,'certification': item.status == '1'} ">{{item.statusFont}}</h5>
 					</div>
 				</flexbox-item>
 			</flexbox>
