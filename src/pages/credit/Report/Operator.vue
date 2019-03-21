@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="operator-report-wrap">
         <div class="title-wrap">
           <h1>运营商报告</h1>
@@ -170,7 +171,8 @@ export default {
       id: "city",
       charData: [],
       contactsArr: [],
-      shareBox: false
+      shareBox: false,
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -635,6 +637,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>

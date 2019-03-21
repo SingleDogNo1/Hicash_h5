@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="haluo-report-wrap">
         <div class="title-wrap">
           <h1>哈啰单车报告</h1>
@@ -187,7 +188,8 @@ export default {
         time: 0,
         speed: ""
       },
-      frequentAddress: []
+      frequentAddress: [],
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -689,6 +691,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>
