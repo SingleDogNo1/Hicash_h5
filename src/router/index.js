@@ -37,7 +37,7 @@ import Auth from "@/pages/Product/Auth";
 import Inquiry from "@/pages/credit";
 import IdentityAuth from "@/pages/credit/IdentityAuth";
 import PandoraAuth from "@/pages/credit/PandoraAuth";
-import ActivityIntroduction from "@/pages/credit/Introduce";
+import ActivityIntroduction from "@/pages/credit/introduce";
 import CreditFailedLoad from "@/pages/credit/CreditFailedLoad";
 import CreditLoading from "@/pages/credit/CreditLoading";
 
