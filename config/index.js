@@ -26,7 +26,7 @@ module.exports = {
     cacheBusting: true,
     cssSourceMap: true,
     /**
-     * 添加新的代理的同时nginx也要增加，否则生产和测试环境无法生效 
+     * 添加新的代理的同时nginx也要增加，否则生产和测试环境无法生效
      */
     proxyTable: {
       '/HicashAppService':{
@@ -82,7 +82,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/h5/',
+    assetsPublicPath: '/hicash-h5/',
 
     /**
      * Source Maps
