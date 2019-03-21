@@ -200,7 +200,11 @@ export default {
         let data = res.data;
         if (data.resultCode === "1") {
           let url = data.url;
-          window.location.href = url;
+          if(data.userInfo) {
+            window.location.href = url;
+          } else {
+            this.$router.push({ name: "IdentityAuth" });
+          }
         } else {
           this.$vux.toast.show({
             type: "text",
