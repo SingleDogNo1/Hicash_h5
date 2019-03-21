@@ -52,7 +52,7 @@
 	background: #f5f5f5;
 	.content {
 		width: 100%;
-		padding-top: 46px;
+		padding-top: 50px;
 		background: #fff;
 		.swiper-container {
 			width: 100%;
@@ -73,6 +73,9 @@
 					img {
 						width: 37px;
 					}
+				}
+				img{
+					border-radius: 5px;
 				}
 			}
 			.arrow_box:hover {
