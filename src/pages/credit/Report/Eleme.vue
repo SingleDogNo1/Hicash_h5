@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="eleme-report-wrap">
         <div class="title-wrap">
           <h1>饿了么消费报告</h1>
@@ -152,7 +153,8 @@ export default {
       favoriteFoodName: "",
       mostExpensiveMealName: "",
       mostExpensiveMealPrice: "",
-      thisYearOrderListSortBy: []
+      thisYearOrderListSortBy: [],
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -772,6 +774,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>

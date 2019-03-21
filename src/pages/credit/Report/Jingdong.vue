@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="jingdong-report-wrap">
         <div class="title-wrap">
           <h1>京东消费报告</h1>
@@ -152,7 +153,8 @@ export default {
       thisCountSum: 0,
       lastCountSum: 0,
       historyList: [],
-      billsDetailBySort: []
+      billsDetailBySort: [],
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -719,6 +721,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>
