@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
+  <div class="content" :class="{'contents':platform==='APP'}">
+    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'" v-if="platform==='H5'"></page-header>
     <div class="box">
       <div class="banner">
         <img src="./images/banner.png" alt>
@@ -62,7 +62,8 @@ export default {
     return {
       title: "征信活动介绍",
       showBack: true,
-      showBtnClose: false
+      showBtnClose: false,
+      platform:this.utils.getPlatform()
     };
   },
   methods: {
@@ -158,5 +159,8 @@ export default {
       }
     }
   }
+}
+.contents{
+  padding-top: 0
 }
 </style>

@@ -14,6 +14,7 @@
 			id="dpandoraUrl"
 			style="width: 100%;height: 100%;"
 			frameborder="0"
+			:onload="changeUrl(this)"
 		></iframe>
 		<div>
 			<x-dialog v-model="showDialog" class="dialog">
@@ -164,6 +165,9 @@ export default {
 			.then(res => {
 				this.dpandoraUrl = res.data.url;
 			})
+		},
+		changeUrl(e){
+			console.info('iframe', location.href);
 		}
 	},
 	mounted() {

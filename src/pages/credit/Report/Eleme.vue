@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="eleme-report-wrap">
         <div class="title-wrap">
           <h1>饿了么消费报告</h1>
@@ -152,7 +153,8 @@ export default {
       favoriteFoodName: "",
       mostExpensiveMealName: "",
       mostExpensiveMealPrice: "",
-      thisYearOrderListSortBy: []
+      thisYearOrderListSortBy: [],
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -165,7 +167,11 @@ export default {
         let data = res.data;
         if (data.resultCode === "1") {
           let url = data.url;
-          window.location.href = url;
+          if(data.userInfo) {
+            window.location.href = url;
+          } else {
+            this.$router.push({ name: "IdentityAuth" });
+          }
         } else {
           this.$vux.toast.show({
             type: "text",
@@ -768,6 +774,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>
