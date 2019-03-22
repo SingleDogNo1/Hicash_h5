@@ -119,7 +119,7 @@ export default {
       // _params.append("creditType", item.reportType);
 
       this.utils.setCookie("creditType", item.reportType);
-      if (item.status == 0) {
+      if (item.status == 0||item.status == 3) {
         this.common.queryCreditUrl(_params).then(res => {
           let data = res.data;
           // console.info("data", data);
@@ -129,9 +129,11 @@ export default {
             this.$router.push({ name: "IdentityAuth" });
           }
         });
+        return false;
       }
       if (item.status == 1) {
         this.$router.push({ name: "CreditLoading" });
+        return false;
       }
       if (item.status == 2) {
         let urlName = "";
@@ -150,6 +152,7 @@ export default {
             break;
         }
         this.$router.push({ name: urlName });
+        return false;
       }
     }
     // goAuthentication(val) {
@@ -187,6 +190,8 @@ export default {
       height: rem(150px);
       width: rem(345px);
       margin: 0 auto;
+      border-radius: rem(8px);
+      overflow: hidden;
       img {
         width: 100%;
       }
