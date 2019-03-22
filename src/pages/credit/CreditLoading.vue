@@ -10,7 +10,7 @@
     <div class="box">
       <div class="box-top">
         <div class="warn">
-          <img src="./images/loading.png" alt>
+          <img src="./images/loading.png">
           <!-- <progress-ring :complete="complete"/> -->
         </div>
         <div class="tips">
