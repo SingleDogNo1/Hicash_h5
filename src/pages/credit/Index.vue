@@ -224,7 +224,7 @@ export default {
 			}
 
 			if(item.status == '2'){
-				this.$router.push({name: routerNameMapping(item.reportType)});
+				this.$router.push({name: this.routerNameMapping(item.reportType)});
 				return false;
 			}
 
