@@ -35,7 +35,7 @@
 				<flexbox-item :span="1/3" v-for="(item ,  i) in list" :key="i">
 					<div @click.stop="queryCreditUrl(item)">
 						<img  :src="item.iconUrl" alt="">
-						<h4>{{item.reportName}} {{item.status}}</h4>
+						<h4>{{item.reportName}}</h4>
 						<h5 v-if="authStatus" :class="{'uncertified': item.status == '0' ,'certification': item.status == '1'}">{{item.statusFont}}</h5>
 					</div>
 				</flexbox-item>
