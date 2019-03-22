@@ -35,8 +35,8 @@
 				<flexbox-item :span="1/3" v-for="(item ,  i) in list" :key="i">
 					<div @click.stop="queryCreditUrl(item)">
 						<img  :src="item.iconUrl" alt="">
-						<h4>{{item.reportName}}</h4>
-						<h5 v-if="authStatus" :class=" {'uncertified': item.status == '0' ,'certification': item.status == '1'} ">{{item.statusFont}}</h5>
+						<h4>{{item.reportName}} {{item.status}}</h4>
+						<h5 v-if="authStatus" :class="{'uncertified': item.status == '0' ,'certification': item.status == '1'}">{{item.statusFont}}</h5>
 					</div>
 				</flexbox-item>
 			</flexbox>
@@ -192,9 +192,9 @@ export default {
 					if(v.status == '0'){
 						data[i].statusFont = '未认证';
 					}else if(v.status == '1'){
-						data[i].statusFont = '已认证';
-					}else if(v.status == '2'){
 						data[i].statusFont = '认证中';
+					}else if(v.status == '2'){
+						data[i].statusFont = '已认证';
 					}else{
 						data[i].statusFont = '';
 					}
