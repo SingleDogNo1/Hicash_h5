@@ -215,16 +215,23 @@ export default {
 				return false;
 
 			}
+
+			this.utils.setCookie('creditType', item.reportType);
+
+			if(item.status == '1'){
+				this.$router.push({name: 'CreditLoading'});
+				return false;
+			}
+
+			if(item.status == '2'){
+				this.$router.push({name: routerNameMapping(item.reportType)});
+				return false;
+			}
+
 			let _params = {
 				"userName": this.userName,
 				"creditType": item.reportType
 			};
-
-			// let _params = new URLSearchParams();
-			// _params.append("userName",this.userName);
-			// _params.append("creditType", item.reportType);
-
-			this.utils.setCookie('creditType', item.reportType);
 
 			this.common.queryCreditUrl(_params)
 			.then(res => {
@@ -236,6 +243,24 @@ export default {
 					this.$router.push({name: 'IdentityAuth'});
 				}
 			});
+		},
+		routerNameMapping(creditType){
+			let creditRouterName = '';
+			switch (creditType) {
+				case "operator": // * 运营商
+					creditRouterName = 'operator';
+					break;
+				case "jd": // * 京东
+					creditRouterName = 'jingdong';
+					break;
+				case "helloBike": // * 哈啰单车
+					creditRouterName = 'Haluo';
+					break;
+				case "eleme": // * 饿了么
+					creditRouterName = 'Eleme';
+					break;
+			}
+			return creditRouterName;
 		}
 	},
 	mounted() {
