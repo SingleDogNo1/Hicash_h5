@@ -37,8 +37,8 @@
         <h3>年度消费情况</h3>
         <div class="tab-wrap">
           <button-tab v-model="selected">
-            <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
             <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
+            <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
           </button-tab>
           <div class="line"></div>
         </div>
@@ -331,13 +331,13 @@ export default {
       });
     },
     yearSwitch() {
-      this.selected === 0
+      this.selected === 1
         ? (this.totalPriceSum = this.lastTotalPriceSum)
         : (this.totalPriceSum = this.thisTotalPriceSum);
-      this.selected === 0
+      this.selected === 1
         ? (this.monthAverage = this.lastMonthAverage)
         : (this.monthAverage = this.thisMonthAverage);
-      this.selected === 0
+      this.selected === 1
         ? (this.countSum = this.lastCountSum)
         : (this.countSum = this.thisCountSum);
     },

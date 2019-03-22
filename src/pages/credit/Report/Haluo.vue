@@ -128,7 +128,8 @@
       </div>
       <div class="frequent-address-empty" v-else>
         <h3>常去地址</h3>
-        <p class="desc">没有获取到您的记录哦，
+        <p class="desc">
+          没有获取到您的记录哦，
           <br>快去更新报告吧！
         </p>
       </div>
@@ -175,18 +176,18 @@ export default {
         sumFee: 0
       },
       distanceObj: {
-        distance: "",
+        distance: "0",
         startLocation: "",
         endLocation: "",
         time: 0,
-        speed: ""
+        speed: "0"
       },
       speedObj: {
-        distance: "",
+        distance: "0",
         startLocation: "",
         endLocation: "",
         time: 0,
-        speed: ""
+        speed: "0"
       },
       frequentAddress: [],
       platform: this.utils.getPlatform()
@@ -202,7 +203,7 @@ export default {
         let data = res.data;
         if (data.resultCode === "1") {
           let url = data.url;
-          if(data.userInfo) {
+          if (data.userInfo) {
             window.location.href = url;
           } else {
             this.$router.push({ name: "IdentityAuth" });
@@ -226,9 +227,9 @@ export default {
         userName: this.utils.getCookie("userName")
       };
       this.common.getCreditReport(postData).then(res => {
-        console.log("res.data=", res.data);
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data).data;
+          console.log("data=", data);
           let profile = data.profile;
           this.profile.verified = profile.verified;
           this.profile.creditScore = !profile.credit_score
@@ -256,24 +257,38 @@ export default {
           let speedObj = _.max(trafficDetail, item => {
             return item.speed;
           });
-          this.distanceObj.distance = distanceObj.distance;
+          this.distanceObj.distance = distanceObj.distance
+            ? distanceObj.distance
+            : "0";
           this.distanceObj.startLocation = distanceObj.start_location
             ? distanceObj.start_location
             : "暂无数据";
           this.distanceObj.endLocation = distanceObj.end_location
             ? distanceObj.end_location
             : "暂无数据";
-          this.distanceObj.time = this.utils.formatSeconds(distanceObj.seconds);
+          this.distanceObj.time = distanceObj.seconds
+            ? this.utils.formatSeconds(distanceObj.seconds)
+            : "0秒";
           this.distanceObj.speed =
-            parseInt((distanceObj.distance / distanceObj.seconds) * 3.6) +
-            "km/h";
+            distanceObj.distance / distanceObj.seconds
+              ? parseInt((distanceObj.distance / distanceObj.seconds) * 3.6) +
+                "km/h"
+              : "0km/h";
 
-          this.speedObj.distance = speedObj.distance;
-          this.speedObj.startLocation = speedObj.start_location;
-          this.speedObj.endLocation = speedObj.end_location;
-          this.speedObj.time = this.utils.formatSeconds(speedObj.seconds);
+          this.speedObj.distance = speedObj.distance ? speedObj.distance : "0";
+          this.speedObj.startLocation = speedObj.start_location
+            ? speedObj.start_location
+            : "暂无数据";
+          this.speedObj.endLocation = speedObj.end_location
+            ? speedObj.end_location
+            : "暂无数据";
+          this.speedObj.time = speedObj.seconds
+            ? this.utils.formatSeconds(speedObj.seconds)
+            : "0秒";
           this.speedObj.speed =
-            parseInt((speedObj.distance / speedObj.seconds) * 3.6) + "km/h";
+            speedObj.distance / speedObj.seconds
+              ? parseInt((speedObj.distance / speedObj.seconds) * 3.6) + "km/h"
+              : "0km/h";
 
           let endLocationArr = _.pluck(trafficDetail, "end_location");
           let sortByCount = function(arr) {
@@ -606,6 +621,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-align: center;
           }
         }
       }
