@@ -3,6 +3,7 @@
 	"requestSource": "HTML5",
 	"comefrom": "H5",
 	"MWEB_PATH": "https://m.hicash.cn/",
+	"NEW_MWEB_PATH": "https://m.hicash.cn/h5/#",
 	"pic_path": "https://img.hicash.cn/",
 	"baiqishi_url": "df.baiqishi.com/static/webdf/saber.js"
 }

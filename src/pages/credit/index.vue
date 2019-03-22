@@ -36,7 +36,7 @@
 					<div @click.stop="queryCreditUrl(item)">
 						<img  :src="item.iconUrl" alt="">
 						<h4>{{item.reportName}}</h4>
-						<h5 v-if="authStatus" :class=" {'uncertified': item.status == '0' ,'certification': item.status == '2'} ">{{item.statusFont}}</h5>
+						<h5 v-if="authStatus" :class="{'uncertified': item.status == '0' || item.status == '3' ,'certification': item.status == '1'}">{{item.statusFont}}</h5>
 					</div>
 				</flexbox-item>
 			</flexbox>
@@ -52,7 +52,7 @@
 	background: #f5f5f5;
 	.content {
 		width: 100%;
-		padding-top: 46px;
+		padding-top: 50px;
 		background: #fff;
 		.swiper-container {
 			width: 100%;
@@ -73,6 +73,9 @@
 					img {
 						width: 37px;
 					}
+				}
+				img{
+					border-radius: 5px;
 				}
 			}
 			.arrow_box:hover {
@@ -186,12 +189,12 @@ export default {
 				let data = res.data.data;
 				
 				_.each(data, function(v,i){
-					if(v.status == '0'){
+					if(v.status == '0' || v.status == '3'){
 						data[i].statusFont = '未认证';
 					}else if(v.status == '1'){
-						data[i].statusFont = '已认证';
-					}else if(v.status == '2'){
 						data[i].statusFont = '认证中';
+					}else if(v.status == '2'){
+						data[i].statusFont = '已认证';
 					}else{
 						data[i].statusFont = '';
 					}
@@ -212,16 +215,23 @@ export default {
 				return false;
 
 			}
+
+			this.utils.setCookie('creditType', item.reportType);
+
+			if(item.status == '1'){
+				this.$router.push({name: 'CreditLoading'});
+				return false;
+			}
+
+			if(item.status == '2'){
+				this.$router.push({name: this.routerNameMapping(item.reportType)});
+				return false;
+			}
+
 			let _params = {
 				"userName": this.userName,
 				"creditType": item.reportType
 			};
-
-			// let _params = new URLSearchParams();
-			// _params.append("userName",this.userName);
-			// _params.append("creditType", item.reportType);
-
-			this.utils.setCookie('creditType', item.reportType);
 
 			this.common.queryCreditUrl(_params)
 			.then(res => {
@@ -233,6 +243,24 @@ export default {
 					this.$router.push({name: 'IdentityAuth'});
 				}
 			});
+		},
+		routerNameMapping(creditType){
+			let creditRouterName = '';
+			switch (creditType) {
+				case "operator": // * 运营商
+					creditRouterName = 'operator';
+					break;
+				case "jd": // * 京东
+					creditRouterName = 'jingdong';
+					break;
+				case "helloBike": // * 哈啰单车
+					creditRouterName = 'Haluo';
+					break;
+				case "eleme": // * 饿了么
+					creditRouterName = 'Eleme';
+					break;
+			}
+			return creditRouterName;
 		}
 	},
 	mounted() {

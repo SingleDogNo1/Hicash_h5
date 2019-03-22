@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="jingdong-report-wrap">
         <div class="title-wrap">
           <h1>京东消费报告</h1>
@@ -36,8 +37,8 @@
         <h3>年度消费情况</h3>
         <div class="tab-wrap">
           <button-tab v-model="selected">
-            <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
             <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
+            <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
           </button-tab>
           <div class="line"></div>
         </div>
@@ -152,7 +153,8 @@ export default {
       thisCountSum: 0,
       lastCountSum: 0,
       historyList: [],
-      billsDetailBySort: []
+      billsDetailBySort: [],
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -329,13 +331,13 @@ export default {
       });
     },
     yearSwitch() {
-      this.selected === 0
+      this.selected === 1
         ? (this.totalPriceSum = this.lastTotalPriceSum)
         : (this.totalPriceSum = this.thisTotalPriceSum);
-      this.selected === 0
+      this.selected === 1
         ? (this.monthAverage = this.lastMonthAverage)
         : (this.monthAverage = this.thisMonthAverage);
-      this.selected === 0
+      this.selected === 1
         ? (this.countSum = this.lastCountSum)
         : (this.countSum = this.thisCountSum);
     },
@@ -719,6 +721,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>

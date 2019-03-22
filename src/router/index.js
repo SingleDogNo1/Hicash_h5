@@ -38,8 +38,8 @@ import Inquiry from "@/pages/credit";
 import IdentityAuth from "@/pages/credit/IdentityAuth";
 import PandoraAuth from "@/pages/credit/PandoraAuth";
 import ActivityIntroduction from "@/pages/credit/introduce";
-import FailedLoad from "@/pages/credit/failedLoad";
-import Loading from "@/pages/credit/loading";
+import CreditFailedLoad from "@/pages/credit/CreditFailedLoad";
+import CreditLoading from "@/pages/credit/CreditLoading";
 
 
 Vue.use(Router);
@@ -387,18 +387,18 @@ export default new Router({
 		},
 		{
 			//征信报告 加载失败页
-			path: "/failedLoad",
-			name: "FailedLoad",
-			component: FailedLoad,
+			path: "/creditFailedLoad",
+			name: "CreditFailedLoad",
+			component: CreditFailedLoad,
 			meta: {
 				title: "征信报告"
 			}
 		},
 		{
 			//征信报告加载中
-			path: "/loading",
-			name: "Loading",
-			component: Loading,
+			path: "/creditLoading",
+			name: "CreditLoading",
+			component: CreditLoading,
 			meta: {
 				title: "征信报告"
 			}

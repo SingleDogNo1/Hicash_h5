@@ -1,18 +1,20 @@
 <template>
-  <div class="content">
+  <div class="content" :class="{'contents':platform==='APP'}">
     <page-header
       :title="title"
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform==='H5'"
     ></page-header>
     <div class="box">
       <div class="box-top">
         <div class="warn">
-          <img src="./images/loading.png" alt>
+          <img src="./images/loading.png">
           <!-- <progress-ring :complete="complete"/> -->
         </div>
-        <div class="tips">报告生成需要一点时间，成功后立即告诉您
+        <div class="tips">
+          报告生成需要一点时间，成功后立即告诉您
           <br>推荐您先看看别的～
         </div>
       </div>
@@ -20,13 +22,13 @@
         <div class="authentication" v-show="isDisappear">
           <p class="recommend">推荐：{{msg}}认证</p>
           <div class="btn">
-            <!-- <button class="buttons waiting" @click="isWait()">继续等待</button> -->
+            <button class="buttons waiting" @click="isWait()">继续等待</button>
             <button class="buttons go_authentication" @click="goAuthentication()">去认证</button>
           </div>
         </div>
         <div class="authentication no" v-show="!isDisappear">
           <div class="btn">
-            <!-- <button class="buttons waiting" @click="isWait()">继续等待</button> -->
+            <button class="buttons waiting" @click="isWait()">继续等待</button>
             <button class="buttons go_authentication" @click="others()">看看别的</button>
           </div>
         </div>
@@ -60,7 +62,8 @@ export default {
       isShow: true,
       msg: "",
       // isShowDialog: true,
-      report: ""
+      report: "",
+      platform:this.utils.getPlatform()
     };
   },
   created() {
@@ -84,12 +87,12 @@ export default {
       // }
     //   this.$router.push({ name: this.report });
     // },
-    // isWait() {
-    //   // 继续等待
-    //   // this.CheckCreditResult();
-    //   this.isShow = false;
-    //   window.location.reload()
-    // },
+    isWait() {
+      // 继续等待
+      // this.CheckCreditResult();
+      window.location.reload()
+      this.isShow = false;
+    },
     goAuthentication(val) {
       // 去认证
       let obj = {};
@@ -282,5 +285,8 @@ export default {
   //     }
   //   }
   // }
+}
+.contents {
+  padding-top: 0;
 }
 </style>

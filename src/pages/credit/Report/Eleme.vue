@@ -5,8 +5,9 @@
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
+      v-if="platform === 'H5'"
     ></page-header>
-    <div class="content">
+    <div class="content" :class="{ appContent: platform === 'APP' }">
       <div class="eleme-report-wrap">
         <div class="title-wrap">
           <h1>饿了么消费报告</h1>
@@ -20,8 +21,8 @@
         <h3>年度消费情况</h3>
         <div class="tab-wrap">
           <button-tab v-model="selected">
-            <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
             <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
+            <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
           </button-tab>
           <div class="line"></div>
         </div>
@@ -116,6 +117,7 @@ import ConsumptionTrendLine from "@/components/ConsumptionTrendLine.vue";
 import { XCircle, ButtonTab, ButtonTabItem } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
+var moment = require("moment");
 
 export default {
   name: "Eleme",
@@ -152,7 +154,8 @@ export default {
       favoriteFoodName: "",
       mostExpensiveMealName: "",
       mostExpensiveMealPrice: "",
-      thisYearOrderListSortBy: []
+      thisYearOrderListSortBy: [],
+      platform: this.utils.getPlatform()
     };
   },
   methods: {
@@ -191,6 +194,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
             return item.month.slice(0, 4) == new Date().getFullYear();
@@ -261,17 +265,21 @@ export default {
             };
             originalConsumptionTrend.push(item);
           }
+          console.log('originalConsumptionTrend====', originalConsumptionTrend)
           let serverConsumptionTrend = [];
           for (let j = 0; j < monthSummary.length; j++) {
-            let val = {
-              detail: parseInt(monthSummary[j].price),
-              date: monthSummary[j].month
-            };
-            serverConsumptionTrend.push(val);
+            if(moment(monthSummary[j].month).isValid()) {
+              let val = {
+                detail: parseInt(monthSummary[j].price),
+                date: monthSummary[j].month
+              };
+              serverConsumptionTrend.push(val);
+            }
           }
           serverConsumptionTrend = serverConsumptionTrend
             .reverse()
             .splice(0, 12);
+          console.log('serverConsumptionTrend===', serverConsumptionTrend)
           const obj = {};
           const historyList = [];
           originalConsumptionTrend
@@ -282,6 +290,7 @@ export default {
           for (let o in obj) {
             historyList.push({ detail: obj[o], date: o });
           }
+          console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
           let thisYearOrderList = orderList.filter(item => {
@@ -316,13 +325,13 @@ export default {
       });
     },
     yearSwitch() {
-      this.selected === 0
+      this.selected === 1
         ? (this.totalPriceSum = this.lastTotalPriceSum)
         : (this.totalPriceSum = this.thisTotalPriceSum);
-      this.selected === 0
+      this.selected === 1
         ? (this.monthAverage = this.lastMonthAverage)
         : (this.monthAverage = this.thisMonthAverage);
-      this.selected === 0
+      this.selected === 1
         ? (this.countSum = this.lastCountSum)
         : (this.countSum = this.thisCountSum);
     },
@@ -772,6 +781,9 @@ export default {
       font-size: 14px;
       color: #fff;
     }
+  }
+  .appContent {
+    padding-top: 0;
   }
 }
 </style>

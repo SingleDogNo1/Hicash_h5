@@ -28,7 +28,6 @@
 					</div>
 				</div>
 				<div @click="showDialog=false">
-				<span class="vux-close"></span>
 				</div>
 			</x-dialog>
 		</div>

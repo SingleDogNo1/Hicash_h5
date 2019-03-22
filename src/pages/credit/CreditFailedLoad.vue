@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'"></page-header>
+  <div class="content" :class="{'contents':platform==='APP'}">
+    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'" v-if="platform==='H5'"></page-header>
     <div class="box">
       <div class="image">
         <img src="./images/failedLoad.png" alt>
@@ -20,13 +20,14 @@ export default {
     return {
       title: "征信报告",
       showBack: true,
-      showBtnClose: false
+      showBtnClose: false,
+      platform:this.utils.getPlatform()
     }
   },
   methods:{
     retry(){
       this.$router.push({
-        name:'Loading'
+        name:'CreditLoading'
       })
     }
   }
@@ -70,5 +71,8 @@ export default {
       margin: rem(30px) auto;
     }
   }
+}
+.contents{
+  padding-top: 0
 }
 </style>

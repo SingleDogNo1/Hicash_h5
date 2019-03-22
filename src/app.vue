@@ -50,6 +50,12 @@ export default {
       document.title = this.$router.history.current.meta.title;
     }
 
+    console.info('this.$router.history.current', this.$router.history.current);
+    if(this.$router.history.current.query.source == 'iframe'){
+      console.info('this.config.NEW_MWEB_PATH + this.$router.history.current.path', this.config.NEW_MWEB_PATH + this.$router.history.current.path);
+      parent.location.href = this.config.NEW_MWEB_PATH + this.$router.history.current.path;
+    }
+
     if (this.$router.history.current.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (!userName || userName == "null") {
@@ -176,8 +182,8 @@ export default {
                         'Haluo',
                         'Eleme',
                         'ActivityIntroduction',
-                        'FailedLoad',
-                        'Loading'
+                        'CreditFailedLoad',
+                        'CreditLoading'
                       ]
       if(!userName || whiteList.indexOf(this.path) < 0) return false;
       let getCreditResultData = new URLSearchParams();
