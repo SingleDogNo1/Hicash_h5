@@ -223,8 +223,10 @@ export default {
 
           let dataSource = data.data_source;
           this.dataSource.name = dataSource.name;
+          console.log(dataSource)
           let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
           let currentTime = moment(new Date()).format("YYYY-MM-DD");
+          console.log('netInTime===', netInTime, currentTime)
           function datemonth(date1, date2) {
             // 拆分年月日
             date1 = date1.split("-");
@@ -237,7 +239,7 @@ export default {
             var m = Math.abs(date1 - date2);
             return m;
           }
-          this.dataSource.useTime = datemonth(netInTime, currentTime) + "月";
+          this.dataSource.useTime = dataSource.net_in_time ? datemonth(netInTime, currentTime) + "月" : "0月";
 
           let contactsRegionSummary = data.contacts_region_summary;
           let callerCountArr = _.pluck(contactsRegionSummary, "caller_count");
