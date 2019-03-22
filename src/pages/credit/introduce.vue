@@ -1,12 +1,32 @@
 <template>
   <div class="content" :class="{'contents':platform==='APP'}">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" :jumpRouteName="'Inquiry'" v-if="platform==='H5'"></page-header>
+    <page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+      :jumpRouteName="'Inquiry'"
+      v-if="platform==='H5'"
+    ></page-header>
     <div class="box">
       <div class="banner">
         <img src="./images/banner.png" alt>
       </div>
       <div class="list">
-        <div class="list-row row1">
+        <div
+          class="list-box"
+          :span="1/3"
+          v-for="(item ,  i) in list"
+          :key="i"
+          :class="{'active':i!=0&&i!=1}"
+        >
+          <div @click.stop="queryCreditUrl(item)" class="list-row">
+            <div class="icon">
+              <img :src="item.iconUrl" alt>
+            </div>
+            <div class="txt">{{item.reportName}}</div>
+          </div>
+        </div>
+        <!-- <div class="list-row row1">
           <div class="list-box">
             <div class="icon">
               <img src="./images/operator.png" @click="goAuthentication('operator')">
@@ -20,27 +40,28 @@
             <div class="txt">京东</div>
           </div>
         </div>
-        <div class="list-row row2">
-          <div class="list-box">
-            <div class="icon">
-              <img src="./images/element.png" @click="goAuthentication('eleme')">
-            </div>
-            <div class="txt">饿了么</div>
+        <div class="list-row row2">-->
+        <!-- <div class="list-box">
+          <div class="icon">
+            <img src="./images/element.png" @click="goAuthentication('eleme')">
           </div>
-          <div class="list-box">
-            <div class="icon">
-              <img src="./images/haluo.png" @click="goAuthentication('helloBike')">
-            </div>
-            <div class="txt">哈罗单车</div>
-          </div>
+          <div class="txt">饿了么</div>
         </div>
+        <div class="list-box">
+          <div class="icon">
+            <img src="./images/haluo.png" @click="goAuthentication('helloBike')">
+          </div>
+          <div class="txt">哈罗单车</div>
+        </div>-->
+        <!-- </div> -->
       </div>
     </div>
     <div class="rule">
       <h3>活动规则</h3>
       <div class="rule-detail">
         <p>即日起，首次在嗨钱+进行信用认证的用户即可获得嗨钱免息券</p>
-        <p class="rule-list">1.完成运营商信用认证可获得40元免息代金券
+        <p class="rule-list">
+          1.完成运营商信用认证可获得40元免息代金券
           <br>2.完成京东信用认证可获得50元免息代金券
           <br>3.完成哈喽单车信用认证可获得30元免息代金券
           <br>4.完成饿了么信用认证可获得30元免息代金券
@@ -63,27 +84,91 @@ export default {
       title: "征信活动介绍",
       showBack: true,
       showBtnClose: false,
-      platform:this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      list: [],
+      userName: this.utils.getCookie("userName")
     };
   },
+  created() {
+    this.getUserCreditReports();
+  },
   methods: {
-    goAuthentication(val) {
-      this.utils.setCookie("creditType", val);
-      let obj = {};
-      obj.userName = this.utils.getCookie("userName");
-      obj.creditType = val;
-
-      this.common.queryCreditUrl(obj).then(res => {
-        let data = res.data;
-        // console.info("data", data);
-        console.log(this.$router)
-        if (data.userInfo) {
-          this.$router.push({ name: "PandoraAuth" });
-        } else {
-          this.$router.push({ name: "IdentityAuth" });
-        }
+    getUserCreditReports() {
+      this.common.getUserCreditReports(this.userName).then(res => {
+        this.list = res.data.data;
       });
+    },
+    queryCreditUrl(item) {
+      if (!this.userName) {
+        const params = {
+          name: "Login",
+          query: {
+            redirect: this.$router.history.current.fullPath
+          }
+        };
+        this.$router.push(params);
+        return false;
+      }
+      let _params = {
+        userName: this.userName,
+        creditType: item.reportType
+      };
+
+      // let _params = new URLSearchParams();
+      // _params.append("userName",this.userName);
+      // _params.append("creditType", item.reportType);
+
+      this.utils.setCookie("creditType", item.reportType);
+      if (item.status == 0) {
+        this.common.queryCreditUrl(_params).then(res => {
+          let data = res.data;
+          // console.info("data", data);
+          if (data.userInfo) {
+            this.$router.push({ name: "PandoraAuth" });
+          } else {
+            this.$router.push({ name: "IdentityAuth" });
+          }
+        });
+      }
+      if (item.status == 1) {
+        this.$router.push({ name: "CreditLoading" });
+      }
+      if (item.status == 2) {
+        let urlName = "";
+        switch (item.reportType) {
+          case "operator":
+            urlName = "operator";
+            break;
+          case "jd":
+            urlName = "jingdong";
+            break;
+          case "helloBike":
+            urlName = "Haluo";
+            break;
+          case "eleme":
+            urlName = "Eleme";
+            break;
+        }
+        this.$router.push({ name: urlName });
+      }
     }
+    // goAuthentication(val) {
+    //   this.utils.setCookie("creditType", val);
+    //   let obj = {};
+    //   obj.userName = this.utils.getCookie("userName");
+    //   obj.creditType = val;
+
+    //   this.common.queryCreditUrl(obj).then(res => {
+    //     let data = res.data;
+    //     // console.info("data", data);
+    //     console.log(this.$router);
+    //     if (data.userInfo) {
+    //       this.$router.push({ name: "PandoraAuth" });
+    //     } else {
+    //       this.$router.push({ name: "IdentityAuth" });
+    //     }
+    //   });
+    // }
   }
 };
 </script>
@@ -107,12 +192,17 @@ export default {
       }
     }
     .list {
-      padding: rem(24px) 0 rem(32px);
-      .list-row {
-        display: flex;
-        justify-content: space-around;
-        .list-box {
-          text-align: center;
+      padding: rem(24px) rem(42px) rem(32px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      // height: rem(229px);
+      // align-items: space-between;
+      .list-box {
+        text-align: center;
+        width: 50%;
+        .list-row {
+          //
           .icon {
             height: rem(62px);
             width: rem(62px);
@@ -125,11 +215,11 @@ export default {
             font-size: rem(16px);
             color: #666666;
             letter-spacing: 0;
-            margin-top: rem(12px);
+            // margin-top: rem(12px);
           }
         }
       }
-      .row2 {
+      .active {
         margin-top: rem(37px);
       }
     }
@@ -160,7 +250,7 @@ export default {
     }
   }
 }
-.contents{
-  padding-top: 0
+.contents {
+  padding-top: 0;
 }
 </style>

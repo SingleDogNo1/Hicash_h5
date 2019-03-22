@@ -4,7 +4,8 @@
       :title="title"
       :showBack="showBack"
       :showBtnClose="showBtnClose"
-      :jumpRouteName="'Inquiry'" v-if="platform==='H5'"
+      :jumpRouteName="'Inquiry'"
+      v-if="platform==='H5'"
     ></page-header>
     <div class="box">
       <div class="box-top">
@@ -12,7 +13,8 @@
           <img src="./images/loading.png" alt>
           <!-- <progress-ring :complete="complete"/> -->
         </div>
-        <div class="tips">报告生成需要一点时间，成功后立即告诉您
+        <div class="tips">
+          报告生成需要一点时间，成功后立即告诉您
           <br>推荐您先看看别的～
         </div>
       </div>
@@ -88,8 +90,8 @@ export default {
     isWait() {
       // 继续等待
       // this.CheckCreditResult();
-      this.isShow = false;
       window.location.reload()
+      this.isShow = false;
     },
     goAuthentication(val) {
       // 去认证
@@ -284,7 +286,7 @@ export default {
   //   }
   // }
 }
-.contents{
-  padding-top: 0
+.contents {
+  padding-top: 0;
 }
 </style>
