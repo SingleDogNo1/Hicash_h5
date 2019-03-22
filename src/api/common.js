@@ -1123,6 +1123,20 @@ export function getUserCreditReports(params) {
 	});
 }
 
+// 更新用户的某个报告的认证中状态
+export function UpdateUserCreditReportStatus(params) {
+	return new Promise((resolve, reject) => {
+		axios.get("/hicash-api-service/credit/updateUserCreditReportStatus/"+params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
 // 是否获取到征信报告
 export function CheckCreditResult(params) {
 	return new Promise((resolve, reject) => {

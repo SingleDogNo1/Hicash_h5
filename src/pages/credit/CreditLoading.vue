@@ -66,8 +66,8 @@ export default {
       platform:this.utils.getPlatform()
     };
   },
-  created() {
-    this.getUserCreditReports();
+  mounted() {
+    this.updateUserCreditReportStatus();
   },
   methods: {
     // confirm() {
@@ -92,6 +92,14 @@ export default {
       // this.CheckCreditResult();
       window.location.reload()
       this.isShow = false;
+    },
+    updateUserCreditReportStatus(){
+      let obj = {};
+      obj.userName = this.utils.getCookie("userName");
+      obj.reportType = this.utils.getCookie("creditType");
+      this.common.UpdateUserCreditReportStatus(obj).then(()=>{
+        this.getUserCreditReports();
+      })
     },
     goAuthentication(val) {
       // 去认证
