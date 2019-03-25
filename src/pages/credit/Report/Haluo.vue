@@ -581,7 +581,7 @@ export default {
         padding: rem(15px);
       }
       .distance-wrap {
-        padding: 0 rem(52px);
+        padding: 0 rem(45px);
         .distance-num {
           i {
             display: inline-block;
