@@ -117,6 +117,7 @@ import ConsumptionTrendLine from "@/components/ConsumptionTrendLine.vue";
 import { XCircle, ButtonTab, ButtonTabItem } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
+var moment = require("moment");
 
 export default {
   name: "Eleme",
@@ -137,7 +138,7 @@ export default {
       situation: "",
       contactsArr: [],
       shareBox: false,
-      selected: 0,
+      selected: 1,
       totalPriceSum: 0,
       thisTotalPriceSum: 0,
       lastTotalPriceSum: 0,
@@ -193,13 +194,15 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear();
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear();
           });
           let lastYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear() - 1;
           });
+          console.log('thisYearSummary', thisYearSummary, lastYearSummary)
           let thisTotalPrice = _.pluck(thisYearSummary, "price");
           let lastTotalPrice = _.pluck(lastYearSummary, "price");
           let thisCount = _.pluck(thisYearSummary, "count");
@@ -243,11 +246,11 @@ export default {
           this.thisMonthAverage =
             thisYearSummary.length === 0
               ? 0
-              : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+              : parseInt(this.thisTotalPriceSum / (new Date().getMonth() + 1));
           this.lastMonthAverage =
             lastYearSummary.length === 0
               ? 0
-              : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+              : parseInt(this.lastTotalPriceSum / 12);
           this.yearSwitch();
           let originalConsumptionTrend = [];
           let date = new Date();
@@ -263,17 +266,21 @@ export default {
             };
             originalConsumptionTrend.push(item);
           }
+          console.log('originalConsumptionTrend====', originalConsumptionTrend)
           let serverConsumptionTrend = [];
           for (let j = 0; j < monthSummary.length; j++) {
-            let val = {
-              detail: parseInt(monthSummary[j].price),
-              date: monthSummary[j].month
-            };
-            serverConsumptionTrend.push(val);
+            if(moment(monthSummary[j].month).isValid()) {
+              let val = {
+                detail: parseInt(monthSummary[j].price),
+                date: monthSummary[j].month
+              };
+              serverConsumptionTrend.push(val);
+            }
           }
           serverConsumptionTrend = serverConsumptionTrend
             .reverse()
             .splice(0, 12);
+          console.log('serverConsumptionTrend===', serverConsumptionTrend)
           const obj = {};
           const historyList = [];
           originalConsumptionTrend
@@ -284,15 +291,18 @@ export default {
           for (let o in obj) {
             historyList.push({ detail: obj[o], date: o });
           }
+          console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
+          console.log('orderList===', orderList)
           let thisYearOrderList = orderList.filter(item => {
-            return item.setup_time.slice(0, 4) == new Date().getFullYear();
+            return moment(item.setup_time).isValid() && item.setup_time.slice(0, 4) == new Date().getFullYear();
           });
           let thisYearOrderListSortBy = _.sortBy(
             thisYearOrderList,
             "price"
           ).reverse();
+          console.log('thisYearOrderList===', thisYearOrderList)
           this.thisYearOrderListSortBy = thisYearOrderListSortBy;
           this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
           this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;

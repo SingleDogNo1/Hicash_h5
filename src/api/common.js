@@ -71,7 +71,8 @@ export default {
 	getUserCreditReports: getUserCreditReports,
 	saveUserCreditInfo: saveUserCreditInfo,
 	CheckCreditResult: CheckCreditResult,
-	getCreditResult: getCreditResult
+	getCreditResult: getCreditResult,
+	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus
 };
 
 /*
@@ -1113,6 +1114,20 @@ export function queryCreditUrl(params) {
 export function getUserCreditReports(params) {
 	return new Promise((resolve, reject) => {
 		axios.get("/hicash-api-service/credit/getUserCreditReports/"+params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+// 更新用户的某个报告的认证中状态
+export function UpdateUserCreditReportStatus(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/updateUserCreditReportStatus/",params).then(
 			res => {
 				resolve(res);
 			},

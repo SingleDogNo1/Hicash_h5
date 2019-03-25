@@ -142,7 +142,7 @@ export default {
       },
       contactsArr: [],
       shareBox: false,
-      selected: 0,
+      selected: 1,
       totalPriceSum: 0,
       thisTotalPriceSum: 0,
       lastTotalPriceSum: 0,
@@ -219,9 +219,10 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log('data===', data)
           this.baiScore = data.basic_info.bai_score;
           this.profile.verified = data.basic_info.is_validate_real_name;
-          let billsDetail = data.bills_detail;
+          let billsDetail = data.bills_detail.filter( (item) => { return item.status});
           let lastTransTime = moment(billsDetail[0].trans_time).format(
             "YYYY-MM-DD"
           );
@@ -275,10 +276,10 @@ export default {
             )
           );
           this.thisMonthAverage = parseInt(
-            this.thisTotalPriceSum / thisYearSummary.length
+            this.thisTotalPriceSum / (new Date().getMonth() + 1)
           );
           this.lastMonthAverage = parseInt(
-            this.lastTotalPriceSum / lastYearSummary.length
+            this.lastTotalPriceSum / 12
           );
           this.yearSwitch();
           let originalConsumptionTrend = [];
@@ -314,13 +315,13 @@ export default {
             historyList.push({ detail: obj[o], date: o });
           }
           this.historyList = historyList.reverse();
+          console.log('billsDetail===', billsDetail)
 
           let billsDetailBySort = _.sortBy(
             billsDetail,
             "total_price"
           ).reverse();
           this.billsDetailBySort = billsDetailBySort.splice(0, 3);
-          this.billsDetailBySort = [];
         } else {
           this.$vux.toast.show({
             type: "text",

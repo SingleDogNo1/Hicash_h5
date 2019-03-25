@@ -27,7 +27,7 @@
               <span class="score-value">{{profile.creditScore}}</span>
               <p class="score-text">信用分</p>
             </x-circle>
-            <p class="icon-verified" v-if="profile.verified">实名认证</p>
+            <p class="icon-verified" v-if="dataSource.isRealNameVerified === 1">实名认证</p>
             <p class="icon-not-verified" v-else>未实名</p>
           </div>
         </div>
@@ -109,13 +109,13 @@
       </div>
       <div
         class="number-verification-wrap"
-        v-if="specialNum1 !== '未发现与110电话通话记录' && specialNum2 !== '未找到贷款类相关号码' "
+        v-if="specialNum1 !== '未发现与110电话通话记录' || specialNum2 !== '未找到贷款类相关号码' "
       >
         <h3>号码验真</h3>
-        <p class="warn-text">
+        <p class="warn-text" v-if="specialNum1 !== '未发现与110电话通话记录'">
           <span>发现与110相关号码的通话记录</span>
         </p>
-        <p class="warn-text">
+        <p class="warn-text" v-if="specialNum2 !== '未找到贷款类相关号码'">
           <span>发现与贷款类相关号码的通话记录</span>
         </p>
         <div class="report-desc">
@@ -159,12 +159,12 @@ export default {
       date: "",
       profile: {
         creditScore: 0,
-        percent: 0,
-        verified: false
+        percent: 0
       },
       dataSource: {
         name: "",
-        useTime: ""
+        useTime: "",
+        isRealNameVerified: 0
       },
       specialNum1: "",
       specialNum2: "",
@@ -211,6 +211,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log('data===', data)
           let profile = data.profile;
           this.profile.verified = profile.verified;
           this.profile.creditScore = !profile.credit_score
@@ -223,8 +224,11 @@ export default {
 
           let dataSource = data.data_source;
           this.dataSource.name = dataSource.name;
+          this.dataSource.isRealNameVerified = dataSource.is_real_name_verified;
+          console.log(dataSource)
           let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
           let currentTime = moment(new Date()).format("YYYY-MM-DD");
+          console.log('netInTime===', netInTime, currentTime)
           function datemonth(date1, date2) {
             // 拆分年月日
             date1 = date1.split("-");
@@ -237,7 +241,7 @@ export default {
             var m = Math.abs(date1 - date2);
             return m;
           }
-          this.dataSource.useTime = datemonth(netInTime, currentTime) + "月";
+          this.dataSource.useTime = dataSource.net_in_time ? datemonth(netInTime, currentTime) + "月" : "0月";
 
           let contactsRegionSummary = data.contacts_region_summary;
           let callerCountArr = _.pluck(contactsRegionSummary, "caller_count");
@@ -291,6 +295,7 @@ export default {
           let specialNum1Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_110";
           });
+          console.log('specialNum1Arr===', specialNum1Arr)
           let specialNum2Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_loan";
           });
