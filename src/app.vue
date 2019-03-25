@@ -1,7 +1,7 @@
 <template>
 	<div id="app" :class="[path, platform]">
 		<router-view></router-view>
-		<x-dialog v-model="authShowDialog" class="dialog">
+		<x-dialog v-model="authShowDialog" class="app-auth-dialog">
 			<div class="img-box">
 				<img src="./assets/images/pop-coupon.png" width="100%" alt="">
         <p>恭喜获得 <span>{{couponAmount}}元</span> 优惠券</p>
@@ -371,18 +371,18 @@ body {
   height: 1px;
 }
 
-.dialog {
-	/deep/ .weui-dialog{
+.app-auth-dialog {
+	.weui-dialog{
 		background: transparent;
 		border-radius: 8px;
     padding-bottom: 8px;
     max-width: auto !important;
 	}
-	/deep/ .dialog-title {
+	.dialog-title {
 		line-height: 30px;
 		color: #666;
 	}
-	/deep/ .img-box {
+	.img-box {
     position: relative;
     width: 100%;
 		img{
