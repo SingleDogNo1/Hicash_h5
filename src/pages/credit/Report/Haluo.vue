@@ -554,6 +554,8 @@ export default {
           font-size: 13px;
           color: #999999;
           line-height: rem(20px);
+          padding: 0;
+          text-align: left;
         }
       }
       .desc {

@@ -21,8 +21,8 @@
         <h3>年度消费情况</h3>
         <div class="tab-wrap">
           <button-tab v-model="selected">
-            <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
             <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
+            <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
           </button-tab>
           <div class="line"></div>
         </div>
@@ -138,7 +138,7 @@ export default {
       situation: "",
       contactsArr: [],
       shareBox: false,
-      selected: 0,
+      selected: 1,
       totalPriceSum: 0,
       thisTotalPriceSum: 0,
       lastTotalPriceSum: 0,
@@ -197,11 +197,12 @@ export default {
           console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear();
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear();
           });
           let lastYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear() - 1;
           });
+          console.log('thisYearSummary', thisYearSummary, lastYearSummary)
           let thisTotalPrice = _.pluck(thisYearSummary, "price");
           let lastTotalPrice = _.pluck(lastYearSummary, "price");
           let thisCount = _.pluck(thisYearSummary, "count");
@@ -293,13 +294,15 @@ export default {
           console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
+          console.log('orderList===', orderList)
           let thisYearOrderList = orderList.filter(item => {
-            return item.setup_time.slice(0, 4) == new Date().getFullYear();
+            return moment(item.setup_time).isValid() && item.setup_time.slice(0, 4) == new Date().getFullYear();
           });
           let thisYearOrderListSortBy = _.sortBy(
             thisYearOrderList,
             "price"
           ).reverse();
+          console.log('thisYearOrderList===', thisYearOrderList)
           this.thisYearOrderListSortBy = thisYearOrderListSortBy;
           this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
           this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
@@ -325,13 +328,13 @@ export default {
       });
     },
     yearSwitch() {
-      this.selected === 1
+      this.selected === 0
         ? (this.totalPriceSum = this.lastTotalPriceSum)
         : (this.totalPriceSum = this.thisTotalPriceSum);
-      this.selected === 1
+      this.selected === 0
         ? (this.monthAverage = this.lastMonthAverage)
         : (this.monthAverage = this.thisMonthAverage);
-      this.selected === 1
+      this.selected === 0
         ? (this.countSum = this.lastCountSum)
         : (this.countSum = this.thisCountSum);
     },
