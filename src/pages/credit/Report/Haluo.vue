@@ -190,7 +190,8 @@ export default {
         speed: "0"
       },
       frequentAddress: [],
-      platform: this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      wxShareIco: "./images/icon_share.png"
     };
   },
   methods: {
@@ -328,7 +329,7 @@ export default {
           shareTitle: this.title,
           shareContent: "征信报告分享",
           shareUrl: window.location.href,
-          shareImageUrl: _this.wxShareIco
+          shareImageUrl: this.wxShareIco
         })
       );
     },
@@ -569,8 +570,9 @@ export default {
     .longest-trip-wrap,
     .fastest-wrap {
       width: 100%;
-      height: rem(209px);
+      //height: rem(209px);
       margin-top: rem(8px);
+      padding-bottom: rem(40px);
       background: #fff url("./images/bg_map.png") center center no-repeat;
       background-size: cover;
       h3 {
@@ -579,7 +581,7 @@ export default {
         padding: rem(15px);
       }
       .distance-wrap {
-        padding: 0 rem(52px);
+        padding: 0 rem(45px);
         .distance-num {
           i {
             display: inline-block;
