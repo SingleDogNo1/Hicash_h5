@@ -71,7 +71,8 @@ export default {
 	getUserCreditReports: getUserCreditReports,
 	saveUserCreditInfo: saveUserCreditInfo,
 	CheckCreditResult: CheckCreditResult,
-	getCreditResult: getCreditResult
+	getCreditResult: getCreditResult,
+	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus
 };
 
 /*
