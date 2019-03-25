@@ -190,7 +190,8 @@ export default {
         speed: "0"
       },
       frequentAddress: [],
-      platform: this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      wxShareIco: "./images/icon_share.png"
     };
   },
   methods: {
@@ -328,7 +329,7 @@ export default {
           shareTitle: this.title,
           shareContent: "征信报告分享",
           shareUrl: window.location.href,
-          shareImageUrl: _this.wxShareIco
+          shareImageUrl: this.wxShareIco
         })
       );
     },
