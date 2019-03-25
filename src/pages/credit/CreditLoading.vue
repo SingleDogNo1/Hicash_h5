@@ -18,7 +18,7 @@
           <br>推荐您先看看别的～
         </div>
       </div>
-      <div class="btn-box" v-show="isShow">
+      <div class="btn-box">
         <div class="authentication" v-show="isDisappear">
           <p class="recommend">推荐：{{msg}}认证</p>
           <div class="btn">
@@ -59,15 +59,14 @@ export default {
       showBack: true,
       showBtnClose: false,
       isDisappear: false,
-      isShow: true,
       msg: "",
       // isShowDialog: true,
       report: "",
       platform:this.utils.getPlatform()
     };
   },
-  created() {
-    this.getUserCreditReports();
+  mounted() {
+    this.updateUserCreditReportStatus();
   },
   methods: {
     // confirm() {
@@ -91,7 +90,15 @@ export default {
       // 继续等待
       // this.CheckCreditResult();
       window.location.reload()
-      this.isShow = false;
+      // this.isShow = false;
+    },
+    updateUserCreditReportStatus(){
+      let obj = {};
+      obj.userName = this.utils.getCookie("userName");
+      obj.reportType = this.utils.getCookie("creditType");
+      this.common.UpdateUserCreditReportStatus(obj).then(()=>{
+        this.getUserCreditReports();
+      })
     },
     goAuthentication(val) {
       // 去认证
