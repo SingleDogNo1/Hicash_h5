@@ -569,9 +569,8 @@ export default {
     .longest-trip-wrap,
     .fastest-wrap {
       width: 100%;
-      //height: rem(209px);
+      height: rem(209px);
       margin-top: rem(8px);
-      padding-bottom: rem(40px);
       background: #fff url("./images/bg_map.png") center center no-repeat;
       background-size: cover;
       h3 {
@@ -580,7 +579,7 @@ export default {
         padding: rem(15px);
       }
       .distance-wrap {
-        padding: 0 rem(45px);
+        padding: 0 rem(52px);
         .distance-num {
           i {
             display: inline-block;

@@ -246,11 +246,11 @@ export default {
           this.thisMonthAverage =
             thisYearSummary.length === 0
               ? 0
-              : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+              : parseInt(this.thisTotalPriceSum / (new Date().getMonth() + 1));
           this.lastMonthAverage =
             lastYearSummary.length === 0
               ? 0
-              : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+              : parseInt(this.lastTotalPriceSum / 12);
           this.yearSwitch();
           let originalConsumptionTrend = [];
           let date = new Date();
