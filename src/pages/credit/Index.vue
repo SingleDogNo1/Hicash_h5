@@ -24,7 +24,7 @@
 					</router-link>
 					<div
 						class="arrow_box swiper-slide"
-						@click.stop="queryCreditUrl({'reportType': 'jd'})"
+						@click.stop="queryCreditUrl(jdItem)"
 					>
 						<img src="./images/auth-banner-jd.png" alt="">
 					</div>
@@ -179,7 +179,8 @@ export default {
 			list: [],
 			platform: this.utils.getPlatform(),
 			userName: this.utils.getCookie('userName') || '',
-			authStatus: false
+			authStatus: false,
+			jdItem: {'reportType': 'jd'}
 		};
 	},
 	methods: {
@@ -200,6 +201,7 @@ export default {
 					}
 				})
 				this.list = data;
+				this.jdItem = _.findWhere(data, {'reportType': 'jd'});
 			});
 		},
 		queryCreditUrl(item){
