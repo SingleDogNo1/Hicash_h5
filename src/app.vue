@@ -377,6 +377,7 @@ body {
 		border-radius: 8px;
     padding-bottom: 8px;
     max-width: auto !important;
+    top: 10% !important;
 	}
 	.dialog-title {
 		line-height: 30px;
