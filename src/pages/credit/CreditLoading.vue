@@ -118,20 +118,20 @@ export default {
       });
     },
     // CheckCreditResult() {
-    //   let obj = {};
-    //   obj.userName = this.utils.getCookie("userName");
-    //   obj.creditType = this.utils.getCookie("creditType");
-    //   let checkCreditResultTimer = setInterval(() => {
-    //     this.common.CheckCreditResult(obj).then(res => {
-    //       if (res.data.data.status == 2) {
-    //         clearInterval(checkCreditResultTimer);
-    //         // this.isShowDialog = true;
-    //       }
-    //       if(res.data.resultCode==-1){
-    //         this.$router.push({name:"FailedLoad"})
-    //       }
-    //     });
-    //   }, 5000);
+      // let obj = {};
+      // obj.userName = this.utils.getCookie("userName");
+      // obj.creditType = this.utils.getCookie("creditType");
+      // let checkCreditResultTimer = setInterval(() => {
+      //   this.common.CheckCreditResult(obj).then(res => {
+      //     if (res.data.data.status == 2) {
+      //       clearInterval(checkCreditResultTimer);
+      //       // this.isShowDialog = true;
+      //     }
+      //     if(res.data.resultCode==-1){
+      //       this.$router.push({name:"FailedLoad"})
+      //     }
+      //   });
+      // }, 5000);
     // },
     getUserCreditReports() {
       this.common
