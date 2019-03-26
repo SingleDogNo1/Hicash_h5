@@ -1204,9 +1204,9 @@ export function getCreditResult(params) {
 /*
  *  微信分享
  */
-export function wxfx() {
+export function wxfx(params) {
 	return new Promise((resolve, reject) => {
-		axios.post(config.MWEB_PATH + 'api/?api=wxfx').then(
+		axios.post(config.MWEB_PATH + 'api/?api=wxfx', params).then(
 			res => {
 				resolve(res);
 			},

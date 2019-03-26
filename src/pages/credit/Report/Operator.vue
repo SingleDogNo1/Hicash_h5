@@ -246,8 +246,8 @@ export default {
       });
     },
     getReportInfo() {
-      if (this.isWeiXin()) {
-        this.common.wxfx().then(res => {
+      //if (this.isWeiXin()) {
+        this.common.wxfx({url: window.location.href}).then(res => {
           let data = res.data;
           alert('data' + JSON.stringify(data))
           wx.config({
@@ -284,7 +284,7 @@ export default {
             });
           });
         });
-      }
+      //}
       
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
@@ -462,25 +462,25 @@ export default {
       // share.Mshare.wxConfig({
 
       // })
-      // var config = {
-      //   title: this.title,
-      //   desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
-      //   types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
-      //   infoMap: {
-      //     wx: {
-      //       appId: '',
-      //       timestamp: '',
-      //       nonceStr: '',
-      //       signature: '',
-      //       title: this.title,
-      //       desc: "征信报告分享",
-      //       link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-      //       imgUrl: this.wxShareIco
-      //     }
-      //   },
-      //   fnDoShare: function(type) {}
-      // };
-      // share.Mshare.popup(config);
+      var config = {
+        title: this.title,
+        desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
+        types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
+        infoMap: {
+          wx: {
+            appId: '',
+            timestamp: '',
+            nonceStr: '',
+            signature: '',
+            title: this.title,
+            desc: "征信报告分享",
+            link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+            imgUrl: this.wxShareIco
+          }
+        },
+        fnDoShare: function(type) {}
+      };
+      share.Mshare.popup(config);
       //   // html2canvas(document.getElementById("operator"), {
       //   //   backgroundColor: null
       //   // }).then(canvas => {
