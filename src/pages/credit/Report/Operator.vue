@@ -246,8 +246,46 @@ export default {
       });
     },
     getReportInfo() {
-      //if(this.isWeiXin()) {
-      //}
+      if (this.isWeiXin()) {
+        this.common.wxfx().then(res => {
+          let data = res.data;
+          alert('data' + JSON.stringify(data))
+          wx.config({
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId,
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage",
+              "onMenuShareQQ",
+              "onMenuShareWeibo"
+            ]
+          });
+
+          wx.ready(function() {
+            wx.onMenuShareAppMessage({
+              desc: "征信报告分享",
+              title: "征信报告分享",
+              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+              imgUrl: this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+            wx.onMenuShareTimeline({
+              desc: "征信报告分享",
+              title: "征信报告分享",
+              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+              imgUrl: this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+          });
+        });
+      }
+      
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -372,45 +410,45 @@ export default {
       );
     },
     sharePopup() {
-      if (this.isWeiXin()) {
-        this.common.wxfx().then(res => {
-          let data = res.data;
-          alert('data' + JSON.stringify(data))
-          wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: data.appId,
-            timestamp: data.timestamp,
-            nonceStr: data.nonceStr,
-            signature: data.signature,
-            jsApiList: [
-              "checkJsApi",
-              "onMenuShareTimeline",
-              "onMenuShareAppMessage",
-              "onMenuShareQQ",
-              "onMenuShareWeibo"
-            ]
-          });
+      // if (this.isWeiXin()) {
+      //   this.common.wxfx().then(res => {
+      //     let data = res.data;
+      //     alert('data' + JSON.stringify(data))
+      //     wx.config({
+      //       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      //       appId: data.appId,
+      //       timestamp: data.timestamp,
+      //       nonceStr: data.nonceStr,
+      //       signature: data.signature,
+      //       jsApiList: [
+      //         "checkJsApi",
+      //         "onMenuShareTimeline",
+      //         "onMenuShareAppMessage",
+      //         "onMenuShareQQ",
+      //         "onMenuShareWeibo"
+      //       ]
+      //     });
 
-          wx.ready(function() {
-            wx.onMenuShareAppMessage({
-              desc: "征信报告分享",
-              title: "征信报告分享",
-              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-              imgUrl: this.wxShareIco,
-              success: function() {},
-              cancel: function() {}
-            });
-            wx.onMenuShareTimeline({
-              desc: "征信报告分享",
-              title: "征信报告分享",
-              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-              imgUrl: this.wxShareIco,
-              success: function() {},
-              cancel: function() {}
-            });
-          });
-        });
-      }
+      //     wx.ready(function() {
+      //       wx.onMenuShareAppMessage({
+      //         desc: "征信报告分享",
+      //         title: "征信报告分享",
+      //         link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //         imgUrl: this.wxShareIco,
+      //         success: function() {},
+      //         cancel: function() {}
+      //       });
+      //       wx.onMenuShareTimeline({
+      //         desc: "征信报告分享",
+      //         title: "征信报告分享",
+      //         link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //         imgUrl: this.wxShareIco,
+      //         success: function() {},
+      //         cancel: function() {}
+      //       });
+      //     });
+      //   });
+      // }
       //this.shareShow = true;
       // var option = {
       //   url: "http://www.baidu.com",
