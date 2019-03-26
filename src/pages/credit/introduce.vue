@@ -26,34 +26,6 @@
             <div class="txt">{{item.reportName}}</div>
           </div>
         </div>
-        <!-- <div class="list-row row1">
-          <div class="list-box">
-            <div class="icon">
-              <img src="./images/operator.png" @click="goAuthentication('operator')">
-            </div>
-            <div class="txt">运营商</div>
-          </div>
-          <div class="list-box">
-            <div class="icon">
-              <img src="./images/jd.png" @click="goAuthentication('jd')">
-            </div>
-            <div class="txt">京东</div>
-          </div>
-        </div>
-        <div class="list-row row2">-->
-        <!-- <div class="list-box">
-          <div class="icon">
-            <img src="./images/element.png" @click="goAuthentication('eleme')">
-          </div>
-          <div class="txt">饿了么</div>
-        </div>
-        <div class="list-box">
-          <div class="icon">
-            <img src="./images/haluo.png" @click="goAuthentication('helloBike')">
-          </div>
-          <div class="txt">哈罗单车</div>
-        </div>-->
-        <!-- </div> -->
       </div>
     </div>
     <div class="rule">
