@@ -247,7 +247,7 @@ export default {
     },
     getReportInfo() {
       if (this.isWeiXin()) {
-        this.common.wxfx().then(res => {
+        this.common.wxfx({url: window.location.href}).then(res => {
           let data = res.data;
           alert('data' + JSON.stringify(data))
           wx.config({
