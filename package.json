@@ -43,6 +43,7 @@
     "vue-file-upload": "^0.1.12",
     "vue-router": "^3.0.1",
     "vue-scroller": "^2.2.4",
+    "vue-social-share": "^0.0.3",
     "vue2-ajax-form": "^1.0.0",
     "vuescroll": "^4.7.2",
     "vux": "^2.8.1",
