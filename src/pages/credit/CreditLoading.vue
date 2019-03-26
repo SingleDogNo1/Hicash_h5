@@ -151,6 +151,7 @@ export default {
           });
           let number = Math.round(Math.random() * (arr1.length - 1));
           this.msg = arr1[number].reportName;
+          this.utils.setCookie("creditType",arr1[number].reportType);
         });
     },
     others() {
