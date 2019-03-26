@@ -1206,7 +1206,7 @@ export function getCreditResult(params) {
  */
 export function wxfx() {
 	return new Promise((resolve, reject) => {
-		axios.post(config.MWEB_PATH + 'wxfx').then(
+		axios.post(config.MWEB_PATH + 'api/?api=wxfx').then(
 			res => {
 				resolve(res);
 			},
