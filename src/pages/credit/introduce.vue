@@ -59,16 +59,17 @@
     <div class="rule">
       <h3>活动规则</h3>
       <div class="rule-detail">
-        <p>即日起，首次在嗨钱+进行信用认证的用户即可获得嗨钱免息券</p>
+        <p>即日起，首次在嗨钱+进行信用认证的用户即可获得嗨钱免息代金券</p>
         <p class="rule-list">
-          1.完成运营商信用认证可获得40元免息代金券
-          <br>2.完成京东信用认证可获得50元免息代金券
-          <br>3.完成哈喽单车信用认证可获得30元免息代金券
-          <br>4.完成饿了么信用认证可获得30元免息代金券
+          1、完成运营商信用认证可获得10元免息代金券
+          <br>2、完成京东信用认证可获得10元免息代金券
+          <br>3、完成哈喽单车信用认证可获得10元免息代金券
+          <br>4、完成饿了么信用认证可获得10元免息代金券
           <br>
         </p>
-        <p class="p1">完成嗨钱+全部信用认证，更有机会获得随机发放的50元免息代金券</p>
-        <p>本活动最终解释权归嗨钱所有</p>
+        <p class="p1">完成嗨钱+全部信用认证，更有机会获得随机发放的10元免息代金券</p>
+        <p class="p1">PS：用户还款金额需在2000元以上时才能使用该优惠券。</p>
+        <p>#本活动最终解释权归嗨钱所有#</p>
       </div>
     </div>
   </div>
@@ -119,7 +120,7 @@ export default {
       // _params.append("creditType", item.reportType);
 
       this.utils.setCookie("creditType", item.reportType);
-      if (item.status == 0||item.status == 3) {
+      if (item.status == 0 || item.status == 3) {
         this.common.queryCreditUrl(_params).then(res => {
           let data = res.data;
           // console.info("data", data);
