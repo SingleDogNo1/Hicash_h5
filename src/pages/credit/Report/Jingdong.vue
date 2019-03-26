@@ -169,7 +169,7 @@ export default {
         if (data.resultCode === "1") {
           let url = data.url;
           if(data.userInfo) {
-            window.location.href = url;
+            this.$router.push({ name: "PandoraAuth" });
           } else {
             this.$router.push({ name: "IdentityAuth" });
           }
@@ -349,7 +349,7 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: window.location.href,
+          shareUrl:  this.config.NEW_MWEB_PATH + '/activityIntroduction',
           shareImageUrl: this.wxShareIco
         })
       );
@@ -363,7 +363,7 @@ export default {
           wx: {
             title: this.title,
             desc: "征信报告分享",
-            link: window.location.href,
+            link:  this.config.NEW_MWEB_PATH + '/activityIntroduction',
             imgUrl: this.wxShareIco
           }
         },
