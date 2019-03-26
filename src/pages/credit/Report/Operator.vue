@@ -134,7 +134,10 @@
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
       <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
     </div>
-    <div v-transfer-dom>
+    <popup v-model="shareShow" position="bottom" max-height="50%">
+      <share :config="config"></share>
+    </popup>
+    <!--<div v-transfer-dom>
       <x-dialog v-model="showToast" class="thumbnail-dialog">
         <div class="thumbnail-wrap">
           <img class="thumbnail-img" :src="thumbnailImg" alt>
@@ -142,17 +145,17 @@
             <img src="./images/icon_qrcode_operator.png" alt>
             <span>长按/扫描识别二维码，查看详情</span>
           </div>
-          <!--<img class="thumbnail-img" src="./images/bg_map.png">-->
+          <img class="thumbnail-img" src="./images/bg_map.png">
         </div>
       </x-dialog>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import F2Pie from "@/components/F2Pie.vue";
-import { XCircle, XDialog, TransferDom } from "vux";
+import { XCircle, XDialog, TransferDom, Popup } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
 var moment = require("moment");
@@ -167,7 +170,8 @@ export default {
     PageHeader,
     F2Pie,
     XCircle,
-    XDialog
+    XDialog,
+    Popup
   },
   data() {
     return {
@@ -193,7 +197,28 @@ export default {
       platform: this.utils.getPlatform(),
       wxShareIco: "./images/icon_share.png",
       showToast: false,
-      thumbnailImg: ""
+      thumbnailImg: "",
+      config: {
+        url: this.config.NEW_MWEB_PATH + "/activityIntroduction", // 网址，默认使用 window.location.href
+        source: "", // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+        title: this.title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+        description: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+        image: this.wxShareIco, // 图片, 默认取网页中第一个img标签
+        //sites               : ['qzone', 'qq', 'weibo','wechat', 'douban'], // 启用的站点
+        disabled: [
+          "tencent",
+          "douban",
+          "linkedin",
+          "diandian",
+          "facebook",
+          "twitter",
+          "google"
+        ], // 禁用的站点
+        wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+        wechatQrcodeHelper:
+          "<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>"
+      },
+      shareShow: false
     };
   },
   methods: {
@@ -221,6 +246,46 @@ export default {
       });
     },
     getReportInfo() {
+      if (this.isWeiXin()) {
+        this.common.wxfx().then(res => {
+          let data = res.data;
+          alert('data' + JSON.stringify(data))
+          wx.config({
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId,
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage",
+              "onMenuShareQQ",
+              "onMenuShareWeibo"
+            ]
+          });
+
+          wx.ready(function() {
+            wx.onMenuShareAppMessage({
+              desc: "征信报告分享",
+              title: "征信报告分享",
+              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+              imgUrl: this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+            wx.onMenuShareTimeline({
+              desc: "征信报告分享",
+              title: "征信报告分享",
+              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+              imgUrl: this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+          });
+        });
+      }
+      
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -339,77 +404,141 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction",
           shareImageUrl: this.wxShareIco
         })
       );
     },
     sharePopup() {
-      var config = {
-        title: this.title,
-        desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
-        types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
-        infoMap: {
-          wx: {
-            title: this.title,
-            desc: "征信报告分享",
-            link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-            imgUrl: this.wxShareIco
-          }
-        },
-        fnDoShare: function(type) {}
-      };
-      share.Mshare.popup(config);
-      // html2canvas(document.getElementById("operator"), {
-      //   backgroundColor: null
-      // }).then(canvas => {
-      //   var imgData = canvas.toDataURL("image/jpeg");
-      //   console.log("imgData==", imgData);
-      //   this.thumbnailImg = imgData;
-      //   this.showToast = true;
-      //   //this.fileDownload(imgData);
-      // });
-      // var cntElem = document.getElementById("content");
+      // if (this.isWeiXin()) {
+      //   this.common.wxfx().then(res => {
+      //     let data = res.data;
+      //     alert('data' + JSON.stringify(data))
+      //     wx.config({
+      //       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      //       appId: data.appId,
+      //       timestamp: data.timestamp,
+      //       nonceStr: data.nonceStr,
+      //       signature: data.signature,
+      //       jsApiList: [
+      //         "checkJsApi",
+      //         "onMenuShareTimeline",
+      //         "onMenuShareAppMessage",
+      //         "onMenuShareQQ",
+      //         "onMenuShareWeibo"
+      //       ]
+      //     });
 
-      // var shareContent = cntElem; //需要截图的包裹的（原生的）DOM 对象
-      // var width = shareContent.offsetWidth; //获取dom 宽度
-      // var height = shareContent.offsetHeight; //获取dom 高度
-      // var canvas = document.createElement("canvas"); //创建一个canvas节点
-      // var scale = 2; //定义任意放大倍数 支持小数
-      // canvas.width = width * scale; //定义canvas 宽度 * 缩放
-      // canvas.height = height * scale; //定义canvas高度 *缩放
-      // canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
-      // var opts = {
-      //   scale: scale, // 添加的scale 参数
-      //   canvas: canvas, //自定义 canvas
-      //   // logging: true, //日志开关，便于查看html2canvas的内部执行流程
-      //   width: width, //dom 原始宽度
-      //   height: height,
-      //   useCORS: true, // 【重要】开启跨域配置,
-      //   scrollY: -40
+      //     wx.ready(function() {
+      //       wx.onMenuShareAppMessage({
+      //         desc: "征信报告分享",
+      //         title: "征信报告分享",
+      //         link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //         imgUrl: this.wxShareIco,
+      //         success: function() {},
+      //         cancel: function() {}
+      //       });
+      //       wx.onMenuShareTimeline({
+      //         desc: "征信报告分享",
+      //         title: "征信报告分享",
+      //         link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //         imgUrl: this.wxShareIco,
+      //         success: function() {},
+      //         cancel: function() {}
+      //       });
+      //     });
+      //   });
+      // }
+      //this.shareShow = true;
+      // var option = {
+      //   url: "http://www.baidu.com",
+      //   title: "百度",
+      //   img: "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
+      //   desc: "百度搜索",
+      //   from: "百度"
+      // }
+      // console.log('mshare===', mshare)
+      // mshare.init(option);
+      // share.Mshare.wxConfig({
+
+      // })
+      // var config = {
+      //   title: this.title,
+      //   desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
+      //   types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
+      //   infoMap: {
+      //     wx: {
+      //       appId: '',
+      //       timestamp: '',
+      //       nonceStr: '',
+      //       signature: '',
+      //       title: this.title,
+      //       desc: "征信报告分享",
+      //       link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //       imgUrl: this.wxShareIco
+      //     }
+      //   },
+      //   fnDoShare: function(type) {}
       // };
+      // share.Mshare.popup(config);
+      //   // html2canvas(document.getElementById("operator"), {
+      //   //   backgroundColor: null
+      //   // }).then(canvas => {
+      //   //   var imgData = canvas.toDataURL("image/jpeg");
+      //   //   console.log("imgData==", imgData);
+      //   //   this.thumbnailImg = imgData;
+      //   //   this.showToast = true;
+      //   //   //this.fileDownload(imgData);
+      //   // });
+      //   // var cntElem = document.getElementById("content");
 
-      // html2canvas(shareContent, opts).then(canvas => {
-      //   var context = canvas.getContext("2d");
-      //   // 【重要】关闭抗锯齿
-      //   context.mozImageSmoothingEnabled = false;
-      //   context.webkitImageSmoothingEnabled = false;
-      //   context.msImageSmoothingEnabled = false;
-      //   context.imageSmoothingEnabled = false;
+      //   // var shareContent = cntElem; //需要截图的包裹的（原生的）DOM 对象
+      //   // var width = shareContent.offsetWidth; //获取dom 宽度
+      //   // var height = shareContent.offsetHeight; //获取dom 高度
+      //   // var canvas = document.createElement("canvas"); //创建一个canvas节点
+      //   // var scale = 2; //定义任意放大倍数 支持小数
+      //   // canvas.width = width * scale; //定义canvas 宽度 * 缩放
+      //   // canvas.height = height * scale; //定义canvas高度 *缩放
+      //   // canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+      //   // var opts = {
+      //   //   scale: scale, // 添加的scale 参数
+      //   //   canvas: canvas, //自定义 canvas
+      //   //   // logging: true, //日志开关，便于查看html2canvas的内部执行流程
+      //   //   width: width, //dom 原始宽度
+      //   //   height: height,
+      //   //   useCORS: true, // 【重要】开启跨域配置,
+      //   //   scrollY: -40
+      //   // };
 
-      //   // 【重要】默认转化的格式为png,也可设置为其他格式
-      //   // var img = Canvas2Image.convertToJPEG(
-      //   //   canvas,
-      //   //   canvas.width,
-      //   //   canvas.height
-      //   // );
-      //   let imgData = canvas.toDataURL("image/jpeg");
-      //   console.log("imgData===", imgData, this);
-      //   this.thumbnailImg = imgData;
-      //   window.localStorage.setItem("imgUrl", this.thumbnailImg);
-      //   //this.showToast = true;
-      //   this.$router.push( { name: 'ThumbnailImg', params: {imgUrl: this.thumbnailImg}})
-      // });
+      //   // html2canvas(shareContent, opts).then(canvas => {
+      //   //   var context = canvas.getContext("2d");
+      //   //   // 【重要】关闭抗锯齿
+      //   //   context.mozImageSmoothingEnabled = false;
+      //   //   context.webkitImageSmoothingEnabled = false;
+      //   //   context.msImageSmoothingEnabled = false;
+      //   //   context.imageSmoothingEnabled = false;
+
+      //   //   // 【重要】默认转化的格式为png,也可设置为其他格式
+      //   //   // var img = Canvas2Image.convertToJPEG(
+      //   //   //   canvas,
+      //   //   //   canvas.width,
+      //   //   //   canvas.height
+      //   //   // );
+      //   //   let imgData = canvas.toDataURL("image/jpeg");
+      //   //   console.log("imgData===", imgData, this);
+      //   //   this.thumbnailImg = imgData;
+      //   //   window.localStorage.setItem("imgUrl", this.thumbnailImg);
+      //   //   //this.showToast = true;
+      //   //   this.$router.push( { name: 'ThumbnailImg', params: {imgUrl: this.thumbnailImg}})
+      //   // });
+    },
+    isWeiXin() {
+      var ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {

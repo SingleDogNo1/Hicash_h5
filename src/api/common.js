@@ -72,7 +72,8 @@ export default {
 	saveUserCreditInfo: saveUserCreditInfo,
 	CheckCreditResult: CheckCreditResult,
 	getCreditResult: getCreditResult,
-	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus
+	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
+	wxfx: wxfx
 };
 
 /*
@@ -1190,6 +1191,22 @@ export function getCreditReport(params) {
 export function getCreditResult(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/getCreditResult", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  微信分享
+ */
+export function wxfx() {
+	return new Promise((resolve, reject) => {
+		axios.post(config.MWEB_PATH + 'api/?api=wxfx').then(
 			res => {
 				resolve(res);
 			},
