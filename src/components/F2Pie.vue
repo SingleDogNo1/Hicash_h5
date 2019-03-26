@@ -51,7 +51,7 @@ export default {
       data.map(function(obj) {
         var item = {
           name: obj.assetType,
-          value: "    " + obj.percent + "%",
+          value: "    " + obj.percent * 100 + "%",
           marker: {
             symbol: "circle",
             fill: colorMap[obj.assetType],
@@ -67,7 +67,7 @@ export default {
       this.chart.source(data, {
         percent: {
           formatter: function formatter(val) {
-            return val + "%";
+            return val * 100 + "%";
           }
         }
       });

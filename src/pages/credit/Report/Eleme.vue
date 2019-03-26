@@ -21,8 +21,8 @@
         <h3>年度消费情况</h3>
         <div class="tab-wrap">
           <button-tab v-model="selected">
-            <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
             <button-tab-item @on-item-click="yearSwitch()">2018</button-tab-item>
+            <button-tab-item @on-item-click="yearSwitch()">2019</button-tab-item>
           </button-tab>
           <div class="line"></div>
         </div>
@@ -138,7 +138,7 @@ export default {
       situation: "",
       contactsArr: [],
       shareBox: false,
-      selected: 0,
+      selected: 1,
       totalPriceSum: 0,
       thisTotalPriceSum: 0,
       lastTotalPriceSum: 0,
@@ -155,7 +155,8 @@ export default {
       mostExpensiveMealName: "",
       mostExpensiveMealPrice: "",
       thisYearOrderListSortBy: [],
-      platform: this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      wxShareIco: "./images/icon_share.png"
     };
   },
   methods: {
@@ -169,7 +170,7 @@ export default {
         if (data.resultCode === "1") {
           let url = data.url;
           if(data.userInfo) {
-            window.location.href = url;
+            this.$router.push({ name: "PandoraAuth" });
           } else {
             this.$router.push({ name: "IdentityAuth" });
           }
@@ -197,11 +198,12 @@ export default {
           console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear();
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear();
           });
           let lastYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear() - 1;
           });
+          console.log('thisYearSummary', thisYearSummary, lastYearSummary)
           let thisTotalPrice = _.pluck(thisYearSummary, "price");
           let lastTotalPrice = _.pluck(lastYearSummary, "price");
           let thisCount = _.pluck(thisYearSummary, "count");
@@ -245,11 +247,11 @@ export default {
           this.thisMonthAverage =
             thisYearSummary.length === 0
               ? 0
-              : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+              : parseInt(this.thisTotalPriceSum / (new Date().getMonth() + 1));
           this.lastMonthAverage =
             lastYearSummary.length === 0
               ? 0
-              : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+              : parseInt(this.lastTotalPriceSum / 12);
           this.yearSwitch();
           let originalConsumptionTrend = [];
           let date = new Date();
@@ -293,13 +295,15 @@ export default {
           console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
+          console.log('orderList===', orderList)
           let thisYearOrderList = orderList.filter(item => {
-            return item.setup_time.slice(0, 4) == new Date().getFullYear();
+            return moment(item.setup_time).isValid() && item.setup_time.slice(0, 4) == new Date().getFullYear();
           });
           let thisYearOrderListSortBy = _.sortBy(
             thisYearOrderList,
             "price"
           ).reverse();
+          console.log('thisYearOrderList===', thisYearOrderList)
           this.thisYearOrderListSortBy = thisYearOrderListSortBy;
           this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
           this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
@@ -325,13 +329,13 @@ export default {
       });
     },
     yearSwitch() {
-      this.selected === 1
+      this.selected === 0
         ? (this.totalPriceSum = this.lastTotalPriceSum)
         : (this.totalPriceSum = this.thisTotalPriceSum);
-      this.selected === 1
+      this.selected === 0
         ? (this.monthAverage = this.lastMonthAverage)
         : (this.monthAverage = this.thisMonthAverage);
-      this.selected === 1
+      this.selected === 0
         ? (this.countSum = this.lastCountSum)
         : (this.countSum = this.thisCountSum);
     },
@@ -362,8 +366,8 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: window.location.href,
-          shareImageUrl: _this.wxShareIco
+          shareUrl:  this.config.NEW_MWEB_PATH + '/activityIntroduction',
+          shareImageUrl: this.wxShareIco
         })
       );
     },
@@ -376,7 +380,7 @@ export default {
           wx: {
             title: this.title,
             desc: "征信报告分享",
-            link: window.location.href,
+            link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
             imgUrl: this.wxShareIco
           }
         },

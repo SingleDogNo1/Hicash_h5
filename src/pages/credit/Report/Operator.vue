@@ -1,5 +1,5 @@
 <template>
-  <div class="operator">
+  <div class="operator" id="operator" ref="operator">
     <page-header
       :title="title"
       :showBack="showBack"
@@ -7,7 +7,7 @@
       :jumpRouteName="'Inquiry'"
       v-if="platform === 'H5'"
     ></page-header>
-    <div class="content" :class="{ appContent: platform === 'APP' }">
+    <div class="content" id="content" :class="{ appContent: platform === 'APP' }">
       <div class="operator-report-wrap">
         <div class="title-wrap">
           <h1>运营商报告</h1>
@@ -27,7 +27,7 @@
               <span class="score-value">{{profile.creditScore}}</span>
               <p class="score-text">信用分</p>
             </x-circle>
-            <p class="icon-verified" v-if="profile.verified">实名认证</p>
+            <p class="icon-verified" v-if="dataSource.isRealNameVerified === 1">实名认证</p>
             <p class="icon-not-verified" v-else>未实名</p>
           </div>
         </div>
@@ -89,33 +89,34 @@
           </div>
         </div>
         <!-- <div class="contacts-list">
-					<scroller lock-y :bounce="false">
-            <div  v-for="(contactsItem, index) in contactsArr" :key="index">
-						<ul class="item">
-                  <li v-for="(item, index) in contactsItem" :key="index">
-                    <span class="key">姓名</span>
-                    <span class="value">天天</span>
-                  </li>
-                </ul>
-            </div>
-					</scroller>
+            <scroller lock-y :bounce="false">
+              <div  v-for="(contactsItem, index) in contactsArr" :key="index">
+              <ul class="item">
+                    <li v-for="(item, index) in contactsItem" :key="index">
+                      <span class="key">姓名</span>
+                      <span class="value">天天</span>
+                    </li>
+                  </ul>
+              </div>
+            </scroller>
         </div>-->
       </div>
       <div class="contacts-wrap-empty" v-else>
         <h3>常用联系人</h3>
-        <p class="desc">没有获取到您的记录哦，
+        <p class="desc">
+          没有获取到您的记录哦，
           <br>快去更新报告吧！
         </p>
       </div>
       <div
         class="number-verification-wrap"
-        v-if="specialNum1 !== '未发现与110电话通话记录' && specialNum2 !== '未找到贷款类相关号码' "
+        v-if="specialNum1 !== '未发现与110电话通话记录' || specialNum2 !== '未找到贷款类相关号码' "
       >
         <h3>号码验真</h3>
-        <p class="warn-text">
+        <p class="warn-text" v-if="specialNum1 !== '未发现与110电话通话记录'">
           <span>发现与110相关号码的通话记录</span>
         </p>
-        <p class="warn-text">
+        <p class="warn-text" v-if="specialNum2 !== '未找到贷款类相关号码'">
           <span>发现与贷款类相关号码的通话记录</span>
         </p>
         <div class="report-desc">
@@ -133,23 +134,40 @@
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
       <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
     </div>
+    <div v-transfer-dom>
+      <x-dialog v-model="showToast" class="thumbnail-dialog">
+        <div class="thumbnail-wrap">
+          <img class="thumbnail-img" :src="thumbnailImg" alt>
+          <div class="tips">
+            <img src="./images/icon_qrcode_operator.png" alt>
+            <span>长按/扫描识别二维码，查看详情</span>
+          </div>
+          <!--<img class="thumbnail-img" src="./images/bg_map.png">-->
+        </div>
+      </x-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import F2Pie from "@/components/F2Pie.vue";
-import { XCircle } from "vux";
+import { XCircle, XDialog, TransferDom } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
 var moment = require("moment");
+import html2canvas from "html2canvas";
 
 export default {
   name: "Operator",
+  directives: {
+    TransferDom
+  },
   components: {
     PageHeader,
     F2Pie,
-    XCircle
+    XCircle,
+    XDialog
   },
   data() {
     return {
@@ -159,12 +177,12 @@ export default {
       date: "",
       profile: {
         creditScore: 0,
-        percent: 0,
-        verified: false
+        percent: 0
       },
       dataSource: {
         name: "",
-        useTime: ""
+        useTime: "",
+        isRealNameVerified: 0
       },
       specialNum1: "",
       specialNum2: "",
@@ -172,7 +190,10 @@ export default {
       charData: [],
       contactsArr: [],
       shareBox: false,
-      platform: this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      wxShareIco: "./images/icon_share.png",
+      showToast: false,
+      thumbnailImg: ""
     };
   },
   methods: {
@@ -185,8 +206,8 @@ export default {
         let data = res.data;
         if (data.resultCode === "1") {
           let url = data.url;
-          if(data.userInfo) {
-            window.location.href = url;
+          if (data.userInfo) {
+            this.$router.push({ name: "PandoraAuth" });
           } else {
             this.$router.push({ name: "IdentityAuth" });
           }
@@ -211,6 +232,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log("data===", data);
           let profile = data.profile;
           this.profile.verified = profile.verified;
           this.profile.creditScore = !profile.credit_score
@@ -223,10 +245,11 @@ export default {
 
           let dataSource = data.data_source;
           this.dataSource.name = dataSource.name;
-          console.log(dataSource)
+          this.dataSource.isRealNameVerified = dataSource.is_real_name_verified;
+          console.log(dataSource);
           let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
           let currentTime = moment(new Date()).format("YYYY-MM-DD");
-          console.log('netInTime===', netInTime, currentTime)
+          console.log("netInTime===", netInTime, currentTime);
           function datemonth(date1, date2) {
             // 拆分年月日
             date1 = date1.split("-");
@@ -239,7 +262,9 @@ export default {
             var m = Math.abs(date1 - date2);
             return m;
           }
-          this.dataSource.useTime = dataSource.net_in_time ? datemonth(netInTime, currentTime) + "月" : "0月";
+          this.dataSource.useTime = dataSource.net_in_time
+            ? datemonth(netInTime, currentTime) + "月"
+            : "0月";
 
           let contactsRegionSummary = data.contacts_region_summary;
           let callerCountArr = _.pluck(contactsRegionSummary, "caller_count");
@@ -293,6 +318,7 @@ export default {
           let specialNum1Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_110";
           });
+          console.log("specialNum1Arr===", specialNum1Arr);
           let specialNum2Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_loan";
           });
@@ -307,18 +333,18 @@ export default {
         }
       });
     },
-    shareMethods: function() {
+    shareMethods() {
       window.hicashJSCommunication.onCallApp(
         JSON.stringify({
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: window.location.href,
-          shareImageUrl: _this.wxShareIco
+          shareUrl: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+          shareImageUrl: this.wxShareIco
         })
       );
     },
-    sharePopup: function() {
+    sharePopup() {
       var config = {
         title: this.title,
         desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
@@ -327,13 +353,63 @@ export default {
           wx: {
             title: this.title,
             desc: "征信报告分享",
-            link: window.location.href,
+            link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
             imgUrl: this.wxShareIco
           }
         },
         fnDoShare: function(type) {}
       };
       share.Mshare.popup(config);
+      // html2canvas(document.getElementById("operator"), {
+      //   backgroundColor: null
+      // }).then(canvas => {
+      //   var imgData = canvas.toDataURL("image/jpeg");
+      //   console.log("imgData==", imgData);
+      //   this.thumbnailImg = imgData;
+      //   this.showToast = true;
+      //   //this.fileDownload(imgData);
+      // });
+      // var cntElem = document.getElementById("content");
+
+      // var shareContent = cntElem; //需要截图的包裹的（原生的）DOM 对象
+      // var width = shareContent.offsetWidth; //获取dom 宽度
+      // var height = shareContent.offsetHeight; //获取dom 高度
+      // var canvas = document.createElement("canvas"); //创建一个canvas节点
+      // var scale = 2; //定义任意放大倍数 支持小数
+      // canvas.width = width * scale; //定义canvas 宽度 * 缩放
+      // canvas.height = height * scale; //定义canvas高度 *缩放
+      // canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+      // var opts = {
+      //   scale: scale, // 添加的scale 参数
+      //   canvas: canvas, //自定义 canvas
+      //   // logging: true, //日志开关，便于查看html2canvas的内部执行流程
+      //   width: width, //dom 原始宽度
+      //   height: height,
+      //   useCORS: true, // 【重要】开启跨域配置,
+      //   scrollY: -40
+      // };
+
+      // html2canvas(shareContent, opts).then(canvas => {
+      //   var context = canvas.getContext("2d");
+      //   // 【重要】关闭抗锯齿
+      //   context.mozImageSmoothingEnabled = false;
+      //   context.webkitImageSmoothingEnabled = false;
+      //   context.msImageSmoothingEnabled = false;
+      //   context.imageSmoothingEnabled = false;
+
+      //   // 【重要】默认转化的格式为png,也可设置为其他格式
+      //   // var img = Canvas2Image.convertToJPEG(
+      //   //   canvas,
+      //   //   canvas.width,
+      //   //   canvas.height
+      //   // );
+      //   let imgData = canvas.toDataURL("image/jpeg");
+      //   console.log("imgData===", imgData, this);
+      //   this.thumbnailImg = imgData;
+      //   window.localStorage.setItem("imgUrl", this.thumbnailImg);
+      //   //this.showToast = true;
+      //   this.$router.push( { name: 'ThumbnailImg', params: {imgUrl: this.thumbnailImg}})
+      // });
     }
   },
   mounted() {
@@ -642,6 +718,33 @@ export default {
   }
   .appContent {
     padding-top: 0;
+  }
+}
+.thumbnail-dialog {
+  .thumbnail-wrap {
+    //padding: 15px;
+    .thumbnail-img {
+      width: 250px;
+      height: auto;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+    .tips {
+      margin: 20px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      img {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+      }
+      span {
+        display: inline-block;
+      }
+    }
   }
 }
 </style>
