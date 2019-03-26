@@ -137,6 +137,18 @@
     <popup v-model="shareShow" position="bottom" max-height="50%">
       <share :config="config"></share>
     </popup>
+    <div v-transfer-dom>
+      <x-dialog v-model="showToast" class="thumbnail-dialog">
+        <div class="m-share-tips-w">
+          <div class="m-share-tips-p">
+            点击右上角“
+            <i class="m-share-iconfont m-share-iconfont-dots"></i>”
+          </div>\n
+          <div class="m-share-tips-p">分享给朋友吧！</div>
+        </div>\n
+        <div class="m-share-tips-arrow"></div>
+      </x-dialog>
+    </div>
     <!--<div v-transfer-dom>
       <x-dialog v-model="showToast" class="thumbnail-dialog">
         <div class="thumbnail-wrap">
@@ -196,7 +208,7 @@ export default {
       shareBox: false,
       platform: this.utils.getPlatform(),
       wxShareIco: "./images/icon_share.png",
-      showToast: false,
+      showToast: true,
       thumbnailImg: "",
       config: {
         url: this.config.NEW_MWEB_PATH + "/activityIntroduction", // 网址，默认使用 window.location.href
@@ -247,45 +259,45 @@ export default {
     },
     getReportInfo() {
       //if (this.isWeiXin()) {
-        this.common.wxfx({url: window.location.href}).then(res => {
-          let data = res.data;
-          alert('data' + JSON.stringify(data))
-          wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: data.appId,
-            timestamp: data.timestamp,
-            nonceStr: data.nonceStr,
-            signature: data.signature,
-            jsApiList: [
-              "checkJsApi",
-              "onMenuShareTimeline",
-              "onMenuShareAppMessage",
-              "onMenuShareQQ",
-              "onMenuShareWeibo"
-            ]
-          });
+      this.common.wxfx({ url: window.location.href }).then(res => {
+        let data = res.data;
+        alert("data" + JSON.stringify(data));
+        wx.config({
+          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: data.appId,
+          timestamp: data.timestamp,
+          nonceStr: data.nonceStr,
+          signature: data.signature,
+          jsApiList: [
+            "checkJsApi",
+            "onMenuShareTimeline",
+            "onMenuShareAppMessage",
+            "onMenuShareQQ",
+            "onMenuShareWeibo"
+          ]
+        });
 
-          wx.ready(function() {
-            wx.onMenuShareAppMessage({
-              desc: "征信报告分享",
-              title: "征信报告分享",
-              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-              imgUrl: this.wxShareIco,
-              success: function() {},
-              cancel: function() {}
-            });
-            wx.onMenuShareTimeline({
-              desc: "征信报告分享",
-              title: "征信报告分享",
-              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-              imgUrl: this.wxShareIco,
-              success: function() {},
-              cancel: function() {}
-            });
+        wx.ready(function() {
+          wx.onMenuShareAppMessage({
+            desc: "征信报告分享",
+            title: "征信报告分享",
+            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+            imgUrl: this.wxShareIco,
+            success: function() {},
+            cancel: function() {}
+          });
+          wx.onMenuShareTimeline({
+            desc: "征信报告分享",
+            title: "征信报告分享",
+            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+            imgUrl: this.wxShareIco,
+            success: function() {},
+            cancel: function() {}
           });
         });
+      });
       //}
-      
+
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -468,13 +480,13 @@ export default {
         types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
         infoMap: {
           wx: {
-            appId: '',
-            timestamp: '',
-            nonceStr: '',
-            signature: '',
+            appId: "",
+            timestamp: "",
+            nonceStr: "",
+            signature: "",
             title: this.title,
             desc: "征信报告分享",
-            link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
             imgUrl: this.wxShareIco
           }
         },
