@@ -246,7 +246,7 @@ export default {
       });
     },
     getReportInfo() {
-      //if (this.isWeiXin()) {
+      if (this.isWeiXin()) {
         this.common.wxfx({url: window.location.href}).then(res => {
           let data = res.data;
           alert('data' + JSON.stringify(data))
@@ -284,7 +284,7 @@ export default {
             });
           });
         });
-      //}
+      }
       
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
