@@ -53,7 +53,13 @@ export default {
     console.info('this.$router.history.current', this.$router.history.current);
     if(this.$router.history.current.query.source == 'iframe'){
       parent.location.href = this.config.NEW_MWEB_PATH + this.$router.history.current.path;
-    }
+	}
+	
+	if (this.$route.query.source == "auth_iframe") {
+			var url = window.location.href;
+			var urlArr = url.split('&');
+			parent.location.href = urlArr[0];
+		}
 
     if (this.$router.history.current.meta.requireAuth) {
       // 判断该路由是否需要登录权限
