@@ -503,6 +503,7 @@ export default {
 						mediasource != "null"
 					) {
 						this.utils.setCookie("mediasource", mediasource);
+						window.sessionStorage.setItem('mediasource', mediasource);
 					}
 					this.utils.setCookie("userName", data.loginInfo.userName);
 					this.utils.setCookie("mobile", data.loginInfo.mobile);
