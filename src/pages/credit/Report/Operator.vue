@@ -239,7 +239,6 @@ export default {
       this.isWeiXinShare = this.isWeiXin();
       if (this.isWeiXinShare) {
         this.mediasource = window.sessionStorage.getItem('mediasource');
-        alert('this.mediasource==' + this.mediasource)
         let params = new URLSearchParams();
         params.append("url", window.location.href);
         this.common.wxfx(params).then(res => {
