@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <template>
+=======
+﻿<template>
+>>>>>>> c7823d1efee9665cbb00fc1bb70c9a1d72c67b26
   <div>
     <div class="skip" v-if="skipFlag">
       <span class="skipBtn" @click="skip">跳过</span>

@@ -29,11 +29,12 @@
 					</h4>
 					<ul class="pro-coupon-list">
 						<li
-							v-for="discountListItem in discountList"
+							v-for="(discountListItem,index) in discountList"
 							:class="{
 								'coupon-percent':
 									discountListItem.couponType === '1'
 							}"
+							:key="index"
 						>
 							<div class="pro-coupon-wrap-left">
 								<h5>{{ discountListItem.discountName }}</h5>

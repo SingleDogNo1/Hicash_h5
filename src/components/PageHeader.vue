@@ -29,7 +29,7 @@
 	left: 0;
 	width: 100%;
 	background-color: #fff;
-	z-index: 100;
+	z-index: 10000;
 	/deep/ .vux-header-left {
 		/deep/ .left-arrow:before {
 			border-left: 1px solid #333;
@@ -121,6 +121,7 @@ export default {
 		closeDialogConfirmText: String,
 		closeDialogCancelText: String,
 		jumpRouteName: String,
+		closeJumpRouteName: String,
 		query: Object
 	},
 	components: {
@@ -135,7 +136,9 @@ export default {
 	},
 	methods: {
 		jump: function() {
-			if (this.jumpRouteName) {
+			if (this.jumpRouteName == 'popOutAuth') {
+				this.$emit("onDiologStatus", this.jumpRouteName);
+			}else if (this.jumpRouteName) {
 				
 				const params = {
 					name: this.jumpRouteName,

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div id="app" :class="[path, platform]"><router-view></router-view></div>
 </template>
 
@@ -31,7 +31,6 @@ export default {
 			var urlArr = url.split('&');
 			parent.location.href = urlArr[0];
 		}
-
 		if (this.$router.history.current.meta.requireAuth) {
 			// 判断该路由是否需要登录权限
 			if (!userName || userName == "null") {
