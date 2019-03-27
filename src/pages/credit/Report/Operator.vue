@@ -235,7 +235,7 @@ export default {
       });
     },
     getReportInfo() {
-      if (this.isWeiXinShare) {
+      //if (this.isWeiXinShare) {
         let params = new URLSearchParams();
         params.append("url", window.location.href);
         this.common.wxfx(params).then(res => {
@@ -256,7 +256,7 @@ export default {
           });
 
           wx.ready(()=> {
-            console.log('this.config===', this, this.config)
+            console.log('this.config===', this, this.config, this.wxShareIco)
             wx.onMenuShareAppMessage({
               desc: "征信报告分享",
               title: "征信报告分享",
@@ -275,7 +275,7 @@ export default {
             });
           });
         });
-      }
+      //}
       //}
 
       let year = new Date().getFullYear();
