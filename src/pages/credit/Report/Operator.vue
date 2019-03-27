@@ -277,6 +277,7 @@ export default {
         });
 
         wx.ready(()=> {
+          console.log('this.config===', this, this.config)
           wx.onMenuShareAppMessage({
             desc: "征信报告分享",
             title: "征信报告分享",
@@ -558,7 +559,7 @@ export default {
   },
   mounted() {
     this.getReportInfo();
-    this.isWeiXinShare = this.isWeiXin();
+    this.isWeiXinShare = true;
   }
 };
 </script>
