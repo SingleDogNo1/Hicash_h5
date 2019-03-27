@@ -261,7 +261,7 @@ export default {
               desc: "征信报告分享",
               title: "征信报告分享",
               link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
-              imgUrl: this.wxShareIco,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
             });
@@ -269,7 +269,7 @@ export default {
               desc: "征信报告分享",
               title: "征信报告分享",
               link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
-              imgUrl: this.wxShareIco,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
             });
