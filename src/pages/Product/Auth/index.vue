@@ -836,7 +836,7 @@ export default {
 					this.UpdateCustCard(updateCustCardrData)
 				}else {
 					let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
-					response.bigPath = this.config.pic_path + response.bigPath
+					response.bigPath = this.config.pic_path + response.smallPath;
 					this.$set(this.idCardInfo,arrIndex,response) 
 				}
 			}

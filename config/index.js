@@ -70,6 +70,13 @@ module.exports = {
         pathRewrite:{
             '^/creditservice':''
         }
+      },
+      '/credit-service':{
+        target:'http://47.104.254.92:30192/credit-service',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/credit-service':''
+        }
       }
     }
   },
@@ -82,7 +89,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/hicash-h5/',
+    assetsPublicPath: '/h5/',
 
     /**
      * Source Maps
