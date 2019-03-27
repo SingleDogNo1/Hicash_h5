@@ -13,6 +13,7 @@
 		<tabbar-item
 			:link="{ name: 'Inquiry' }"
 			:selected="$route.name === 'Inquiry'"
+			v-if="isShowCredit"
 		>
 			<span
 				class="icon-inquiry"
@@ -64,7 +65,11 @@ export default {
 		return {
 			sxUrl: "",
 			personCenterUrl: "",
-			personCenterDotShow: false
+			personCenterDotShow: false,
+			isShowCredit: false,
+			creditShowWriteList:['pandoraWC', 'pandoraJFWK3', 'pandoraMZWLp', 'pandoraQRXXb'],
+			mediasource: this.$route.query.mediasource
+
 		};
 	},
 	mounted: function() {
@@ -78,6 +83,11 @@ export default {
 		if (this.utils.getCookie("isHaveUnreadCoupon") > "0") {
 			this.personCenterDotShow = true;
 		}
+
+		if(this.creditShowWriteList.indexOf(this.mediasource) > -1){
+			this.isShowCredit = true;
+		}
+
 		let postData = new URLSearchParams();
 			postData.append("comeFrom", 'H5');
 		this.IsBottomShow(postData);
