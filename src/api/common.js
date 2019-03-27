@@ -63,7 +63,8 @@ export default {
 	QueryWithdrawData: QueryWithdrawData,
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
-	VerifyVideo: VerifyVideo
+	VerifyVideo: VerifyVideo,
+	QueryPandoraUrl: QueryPandoraUrl
 };
 
 /*
@@ -1047,6 +1048,22 @@ export function GetRandomNumber(params) {
 export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/VerifyVideo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取PandDoraH5页面链接
+ */
+export function QueryPandoraUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
 			res => {
 				resolve(res);
 			},
