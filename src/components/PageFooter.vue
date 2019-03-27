@@ -72,6 +72,7 @@ export default {
 		};
 	},
 	mounted: function() {
+		alert('this.mediasource===' + this.mediasource)
 		this.sxUrl = this.config.MWEB_PATH + "newweb/infoList/list.html";
 		this.personCenterUrl =
 			this.config.MWEB_PATH + "newweb/personalCenter/perCenter.html";
