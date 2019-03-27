@@ -276,7 +276,7 @@ export default {
           ]
         });
 
-        wx.ready(function() {
+        wx.ready(()=> {
           wx.onMenuShareAppMessage({
             desc: "征信报告分享",
             title: "征信报告分享",
