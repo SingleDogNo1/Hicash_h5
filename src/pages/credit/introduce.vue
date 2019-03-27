@@ -116,13 +116,13 @@ export default {
           },
           {
             reportType: "helloBike",
-            status: "0",
+            status: "",
             iconUrl: require("./images/haluo.png"),
             reportName: "哈啰单车"
           },
           {
             reportType: "jd",
-            status: "2",
+            status: "",
             iconUrl: require("./images/jd.png"),
             reportName: "京东"
           }
@@ -256,7 +256,7 @@ export default {
             font-size: rem(16px);
             color: #666666;
             letter-spacing: 0;
-            margin-top: rem(8px);
+            margin-top: rem(6px);
           }
         }
       }

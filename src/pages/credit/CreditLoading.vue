@@ -64,6 +64,7 @@ export default {
       msg: "",
       // isShowDialog: true,
       report: "",
+      creditType: "",
       platform: this.utils.getPlatform()
     };
   },
@@ -103,10 +104,11 @@ export default {
       });
     },
     goAuthentication(val) {
+      this.utils.setCookie("creditType", this.creditType);
       // 去认证
       let obj = {};
       obj.userName = this.utils.getCookie("userName");
-      obj.creditType = this.utils.getCookie("creditType");
+      obj.creditType = this.creditType;
 
       this.common.queryCreditUrl(obj).then(res => {
         let data = res.data;
@@ -155,7 +157,7 @@ export default {
             if (arr1.length != 0) {
               let number = Math.round(Math.random() * (arr1.length - 1));
               this.msg = arr1[number].reportName;
-              this.utils.setCookie("creditType", arr1[number].reportType);
+              this.creditType = arr1[number].reportType;
             }
           });
       }
