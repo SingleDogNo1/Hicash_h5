@@ -231,7 +231,7 @@ export default {
       });
     },
     getReportInfo() {
-      if (this.isWeiXinShare) {
+      //if (this.isWeiXinShare) {
         let params = new URLSearchParams();
         params.append("url", window.location.href);
         this.common.wxfx(params).then(res => {
@@ -270,7 +270,7 @@ export default {
             });
           });
         });
-      }
+      //}
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
