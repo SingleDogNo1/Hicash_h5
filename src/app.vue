@@ -25,6 +25,12 @@ export default {
 		if (this.$router.history.current.meta.title) {
 			document.title = this.$router.history.current.meta.title;
 		}
+		//ifarame跳转页面
+		if (this.$route.query.source == "auth_iframe") {
+			var url = window.location.href;
+			var urlArr = url.split('&');
+			parent.location.href = urlArr[0];
+		}
 
 		if (this.$router.history.current.meta.requireAuth) {
 			// 判断该路由是否需要登录权限
