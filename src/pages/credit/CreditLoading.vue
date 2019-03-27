@@ -136,27 +136,29 @@ export default {
     // }, 5000);
     // },
     getUserCreditReports() {
-      this.common
-        .getUserCreditReports(this.utils.getCookie("userName"))
-        .then(res => {
-          // console.log(res.data);
-          let arr = res.data.data;
-          let arr1 = [];
-          arr.map(item => {
-            if (item.status == 0) {
-              arr1.push(item);
-              this.isDisappear = true;
-            }
-            if (item.reportName == "饿了么") {
-              item.reportName = "饿了么外卖";
+      if (this.utils.getCookie("userName")) {
+        this.common
+          .getUserCreditReports(this.utils.getCookie("userName"))
+          .then(res => {
+            // console.log(res.data);
+            let arr = res.data.data;
+            let arr1 = [];
+            arr.map(item => {
+              if (item.status == 0) {
+                arr1.push(item);
+                this.isDisappear = true;
+              }
+              if (item.reportName == "饿了么") {
+                item.reportName = "饿了么外卖";
+              }
+            });
+            if (arr1.length != 0) {
+              let number = Math.round(Math.random() * (arr1.length - 1));
+              this.msg = arr1[number].reportName;
+              this.utils.setCookie("creditType", arr1[number].reportType);
             }
           });
-          if (arr1.length != 0) {
-            let number = Math.round(Math.random() * (arr1.length - 1));
-            this.msg = arr1[number].reportName;
-            this.utils.setCookie("creditType", arr1[number].reportType);
-          }
-        });
+      }
     },
     others() {
       //看看别的

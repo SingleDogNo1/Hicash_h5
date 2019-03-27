@@ -12,7 +12,7 @@
         <img src="./images/banner.png" alt>
       </div>
       <div class="list">
-        <div class="list-box">
+        <!-- <div class="list-box">
           <div @click.stop="queryCreditUrl(list[0])" class="list-row">
             <div class="icon">
               <img src="./images/operator.png" alt>
@@ -43,8 +43,8 @@
             </div>
             <div class="txt">京东</div>
           </div>
-        </div>
-        <!-- <div
+        </div>-->
+        <div
           class="list-box"
           :span="1/3"
           v-for="(item ,  i) in list"
@@ -57,7 +57,7 @@
             </div>
             <div class="txt">{{item.reportName}}</div>
           </div>
-        </div>-->
+        </div>
       </div>
     </div>
     <div class="rule">
@@ -90,47 +90,50 @@ export default {
       showBack: true,
       showBtnClose: false,
       platform: this.utils.getPlatform(),
-      list: [
-        {
-          reportType: "operator",
-          status: "1",
-          iconUrl: "./images/operator.png",
-          reportName: "运营商"
-        },
-
-        {
-          reportType: "eleme",
-          status: "1",
-          iconUrl: "./images/element.png",
-          reportName: "饿了么"
-        },
-        {
-          reportType: "helloBike",
-          status: "1",
-          iconUrl: "./images/haluo.png",
-          reportName: "哈啰单车"
-        },
-        {
-          reportType: "jd",
-          status: "1",
-          iconUrl: "./images/jd.png",
-          reportName: "京东"
-        }
-      ],
+      list: [],
       userName: this.utils.getCookie("userName")
     };
   },
   created() {
-    
+    this.getUserCreditReports();
   },
   methods: {
     getUserCreditReports() {
-      this.common.getUserCreditReports(this.userName).then(res => {
-        this.list = res.data.data;
-      });
+      if (!this.userName) {
+        this.list = [
+          {
+            reportType: "operator",
+            status: "",
+            iconUrl: require("./images/operator.png"),
+            reportName: "运营商"
+          },
+
+          {
+            reportType: "eleme",
+            status: "",
+            iconUrl: require("./images/element.png"),
+            reportName: "饿了么"
+          },
+          {
+            reportType: "helloBike",
+            status: "0",
+            iconUrl: require("./images/haluo.png"),
+            reportName: "哈啰单车"
+          },
+          {
+            reportType: "jd",
+            status: "2",
+            iconUrl: require("./images/jd.png"),
+            reportName: "京东"
+          }
+        ];
+      } else {
+        this.common.getUserCreditReports(this.userName).then(res => {
+          this.list = res.data.data;
+        });
+      }
     },
     queryCreditUrl(item) {
-      this.getUserCreditReports();
       if (!this.userName) {
         const params = {
           name: "Login",
@@ -149,6 +152,7 @@ export default {
       // let _params = new URLSearchParams();
       // _params.append("userName",this.userName);
       // _params.append("creditType", item.reportType);
+      console.log(this.list);
 
       this.utils.setCookie("creditType", item.reportType);
       if (item.status == 0 || item.status == 3) {
