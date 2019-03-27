@@ -221,6 +221,7 @@ export default {
       }
     },
     getReportInfo() {
+      this.isWeiXinShare = this.isWeiXin();
       if (this.isWeiXinShare) {
         let params = new URLSearchParams();
         params.append("url", window.location.href);
@@ -438,7 +439,6 @@ export default {
   },
   mounted() {
     this.getReportInfo();
-    this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>

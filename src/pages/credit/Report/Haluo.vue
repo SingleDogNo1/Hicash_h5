@@ -231,13 +231,14 @@ export default {
       });
     },
     getReportInfo() {
-      //if (this.isWeiXinShare) {
+      this.isWeiXinShare = this.isWeiXin();
+      if (this.isWeiXinShare) {
         let params = new URLSearchParams();
         params.append("url", window.location.href);
         this.common.wxfx(params).then(res => {
           let data = res.data;
           wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: data.appId,
             timestamp: data.timestamp,
             nonceStr: data.nonceStr,
@@ -270,7 +271,7 @@ export default {
             });
           });
         });
-      //}
+      }
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -417,7 +418,6 @@ export default {
   },
   mounted() {
     this.getReportInfo();
-    this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>
