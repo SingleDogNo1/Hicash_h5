@@ -52,7 +52,6 @@ export default {
       document.title = this.$router.history.current.meta.title;
     }
 
-    console.info("this.$router.history.current", this.$router.history.current);
     if (this.$router.history.current.query.source == "iframe") {
       parent.location.href =
         this.config.NEW_MWEB_PATH + this.$router.history.current.path;
