@@ -12,7 +12,39 @@
         <img src="./images/banner.png" alt>
       </div>
       <div class="list">
-        <div
+        <div class="list-box">
+          <div @click.stop="queryCreditUrl(list[0])" class="list-row">
+            <div class="icon">
+              <img src="./images/operator.png" alt>
+            </div>
+            <div class="txt">运营商</div>
+          </div>
+        </div>
+        <div class="list-box">
+          <div @click.stop="queryCreditUrl(list[1])" class="list-row">
+            <div class="icon">
+              <img src="./images/element.png" alt>
+            </div>
+            <div class="txt">饿了么</div>
+          </div>
+        </div>
+        <div class="list-box active">
+          <div @click.stop="queryCreditUrl(list[2])" class="list-row">
+            <div class="icon">
+              <img src="./images/haluo.png" alt>
+            </div>
+            <div class="txt">哈罗单车</div>
+          </div>
+        </div>
+        <div class="list-box active">
+          <div @click="queryCreditUrl(list[3])" class="list-row">
+            <div class="icon">
+              <img src="./images/jd.png" alt>
+            </div>
+            <div class="txt">京东</div>
+          </div>
+        </div>
+        <!-- <div
           class="list-box"
           :span="1/3"
           v-for="(item ,  i) in list"
@@ -25,7 +57,7 @@
             </div>
             <div class="txt">{{item.reportName}}</div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <div class="rule">
@@ -58,12 +90,38 @@ export default {
       showBack: true,
       showBtnClose: false,
       platform: this.utils.getPlatform(),
-      list: [],
+      list: [
+        {
+          reportType: "operator",
+          status: "1",
+          iconUrl: "./images/operator.png",
+          reportName: "运营商"
+        },
+
+        {
+          reportType: "eleme",
+          status: "1",
+          iconUrl: "./images/element.png",
+          reportName: "饿了么"
+        },
+        {
+          reportType: "helloBike",
+          status: "1",
+          iconUrl: "./images/haluo.png",
+          reportName: "哈啰单车"
+        },
+        {
+          reportType: "jd",
+          status: "1",
+          iconUrl: "./images/jd.png",
+          reportName: "京东"
+        }
+      ],
       userName: this.utils.getCookie("userName")
     };
   },
   created() {
-    this.getUserCreditReports();
+    
   },
   methods: {
     getUserCreditReports() {
@@ -72,6 +130,7 @@ export default {
       });
     },
     queryCreditUrl(item) {
+      this.getUserCreditReports();
       if (!this.userName) {
         const params = {
           name: "Login",
@@ -193,7 +252,7 @@ export default {
             font-size: rem(16px);
             color: #666666;
             letter-spacing: 0;
-            // margin-top: rem(12px);
+            margin-top: rem(8px);
           }
         }
       }
