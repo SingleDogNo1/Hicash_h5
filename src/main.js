@@ -45,7 +45,6 @@ import { AlertPlugin } from "vux";
 Vue.use(AlertPlugin);
 
 Vue.use(MintUI);
-Vue.use(Share)
 
 Vue.config.productionTip = false;
 
