@@ -189,7 +189,7 @@ export default {
         let data = res.data;
         if (data.resultCode == "1") {
           var paramsStr = "";
-          if (dataJ.url.indexOf("?") != -1) {
+          if (data.url.indexOf("?") != -1) {
             paramsStr =
               "&source=hq&id_card_no=" +
               utils.getCookie("identityCode") +
