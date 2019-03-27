@@ -1,4 +1,4 @@
-import axios from "axios";
+﻿import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
 
@@ -64,12 +64,7 @@ export default {
 	GetRandomNumber: GetRandomNumber,
 	UpdateCustCard: UpdateCustCard,
 	VerifyVideo: VerifyVideo,
-	LoanPay: LoanPay,
-	getAvailableBalance: getAvailableBalance,
-	getAcctRecords: getAcctRecords,
-	AboutHicash: AboutHicash,
-	QueryPandoraUrl: QueryPandoraUrl,
-	IsBottomShow: IsBottomShow
+	QueryPandoraUrl: QueryPandoraUrl
 };
 
 /*
@@ -780,38 +775,6 @@ export function getRechargeCoupon(params) {
 }
 
 /*
- *  个人中心-交易明细-还款金额
- */
-export function getAvailableBalance(params) {
-	return new Promise((resolve, reject) => {
-		axios.post("/HicashAppService/AvailableBalance", params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
-}
-
-/*
- *  个人中心-交易明细-账户记录
- */
-export function getAcctRecords(params) {
-	return new Promise((resolve, reject) => {
-		axios.post("/HicashService/AcctRecords", params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
-}
-
-/*
  *  个人中心-优惠券列表
  */
 export function getCustHicashCoupon(params) {
@@ -1096,56 +1059,11 @@ export function VerifyVideo(params) {
 }
 
 /*
- *  最低本息还款
- */
-export function LoanPay(params) {
-	return new Promise((resolve, reject) => {
-		axios.post("/HicashAppService/LoanPay", params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
-}
-
-/*
- *  个人中心 -- 关于我们
- */
-export function AboutHicash(params) {
-	return new Promise((resolve, reject) => {
-		axios.post("/NewHicashService/AboutHicash", params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
-}
-
-/*
  *  获取PandDoraH5页面链接
  */
 export function QueryPandoraUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
-}
-
-export function IsBottomShow(params) {
-	return new Promise((resolve, reject) => {
-		axios.post("/HicashAppService/IsBottomShow", params).then(
 			res => {
 				resolve(res);
 			},

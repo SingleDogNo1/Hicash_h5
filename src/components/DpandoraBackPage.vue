@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div>
     <div class="skip" v-if="skipFlag">
       <span class="skipBtn" @click="skip">跳过</span>
@@ -189,7 +189,7 @@ export default {
         let data = res.data;
         if (data.resultCode == "1") {
           var paramsStr = "";
-          if (data.url.indexOf("?") != -1) {
+          if (dataJ.url.indexOf("?") != -1) {
             paramsStr =
               "&source=hq&id_card_no=" +
               utils.getCookie("identityCode") +
