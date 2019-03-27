@@ -1,6 +1,7 @@
 ﻿import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
+import qs from 'qs'
 
 let cache = jsCommon.Cache();
 
@@ -116,11 +117,11 @@ export function getHomePagePic(params) {
 		axios
 			.get(
 				"/HicashService/HomePagePic?cityCode=" +
-					params.cityCode +
-					"&uuid=" +
-					params.uuid +
-					"&position=" +
-					params.position
+				params.cityCode +
+				"&uuid=" +
+				params.uuid +
+				"&position=" +
+				params.position
 			)
 			.then(
 				res => {
@@ -1110,11 +1111,11 @@ export function queryCreditUrl(params) {
 }
 
 /*
- *  获取PandDoraH5页面链接
+ *  征信状态列表接口
  */
-export function QueryPandoraUrl(params) {
+export function getUserCreditReports(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
+		axios.get("/hicash-api-service/credit/getUserCreditReports/"+params).then(
 			res => {
 				resolve(res);
 			},
