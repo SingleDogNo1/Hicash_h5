@@ -1100,7 +1100,7 @@ export function queryCreditUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
 				reject(err);
