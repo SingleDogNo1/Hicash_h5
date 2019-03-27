@@ -12,6 +12,38 @@
         <img src="./images/banner.png" alt>
       </div>
       <div class="list">
+        <!-- <div class="list-box">
+          <div @click.stop="queryCreditUrl(list[0])" class="list-row">
+            <div class="icon">
+              <img src="./images/operator.png" alt>
+            </div>
+            <div class="txt">运营商</div>
+          </div>
+        </div>
+        <div class="list-box">
+          <div @click.stop="queryCreditUrl(list[1])" class="list-row">
+            <div class="icon">
+              <img src="./images/element.png" alt>
+            </div>
+            <div class="txt">饿了么</div>
+          </div>
+        </div>
+        <div class="list-box active">
+          <div @click.stop="queryCreditUrl(list[2])" class="list-row">
+            <div class="icon">
+              <img src="./images/haluo.png" alt>
+            </div>
+            <div class="txt">哈罗单车</div>
+          </div>
+        </div>
+        <div class="list-box active">
+          <div @click="queryCreditUrl(list[3])" class="list-row">
+            <div class="icon">
+              <img src="./images/jd.png" alt>
+            </div>
+            <div class="txt">京东</div>
+          </div>
+        </div>-->
         <div
           class="list-box"
           :span="1/3"
@@ -67,9 +99,39 @@ export default {
   },
   methods: {
     getUserCreditReports() {
-      this.common.getUserCreditReports(this.userName).then(res => {
-        this.list = res.data.data;
-      });
+      if (!this.userName) {
+        this.list = [
+          {
+            reportType: "operator",
+            status: "",
+            iconUrl: require("./images/operator.png"),
+            reportName: "运营商"
+          },
+
+          {
+            reportType: "eleme",
+            status: "",
+            iconUrl: require("./images/element.png"),
+            reportName: "饿了么"
+          },
+          {
+            reportType: "helloBike",
+            status: "",
+            iconUrl: require("./images/haluo.png"),
+            reportName: "哈啰单车"
+          },
+          {
+            reportType: "jd",
+            status: "",
+            iconUrl: require("./images/jd.png"),
+            reportName: "京东"
+          }
+        ];
+      } else {
+        this.common.getUserCreditReports(this.userName).then(res => {
+          this.list = res.data.data;
+        });
+      }
     },
     queryCreditUrl(item) {
       if (!this.userName) {
@@ -90,6 +152,7 @@ export default {
       // let _params = new URLSearchParams();
       // _params.append("userName",this.userName);
       // _params.append("creditType", item.reportType);
+      console.log(this.list);
 
       this.utils.setCookie("creditType", item.reportType);
       if (item.status == 0 || item.status == 3) {
@@ -193,7 +256,7 @@ export default {
             font-size: rem(16px);
             color: #666666;
             letter-spacing: 0;
-            // margin-top: rem(12px);
+            margin-top: rem(6px);
           }
         }
       }

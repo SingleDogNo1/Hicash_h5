@@ -202,32 +202,13 @@ export default {
       contactsArr: [],
       shareBox: false,
       platform: this.utils.getPlatform(),
-      wxShareIco: "./images/icon_share.png",
+      wxShareIco: require("./images/icon_share.png"),
       showToast: true,
       thumbnailImg: "",
-      config: {
-        url: this.config.NEW_MWEB_PATH + "/activityIntroduction", // 网址，默认使用 window.location.href
-        source: "", // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
-        title: this.title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
-        description: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
-        image: this.wxShareIco, // 图片, 默认取网页中第一个img标签
-        //sites               : ['qzone', 'qq', 'weibo','wechat', 'douban'], // 启用的站点
-        disabled: [
-          "tencent",
-          "douban",
-          "linkedin",
-          "diandian",
-          "facebook",
-          "twitter",
-          "google"
-        ], // 禁用的站点
-        wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
-        wechatQrcodeHelper:
-          "<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>"
-      },
       isShowWeixinPop: false,
       isWeiXinShare: false,
-      isShowWeixinShareWrap: true
+      isShowWeixinShareWrap: true,
+      mediasource: ''
     };
   },
   methods: {
@@ -255,47 +236,49 @@ export default {
       });
     },
     getReportInfo() {
-      //if (this.isWeiXin()) {
-      let params = new URLSearchParams();
-      params.append("url", window.location.href);
-      this.common.wxfx(params).then(res => {
-        let data = res.data;
-        alert("data" + JSON.stringify(data));
-        wx.config({
-          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: data.appId,
-          timestamp: data.timestamp,
-          nonceStr: data.nonceStr,
-          signature: data.signature,
-          jsApiList: [
-            "checkJsApi",
-            "onMenuShareTimeline",
-            "onMenuShareAppMessage",
-            "onMenuShareQQ",
-            "onMenuShareWeibo"
-          ]
-        });
+      this.isWeiXinShare = this.isWeiXin();
+      if (this.isWeiXinShare) {
+        this.mediasource = window.sessionStorage.getItem('mediasource');
+        let params = new URLSearchParams();
+        params.append("url", window.location.href);
+        this.common.wxfx(params).then(res => {
+          let data = res.data;
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId,
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage",
+              "onMenuShareQQ",
+              "onMenuShareWeibo"
+            ]
+          });
 
-        wx.ready(function() {
-          wx.onMenuShareAppMessage({
-            desc: "征信报告分享",
-            title: "征信报告分享",
-            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
-            imgUrl: this.wxShareIco,
-            success: function() {},
-            cancel: function() {}
-          });
-          wx.onMenuShareTimeline({
-            desc: "征信报告分享",
-            title: "征信报告分享",
-            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
-            imgUrl: this.wxShareIco,
-            success: function() {},
-            cancel: function() {}
+          wx.ready(()=> {
+            wx.onMenuShareAppMessage({
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+            wx.onMenuShareTimeline({
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
           });
         });
-      });
       //}
+      }
 
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
@@ -415,7 +398,7 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
           shareImageUrl: this.wxShareIco
         })
       );
@@ -558,7 +541,7 @@ export default {
   },
   mounted() {
     this.getReportInfo();
-    this.isWeiXinShare = this.isWeiXin();
+    //this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>
@@ -867,7 +850,7 @@ export default {
 }
 .weixin-pop {
   position: fixed;
-  z-index: 1000;
+  z-index: 10000;
   top: 0;
   right: 0;
   left: 0;
@@ -875,7 +858,6 @@ export default {
   background: rgba(0, 0, 0, 0.6);
   .weixin-share-wrap {
     position: absolute;
-    margin-top: rem(50px);
     right: rem(40px);
     img {
       display: block;

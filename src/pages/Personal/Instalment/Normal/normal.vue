@@ -1096,18 +1096,18 @@ export default {
 				let _data = res.data;
 				if (typeof data === "string") _data = JSON.parse(data);
 
-				if (_data.followUrl && _data.followUrl !== "") {
-					window.location.href = _data.followUrl;
-				} else {
+				if(_data.map){
 					window.location.href =
-						MWEB_PATH +
+						this.config.MWEB_PATH +
 						"newweb/personalCenter/withdrawalsTransfer.html?txAmount=" +
 						item.amount +
 						"&appNo=" +
 						item.appNo +
 						"&userName=" +
 						userName;
-				}
+				}else {
+					window.location.href = _data.followUrl;
+				} 
 			});
 		},
 		// ! 展开还款计划
