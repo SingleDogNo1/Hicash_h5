@@ -124,6 +124,7 @@ export default {
 				var userName = this.utils.getCookie("userName");
 				var realName = this.utils.getCookie("realName");
         var mobile = this.utils.getCookie("mobile");
+      console.log('userName====', userName)
 
 				// 判断该路由是否需要登录权限
 				if (!userName || userName == "null") {
