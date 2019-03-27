@@ -253,16 +253,16 @@ export default {
 
           wx.ready(()=> {
             wx.onMenuShareAppMessage({
-              desc: "征信报告分享",
-              title: "征信报告分享",
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
               link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
             });
             wx.onMenuShareTimeline({
-              desc: "征信报告分享",
-              title: "征信报告分享",
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
               link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
