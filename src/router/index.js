@@ -343,7 +343,7 @@ export default new Router({
 		{
 			path: '/operator',
 			name: 'operator',
-			component: () => import(/* webpackChunkName: "operator" */  '@/pages/credit/Report/Operator'),
+			component: () => import('@/pages/credit/Report/Operator'),
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
@@ -352,7 +352,7 @@ export default new Router({
 		{
 			path: '/jingdong',
 			name: 'jingdong',
-			component: () => import(/* webpackChunkName: "jingdong" */ '@/pages/credit/Report/Jingdong'),
+			component: () => import('@/pages/credit/Report/Jingdong'),
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
@@ -361,7 +361,7 @@ export default new Router({
 		{
 			path: '/haluo',
 			name: 'Haluo',
-			component: () => import(/* webpackChunkName: "haluo" */ '@/pages/credit/Report/Haluo'),
+			component: () => import('@/pages/credit/Report/Haluo'),
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
@@ -370,7 +370,7 @@ export default new Router({
 		{
 			path: '/eleme',
 			name: 'Eleme',
-			component: () => import(/* webpackChunkName: "eleme" */ '@/pages/credit/Report/Eleme'),
+			component: () => import('@/pages/credit/Report/Eleme'),
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
