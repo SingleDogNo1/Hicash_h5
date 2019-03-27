@@ -223,7 +223,9 @@ export default {
 				this.preventGoBack = true;
 				this.showDialog = true
 			}else{
-				this.$router.go(-1);
+				this.$router.push({
+					name: "Inquiry"
+				});
 			}
 		}
 	}

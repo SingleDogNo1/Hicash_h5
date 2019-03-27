@@ -132,11 +132,18 @@
         <p class="tips">未发现特殊相关号码的通话记录</p>
       </div>
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
-      <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
+      <div id="share" @click="sharePopup" class="btn" v-if="!shareBox && isWeiXinShare">分享给朋友</div>
     </div>
-    <popup v-model="shareShow" position="bottom" max-height="50%">
+    <!-- <popup v-model="shareShow" position="bottom" max-height="50%">
       <share :config="config"></share>
-    </popup>
+    </popup> -->
+    <div class="weixin-pop" v-if="isShowWeixinPop">
+      <div class="weixin-share-wrap" v-if="isShowWeixinShareWrap">
+        <img src="./images/icon_weixin_share.png">
+        <p>点击右上角</p>
+        <p>分享给朋友和朋友圈</p>
+      </div>
+    </div>
     <!--<div v-transfer-dom>
       <x-dialog v-model="showToast" class="thumbnail-dialog">
         <div class="thumbnail-wrap">
@@ -196,7 +203,7 @@ export default {
       shareBox: false,
       platform: this.utils.getPlatform(),
       wxShareIco: "./images/icon_share.png",
-      showToast: false,
+      showToast: true,
       thumbnailImg: "",
       config: {
         url: this.config.NEW_MWEB_PATH + "/activityIntroduction", // 网址，默认使用 window.location.href
@@ -218,7 +225,9 @@ export default {
         wechatQrcodeHelper:
           "<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>"
       },
-      shareShow: false
+      isShowWeixinPop: false,
+      isWeiXinShare: false,
+      isShowWeixinShareWrap: true
     };
   },
   methods: {
@@ -246,46 +255,48 @@ export default {
       });
     },
     getReportInfo() {
-      if (this.isWeiXin()) {
-        this.common.wxfx().then(res => {
-          let data = res.data;
-          alert('data' + JSON.stringify(data))
-          wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: data.appId,
-            timestamp: data.timestamp,
-            nonceStr: data.nonceStr,
-            signature: data.signature,
-            jsApiList: [
-              "checkJsApi",
-              "onMenuShareTimeline",
-              "onMenuShareAppMessage",
-              "onMenuShareQQ",
-              "onMenuShareWeibo"
-            ]
-          });
+      //if (this.isWeiXin()) {
+      let params = new URLSearchParams();
+      params.append("url", window.location.href);
+      this.common.wxfx(params).then(res => {
+        let data = res.data;
+        alert("data" + JSON.stringify(data));
+        wx.config({
+          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: data.appId,
+          timestamp: data.timestamp,
+          nonceStr: data.nonceStr,
+          signature: data.signature,
+          jsApiList: [
+            "checkJsApi",
+            "onMenuShareTimeline",
+            "onMenuShareAppMessage",
+            "onMenuShareQQ",
+            "onMenuShareWeibo"
+          ]
+        });
 
-          wx.ready(function() {
-            wx.onMenuShareAppMessage({
-              desc: "征信报告分享",
-              title: "征信报告分享",
-              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-              imgUrl: this.wxShareIco,
-              success: function() {},
-              cancel: function() {}
-            });
-            wx.onMenuShareTimeline({
-              desc: "征信报告分享",
-              title: "征信报告分享",
-              link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
-              imgUrl: this.wxShareIco,
-              success: function() {},
-              cancel: function() {}
-            });
+        wx.ready(function() {
+          wx.onMenuShareAppMessage({
+            desc: "征信报告分享",
+            title: "征信报告分享",
+            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+            imgUrl: this.wxShareIco,
+            success: function() {},
+            cancel: function() {}
+          });
+          wx.onMenuShareTimeline({
+            desc: "征信报告分享",
+            title: "征信报告分享",
+            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+            imgUrl: this.wxShareIco,
+            success: function() {},
+            cancel: function() {}
           });
         });
-      }
-      
+      });
+      //}
+
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -410,6 +421,10 @@ export default {
       );
     },
     sharePopup() {
+      this.isShowWeixinPop = true;
+      setTimeout( ()=> {
+        this.isShowWeixinPop = false;
+      }, 3000)
       // if (this.isWeiXin()) {
       //   this.common.wxfx().then(res => {
       //     let data = res.data;
@@ -468,13 +483,13 @@ export default {
       //   types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
       //   infoMap: {
       //     wx: {
-      //       appId: '',
-      //       timestamp: '',
-      //       nonceStr: '',
-      //       signature: '',
+      //       appId: "",
+      //       timestamp: "",
+      //       nonceStr: "",
+      //       signature: "",
       //       title: this.title,
       //       desc: "征信报告分享",
-      //       link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //       link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
       //       imgUrl: this.wxShareIco
       //     }
       //   },
@@ -543,6 +558,7 @@ export default {
   },
   mounted() {
     this.getReportInfo();
+    this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>
@@ -849,30 +865,30 @@ export default {
     padding-top: 0;
   }
 }
-.thumbnail-dialog {
-  .thumbnail-wrap {
-    //padding: 15px;
-    .thumbnail-img {
-      width: 250px;
-      height: auto;
+.weixin-pop {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  .weixin-share-wrap {
+    position: absolute;
+    margin-top: rem(50px);
+    right: rem(40px);
+    img {
+      display: block;
+      width: rem(58.5px);
+      height: rem(99.5px);
       margin: 0 auto;
-      margin-top: 20px;
+      margin-right: rem(4px);
     }
-    .tips {
-      margin: 20px;
-      height: 50px;
-      line-height: 50px;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      img {
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-      }
-      span {
-        display: inline-block;
-      }
+    p {
+      font-size: 12px;
+      color: #ddd;
+      text-align: center;
+      margin: rem(6px) 0;
     }
   }
 }

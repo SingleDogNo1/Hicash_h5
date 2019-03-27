@@ -534,6 +534,8 @@ export default {
 					var dxObj = this.utils.getCookie("dxObj");
 					var telObj = this.utils.getCookie("telObj");
 					var mediasource = this.utils.getCookie("mediasource");
+					console.info('mediasource', mediasource);
+					window.sessionStorage.setItem('mediasource', mediasource);
 					var afFrom = this.utils.getCookie("afFrom");
 					var siji_realName = this.utils.getCookie("siji_realName");
 					var siji_didiMobile = this.utils.getCookie(

@@ -52,7 +52,6 @@ export default {
 
     console.info('this.$router.history.current', this.$router.history.current);
     if(this.$router.history.current.query.source == 'iframe'){
-      console.info('this.config.NEW_MWEB_PATH + this.$router.history.current.path', this.config.NEW_MWEB_PATH + this.$router.history.current.path);
       parent.location.href = this.config.NEW_MWEB_PATH + this.$router.history.current.path;
     }
 

@@ -13,13 +13,11 @@ import utils from "./assets/js/utils.js";
 import config from "./config.json";
 import "./assets/js/growingIO.js";
 import "./assets/js/baiqishi.js";
-import Share from 'vue-social-share'
 import 'url-search-params-polyfill';
 import "swiper/dist/css/swiper.css";
 
 import MintUI from "mint-ui";
 import "mint-ui/lib/style.css";
-import 'vue-social-share/dist/client.css';
 
 Vue.prototype.common = common;
 Vue.prototype.utils = utils;
@@ -47,7 +45,6 @@ import { AlertPlugin } from "vux";
 Vue.use(AlertPlugin);
 
 Vue.use(MintUI);
-Vue.use(Share)
 
 Vue.config.productionTip = false;
 
