@@ -92,7 +92,7 @@ export default {
       platform: this.utils.getPlatform(),
       list: [],
       userName: this.utils.getCookie("userName"),
-      mediasource: this.$route.query.mediasource
+      mediasource: this.$route.query.mediasource || window.sessionStorage.getItem('mediasource') || this.utils.getCookie('mediasource')
     };
   },
   created() {
