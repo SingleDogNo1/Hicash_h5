@@ -202,7 +202,7 @@ export default {
       contactsArr: [],
       shareBox: false,
       platform: this.utils.getPlatform(),
-      wxShareIco: "./images/icon_share.png",
+      wxShareIco: require("./images/icon_share.png"),
       showToast: true,
       thumbnailImg: "",
       isShowWeixinPop: false,
@@ -235,47 +235,47 @@ export default {
       });
     },
     getReportInfo() {
-      //if (this.isWeiXin()) {
-      let params = new URLSearchParams();
-      params.append("url", window.location.href);
-      this.common.wxfx(params).then(res => {
-        let data = res.data;
-        alert("data" + JSON.stringify(data));
-        wx.config({
-          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: data.appId,
-          timestamp: data.timestamp,
-          nonceStr: data.nonceStr,
-          signature: data.signature,
-          jsApiList: [
-            "checkJsApi",
-            "onMenuShareTimeline",
-            "onMenuShareAppMessage",
-            "onMenuShareQQ",
-            "onMenuShareWeibo"
-          ]
-        });
+      //if (this.isWeiXinShare) {
+        let params = new URLSearchParams();
+        params.append("url", window.location.href);
+        this.common.wxfx(params).then(res => {
+          let data = res.data;
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId,
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage",
+              "onMenuShareQQ",
+              "onMenuShareWeibo"
+            ]
+          });
 
-        wx.ready(()=> {
-          console.log('this.config===', this, this.config)
-          wx.onMenuShareAppMessage({
-            desc: "征信报告分享",
-            title: "征信报告分享",
-            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
-            imgUrl: this.wxShareIco,
-            success: function() {},
-            cancel: function() {}
-          });
-          wx.onMenuShareTimeline({
-            desc: "征信报告分享",
-            title: "征信报告分享",
-            link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
-            imgUrl: this.wxShareIco,
-            success: function() {},
-            cancel: function() {}
+          wx.ready(()=> {
+            console.log('this.config===', this, this.config, this.wxShareIco)
+            wx.onMenuShareAppMessage({
+              desc: "征信报告分享",
+              title: "征信报告分享",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              imgUrl: this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+            wx.onMenuShareTimeline({
+              desc: "征信报告分享",
+              title: "征信报告分享",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              imgUrl: this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
           });
         });
-      });
+      //}
       //}
 
       let year = new Date().getFullYear();
@@ -539,7 +539,7 @@ export default {
   },
   mounted() {
     this.getReportInfo();
-    this.isWeiXinShare = true;
+    this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>
@@ -848,7 +848,7 @@ export default {
 }
 .weixin-pop {
   position: fixed;
-  z-index: 1000;
+  z-index: 10000;
   top: 0;
   right: 0;
   left: 0;
@@ -856,7 +856,6 @@ export default {
   background: rgba(0, 0, 0, 0.6);
   .weixin-share-wrap {
     position: absolute;
-    margin-top: rem(50px);
     right: rem(40px);
     img {
       display: block;
