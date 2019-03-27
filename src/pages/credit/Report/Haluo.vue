@@ -198,7 +198,7 @@ export default {
       },
       frequentAddress: [],
       platform: this.utils.getPlatform(),
-      wxShareIco: "./images/icon_share.png",
+      wxShareIco: require("./images/icon_share.png"),
       showToast: true,
       thumbnailImg: "",
       isShowWeixinPop: false,
