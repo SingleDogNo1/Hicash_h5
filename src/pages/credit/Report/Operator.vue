@@ -6,7 +6,6 @@
       :showBtnClose="showBtnClose"
       :jumpRouteName="'Inquiry'"
       v-if="platform === 'H5'"
-      @click.native="hideWeixinPop"
     ></page-header>
     <div class="content" id="content" :class="{ appContent: platform === 'APP' }">
       <div class="operator-report-wrap">
@@ -227,7 +226,7 @@ export default {
           "<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>"
       },
       isShowWeixinPop: false,
-      isWeiXinShare: true,
+      isWeiXinShare: false,
       isShowWeixinShareWrap: true
     };
   },
@@ -555,16 +554,11 @@ export default {
       } else {
         return false;
       }
-    },
-    hideWeixinPop() {
-      this.isShowWeixinPop = false;
-      console.log('this.hideWeixinPop==', this.hideWeixinPop)
     }
   },
   mounted() {
     this.getReportInfo();
-    //this.isWeiXinShare = this.isWeiXin();
-    this.isWeiXinShare = true;
+    this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>
