@@ -139,7 +139,7 @@ export default {
 		return {
 			title: this.$route.meta.title,
 			showDialog: false,
-			preventGoBack: false,
+			preventGoBack: true,
 			dpandoraUrl: ''
 		};
 	},
