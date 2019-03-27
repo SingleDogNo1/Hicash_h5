@@ -539,7 +539,8 @@ export default {
   },
   mounted() {
     this.getReportInfo();
-    this.isWeiXinShare = this.isWeiXin();
+    //this.isWeiXinShare = this.isWeiXin();
+    this.isWeiXinShare = true;
   }
 };
 </script>
