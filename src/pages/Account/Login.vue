@@ -533,8 +533,7 @@ export default {
 					var vipCount = this.utils.getCookie("vipCount");
 					var dxObj = this.utils.getCookie("dxObj");
 					var telObj = this.utils.getCookie("telObj");
-					var mediasource = this.utils.getCookie("mediasource");
-					console.info('mediasource', mediasource);
+					var mediasource = this.utils.getCookie("mediasource") || window.sessionStorage.getItem("mediasource");
 					window.sessionStorage.setItem('mediasource', mediasource);
 					var afFrom = this.utils.getCookie("afFrom");
 					var siji_realName = this.utils.getCookie("siji_realName");

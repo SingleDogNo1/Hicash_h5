@@ -91,7 +91,8 @@ export default {
       showBtnClose: false,
       platform: this.utils.getPlatform(),
       list: [],
-      userName: this.utils.getCookie("userName")
+      userName: this.utils.getCookie("userName"),
+      mediasource: this.$route.query.mediasource || window.sessionStorage.getItem('mediasource') || this.utils.getCookie('mediasource')
     };
   },
   created() {
@@ -99,6 +100,7 @@ export default {
   },
   methods: {
     getUserCreditReports() {
+      window.sessionStorage.setItem('mediasource', this.mediasource);
       if (!this.userName) {
         this.list = [
           {
