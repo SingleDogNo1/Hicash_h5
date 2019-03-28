@@ -24,7 +24,7 @@
     }
   }
 }
-.weui-dialog__hd {
+/deep/ .weui-dialog__hd {
   padding: 0;
   width: 100%;
   height: 48px;
@@ -33,14 +33,14 @@
   border-radius: 5px 5px 0 0;
   color: #fff;
 }
-.weui-dialog__bd {
+/deep/ .weui-dialog__bd {
     padding: 0 1.6em .8em;
     min-height: 40px;
     font-size: 15px;
     line-height: 1.3rem;
     word-wrap: break-word;
     word-break: break-all;
-    color: #999;
+    color: #353535;
 }
 .weui-dialog__btn_primary {
   color: #353535 !important;
@@ -94,7 +94,7 @@ export default {
       var _this = this;
       _this.$vux.confirm.show({
         title: "提示",
-        text: _this.cancleMsg,
+        content: _this.cancleMsg,
         // 组件除show外的属性
         onCancel() {
           _this.$vux.confirm.hide();
