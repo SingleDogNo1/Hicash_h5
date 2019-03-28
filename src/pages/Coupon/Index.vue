@@ -17,7 +17,7 @@
 					<li
 						class="clearfix"
 						@click="selectCoupon(item)"
-						v-for="item in list"
+						v-for="(item,index) in list" :key=index
 					>
 						<div class="left-main left">
 							<span class="coupon-price left"

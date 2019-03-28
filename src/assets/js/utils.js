@@ -17,27 +17,28 @@ export default {
 	getPlatform: getPlatform, //获取comeFrom
 	toThousands: toThousands, //格式化数据格式字符串 没三位添加逗号
 	checkPwd: checkPwd, //校验密码是否合法
-	getDevice: getDevice	//判断是否是移动端
+	getDevice: getDevice, //判断是否是移动端
+	formatSeconds: formatSeconds	// 将秒格式化为秒、分、小时
 };
 
 export function uuid() {
 	var s = [];
-	var hexDigits = "0123456789abcdef";
+	var hexDigits = '0123456789abcdef';
 	for (var i = 0; i < 36; i++) {
 		s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
 	}
 
-	s[14] = "4";
+	s[14] = '4';
 	// bits 12-15 of the time_hi_and_version field to 0010
 	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
 	// bits 6-7 of the clock_seq_hi_and_reserved to 01
-	s[8] = s[13] = s[18] = s[23] = "-";
-	var uuid = s.join("");
+	s[8] = s[13] = s[18] = s[23] = '-';
+	var uuid = s.join('');
 	return uuid;
 }
 
 export function getQueryString(name) {
-	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
 	var r = window.location.search.substr(1).match(reg);
 	if (r != null) return unescape(r[2]);
 
@@ -50,13 +51,13 @@ export function checkMobile(mobile) {
 }
 
 export function setCookie(c_name, value) {
-	document.cookie = c_name + "=" + escape(value) + "; path=/;";
+	document.cookie = c_name + '=' + escape(value) + '; path=/;';
 }
 
 // 读取cookies
 export function getCookie(name) {
 	var arr,
-		reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+		reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)');
 	if ((arr = document.cookie.match(reg))) {
 		return unescape(arr[2]);
 	} else {
@@ -70,27 +71,22 @@ export function delCookie(name) {
 	var exp = new Date();
 	exp.setTime(exp.getTime() - 1);
 	var cval = getCookie(name);
-	if (cval != null)
-		document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+	if (cval != null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
 }
 
 export function clearCookie() {
 	var myDate = new Date();
-	var today =
-		"AD" +
-		myDate.getFullYear() +
-		(myDate.getMonth() + 1) +
-		myDate.getDate();
-	var isRead = "pjread";
+	var today = 'AD' + myDate.getFullYear() + (myDate.getMonth() + 1) + myDate.getDate();
+	var isRead = 'pjread';
 	//评级是否已读，0未读，1已读
-	var pjUser = "pj";
+	var pjUser = 'pj';
 	//用户评级
 	var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
 
 	if (keys) {
 		for (var i = keys.length; i--; ) {
 			if (keys[i] != today && keys[i] != isRead && keys[i] != pjUser) {
-				setCookie(keys[i], "");
+				setCookie(keys[i], '');
 			}
 		}
 	}
@@ -98,11 +94,14 @@ export function clearCookie() {
 
 // 判断是否是移动端
 export function getDevice() {
-	if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
-		return "mobile";
-	}
-	else {
-		return "pc";
+	if (
+		navigator.userAgent.match(
+			/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+		)
+	) {
+		return 'mobile';
+	} else {
+		return 'pc';
 	}
 }
 
@@ -110,8 +109,7 @@ export function getDevice() {
  * base64 编码、 解码
  */
 export function codeBase64() {
-	var base64EncodeChars =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	var base64EncodeChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	var base64DecodeChars = new Array(
 		-1,
 		-1,
@@ -251,33 +249,27 @@ export function codeBase64() {
 		var c1, c2, c3;
 		len = str.length;
 		i = 0;
-		out = "";
+		out = '';
 		while (i < len) {
 			c1 = str.charCodeAt(i++) & 0xff;
 			if (i == len) {
 				out += base64EncodeChars.charAt(c1 >> 2);
 				out += base64EncodeChars.charAt((c1 & 0x3) << 4);
-				out += "==";
+				out += '==';
 				break;
 			}
 			c2 = str.charCodeAt(i++);
 			if (i == len) {
 				out += base64EncodeChars.charAt(c1 >> 2);
-				out += base64EncodeChars.charAt(
-					((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)
-				);
+				out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
 				out += base64EncodeChars.charAt((c2 & 0xf) << 2);
-				out += "=";
+				out += '=';
 				break;
 			}
 			c3 = str.charCodeAt(i++);
 			out += base64EncodeChars.charAt(c1 >> 2);
-			out += base64EncodeChars.charAt(
-				((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)
-			);
-			out += base64EncodeChars.charAt(
-				((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6)
-			);
+			out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4));
+			out += base64EncodeChars.charAt(((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6));
 			out += base64EncodeChars.charAt(c3 & 0x3f);
 		}
 		return out;
@@ -291,7 +283,7 @@ export function codeBase64() {
 		var i, len, out;
 		len = str.length;
 		i = 0;
-		out = "";
+		out = '';
 		while (i < len) {
 			/* c1 */
 			do {
@@ -329,7 +321,7 @@ export function codeBase64() {
 	 */
 	function utf16to8(str) {
 		var out, i, len, c;
-		out = "";
+		out = '';
 		len = str.length;
 		for (i = 0; i < len; i++) {
 			c = str.charCodeAt(i);
@@ -353,7 +345,7 @@ export function codeBase64() {
 	function utf8to16(str) {
 		var out, i, len, c;
 		var char2, char3;
-		out = "";
+		out = '';
 		len = str.length;
 		i = 0;
 		while (i < len) {
@@ -374,19 +366,13 @@ export function codeBase64() {
 				case 13:
 					// 110x xxxx 10xx xxxx
 					char2 = str.charCodeAt(i++);
-					out += String.fromCharCode(
-						((c & 0x1f) << 6) | (char2 & 0x3f)
-					);
+					out += String.fromCharCode(((c & 0x1f) << 6) | (char2 & 0x3f));
 					break;
 				case 14:
 					// 1110 xxxx10xx xxxx10xx xxxx
 					char2 = str.charCodeAt(i++);
 					char3 = str.charCodeAt(i++);
-					out += String.fromCharCode(
-						((c & 0x0f) << 12) |
-							((char2 & 0x3f) << 6) |
-							((char3 & 0x3f) << 0)
-					);
+					out += String.fromCharCode(((c & 0x0f) << 12) | ((char2 & 0x3f) << 6) | ((char3 & 0x3f) << 0));
 					break;
 			}
 		}
@@ -410,10 +396,10 @@ export function timeCount(time, callback) {
 	var time;
 	var timer;
 	if (time == 0) {
-		msg = "获取验证码";
+		msg = '获取验证码';
 		callback(msg);
 	} else {
-		msg = time + "s";
+		msg = time + 's';
 		time--;
 		timer = setTimeout(function() {
 			timeCount(time, callback);
@@ -454,24 +440,21 @@ export function checkCardNum(cardNum) {
 
 export function getPlatform() {
 	var ua = navigator.userAgent;
-	var comeFrom =
-		ua.indexOf("comeFrom:iOS") > -1 || ua.indexOf("comeFrom:android") > -1
-			? "APP"
-			: "H5";
+	var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
 	return comeFrom;
 }
 
 export function toThousands(num) {
 	var num = (num || 0).toString(),
 		re = /\d{3}$/,
-		result = "";
+		result = '';
 	while (re.test(num)) {
 		result = RegExp.lastMatch + result;
 		if (num !== RegExp.lastMatch) {
-			result = "," + result;
+			result = ',' + result;
 			num = RegExp.leftContext;
 		} else {
-			num = "";
+			num = '';
 			break;
 		}
 	}
@@ -484,4 +467,33 @@ export function toThousands(num) {
 export function checkPwd(pwd) {
 	var reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
 	return reg.test(pwd);
+}
+
+export function formatSeconds(value) {
+	var secondTime = parseInt(value); // 秒
+	var minuteTime = 0; // 分
+	var hourTime = 0; // 小时
+	if (secondTime > 60) {
+		//如果秒数大于60，将秒数转换成整数
+		//获取分钟，除以60取整数，得到整数分钟
+		minuteTime = parseInt(secondTime / 60);
+		//获取秒数，秒数取佘，得到整数秒数
+		secondTime = parseInt(secondTime % 60);
+		//如果分钟大于60，将分钟转换成小时
+		if (minuteTime > 60) {
+			//获取小时，获取分钟除以60，得到整数小时
+			hourTime = parseInt(minuteTime / 60);
+			//获取小时后取佘的分，获取分钟除以60取佘的分
+			minuteTime = parseInt(minuteTime % 60);
+		}
+	}
+	var result = '' + parseInt(secondTime) + '秒';
+
+	if (minuteTime > 0) {
+		result = '' + parseInt(minuteTime) + '分' + result;
+	}
+	if (hourTime > 0) {
+		result = '' + parseInt(hourTime) + '小时' + result;
+	}
+	return result;
 }

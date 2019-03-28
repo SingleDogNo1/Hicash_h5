@@ -70,6 +70,13 @@ module.exports = {
         pathRewrite:{
             '^/creditservice':''
         }
+      },
+      '/credit-service':{
+        target:'http://47.104.254.92:30192/credit-service',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/credit-service':''
+        }
       }
     }
   },
