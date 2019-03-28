@@ -115,8 +115,9 @@ export default {
 		document.body.appendChild(script);
 
     this.$router.beforeEach((to, from, next) => {
-			this.path = to.name;
       this.getCreditResult(); //拉取征信报告
+
+			this.path = to.name;
 			if (to.meta.title) {
 				document.title = to.meta.title;
       }
@@ -133,6 +134,7 @@ export default {
 						query: { redirect: to.fullPath }
 					});
 				} else {
+          console.info('next');
 					next();
 				}
 			} else {
