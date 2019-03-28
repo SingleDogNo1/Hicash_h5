@@ -96,6 +96,7 @@ export default {
 	  console.log("creditItems===",creditItems);
       creditItems = JSON.parse(creditItems);
       if (type === "0") {
+        type = "3"
         flag = false;
         var paramsStr = "";
         if (creditItems[1].url.indexOf("?") != -1) {
