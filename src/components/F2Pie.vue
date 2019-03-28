@@ -49,9 +49,10 @@ export default {
       // 设置图例项的内容
       var legendItems = [];
       data.map(function(obj) {
+        console.log('obj', obj)
         var item = {
           name: obj.assetType,
-          value: "    " + obj.percent * 100 + "%",
+          value: "    " + parseInt(obj.percent * 100) + "%",
           marker: {
             symbol: "circle",
             fill: colorMap[obj.assetType],
@@ -60,6 +61,7 @@ export default {
         };
         legendItems.push(item);
       });
+      console.log('legendItems==', legendItems)
       this.chart = new F2.Chart({
         id: this.id,
         pixelRatio: window.devicePixelRatio
@@ -67,7 +69,7 @@ export default {
       this.chart.source(data, {
         percent: {
           formatter: function formatter(val) {
-            return val * 100 + "%";
+            return parseInt(val * 100) + "%";
           }
         }
       });
