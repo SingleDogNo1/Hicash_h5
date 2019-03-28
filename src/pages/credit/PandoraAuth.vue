@@ -36,9 +36,10 @@
 @import "~bowerComponents/sass-rem/_rem.scss";
 .pandoraWrap{
 	height: 100%;
+	overflow: hidden;
 }
 #dpandoraUrl{
-	margin-top: 50px;
+	margin-top: 56px;
 }
 .vux-header {
 	position: fixed;

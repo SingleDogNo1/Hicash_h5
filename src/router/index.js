@@ -40,8 +40,10 @@ import PandoraAuth from "@/pages/credit/PandoraAuth";
 import ActivityIntroduction from "@/pages/credit/introduce";
 import CreditFailedLoad from "@/pages/credit/CreditFailedLoad";
 import CreditLoading from "@/pages/credit/CreditLoading";
-
-
+import AuthJingdong from '@/pages/credit/Report/Jingdong';
+import AuthHaluo from '@/pages/credit/Report/Haluo';
+import AuthOperator from '@/pages/credit/Report/Operator';
+import AuthEleme from '@/pages/credit/Report/Eleme';
 Vue.use(Router);
 
 export default new Router({
@@ -343,7 +345,7 @@ export default new Router({
 		{
 			path: '/operator',
 			name: 'operator',
-			component: () => import('@/pages/credit/Report/Operator'),
+			component: AuthOperator,
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
@@ -352,7 +354,7 @@ export default new Router({
 		{
 			path: '/jingdong',
 			name: 'jingdong',
-			component: () => import('@/pages/credit/Report/Jingdong'),
+			component: AuthJingdong,
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
@@ -361,7 +363,7 @@ export default new Router({
 		{
 			path: '/haluo',
 			name: 'Haluo',
-			component: () => import('@/pages/credit/Report/Haluo'),
+			component: AuthHaluo,
 			meta: {
 				requireAuth: true,
 				title: '征信报告'
@@ -370,7 +372,7 @@ export default new Router({
 		{
 			path: '/eleme',
 			name: 'Eleme',
-			component: () => import('@/pages/credit/Report/Eleme'),
+			component: AuthEleme,
 			meta: {
 				requireAuth: true,
 				title: '征信报告'

@@ -207,7 +207,8 @@ export default {
       thumbnailImg: "",
       isShowWeixinPop: false,
       isWeiXinShare: false,
-      isShowWeixinShareWrap: true
+      isShowWeixinShareWrap: true,
+      mediasource: ''
     };
   },
   methods: {
@@ -237,6 +238,7 @@ export default {
     getReportInfo() {
       this.isWeiXinShare = this.isWeiXin();
       if (this.isWeiXinShare) {
+        this.mediasource = window.sessionStorage.getItem('mediasource');
         let params = new URLSearchParams();
         params.append("url", window.location.href);
         this.common.wxfx(params).then(res => {
@@ -260,7 +262,7 @@ export default {
             wx.onMenuShareAppMessage({
               desc: "分享更有机会获得额外惊喜哦~",
               title: "完善个人征信报告，拿免息优惠劵！",
-              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
@@ -268,7 +270,7 @@ export default {
             wx.onMenuShareTimeline({
               desc: "分享更有机会获得额外惊喜哦~",
               title: "完善个人征信报告，拿免息优惠劵！",
-              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
@@ -396,7 +398,7 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
           shareImageUrl: this.wxShareIco
         })
       );
