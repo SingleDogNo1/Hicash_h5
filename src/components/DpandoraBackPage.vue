@@ -24,7 +24,8 @@
     }
   }
 }
-/deep/ .weui-dialog__hd {
+.weui-dialog {
+  .weui-dialog__hd {
   padding: 0;
   width: 100%;
   height: 48px;
@@ -32,8 +33,8 @@
   background: #ff7640;
   border-radius: 5px 5px 0 0;
   color: #fff;
-}
-/deep/ .weui-dialog__bd {
+  }
+  .weui-dialog__bd {
     padding: 0 1.6em .8em;
     min-height: 40px;
     font-size: 15px;
@@ -41,14 +42,10 @@
     word-wrap: break-word;
     word-break: break-all;
     color: #353535;
+  }
 }
-.weui-dialog__btn_primary {
+.weui-dialog__btn {
   color: #353535 !important;
-}
-.weui-dialog__title {
-  font-family: PingFangSC-Regular;
-  font-size: 17px;
-  color: #ffffff;
 }
 .skip {
   width: 100%;
