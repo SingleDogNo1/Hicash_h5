@@ -349,9 +349,11 @@ export default {
               Math.round(
                 ((item.caller_count + item.callee_count) / totlaSum) * 100
               ) / 100;
+            console.log('item.percent===', item.percent)
             item.const = "const";
           });
           this.charData = contactsRegionSummary.splice(0, 5);
+          console.log('this.charData==', this.charData)
 
           let contactsArr = data.call_data_summary.filter(item => {
             return item.title === "常用联系人";
