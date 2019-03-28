@@ -15,59 +15,38 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss" scoped>
-.weui-dialog {
-  width: 12rem;
-  position: fixed;
-  display: table;
-  z-index: 5000;
-  width: 80%;
-  max-width: 300px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  background-color: #fff;
-  text-align: center;
-  border-radius: 3px;
-  overflow: hidden;
-  .weui-dialog__hd {
-    padding: 0;
-    width: 100%;
-    height: 48px;
-    line-height: 40px;
-    background: #ff7640;
-    border-radius: 5px 5px 0 0;
-  }
-  .weui-dialog__bd {
-    padding: 0 1.6em 0.8em;
-    min-height: 40px;
-    font-size: 15px;
-    line-height: 1.3;
-    word-wrap: break-word;
-    word-break: break-all;
-    color: #999;
-    .dialog-content {
-      padding: 0;
-      width: 100%;
-      min-height: 40px;
-      font-family: PingFangSC-Regular;
-      font-size: 13px;
-      color: #333;
-      letter-spacing: -0.08px;
-      text-align: center;
-      padding-top: 20px;
-    }
-  }
-  .weui-dialog__ft {
-    .weui-dialog__btn_primary,.weui-dialog__btn_default {
-      font-family: PingFangSC-Regular;
-      font-size: 15px;
-      color: #ff7640;
-      letter-spacing: -0.36px;
-      text-align: center;
-    }
-  }
+/deep/ .weui-dialog__hd {
+	height: rem(48px);
+	line-height: rem(48px);
+	background: #ff7640;
+	padding: 0 rem(10px);
+	.weui-dialog__title {
+		font-size: 17px;
+		color: #fff;
+	}
+}
+/deep/ .weui-dialog__bd {
+	padding: 0;
+	.dialog-content {
+		padding: 0 1.6em 0.8em;
+		margin-top: rem(20px);
+		text-align: center;
+		font-size: 13px;
+		color: #333333;
+		line-height: 16px;
+		.content-title {
+			margin-bottom: rem(3px);
+		}
+		.content-app-no {
+			margin-bottom: rem(3px);
+		}
+		.content-total-amount {
+			margin-bottom: 5px;
+			span {
+				color: #ff7640;
+			}
+		}
+	}
 }
 
 .skip {
