@@ -112,12 +112,9 @@ export default {
     let flag = true;
     let industryCode = utils.getCookie("industryCode");
     let userName = utils.getCookie("userName");
-    console.log("type======", type);
-    console.log(_this.$route.query.source);
     if (industryCode == "MDCP" || industryCode == "LDDD") {
       //用户正在申请嗨秒贷产品
       let creditItems = utils.getCookie("creditItems");
-      console.log("creditItems===", creditItems);
       creditItems = JSON.parse(creditItems);
       _this.cancleMsg = creditItems[1].cancleMsg;
 
@@ -143,7 +140,6 @@ export default {
             utils.getCookie("mobile");
         }
         _this.dpandoraUrl = creditItems[1].url + paramsStr;
-        console.log("_this.dpandoraUrl====", _this.dpandoraUrl);
         var UUserCard = utils.getCookie("identityCode");
         var myDate = new Date();
         var month = myDate.getMonth() + 1;
