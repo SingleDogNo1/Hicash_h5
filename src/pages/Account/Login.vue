@@ -106,6 +106,8 @@
 #oldHicash {
 	width: 0;
 	height: 0;
+	position: absolute;
+	top: -999999px;
 }
 .weui-tab__panel {
 	padding-bottom: 0 !important;
