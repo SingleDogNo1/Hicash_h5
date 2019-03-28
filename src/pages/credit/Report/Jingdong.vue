@@ -275,7 +275,6 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
-          console.log('data===', data)
           this.baiScore = data.basic_info.bai_score;
           this.profile.verified = data.basic_info.is_validate_real_name;
           let billsDetail = data.bills_detail.filter( (item) => { return item.status});
@@ -371,7 +370,6 @@ export default {
             historyList.push({ detail: obj[o], date: o });
           }
           this.historyList = historyList.reverse();
-          console.log('billsDetail===', billsDetail)
 
           let billsDetailBySort = _.sortBy(
             billsDetail,
