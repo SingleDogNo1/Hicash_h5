@@ -16,7 +16,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 .DpandoraBackPage {
-  ..weui-dialog {
+  .weui-dialog {
     position: fixed;
     display: table;
     z-index: 5000;
