@@ -235,10 +235,6 @@ export default {
           }
         } else {
           _this.$vux.toast.hide();
-          //   _this.$vux.toast.show({
-          //     position: "middle",
-          //     text: data.resultMsg
-          //   });
         }
       });
     }
