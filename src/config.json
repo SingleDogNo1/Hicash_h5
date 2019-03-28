@@ -8,5 +8,6 @@
 	"MWEB_PATH": "http://127.0.0.1:8080/mweb/",
 	"NEW_MWEB_PATH": "http://127.0.0.1:9002/#",
 	"pic_path": "http://file.dev.guolidai.xin/",
+	"cdn_pic_path": "https://file.dev.guolidai.xin/",
 	"baiqishi_url": "dfst.baiqishi.com/static/webdf/saber.js"
 }
