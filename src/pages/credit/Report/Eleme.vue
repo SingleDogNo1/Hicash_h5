@@ -168,7 +168,8 @@ export default {
       thumbnailImg: "",
       isShowWeixinPop: false,
       isWeiXinShare: false,
-      isShowWeixinShareWrap: true
+      isShowWeixinShareWrap: true,
+      mediasource: ''
     };
   },
   methods: {
@@ -196,6 +197,7 @@ export default {
       });
     },
     getReportInfo() {
+      this.mediasource = window.sessionStorage.getItem('mediasource');
       this.isWeiXinShare = this.isWeiXin();
       if (this.isWeiXinShare) {
         let params = new URLSearchParams();
@@ -221,7 +223,7 @@ export default {
             wx.onMenuShareAppMessage({
               desc: "分享更有机会获得额外惊喜哦~",
               title: "完善个人征信报告，拿免息优惠劵！",
-              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
@@ -229,7 +231,7 @@ export default {
             wx.onMenuShareTimeline({
               desc: "分享更有机会获得额外惊喜哦~",
               title: "完善个人征信报告，拿免息优惠劵！",
-              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
@@ -248,6 +250,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
             return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear();
@@ -255,6 +258,7 @@ export default {
           let lastYearSummary = monthSummary.filter(item => {
             return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear() - 1;
           });
+          console.log('thisYearSummary', thisYearSummary, lastYearSummary)
           let thisTotalPrice = _.pluck(thisYearSummary, "price");
           let lastTotalPrice = _.pluck(lastYearSummary, "price");
           let thisCount = _.pluck(thisYearSummary, "count");
@@ -318,6 +322,7 @@ export default {
             };
             originalConsumptionTrend.push(item);
           }
+          console.log('originalConsumptionTrend====', originalConsumptionTrend)
           let serverConsumptionTrend = [];
           for (let j = 0; j < monthSummary.length; j++) {
             if(moment(monthSummary[j].month).isValid()) {
@@ -331,6 +336,7 @@ export default {
           serverConsumptionTrend = serverConsumptionTrend
             .reverse()
             .splice(0, 12);
+          console.log('serverConsumptionTrend===', serverConsumptionTrend)
           const obj = {};
           const historyList = [];
           originalConsumptionTrend
@@ -341,8 +347,10 @@ export default {
           for (let o in obj) {
             historyList.push({ detail: obj[o], date: o });
           }
+          console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
+          console.log('orderList===', orderList)
           let thisYearOrderList = orderList.filter(item => {
             return moment(item.setup_time).isValid() && item.setup_time.slice(0, 4) == new Date().getFullYear();
           });
@@ -350,6 +358,7 @@ export default {
             thisYearOrderList,
             "price"
           ).reverse();
+          console.log('thisYearOrderList===', thisYearOrderList)
           this.thisYearOrderListSortBy = thisYearOrderListSortBy;
           this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
           this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
@@ -412,7 +421,7 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl:  this.config.NEW_MWEB_PATH + '/activityIntroduction',
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
           shareImageUrl: this.wxShareIco
         })
       );

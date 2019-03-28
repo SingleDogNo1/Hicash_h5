@@ -167,7 +167,8 @@ export default {
       thumbnailImg: "",
       isShowWeixinPop: false,
       isWeiXinShare: false,
-      isShowWeixinShareWrap: true
+      isShowWeixinShareWrap: true,
+      mediasource: ''
     };
   },
   methods: {
@@ -221,6 +222,7 @@ export default {
       }
     },
     getReportInfo() {
+      this.mediasource = window.sessionStorage.getItem('mediasource');
       this.isWeiXinShare = this.isWeiXin();
       if (this.isWeiXinShare) {
         let params = new URLSearchParams();
@@ -246,7 +248,7 @@ export default {
             wx.onMenuShareAppMessage({
               desc: "分享更有机会获得额外惊喜哦~",
               title: "完善个人征信报告，拿免息优惠劵！",
-              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
@@ -254,7 +256,7 @@ export default {
             wx.onMenuShareTimeline({
               desc: "分享更有机会获得额外惊喜哦~",
               title: "完善个人征信报告，拿免息优惠劵！",
-              link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
               imgUrl: this.config.MWEB_PATH + this.wxShareIco,
               success: function() {},
               cancel: function() {}
@@ -273,6 +275,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log('data===', data)
           this.baiScore = data.basic_info.bai_score;
           this.profile.verified = data.basic_info.is_validate_real_name;
           let billsDetail = data.bills_detail.filter( (item) => { return item.status});
@@ -368,6 +371,7 @@ export default {
             historyList.push({ detail: obj[o], date: o });
           }
           this.historyList = historyList.reverse();
+          console.log('billsDetail===', billsDetail)
 
           let billsDetailBySort = _.sortBy(
             billsDetail,
@@ -400,7 +404,7 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl:  this.config.NEW_MWEB_PATH + '/activityIntroduction',
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
           shareImageUrl: this.wxShareIco
         })
       );
