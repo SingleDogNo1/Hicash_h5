@@ -15,6 +15,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss" scoped>
+@import "~bowerComponents/sass-rem/_rem.scss";
 /deep/ .weui-dialog__hd {
 	height: rem(48px);
 	line-height: rem(48px);
