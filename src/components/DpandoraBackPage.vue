@@ -91,7 +91,9 @@ export default {
 	console.log(_this.$route.query.source);
     if (industryCode == "MDCP" || industryCode == "LDDD") {
       //用户正在申请嗨秒贷产品
-      let creditItems = window.sessionStorage.getItem("creditItems");
+	  let creditItems = utils.getCookie("creditItems");
+	   _this.cancleMsg = creditItems[1].cancleMsg;
+	  console.log("creditItems===",creditItems);
       creditItems = JSON.parse(creditItems);
       if (type === "0") {
         flag = false;
