@@ -1,5 +1,5 @@
 <template>
-  <div class="operator">
+  <div class="operator" id="operator" ref="operator">
     <page-header
       :title="title"
       :showBack="showBack"
@@ -7,7 +7,7 @@
       :jumpRouteName="'Inquiry'"
       v-if="platform === 'H5'"
     ></page-header>
-    <div class="content" :class="{ appContent: platform === 'APP' }">
+    <div class="content" id="content" :class="{ appContent: platform === 'APP' }">
       <div class="operator-report-wrap">
         <div class="title-wrap">
           <h1>运营商报告</h1>
@@ -27,7 +27,7 @@
               <span class="score-value">{{profile.creditScore}}</span>
               <p class="score-text">信用分</p>
             </x-circle>
-            <p class="icon-verified" v-if="profile.verified">实名认证</p>
+            <p class="icon-verified" v-if="dataSource.isRealNameVerified === 1">实名认证</p>
             <p class="icon-not-verified" v-else>未实名</p>
           </div>
         </div>
@@ -89,33 +89,34 @@
           </div>
         </div>
         <!-- <div class="contacts-list">
-					<scroller lock-y :bounce="false">
-            <div  v-for="(contactsItem, index) in contactsArr" :key="index">
-						<ul class="item">
-                  <li v-for="(item, index) in contactsItem" :key="index">
-                    <span class="key">姓名</span>
-                    <span class="value">天天</span>
-                  </li>
-                </ul>
-            </div>
-					</scroller>
+            <scroller lock-y :bounce="false">
+              <div  v-for="(contactsItem, index) in contactsArr" :key="index">
+              <ul class="item">
+                    <li v-for="(item, index) in contactsItem" :key="index">
+                      <span class="key">姓名</span>
+                      <span class="value">天天</span>
+                    </li>
+                  </ul>
+              </div>
+            </scroller>
         </div>-->
       </div>
       <div class="contacts-wrap-empty" v-else>
         <h3>常用联系人</h3>
-        <p class="desc">没有获取到您的记录哦，
+        <p class="desc">
+          没有获取到您的记录哦，
           <br>快去更新报告吧！
         </p>
       </div>
       <div
         class="number-verification-wrap"
-        v-if="specialNum1 !== '未发现与110电话通话记录' && specialNum2 !== '未找到贷款类相关号码' "
+        v-if="specialNum1 !== '未发现与110电话通话记录' || specialNum2 !== '未找到贷款类相关号码' "
       >
         <h3>号码验真</h3>
-        <p class="warn-text">
+        <p class="warn-text" v-if="specialNum1 !== '未发现与110电话通话记录'">
           <span>发现与110相关号码的通话记录</span>
         </p>
-        <p class="warn-text">
+        <p class="warn-text" v-if="specialNum2 !== '未找到贷款类相关号码'">
           <span>发现与贷款类相关号码的通话记录</span>
         </p>
         <div class="report-desc">
@@ -131,25 +132,53 @@
         <p class="tips">未发现特殊相关号码的通话记录</p>
       </div>
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
-      <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
+      <div id="share" @click="sharePopup" class="btn" v-if="!shareBox && isWeiXinShare">分享给朋友</div>
     </div>
+    <!-- <popup v-model="shareShow" position="bottom" max-height="50%">
+      <share :config="config"></share>
+    </popup> -->
+    <div class="weixin-pop" v-if="isShowWeixinPop">
+      <div class="weixin-share-wrap" v-if="isShowWeixinShareWrap">
+        <img src="./images/icon_weixin_share.png">
+        <p>点击右上角</p>
+        <p>分享给朋友和朋友圈</p>
+      </div>
+    </div>
+    <!--<div v-transfer-dom>
+      <x-dialog v-model="showToast" class="thumbnail-dialog">
+        <div class="thumbnail-wrap">
+          <img class="thumbnail-img" :src="thumbnailImg" alt>
+          <div class="tips">
+            <img src="./images/icon_qrcode_operator.png" alt>
+            <span>长按/扫描识别二维码，查看详情</span>
+          </div>
+          <img class="thumbnail-img" src="./images/bg_map.png">
+        </div>
+      </x-dialog>
+    </div>-->
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import F2Pie from "@/components/F2Pie.vue";
-import { XCircle } from "vux";
+import { XCircle, XDialog, TransferDom, Popup } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
 var moment = require("moment");
+import html2canvas from "html2canvas";
 
 export default {
   name: "Operator",
+  directives: {
+    TransferDom
+  },
   components: {
     PageHeader,
     F2Pie,
-    XCircle
+    XCircle,
+    XDialog,
+    Popup
   },
   data() {
     return {
@@ -159,12 +188,12 @@ export default {
       date: "",
       profile: {
         creditScore: 0,
-        percent: 0,
-        verified: false
+        percent: 0
       },
       dataSource: {
         name: "",
-        useTime: ""
+        useTime: "",
+        isRealNameVerified: 0
       },
       specialNum1: "",
       specialNum2: "",
@@ -172,7 +201,14 @@ export default {
       charData: [],
       contactsArr: [],
       shareBox: false,
-      platform: this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      wxShareIco: require("./images/icon_share.png"),
+      showToast: true,
+      thumbnailImg: "",
+      isShowWeixinPop: false,
+      isWeiXinShare: false,
+      isShowWeixinShareWrap: true,
+      mediasource: ''
     };
   },
   methods: {
@@ -185,8 +221,8 @@ export default {
         let data = res.data;
         if (data.resultCode === "1") {
           let url = data.url;
-          if(data.userInfo) {
-            window.location.href = url;
+          if (data.userInfo) {
+            this.$router.push({ name: "PandoraAuth" });
           } else {
             this.$router.push({ name: "IdentityAuth" });
           }
@@ -200,6 +236,50 @@ export default {
       });
     },
     getReportInfo() {
+      this.mediasource = window.sessionStorage.getItem('mediasource');
+      this.isWeiXinShare = this.isWeiXin();
+      if (this.isWeiXinShare) {
+        let params = new URLSearchParams();
+        params.append("url", window.location.href);
+        this.common.wxfx(params).then(res => {
+          let data = res.data;
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId,
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage",
+              "onMenuShareQQ",
+              "onMenuShareWeibo"
+            ]
+          });
+
+          wx.ready(()=> {
+            wx.onMenuShareAppMessage({
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+            wx.onMenuShareTimeline({
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+          });
+        });
+      //}
+      }
+
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -211,6 +291,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log("data===", data);
           let profile = data.profile;
           this.profile.verified = profile.verified;
           this.profile.creditScore = !profile.credit_score
@@ -223,8 +304,11 @@ export default {
 
           let dataSource = data.data_source;
           this.dataSource.name = dataSource.name;
+          this.dataSource.isRealNameVerified = dataSource.is_real_name_verified;
+          console.log(dataSource);
           let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
           let currentTime = moment(new Date()).format("YYYY-MM-DD");
+          console.log("netInTime===", netInTime, currentTime);
           function datemonth(date1, date2) {
             // 拆分年月日
             date1 = date1.split("-");
@@ -237,7 +321,9 @@ export default {
             var m = Math.abs(date1 - date2);
             return m;
           }
-          this.dataSource.useTime = datemonth(netInTime, currentTime) + "月";
+          this.dataSource.useTime = dataSource.net_in_time
+            ? datemonth(netInTime, currentTime) + "月"
+            : "0月";
 
           let contactsRegionSummary = data.contacts_region_summary;
           let callerCountArr = _.pluck(contactsRegionSummary, "caller_count");
@@ -291,6 +377,7 @@ export default {
           let specialNum1Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_110";
           });
+          console.log("specialNum1Arr===", specialNum1Arr);
           let specialNum2Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_loan";
           });
@@ -305,37 +392,156 @@ export default {
         }
       });
     },
-    shareMethods: function() {
+    shareMethods() {
       window.hicashJSCommunication.onCallApp(
         JSON.stringify({
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: window.location.href,
-          shareImageUrl: _this.wxShareIco
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+          shareImageUrl: this.wxShareIco
         })
       );
     },
-    sharePopup: function() {
-      var config = {
-        title: this.title,
-        desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
-        types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
-        infoMap: {
-          wx: {
-            title: this.title,
-            desc: "征信报告分享",
-            link: window.location.href,
-            imgUrl: this.wxShareIco
-          }
-        },
-        fnDoShare: function(type) {}
-      };
-      share.Mshare.popup(config);
+    sharePopup() {
+      this.isShowWeixinPop = true;
+      setTimeout( ()=> {
+        this.isShowWeixinPop = false;
+      }, 3000)
+      // if (this.isWeiXin()) {
+      //   this.common.wxfx().then(res => {
+      //     let data = res.data;
+      //     alert('data' + JSON.stringify(data))
+      //     wx.config({
+      //       debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      //       appId: data.appId,
+      //       timestamp: data.timestamp,
+      //       nonceStr: data.nonceStr,
+      //       signature: data.signature,
+      //       jsApiList: [
+      //         "checkJsApi",
+      //         "onMenuShareTimeline",
+      //         "onMenuShareAppMessage",
+      //         "onMenuShareQQ",
+      //         "onMenuShareWeibo"
+      //       ]
+      //     });
+
+      //     wx.ready(function() {
+      //       wx.onMenuShareAppMessage({
+      //         desc: "征信报告分享",
+      //         title: "征信报告分享",
+      //         link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //         imgUrl: this.wxShareIco,
+      //         success: function() {},
+      //         cancel: function() {}
+      //       });
+      //       wx.onMenuShareTimeline({
+      //         desc: "征信报告分享",
+      //         title: "征信报告分享",
+      //         link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //         imgUrl: this.wxShareIco,
+      //         success: function() {},
+      //         cancel: function() {}
+      //       });
+      //     });
+      //   });
+      // }
+      //this.shareShow = true;
+      // var option = {
+      //   url: "http://www.baidu.com",
+      //   title: "百度",
+      //   img: "https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png",
+      //   desc: "百度搜索",
+      //   from: "百度"
+      // }
+      // console.log('mshare===', mshare)
+      // mshare.init(option);
+      // share.Mshare.wxConfig({
+
+      // })
+      // var config = {
+      //   title: this.title,
+      //   desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
+      //   types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
+      //   infoMap: {
+      //     wx: {
+      //       appId: "",
+      //       timestamp: "",
+      //       nonceStr: "",
+      //       signature: "",
+      //       title: this.title,
+      //       desc: "征信报告分享",
+      //       link: this.config.NEW_MWEB_PATH + "/activityIntroduction",
+      //       imgUrl: this.wxShareIco
+      //     }
+      //   },
+      //   fnDoShare: function(type) {}
+      // };
+      // share.Mshare.popup(config);
+      //   // html2canvas(document.getElementById("operator"), {
+      //   //   backgroundColor: null
+      //   // }).then(canvas => {
+      //   //   var imgData = canvas.toDataURL("image/jpeg");
+      //   //   console.log("imgData==", imgData);
+      //   //   this.thumbnailImg = imgData;
+      //   //   this.showToast = true;
+      //   //   //this.fileDownload(imgData);
+      //   // });
+      //   // var cntElem = document.getElementById("content");
+
+      //   // var shareContent = cntElem; //需要截图的包裹的（原生的）DOM 对象
+      //   // var width = shareContent.offsetWidth; //获取dom 宽度
+      //   // var height = shareContent.offsetHeight; //获取dom 高度
+      //   // var canvas = document.createElement("canvas"); //创建一个canvas节点
+      //   // var scale = 2; //定义任意放大倍数 支持小数
+      //   // canvas.width = width * scale; //定义canvas 宽度 * 缩放
+      //   // canvas.height = height * scale; //定义canvas高度 *缩放
+      //   // canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+      //   // var opts = {
+      //   //   scale: scale, // 添加的scale 参数
+      //   //   canvas: canvas, //自定义 canvas
+      //   //   // logging: true, //日志开关，便于查看html2canvas的内部执行流程
+      //   //   width: width, //dom 原始宽度
+      //   //   height: height,
+      //   //   useCORS: true, // 【重要】开启跨域配置,
+      //   //   scrollY: -40
+      //   // };
+
+      //   // html2canvas(shareContent, opts).then(canvas => {
+      //   //   var context = canvas.getContext("2d");
+      //   //   // 【重要】关闭抗锯齿
+      //   //   context.mozImageSmoothingEnabled = false;
+      //   //   context.webkitImageSmoothingEnabled = false;
+      //   //   context.msImageSmoothingEnabled = false;
+      //   //   context.imageSmoothingEnabled = false;
+
+      //   //   // 【重要】默认转化的格式为png,也可设置为其他格式
+      //   //   // var img = Canvas2Image.convertToJPEG(
+      //   //   //   canvas,
+      //   //   //   canvas.width,
+      //   //   //   canvas.height
+      //   //   // );
+      //   //   let imgData = canvas.toDataURL("image/jpeg");
+      //   //   console.log("imgData===", imgData, this);
+      //   //   this.thumbnailImg = imgData;
+      //   //   window.localStorage.setItem("imgUrl", this.thumbnailImg);
+      //   //   //this.showToast = true;
+      //   //   this.$router.push( { name: 'ThumbnailImg', params: {imgUrl: this.thumbnailImg}})
+      //   // });
+    },
+    isWeiXin() {
+      var ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {
     this.getReportInfo();
+    //this.isWeiXinShare = this.isWeiXin();
   }
 };
 </script>
@@ -640,6 +846,32 @@ export default {
   }
   .appContent {
     padding-top: 0;
+  }
+}
+.weixin-pop {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  .weixin-share-wrap {
+    position: absolute;
+    right: rem(40px);
+    img {
+      display: block;
+      width: rem(58.5px);
+      height: rem(99.5px);
+      margin: 0 auto;
+      margin-right: rem(4px);
+    }
+    p {
+      font-size: 12px;
+      color: #ddd;
+      text-align: center;
+      margin: rem(6px) 0;
+    }
   }
 }
 </style>

@@ -106,7 +106,14 @@
       </div>
 
       <div class="btn" @click="shareMethods" v-if="shareBox">分享给朋友</div>
-      <div id="share" @click="sharePopup" class="btn" v-if="!shareBox">分享给朋友</div>
+      <div id="share" @click="sharePopup" class="btn" v-if="!shareBox && isWeiXinShare">分享给朋友</div>
+    </div>
+    <div class="weixin-pop" v-if="isShowWeixinPop">
+      <div class="weixin-share-wrap" v-if="isShowWeixinShareWrap">
+        <img src="./images/icon_weixin_share.png">
+        <p>点击右上角</p>
+        <p>分享给朋友和朋友圈</p>
+      </div>
     </div>
   </div>
 </template>
@@ -117,6 +124,7 @@ import ConsumptionTrendLine from "@/components/ConsumptionTrendLine.vue";
 import { XCircle, ButtonTab, ButtonTabItem } from "vux";
 import Swiper from "swiper";
 let share = require("@/assets/js/mShare");
+var moment = require("moment");
 
 export default {
   name: "Eleme",
@@ -137,7 +145,7 @@ export default {
       situation: "",
       contactsArr: [],
       shareBox: false,
-      selected: 0,
+      selected: 1,
       totalPriceSum: 0,
       thisTotalPriceSum: 0,
       lastTotalPriceSum: 0,
@@ -154,7 +162,14 @@ export default {
       mostExpensiveMealName: "",
       mostExpensiveMealPrice: "",
       thisYearOrderListSortBy: [],
-      platform: this.utils.getPlatform()
+      platform: this.utils.getPlatform(),
+      wxShareIco: require("./images/icon_share.png"),
+      showToast: true,
+      thumbnailImg: "",
+      isShowWeixinPop: false,
+      isWeiXinShare: false,
+      isShowWeixinShareWrap: true,
+      mediasource: ''
     };
   },
   methods: {
@@ -168,7 +183,7 @@ export default {
         if (data.resultCode === "1") {
           let url = data.url;
           if(data.userInfo) {
-            window.location.href = url;
+            this.$router.push({ name: "PandoraAuth" });
           } else {
             this.$router.push({ name: "IdentityAuth" });
           }
@@ -182,6 +197,48 @@ export default {
       });
     },
     getReportInfo() {
+      this.mediasource = window.sessionStorage.getItem('mediasource');
+      this.isWeiXinShare = this.isWeiXin();
+      if (this.isWeiXinShare) {
+        let params = new URLSearchParams();
+        params.append("url", window.location.href);
+        this.common.wxfx(params).then(res => {
+          let data = res.data;
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId,
+            timestamp: data.timestamp,
+            nonceStr: data.nonceStr,
+            signature: data.signature,
+            jsApiList: [
+              "checkJsApi",
+              "onMenuShareTimeline",
+              "onMenuShareAppMessage",
+              "onMenuShareQQ",
+              "onMenuShareWeibo"
+            ]
+          });
+
+          wx.ready(()=> {
+            wx.onMenuShareAppMessage({
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+            wx.onMenuShareTimeline({
+              desc: "分享更有机会获得额外惊喜哦~",
+              title: "完善个人征信报告，拿免息优惠劵！",
+              link: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+              imgUrl: this.config.MWEB_PATH + this.wxShareIco,
+              success: function() {},
+              cancel: function() {}
+            });
+          });
+        });
+      }
       let year = new Date().getFullYear();
       let month = new Date().getMonth() + 1;
       let day = new Date().getDate();
@@ -193,13 +250,15 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
+          console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear();
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear();
           });
           let lastYearSummary = monthSummary.filter(item => {
-            return item.month.slice(0, 4) == new Date().getFullYear() - 1;
+            return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear() - 1;
           });
+          console.log('thisYearSummary', thisYearSummary, lastYearSummary)
           let thisTotalPrice = _.pluck(thisYearSummary, "price");
           let lastTotalPrice = _.pluck(lastYearSummary, "price");
           let thisCount = _.pluck(thisYearSummary, "count");
@@ -243,11 +302,11 @@ export default {
           this.thisMonthAverage =
             thisYearSummary.length === 0
               ? 0
-              : parseInt(this.thisTotalPriceSum / thisYearSummary.length);
+              : parseInt(this.thisTotalPriceSum / (new Date().getMonth() + 1));
           this.lastMonthAverage =
             lastYearSummary.length === 0
               ? 0
-              : parseInt(this.lastTotalPriceSum / lastYearSummary.length);
+              : parseInt(this.lastTotalPriceSum / 12);
           this.yearSwitch();
           let originalConsumptionTrend = [];
           let date = new Date();
@@ -263,17 +322,21 @@ export default {
             };
             originalConsumptionTrend.push(item);
           }
+          console.log('originalConsumptionTrend====', originalConsumptionTrend)
           let serverConsumptionTrend = [];
           for (let j = 0; j < monthSummary.length; j++) {
-            let val = {
-              detail: parseInt(monthSummary[j].price),
-              date: monthSummary[j].month
-            };
-            serverConsumptionTrend.push(val);
+            if(moment(monthSummary[j].month).isValid()) {
+              let val = {
+                detail: parseInt(monthSummary[j].price),
+                date: monthSummary[j].month
+              };
+              serverConsumptionTrend.push(val);
+            }
           }
           serverConsumptionTrend = serverConsumptionTrend
             .reverse()
             .splice(0, 12);
+          console.log('serverConsumptionTrend===', serverConsumptionTrend)
           const obj = {};
           const historyList = [];
           originalConsumptionTrend
@@ -284,15 +347,18 @@ export default {
           for (let o in obj) {
             historyList.push({ detail: obj[o], date: o });
           }
+          console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
+          console.log('orderList===', orderList)
           let thisYearOrderList = orderList.filter(item => {
-            return item.setup_time.slice(0, 4) == new Date().getFullYear();
+            return moment(item.setup_time).isValid() && item.setup_time.slice(0, 4) == new Date().getFullYear();
           });
           let thisYearOrderListSortBy = _.sortBy(
             thisYearOrderList,
             "price"
           ).reverse();
+          console.log('thisYearOrderList===', thisYearOrderList)
           this.thisYearOrderListSortBy = thisYearOrderListSortBy;
           this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
           this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;
@@ -355,27 +421,39 @@ export default {
           type: "h5_share",
           shareTitle: this.title,
           shareContent: "征信报告分享",
-          shareUrl: window.location.href,
-          shareImageUrl: _this.wxShareIco
+          shareUrl: this.config.NEW_MWEB_PATH + "/activityIntroduction?mediasource=" + this.mediasource,
+          shareImageUrl: this.wxShareIco
         })
       );
     },
     sharePopup() {
-      var config = {
-        title: this.title,
-        desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
-        types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
-        infoMap: {
-          wx: {
-            title: this.title,
-            desc: "征信报告分享",
-            link: window.location.href,
-            imgUrl: this.wxShareIco
-          }
-        },
-        fnDoShare: function(type) {}
-      };
-      share.Mshare.popup(config);
+      // var config = {
+      //   title: this.title,
+      //   desc: "征信报告分享", // 描述, 默认读取head标签：<meta name="description" content="desc" />
+      //   types: ["wx", "qq", "qzone", "sina"], // 开启的分享图标, 默认为全部
+      //   infoMap: {
+      //     wx: {
+      //       title: this.title,
+      //       desc: "征信报告分享",
+      //       link: this.config.NEW_MWEB_PATH + '/activityIntroduction',
+      //       imgUrl: this.wxShareIco
+      //     }
+      //   },
+      //   fnDoShare: function(type) {}
+      // };
+      // share.Mshare.popup(config);
+      this.isShowWeixinPop = true;
+      setTimeout( ()=> {
+        this.isShowWeixinPop = false;
+      }, 3000)
+    },
+    isWeiXin() {
+      var ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {
@@ -778,5 +856,31 @@ export default {
   .appContent {
     padding-top: 0;
   }
+  .weixin-pop {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  .weixin-share-wrap {
+    position: absolute;
+    right: rem(40px);
+    img {
+      display: block;
+      width: rem(58.5px);
+      height: rem(99.5px);
+      margin: 0 auto;
+      margin-right: rem(4px);
+    }
+    p {
+      font-size: 12px;
+      color: #ddd;
+      text-align: center;
+      margin: rem(6px) 0;
+    }
+  }
+}
 }
 </style>

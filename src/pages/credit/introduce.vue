@@ -12,6 +12,38 @@
         <img src="./images/banner.png" alt>
       </div>
       <div class="list">
+        <!-- <div class="list-box">
+          <div @click.stop="queryCreditUrl(list[0])" class="list-row">
+            <div class="icon">
+              <img src="./images/operator.png" alt>
+            </div>
+            <div class="txt">运营商</div>
+          </div>
+        </div>
+        <div class="list-box">
+          <div @click.stop="queryCreditUrl(list[1])" class="list-row">
+            <div class="icon">
+              <img src="./images/element.png" alt>
+            </div>
+            <div class="txt">饿了么</div>
+          </div>
+        </div>
+        <div class="list-box active">
+          <div @click.stop="queryCreditUrl(list[2])" class="list-row">
+            <div class="icon">
+              <img src="./images/haluo.png" alt>
+            </div>
+            <div class="txt">哈罗单车</div>
+          </div>
+        </div>
+        <div class="list-box active">
+          <div @click="queryCreditUrl(list[3])" class="list-row">
+            <div class="icon">
+              <img src="./images/jd.png" alt>
+            </div>
+            <div class="txt">京东</div>
+          </div>
+        </div>-->
         <div
           class="list-box"
           :span="1/3"
@@ -26,49 +58,22 @@
             <div class="txt">{{item.reportName}}</div>
           </div>
         </div>
-        <!-- <div class="list-row row1">
-          <div class="list-box">
-            <div class="icon">
-              <img src="./images/operator.png" @click="goAuthentication('operator')">
-            </div>
-            <div class="txt">运营商</div>
-          </div>
-          <div class="list-box">
-            <div class="icon">
-              <img src="./images/jd.png" @click="goAuthentication('jd')">
-            </div>
-            <div class="txt">京东</div>
-          </div>
-        </div>
-        <div class="list-row row2">-->
-        <!-- <div class="list-box">
-          <div class="icon">
-            <img src="./images/element.png" @click="goAuthentication('eleme')">
-          </div>
-          <div class="txt">饿了么</div>
-        </div>
-        <div class="list-box">
-          <div class="icon">
-            <img src="./images/haluo.png" @click="goAuthentication('helloBike')">
-          </div>
-          <div class="txt">哈罗单车</div>
-        </div>-->
-        <!-- </div> -->
       </div>
     </div>
     <div class="rule">
       <h3>活动规则</h3>
       <div class="rule-detail">
-        <p>即日起，首次在嗨钱+进行信用认证的用户即可获得嗨钱免息券</p>
+        <p>即日起，首次在嗨钱+进行信用认证的用户即可获得嗨钱免息代金券</p>
         <p class="rule-list">
-          1.完成运营商信用认证可获得40元免息代金券
-          <br>2.完成京东信用认证可获得50元免息代金券
-          <br>3.完成哈喽单车信用认证可获得30元免息代金券
-          <br>4.完成饿了么信用认证可获得30元免息代金券
+          1、完成运营商信用认证可获得10元免息代金券
+          <br>2、完成京东信用认证可获得10元免息代金券
+          <br>3、完成哈喽单车信用认证可获得10元免息代金券
+          <br>4、完成饿了么信用认证可获得10元免息代金券
           <br>
         </p>
-        <p class="p1">完成嗨钱+全部信用认证，更有机会获得随机发放的50元免息代金券</p>
-        <p>本活动最终解释权归嗨钱所有</p>
+        <p class="p1">完成嗨钱+全部信用认证，更有机会获得随机发放的10元免息代金券</p>
+        <p class="p1">PS：用户还款金额需在2000元以上时才能使用该优惠券。</p>
+        <p>#本活动最终解释权归嗨钱所有#</p>
       </div>
     </div>
   </div>
@@ -86,7 +91,8 @@ export default {
       showBtnClose: false,
       platform: this.utils.getPlatform(),
       list: [],
-      userName: this.utils.getCookie("userName")
+      userName: this.utils.getCookie("userName"),
+      mediasource: this.$route.query.mediasource || window.sessionStorage.getItem('mediasource') || this.utils.getCookie('mediasource')
     };
   },
   created() {
@@ -94,9 +100,40 @@ export default {
   },
   methods: {
     getUserCreditReports() {
-      this.common.getUserCreditReports(this.userName).then(res => {
-        this.list = res.data.data;
-      });
+      window.sessionStorage.setItem('mediasource', this.mediasource);
+      if (!this.userName) {
+        this.list = [
+          {
+            reportType: "operator",
+            status: "",
+            iconUrl: require("./images/operator.png"),
+            reportName: "运营商"
+          },
+
+          {
+            reportType: "eleme",
+            status: "",
+            iconUrl: require("./images/element.png"),
+            reportName: "饿了么"
+          },
+          {
+            reportType: "helloBike",
+            status: "",
+            iconUrl: require("./images/haluo.png"),
+            reportName: "哈啰单车"
+          },
+          {
+            reportType: "jd",
+            status: "",
+            iconUrl: require("./images/jd.png"),
+            reportName: "京东"
+          }
+        ];
+      } else {
+        this.common.getUserCreditReports(this.userName).then(res => {
+          this.list = res.data.data;
+        });
+      }
     },
     queryCreditUrl(item) {
       if (!this.userName) {
@@ -117,9 +154,10 @@ export default {
       // let _params = new URLSearchParams();
       // _params.append("userName",this.userName);
       // _params.append("creditType", item.reportType);
+      console.log(this.list);
 
       this.utils.setCookie("creditType", item.reportType);
-      if (item.status == 0||item.status == 3) {
+      if (item.status == 0 || item.status == 3) {
         this.common.queryCreditUrl(_params).then(res => {
           let data = res.data;
           // console.info("data", data);
@@ -220,7 +258,7 @@ export default {
             font-size: rem(16px);
             color: #666666;
             letter-spacing: 0;
-            // margin-top: rem(12px);
+            margin-top: rem(6px);
           }
         }
       }

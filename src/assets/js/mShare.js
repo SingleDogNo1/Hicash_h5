@@ -212,7 +212,7 @@
 			}
 		}
 	};
-	var wxJsSdkUrl = "//res.wx.qq.com/open/js/jweixin-1.2.0.js";
+	var wxJsSdkUrl = "http://res.wx.qq.com/open/js/jweixin-1.2.0.js";
 	var setShareInfo$1 = function setShareInfo(type, info) {
 		switch (type) {
 			case "wx":
@@ -274,14 +274,17 @@
 									config.infoMap[item].imgUrl) ||
 								config.imgUrl
 						};
+						alert('_info' + _info)
 						setShareInfo$1(item, _info);
 					});
 				} catch (e) {}
 			});
 		};
 		if (window.wx) {
+			alert(11)
 			doSet();
 		} else {
+			alert(22)
 			util.loadScript(wxJsSdkUrl, function() {
 				doSet();
 			});
@@ -496,6 +499,7 @@
 	};
 	var typesMap = ["wx", "wxline", "qq", "qzone", "sina"];
 	var getDefaultConfig = function getDefaultConfig(config) {
+		console.log('config===', config)
 		config = config || {};
 		var infoMapType = _typeof(config.infoMap);
 		return {

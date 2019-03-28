@@ -1,4 +1,4 @@
-import axios from "axios";
+﻿import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
 import qs from 'qs'
@@ -71,7 +71,10 @@ export default {
 	getUserCreditReports: getUserCreditReports,
 	saveUserCreditInfo: saveUserCreditInfo,
 	CheckCreditResult: CheckCreditResult,
-	getCreditResult: getCreditResult
+	getCreditResult: getCreditResult,
+	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
+	wxfx: wxfx,
+	QueryPandoraUrl: QueryPandoraUrl
 };
 
 /*
@@ -1098,7 +1101,7 @@ export function queryCreditUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/queryCreditUrl", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
 				reject(err);
@@ -1113,6 +1116,20 @@ export function queryCreditUrl(params) {
 export function getUserCreditReports(params) {
 	return new Promise((resolve, reject) => {
 		axios.get("/hicash-api-service/credit/getUserCreditReports/"+params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+// 更新用户的某个报告的认证中状态
+export function UpdateUserCreditReportStatus(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/updateUserCreditReportStatus/",params).then(
 			res => {
 				resolve(res);
 			},
@@ -1175,6 +1192,38 @@ export function getCreditReport(params) {
 export function getCreditResult(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/getCreditResult", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  微信分享
+ */
+export function wxfx(params) {
+	return new Promise((resolve, reject) => {
+		axios.post(config.MWEB_PATH + 'api/?api=wxfx', params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取PandDoraH5页面链接
+ */
+export function QueryPandoraUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
 			res => {
 				resolve(res);
 			},
