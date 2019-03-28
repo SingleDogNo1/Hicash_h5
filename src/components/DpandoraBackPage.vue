@@ -92,12 +92,14 @@ export default {
       var _this = this;
       _this.$vux.confirm.show({
         title: "提示",
+        confirmText: "取消",
+        cancelText: "确定",
         content: _this.cancleMsg,
         // 组件除show外的属性
-        onCancel() {
+        onConfirm() {
           _this.$vux.confirm.hide();
         },
-        onConfirm() {
+        onCancel() {
           window.location.href =
             _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
         }
