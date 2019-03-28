@@ -68,7 +68,7 @@ export default {
     close() {},
     btnNext() {},
     skip() {
-	  var _this = this;
+	    var _this = this;
       _this.$vux.confirm.show({
         title: _this.cancleMsg,
         // 组件除show外的属性
@@ -91,10 +91,11 @@ export default {
 	console.log(_this.$route.query.source);
     if (industryCode == "MDCP" || industryCode == "LDDD") {
       //用户正在申请嗨秒贷产品
-	  var creditItems = utils.getCookie("creditItems");
-	   _this.cancleMsg = creditItems[1].cancleMsg;
+	  let creditItems = utils.getCookie('creditItems');
 	  console.log("creditItems===",creditItems);
       creditItems = JSON.parse(creditItems);
+	   _this.cancleMsg = creditItems[1].cancleMsg;
+
       if (type === "0") {
         type = "3"
         flag = false;

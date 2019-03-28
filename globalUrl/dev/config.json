@@ -5,6 +5,7 @@
 	"MWEB_PATH": "https://dev.hicash.cn/",
 	"NEW_MWEB_PATH": "https://dev.hicash.cn/h5/#",
 	"pic_path": "https://file.dev.guolidai.xin/",
+	"cdn_pic_path": "https://file.dev.guolidai.xin/",
 	"baiqishi_url": "dfst.baiqishi.com/static/webdf/saber.js"
 }
 
