@@ -15,38 +15,61 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss" scoped>
-.vux-loading {
-  .weui-toast {
-    width: 5em !important;
-    min-height: 5em !important;
-    .weui-loading {
-      margin: 22px 0 0 !important;
+.weui-dialog {
+  width: 12rem;
+  position: fixed;
+  display: table;
+  z-index: 5000;
+  width: 80%;
+  max-width: 300px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 3px;
+  overflow: hidden;
+  .weui-dialog__hd {
+    padding: 0;
+    width: 100%;
+    height: 48px;
+    line-height: 40px;
+    background: #ff7640;
+    border-radius: 5px 5px 0 0;
+  }
+  .weui-dialog__bd {
+    padding: 0 1.6em 0.8em;
+    min-height: 40px;
+    font-size: 15px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: #999;
+    .dialog-content {
+      padding: 0;
+      width: 100%;
+      min-height: 40px;
+      font-family: PingFangSC-Regular;
+      font-size: 13px;
+      color: #333;
+      letter-spacing: -0.08px;
+      text-align: center;
+      padding-top: 20px;
+    }
+  }
+  .weui-dialog__ft {
+    .weui-dialog__btn_primary,.weui-dialog__btn_default {
+      font-family: PingFangSC-Regular;
+      font-size: 15px;
+      color: #ff7640;
+      letter-spacing: -0.36px;
+      text-align: center;
     }
   }
 }
-.weui-dialog {
-  .weui-dialog__hd {
-  padding: 0;
-  width: 100%;
-  height: 48px;
-  line-height: 40px;
-  background: #ff7640;
-  border-radius: 5px 5px 0 0;
-  color: #fff;
-  }
-  .weui-dialog__bd {
-    padding: 0 1.6em .8em;
-    min-height: 40px;
-    font-size: 15px;
-    line-height: 1.3rem;
-    word-wrap: break-word;
-    word-break: break-all;
-    color: #353535;
-  }
-}
-.weui-dialog__btn {
-  color: #353535 !important;
-}
+
 .skip {
   width: 100%;
   background: #eee;
