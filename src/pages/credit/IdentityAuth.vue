@@ -14,7 +14,7 @@
 		</div>
 		<group>
 			<x-input v-model="name" placeholder="真实姓名"></x-input>
-			<x-input v-model="idCard" placeholder="身份证号码"></x-input>
+			<x-input v-model="idCard" is-type placeholder="身份证号码"></x-input>
 		</group>
 		<button @click="saveUserCreditInfo" class="btn">确认</button>
 
@@ -198,6 +198,15 @@ export default {
 			// _params.append("userName", this.utils.getCookie('userName'));
 			// _params.append("realName", this.name);
 			// _params.append("idNo", this.idCard);
+			if(!this.utils.checkRealName(this.name)){
+				this.$vux.toast.text('请输入正确的真实姓名');
+				return false;
+			}
+
+			if(!this.utils.checkIdCardNumber(this.idCard)){
+				this.$vux.toast.text('请输入正确的身份证号码');
+				return false;
+			}
 
 			let _params = {
 				"userName": this.utils.getCookie('userName'),
