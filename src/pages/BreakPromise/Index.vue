@@ -7,7 +7,7 @@
 		></page-header>
 		<div class="content" :class="{ appContent: platform === 'APP' }">
 			<div class="loan">
-				<img src="./images/bg_broke_promise.png" width="100%" />
+				<img :src="cdnBrokePromisePath" width="100%" />
 			</div>
 
 			<div class="hot-wrap">
@@ -88,12 +88,12 @@
 			<div class="loan" title="失信案例库">
 				<img
 					@click="adShiXin"
-					src="./images/ad-shixin.png"
+					:src="cdnShixinCasePath"
 					width="100%"
 				/>
 			</div>
 			<div class="loan" title="天下信用">
-				<img @click="adClick" src="./images/ad.png" width="100%" />
+				<img @click="adClick" :src="cdnAdPath" width="100%" />
 			</div>
 		</div>
 		<page-footer v-if="platform === 'H5'"></page-footer>
@@ -285,7 +285,10 @@ export default {
 			number: "",
 			loseCreditDetailList: [],
 			hotNews: [],
-			platform: ""
+			platform: "",
+			cdnBrokePromisePath: this.config.cdn_pic_path + 'applogo/shixin/bg_broke_promise.png',
+			cdnShixinCasePath: this.config.cdn_pic_path + 'applogo/shixin/ad_shixin.png',
+			cdnAdPath: this.config.cdn_pic_path + 'applogo/shixin/ad.png'
 		};
 	},
 	methods: {

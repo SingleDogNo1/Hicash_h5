@@ -1,4 +1,4 @@
-import axios from "axios";
+﻿import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
 import qs from 'qs'
@@ -73,7 +73,8 @@ export default {
 	CheckCreditResult: CheckCreditResult,
 	getCreditResult: getCreditResult,
 	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
-	wxfx: wxfx
+	wxfx: wxfx,
+	QueryPandoraUrl: QueryPandoraUrl
 };
 
 /*
@@ -1207,6 +1208,22 @@ export function getCreditResult(params) {
 export function wxfx(params) {
 	return new Promise((resolve, reject) => {
 		axios.post(config.MWEB_PATH + 'api/?api=wxfx', params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取PandDoraH5页面链接
+ */
+export function QueryPandoraUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
 			res => {
 				resolve(res);
 			},

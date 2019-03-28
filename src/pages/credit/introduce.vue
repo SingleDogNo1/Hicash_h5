@@ -109,7 +109,6 @@ export default {
             iconUrl: require("./images/operator.png"),
             reportName: "运营商"
           },
-
           {
             reportType: "eleme",
             status: "",
@@ -154,7 +153,6 @@ export default {
       // let _params = new URLSearchParams();
       // _params.append("userName",this.userName);
       // _params.append("creditType", item.reportType);
-      console.log(this.list);
 
       this.utils.setCookie("creditType", item.reportType);
       if (item.status == 0 || item.status == 3) {
