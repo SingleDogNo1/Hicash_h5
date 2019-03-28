@@ -291,7 +291,6 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
-          console.log("data===", data);
           let profile = data.profile;
           this.profile.verified = profile.verified;
           this.profile.creditScore = !profile.credit_score
@@ -305,10 +304,8 @@ export default {
           let dataSource = data.data_source;
           this.dataSource.name = dataSource.name;
           this.dataSource.isRealNameVerified = dataSource.is_real_name_verified;
-          console.log(dataSource);
           let netInTime = moment(dataSource.net_in_time).format("YYYY-MM-DD");
           let currentTime = moment(new Date()).format("YYYY-MM-DD");
-          console.log("netInTime===", netInTime, currentTime);
           function datemonth(date1, date2) {
             // 拆分年月日
             date1 = date1.split("-");
@@ -377,7 +374,6 @@ export default {
           let specialNum1Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_110";
           });
-          console.log("specialNum1Arr===", specialNum1Arr);
           let specialNum2Arr = specialNumAll[0].items.filter(item => {
             return item.check_point === "contact_loan";
           });

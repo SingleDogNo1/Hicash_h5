@@ -248,7 +248,6 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data);
-          console.log("data=", data);
           let monthSummary = data.month_summary;
           let thisYearSummary = monthSummary.filter(item => {
             return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear();
@@ -256,7 +255,6 @@ export default {
           let lastYearSummary = monthSummary.filter(item => {
             return moment(item.month).isValid() && item.month.slice(0, 4) == new Date().getFullYear() - 1;
           });
-          console.log('thisYearSummary', thisYearSummary, lastYearSummary)
           let thisTotalPrice = _.pluck(thisYearSummary, "price");
           let lastTotalPrice = _.pluck(lastYearSummary, "price");
           let thisCount = _.pluck(thisYearSummary, "count");
@@ -320,7 +318,6 @@ export default {
             };
             originalConsumptionTrend.push(item);
           }
-          console.log('originalConsumptionTrend====', originalConsumptionTrend)
           let serverConsumptionTrend = [];
           for (let j = 0; j < monthSummary.length; j++) {
             if(moment(monthSummary[j].month).isValid()) {
@@ -334,7 +331,6 @@ export default {
           serverConsumptionTrend = serverConsumptionTrend
             .reverse()
             .splice(0, 12);
-          console.log('serverConsumptionTrend===', serverConsumptionTrend)
           const obj = {};
           const historyList = [];
           originalConsumptionTrend
@@ -345,10 +341,8 @@ export default {
           for (let o in obj) {
             historyList.push({ detail: obj[o], date: o });
           }
-          console.log('historyList====', historyList)
           this.historyList = historyList.reverse();
           let orderList = data.order_list;
-          console.log('orderList===', orderList)
           let thisYearOrderList = orderList.filter(item => {
             return moment(item.setup_time).isValid() && item.setup_time.slice(0, 4) == new Date().getFullYear();
           });
@@ -356,7 +350,6 @@ export default {
             thisYearOrderList,
             "price"
           ).reverse();
-          console.log('thisYearOrderList===', thisYearOrderList)
           this.thisYearOrderListSortBy = thisYearOrderListSortBy;
           this.mostExpensiveMealName = thisYearOrderListSortBy[0].shop_name;
           this.mostExpensiveMealPrice = thisYearOrderListSortBy[0].price;

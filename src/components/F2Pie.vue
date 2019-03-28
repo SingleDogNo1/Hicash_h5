@@ -49,7 +49,6 @@ export default {
       // 设置图例项的内容
       var legendItems = [];
       data.map(function(obj) {
-        console.log('obj', obj)
         var item = {
           name: obj.assetType,
           value: "    " + parseInt(obj.percent * 100) + "%",
@@ -61,7 +60,6 @@ export default {
         };
         legendItems.push(item);
       });
-      console.log('legendItems==', legendItems)
       this.chart = new F2.Chart({
         id: this.id,
         pixelRatio: window.devicePixelRatio
