@@ -16,7 +16,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 .weui-dialog__hd {
-  padding: 0;
+  padding: 0 !important;
   width: 100%;
   height: 48px;
   line-height: 40px;
@@ -25,24 +25,24 @@
   color: #fff !important;
 }
 .weui-dialog__bd {
-  padding: 0;
+  padding: 0 !important;
   width: 100%;
   min-height: 40px;
   font-family: PingFangSC-Regular;
-  font-size: 13px;
+  font-size: 13px !important;
   color: #333 !important;
   letter-spacing: -0.08px;
   text-align: center;
-  padding-top: 39px;
+  padding-top: 39px !important;
 }
 .weui-dialog__ft {
   position: relative;
   line-height: 48px;
-  font-size: 17px;
+  font-size: 17px !important;
   display: -ms-flexbox;
   display: flex;
   .weui-dialog__btn_default {
-    color: #ff7640 !important;
+    color: #353535 !important;
   }
   .weui-dialog__btn_primary {
     color: #ff7640 !important;
