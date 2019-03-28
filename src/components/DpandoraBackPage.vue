@@ -6,7 +6,7 @@
     <iframe
       :src="dpandoraUrl"
       id="dpandoraUrl"
-      style="width: 100%;height: 100%;"
+      style="width: 100%;height: 10rem;"
       frameborder="0"
       target="#dpandoraUrl2"
     ></iframe>
@@ -93,13 +93,15 @@ export default {
       _this.$vux.confirm.show({
         title: "提示",
         content: _this.cancleMsg,
+        confirmText:"确定",
+        cancelText:"取消",
         // 组件除show外的属性
         onCancel() {
-          _this.$vux.confirm.hide();
+           window.location.href =
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
         },
         onConfirm() {
-          window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+          _this.$vux.confirm.hide();
         }
       });
     }
