@@ -55,11 +55,11 @@
   text-align: right;
   .skipBtn {
     font-size: 0.6rem;
-    color: #2b2b2b !important;
-    border: 1px solid #2b2b2b !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
     padding: 0.1rem 0.4rem;
-    border-radius: 10px;
-    margin-right: 1rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
   }
 }
 </style>
