@@ -14,50 +14,79 @@
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" rel="stylesheet/scss" scoped>
-/deep/ .weui-dialog__hd {
-	height: rem(48px);
-	line-height: rem(48px);
-	background: #ff7640;
-	padding: 0 rem(10px);
-	.weui-dialog__title {
-		font-size: 17px;
-		color: #fff;
-	}
-}
-/deep/ .weui-dialog__bd {
-	padding: 0;
-	.dialog-content {
-		padding: 0 1.6em 0.8em;
-		margin-top: rem(20px);
-		text-align: center;
-		font-size: 13px;
-		color: #333333;
-		line-height: 16px;
-		.content-title {
-			margin-bottom: rem(3px);
-		}
-		.content-app-no {
-			margin-bottom: rem(3px);
-		}
-		.content-total-amount {
-			margin-bottom: 5px;
-			span {
-				color: #ff7640;
-			}
-		}
-	}
+<style lang="scss" rel="stylesheet/scss">
+.DpandoraBackPage {
+  ..weui-dialog {
+    position: fixed;
+    display: table;
+    z-index: 5000;
+    width: 80%;
+    max-width: 300px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    background-color: #fff !important;
+    text-align: center;
+    border-radius: 3px;
+    overflow: hidden;
+    .weui-dialog__hd {
+      padding: 0;
+      width: 100%;
+      height: 48px;
+      line-height: 40px;
+      background: #ff7640 !important;
+      border-radius: 5px 5px 0 0;
+      color: #fff !important;
+      .weui-dialog__title {
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
+    .weui-dialog__bd {
+      padding: 0 1.6em 0.8em;
+      min-height: 48px;
+      font-size: 15px;
+      line-height: 1.3rem;
+      word-wrap: break-word;
+      word-break: break-all;
+      color: #999 !important;
+      .weui-dialog__content {
+        padding: 0;
+        width: 100%;
+        min-height: 40px;
+        font-family: PingFangSC-Regular;
+        font-size: 13px;
+        color: #333 !important;
+        letter-spacing: -0.08px;
+        text-align: center;
+        padding-top: 20px;
+      }
+    }
+    .weui-dialog__ft {
+      position: relative;
+      line-height: 48px;
+      font-size: 17px;
+      display: -ms-flexbox;
+      display: flex;
+      .weui-dialog__btn_default,
+      .weui-dialog__btn_primary {
+        color: #ff7640 !important;
+      }
+    }
+  }
 }
 
 .skip {
   width: 100%;
-  background: #eee;
+  background: #eee !important;
   line-height: 2rem;
   text-align: right;
   .skipBtn {
     font-size: 0.6rem;
-    color: #2b2b2b;
-    border: 1px solid #2b2b2b;
+    color: #2b2b2b !important;
+    border: 1px solid #2b2b2b !important;
     padding: 0.1rem 0.4rem;
     border-radius: 10px;
     margin-right: 1rem;
