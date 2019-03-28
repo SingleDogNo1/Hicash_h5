@@ -61,8 +61,8 @@ export default {
       var url = window.location.href;
       var urlArr = url.split("&");
       parent.location.href = urlArr[0];
-	}
-	
+    }
+
     if (this.$router.history.current.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (!userName || userName == "null") {
@@ -148,6 +148,16 @@ export default {
         }
       } else {
         next();
+      }
+    });
+
+    //这里监听键盘收起，然后滚动顶部
+    document.body.addEventListener("focusout", () => {
+      //软键盘收起的事件处理
+      let ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf("iphone") > 0 || ua.indexOf("ipad") > 0) {
+        //键盘收齐页面空白问题
+        document.body.scrollTop = document.body.scrollHeight;
       }
     });
   },
