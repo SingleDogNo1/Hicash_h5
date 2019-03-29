@@ -181,7 +181,7 @@ export default {
               "&mobile=" +
               utils.getCookie("mobile");
           }
-          window.location.href = creditItems[2].url + paramsStr + "&source=auth_iframe";
+          parent.location.href = creditItems[2].url + paramsStr;
         _this.skipFlag = false;
         } else {
           window.location.href =
