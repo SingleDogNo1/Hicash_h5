@@ -120,7 +120,6 @@ export default {
       _this.cancleMsg = creditItems[1].cancleMsg;
 
       if (type === "0") {
-        console.info("111111111111111111")
         type = "3";
         _this.skipFlag = false;
         flag = false;
@@ -161,11 +160,9 @@ export default {
           _this.skipFlag = false;
         }
       } else if (type == "3") {
-        console.info("222222222222222222");
         //学信网认证
         flag = false;
         if (creditItems[2]) {
-          console.info("1111111111111");
           var paramsStr = "";
           if (creditItems[2].url.indexOf("?") != -1) {
             paramsStr =
@@ -187,7 +184,6 @@ export default {
           _this.dpandoraUrl = creditItems[2].url + paramsStr;
           _this.skipFlag = false;
         } else {
-          console.info("22222222222222222")
           window.location.href =
             _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?source=auth_iframe";
         }

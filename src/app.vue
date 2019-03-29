@@ -59,7 +59,7 @@ export default {
 
     if (this.$route.query.source == "auth_iframe") {
       var url = window.location.href;
-      var urlArr = url.split("&");
+      var urlArr = url.split("?");
       parent.location.href = urlArr[0];
 	}
 	
