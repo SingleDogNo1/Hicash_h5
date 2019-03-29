@@ -154,8 +154,10 @@ export default {
         ) {
           age++;
         }
-        if (creditItems[1].optional) {
+        if (creditItems[1].optional == "1") {
           _this.skipFlag = true;
+        } else {
+          _this.skipFlag = false;
         }
       } else if (type == "3") {
         //学信网认证
