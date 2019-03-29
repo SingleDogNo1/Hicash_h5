@@ -159,6 +159,7 @@ export default {
       } else if (type == "3") {
         //学信网认证
         flag = false;
+        _this.skipFlag = false;
         if (creditItems[2]) {
           var paramsStr = "";
           if (creditItems[2].url.indexOf("?") != -1) {
@@ -186,6 +187,7 @@ export default {
       } else if (type == "8") {
         //芝麻信用
         flag = false;
+        _this.skipFlag = false;
         window.location.href =
           _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
       }
@@ -193,6 +195,7 @@ export default {
       if (type == "0") {
         //从手机运营商认证跳回
         flag = false;
+        _this.skipFlag = false;
         window.location.href =
           _this.config.MWEB_PATH + "newweb/creditInfo/newcreditPrv.html";
       } else if (type == "3" || type == "4" || type == "7" || type == "9") {
