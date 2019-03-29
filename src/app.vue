@@ -59,8 +59,8 @@ export default {
 
     if (this.$route.query.source == "auth_iframe") {
       var url = window.location.href;
-      var urlArr = url.split("?");
-      parent.location.href = urlArr[0];
+      var urlArr = url.split("&");
+      parent.location.href = urlArr[0]+urlArr[1]+urlArr[2]+urlArr[3];
     }
 
     if (this.$router.history.current.meta.requireAuth) {
