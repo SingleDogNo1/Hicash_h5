@@ -184,16 +184,15 @@ export default {
           _this.dpandoraUrl = creditItems[2].url + paramsStr;
           _this.skipFlag = false;
         } else {
-          console.info("111111111111")
           window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "?source=auth_iframe";
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "&source=auth_iframe";
         }
       } else if (type == "8") {
         //芝麻信用
         flag = false;
         _this.skipFlag = false;
         window.location.href =
-          _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "?source=auth_iframe";
+          _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "&source=auth_iframe";
       }
     } else if (industryCode == "DDCP") {
       if (type == "0") {
@@ -201,10 +200,10 @@ export default {
         flag = false;
         _this.skipFlag = false;
         window.location.href =
-          _this.config.MWEB_PATH + "newweb/creditInfo/newcreditPrv.html" + "?source=auth_iframe";
+          _this.config.MWEB_PATH + "newweb/creditInfo/newcreditPrv.html" + "&source=auth_iframe";
       } else if (type == "3" || type == "4" || type == "7" || type == "9") {
         window.location.href =
-          _this.config.MWEB_PATH + "/newweb/creditInfo/newcreditPrv.html" + "?source=auth_iframe";
+          _this.config.MWEB_PATH + "/newweb/creditInfo/newcreditPrv.html" + "&source=auth_iframe";
       }
     } else {
       _this.$vux.toast.show({
