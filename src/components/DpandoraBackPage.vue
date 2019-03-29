@@ -102,6 +102,7 @@ export default {
         onCancel() {
           window.location.href =
             _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+            _this.skipFlag = false;
         }
       });
     }
@@ -154,8 +155,6 @@ export default {
         }
         if (creditItems[1].optional) {
           _this.skipFlag = true;
-        } else {
-          _this.skipFlag = false;
         }
       } else if (type == "3") {
         //学信网认证
