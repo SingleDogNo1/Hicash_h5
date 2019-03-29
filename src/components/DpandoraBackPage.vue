@@ -120,7 +120,7 @@ export default {
       _this.cancleMsg = creditItems[1].cancleMsg;
 
       if (type === "0") {
-        // type = "3";
+        type = "3";
         _this.skipFlag = false;
         flag = false;
         var paramsStr = "";
