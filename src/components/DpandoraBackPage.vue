@@ -6,7 +6,7 @@
     <iframe
       :src="dpandoraUrl"
       id="dpandoraUrl"
-      style="width: 100%;height: 10rem;"
+      style="width: 100%;height: 20rem;"
       frameborder="0"
       target="#dpandoraUrl2"
     ></iframe>
