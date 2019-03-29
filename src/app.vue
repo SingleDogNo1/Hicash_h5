@@ -57,7 +57,7 @@ export default {
         this.config.NEW_MWEB_PATH + this.$router.history.current.path;
     }
 
-    if (this.$route.query.source == "auth_iframe") {
+    if (this.$router.query.source == "auth_iframe") {
       var url = window.location.href;
       var urlArr = url.split("&");
       parent.location.href = urlArr[0];
