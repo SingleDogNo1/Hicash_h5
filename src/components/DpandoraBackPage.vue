@@ -159,6 +159,7 @@ export default {
         } else {
           _this.skipFlag = false;
         }
+        _this.utils.clearCookie("creditItems");
       } else if (type == "3") {
         //学信网认证
         flag = false;
