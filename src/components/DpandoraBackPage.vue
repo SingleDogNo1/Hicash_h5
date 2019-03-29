@@ -159,6 +159,9 @@ export default {
         } else {
           _this.skipFlag = false;
         }
+        if (type !== "0") {
+          _this.skipFlag = false;
+        }
       } else if (type == "3") {
         _this.skipFlag = false;
         //学信网认证
