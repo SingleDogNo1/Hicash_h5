@@ -121,6 +121,7 @@ export default {
 
       if (type === "0") {
         type = "3";
+        _this.skipFlag = false;
         flag = false;
         var paramsStr = "";
         if (creditItems[1].url.indexOf("?") != -1) {
