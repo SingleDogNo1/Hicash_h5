@@ -285,6 +285,7 @@ export default {
       this.common.getCreditReport(postData).then(res => {
         if (res.data.resultCode === "1") {
           let data = JSON.parse(res.data.data).data;
+          console.log("data=", data);
           let profile = data.profile;
           this.profile.verified = profile.verified;
           this.profile.creditScore = !profile.credit_score

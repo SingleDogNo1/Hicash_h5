@@ -74,7 +74,8 @@ export default {
 	getCreditResult: getCreditResult,
 	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
 	wxfx: wxfx,
-	QueryPandoraUrl: QueryPandoraUrl
+	QueryPandoraUrl: QueryPandoraUrl,
+	checkUserInfo: checkUserInfo
 };
 
 /*
@@ -1224,6 +1225,22 @@ export function wxfx(params) {
 export function QueryPandoraUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  该用户未推送的征信报告类型
+ */
+export function checkUserInfo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/checkUserInfo", params).then(
 			res => {
 				resolve(res);
 			},
