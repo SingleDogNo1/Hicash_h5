@@ -154,15 +154,16 @@ export default {
         ) {
           age++;
         }
-        if (creditItems[1].optional == "1") {
+        if (creditItems[1].optional) {
           _this.skipFlag = true;
         } else {
           _this.skipFlag = false;
         }
       } else if (type == "3") {
+        console.info("123456");
+        _this.skipFlag = false;
         //学信网认证
         flag = false;
-        _this.skipFlag = false;
         if (creditItems[2]) {
           var paramsStr = "";
           if (creditItems[2].url.indexOf("?") != -1) {
