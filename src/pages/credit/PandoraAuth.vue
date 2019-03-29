@@ -156,12 +156,12 @@ export default {
 				name: "Inquiry"
 			});
 		},
-		queryCreditUrl(){
+		checkUserInfo(){
 			let postData = {
 				"userName": this.utils.getCookie('userName'),
 				"creditType": this.utils.getCookie('creditType')
 			};
-			this.common.queryCreditUrl(postData)
+			this.common.checkUserInfo(postData)
 			.then(res => {
 				this.dpandoraUrl = res.data.url;
 			})
@@ -171,7 +171,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.queryCreditUrl();
+		this.checkUserInfo();
 	}
 };
 </script>

@@ -73,7 +73,8 @@ export default {
 	CheckCreditResult: CheckCreditResult,
 	getCreditResult: getCreditResult,
 	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
-	wxfx: wxfx
+	wxfx: wxfx,
+	checkUserInfo: checkUserInfo
 };
 
 /*
@@ -1207,6 +1208,22 @@ export function getCreditResult(params) {
 export function wxfx(params) {
 	return new Promise((resolve, reject) => {
 		axios.post(config.MWEB_PATH + 'api/?api=wxfx', params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  该用户未推送的征信报告类型
+ */
+export function checkUserInfo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/credit/checkUserInfo", params).then(
 			res => {
 				resolve(res);
 			},
