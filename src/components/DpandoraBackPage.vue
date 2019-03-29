@@ -160,7 +160,7 @@ export default {
           _this.skipFlag = false;
         }
       } else if (type == "3") {
-        console.info("123456");
+        $(".skip").hide();
         _this.skipFlag = false;
         //学信网认证
         flag = false;
