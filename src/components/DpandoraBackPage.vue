@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="skip" v-if="skipFlag">
+    <div class="skip" v-if="skipFlag">
       <span class="skipBtn" @click="skip">跳过</span>
     </div>
     <iframe
@@ -48,7 +48,7 @@
     color: #ff7640 !important;
   }
 }
-#skip {
+.skip {
   width: 100%;
   background: #eee !important;
   line-height: 2rem;
@@ -160,7 +160,6 @@ export default {
           _this.skipFlag = false;
         }
       } else if (type == "3") {
-        $("#skip").css('display','none'); 
         _this.skipFlag = false;
         //学信网认证
         flag = false;
