@@ -61,6 +61,7 @@ export default {
       var url = window.location.href;
       var urlArr = url.split("&");
       parent.location.href = urlArr[0];
+      console.log(urlArr[0])
     }
 
     if (this.$router.history.current.meta.requireAuth) {
