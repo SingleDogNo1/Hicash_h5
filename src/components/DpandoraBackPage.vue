@@ -101,7 +101,7 @@ export default {
         },
         onCancel() {
           window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "&newSource=auth_iframe";
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?newSource=auth_iframe";
           _this.skipFlag = false;
         }
       });
@@ -131,7 +131,7 @@ export default {
             "&name=" +
             unescape(utils.getCookie("realName")) +
             "&mobile=" +
-            utils.getCookie("mobile") + "&newSource=auth_iframe";
+            utils.getCookie("mobile");
         } else {
           paramsStr =
             "?source=hq&id_card_no=" +
@@ -139,7 +139,7 @@ export default {
             "&name=" +
             unescape(utils.getCookie("realName")) +
             "&mobile=" +
-            utils.getCookie("mobile") + "&newSource=auth_iframe";
+            utils.getCookie("mobile");
         }
         _this.dpandoraUrl = creditItems[1].url + paramsStr;
         var UUserCard = utils.getCookie("identityCode");
@@ -171,7 +171,7 @@ export default {
               "&name=" +
               userName +
               "&mobile=" +
-              utils.getCookie("mobile") + "&newSource=auth_iframe";
+              utils.getCookie("mobile");
           } else {
             paramsStr =
               "?source=hq&id_card_no=" +
@@ -179,20 +179,20 @@ export default {
               "&name=" +
               userName +
               "&mobile=" +
-              utils.getCookie("mobile") + "&newSource=auth_iframe";
+              utils.getCookie("mobile");
           }
           _this.dpandoraUrl = creditItems[2].url + paramsStr;
           _this.skipFlag = false;
         } else {
           window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "&newSource=auth_iframe";
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?newSource=auth_iframe";
         }
       } else if (type == "8") {
         //芝麻信用
         flag = false;
         _this.skipFlag = false;
         window.location.href =
-          _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "&newSource=auth_iframe";
+          _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?newSource=auth_iframe";
       }
     } else if (industryCode == "DDCP") {
       if (type == "0") {
@@ -200,10 +200,10 @@ export default {
         flag = false;
         _this.skipFlag = false;
         window.location.href =
-          _this.config.MWEB_PATH + "newweb/creditInfo/newcreditPrv.html" + "&newSource=auth_iframe";
+          _this.config.MWEB_PATH + "newweb/creditInfo/newcreditPrv.html";
       } else if (type == "3" || type == "4" || type == "7" || type == "9") {
         window.location.href =
-          _this.config.MWEB_PATH + "/newweb/creditInfo/newcreditPrv.html" + "&newSource=auth_iframe";
+          _this.config.MWEB_PATH + "/newweb/creditInfo/newcreditPrv.html";
       }
     } else {
       _this.$vux.toast.show({
