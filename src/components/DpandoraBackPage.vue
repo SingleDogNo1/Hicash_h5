@@ -101,7 +101,7 @@ export default {
         },
         onCancel() {
           window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "?source=auth_iframe";
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html" + "&newSource=auth_iframe";
           _this.skipFlag = false;
         }
       });
@@ -131,7 +131,7 @@ export default {
             "&name=" +
             unescape(utils.getCookie("realName")) +
             "&mobile=" +
-            utils.getCookie("mobile") + "&source=auth_iframe";
+            utils.getCookie("mobile") + "&newSource=auth_iframe";
         } else {
           paramsStr =
             "?source=hq&id_card_no=" +
@@ -139,7 +139,7 @@ export default {
             "&name=" +
             unescape(utils.getCookie("realName")) +
             "&mobile=" +
-            utils.getCookie("mobile") + "&source=auth_iframe";
+            utils.getCookie("mobile") + "&newSource=auth_iframe";
         }
         _this.dpandoraUrl = creditItems[1].url + paramsStr;
         var UUserCard = utils.getCookie("identityCode");
@@ -166,7 +166,7 @@ export default {
           var paramsStr = "";
           if (creditItems[2].url.indexOf("?") != -1) {
             paramsStr =
-              "&newSource=hq&id_card_no=" +
+              "&source=hq&id_card_no=" +
               utils.getCookie("identityCode") +
               "&name=" +
               userName +
