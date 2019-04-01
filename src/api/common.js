@@ -1,4 +1,4 @@
-import axios from "axios";
+﻿import axios from "axios";
 import config from "../config.json";
 import jsCommon from "../assets/js/common.js";
 import qs from 'qs'
@@ -74,7 +74,8 @@ export default {
 	getCreditResult: getCreditResult,
 	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
 	wxfx: wxfx,
-	checkUserInfo: checkUserInfo
+	checkUserInfo: checkUserInfo,
+	QueryPandoraUrl: QueryPandoraUrl
 };
 
 /*
@@ -1224,6 +1225,22 @@ export function wxfx(params) {
 export function checkUserInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/checkUserInfo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取PandDoraH5页面链接
+ */
+export function QueryPandoraUrl(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
 			res => {
 				resolve(res);
 			},

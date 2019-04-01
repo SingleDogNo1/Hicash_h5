@@ -68,7 +68,7 @@ export default {
 			personCenterDotShow: false,
 			isShowCredit: false,
 			creditShowWriteList:['pandoraWC', 'pandoraJFWK3', 'pandoraMZWLp', 'pandoraQRXXb'],
-			mediasource: this.$route.query.mediasource || window.sessionStorage.getItem('mediasource') || this.utils.getCookie('mediasource')
+			mediasource: window.sessionStorage.getItem('mediasource') || this.utils.getCookie('mediasource')
 		};
 	},
 	mounted: function() {
