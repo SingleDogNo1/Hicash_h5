@@ -100,7 +100,7 @@
 		</div>
 
 		<alert v-model="shortcutPopup" title="提示">
-			请点击浏览器设置，将页面添加到书签或保存到桌面快捷方式。
+			请点击浏览器设置，将页面添加到书签<br />或保存到桌面快捷方式。
 		</alert>
 		
 		<div @touchmove=drag($event) class="drag" @click.stop="shortcutPopup=true">
