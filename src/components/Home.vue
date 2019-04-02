@@ -98,6 +98,15 @@
 				</div>
 			</x-dialog>
 		</div>
+
+		<alert v-model="shortcutPopup">
+			请点击浏览器设置，将页面添加到书签或保存到桌面快捷方式。
+		</alert>
+		
+		<div @touchmove=drag($event) class="drag" @click.stop="shortcutPopup=true">
+			<span class="iconfont icon-zhuomiankuaijiefangshi"></span>
+		</div>
+		
 		<iframe id="oldHicash" :src="oldHicash"></iframe>
 		<page-footer></page-footer>
 	</div>
@@ -108,6 +117,16 @@
 @import "../../bower_components/sass-rem/rem";
 body {
 	background: #f2f2f2 !important;
+}
+.icon-zhuomiankuaijiefangshi{
+	width: 50px;
+	height: 50px;
+	display: block;
+}
+.icon-zhuomiankuaijiefangshi:before {
+	content: "\e772";
+	color: #ff6700;
+	font-size: 40px;
 }
 .Home {
 	header.home-header {
@@ -354,16 +373,32 @@ body {
 			}
 		}
 	}
+
+	.drag{
+		background: #fff;
+		width: 40px;
+		height: 40px;
+		padding: 10px;
+		border-radius: 5px;
+		position: absolute;
+		right: 10px;
+		bottom: 30%;
+		z-index: 999;
+		-moz-box-shadow:0px 0px 20px #333333; 
+		-webkit-box-shadow:0px 0px 20px #333333; 
+		box-shadow:0px 0px 20px #333333;
+	}
 }
 </style>
 
 <script type="text/javascript">
-import { Swiper, Scroller, XDialog, TransferDom } from "vux";
+import { Swiper, Scroller, XDialog, TransferDom, Alert } from "vux";
 
 import PageFooter from "../components/PageFooter.vue";
 
 import noticeWIcon from "../assets/images/icon-notice-w.png";
 import noticeBIcon from "../assets/images/icon-notice.png";
+
 
 import "../assets/js/youmeng.js";
 
@@ -372,7 +407,8 @@ export default {
 		Swiper,
 		PageFooter,
 		Scroller,
-		XDialog
+		XDialog,
+		Alert
 	},
 	directives: {
 		TransferDom
@@ -390,7 +426,9 @@ export default {
 			productsList: [],
 			smallBannerList: [],
 			noticeIcon: noticeWIcon,
-			showDots: false
+			showDots: false,
+			tags: null,
+			shortcutPopup: false
 		};
 	},
 	ready() {},
@@ -493,6 +531,38 @@ export default {
 					}
 				}
 			});
+		},
+		drag: function(e){
+			e.stopPropagation();//原生阻止冒泡事件
+			console.info('e', e);
+			var pageX = e.changedTouches[0].pageX;
+			var pageY = e.changedTouches[0].pageY;
+
+			if(pageX - e.target.clientWidth / 2 <0){
+				pageX = 0;
+			}else if(pageX - e.target.clientWidth / 2 > window.screen.width - e.target.clientWidth ){
+				pageX = window.screen.width - e.target.clientWidth;
+			}else{
+				pageX = pageX - e.target.clientWidth / 2;
+			}
+
+			if(pageY - e.target.clientHeight / 2 <0){
+				pageY = 0;
+			}else if(pageY - e.target.clientHeight / 2 > window.screen.height - e.target.clientHeight){
+				pageY = window.screen.height - e.target.clientHeight;
+			}else{
+				pageY = pageY - e.target.clientHeight / 2;
+			}
+
+			if(e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi"){
+				e.srcElement.parentElement.style.left = pageX+'px';
+				e.srcElement.parentElement.style.top = pageY+'px';
+			}else{
+				e.srcElement.style.left = pageX+'px';
+				e.srcElement.style.top = pageY+'px';
+			}
+			
+			
 		}
 	},
 	mounted: function() {

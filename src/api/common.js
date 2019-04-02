@@ -74,8 +74,8 @@ export default {
 	getCreditResult: getCreditResult,
 	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
 	wxfx: wxfx,
-	QueryPandoraUrl: QueryPandoraUrl,
-	checkUserInfo: checkUserInfo
+	checkUserInfo: checkUserInfo,
+	QueryPandoraUrl: QueryPandoraUrl
 };
 
 /*
@@ -1220,11 +1220,11 @@ export function wxfx(params) {
 }
 
 /*
- *  获取PandDoraH5页面链接
+ *  该用户未推送的征信报告类型
  */
-export function QueryPandoraUrl(params) {
+export function checkUserInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
+		axios.post("/hicash-api-service/credit/checkUserInfo", params).then(
 			res => {
 				resolve(res);
 			},
@@ -1236,11 +1236,11 @@ export function QueryPandoraUrl(params) {
 }
 
 /*
- *  该用户未推送的征信报告类型
+ *  获取PandDoraH5页面链接
  */
-export function checkUserInfo(params) {
+export function QueryPandoraUrl(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/hicash-api-service/credit/checkUserInfo", params).then(
+		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
 			res => {
 				resolve(res);
 			},

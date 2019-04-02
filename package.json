@@ -44,6 +44,7 @@
     "vue-router": "^3.0.1",
     "vue-scroller": "^2.2.4",
     "vue2-ajax-form": "^1.0.0",
+    "vuedraggable": "^2.20.0",
     "vuescroll": "^4.7.2",
     "vux": "^2.8.1",
     "vux-loader": "^1.2.6",

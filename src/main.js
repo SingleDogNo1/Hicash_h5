@@ -16,6 +16,8 @@ import "./assets/js/baiqishi.js";
 import 'url-search-params-polyfill';
 import "swiper/dist/css/swiper.css";
 
+import "./assets/css/iconfont/iconfont.css";
+
 import MintUI from "mint-ui";
 import "mint-ui/lib/style.css";
 
