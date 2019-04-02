@@ -99,7 +99,7 @@
 			</x-dialog>
 		</div>
 
-		<alert v-model="shortcutPopup">
+		<alert v-model="shortcutPopup" title="提示">
 			请点击浏览器设置，将页面添加到书签或保存到桌面快捷方式。
 		</alert>
 		
