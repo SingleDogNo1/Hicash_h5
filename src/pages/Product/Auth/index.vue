@@ -369,7 +369,7 @@
       .weui-dialog__hd {
         padding: 0;
         width: 100%;
-        height: 48px;
+        height: 48px !important;
         line-height: 40px;
         background: #ff7640;
         border-radius: 5px 5px 0px 0px;

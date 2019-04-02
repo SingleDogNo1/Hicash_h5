@@ -57,10 +57,10 @@ export default {
         this.config.NEW_MWEB_PATH + this.$router.history.current.path;
     }
 
-    if (this.$route.query.source == "auth_iframe") {
-      var url = window.location.href;
-      var urlArr = url.split("&");
+    if (this.$route.query.newSource == "auth_iframe") {
+      var urlArr = window.location.href.split("&");
       parent.location.href = urlArr[0];
+      console.log(urlArr[0])
     }
 
     if (this.$router.history.current.meta.requireAuth) {
@@ -135,22 +135,22 @@ export default {
         var mobile = this.utils.getCookie("mobile");
         console.log("userName====", userName);
 
-        // 判断该路由是否需要登录权限
-        if (!userName || userName == "null") {
-          next({
-            // 将跳转的路由path作为参数，登录成功后跳转到该路由
-            path: "/login",
-            query: { redirect: to.fullPath }
-          });
-        } else {
-          console.info("next");
-          next();
-        }
-      } else {
-        next();
-      }
+				// 判断该路由是否需要登录权限
+				if (!userName || userName == "null") {
+					next({
+						// 将跳转的路由path作为参数，登录成功后跳转到该路由
+						path: "/login",
+						query: { redirect: to.fullPath }
+					});
+				} else {
+          console.info('next');
+					next();
+				}
+			} else {
+				next();
+			}
     });
-
+    
     //这里监听键盘收起，然后滚动顶部
     document.body.addEventListener("focusout", () => {
       //软键盘收起的事件处理
@@ -161,11 +161,12 @@ export default {
         document.body.scrollIntoView(false);
       }
     });
-  },
-  data() {
-    return {
-      path: this.$route.name,
-      platform: this.utils.getPlatform(),
+
+	},
+	data() {
+		return {
+			path: this.$route.name,
+			platform: this.utils.getPlatform(),
       authShowDialog: false,
       getReportSuccess: false,
       couponAmount: "",
@@ -474,5 +475,10 @@ body {
     color: #999999;
     letter-spacing: -0.36px;
   }
+}
+.weui-dialog__btn_primary {
+  font-size: 15px;
+  color: #ff7640;
+  letter-spacing: -0.36px;
 }
 </style>

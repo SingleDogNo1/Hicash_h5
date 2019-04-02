@@ -6,7 +6,7 @@
     <iframe
       :src="dpandoraUrl"
       id="dpandoraUrl"
-      style="width: 100%;height: 100%;"
+      style="width: 100%;height: 20rem;"
       frameborder="0"
       target="#dpandoraUrl2"
     ></iframe>
@@ -18,7 +18,7 @@
 .weui-dialog__hd {
   padding: 0 !important;
   width: 100%;
-  height: 48px;
+  height: 48px !important;
   line-height: 40px;
   background: #ff7640 !important;
   border-radius: 5px 5px 0 0;
@@ -55,11 +55,11 @@
   text-align: right;
   .skipBtn {
     font-size: 0.6rem;
-    color: #2b2b2b !important;
-    border: 1px solid #2b2b2b !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
     padding: 0.1rem 0.4rem;
-    border-radius: 10px;
-    margin-right: 1rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
   }
 }
 </style>
@@ -92,14 +92,17 @@ export default {
       var _this = this;
       _this.$vux.confirm.show({
         title: "提示",
+        confirmText: "取消",
+        cancelText: "确定",
         content: _this.cancleMsg,
         // 组件除show外的属性
-        onCancel() {
+        onConfirm() {
           _this.$vux.confirm.hide();
         },
-        onConfirm() {
+        onCancel() {
           window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?newSource=auth_iframe";
+          _this.skipFlag = false;
         }
       });
     }
@@ -110,17 +113,15 @@ export default {
     let flag = true;
     let industryCode = utils.getCookie("industryCode");
     let userName = utils.getCookie("userName");
-    console.log("type======", type);
-    console.log(_this.$route.query.source);
     if (industryCode == "MDCP" || industryCode == "LDDD") {
       //用户正在申请嗨秒贷产品
       let creditItems = utils.getCookie("creditItems");
-      console.log("creditItems===", creditItems);
       creditItems = JSON.parse(creditItems);
       _this.cancleMsg = creditItems[1].cancleMsg;
 
       if (type === "0") {
         type = "3";
+        _this.skipFlag = false;
         flag = false;
         var paramsStr = "";
         if (creditItems[1].url.indexOf("?") != -1) {
@@ -141,7 +142,6 @@ export default {
             utils.getCookie("mobile");
         }
         _this.dpandoraUrl = creditItems[1].url + paramsStr;
-        console.log("_this.dpandoraUrl====", _this.dpandoraUrl);
         var UUserCard = utils.getCookie("identityCode");
         var myDate = new Date();
         var month = myDate.getMonth() + 1;
@@ -181,21 +181,24 @@ export default {
               "&mobile=" +
               utils.getCookie("mobile");
           }
-          window.location.href = creditItems[2].url + paramsStr;
+          _this.dpandoraUrl = creditItems[2].url + paramsStr;
+          _this.skipFlag = false;
         } else {
           window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?newSource=auth_iframe";
         }
       } else if (type == "8") {
         //芝麻信用
         flag = false;
+        _this.skipFlag = false;
         window.location.href =
-          _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+          _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html?newSource=auth_iframe";
       }
     } else if (industryCode == "DDCP") {
       if (type == "0") {
         //从手机运营商认证跳回
         flag = false;
+        _this.skipFlag = false;
         window.location.href =
           _this.config.MWEB_PATH + "newweb/creditInfo/newcreditPrv.html";
       } else if (type == "3" || type == "4" || type == "7" || type == "9") {
@@ -237,10 +240,6 @@ export default {
           }
         } else {
           _this.$vux.toast.hide();
-          //   _this.$vux.toast.show({
-          //     position: "middle",
-          //     text: data.resultMsg
-          //   });
         }
       });
     }
