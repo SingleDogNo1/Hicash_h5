@@ -476,4 +476,9 @@ body {
     letter-spacing: -0.36px;
   }
 }
+.weui-dialog__btn_primary {
+  font-size: 15px;
+  color: #ff7640;
+  letter-spacing: -0.36px;
+}
 </style>
