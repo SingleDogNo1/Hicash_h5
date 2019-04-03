@@ -34,6 +34,7 @@ import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
 import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
 import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
+import VipDai from "@/pages/Product/Vip";
 import Inquiry from "@/pages/credit";
 import IdentityAuth from "@/pages/credit/IdentityAuth";
 import PandoraAuth from "@/pages/credit/PandoraAuth";
@@ -44,6 +45,7 @@ import AuthJingdong from '@/pages/credit/Report/Jingdong';
 import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
+
 Vue.use(Router);
 
 export default new Router({
@@ -170,6 +172,15 @@ export default new Router({
 					path: 'auth',
 					name: 'Auth',
 					component: Auth,
+					meta: {
+						requireAuth: true,
+						title: '身份认证'
+					}
+				},
+				{
+					path: 'vip',
+					name: 'VipDai',
+					component: VipDai,
 					meta: {
 						requireAuth: true,
 						title: '身份认证'
