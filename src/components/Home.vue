@@ -534,7 +534,6 @@ export default {
 		},
 		drag: function(e){
 			e.stopPropagation();//原生阻止冒泡事件
-			console.info('e', e);
 			var pageX = e.changedTouches[0].pageX;
 			var pageY = e.changedTouches[0].pageY;
 
