@@ -123,7 +123,7 @@
 				class="weui-dialog__bd"
 				style="background: #fff;height:100px;line-height:100px;color:black;"
 			>
-				微信公众号：果壳豹有钱
+				微信公众号：【果信宝】和【果信宝服务号】
 			</div>
 			<div class="weui-dialog__ft" style="background: #fff;">
 				<a
@@ -220,7 +220,7 @@ export default {
 				_this.$vux.toast.show({
 					text: "复制成功"
 				});
-				return "果壳豹有钱";
+				return "果信宝";
 			}
 		});
 
