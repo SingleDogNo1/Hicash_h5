@@ -91,7 +91,7 @@
         </div>
       </x-dialog>
     </div>
-    <alert v-model="shortcutPopup" title="创建桌面图标">
+    <alert v-model="shortcutPopup" title="创建桌面图标" @click="closeAlertDiv">
       <span class="share-tips">添加到桌面将有助于提高您的借款效率！</span>
       <div class="ios_tip" v-if="iosIsShow">
         <br>点击页面下方的
@@ -111,7 +111,7 @@
     </alert>
 
     <div @touchmove="drag($event)" class="drag" @click.stop="shortcutPopup=true">
-      <span class="iconfont icon-zhuomiankuaijiefangshi"></span>
+      <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
 
     <iframe id="oldHicash" :src="oldHicash"></iframe>
@@ -125,15 +125,17 @@
 body {
   background: #f2f2f2 !important;
 }
-.icon-zhuomiankuaijiefangshi {
-  width: 50px;
-  height: 50px;
+.icon-zhuomiankuaijiefangshi2 {
+  width: rem(50px);
+  height: rem(50px);
   display: block;
 }
-.icon-zhuomiankuaijiefangshi:before {
-  content: "\e772";
-  color: #ff6700;
-  font-size: 40px;
+.icon-zhuomiankuaijiefangshi2{
+  background: url(../assets/images/collectHicash.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  width: 100%;
+  height: 100%;
 }
 .Home {
   header.home-header {
@@ -382,26 +384,24 @@ body {
   }
 
   .drag {
-    background: #fff;
-    width: 40px;
-    height: 40px;
-    padding: 10px;
+    width: 42px;
+    height: 50px;
+    margin: 0;
+    padding: 0px;
     border-radius: 5px;
     position: absolute;
     right: 10px;
     bottom: 30%;
     z-index: 999;
-    -moz-box-shadow: 0px 0px 20px #333333;
-    -webkit-box-shadow: 0px 0px 20px #333333;
-    box-shadow: 0px 0px 20px #333333;
   }
   .weui-dialog {
-    width: rem(345px);
+    width: 92%;
     height: rem(230px);
+    max-width: rem(345px);
     margin-bottom: 1rem;
     .weui-dialog__hd {
       width: 100%;
-      height: rem(53px);
+      height: rem(45px);
       padding: 0;
       .weui-dialog__title {
         display: inline-block;
@@ -413,13 +413,13 @@ body {
       }
     }
     .weui-dialog__bd {
-      padding: 10px 1.6em 0.8em 1rem;
+      padding: 5px 1.6em 0.8em 1rem;
       min-height: 40px;
       font-size: 14px;
-      line-height: 1.3rem;
+      line-height: 1.1rem;
       word-wrap: break-word;
       word-break: break-all;
-      color: #999999;
+      color: #666666;
       text-align: left;
       border: none;
       .share-tips {
@@ -430,13 +430,15 @@ body {
       .collect {
         display: inline-block;
         width: 0.6rem;
-        height: 0.8rem;
+        height: 0.6rem;
         background: url("../assets/images/share.png");
         background-repeat: no-repeat;
         background-size: contain;
-        margin: 0 2px;
+        margin: -1px 1px;
       }
       .android_tip {
+        margin-top: 1rem;
+        padding-left: 5px;
         li {
           font-size: 13px;
           margin-top: 13px;
@@ -456,10 +458,10 @@ body {
       height: 2rem;
       background: url("../assets/images/downArrow.png");
       background-repeat: no-repeat;
-      background-size: 15%;
+      background-size: 11.5%;
       background-position-x: center;
       position: relative;
-      bottom: -1rem;
+      bottom: -2.5rem;
     }
     .weui-dialog__ft {
       display: none;
@@ -506,7 +508,7 @@ export default {
       tags: null,
       shortcutPopup: false,
       iosIsShow: false,
-      androidIsShow: true
+      androidIsShow: false
     };
   },
   ready() {},
@@ -634,7 +636,7 @@ export default {
         pageY = pageY - e.target.clientHeight / 2;
       }
 
-      if (e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi") {
+      if (e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi2") {
         e.srcElement.parentElement.style.left = pageX + "px";
         e.srcElement.parentElement.style.top = pageY + "px";
       } else {
@@ -644,9 +646,11 @@ export default {
     },
     closeMsg: function() {
       this.shortcutPopup = false;
+      console.info("111111")
     },
     closeAlertDiv: function() {
       this.shortcutPopup = false;
+      console.info("222222")
     }
   },
   mounted: function() {
@@ -718,6 +722,17 @@ export default {
     postData.append("adPosition", "1");
     postData.append("uuid", this.utils.uuid());
     this.indexAdvertising(postData);
+
+    //判断ios/android终端弹窗
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (isAndroid) {
+       _this.androidIsShow = true;
+    }
+    if (isiOS) {
+　　　　_this.iosIsShow = true;
+    }
   }
 };
 </script>
