@@ -384,8 +384,8 @@ body {
   }
 
   .drag {
-    width: 42px;
-    height: 50px;
+    width: 66px;
+    height: 80px;
     margin: 0;
     padding: 0px;
     border-radius: 5px;
@@ -415,14 +415,14 @@ body {
       }
     }
     .weui-dialog__bd {
-      width: 92% !important;
-      padding: 5px 1.6em .8em 1rem !important;
+      width: 92%!important;
+      margin: 0 auto;
       min-height: 40px;
-      font-size: 14px !important;
+      font-size: 14px!important;
       line-height: 1.1rem;
       word-wrap: break-word;
       word-break: break-all;
-      color: #666 !important;
+      color: #666!important;
       text-align: left;
       border: none;
       .share-tips {
@@ -467,7 +467,7 @@ body {
       background-size: 11.5%;
       background-position-x: center;
       position: relative;
-      bottom: -1.7rem;
+      bottom: -2rem;
     }
     .weui-dialog__ft {
       display: none;
