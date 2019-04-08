@@ -401,8 +401,10 @@ body {
     margin-bottom: 1rem;
     .weui-dialog__hd {
       width: 100%;
-      height: rem(45px);
-      padding: 0;
+      height: 2.4rem !important;
+      padding: 0px !important;
+      color: #000 !important;
+      background: #fff !important;
       .weui-dialog__title {
         display: inline-block;
         width: 100%;
@@ -413,13 +415,14 @@ body {
       }
     }
     .weui-dialog__bd {
-      padding: 5px 1.6em 0.8em 1rem;
+      width: 92% !important;
+      padding: 5px 1.6em .8em 1rem !important;
       min-height: 40px;
-      font-size: 14px;
+      font-size: 14px !important;
       line-height: 1.1rem;
       word-wrap: break-word;
       word-break: break-all;
-      color: #666666;
+      color: #666 !important;
       text-align: left;
       border: none;
       .share-tips {
@@ -435,6 +438,9 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         margin: -1px 1px;
+      }
+      .ios_tip {
+
       }
       .android_tip {
         margin-top: 1rem;
@@ -461,7 +467,7 @@ body {
       background-size: 11.5%;
       background-position-x: center;
       position: relative;
-      bottom: -2.5rem;
+      bottom: -1.7rem;
     }
     .weui-dialog__ft {
       display: none;
