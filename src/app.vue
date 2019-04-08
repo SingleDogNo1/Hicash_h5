@@ -57,12 +57,12 @@ export default {
         this.config.NEW_MWEB_PATH + this.$router.history.current.path;
     }
 
-    if (this.$route.query.source == "auth_iframe") {
-      var url = window.location.href;
-      var urlArr = url.split("&");
+    if (this.$route.query.newSource == "auth_iframe") {
+      var urlArr = window.location.href.split("&");
       parent.location.href = urlArr[0];
-	}
-	
+      console.log(urlArr[0])
+    }
+
     if (this.$router.history.current.meta.requireAuth) {
       // 判断该路由是否需要登录权限
       if (!userName || userName == "null") {
