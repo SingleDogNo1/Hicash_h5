@@ -416,7 +416,7 @@ body {
     }
     .weui-dialog__bd {
       width: 92%!important;
-      margin: 0 auto;
+      margin: -1.5rem auto;
       min-height: 40px;
       font-size: 14px!important;
       line-height: 1.1rem;
