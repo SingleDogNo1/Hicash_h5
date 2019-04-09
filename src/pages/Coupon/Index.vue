@@ -21,20 +21,25 @@
 					>
 						<div class="left-main left">
 							<span class="coupon-price left"
+								v-if="item.type === '1'"
 								>{{ item.bigNum
 								}}<em>.{{ item.smallNum }}元</em></span
 							>
+							<span class="coupon-price left"
+								v-else>
+                {{ item.bigNum}}<em>%</em>
+              </span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
 						<div class="right-main left">
 							<span class="title"
 								>{{ item.couponRuleName
-								}}<em>（共{{ item.canUseMaxNum }}张）</em></span
+								}}<em v-if="item.type === '1'">（共{{ item.canUseMaxNum }}张）</em></span
 							>
 							<span class="explain"
-								>可使用产品{{ item.industryName }}，可叠加使用{{
+								>可使用产品{{ item.industryName }}<em v-if="item.type === '1'">，可叠加使用{{
 									item.accumulationLimit
-								}}次</span
+								}}次</em></span
 							>
 							<span class="data"
 								>有效期 {{ item.sendStartDate }}-{{
@@ -231,9 +236,15 @@ export default {
 					this.unit = "%";
 					break;
 			}
-			(this.couponPopupTitle =
-				data.amount + this.unit + data.couponRuleName),
-				(this.maxNum = parseInt(data.canUseMaxNum));
+			if(data.type === 1) {
+				(this.couponPopupTitle =
+					data.amount + this.unit + data.couponRuleName),
+					(this.maxNum = parseInt(data.canUseMaxNum));
+			} else {
+				(this.couponPopupTitle =
+					data.amount.split(".")[0] + this.unit + data.couponRuleName),
+					(this.maxNum = parseInt(data.canUseMaxNum));
+			}
 			this.couponId = data.couponRuleId;
 			this.couponAmount = data.amount;
 		},
@@ -343,6 +354,9 @@ export default {
 							padding-left: rem(11px);
 							color: #999;
 							font-size: rem(10px);
+							em {
+								font-style: inherit;
+							}
 						}
 						.title {
 							color: #333;
