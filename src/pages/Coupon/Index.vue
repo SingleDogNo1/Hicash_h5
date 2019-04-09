@@ -27,7 +27,7 @@
 							>
 							<span class="coupon-price left"
 								v-else>
-                {{ item.bigNum}}<em>%</em>
+                {{ item.bigNum}}<em>.{{ item.smallNum }}%</em>
               </span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
@@ -87,7 +87,9 @@
 							'&couponRuleId=' +
 							couponId +
 							'&couponAmount=' +
-							couponAmount
+							couponAmount + 
+							'&discountAmount=' +
+							discountAmount
 					"
 					>去使用</a
 				>
@@ -137,7 +139,8 @@ export default {
 			goUseCouponHref: "",
 			appNo: null,
 			userName: this.utils.getCookie("userName"),
-			rechargeAmount: this.$route.query.rechargeAmount
+			rechargeAmount: this.$route.query.rechargeAmount,
+			discountAmount: ""
 		};
 	},
 	mounted() {
@@ -247,6 +250,7 @@ export default {
 			}
 			this.couponId = data.couponRuleId;
 			this.couponAmount = data.amount;
+			this.discountAmount = data.discountAmount;
 		},
 		clickHelp(data) {
 			this.$vux.alert.show({

@@ -37,7 +37,7 @@
                 {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
               <span class="coupon-price left" v-else>
-                {{ item.bigNum}}<em>%</em>
+                {{ item.bigNum}}<em>.{{ item.smallNum }}%</em>
               </span>
               <span class="coupon-tips">还款时使用</span>
             </div>
