@@ -21,7 +21,7 @@
 					>
 						<div class="left-main left">
 							<span class="coupon-price left"
-								v-if="item.type === '1'"
+								v-if="item.type === '1' || item.type === '3'"
 								>{{ item.bigNum
 								}}<em>.{{ item.smallNum }}元</em></span
 							>
@@ -34,10 +34,10 @@
 						<div class="right-main left">
 							<span class="title"
 								>{{ item.couponRuleName
-								}}<em v-if="item.type === '1'">（共{{ item.canUseMaxNum }}张）</em></span
+								}}<em v-if="item.type === '1' || item.type === '3'">（共{{ item.canUseMaxNum }}张）</em></span
 							>
 							<span class="explain"
-								>可使用产品{{ item.industryName }}<em v-if="item.type === '1'">，可叠加使用{{
+								>可使用产品{{ item.industryName }}<em v-if="item.type === '1' || item.type === '3'">，可叠加使用{{
 									item.accumulationLimit
 								}}次</em></span
 							>
@@ -89,7 +89,9 @@
 							'&couponAmount=' +
 							couponAmount + 
 							'&discountAmount=' +
-							discountAmount
+							discountAmount +
+							'&couponType=' +
+							couponType
 					"
 					>去使用</a
 				>
@@ -140,7 +142,8 @@ export default {
 			appNo: null,
 			userName: this.utils.getCookie("userName"),
 			rechargeAmount: this.$route.query.rechargeAmount,
-			discountAmount: ""
+			discountAmount: "",
+			couponType: ""
 		};
 	},
 	mounted() {
@@ -209,7 +212,7 @@ export default {
 				let list = res.data.canUseCouponList;
 
 				_.each(list, function(v, i) {
-					var money = list[i].amount.split(".");
+					var money = list[i].type === "3" ? list[i].discountAmount.split("."): list[i].amount.split(".");
 					list[i].bigNum = money[0];
 					list[i].smallNum = money[1];
 				});
@@ -238,29 +241,31 @@ export default {
 				case "2":
 					this.unit = "%";
 					break;
+				case "3":
+					this.unit = "元";
+					break;
 			}
-			if(data.type === 1) {
+			if(data.type === 3) {
 				(this.couponPopupTitle =
-					data.amount + this.unit + data.couponRuleName),
+					data.discountAmount + this.unit + data.couponRuleName),
 					(this.maxNum = parseInt(data.canUseMaxNum));
 			} else {
 				(this.couponPopupTitle =
-					data.amount.split(".")[0] + this.unit + data.couponRuleName),
+					data.amount + this.unit + data.couponRuleName),
 					(this.maxNum = parseInt(data.canUseMaxNum));
 			}
 			this.couponId = data.couponRuleId;
 			this.couponAmount = data.amount;
 			this.discountAmount = data.discountAmount;
+			this.couponType = data.type;
 		},
 		clickHelp(data) {
 			this.$vux.alert.show({
 				title: "活动规则",
 				content: data.ruleMsgStr,
 				onShow() {
-					console.log("活动规则alert，点击了确定！");
 				},
 				onHide() {
-					// console.log('Plugin: I\'m hiding now')
 				}
 			});
 		}

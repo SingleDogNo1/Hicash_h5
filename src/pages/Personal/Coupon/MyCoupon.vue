@@ -33,7 +33,7 @@
             :key="index"
           >
             <div class="left-main left">
-              <span class="coupon-price left" v-if="item.type === '1'">
+              <span class="coupon-price left" v-if="item.type === '1' || item.type === '3'">
                 {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
               <span class="coupon-price left" v-else>
@@ -43,13 +43,12 @@
             </div>
             <div class="right-main left">
               <span class="title">
-                {{ item.couponRuleName
-                }}
-                <em v-if="item.type === '1'">（共{{ item.num }}张）</em>
+                {{ item.couponRuleName }}
+                <em v-if="item.type === '1' || item.type === '3'">（共{{ item.num }}张）</em>
               </span>
               <span class="explain">
                 可使用产品{{ item.industryName }}
-								<em v-if="item.type === '1'">，可叠加使用{{
+								<em v-if="item.type === '1' || item.type === '3'">，可叠加使用{{
 									item.accumulationLimit
 									}}次
 								</em>
@@ -143,7 +142,7 @@ export default {
         let list = res.data;
         if (list.canUseCouponList.length) {
           _.each(list.canUseCouponList, function(v, i) {
-            var money = list.canUseCouponList[i].amount.split(".");
+            var money = list.canUseCouponList[i].type === "3" ? list.canUseCouponList[i].discountAmount.split(".") : list.canUseCouponList[i].amount.split(".");
             list.canUseCouponList[i].bigNum = money[0];
             list.canUseCouponList[i].smallNum = money[1];
           });
@@ -151,7 +150,7 @@ export default {
 
         if (list.expiredCouponList.length) {
           _.each(list.expiredCouponList, function(v, i) {
-            var money = list.expiredCouponList[i].amount.split(".");
+            var money = list.expiredCouponList[i].type === "3" ? list.expiredCouponList[i].discountAmount.split(".") : list.expiredCouponList[i].amount.split(".");
             list.expiredCouponList[i].bigNum = money[0];
             list.expiredCouponList[i].smallNum = money[1];
           });
@@ -159,7 +158,7 @@ export default {
 
         if (list.usedCouponList.length) {
           _.each(list.usedCouponList, function(v, i) {
-            var money = list.usedCouponList[i].amount.split(".");
+            var money = list.usedCouponList[i].type === "3" ? list.usedCouponList[i].discountAmount.split(".") : list.usedCouponList[i].amount.split(".");
             list.usedCouponList[i].bigNum = money[0];
             list.usedCouponList[i].smallNum = money[1];
           });
