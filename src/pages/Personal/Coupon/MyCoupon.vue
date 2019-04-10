@@ -68,12 +68,12 @@
               <span v-if="item.type !== '1'">
                 使用额度：限借款{{ item.minUseAmount }}元以上方可使用
               </span>
-              <span class="data">
+              <span class="date">
                 有效期 {{ item.sendStartDate }}-{{
                 item.sendEndDate
                 }}
               </span>
-              <span v-if="item.type !== '1'">
+              <span class="period" v-if="item.type !== '1' && item.periods">
                 使用期数：{{item.periods}}
               </span>
             </div>
@@ -186,12 +186,14 @@ export default {
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
                   list.canUseCouponList[i].smallNum = money[1];
-                  let newPeriods = [];
-                  let periods = list.canUseCouponList[i].period.split(",");
+                }
+                if(list.canUseCouponList[i].period) {
+                  var newPeriods = [];
+                  var periods = list.canUseCouponList[i].period.split(",");
                   for(let j = 0; j < periods.length; j++) {
                     newPeriods.push(periods[j] + "期")
                   }
-                  let newPeriodsStr = newPeriods.join("、");
+                  var newPeriodsStr = newPeriods.join("、");
                   list.canUseCouponList[i].periods = newPeriodsStr;
                 }
                 break;
@@ -201,12 +203,14 @@ export default {
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
                   list.canUseCouponList[i].smallNum = money[1];
-                  let newPeriods = [];
-                  let periods = list.canUseCouponList[i].period.split(",");
+                }
+                if(list.canUseCouponList[i].period) {
+                  var newPeriods = [];
+                  var periods = list.canUseCouponList[i].period.split(",");
                   for(let j = 0; j < periods.length; j++) {
                     newPeriods.push(periods[j] + "期")
                   }
-                  let newPeriodsStr = newPeriods.join("、");
+                  var newPeriodsStr = newPeriods.join("、");
                   list.canUseCouponList[i].periods = newPeriodsStr;
                 }
                 break;
@@ -228,12 +232,14 @@ export default {
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
                   list.expiredCouponList[i].smallNum = money[1];
-                  let newPeriods = [];
-                  let periods = list.expiredCouponList[i].period.split(",");
+                }
+                if(list.expiredCouponList[i].period) {
+                  var newPeriods = [];
+                  var periods = list.expiredCouponList[i].period.split(",");
                   for(let j = 0; j < periods.length; j++) {
                     newPeriods.push(periods[j] + "期")
                   }
-                  let newPeriodsStr = newPeriods.join("、");
+                  var newPeriodsStr = newPeriods.join("、");
                   list.expiredCouponList[i].periods = newPeriodsStr;
                 }
                 break;
@@ -243,12 +249,14 @@ export default {
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
                   list.expiredCouponList[i].smallNum = money[1];
-                  let newPeriods = [];
-                  let periods = list.expiredCouponList[i].period.split(",");
+                }
+                if(list.expiredCouponList[i].period) {
+                  var newPeriods = [];
+                  var periods = list.expiredCouponList[i].period.split(",");
                   for(let j = 0; j < periods.length; j++) {
                     newPeriods.push(periods[j] + "期")
                   }
-                  let newPeriodsStr = newPeriods.join("、");
+                  var newPeriodsStr = newPeriods.join("、");
                   list.expiredCouponList[i].periods = newPeriodsStr;
                 }
                 break;
@@ -270,12 +278,14 @@ export default {
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
                   list.usedCouponList[i].smallNum = money[1];
-                  let newPeriods = [];
-                  let periods = list.usedCouponList[i].period.split(",");
+                }
+                if(list.usedCouponList[i].period) {
+                  var newPeriods = [];
+                  var periods = list.usedCouponList[i].period.split(",");
                   for(let j = 0; j < periods.length; j++) {
                     newPeriods.push(periods[j] + "期")
                   }
-                  let newPeriodsStr = newPeriods.join("、");
+                  var newPeriodsStr = newPeriods.join("、");
                   list.usedCouponList[i].periods = newPeriodsStr;
                 }
                 break;
@@ -285,12 +295,14 @@ export default {
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
                   list.usedCouponList[i].smallNum = money[1];
-                  let newPeriods = [];
-                  let periods = list.usedCouponList[i].period.split(",");
+                }
+                if(list.usedCouponList[i].period) {
+                  var newPeriods = [];
+                  var periods = list.usedCouponList[i].period.split(",");
                   for(let j = 0; j < periods.length; j++) {
                     newPeriods.push(periods[j] + "期")
                   }
-                  let newPeriodsStr = newPeriods.join("、");
+                  var newPeriodsStr = newPeriods.join("、");
                   list.usedCouponList[i].periods = newPeriodsStr;
                 }
                 break;
@@ -448,9 +460,17 @@ export default {
               em {
                 font-style: inherit;
               }
+              &.period, &.date {
+                height: rem(16px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding-right: rem(10px);
+              }
             }
             .title {
               color: #333;
+              height: rem(20px);
               font-size: rem(15px);
               margin: rem(10px) 0;
               padding-left: rem(11px);
