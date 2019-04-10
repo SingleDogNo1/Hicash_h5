@@ -125,6 +125,8 @@ export default {
     this.$router.beforeEach((to, from, next) => {
       this.getCreditResult(); //拉取征信报告
 
+      window.scrollTo(0,0);
+
       this.path = to.name;
       if (to.meta.title) {
         document.title = to.meta.title;
@@ -133,7 +135,6 @@ export default {
         var userName = this.utils.getCookie("userName");
         var realName = this.utils.getCookie("realName");
         var mobile = this.utils.getCookie("mobile");
-        console.log("userName====", userName);
 
 				// 判断该路由是否需要登录权限
 				if (!userName || userName == "null") {
@@ -143,7 +144,6 @@ export default {
 						query: { redirect: to.fullPath }
 					});
 				} else {
-          console.info('next');
 					next();
 				}
 			} else {
@@ -256,7 +256,6 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-@import "./assets/css/common.scss";
 @import "~bowerComponents/sass-rem/_rem.scss";
 a {
   text-decoration: none;
