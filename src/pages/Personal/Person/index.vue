@@ -146,8 +146,8 @@
 		}
 
 		.money-amount-info {
-			padding: rem(10px 55px);
-
+			padding: rem(0 55px 10px 55px);
+			margin-top: rem(-10px);
 			.left-box,
 			.right-box {
 				width: 43%;
@@ -171,7 +171,7 @@
 				&:before {
 					position: absolute;
 					content: "";
-					width: 2px;
+					width: 1px;
 					height: 1.525rem;
 					background: #fff;
 					left: -1px;
@@ -182,17 +182,18 @@
 
 		.repay-btn-wrap {
 			width: 100%;
-			height: rem(33px);
+			height: rem(38px);
+			padding-top: rem(10px);
 			.repay-btn {
 				width: rem(277px);
-				height: rem(33px);
+				height: rem(38px);
 				background: linear-gradient(to bottom,rgba(255,255,255,1),rgba(255,255,255,0.65));
 				border-radius: 75px;
 				margin: 0 auto;
 				text-align: center;
 				p {
-					height: rem(33px);
-					line-height: rem(33px);
+					height: rem(38px);
+					line-height: rem(38px);
 					font-size: rem(15px);
 					color: #ff7640;
 				}
