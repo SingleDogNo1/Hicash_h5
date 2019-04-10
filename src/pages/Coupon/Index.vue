@@ -50,12 +50,12 @@
 							<span v-if="item.type !== '1'">
                 使用额度：限借款{{ item.minUseAmount }}元以上方可使用
               </span>
-              <span class="data">
+              <span class="date">
                 有效期 {{ item.sendStartDate }}-{{
                 item.sendEndDate
                 }}
               </span>
-              <span v-if="item.type !== '1'">
+              <span class="period" v-if="item.type !== '1'">
                 使用期数：{{item.periods}}
               </span>
             </div>
@@ -242,12 +242,14 @@ export default {
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
 								list[i].smallNum = money[1];
-								let newPeriods = [];
-								let periods = list[i].period.split(",");
+							}
+							if(list[i].period) {
+								var newPeriods = [];
+								var periods = list[i].period.split(",");
 								for(let j = 0; j < periods.length; j++) {
 									newPeriods.push(periods[j] + "期")
 								}
-								let newPeriodsStr = newPeriods.join("、");
+								var newPeriodsStr = newPeriods.join("、");
 								list[i].periods = newPeriodsStr;
 							}
 							break;
@@ -257,12 +259,14 @@ export default {
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
 								list[i].smallNum = money[1];
-								let newPeriods = [];
-								let periods = list[i].period.split(",");
+							}
+							if(list[i].period) {
+								var newPeriods = [];
+								var periods = list[i].period.split(",");
 								for(let j = 0; j < periods.length; j++) {
 									newPeriods.push(periods[j] + "期")
 								}
-								let newPeriodsStr = newPeriods.join("、");
+								var newPeriodsStr = newPeriods.join("、");
 								list[i].periods = newPeriodsStr;
 							}
 							break;
@@ -424,6 +428,13 @@ export default {
 							em {
 								font-style: inherit;
 							}
+							&.period, &.date {
+                height: rem(16px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+								padding-right: rem(10px);
+              }
 						}
 						.title {
 							color: #333;
