@@ -1017,7 +1017,8 @@ export default {
 			showNoData: false, // * 初始化无数据页面
 			applyingStatus: false, // * 申请中小红点显示状态
 			repayStatus: false, // * 还款中小红点显示状态
-			checkerBodyHeight: 0
+			checkerBodyHeight: 0,
+			banRechecked: true //* 防止重复applying
 		};
 	},
 	mounted() {
@@ -1050,7 +1051,6 @@ export default {
 		 *  ! 初始化状态
 		 * */
 		checkerStatus(type) {
-			console.info("this.checkerType", this.checkerType)
 			if (this.checkerType !== type) {
 				this.items = []; // * 初始化数据
 				this.pageNo = "1"; // * 初始化页码
@@ -1219,14 +1219,16 @@ export default {
 					this.onFetching = false;
 
 					//还款中列表为空跳到申请中
-					if (data.list===null) {
+					if (data.list===null && this.banRechecked === true) {
 						this.checkerStatus("applying");
+						this.banRechecked = false;
 					} else {
 						console.info("已完成列表为空")
 					}
 				} else if (data.resultCode == "-1") {
-					if(data.list === null){
+					if(data.list===null && this.banRechecked === true){
 						this.checkerStatus("applying");
+						this.banRechecked = false;
 					}
 					this.listDataloading = false;
 					if (!this.items.length) {
