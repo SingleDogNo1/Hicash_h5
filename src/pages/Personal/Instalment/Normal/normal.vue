@@ -1217,16 +1217,18 @@ export default {
 						this.listDataloading = false;
 					}
 					
-					this.onFetching = false;
-
 					//还款中列表为空跳到申请中
-					if (!data.list.length) {
+					if (data.list==null || !data.list.length) {
 						this.checkerStatus("applying");
 					}
+
+					this.onFetching = false;
+
 				} else if (data.resultCode == "-1") {
 					this.listDataloading = false;
 					if (!this.items.length) {
 						this.showNoData = true;
+						this.checkerStatus("applying");
 					}
 				} else {
 					this.$vux.toast.text(data.resultMsg, "middle");
