@@ -19,29 +19,46 @@
 						@click="selectCoupon(item)"
 						v-for="(item,index) in list" :key=index
 					>
-						<div class="left-main left">
-							<span class="coupon-price left"
-								>{{ item.bigNum
-								}}<em>.{{ item.smallNum }}元</em></span
-							>
+						<div class="left-main left" :class="{'special-coupon': item.type === '2' || item.type === '3'}">
+							<span class="coupon-price left" v-if="item.type === '1'">
+                <em>{{ item.bigNum}}</em><em>.{{ item.smallNum }}元</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '2' && !isDefaultDiscount">
+                {{ item.bigNum}}.{{ item.smallNum }}<em>折</em>
+              </span>
+              <span class="coupon-price left is-default-discount" v-if="item.type === '2' && isDefaultDiscount">
+                <em>0折起</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '3' && !isDefaultAmount">
+                {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
+              </span>
+              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && isDefaultAmount">
+                <em>最高200元</em>
+              </span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
-						<div class="right-main left">
+						<div class="right-main left" :class="{'special-coupon-text': item.type === '2' || item.type === '3'}">
 							<span class="title"
 								>{{ item.couponRuleName
-								}}<em>（共{{ item.canUseMaxNum }}张）</em></span
+								}}<em v-if="item.type === '1'">（共{{ item.canUseMaxNum }}张）</em></span
 							>
 							<span class="explain"
-								>可使用产品{{ item.industryName }}，可叠加使用{{
+								>可使用产品{{ item.industryName }}<em v-if="item.type === '1' || item.type === '3'">，可叠加使用{{
 									item.accumulationLimit
-								}}次</span
+								}}次</em></span
 							>
-							<span class="data"
-								>有效期 {{ item.sendStartDate }}-{{
-									item.sendEndDate
-								}}</span
-							>
-						</div>
+							<span v-if="item.type !== '1'">
+                使用额度：限借款{{ item.minUseAmount }}元以上方可使用
+              </span>
+              <span class="data">
+                有效期 {{ item.sendStartDate }}-{{
+                item.sendEndDate
+                }}
+              </span>
+              <span v-if="item.type !== '1'">
+                使用期数：{{item.periods}}
+              </span>
+            </div>
 						<div class="help" @click.stop="clickHelp(item)">
 							使用规则
 						</div>
@@ -82,7 +99,13 @@
 							'&couponRuleId=' +
 							couponId +
 							'&couponAmount=' +
-							couponAmount
+							couponAmount + 
+							'&discountAmount=' +
+							discountAmount +
+							'&couponType=' +
+							couponType + 
+							'&oldCurrentAmt=' +
+							oldCurrentAmt
 					"
 					>去使用</a
 				>
@@ -132,7 +155,12 @@ export default {
 			goUseCouponHref: "",
 			appNo: null,
 			userName: this.utils.getCookie("userName"),
-			rechargeAmount: this.$route.query.rechargeAmount
+			rechargeAmount: this.$route.query.rechargeAmount,
+			oldCurrentAmt: this.$route.query.oldCurrentAmt,
+			discountAmount: "",
+			couponType: "",
+			isDefaultDiscount: true,
+      isDefaultAmount: true
 		};
 	},
 	mounted() {
@@ -197,13 +225,48 @@ export default {
 
 			let _this = this;
 
-			this.common.getRechargeCoupon(postData).then(function(res) {
+			this.common.getRechargeCoupon(postData).then(res=> {
 				let list = res.data.canUseCouponList;
 
-				_.each(list, function(v, i) {
-					var money = list[i].amount.split(".");
-					list[i].bigNum = money[0];
-					list[i].smallNum = money[1];
+				_.each(list, (v, i)=> {
+					switch (list[i].type) {
+						case "1":
+							var money = list[i].showAmount.split(".");
+							list[i].bigNum = money[0];
+							list[i].smallNum = money[1];
+							break;
+						case "2":
+							if (parseInt(list[i].showAmount) > 0) {
+								console.log('this==', this)
+								this.isDefaultDiscount = false;
+								var money = list[i].showAmount.split(".");
+								list[i].bigNum = money[0];
+								list[i].smallNum = money[1];
+								let newPeriods = [];
+								let periods = list[i].period.split(",");
+								for(let j = 0; j < periods.length; j++) {
+									newPeriods.push(periods[j] + "期")
+								}
+								let newPeriodsStr = newPeriods.join("、");
+								list[i].periods = newPeriodsStr;
+							}
+							break;
+						case "3":
+							if (parseInt(list[i].showAmount) > 0) {
+								this.isDefaultAmount = false;
+								var money = list[i].showAmount.split(".");
+								list[i].bigNum = money[0];
+								list[i].smallNum = money[1];
+								let newPeriods = [];
+								let periods = list[i].period.split(",");
+								for(let j = 0; j < periods.length; j++) {
+									newPeriods.push(periods[j] + "期")
+								}
+								let newPeriodsStr = newPeriods.join("、");
+								list[i].periods = newPeriodsStr;
+							}
+							break;
+					}
 				});
 
 				_this.list = list;
@@ -228,24 +291,27 @@ export default {
 					this.unit = "元";
 					break;
 				case "2":
-					this.unit = "%";
+					this.unit = "折";
+					break;
+				case "3":
+					this.unit = "元";
 					break;
 			}
 			(this.couponPopupTitle =
-				data.amount + this.unit + data.couponRuleName),
+				data.showAmount + this.unit + data.couponRuleName),
 				(this.maxNum = parseInt(data.canUseMaxNum));
 			this.couponId = data.couponRuleId;
-			this.couponAmount = data.amount;
+			this.couponAmount = data.showAmount;
+			this.discountAmount = data.discountAmount;
+			this.couponType = data.type;
 		},
 		clickHelp(data) {
 			this.$vux.alert.show({
 				title: "活动规则",
 				content: data.ruleMsgStr,
 				onShow() {
-					console.log("活动规则alert，点击了确定！");
 				},
 				onHide() {
-					// console.log('Plugin: I\'m hiding now')
 				}
 			});
 		}
@@ -292,7 +358,7 @@ export default {
 				min-height: calc(100% + 1px);
 				li {
 					width: 90%;
-					height: rem(83px);
+					//height: rem(83px);
 					margin: rem(10px) auto 0;
 					position: relative;
 					.help {
@@ -325,6 +391,10 @@ export default {
 								font-size: rem(20px);
 								font-style: inherit;
 							}
+							&.is-default-amount, &.is-default-discount {
+                margin-top: 0 !important;
+								height: 65% !important;
+              }
 						}
 						.coupon-tips {
 							width: 100%;
@@ -333,6 +403,14 @@ export default {
 							font-size: rem(12px);
 							clear: both;
 						}
+						&.special-coupon {
+              height: rem(99px);
+              background: url(./images/icon_coupon_special.png) no-repeat;
+              .coupon-price {
+                margin-top: rem(6px);
+                height: 60%;
+              }
+            }
 					}
 					.right-main {
 						width: 68%;
@@ -343,6 +421,9 @@ export default {
 							padding-left: rem(11px);
 							color: #999;
 							font-size: rem(10px);
+							em {
+								font-style: inherit;
+							}
 						}
 						.title {
 							color: #333;
@@ -355,6 +436,12 @@ export default {
 								color: #999;
 							}
 						}
+						&.special-coupon-text {
+              height: rem(99px);
+              .title {
+                margin: rem(10px) 0 rem(4px);
+              }
+            }
 					}
 
 					.weui-loading {
