@@ -186,7 +186,7 @@
 			.repay-btn {
 				width: rem(277px);
 				height: rem(33px);
-				background: #FFFFFF;
+				background: linear-gradient(to bottom,rgba(255,255,255,1),rgba(255,255,255,0.65));
 				border-radius: 75px;
 				margin: 0 auto;
 				text-align: center;
