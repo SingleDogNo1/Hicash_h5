@@ -24,6 +24,11 @@
 					<span class="balance">{{ balance }}</span>
 				</div>
 			</div>
+			<div class="repay-btn-wrap">
+				<div class="repay-btn" @click="toMyInstalment">
+					<p>充值还款</p>
+				</div>
+			</div>
 		</section>
 		<group>
 			<cell
@@ -91,7 +96,7 @@
 	padding-bottom: rem(80px);
 	.personal-header-wrap {
 		width: 100%;
-		height: rem(190px);
+		height: rem(218px);
 		background: url(./images/person_center_bg.png) no-repeat;
 		background-size: 100% 100%;
 		color: #fff;
@@ -171,6 +176,25 @@
 					background: #fff;
 					left: -1px;
 					top: rem(5px);
+				}
+			}
+		}
+
+		.repay-btn-wrap {
+			width: 100%;
+			height: rem(33px);
+			.repay-btn {
+				width: rem(277px);
+				height: rem(33px);
+				background: #FFFFFF;
+				border-radius: 75px;
+				margin: 0 auto;
+				text-align: center;
+				p {
+					height: rem(33px);
+					line-height: rem(33px);
+					font-size: rem(15px);
+					color: #ff7640;
 				}
 			}
 		}
@@ -469,6 +493,10 @@ export default {
 				let data = res.data;
 				this.newCoupon = data.noMsgNum > 0;
 			});
+		},
+		//跳转到我的分期
+		toMyInstalment() {
+			this.$router.push({path:"/personal/myInstalment"});
 		}
 	},
 	mounted() {
