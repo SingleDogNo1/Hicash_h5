@@ -20,14 +20,20 @@
 						v-for="(item,index) in list" :key=index
 					>
 						<div class="left-main left">
-							<span class="coupon-price left"
-								v-if="item.type === '1' || item.type === '3'"
-								>{{ item.bigNum
-								}}<em>.{{ item.smallNum }}元</em></span
-							>
-							<span class="coupon-price left"
-								v-else>
-                {{ item.bigNum}}<em>.{{ item.smallNum }}%</em>
+							<span class="coupon-price left" v-if="item.type === '1'">
+                <em>{{ item.bigNum}}</em><em>.{{ item.smallNum }}元</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '2' && !isDefaultDiscount">
+                {{ item.bigNum}}.{{ item.smallNum }}折
+              </span>
+              <span class="coupon-price left" v-if="item.type === '2' && isDefaultDiscount">
+                <em>0折起</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '3' && !isDefaultAmount">
+                {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '3' && isDefaultAmount">
+                <em>最高200元</em>
               </span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
@@ -143,7 +149,9 @@ export default {
 			userName: this.utils.getCookie("userName"),
 			rechargeAmount: this.$route.query.rechargeAmount,
 			discountAmount: "",
-			couponType: ""
+			couponType: "",
+			isDefaultDiscount: true,
+      isDefaultAmount: true
 		};
 	},
 	mounted() {
@@ -212,9 +220,29 @@ export default {
 				let list = res.data.canUseCouponList;
 
 				_.each(list, function(v, i) {
-					var money = list[i].type === "3" ? list[i].discountAmount.split("."): list[i].amount.split(".");
-					list[i].bigNum = money[0];
-					list[i].smallNum = money[1];
+					switch (list[i].type) {
+						case "1":
+							var money = list[i].showAmount.split(".");
+							list[i].bigNum = money[0];
+							list[i].smallNum = money[1];
+							break;
+						case "2":
+							if (parseInt(list[i].showAmount > 0)) {
+								this.isDefaultDiscount = false;
+								var money = list[i].showAmount.split(".");
+								list[i].bigNum = money[0];
+								list[i].smallNum = money[1];
+							}
+							break;
+						case "3":
+							if (parseInt(list[i].showAmount > 0)) {
+								this.isDefaultAmount = false;
+								var money = list[i].showAmount.split(".");
+								list[i].bigNum = money[0];
+								list[i].smallNum = money[1];
+							}
+							break;
+					}
 				});
 
 				_this.list = list;
@@ -245,17 +273,11 @@ export default {
 					this.unit = "元";
 					break;
 			}
-			if(data.type === 3) {
-				(this.couponPopupTitle =
-					data.discountAmount + this.unit + data.couponRuleName),
-					(this.maxNum = parseInt(data.canUseMaxNum));
-			} else {
-				(this.couponPopupTitle =
-					data.amount + this.unit + data.couponRuleName),
-					(this.maxNum = parseInt(data.canUseMaxNum));
-			}
+			(this.couponPopupTitle =
+				data.showAmount + this.unit + data.couponRuleName),
+				(this.maxNum = parseInt(data.canUseMaxNum));
 			this.couponId = data.couponRuleId;
-			this.couponAmount = data.amount;
+			this.couponAmount = data.showAmount;
 			this.discountAmount = data.discountAmount;
 			this.couponType = data.type;
 		},
