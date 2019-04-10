@@ -1017,7 +1017,8 @@ export default {
 			showNoData: false, // * 初始化无数据页面
 			applyingStatus: false, // * 申请中小红点显示状态
 			repayStatus: false, // * 还款中小红点显示状态
-			checkerBodyHeight: 0
+			checkerBodyHeight: 0,
+			banRechecked: true //* 防止重复applying
 		};
 	},
 	mounted() {
@@ -1054,8 +1055,6 @@ export default {
 				this.items = []; // * 初始化数据
 				this.pageNo = "1"; // * 初始化页码
 				this.checkerType = type || this.$route.query.from || "repay"; // * 更新当前的Tag
-				console.log("this.checkerType===", this.checkerType);
-
 				this.getListData(this.checkerType); // * 请求列表数据
 				this.onFetching = false; // * 初始化分页锁定状态
 			}
@@ -1217,18 +1216,23 @@ export default {
 						this.listDataloading = false;
 					}
 					
-					//还款中列表为空跳到申请中
-					if (data.list==null || !data.list.length) {
-						this.checkerStatus("applying");
-					}
-
 					this.onFetching = false;
 
+					//还款中列表为空跳到申请中
+					if (data.list===null && this.banRechecked === true) {
+						this.checkerStatus("applying");
+						this.banRechecked = false;
+					} else {
+						console.info("已完成列表为空")
+					}
 				} else if (data.resultCode == "-1") {
+					if(data.list===null && this.banRechecked === true){
+						this.checkerStatus("applying");
+						this.banRechecked = false;
+					}
 					this.listDataloading = false;
 					if (!this.items.length) {
 						this.showNoData = true;
-						this.checkerStatus("applying");
 					}
 				} else {
 					this.$vux.toast.text(data.resultMsg, "middle");
