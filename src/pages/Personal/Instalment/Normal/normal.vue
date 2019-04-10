@@ -1002,7 +1002,7 @@ export default {
 	data() {
 		return {
 			active: 2, // * 初始化一级 Tag 属性
-			checkerType: this.$route.query.from || "applying", // * 初始化二级 Tag 属性
+			checkerType: this.$route.query.from || "repay", // * 初始化二级 Tag 属性
 			onFetching: false, // * 给 Scroller 分页加锁
 			showOtherOrder: false, // * 初始化还款计划显示状态
 			btnStatus: "ENDNODE", // TODO 测试属性，调试API之后删除
@@ -1053,7 +1053,9 @@ export default {
 			if (this.checkerType !== type) {
 				this.items = []; // * 初始化数据
 				this.pageNo = "1"; // * 初始化页码
-				this.checkerType = type || this.$route.query.from || "applying"; // * 更新当前的Tag
+				this.checkerType = type || this.$route.query.from || "repay"; // * 更新当前的Tag
+				console.log("this.checkerType===", this.checkerType);
+
 				this.getListData(this.checkerType); // * 请求列表数据
 				this.onFetching = false; // * 初始化分页锁定状态
 			}
@@ -1185,7 +1187,6 @@ export default {
 			postData.append("pageNo", this.pageNo);
 			this.common.accountOrderList(postData).then(res => {
 				let data = res.data;
-
 				// ! 排除非本list的data插入
 				if(data.type != this.checkerType) return false;
 
@@ -1215,8 +1216,13 @@ export default {
 					if (data.list.length < 20) {
 						this.listDataloading = false;
 					}
-
+					
 					this.onFetching = false;
+
+					//还款中列表为空跳到申请中
+					if (!data.list.length) {
+						this.checkerStatus("applying");
+					}
 				} else if (data.resultCode == "-1") {
 					this.listDataloading = false;
 					if (!this.items.length) {
