@@ -44,6 +44,7 @@ import AuthJingdong from '@/pages/credit/Report/Jingdong';
 import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
+import Activity from '@/pages/Activity/Index';
 Vue.use(Router);
 
 export default new Router({
@@ -403,6 +404,15 @@ export default new Router({
 			component: CreditLoading,
 			meta: {
 				title: "征信报告"
+			}
+		},
+		{
+			//优惠券活动
+			path: "/activity",
+			name: "Activity",
+			component: Activity,
+			meta: {
+				title: "优惠券活动"
 			}
 		}
 	]
