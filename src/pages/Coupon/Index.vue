@@ -242,6 +242,8 @@ export default {
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
 								list[i].smallNum = money[1];
+							} else {
+								this.isDefaultDiscount = true;
 							}
 							if(list[i].period) {
 								var newPeriods = [];
@@ -259,6 +261,8 @@ export default {
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
 								list[i].smallNum = money[1];
+							} else {
+								this.isDefaultAmount = true;
 							}
 							if(list[i].period) {
 								var newPeriods = [];
