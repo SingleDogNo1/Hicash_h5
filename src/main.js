@@ -6,6 +6,7 @@ import Vue from "vue";
 import App from "./app";
 import router from "./router";
 import { Tabbar, TabbarItem, Toast } from "vux";
+import "./assets/css/common.scss";
 
 import common from "./api/common.js";
 import jsCommon from "./assets/js/common.js";
@@ -15,7 +16,6 @@ import "./assets/js/growingIO.js";
 import "./assets/js/baiqishi.js";
 import 'url-search-params-polyfill';
 import "swiper/dist/css/swiper.css";
-
 import "./assets/css/iconfont/iconfont.css";
 
 import MintUI from "mint-ui";
