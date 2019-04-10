@@ -32,43 +32,49 @@
             v-for="(item,index) in list[subType]"
             :key="index"
           >
-            <div class="left-main left">
+            <div class="left-main left" :class="{'special-coupon': item.type === '2'|| item.type === '3'}">
               <span class="coupon-price left" v-if="item.type === '1'">
-                <em>{{ item.bigNum}}</em><em>.{{ item.smallNum }}元</em>
+                {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
               <span class="coupon-price left" v-if="item.type === '2' && !isDefaultDiscount">
-                {{ item.bigNum}}.{{ item.smallNum }}折
+                {{ item.bigNum}}.{{ item.smallNum }}<em>折</em>
               </span>
               <span class="coupon-price left" v-if="item.type === '2' && isDefaultDiscount">
-                <em>0折起</em>
+                0<em>折起</em>
               </span>
               <span class="coupon-price left" v-if="item.type === '3' && !isDefaultAmount">
                 {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '3' && isDefaultAmount">
-                <em>最高200元</em>
+              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && isDefaultAmount">
+                <em>200元最高</em>
               </span>
               <span class="coupon-tips">还款时使用</span>
             </div>
-            <div class="right-main left">
+            <div class="right-main left" :class="{'special-coupon-text': item.type === '2' || item.type === '3'}">
               <span class="title">
                 {{ item.couponRuleName }}
                 <em
-                  v-if="item.type === '1' || item.type === '3'"
+                  v-if="item.type === '1'"
                 >（共{{ item.num }}张）</em>
               </span>
               <span class="explain">
                 可使用产品{{ item.industryName }}
-                <em v-if="item.type === '1' || item.type === '3'">
+                <em v-if="item.type === '1'">
                   ，可叠加使用{{
                   item.accumulationLimit
                   }}次
                 </em>
               </span>
+              <span v-if="item.type !== '1'">
+                使用额度：限借款{{ item.minUseAmount }}元以上方可使用
+              </span>
               <span class="data">
                 有效期 {{ item.sendStartDate }}-{{
                 item.sendEndDate
                 }}
+              </span>
+              <span v-if="item.type !== '1'">
+                使用期数：{{item.periods}}
               </span>
             </div>
             <div class="help" @click.stop="clickHelp(item)">使用规则</div>
@@ -164,10 +170,10 @@ export default {
             showAmount == 0 显示 UI图内固定文字
         */
 
-      this.common.getCustHicashCoupon(postData).then(function(res) {
+      this.common.getCustHicashCoupon(postData).then( res=> {
         let list = res.data;
         if (list.canUseCouponList.length) {
-          _.each(list.canUseCouponList, function(v, i) {
+          _.each(list.canUseCouponList, (v, i)=> {
             switch (list.canUseCouponList[i].type) {
               case "1":
                 var money = list.canUseCouponList[i].showAmount.split(".");
@@ -180,6 +186,13 @@ export default {
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
                   list.canUseCouponList[i].smallNum = money[1];
+                  let newPeriods = [];
+                  let periods = list.canUseCouponList[i].period.split(",");
+                  for(let j = 0; j < periods.length; j++) {
+                    newPeriods.push(periods[j] + "期")
+                  }
+                  let newPeriodsStr = newPeriods.join("、");
+                  list.canUseCouponList[i].periods = newPeriodsStr;
                 }
                 break;
               case "3":
@@ -188,6 +201,13 @@ export default {
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
                   list.canUseCouponList[i].smallNum = money[1];
+                  let newPeriods = [];
+                  let periods = list.canUseCouponList[i].period.split(",");
+                  for(let j = 0; j < periods.length; j++) {
+                    newPeriods.push(periods[j] + "期")
+                  }
+                  let newPeriodsStr = newPeriods.join("、");
+                  list.canUseCouponList[i].periods = newPeriodsStr;
                 }
                 break;
             }
@@ -195,7 +215,7 @@ export default {
         }
 
         if (list.expiredCouponList.length) {
-          _.each(list.expiredCouponList, function(v, i) {
+          _.each(list.expiredCouponList, (v, i)=> {
             switch (list.expiredCouponList[i].type) {
               case "1":
                 var money = list.expiredCouponList[i].showAmount.split(".");
@@ -208,6 +228,13 @@ export default {
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
                   list.expiredCouponList[i].smallNum = money[1];
+                  let newPeriods = [];
+                  let periods = list.expiredCouponList[i].period.split(",");
+                  for(let j = 0; j < periods.length; j++) {
+                    newPeriods.push(periods[j] + "期")
+                  }
+                  let newPeriodsStr = newPeriods.join("、");
+                  list.expiredCouponList[i].periods = newPeriodsStr;
                 }
                 break;
               case "3":
@@ -216,6 +243,13 @@ export default {
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
                   list.expiredCouponList[i].smallNum = money[1];
+                  let newPeriods = [];
+                  let periods = list.expiredCouponList[i].period.split(",");
+                  for(let j = 0; j < periods.length; j++) {
+                    newPeriods.push(periods[j] + "期")
+                  }
+                  let newPeriodsStr = newPeriods.join("、");
+                  list.expiredCouponList[i].periods = newPeriodsStr;
                 }
                 break;
             }
@@ -223,7 +257,7 @@ export default {
         }
 
         if (list.usedCouponList.length) {
-          _.each(list.usedCouponList, function(v, i) {
+          _.each(list.usedCouponList, (v, i)=> {
             switch (list.usedCouponList[i].type) {
               case "1":
                 var money = list.usedCouponList[i].showAmount.split(".");
@@ -236,6 +270,13 @@ export default {
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
                   list.usedCouponList[i].smallNum = money[1];
+                  let newPeriods = [];
+                  let periods = list.usedCouponList[i].period.split(",");
+                  for(let j = 0; j < periods.length; j++) {
+                    newPeriods.push(periods[j] + "期")
+                  }
+                  let newPeriodsStr = newPeriods.join("、");
+                  list.usedCouponList[i].periods = newPeriodsStr;
                 }
                 break;
               case "3":
@@ -244,6 +285,13 @@ export default {
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
                   list.usedCouponList[i].smallNum = money[1];
+                  let newPeriods = [];
+                  let periods = list.usedCouponList[i].period.split(",");
+                  for(let j = 0; j < periods.length; j++) {
+                    newPeriods.push(periods[j] + "期")
+                  }
+                  let newPeriodsStr = newPeriods.join("、");
+                  list.usedCouponList[i].periods = newPeriodsStr;
                 }
                 break;
             }
@@ -333,7 +381,7 @@ export default {
         min-height: calc(100% + 1px);
         li {
           width: 90%;
-          height: rem(83px);
+          //height: rem(83px);
           margin: rem(10px) auto 0;
           position: relative;
 
@@ -367,6 +415,10 @@ export default {
                 font-size: rem(20px);
                 font-style: inherit;
               }
+              &.is-default-amount, &.is-default-discount {
+                margin-top: 0 !important;
+								height: 65% !important;
+              }
             }
             .coupon-tips {
               width: 100%;
@@ -374,6 +426,14 @@ export default {
               text-align: center;
               font-size: rem(12px);
               clear: both;
+            }
+            &.special-coupon {
+              height: rem(99px);
+              background: url(./images/icon_coupon_special.png) no-repeat;
+              .coupon-price {
+                margin-top: rem(6px);
+                height: 60%;
+              }
             }
           }
           .right-main {
@@ -400,6 +460,12 @@ export default {
                 color: #999;
               }
             }
+            &.special-coupon-text {
+              height: rem(99px);
+              .title {
+                margin: rem(10px) 0 rem(4px);
+              }
+            }
           }
 
           .weui-loading {
@@ -408,7 +474,10 @@ export default {
 
           &.gray {
             .left-main {
-              background: #ccc;
+              background: url(./images/icon_coupon_grey.png) no-repeat;
+              &.special-coupon {
+                background: url(./images/icon_coupon_special_grey.png) no-repeat;
+              }
             }
             .title,
             .explain,
