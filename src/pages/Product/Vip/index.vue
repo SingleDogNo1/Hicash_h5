@@ -227,7 +227,7 @@ export default {
 					this.utils.setCookie("industryCode", 'VIPD');
 					this.utils.setCookie("xykFrom", "0");
 					this.utils.setCookie("appFlowNo", userName + ":" + data.appFlowNo);
-					this.utils.setCookie("prodetailInfo", this.vipMoneyVal + ":" + this.installments);
+					this.utils.setCookie("prodetailInfo", this.vipMoneyVal + ":" + this.loanProduct);
 					this.utils.setCookie("checkSupportIsCredit", this.checkSupportIsCredit);
 					this.$router.push({ name: 'Auth', query: { appFlowNo: data.appFlowNo,  industryCode:'VIPD'}});
 				}else{
