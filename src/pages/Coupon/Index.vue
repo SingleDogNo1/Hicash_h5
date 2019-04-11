@@ -111,7 +111,7 @@
 				>
 			</div>
 		</popup>
-		<alert v-model="isShowDialog" title="活动规则" :content="ruleMsgStr" class="confirmDialog"></alert>
+		<alert v-model="isShowDialog" title="活动规则" :content="ruleMsgStr" class="confirmDialog" button-text="确认"></alert>
 	</div>
 </template>
 <script type="text/javascript">
@@ -562,9 +562,14 @@ export default {
 	}
 	.vux-alert {
     .weui-dialog__hd {
-      padding: .5em 1.6em;
+			height: rem(30px);
+			line-height: rem(30px);
+			background: #ff7640;
+			color: #fff;
+      padding: .3em 1.6em;
     }
     .weui-dialog__bd {
+			padding: .8em 1.6em;
       text-align: left;
     }
   }
