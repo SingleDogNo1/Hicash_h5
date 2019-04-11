@@ -27,6 +27,23 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 .DpandoraBackPage {
+  .weui-dialog__hd {
+    padding: 0.3em 1.6em 0.5em 1.6rem;
+    background: #ff7640;
+  }
+  .weui-dialog__bd {
+    padding: 1.5rem 0.8rem 1.6rem 0.8rem;
+    min-height: 40px;
+    font-size: 15px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: #999;
+  }
+  .weui-dialog__btn_default {
+    color: #353535;
+    font-size: 15px;
+  }
   .skip {
     width: 100%;
     background: #eee !important;

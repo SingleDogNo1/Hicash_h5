@@ -27,7 +27,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 .weui-dialog {
-	width: 12rem /* 270/22.5 */;
+	width: 100% /* 270/22.5 */;
 	border-radius: 5px;
 	.pop-warp {
 		width: 100%;
