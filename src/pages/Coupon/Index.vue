@@ -200,13 +200,11 @@ export default {
 			probeType: 1
 		});
 		this.scroll.on("scroll", function(pos) {
-			console.info("scroll pos.y", pos.y);
 			if (pos.y > 30 && pos.y < 40) {
 				_this.refreshText = "下拉刷新";
 			}
 		});
 		this.scroll.on("touchEnd", function(pos) {
-			console.info("pos.y", pos.y);
 			if (pos.y > 40) {
 				_this.refreshText = "刷新数据中";
 				_this.getRechargeCoupon();
@@ -217,7 +215,6 @@ export default {
 		onItemClick: function(type) {
 			this.subType = type;
 			this.scroll.scrollTo(0, 0);
-			console.info(type);
 			this.getRechargeCoupon();
 		},
 		getRechargeCoupon: function() {
@@ -241,9 +238,7 @@ export default {
 							list[i].smallNum = money[1];
 							break;
 						case "2":
-						console.log(parseInt(list[i].showAmount))
 							if (parseInt(list[i].showAmount) > 0) {
-								console.log('this==', this)
 								list[i].isDefaultDiscount = false;
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
