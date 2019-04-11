@@ -558,7 +558,7 @@ export default {
 
 					this.utils.setCookie("token", data.token);
 					this.utils.setCookie("userName", data.userName);
-					this.utils.setCookie("realName", data.realName);
+					this.utils.setCookie("realName", escape(data.realName));
 					this.utils.setCookie("mobile", data.mobile);
 					this.utils.setCookie("identityCode", data.identityNo);
 					this.utils.setCookie("custType", data.custType);
@@ -669,9 +669,9 @@ export default {
 									custFrom;
 								return false;
 							}
-							if (data.isVip) {
-								window.location.href =
-									MWEB_PATH + "newweb/product/vipdai.html";
+							if (data.isVip && !localStorage.getItem('firstJumpVip')) {
+								this.$router.push({name: 'VipDai'});
+								
 								return false;
 							}
 							if (dxObj && telObj) {

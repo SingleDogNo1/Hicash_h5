@@ -406,7 +406,7 @@ export default {
 	}, //mobile.length>10?mobile.substring(0,3)+"****"+mobile.substring(7,11):mobile
 	data() {
 		return {
-			realName: this.utils.getCookie("realName"),
+			realName: unescape(this.utils.getCookie("realName")),
 			userMobile:
 				this.utils.getCookie("mobile").substring(0, 4) +
 				"****" +
@@ -501,6 +501,7 @@ export default {
 		}
 	},
 	mounted() {
+		document.body.scrollTop = 0;
 		let getAccountInfoDatas = {
 			userName: this.utils.getCookie("userName"),
 			curPage: 1,
@@ -526,6 +527,8 @@ export default {
 		if (isHaveUnreadCoupon > 0) {
 			this.newCoupon = true;
 		}
+
+		
 	}
 };
 </script>

@@ -578,7 +578,7 @@ export default {
                 "newweb/product/miaodai.html?industryCode=" +
                 v.industryCode;
             } else if (v.industryCode == "VIPD") {
-              obj.url = MWEB_PATH + "newweb/product/vipdai.html";
+              obj.url = "/#/product/vip";
             }
             arr.push(obj);
           }

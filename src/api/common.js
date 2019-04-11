@@ -75,7 +75,9 @@ export default {
 	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
 	wxfx: wxfx,
 	checkUserInfo: checkUserInfo,
-	QueryPandoraUrl: QueryPandoraUrl
+	QueryPandoraUrl: QueryPandoraUrl,
+	RepayProgram: RepayProgram,
+	UserInfo: UserInfo
 };
 
 /*
@@ -1249,4 +1251,36 @@ export function QueryPandoraUrl(params) {
 			}
 		);
 	});
+}
+
+/*
+ *  VIP 借贷方案
+ */
+export function RepayProgram(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/RepayProgram", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  个人信息
+ */
+export function UserInfo(params) {
+   return new Promise((resolve, reject) => {
+	   axios.post("/NewHicashService/UserInfo", params).then(
+		   res => {
+			   resolve(res);
+		   },
+		   err => {
+			   reject(err);
+		   }
+	   );
+   });
 }

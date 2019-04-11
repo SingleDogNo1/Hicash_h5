@@ -12,8 +12,7 @@
 			class="content"
 			:style="{
 				'padding-top':
-					this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem',
-				height: '100vh'
+					this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'
 			}"
 		>
 			<div>

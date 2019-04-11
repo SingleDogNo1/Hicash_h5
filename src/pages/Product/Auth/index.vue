@@ -365,7 +365,7 @@
   }
   .confirmDialog {
     .weui-dialog {
-      width: rem(270px);
+      width: 100% !important;
       .weui-dialog__hd {
         padding: 0;
         width: 100%;
@@ -412,7 +412,7 @@
   }
   .alertDialog {
     .weui-dialog {
-      max-width: 100%;
+      max-width: 100% !important;
       .weui-dialog__hd {
         padding: 0;
         width: 100%;
@@ -881,7 +881,10 @@ export default {
 					let custType = this.utils.getCookie("custType");
 					let industryCode = this.utils.getCookie("industryCode");
 					let hqljb = this.utils.getCookie("hqljb");
-					if(industryCode=="DDCP" && hqljb=="1"){
+					debugger;
+					if(this.utils.getCookie("industryCode") == 'VIPD' && this.utils.getCookie("checkSupportIsCredit") == '1'){
+						this.queryFirstExamineSuc();
+					}else if(industryCode=="DDCP" && hqljb=="1"){
 						window.location = this.config.MWEB_PATH + "newweb/creditInfo/editablePage.html?back=1";
 					}else if(custType == "KHL2"){
 						window.location = this.config.MWEB_PATH + "newweb/creditInfo/collarBaseInfo.html";
@@ -892,6 +895,28 @@ export default {
 					this.$vux.toast.text(data.resultMsg, 'middle')
 				}
 			})
+		},
+		queryFirstExamineSuc(){	//预审
+			var params = new URLSearchParams();
+			params.append("tokenKey", this.utils.uuid());
+			params.append("applyAmout", this.utils.getCookie("prodetailInfo").split(":")[0]);
+			params.append("tempAppNo", this.utils.getCookie("appFlowNo").split(":")[1]);
+			params.append("userName", this.utils.getCookie("userName"));
+			params.append("productType", this.utils.getCookie("industryCode"));
+			params.append("plateform", 'h5');
+			var gpsArr = this.utils.getCookie('gpsArr'); 
+			if(gpsArr && gpsArr!=''){
+				gpsArr = gpsArr.split(',');
+				params.append("h5Longitude", gpsArr[0]);
+				params.append("h5Latitude", gpsArr[1]);
+			}
+			this.common.queryFirstExamineSuc(params)
+			.then((res)=>{
+				let data = res.data;
+				if(data.resultCode == '1'){
+					window.location.href=this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+				}
+			});
 		}
 	},
 	mounted() {

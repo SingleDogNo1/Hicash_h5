@@ -1316,11 +1316,11 @@ export default {
 					mapObj.title = "分期订单";
 					mapObj.amountName = "借款金额";
 					break;
-				case "infoFee": // * 会员费
+				case "mthFee": // * 会员费
 					mapObj.title = "会员订单";
 					mapObj.amountName = "会员服务费金额";
 					break;
-				case "mthFee": // * 综合消费
+				case "infoFee": // * 综合消费
 					mapObj.title = "消费综合订单";
 					mapObj.amountName = "消费综合费金额";
 					break;

@@ -34,6 +34,9 @@ import OverdueDetail from "@/pages/Personal/Instalment/Overdue/OverdueDetail";
 import RepaymentPlan from "@/pages/Personal/Instalment/RepaymentPlan/RepaymentPlan";
 import Product from "@/pages/Product";
 import Auth from "@/pages/Product/Auth";
+import VipDai from "@/pages/Product/Vip";
+import VipDetails from "@/pages/Product/Vip/Details";
+import VipIntroduce from "@/pages/Product/Vip/Introduce";
 import Inquiry from "@/pages/credit";
 import IdentityAuth from "@/pages/credit/IdentityAuth";
 import PandoraAuth from "@/pages/credit/PandoraAuth";
@@ -174,6 +177,33 @@ export default new Router({
 					meta: {
 						requireAuth: true,
 						title: '身份认证'
+					}
+				},
+				{
+					path: 'vip',
+					name: 'VipDai',
+					component: VipDai,
+					meta: {
+						requireAuth: true,
+						title: 'VIP'
+					}
+				},
+				{
+					path: 'vipDetails',
+					name: 'VipDetails',
+					component: VipDetails,
+					meta: {
+						requireAuth: true,
+						title: '费率计算'
+					}
+				},
+				{
+					path: 'vipIntroduce',
+					name: 'VipIntroduce',
+					component: VipIntroduce,
+					meta: {
+						requireAuth: true,
+						title: '怎样成为VIP'
 					}
 				}
 			]
