@@ -27,7 +27,7 @@
 .weui-dialog__bd {
   // padding: 0 !important;
   // width: 100%;
-  line-height: 1.6;
+  line-height: 1.6 !important;
   min-height: 40px;
   font-family: PingFangSC-Regular;
   font-size: 13px !important;
@@ -35,7 +35,7 @@
   letter-spacing: -0.08px;
   text-align: center;
   //padding-top: 39px !important;
-  padding: 1.2em 1.6em;
+  padding: 1.2em 1.6em !important;
 }
 .weui-dialog__ft {
   position: relative;
