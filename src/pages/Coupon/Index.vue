@@ -19,29 +19,46 @@
 						@click="selectCoupon(item)"
 						v-for="(item,index) in list" :key=index
 					>
-						<div class="left-main left">
-							<span class="coupon-price left"
-								>{{ item.bigNum
-								}}<em>.{{ item.smallNum }}元</em></span
-							>
+						<div class="left-main left" :class="{'special-coupon': item.type === '2' || item.type === '3'}">
+							<span class="coupon-price left" v-if="item.type === '1'">
+                <em>{{ item.bigNum}}</em><em>.{{ item.smallNum }}元</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '2' && !item.isDefaultDiscount">
+                {{ item.bigNum}}.{{ item.smallNum }}<em>折</em>
+              </span>
+              <span class="coupon-price left is-default-discount" v-if="item.type === '2' && item.isDefaultDiscount">
+                0<em>折起</em>
+              </span>
+              <span class="coupon-price left" v-if="item.type === '3' && !item.isDefaultAmount">
+                {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
+              </span>
+              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && item.isDefaultAmount">
+                <em>最高200元</em>
+              </span>
 							<span class="coupon-tips">还款时使用</span>
 						</div>
-						<div class="right-main left">
+						<div class="right-main left" :class="{'special-coupon-text': item.type === '2' || item.type === '3'}">
 							<span class="title"
 								>{{ item.couponRuleName
-								}}<em>（共{{ item.canUseMaxNum }}张）</em></span
+								}}<em v-if="item.type === '1'">（共{{ item.canUseMaxNum }}张）</em></span
 							>
 							<span class="explain"
-								>可使用产品{{ item.industryName }}，可叠加使用{{
+								>可使用产品：{{ item.industryName }}<em v-if="item.type === '1'">，可叠加使用{{
 									item.accumulationLimit
-								}}次</span
+								}}次</em></span
 							>
-							<span class="data"
-								>有效期 {{ item.sendStartDate }}-{{
-									item.sendEndDate
-								}}</span
-							>
-						</div>
+							<span v-if="item.type !== '1'">
+                使用额度：限借款{{ item.minUseAmount }}元以上方可使用
+              </span>
+              <span class="date">
+                有效期 {{ item.sendStartDate }}-{{
+                item.sendEndDate
+                }}
+              </span>
+              <span class="period" v-if="item.type !== '1'">
+                使用期数：{{item.periods}}
+              </span>
+            </div>
 						<div class="help" @click.stop="clickHelp(item)">
 							使用规则
 						</div>
@@ -82,12 +99,19 @@
 							'&couponRuleId=' +
 							couponId +
 							'&couponAmount=' +
-							couponAmount
+							couponAmount + 
+							'&discountAmount=' +
+							discountAmount +
+							'&couponType=' +
+							couponType + 
+							'&oldCurrentAmt=' +
+							oldCurrentAmt
 					"
 					>去使用</a
 				>
 			</div>
 		</popup>
+		<alert v-model="isShowDialog" title="活动规则" :content="ruleMsgStr" class="confirmDialog" button-text="确认"></alert>
 	</div>
 </template>
 <script type="text/javascript">
@@ -99,7 +123,8 @@ import {
 	InlineLoading,
 	Popup,
 	XNumber,
-	Group
+	Group,
+	Alert
 } from "vux";
 import BScroll from "better-scroll";
 export default {
@@ -111,7 +136,8 @@ export default {
 		InlineLoading,
 		Popup,
 		XNumber,
-		Group
+		Group,
+		Alert
 	},
 	data() {
 		return {
@@ -132,7 +158,14 @@ export default {
 			goUseCouponHref: "",
 			appNo: null,
 			userName: this.utils.getCookie("userName"),
-			rechargeAmount: this.$route.query.rechargeAmount
+			rechargeAmount: this.$route.query.rechargeAmount,
+			oldCurrentAmt: this.$route.query.oldCurrentAmt,
+			discountAmount: "",
+			couponType: "",
+			isDefaultDiscount: true,
+			isDefaultAmount: true,
+			isShowDialog: false,
+			ruleMsgStr: ""	
 		};
 	},
 	mounted() {
@@ -197,13 +230,57 @@ export default {
 
 			let _this = this;
 
-			this.common.getRechargeCoupon(postData).then(function(res) {
+			this.common.getRechargeCoupon(postData).then(res=> {
 				let list = res.data.canUseCouponList;
 
-				_.each(list, function(v, i) {
-					var money = list[i].amount.split(".");
-					list[i].bigNum = money[0];
-					list[i].smallNum = money[1];
+				_.each(list, (v, i)=> {
+					switch (list[i].type) {
+						case "1":
+							var money = list[i].showAmount.split(".");
+							list[i].bigNum = money[0];
+							list[i].smallNum = money[1];
+							break;
+						case "2":
+						console.log(parseInt(list[i].showAmount))
+							if (parseInt(list[i].showAmount) > 0) {
+								console.log('this==', this)
+								list[i].isDefaultDiscount = false;
+								var money = list[i].showAmount.split(".");
+								list[i].bigNum = money[0];
+								list[i].smallNum = money[1];
+							} else {
+								list[i].isDefaultDiscount = true;
+							}
+							if(list[i].period) {
+								var newPeriods = [];
+								var periods = list[i].period.split(",");
+								for(let j = 0; j < periods.length; j++) {
+									newPeriods.push(periods[j] + "期")
+								}
+								var newPeriodsStr = newPeriods.join("、");
+								list[i].periods = newPeriodsStr;
+							}
+							break;
+						case "3":
+							if (parseInt(list[i].showAmount) > 0) {
+								list[i].isDefaultAmount = false;
+								var money = list[i].showAmount.split(".");
+								list[i].bigNum = money[0];
+								list[i].smallNum = money[1];
+							} else {
+								list[i].isDefaultAmount = true;
+							}
+							if(list[i].period) {
+								var newPeriods = [];
+								var periods = list[i].period.split(",");
+								for(let j = 0; j < periods.length; j++) {
+									newPeriods.push(periods[j] + "期")
+								}
+								var newPeriodsStr = newPeriods.join("、");
+								list[i].periods = newPeriodsStr;
+							}
+							break;
+					}
 				});
 
 				_this.list = list;
@@ -228,27 +305,25 @@ export default {
 					this.unit = "元";
 					break;
 				case "2":
-					this.unit = "%";
+					this.unit = "折";
+					break;
+				case "3":
+					this.unit = "元";
 					break;
 			}
 			(this.couponPopupTitle =
-				data.amount + this.unit + data.couponRuleName),
+				data.showAmount + this.unit + data.couponRuleName),
 				(this.maxNum = parseInt(data.canUseMaxNum));
 			this.couponId = data.couponRuleId;
-			this.couponAmount = data.amount;
+			this.couponAmount = data.showAmount;
+			this.discountAmount = data.discountAmount;
+			this.couponType = data.type;
 		},
 		clickHelp(data) {
-			this.$vux.alert.show({
-				title: "活动规则",
-				content: data.ruleMsgStr,
-				onShow() {
-					console.log("活动规则alert，点击了确定！");
-				},
-				onHide() {
-					// console.log('Plugin: I\'m hiding now')
-				}
-			});
-		}
+      this.isShowDialog = true;
+      let reg = new RegExp("\n","g"); 
+      this.ruleMsgStr = data.ruleMsgStr.replace(reg,"<br>");
+    }
 	},
 	watch: {
 		couponNum(newValue, oldValue) {
@@ -292,7 +367,7 @@ export default {
 				min-height: calc(100% + 1px);
 				li {
 					width: 90%;
-					height: rem(83px);
+					//height: rem(83px);
 					margin: rem(10px) auto 0;
 					position: relative;
 					.help {
@@ -325,6 +400,10 @@ export default {
 								font-size: rem(20px);
 								font-style: inherit;
 							}
+							&.is-default-amount, &.is-default-discount {
+                margin-top: 0 !important;
+								height: 65% !important;
+              }
 						}
 						.coupon-tips {
 							width: 100%;
@@ -333,6 +412,14 @@ export default {
 							font-size: rem(12px);
 							clear: both;
 						}
+						&.special-coupon {
+              height: rem(99px);
+              background: url(./images/icon_coupon_special.png) no-repeat;
+              .coupon-price {
+                margin-top: rem(6px);
+                height: 60%;
+              }
+            }
 					}
 					.right-main {
 						width: 68%;
@@ -343,6 +430,16 @@ export default {
 							padding-left: rem(11px);
 							color: #999;
 							font-size: rem(10px);
+							em {
+								font-style: inherit;
+							}
+							&.period, &.date {
+                height: rem(16px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+								padding-right: rem(10px);
+              }
 						}
 						.title {
 							color: #333;
@@ -355,6 +452,12 @@ export default {
 								color: #999;
 							}
 						}
+						&.special-coupon-text {
+              height: rem(99px);
+              .title {
+                margin: rem(10px) 0 rem(4px);
+              }
+            }
 					}
 
 					.weui-loading {
@@ -403,52 +506,74 @@ export default {
 	}
 	.vux-popup-dialog {
 		background: #fff;
-	}
+		.weui-cell {
+			padding: 0;
+		}
 
-	.weui-cell {
-		padding: 0;
-	}
+		/deep/ .weui-cells:before,
+		/deep/ .weui-cells:after {
+			border: 0;
+		}
+		.vux-number-selector {
+			line-height: 0;
+		}
+		/deep/ .vux-number-round {
+			.vux-number-selector-sub {
+				width: rem(16px);
+				height: rem(16px);
+				border: 1px solid #ff7640;
+				svg {
+					width: 100%;
+					height: 100%;
+					fill: #ff7640;
+					top: 0px;
+				}
+				&.vux-number-disabled {
+					background: #ececec;
+					border-color: #ececec;
+					svg {
+						fill: #fff;
+					}
+				}
+			}
+			.vux-number-selector-plus {
+				width: rem(16px);
+				height: rem(16px);
+				border: 1px solid #ff7640;
+				background: #ff7640;
+				svg {
+					width: 100%;
+					height: 100%;
+					fill: #fff;
+				}
+				&.vux-number-disabled {
+					background: #ececec;
+					border-color: #ececec;
+					svg {
+						fill: #fff;
+					}
+				}
+			}
+		}
 
-	.weui-cells:before,
-	.weui-cells:after {
-		border: 0;
-	}
-	.vux-number-selector {
-		line-height: 0;
-	}
-	.vux-number-round .vux-number-selector-sub {
-		width: rem(16px);
-		height: rem(16px);
-		border: 1px solid #ff7640;
-		svg {
-			width: 100%;
-			height: 100%;
-			fill: #ff7640;
-			top: 0px;
+		/deep/ .weui-cells {
+			font-size: rem(15px);
 		}
 	}
-
-	.vux-number-round .vux-number-selector-plus {
-		width: rem(16px);
-		height: rem(16px);
-		border: 1px solid #ff7640;
-		background: #ff7640;
-		svg {
-			width: 100%;
-			height: 100%;
-			fill: #fff;
-		}
-	}
-
-	.vux-number-round .vux-number-selector-plus.vux-number-disabled {
-		background: #ececec;
-		svg {
-			fill: #fff;
-		}
-	}
-
-	.weui-cells {
-		font-size: rem(15px);
-	}
+	.vux-alert {
+    .weui-dialog__hd {
+			height: rem(32px);
+			line-height: rem(32px);
+			background: #ff7640;
+			color: #fff;
+			padding: .3em 1.6em;
+			font-size: 16px;
+    }
+    .weui-dialog__bd {
+			padding: .8em 1.6em;
+			text-align: left;
+			font-size: 14px;
+    }
+  }
 }
 </style>
