@@ -58,7 +58,7 @@
                 >（共{{ item.num }}张）</em>
               </span>
               <span class="explain">
-                可使用产品{{ item.industryName }}
+                可使用产品：{{ item.industryName }}
                 <em v-if="item.type === '1'">
                   ，可叠加使用{{
                   item.accumulationLimit
