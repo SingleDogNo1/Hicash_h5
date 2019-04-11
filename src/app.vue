@@ -481,4 +481,7 @@ body {
   color: #ff7640;
   letter-spacing: -0.36px;
 }
+.MyCoupon, .Coupon {
+  background-color: rgb(245, 245, 245);
+}
 </style>

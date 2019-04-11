@@ -334,7 +334,7 @@ export default {
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
 
 .Coupon {
@@ -505,52 +505,60 @@ export default {
 	}
 	.vux-popup-dialog {
 		background: #fff;
-	}
+		.weui-cell {
+			padding: 0;
+		}
 
-	.weui-cell {
-		padding: 0;
-	}
+		/deep/ .weui-cells:before,
+		/deep/ .weui-cells:after {
+			border: 0;
+		}
+		.vux-number-selector {
+			line-height: 0;
+		}
+		/deep/ .vux-number-round {
+			.vux-number-selector-sub {
+				width: rem(16px);
+				height: rem(16px);
+				border: 1px solid #ff7640;
+				svg {
+					width: 100%;
+					height: 100%;
+					fill: #ff7640;
+					top: 0px;
+				}
+				&.vux-number-disabled {
+					background: #ececec;
+					border-color: #ececec;
+					svg {
+						fill: #fff;
+					}
+				}
+			}
+			.vux-number-selector-plus {
+				width: rem(16px);
+				height: rem(16px);
+				border: 1px solid #ff7640;
+				background: #ff7640;
+				svg {
+					width: 100%;
+					height: 100%;
+					fill: #fff;
+				}
+				&.vux-number-disabled {
+					background: #ececec;
+					border-color: #ececec;
+					svg {
+						fill: #fff;
+					}
+				}
+			}
+		}
 
-	.weui-cells:before,
-	.weui-cells:after {
-		border: 0;
-	}
-	.vux-number-selector {
-		line-height: 0;
-	}
-	.vux-number-round .vux-number-selector-sub {
-		width: rem(16px);
-		height: rem(16px);
-		border: 1px solid #ff7640;
-		svg {
-			width: 100%;
-			height: 100%;
-			fill: #ff7640;
-			top: 0px;
+		/deep/ .weui-cells {
+			font-size: rem(15px);
 		}
 	}
 
-	.vux-number-round .vux-number-selector-plus {
-		width: rem(16px);
-		height: rem(16px);
-		border: 1px solid #ff7640;
-		background: #ff7640;
-		svg {
-			width: 100%;
-			height: 100%;
-			fill: #fff;
-		}
-	}
-
-	.vux-number-round .vux-number-selector-plus.vux-number-disabled {
-		background: #ececec;
-		svg {
-			fill: #fff;
-		}
-	}
-
-	.weui-cells {
-		font-size: rem(15px);
-	}
 }
 </style>

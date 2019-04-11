@@ -352,7 +352,7 @@ export default {
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
 
 .MyCoupon {
@@ -395,8 +395,9 @@ export default {
     }
     .vux-tab .vux-tab-item.vux-tab-selected {
       color: #ff7640;
+      border-bottom: #ff7640;
     }
-    .vux-tab-bar-inner {
+    /deep/ .vux-tab-bar-inner {
       border: 1px solid #ff7640;
     }
     .wrapper {
