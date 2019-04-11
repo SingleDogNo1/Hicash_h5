@@ -65,7 +65,7 @@
                   }}次
                 </em>
               </span>
-              <span v-if="item.type !== '1'">
+              <span class="min-use-amount" v-if="item.type !== '1'">
                 使用额度：限借款{{ item.minUseAmount }}元以上方可使用
               </span>
               <span class="date">
@@ -515,7 +515,9 @@ export default {
             }
             .title,
             .explain,
-            .data {
+            .date,
+            .min-use-amount,
+            .period {
               color: #ccc;
               em {
                 color: #ccc;
