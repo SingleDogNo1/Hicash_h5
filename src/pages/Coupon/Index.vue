@@ -111,6 +111,7 @@
 				>
 			</div>
 		</popup>
+		<alert v-model="isShowDialog" title="活动规则" :content="ruleMsgStr" class="confirmDialog"></alert>
 	</div>
 </template>
 <script type="text/javascript">
@@ -122,7 +123,8 @@ import {
 	InlineLoading,
 	Popup,
 	XNumber,
-	Group
+	Group,
+	Alert
 } from "vux";
 import BScroll from "better-scroll";
 export default {
@@ -134,7 +136,8 @@ export default {
 		InlineLoading,
 		Popup,
 		XNumber,
-		Group
+		Group,
+		Alert
 	},
 	data() {
 		return {
@@ -160,7 +163,9 @@ export default {
 			discountAmount: "",
 			couponType: "",
 			isDefaultDiscount: true,
-      isDefaultAmount: true
+			isDefaultAmount: true,
+			isShowDialog: false,
+			ruleMsgStr: ""	
 		};
 	},
 	mounted() {
@@ -315,15 +320,10 @@ export default {
 			this.couponType = data.type;
 		},
 		clickHelp(data) {
-			this.$vux.alert.show({
-				title: "活动规则",
-				content: data.ruleMsgStr,
-				onShow() {
-				},
-				onHide() {
-				}
-			});
-		}
+      this.isShowDialog = true;
+      let reg = new RegExp("\n","g"); 
+      this.ruleMsgStr = data.ruleMsgStr.replace(reg,"<br>");
+    }
 	},
 	watch: {
 		couponNum(newValue, oldValue) {
@@ -335,7 +335,7 @@ export default {
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" rel="stylesheet/scss">
 @import "~bowerComponents/sass-rem/_rem.scss";
 
 .Coupon {
@@ -560,6 +560,13 @@ export default {
 			font-size: rem(15px);
 		}
 	}
-
+	.vux-alert {
+    .weui-dialog__hd {
+      padding: .5em 1.6em;
+    }
+    .weui-dialog__bd {
+      text-align: left;
+    }
+  }
 }
 </style>

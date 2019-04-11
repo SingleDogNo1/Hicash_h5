@@ -86,10 +86,11 @@
         </ul>
       </div>
     </div>
+    <alert v-model="isShowDialog" title="活动规则" class="confirmDialog"><p v-html="ruleMsgStr"></p></alert>
   </div>
 </template>
 <script type="text/javascript">
-import { Tab, TabItem, Flexbox, FlexboxItem, InlineLoading } from "vux";
+import { Tab, TabItem, Flexbox, FlexboxItem, InlineLoading, Alert } from "vux";
 import BScroll from "better-scroll";
 export default {
   components: {
@@ -97,7 +98,8 @@ export default {
     TabItem,
     Flexbox,
     FlexboxItem,
-    InlineLoading
+    InlineLoading,
+    Alert,
   },
   data() {
     return {
@@ -108,7 +110,9 @@ export default {
       refreshText: "下拉刷新",
       isShowHead: true,
       isDefaultDiscount: true,
-      isDefaultAmount: true
+      isDefaultAmount: true,
+      isShowDialog: false,
+		  ruleMsgStr: ""	
     };
   },
   mounted() {
@@ -337,22 +341,15 @@ export default {
       });
     },
     clickHelp(data) {
-      this.$vux.alert.show({
-        title: "活动规则",
-        content: data.ruleMsgStr,
-        onShow() {
-          console.log("活动规则alert，点击了确定！");
-        },
-        onHide() {
-          // console.log('Plugin: I\'m hiding now')
-        }
-      });
+      this.isShowDialog = true;
+      let reg = new RegExp("\n","g"); 
+      this.ruleMsgStr = data.ruleMsgStr.replace(reg,"<br>");
     }
   }
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" rel="stylesheet/scss">
 @import "~bowerComponents/sass-rem/_rem.scss";
 
 .MyCoupon {
@@ -635,6 +632,14 @@ export default {
 
   .weui-dialog {
     background: #fff !important;
+  }
+  .vux-alert {
+    .weui-dialog__hd {
+      padding: .5em 1.6em;
+    }
+    .weui-dialog__bd {
+      text-align: left;
+    }
   }
 }
 </style>
