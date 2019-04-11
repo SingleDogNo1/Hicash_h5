@@ -471,13 +471,12 @@ export default {
 					background: #fff;
 					border-top: 1px solid #ccc;
 					font-size: rem(14px);
-					color: #ccc;
+					color: #A28462;
 					
 				}
 				&:first-child input{
 					width: calc(50% - 1px);
 					border-right: 1px solid #ccc;
-					color: #A28462;
 				}
 			}
 			input.w100{
