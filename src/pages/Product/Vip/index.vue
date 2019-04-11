@@ -84,7 +84,7 @@ export default {
 			repayProgramData: {},
 			currentIndex: 0,
 			isVip: 0,
-			kyAmount: 0,
+			kyAmount: '',
 			loanProduct: '',
 			loanPayData: {},
 			realName: unescape(this.utils.getCookie("realName")),
