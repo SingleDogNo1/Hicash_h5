@@ -1254,7 +1254,7 @@ export default {
 				// do nothing
 			} else {
 				this.onFetching = true;
-
+				this.banRechecked = false;
 				this.getListData(this.checkerType);
 			}
 		},
