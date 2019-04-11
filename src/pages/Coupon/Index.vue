@@ -23,16 +23,16 @@
 							<span class="coupon-price left" v-if="item.type === '1'">
                 <em>{{ item.bigNum}}</em><em>.{{ item.smallNum }}元</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '2' && !isDefaultDiscount">
+              <span class="coupon-price left" v-if="item.type === '2' && !item.isDefaultDiscount">
                 {{ item.bigNum}}.{{ item.smallNum }}<em>折</em>
               </span>
-              <span class="coupon-price left is-default-discount" v-if="item.type === '2' && isDefaultDiscount">
-                <em>0折起</em>
+              <span class="coupon-price left is-default-discount" v-if="item.type === '2' && item.isDefaultDiscount">
+                0<em>折起</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '3' && !isDefaultAmount">
+              <span class="coupon-price left" v-if="item.type === '3' && !item.isDefaultAmount">
                 {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
-              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && isDefaultAmount">
+              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && item.isDefaultAmount">
                 <em>最高200元</em>
               </span>
 							<span class="coupon-tips">还款时使用</span>
@@ -236,14 +236,15 @@ export default {
 							list[i].smallNum = money[1];
 							break;
 						case "2":
+						console.log(parseInt(list[i].showAmount))
 							if (parseInt(list[i].showAmount) > 0) {
 								console.log('this==', this)
-								this.isDefaultDiscount = false;
+								list[i].isDefaultDiscount = false;
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
 								list[i].smallNum = money[1];
 							} else {
-								this.isDefaultDiscount = true;
+								list[i].isDefaultDiscount = true;
 							}
 							if(list[i].period) {
 								var newPeriods = [];
@@ -257,12 +258,12 @@ export default {
 							break;
 						case "3":
 							if (parseInt(list[i].showAmount) > 0) {
-								this.isDefaultAmount = false;
+								list[i].isDefaultAmount = false;
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
 								list[i].smallNum = money[1];
 							} else {
-								this.isDefaultAmount = true;
+								list[i].isDefaultAmount = true;
 							}
 							if(list[i].period) {
 								var newPeriods = [];

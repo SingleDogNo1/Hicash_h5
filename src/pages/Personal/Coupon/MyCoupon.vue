@@ -36,16 +36,16 @@
               <span class="coupon-price left" v-if="item.type === '1'">
                 {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '2' && !isDefaultDiscount">
+              <span class="coupon-price left" v-if="item.type === '2' && !item.isDefaultDiscount">
                 {{ item.bigNum}}.{{ item.smallNum }}<em>折</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '2' && isDefaultDiscount">
+              <span class="coupon-price left" v-if="item.type === '2' && item.isDefaultDiscount">
                 0<em>折起</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '3' && !isDefaultAmount">
+              <span class="coupon-price left" v-if="item.type === '3' && !item.isDefaultAmount">
                 {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
               </span>
-              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && isDefaultAmount">
+              <span class="coupon-price left is-default-amount" v-if="item.type === '3' && item.isDefaultAmount">
                 <em>200元最高</em>
               </span>
               <span class="coupon-tips">还款时使用</span>
@@ -183,12 +183,12 @@ export default {
               case "2":
               console.log(parseInt(list.canUseCouponList[i].showAmount))
                 if (parseInt(list.canUseCouponList[i].showAmount) > 0) {
-                  this.isDefaultDiscount = false;
+                  list.canUseCouponList[i].isDefaultDiscount = false;
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
                   list.canUseCouponList[i].smallNum = money[1];
                 } else {
-                  this.isDefaultDiscount = true;
+                  list.canUseCouponList[i].isDefaultDiscount = true;
                 }
                 if(list.canUseCouponList[i].period) {
                   var newPeriods = [];
@@ -202,12 +202,12 @@ export default {
                 break;
               case "3":
                 if (parseInt(list.canUseCouponList[i].showAmount) > 0) {
-                  this.isDefaultAmount = false;
+                  list.canUseCouponList[i].isDefaultAmount = false;
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
                   list.canUseCouponList[i].smallNum = money[1];
                 } else {
-                  this.isDefaultAmount = true;
+                  list.canUseCouponList[i].isDefaultAmount = true;
                 }
                 if(list.canUseCouponList[i].period) {
                   var newPeriods = [];
@@ -233,12 +233,12 @@ export default {
                 break;
               case "2":
                 if (parseInt(list.expiredCouponList[i].showAmount) > 0) {
-                  this.isDefaultDiscount = false;
+                  list.expiredCouponList[i].isDefaultDiscount = false;
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
                   list.expiredCouponList[i].smallNum = money[1];
                 } else {
-                  this.isDefaultDiscount = true;
+                  list.expiredCouponList[i].isDefaultDiscount = true;
                 }
                 if(list.expiredCouponList[i].period) {
                   var newPeriods = [];
@@ -252,12 +252,12 @@ export default {
                 break;
               case "3":
                 if (parseInt(list.expiredCouponList[i].showAmount) > 0) {
-                  this.isDefaultAmount = false;
+                  list.expiredCouponList[i].isDefaultAmount = false;
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
                   list.expiredCouponList[i].smallNum = money[1];
                 } else {
-                  this.isDefaultAmount = true;
+                  list.expiredCouponList[i].isDefaultAmount = true;
                 }
                 if(list.expiredCouponList[i].period) {
                   var newPeriods = [];
@@ -283,12 +283,12 @@ export default {
                 break;
               case "2":
                 if (parseInt(list.usedCouponList[i].showAmount) > 0) {
-                  this.isDefaultDiscount = false;
+                  list.usedCouponList[i].isDefaultDiscount = false;
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
                   list.usedCouponList[i].smallNum = money[1];
                 } else {
-                  this.isDefaultDiscount = true;
+                  list.usedCouponList[i].isDefaultDiscount = true;
                 }
                 if(list.usedCouponList[i].period) {
                   var newPeriods = [];
@@ -302,12 +302,12 @@ export default {
                 break;
               case "3":
                 if (parseInt(list.usedCouponList[i].showAmount) > 0) {
-                  this.isDefaultAmount = false;
+                  list.usedCouponList[i].isDefaultAmount = false;
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
                   list.usedCouponList[i].smallNum = money[1];
                 } else {
-                  this.isDefaultAmount = true;
+                  list.usedCouponList[i].isDefaultAmount = true;
                 }
                 if(list.usedCouponList[i].period) {
                   var newPeriods = [];
