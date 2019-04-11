@@ -365,7 +365,7 @@
   }
   .confirmDialog {
     .weui-dialog {
-      width: rem(270px);
+      width: 100%;
       .weui-dialog__hd {
         padding: 0;
         width: 100%;
@@ -412,7 +412,7 @@
   }
   .alertDialog {
     .weui-dialog {
-      max-width: 100%;
+      max-width: 100% !important;
       .weui-dialog__hd {
         padding: 0;
         width: 100%;
