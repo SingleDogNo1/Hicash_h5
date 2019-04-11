@@ -236,6 +236,12 @@ export default {
 			});
 		},
 		submit(){
+			// isVIP:1 && NORMAL && isCredit != 0 正常VIP   NewHicashService/UserInfo-> checkSupport（isCredit==1 不走全流程） ->  HicashService/FastLoanFirst ->进流程
+			// isVIP:1 && NORMAL && isCredit == 0 准VIP逻辑 先弹窗（一个按钮）-> checkSupport（isCredit==1 不走全流程） ->  HicashService/FastLoanFirst ->进流程
+			// isVIP:1 && FREEZE 弹新的提示窗口 （两个按钮 首页|充值还款）->  NewHicashService/navigateToRecharge
+			// isVIP:1 && CANCEL 这人不是VIP，不能申请
+			// isVIP != 1 不是VIP 不能申请
+
 			if(this.isVip && this.repayProgramData.status == 'NOML' && this.repayProgramData.iscredit != '0'){
 				//正常VIP
 				this.$vux.loading.show({

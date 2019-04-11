@@ -672,8 +672,7 @@ export default {
 								return false;
 							}
 							if (data.isVip && !localStorage.getItem('firstJumpVip')) {
-								window.location.href =
-									MWEB_PATH + "newweb/product/vipdai.html";
+								this.$router.push({name: 'VipDai'});
 								
 								return false;
 							}
