@@ -25,15 +25,17 @@
   color: #fff !important;
 }
 .weui-dialog__bd {
-  padding: 0 !important;
-  width: 100%;
+  // padding: 0 !important;
+  // width: 100%;
+  line-height: 1.6;
   min-height: 40px;
   font-family: PingFangSC-Regular;
   font-size: 13px !important;
   color: #333 !important;
   letter-spacing: -0.08px;
   text-align: center;
-  padding-top: 39px !important;
+  //padding-top: 39px !important;
+  padding: 1.2em 1.6em;
 }
 .weui-dialog__ft {
   position: relative;
