@@ -35,7 +35,7 @@
   letter-spacing: -0.08px;
   text-align: center;
   //padding-top: 39px !important;
-  padding: 1.2em 1.6em !important;
+  padding: 1.2em 1.6em !important;
 }
 .weui-dialog__ft {
   position: relative;
