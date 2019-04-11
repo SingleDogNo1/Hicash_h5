@@ -87,7 +87,7 @@ export default {
 			kyAmount: 0,
 			loanProduct: '',
 			loanPayData: {},
-			realName: this.utils.getCookie('realName'),
+			realName: unescape(this.utils.getCookie("realName")),
 			isShowVipMask: false,
 			isNoVip: false,
 			isZhunVip: false,

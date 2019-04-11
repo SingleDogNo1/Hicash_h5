@@ -406,7 +406,7 @@ export default {
 	}, //mobile.length>10?mobile.substring(0,3)+"****"+mobile.substring(7,11):mobile
 	data() {
 		return {
-			realName: this.utils.getCookie("realName"),
+			realName: unescape(this.utils.getCookie("realName")),
 			userMobile:
 				this.utils.getCookie("mobile").substring(0, 4) +
 				"****" +
