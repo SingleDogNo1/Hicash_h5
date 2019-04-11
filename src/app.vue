@@ -125,7 +125,7 @@ export default {
     this.$router.beforeEach((to, from, next) => {
       this.getCreditResult(); //拉取征信报告
 
-      window.scrollTo(0,0);
+      document.body.scrollTop = 0;
 
       this.path = to.name;
       if (to.meta.title) {
@@ -148,7 +148,7 @@ export default {
 				}
 			} else {
 				next();
-			}
+      }
     });
     
     //这里监听键盘收起，然后滚动顶部
