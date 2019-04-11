@@ -501,6 +501,7 @@ export default {
 		}
 	},
 	mounted() {
+		document.body.scrollTop = 0;
 		let getAccountInfoDatas = {
 			userName: this.utils.getCookie("userName"),
 			curPage: 1,
@@ -526,6 +527,8 @@ export default {
 		if (isHaveUnreadCoupon > 0) {
 			this.newCoupon = true;
 		}
+
+		
 	}
 };
 </script>
