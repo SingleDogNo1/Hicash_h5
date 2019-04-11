@@ -151,7 +151,6 @@ export default {
     onItemClick: function(type) {
       this.subType = type;
       this.scroll.scrollTo(0, 0);
-      console.info(type);
       // this.getCustHicashCoupon();
     },
     getCustHicashCoupon: function() {
@@ -185,7 +184,6 @@ export default {
                 list.canUseCouponList[i].smallNum = money[1];
                 break;
               case "2":
-              console.log(parseInt(list.canUseCouponList[i].showAmount))
                 if (parseInt(list.canUseCouponList[i].showAmount) > 0) {
                   list.canUseCouponList[i].isDefaultDiscount = false;
                   var money = list.canUseCouponList[i].showAmount.split(".");
