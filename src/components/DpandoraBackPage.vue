@@ -115,7 +115,7 @@ export default {
     let flag = true;
     let industryCode = utils.getCookie("industryCode");
     let userName = utils.getCookie("userName");
-    if (industryCode == "MDCP" || industryCode == "LDDD") {
+    if (industryCode == "MDCP" || industryCode == "LDDD" || industryCode == "VIPD") {
       //用户正在申请嗨秒贷产品
       let creditItems = utils.getCookie("creditItems");
       creditItems = JSON.parse(creditItems);
