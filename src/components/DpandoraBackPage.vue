@@ -13,69 +13,35 @@
     <Confirm
       v-model="isShowDialog"
       :title="dialogTitle"
-      :content="cancleMsg"
       :confirm-text="confirmText"
       :cancel-text="cancelText"
       class="confirmDialog"
       @on-confirm="onConfirm"
       @on-cancel="onCancel"
 		>
-		<div class="dialog-content">视频校验失败！</div>
+		<div class="dialog-content">{{ cancleMsg }}</div>
 		</Confirm>
   </div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
-// .DpandoraBackPage {
-//   .weui-dialog__hd {
-//     padding: 0 !important;
-//     width: 100%;
-//     height: 48px !important;
-//     line-height: 40px;
-//     background: #ff7640 !important;
-//     border-radius: 5px 5px 0 0;
-//     color: #fff !important;
-//   }
-//   .weui-dialog__bd {
-//     padding: 0 !important;
-//     width: 100%;
-//     min-height: 40px;
-//     font-family: PingFangSC-Regular;
-//     font-size: 13px !important;
-//     color: #333 !important;
-//     letter-spacing: -0.08px;
-//     text-align: center;
-//     padding-top: 39px !important;
-//   }
-//   .weui-dialog__ft {
-//     position: relative;
-//     line-height: 48px;
-//     font-size: 17px !important;
-//     display: -ms-flexbox;
-//     display: flex;
-//     .weui-dialog__btn_default {
-//       color: #353535 !important;
-//     }
-//     .weui-dialog__btn_primary {
-//       color: #ff7640 !important;
-//     }
-//   }
-//   .skip {
-//     width: 100%;
-//     background: #eee !important;
-//     line-height: 2rem;
-//     text-align: right;
-//     .skipBtn {
-//       font-size: 0.6rem;
-//       color: #000 !important;
-//       border: 1px solid #000 !important;
-//       padding: 0.1rem 0.4rem;
-//       border-radius: 4px;
-//       margin-right: 0.5rem;
-//     }
-//   }
-// }
+.DpandoraBackPage {
+  .skip {
+    width: 100%;
+    background: #eee !important;
+    line-height: 2rem;
+    text-align: right;
+    .skipBtn {
+      font-size: 0.6rem;
+      color: #000 !important;
+      border: 1px solid #000 !important;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+    }
+   }
+ }
 </style>
 
 <script type="text/javascript">
@@ -96,7 +62,7 @@ export default {
       skipFlag: false,
       isShowDialog: false,
       cancleMsg: "",
-      title: "提示",
+      dialogTitle: "提示",
       confirmText: "取消",
       cancelText: "确定",
     };

@@ -365,7 +365,7 @@
   }
   .confirmDialog {
     .weui-dialog {
-      width: 100%;
+      width: 100% !important;
       .weui-dialog__hd {
         padding: 0;
         width: 100%;
