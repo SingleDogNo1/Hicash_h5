@@ -562,15 +562,17 @@ export default {
 	}
 	.vux-alert {
     .weui-dialog__hd {
-			height: rem(30px);
-			line-height: rem(30px);
+			height: rem(32px);
+			line-height: rem(32px);
 			background: #ff7640;
 			color: #fff;
-      padding: .3em 1.6em;
+			padding: .3em 1.6em;
+			font-size: 16px;
     }
     .weui-dialog__bd {
 			padding: .8em 1.6em;
-      text-align: left;
+			text-align: left;
+			font-size: 14px;
     }
   }
 }
