@@ -1113,6 +1113,7 @@ export default {
 		},
 		// ! 展开还款计划
 		openAll(item, index) {
+			this.banRechecked = false;
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
 			setTimeout(() => {
