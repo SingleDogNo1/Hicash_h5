@@ -10,58 +10,55 @@
       frameborder="0"
       target="#dpandoraUrl2"
     ></iframe>
+    <Confirm
+      v-model="isShowDialog"
+      :title="dialogTitle"
+      :confirm-text="confirmText"
+      :cancel-text="cancelText"
+      class="confirmDialog"
+      @on-confirm="onConfirm"
+      @on-cancel="onCancel"
+		>
+		<div class="dialog-content">{{ cancleMsg }}</div>
+		</Confirm>
   </div>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
-.weui-dialog__hd {
-  padding: 0 !important;
-  width: 100%;
-  height: 48px !important;
-  line-height: 40px;
-  background: #ff7640 !important;
-  border-radius: 5px 5px 0 0;
-  color: #fff !important;
-}
-.weui-dialog__bd {
-  padding: 0 !important;
-  width: 100%;
-  min-height: 40px;
-  font-family: PingFangSC-Regular;
-  font-size: 13px !important;
-  color: #333 !important;
-  letter-spacing: -0.08px;
-  text-align: center;
-  padding-top: 39px !important;
-}
-.weui-dialog__ft {
-  position: relative;
-  line-height: 48px;
-  font-size: 17px !important;
-  display: -ms-flexbox;
-  display: flex;
+.DpandoraBackPage {
+  .weui-dialog__hd {
+    padding: 0.3em 1.6em 0.5em 1.6rem;
+    background: #ff7640;
+  }
+  .weui-dialog__bd {
+    padding: 1.5rem 0.8rem 1.6rem 0.8rem;
+    min-height: 40px;
+    font-size: 15px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    word-break: break-all;
+    color: #999;
+  }
   .weui-dialog__btn_default {
-    color: #353535 !important;
+    color: #353535;
+    font-size: 15px;
   }
-  .weui-dialog__btn_primary {
-    color: #ff7640 !important;
-  }
-}
-.skip {
-  width: 100%;
-  background: #eee !important;
-  line-height: 2rem;
-  text-align: right;
-  .skipBtn {
-    font-size: 0.6rem;
-    color: #000 !important;
-    border: 1px solid #000 !important;
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    margin-right: 0.5rem;
-  }
-}
+  .skip {
+    width: 100%;
+    background: #eee !important;
+    line-height: 2rem;
+    text-align: right;
+    .skipBtn {
+      font-size: 0.6rem;
+      color: #000 !important;
+      border: 1px solid #000 !important;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+    }
+   }
+ }
 </style>
 
 <script type="text/javascript">
@@ -80,7 +77,11 @@ export default {
       dpandoraUrl: "",
       show: false,
       skipFlag: false,
-      cancleMsg: ""
+      isShowDialog: false,
+      cancleMsg: "",
+      dialogTitle: "提示",
+      confirmText: "取消",
+      cancelText: "确定",
     };
   },
   ready() {},
@@ -89,21 +90,23 @@ export default {
     close() {},
     btnNext() {},
     skip() {
-      var _this = this;
-      _this.$vux.confirm.show({
-        title: "提示",
-        confirmText: "取消",
-        cancelText: "确定",
-        content: _this.cancleMsg,
+      this.isShowDialog = true;
+        
         // 组件除show外的属性
-        onConfirm() {
-          _this.$vux.confirm.hide();
-        },
-        onCancel() {
-          window.location.href =
-            _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
-        }
-      });
+        // onConfirm() {
+        //   _this.$vux.confirm.hide();
+        // },
+        // onCancel() {
+        //   window.location.href =
+        //     _this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
+        // }
+      // });
+    },
+    onConfirm() {
+      this.isShowDialog = false;
+    },
+    onCancel() {
+      window.location.href = this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
     }
   },
   mounted: function() {
