@@ -739,6 +739,9 @@ export default {
     if (isiOS) {
 　　　　_this.iosIsShow = true;
     }
+    if(this.$route.query.lkyx){
+      window.gio('page.set', 'lkyx', this.$route.query.lkyx);  
+    }
   }
 };
 </script>
