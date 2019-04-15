@@ -83,9 +83,10 @@ export default {
 			this.personCenterDotShow = true;
 		}
 
-		if(this.creditShowWriteList.indexOf(this.mediasource) > -1){
-			this.isShowCredit = true;
-		}
+		// 暂时隐藏征信页面
+		// if(this.creditShowWriteList.indexOf(this.mediasource) > -1){
+		// 	this.isShowCredit = true;
+		// }
 
 		let postData = new URLSearchParams();
 			postData.append("comeFrom", 'H5');
