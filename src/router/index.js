@@ -70,7 +70,7 @@ export default new Router({
 			//征信
 			path: "/inquiry",
 			name: "Inquiry",
-			component: Inquiry,
+			component: Home,
 			meta: { title: "征信" }
 
 		},
