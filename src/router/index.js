@@ -65,14 +65,14 @@ export default new Router({
 			component: MiaoDai,
 			meta: { title: '嗨秒分期' }
 		},
-		{
-			//征信
-			path: "/inquiry",
-			name: "Inquiry",
-			component: Home,
-			meta: { title: "征信" }
+		// {
+		// 	//征信
+		// 	path: "/inquiry",
+		// 	name: "Inquiry",
+		// 	component: Inquiry,
+		// 	meta: { title: "征信" }
 
-		},
+		// },
 		{
 			//身份认证
 			path: '/identityAuth',
