@@ -10,6 +10,7 @@
 					type="tel"
 					:max="4"
 					autocomplete="off"
+					ref="imgCodeRef"
 				>
 					<img
 						slot="right-full-height"
@@ -180,11 +181,17 @@ export default {
 			});
 		}
 	},
-	mounted: function() {},
+	mounted: function() {
+	},
 	watch: {
 		showToast: function(val, oldVal) {
 			this.showToast1 = val;
 			this.imgCode = "";
+			if(val){
+				this.$nextTick(function(){
+					this.$refs.imgCodeRef.focus();
+				})
+			}
 		},
 		authPic: function(val, oldVal) {
 			this.newAuthPic = val;
