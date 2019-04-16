@@ -333,6 +333,8 @@ export default {
 			index === 0 ? (this.type = "message") : (this.type = "password");
 		},
 		checkResultBaiQiShi() {
+			this.showToast = true;
+			return false;
 			if (this.type == "message") {
 				var errorMsg = "";
 				if (this.mobile == "") {
