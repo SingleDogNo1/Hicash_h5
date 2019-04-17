@@ -84,6 +84,7 @@
 				/>
 			</cell>
 		</group>
+		<a href='javascript:;' onclick='easemobim.bind({configId: "304fe7b6-3046-416b-b169-0398f647b90e"})'>快联系我</a>
 
 		<page-footer></page-footer>
 	</div>
