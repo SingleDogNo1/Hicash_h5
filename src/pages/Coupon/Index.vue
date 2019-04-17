@@ -238,7 +238,7 @@ export default {
 							list[i].smallNum = money[1];
 							break;
 						case "2":
-							if (parseInt(list[i].showAmount) > 0) {
+							if (parseFloat(list[i].showAmount) > 0) {
 								list[i].isDefaultDiscount = false;
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
@@ -257,7 +257,7 @@ export default {
 							}
 							break;
 						case "3":
-							if (parseInt(list[i].showAmount) > 0) {
+							if (parseFloat(list[i].showAmount) > 0) {
 								list[i].isDefaultAmount = false;
 								var money = list[i].showAmount.split(".");
 								list[i].bigNum = money[0];
