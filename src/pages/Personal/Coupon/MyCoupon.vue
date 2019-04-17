@@ -184,7 +184,7 @@ export default {
                 list.canUseCouponList[i].smallNum = money[1];
                 break;
               case "2":
-                if (parseInt(list.canUseCouponList[i].showAmount) > 0) {
+                if (parseFloat(list.canUseCouponList[i].showAmount) > 0) {
                   list.canUseCouponList[i].isDefaultDiscount = false;
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
@@ -203,7 +203,7 @@ export default {
                 }
                 break;
               case "3":
-                if (parseInt(list.canUseCouponList[i].showAmount) > 0) {
+                if (parseFloat(list.canUseCouponList[i].showAmount) > 0) {
                   list.canUseCouponList[i].isDefaultAmount = false;
                   var money = list.canUseCouponList[i].showAmount.split(".");
                   list.canUseCouponList[i].bigNum = money[0];
@@ -234,7 +234,7 @@ export default {
                 list.expiredCouponList[i].smallNum = money[1];
                 break;
               case "2":
-                if (parseInt(list.expiredCouponList[i].showAmount) > 0) {
+                if (parseFloat(list.expiredCouponList[i].showAmount) > 0) {
                   list.expiredCouponList[i].isDefaultDiscount = false;
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
@@ -253,7 +253,7 @@ export default {
                 }
                 break;
               case "3":
-                if (parseInt(list.expiredCouponList[i].showAmount) > 0) {
+                if (parseFloat(list.expiredCouponList[i].showAmount) > 0) {
                   list.expiredCouponList[i].isDefaultAmount = false;
                   var money = list.expiredCouponList[i].showAmount.split(".");
                   list.expiredCouponList[i].bigNum = money[0];
@@ -284,7 +284,7 @@ export default {
                 list.usedCouponList[i].smallNum = money[1];
                 break;
               case "2":
-                if (parseInt(list.usedCouponList[i].showAmount) > 0) {
+                if (parseFloat(list.usedCouponList[i].showAmount) > 0) {
                   list.usedCouponList[i].isDefaultDiscount = false;
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
@@ -303,7 +303,7 @@ export default {
                 }
                 break;
               case "3":
-                if (parseInt(list.usedCouponList[i].showAmount) > 0) {
+                if (parseFloat(list.usedCouponList[i].showAmount) > 0) {
                   list.usedCouponList[i].isDefaultAmount = false;
                   var money = list.usedCouponList[i].showAmount.split(".");
                   list.usedCouponList[i].bigNum = money[0];
