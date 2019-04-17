@@ -33,8 +33,13 @@
             :key="index"
           >
             <div class="left-main left" :class="{'special-coupon': item.type === '2'|| item.type === '3'}">
-              <span class="coupon-price left" v-if="item.type === '1'">
-                {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
+              <span class="coupon-price left" v-if="item.type === '1'" :style="{ 'height': item.bigNum.length > 2 ? '58%' : '70%'}">
+                <span v-if="item.bigNum.length > 2" style="margin-top:-8px">
+                  <em>{{ item.bigNum }}</em><em>.{{ item.smallNum }}元</em>
+                </span>
+                <span v-else >
+                  {{ item.bigNum }}<em>.{{ item.smallNum }}元</em>
+                </span>
               </span>
               <span class="coupon-price left" v-if="item.type === '2' && !item.isDefaultDiscount">
                 {{ item.bigNum}}.{{ item.smallNum }}<em>折</em>
@@ -42,8 +47,13 @@
               <span class="coupon-price left" v-if="item.type === '2' && item.isDefaultDiscount">
                 0<em>折起</em>
               </span>
-              <span class="coupon-price left" v-if="item.type === '3' && !item.isDefaultAmount">
-                {{ item.bigNum}}<em>.{{ item.smallNum }}元</em>
+              <span class="coupon-price left" v-if="item.type === '3' && !item.isDefaultAmount" :style="{ 'height': item.bigNum.length > 2 ? '52%' : '60%'}">
+                <span v-if="item.bigNum.length > 2" style="margin-top:-7px">
+                  <em>{{ item.bigNum }}</em><em>.{{ item.smallNum }}元</em>
+                </span>
+                <span v-else >
+                  {{ item.bigNum }}<em>.{{ item.smallNum }}元</em>
+                </span>
               </span>
               <span class="coupon-price left is-default-amount" v-if="item.type === '3' && item.isDefaultAmount">
                 <em>200元最高</em>
