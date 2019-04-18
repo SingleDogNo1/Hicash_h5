@@ -114,7 +114,7 @@
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
 
-    <div class="icon-customer-service" :class="{ 'on': customerServiceShow, 'close' : !customerServiceShow}">客服</div>
+    <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}">客服</div>
     <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
@@ -123,6 +123,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 @import "../../bower_components/sass-rem/rem";
+@import "../assets/css/animate.min.css";
 body {
   background: #f2f2f2 !important;
 }
@@ -405,12 +406,9 @@ body {
     bottom: 10%;
     z-index: 999;
     right: -99999px;
-    transition: all .5s ease-in;
-    &.on {
+    //transition: all .5s ease-in;
+    &.fadeInRight, &.fadeOutRight {
       right: 10px;
-    }
-    &.close {
-      right: -99999px;
     }
   }
   .weui-dialog {
@@ -457,9 +455,6 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         margin: -1px 1px;
-      }
-      .ios_tip {
-
       }
       .android_tip {
         margin-top: 1rem;
@@ -690,6 +685,13 @@ export default {
     closeAlertDiv: function() {
       this.shortcutPopup = false;
       console.info("222222")
+    },
+    toCustomerService: function() {
+      let userName = this.utils.getCookie("userName");
+      console.log(1111)
+      if(!userName) this.$router.push({ name: "Login"}); return;
+      let hxuserName = this.utils.getCookie("hxuserName");
+      console.log('hxuserName===', hxuserName)
     }
   },
   mounted: function() {

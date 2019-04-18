@@ -569,6 +569,7 @@ export default {
 						"isHaveUnreadCoupon",
 						data.isHaveUnreadCoupon
 					);
+					this.utils.setCookie("hxuserName", data.hxuserName);
 
 					const MWEB_PATH = this.config.MWEB_PATH;
 
