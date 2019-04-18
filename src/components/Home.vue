@@ -1,5 +1,5 @@
 <template>
-  <div @click="closeMsg">
+  <div @click="closeMsg" @touchmove="touchmove" @touchstart="touchstart">
     <header class="home-header">
       <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
       <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div>
@@ -698,7 +698,7 @@ export default {
     //   }
     // },
     touchstart: function(e) {
-      e.stopPropagation();
+      e.stopPropagation();pageYOffset
       this.startY = e.changedTouches[0].pageY;
     },
     touchmove: function(e) {
