@@ -1,6 +1,8 @@
 <template>
-  <div @click="closeMsg" @touchmove="touchmove($event)" @touchstart="touchstart($event)">
+  <div @click="closeMsg">
     <header class="home-header">
+      <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
+      <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div>
       <div class="bg" :style="'opacity:' + opacity"></div>
       <div class="title" :style="'opacity:' + opacity">嗨钱</div>
       <router-link :to="{ name: 'notice' }">
@@ -110,9 +112,9 @@
       </div>
     </alert>
 
-    <div @touchmove="drag($event)" class="drag" @click.stop="shortcutPopup=true">
+    <!-- <div @touchmove="drag($event)" class="drag">
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
-    </div>
+    </div> -->
 
     <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}">客服</div>
     <iframe id="oldHicash" :src="oldHicash"></iframe>
@@ -148,6 +150,29 @@ body {
     width: 100%;
     height: rem(44px);
     background: transparent;
+    .collect-btn {
+      font-size: 15px;
+      height: rem(44px);
+      line-height: rem(44px);
+      padding-left: 20px;
+      color: #FFF;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+    }
+    .collect-btn2 {
+      font-size: 15px;
+      height: rem(44px);
+      line-height: rem(44px);
+      margin-left: 20px;
+      color: #3f3f3f;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      opacity: 1;
+    }
     .bg {
       background: #fff;
       opacity: 0;
@@ -176,7 +201,7 @@ body {
       z-index: 2;
     }
     img {
-      top: rem(10px);
+      top: rem(13px);
       right: rem(10px);
       z-index: 2;
       position: absolute;
@@ -531,7 +556,9 @@ export default {
       androidIsShow: false,
       moveEndY: "",
       startY: "",
-      customerServiceShow: false
+      customerServiceShow: false,
+      scIsShow: true,
+      scIsShow2: false
     };
   },
   ready() {},
@@ -540,8 +567,12 @@ export default {
       let top = pos.top > 44 ? 44 : pos.top;
       if (pos.top > 44) {
         pos.top = 44;
+        this.scIsShow2 = true;
+        this.scIsShow = false;
         this.noticeIcon = noticeBIcon;
       } else {
+        this.scIsShow2 = false;
+        this.scIsShow = true;
         this.noticeIcon = noticeWIcon;
       }
 
@@ -631,67 +662,64 @@ export default {
         }
       });
     },
-    drag: function(e) {
-      e.stopPropagation(); //原生阻止冒泡事件
-      var pageX = e.changedTouches[0].pageX;
-      var pageY = e.changedTouches[0].pageY;
+    // drag: function(e) {
+    //   e.stopPropagation(); //原生阻止冒泡事件
+    //   var pageX = e.changedTouches[0].pageX;
+    //   var pageY = e.changedTouches[0].pageY;
 
-      if (pageX - e.target.clientWidth / 2 < 0) {
-        pageX = 0;
-      } else if (
-        pageX - e.target.clientWidth / 2 >
-        window.screen.width - e.target.clientWidth
-      ) {
-        pageX = window.screen.width - e.target.clientWidth;
-      } else {
-        pageX = pageX - e.target.clientWidth / 2;
-      }
+    //   if (pageX - e.target.clientWidth / 2 < 0) {
+    //     pageX = 0;
+    //   } else if (
+    //     pageX - e.target.clientWidth / 2 >
+    //     window.screen.width - e.target.clientWidth
+    //   ) {
+    //     pageX = window.screen.width - e.target.clientWidth;
+    //   } else {
+    //     pageX = pageX - e.target.clientWidth / 2;
+    //   }
 
-      if (pageY - e.target.clientHeight / 2 < 0) {
-        pageY = 0;
-      } else if (
-        pageY - e.target.clientHeight / 2 >
-        window.screen.height - e.target.clientHeight
-      ) {
-        pageY = window.screen.height - e.target.clientHeight;
-      } else {
-        pageY = pageY - e.target.clientHeight / 2;
-      }
+    //   if (pageY - e.target.clientHeight / 2 < 0) {
+    //     pageY = 0;
+    //   } else if (
+    //     pageY - e.target.clientHeight / 2 >
+    //     window.screen.height - e.target.clientHeight
+    //   ) {
+    //     pageY = window.screen.height - e.target.clientHeight;
+    //   } else {
+    //     pageY = pageY - e.target.clientHeight / 2;
+    //   }
 
-      if (e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi2") {
-        e.srcElement.parentElement.style.left = pageX + "px";
-        e.srcElement.parentElement.style.top = pageY + "px";
-      } else {
-        e.srcElement.style.left = pageX + "px";
-        e.srcElement.style.top = pageY + "px";
-      }
-    },
+    //   if (e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi2") {
+    //     e.srcElement.parentElement.style.left = pageX + "px";
+    //     e.srcElement.parentElement.style.top = pageY + "px";
+    //   } else {
+    //     e.srcElement.style.left = pageX + "px";
+    //     e.srcElement.style.top = pageY + "px";
+    //   }
+    // },
     touchstart: function(e) {
       e.stopPropagation();
       this.startY = e.changedTouches[0].pageY;
-      console.log('this.startY===', this.startY)
     },
     touchmove: function(e) {
       e.stopPropagation();
       this.moveEndY = e.changedTouches[0].pageY;
       let Y = this.moveEndY - this.startY;
-      console.log('Y===', Y)
       Y < 0 ? this.customerServiceShow = true : this.customerServiceShow = false;
+    },
+    openMsg: function() {
+      this.shortcutPopup = true;
     },
     closeMsg: function() {
       this.shortcutPopup = false;
-      console.info("111111")
     },
     closeAlertDiv: function() {
       this.shortcutPopup = false;
-      console.info("222222")
     },
     toCustomerService: function() {
       let userName = this.utils.getCookie("userName");
-      console.log(1111)
       if(!userName) this.$router.push({ name: "Login"}); return;
       let hxuserName = this.utils.getCookie("hxuserName");
-      console.log('hxuserName===', hxuserName)
     }
   },
   mounted: function() {
@@ -778,5 +806,10 @@ export default {
       window.gio('page.set', 'lkyx', this.$route.query.lkyx);  
     }
   }
+  // watch: {
+  //   shortcutPopup: function(val,oldVal) {
+  //     console.log("123123")
+  //   }
+  // }
 };
 </script>
