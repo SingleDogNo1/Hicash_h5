@@ -84,13 +84,6 @@
 				/>
 			</cell>
 		</group>
-
-		<group>
-			<cell title="关于我们" is-link @click.native='jumpToCustomerService'>
-				<!--<a href='javascript:;' onclick='easemobim.bind({configId: "304fe7b6-3046-416b-b169-0398f647b90e", hideKeyboard:true})'>快联系我</a>-->
-			</cell>
-		</group>
-
 		<page-footer></page-footer>
 	</div>
 </template>
@@ -504,9 +497,6 @@ export default {
 		//跳转到我的分期
 		toMyInstalment() {
 			this.$router.push({path:"/personal/myInstalment"});
-		},
-		jumpToCustomerService() {
-			easemobim.bind({configId: "304fe7b6-3046-416b-b169-0398f647b90e", hideKeyboard:true})
 		}
 	},
 	mounted() {

@@ -77,7 +77,8 @@ export default {
 	checkUserInfo: checkUserInfo,
 	QueryPandoraUrl: QueryPandoraUrl,
 	RepayProgram: RepayProgram,
-	UserInfo: UserInfo
+	UserInfo: UserInfo,
+	userEaseModGet: userEaseModGet
 };
 
 /*
@@ -1283,4 +1284,20 @@ export function UserInfo(params) {
 		   }
 	   );
    });
+}
+
+/*
+ *  申请注册环信
+ */
+export function userEaseModGet(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/UserEaseModGet", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
 }

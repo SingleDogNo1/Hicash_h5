@@ -719,8 +719,24 @@ export default {
     },
     toCustomerService: function() {
       let userName = this.utils.getCookie("userName");
-      if(!userName) this.$router.push({ name: "Login"}); return;
-      let hxuserName = this.utils.getCookie("hxuserName");
+      console.log('userName===', userName)
+      if(!userName) {
+        this.$router.push({ name: "Login"});
+        return;
+      } else {
+        let hxuserName = this.utils.getCookie("hxuserName");
+        //hxuserName = '11111'
+          //console.log('hxuserName====', hxuserName)
+        if(hxuserName) {
+          easemobim.bind({configId: "304fe7b6-3046-416b-b169-0398f647b90e", hideKeyboard:true})
+        } else {
+          let postData = new URLSearchParams();
+          postData.append("userName", userName );
+          this.common.userEaseModGet(postData).then( res=> {
+            let data = res.data
+          }) 
+        }
+      }
     }
   },
   mounted: function() {

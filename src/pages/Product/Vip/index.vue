@@ -158,7 +158,7 @@ export default {
 		userInfo(){
 			let data = new URLSearchParams();
 			data.append("userName", this.utils.getCookie("userName"));
-			//data.append("authorization", sessionStorage.getItem("authorization"));
+			data.append("authorization", sessionStorage.getItem("authorization"));
 			data.append("uuid", this.utils.uuid());
 			this.common.UserInfo(data)
 			.then((res)=>{
@@ -242,12 +242,12 @@ export default {
 			// isVIP:1 && CANCEL 这人不是VIP，不能申请
 			// isVIP != 1 不是VIP 不能申请
 
-				this.userInfo();
 			if(this.isVip && this.repayProgramData.status == 'NOML' && this.repayProgramData.iscredit != '0'){
 				//正常VIP
 				this.$vux.loading.show({
 					text: "加载中，请稍等……"
 				});
+				this.userInfo();
 
 			}else if(this.isVip && this.repayProgramData.status == 'NOML' && this.repayProgramData.iscredit == '0'){
 				this.noVipBtnVal = this.repayProgramData.box_btn;
