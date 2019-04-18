@@ -429,6 +429,7 @@ body {
         display: inline-block;
         font-size: 13px !important;
         color: #999999;
+        padding: 1.5rem 0 0 0;
       }
       .collect {
         display: inline-block;
