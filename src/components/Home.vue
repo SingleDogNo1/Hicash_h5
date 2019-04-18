@@ -726,14 +726,16 @@ export default {
       } else {
         let hxuserName = this.utils.getCookie("hxuserName");
         //hxuserName = '11111'
-          //console.log('hxuserName====', hxuserName)
+        console.log('hxuserName====', hxuserName)
+        hxuserName = ""
         if(hxuserName) {
-          easemobim.bind({configId: "304fe7b6-3046-416b-b169-0398f647b90e", hideKeyboard:true})
+          easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
         } else {
           let postData = new URLSearchParams();
           postData.append("userName", userName );
           this.common.userEaseModGet(postData).then( res=> {
-            let data = res.data
+            //let data = res.data
+            easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
           }) 
         }
       }
