@@ -1,5 +1,5 @@
 <template>
-  <div @click="closeMsg">
+  <div @click="closeMsg" @touchmove="touchmove($event)" @touchstart="touchstart($event)">
     <header class="home-header">
       <div class="bg" :style="'opacity:' + opacity"></div>
       <div class="title" :style="'opacity:' + opacity">嗨钱</div>
@@ -114,6 +114,7 @@
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
 
+    <div class="icon-customer-service" :class="{ 'on': customerServiceShow, 'close' : !customerServiceShow}">客服</div>
     <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
@@ -394,6 +395,24 @@ body {
     bottom: 30%;
     z-index: 999;
   }
+  .icon-customer-service {
+    width: 66px;
+    height: 80px;
+    margin: 0;
+    padding: 0px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10%;
+    z-index: 999;
+    right: -99999px;
+    transition: all .5s ease-in;
+    &.on {
+      right: 10px;
+    }
+    &.close {
+      right: -99999px;
+    }
+  }
   .weui-dialog {
     width: 92%;
     height: rem(230px);
@@ -514,7 +533,10 @@ export default {
       tags: null,
       shortcutPopup: false,
       iosIsShow: false,
-      androidIsShow: false
+      androidIsShow: false,
+      moveEndY: "",
+      startY: "",
+      customerServiceShow: false
     };
   },
   ready() {},
@@ -616,7 +638,6 @@ export default {
     },
     drag: function(e) {
       e.stopPropagation(); //原生阻止冒泡事件
-      console.info("e", e);
       var pageX = e.changedTouches[0].pageX;
       var pageY = e.changedTouches[0].pageY;
 
@@ -649,6 +670,18 @@ export default {
         e.srcElement.style.left = pageX + "px";
         e.srcElement.style.top = pageY + "px";
       }
+    },
+    touchstart: function(e) {
+      e.stopPropagation();
+      this.startY = e.changedTouches[0].pageY;
+      console.log('this.startY===', this.startY)
+    },
+    touchmove: function(e) {
+      e.stopPropagation();
+      this.moveEndY = e.changedTouches[0].pageY;
+      let Y = this.moveEndY - this.startY;
+      console.log('Y===', Y)
+      Y < 0 ? this.customerServiceShow = true : this.customerServiceShow = false;
     },
     closeMsg: function() {
       this.shortcutPopup = false;
