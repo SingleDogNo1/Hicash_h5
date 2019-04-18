@@ -116,7 +116,7 @@
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div> -->
 
-    <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}">客服</div>
+    <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div>
     <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
@@ -422,18 +422,19 @@ body {
     z-index: 999;
   }
   .icon-customer-service {
-    width: 66px;
-    height: 80px;
+    width: 51px;
+    height: 32px;
     margin: 0;
     padding: 0px;
-    border-radius: 5px;
     position: absolute;
-    bottom: 10%;
+    bottom: 15%;
     z-index: 999;
     right: -99999px;
+    background: url("../assets/images/icon_kefu.png") center center no-repeat;
+    background-size: 100% 100%;
     //transition: all .5s ease-in;
     &.fadeInRight, &.fadeOutRight {
-      right: 10px;
+      right: 0px;
     }
   }
   .weui-dialog {
