@@ -1,5 +1,5 @@
 <template>
-  <div @click="closeMsg">
+  <div @click="closeMsg" @touchmove="touchmove" @touchstart="touchstart">
     <header class="home-header">
       <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
       <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div>
@@ -116,8 +116,8 @@
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div> -->
 
-    <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}">客服</div>
-    <!-- <iframe id="oldHicash" :src="oldHicash"></iframe> -->
+    <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div>
+    <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
 </template>
@@ -422,18 +422,19 @@ body {
     z-index: 999;
   }
   .icon-customer-service {
-    width: 66px;
-    height: 80px;
+    width: 51px;
+    height: 32px;
     margin: 0;
     padding: 0px;
-    border-radius: 5px;
     position: absolute;
-    bottom: 10%;
+    top: 66.5%;
     z-index: 999;
     right: -99999px;
+    background: url("../assets/images/icon_kefu.png") center center no-repeat;
+    background-size: 100% 100%;
     //transition: all .5s ease-in;
     &.fadeInRight, &.fadeOutRight {
-      right: 10px;
+      right: 0px;
     }
   }
   .weui-dialog {
@@ -698,7 +699,7 @@ export default {
     //   }
     // },
     touchstart: function(e) {
-      e.stopPropagation();
+      e.stopPropagation();pageYOffset
       this.startY = e.changedTouches[0].pageY;
     },
     touchmove: function(e) {
