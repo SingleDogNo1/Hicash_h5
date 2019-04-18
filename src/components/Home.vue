@@ -117,7 +117,7 @@
     </div> -->
 
     <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}">客服</div>
-    <iframe id="oldHicash" :src="oldHicash"></iframe>
+    <!-- <iframe id="oldHicash" :src="oldHicash"></iframe> -->
     <page-footer></page-footer>
   </div>
 </template>
