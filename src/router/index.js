@@ -48,6 +48,7 @@ import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
 import Activity from '@/pages/Activity/Index';
+
 Vue.use(Router);
 
 export default new Router({
