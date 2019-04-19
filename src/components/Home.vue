@@ -112,7 +112,7 @@
       </div>
     </alert>
 
-    <div @touchmove="drag($event)" class="drag">
+    <div @touchmove="drag($event)" class="drag" @click.stop="shortcutPopup=true">
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
 
@@ -422,6 +422,7 @@ body {
     z-index: 999;
   }
   .icon-customer-service {
+    display: none;
     width: 51px;
     height: 32px;
     margin: 0;
@@ -472,6 +473,7 @@ body {
         display: inline-block;
         font-size: 13px !important;
         color: #999999;
+        padding: 1.5rem 0 0 0;
       }
       .collect {
         display: inline-block;
@@ -663,41 +665,41 @@ export default {
         }
       });
     },
-    // drag: function(e) {
-    //   e.stopPropagation(); //原生阻止冒泡事件
-    //   var pageX = e.changedTouches[0].pageX;
-    //   var pageY = e.changedTouches[0].pageY;
+    drag: function(e) {
+      e.stopPropagation(); //原生阻止冒泡事件
+      var pageX = e.changedTouches[0].pageX;
+      var pageY = e.changedTouches[0].pageY;
 
-    //   if (pageX - e.target.clientWidth / 2 < 0) {
-    //     pageX = 0;
-    //   } else if (
-    //     pageX - e.target.clientWidth / 2 >
-    //     window.screen.width - e.target.clientWidth
-    //   ) {
-    //     pageX = window.screen.width - e.target.clientWidth;
-    //   } else {
-    //     pageX = pageX - e.target.clientWidth / 2;
-    //   }
+      if (pageX - e.target.clientWidth / 2 < 0) {
+        pageX = 0;
+      } else if (
+        pageX - e.target.clientWidth / 2 >
+        window.screen.width - e.target.clientWidth
+      ) {
+        pageX = window.screen.width - e.target.clientWidth;
+      } else {
+        pageX = pageX - e.target.clientWidth / 2;
+      }
 
-    //   if (pageY - e.target.clientHeight / 2 < 0) {
-    //     pageY = 0;
-    //   } else if (
-    //     pageY - e.target.clientHeight / 2 >
-    //     window.screen.height - e.target.clientHeight
-    //   ) {
-    //     pageY = window.screen.height - e.target.clientHeight;
-    //   } else {
-    //     pageY = pageY - e.target.clientHeight / 2;
-    //   }
+      if (pageY - e.target.clientHeight / 2 < 0) {
+        pageY = 0;
+      } else if (
+        pageY - e.target.clientHeight / 2 >
+        window.screen.height - e.target.clientHeight
+      ) {
+        pageY = window.screen.height - e.target.clientHeight;
+      } else {
+        pageY = pageY - e.target.clientHeight / 2;
+      }
 
-    //   if (e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi2") {
-    //     e.srcElement.parentElement.style.left = pageX + "px";
-    //     e.srcElement.parentElement.style.top = pageY + "px";
-    //   } else {
-    //     e.srcElement.style.left = pageX + "px";
-    //     e.srcElement.style.top = pageY + "px";
-    //   }
-    // },
+      if (e.srcElement.className == "iconfont icon-zhuomiankuaijiefangshi2") {
+        e.srcElement.parentElement.style.left = pageX + "px";
+        e.srcElement.parentElement.style.top = pageY + "px";
+      } else {
+        e.srcElement.style.left = pageX + "px";
+        e.srcElement.style.top = pageY + "px";
+      }
+    },
     touchstart: function(e) {
       e.stopPropagation();pageYOffset
       this.startY = e.changedTouches[0].pageY;
