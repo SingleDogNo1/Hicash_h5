@@ -12,16 +12,16 @@
 					<p class="title">帮助中心</p>
 				</div>
 				<tab :line-width="1" custom-bar-width="60px">
-					<tab-item selected @on-item-click="onItemClick('RMWT')"
+					<tab-item :selected="subType === 'RMWT'" @on-item-click="onItemClick('RMWT')" @on-index-change="onIndexChange"
 						>热门问题</tab-item
 					>
-					<tab-item @on-item-click="onItemClick('JKWT')"
+					<tab-item :selected="subType === 'JKWT'" @on-item-click="onItemClick('JKWT')" @on-index-change="onIndexChange"
 						>借款问题</tab-item
 					>
-					<tab-item @on-item-click="onItemClick('HKWT')"
+					<tab-item :selected="subType === 'HKWT'" @on-item-click="onItemClick('HKWT')" @on-index-change="onIndexChange"
 						>还款问题</tab-item
 					>
-					<tab-item @on-item-click="onItemClick('QTWT')"
+					<tab-item :selected="subType === 'QTWT'" @on-item-click="onItemClick('QTWT')" @on-index-change="onIndexChange"
 						>其他问题
 					</tab-item>
 				</tab>
@@ -202,11 +202,17 @@ export default {
 			qq: false,
 			refreshText: "下拉刷新",
 			isShowAlert: false,
-			isShowHead: true
+			isShowHead: true,
+			index: 0
 		};
 	},
 	mounted() {
 		var _this = this;
+		let helpItemKey = _this.$route.query.helpItemKey;
+		console.log('helpItemKey==', helpItemKey)
+		if(helpItemKey) {
+			_this.subType = helpItemKey;
+		}
 
 		let comeFrom = _this.utils.getPlatform();
 		if (comeFrom != "H5") {
@@ -260,6 +266,8 @@ export default {
 			this.scroll.scrollTo(0, 0);
 			console.info(type);
 			this.getSysParam();
+		},
+		onIndexChange: function(index) {
 		},
 		getSysParam: function() {
 			// 获取产品列表

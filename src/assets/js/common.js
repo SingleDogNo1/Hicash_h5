@@ -1,5 +1,6 @@
 import utils from "./utils";
 import axios from "axios";
+import config from "../../config.json";
 
 export default {
 	setAuthorization: setAuthorization,
@@ -61,7 +62,8 @@ if (!window.hicashJSCommunication) {
 		jumpPage: jumpPage,
 		getComeFrom: getComeFrom,
 		onCallApp: onCallApp,
-		getDomainName: getDomainName
+		getDomainName: getDomainName,
+		getToken: getToken
 	};
 }
 
@@ -106,10 +108,16 @@ export function onCallApp(params) {
 			"newweb/creditInfo/bandBank.html?type=bind_card_success&back=7";
 	} else if (_data.type === "bind_card") {
 		location.href = MWEB_PATH + "newweb/creditInfo/bandBank.html?back=7";
+	} else if (_data.type === "dl") {
+		location.href = config.NEW_MWEB_PATH + "/login";
 	}
 }
 
 //告诉APP域名
 export function getDomainName(url) {
+	return "";
+}
+
+export function getToken() {
 	return "";
 }

@@ -116,7 +116,7 @@
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
 
-    <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div>
+    <!-- <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div> -->
     <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
@@ -422,7 +422,7 @@ body {
     z-index: 999;
   }
   .icon-customer-service {
-    display: none;
+    //display: none;
     width: 51px;
     height: 32px;
     margin: 0;
@@ -720,32 +720,46 @@ export default {
       this.shortcutPopup = false;
     },
     toCustomerService: function() {
-      // let userName = this.utils.getCookie("userName");
-      // console.log('userName===', userName)
-      // if(!userName) {
-      //   this.$router.push({ name: "Login"});
-      //   return;
-      // } else {
-      //   let hxuserName = this.utils.getCookie("hxuserName");
-      //   //hxuserName = '11111'
-      //   console.log('hxuserName====', hxuserName)
-      //   hxuserName = ""
-      //   if(hxuserName) {
-          easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
-        // } else {
-        //   let postData = new URLSearchParams();
-        //   postData.append("userName", userName );
-        //   this.common.userEaseModGet(postData).then( res=> {
-        //     //let data = res.data
-        //     easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
-        //   }) 
-        // }
-      //}
+      let userName = this.utils.getCookie("userName");
+      if(!userName) {
+        this.$router.push({ name: "Login"});
+        return;
+      } else {
+        let hxuserName = this.utils.getCookie("hxuserName");
+        let hxpassWord = this.utils.getCookie("hxpassWord");
+        if(hxuserName && hxpassWord) {
+          this.easemobimSet(hxuserName, hxpassWord)
+          //easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
+        } else {
+          let postData = new URLSearchParams();
+          postData.append("userName", userName );
+          this.common.userEaseModGet(postData).then( res=> {
+            let data = res.data
+            this.easemobimSet(data.hxuserName, data.hxpassWord)
+            //easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
+          }) 
+        }
+      }
+    },
+    easemobimSet: function(hxuserName, hxpassWord) {
+      console.log('hxuserName===', hxuserName)
+      console.log('hxpassWord===', hxpassWord)
+      easemobim.config = {
+        configId: '17ccd957-9a07-4fcc-8523-d0a5673435bd',
+        // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
+        user: {            
+            // username 必填，password 和 token 任选一项填写
+            username: hxuserName,  
+            password: hxpassWord,
+            token: ""  
+        }
+      }
+      easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true});
     }
   },
   mounted: function() {
-    //var token = window.hicashJSCommunication.getToken();
-    //alert("token" + token)
+    var token = window.hicashJSCommunication.getToken();
+    alert("token" + token)
     let _this = this;
     var userName = this.utils.getCookie("userName") || "";
     if (userName) {
