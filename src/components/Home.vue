@@ -1,8 +1,8 @@
 <template>
   <div @click="closeMsg" @touchmove="touchmove" @touchstart="touchstart">
     <header class="home-header">
-      <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
-      <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div>
+      <!-- <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
+      <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div> -->
       <div class="bg" :style="'opacity:' + opacity"></div>
       <div class="title" :style="'opacity:' + opacity">嗨钱</div>
       <router-link :to="{ name: 'notice' }">
@@ -112,9 +112,9 @@
       </div>
     </alert>
 
-    <!-- <div @touchmove="drag($event)" class="drag">
+    <div @touchmove="drag($event)" class="drag">
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
-    </div> -->
+    </div>
 
     <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div>
     <iframe id="oldHicash" :src="oldHicash"></iframe>
@@ -718,30 +718,32 @@ export default {
       this.shortcutPopup = false;
     },
     toCustomerService: function() {
-      let userName = this.utils.getCookie("userName");
-      console.log('userName===', userName)
-      if(!userName) {
-        this.$router.push({ name: "Login"});
-        return;
-      } else {
-        let hxuserName = this.utils.getCookie("hxuserName");
-        //hxuserName = '11111'
-        console.log('hxuserName====', hxuserName)
-        hxuserName = ""
-        if(hxuserName) {
+      // let userName = this.utils.getCookie("userName");
+      // console.log('userName===', userName)
+      // if(!userName) {
+      //   this.$router.push({ name: "Login"});
+      //   return;
+      // } else {
+      //   let hxuserName = this.utils.getCookie("hxuserName");
+      //   //hxuserName = '11111'
+      //   console.log('hxuserName====', hxuserName)
+      //   hxuserName = ""
+      //   if(hxuserName) {
           easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
-        } else {
-          let postData = new URLSearchParams();
-          postData.append("userName", userName );
-          this.common.userEaseModGet(postData).then( res=> {
-            //let data = res.data
-            easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
-          }) 
-        }
-      }
+        // } else {
+        //   let postData = new URLSearchParams();
+        //   postData.append("userName", userName );
+        //   this.common.userEaseModGet(postData).then( res=> {
+        //     //let data = res.data
+        //     easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
+        //   }) 
+        // }
+      //}
     }
   },
   mounted: function() {
+    //var token = window.hicashJSCommunication.getToken();
+    //alert("token" + token)
     let _this = this;
     var userName = this.utils.getCookie("userName") || "";
     if (userName) {

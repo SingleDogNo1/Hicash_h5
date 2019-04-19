@@ -78,7 +78,8 @@ export default {
 	QueryPandoraUrl: QueryPandoraUrl,
 	RepayProgram: RepayProgram,
 	UserInfo: UserInfo,
-	userEaseModGet: userEaseModGet
+	userEaseModGet: userEaseModGet,
+	userInfoHx: userInfoHx
 };
 
 /*
@@ -1292,6 +1293,22 @@ export function UserInfo(params) {
 export function userEaseModGet(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UserEaseModGet", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  环信用户获取用户名
+ */
+export function userInfoHx(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("HicashAppService/UserInfoHx", params).then(
 			res => {
 				resolve(res);
 			},

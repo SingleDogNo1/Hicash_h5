@@ -18,12 +18,23 @@
     </div>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script>
-      window.easemobim = window.easemobim || {};
-      easemobim.config = {
-        hide: true,
-        autoConnect: true
-      };
+      function IsPC() {
+        var userAgentInfo = navigator.userAgent;
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+              if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                  flag = false;
+                  break;
+              }
+        }
+        return flag;
+      }
+      if(IsPC()) {
+        document.getElementsByTagName("body")[0].setAttribute("style","max-width:100%");
+      } else {
+        document.getElementsByTagName("body")[0].setAttribute("style","max-width:640px");
+      }
     </script>
-    <script src='//kefu.easemob.com/webim/easemob.js?configId=17ccd957-9a07-4fcc-8523-d0a5673435bd'></script>
   </body>
 </html>
