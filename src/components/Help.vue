@@ -215,7 +215,7 @@ export default {
 		}
 
 		let comeFrom = _this.utils.getPlatform();
-		if (comeFrom != "H5") {
+		if (comeFrom != "H5" && !_this.$route.query.platform) {
 			_this.isShowHead = false;
 		}
 

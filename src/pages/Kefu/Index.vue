@@ -10,19 +10,19 @@
       <img src="./images/bg_banner.png" class="banner">
       <div class="wrap">
         <ul class="help-list">
-          <router-link :to="{ name: 'help', query: {helpItemKey: 'RMWT'}}" tag="li">
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'RMWT', platform: platform}}" tag="li">
             <img src="./images/icon_1.png">
             <p>热门问题</p>
           </router-link>
-          <router-link :to="{ name: 'help', query: {helpItemKey: 'JKWT'}}" tag="li">
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'JKWT', platform: platform}}" tag="li">
             <img src="./images/icon_2.png">
             <p>借款问题</p>
           </router-link>
-          <router-link :to="{ name: 'help', query: {helpItemKey: 'HKWT'}}" tag="li">
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'HKWT', platform: platform}}" tag="li">
             <img src="./images/icon_3.png">
             <p>还款问题</p>
           </router-link>
-          <router-link :to="{ name: 'help', query: {helpItemKey: 'QTWT'}}" tag="li">
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'QTWT', platform: platform}}" tag="li">
             <img src="./images/icon_4.png">
             <p>其他问题</p>
           </router-link>
@@ -176,7 +176,7 @@ export default {
           list[i].openUrl =
             this.config.MWEB_PATH +
             "newweb/newsDetail/newsDetail.html?id=" +
-            list[i].id+'&platform=' + this.platform;
+            list[i].id+'&aplatform=' + this.platform;
         });
 
         this.list = list.splice(0, 5);
