@@ -1308,7 +1308,7 @@ export function userEaseModGet(params) {
  */
 export function userInfoHx(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("HicashAppService/UserInfoHx", params).then(
+		axios.post("/HicashAppService/UserInfoHx", params).then(
 			res => {
 				resolve(res);
 			},
