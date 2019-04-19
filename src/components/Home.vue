@@ -758,8 +758,8 @@ export default {
     }
   },
   mounted: function() {
-    var token = window.hicashJSCommunication.getToken();
-    alert("token" + token)
+    //var token = window.hicashJSCommunication.getToken();
+    //alert("token" + token)
     let _this = this;
     var userName = this.utils.getCookie("userName") || "";
     if (userName) {
