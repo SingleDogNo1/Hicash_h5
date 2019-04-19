@@ -176,7 +176,7 @@ export default {
           list[i].openUrl =
             this.config.MWEB_PATH +
             "newweb/newsDetail/newsDetail.html?id=" +
-            list[i].id+'&aplatform=' + this.platform;
+            list[i].id+'&platform=' + this.platform;
         });
 
         this.list = list.splice(0, 5);
