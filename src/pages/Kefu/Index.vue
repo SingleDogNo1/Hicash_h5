@@ -4,7 +4,6 @@
       :title="title"
       :showBack="showBack"
       :showBtnClose="showBtnClose"
-      v-if="platform === 'H5'"
     ></page-header>
     <div class="content" :class="{ appContent: platform === 'APP' }">
       <img src="./images/bg_banner.png" class="banner">
@@ -53,7 +52,7 @@
         <div class="problem-wrap">
           <div class="problem-title">
             <h3>常见问题</h3>
-            <router-link class="more" :to="{ name: 'help'}">更多</router-link>
+            <router-link class="more" :to="{ name: 'help', query: {platform: platform}}">更多</router-link>
           </div>
 
           <div class="swiper-container">
@@ -82,6 +81,7 @@
 </template>
 
 <script>
+import "@/assets/js/kefu.js";
 import PageHeader from "@/components/PageHeader";
 import PageFooter from "@/components/PageFooter";
 import Swiper from "swiper";
@@ -134,6 +134,10 @@ export default {
           let postData = new URLSearchParams();
           postData.append("userName", "");
           postData.append("token", token);
+          let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
+          if(isIos) {
+            postData.append("type", "1");
+          }
           this.common.userEaseModGet(postData).then(res => {
             let data = res.data;
             this.easemobimSet(data.hxuserName, data.hxpassWord);
@@ -142,22 +146,20 @@ export default {
       }
     },
     easemobimSet: function(hxuserName, hxpassWord) {
-      console.log("hxuserName===", hxuserName);
-      console.log("hxpassWord===", hxpassWord);
+      window.easemobim = window.easemobim || {};
       easemobim.config = {
-        configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd",
+        configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",
+                  
         // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
         user: {
           // username 必填，password 和 token 任选一项填写
           username: hxuserName,
           password: hxpassWord,
           token: ""
-        }
-      };
-      easemobim.bind({
-        configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd",
+        },
         hideKeyboard: true
-      });
+      };
+      easemobim.bind(easemobim.config);
     },
     getSysParam: function() {
       // 获取产品列表
@@ -204,6 +206,8 @@ export default {
   background: #fff;
   .content {
     padding-top: rem(50px);
+    padding-bottom: rem(60px);
+    background: #fff;
     .banner {
       display: block;
       width: 100%;
@@ -221,7 +225,7 @@ export default {
         display: flex;
         justify-content: space-between;
         li {
-          width: rem(52px);
+          //width: rem(52px);
           margin-right: rem(40px);
           img {
             display: block;

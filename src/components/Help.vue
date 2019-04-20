@@ -1,9 +1,8 @@
 <template>
 	<div class="help_page">
 		<div class="wrap">
-			<header class="creditHeader" style="background-color:white;">
-				<!-- closeBtn -->
-				<div v-if="isShowHead">
+			<!-- <header class="creditHeader">
+				<div>
 					<a
 						class="go-history"
 						href="javascript:history.go(-1);"
@@ -13,7 +12,7 @@
 				</div>
 				<tab :line-width="1" custom-bar-width="60px">
 					<tab-item :selected="subType === 'RMWT'" @on-item-click="onItemClick('RMWT')" @on-index-change="onIndexChange"
-						>热门问题</tab-item
+						>热门问题{{isShowHead}}</tab-item
 					>
 					<tab-item :selected="subType === 'JKWT'" @on-item-click="onItemClick('JKWT')" @on-index-change="onIndexChange"
 						>借款问题</tab-item
@@ -25,8 +24,28 @@
 						>其他问题
 					</tab-item>
 				</tab>
-			</header>
-			<div class="wrapper">
+			</header> -->
+			<page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+			v-if="isShowHead"
+    ></page-header>
+		<tab :line-width="1" custom-bar-width="60px" class="help-tab" :class="{ appContent: comeFrom === 'APP' && !platform}">
+				<tab-item :selected="subType === 'RMWT'" @on-item-click="onItemClick('RMWT')" @on-index-change="onIndexChange"
+					>热门问题</tab-item
+				>
+				<tab-item :selected="subType === 'JKWT'" @on-item-click="onItemClick('JKWT')" @on-index-change="onIndexChange"
+					>借款问题</tab-item
+				>
+				<tab-item :selected="subType === 'HKWT'" @on-item-click="onItemClick('HKWT')" @on-index-change="onIndexChange"
+					>还款问题</tab-item
+				>
+				<tab-item :selected="subType === 'QTWT'" @on-item-click="onItemClick('QTWT')" @on-index-change="onIndexChange"
+					>其他问题
+				</tab-item>
+			</tab>
+			<div class="wrapper" :class="{ appContentWrap: comeFrom === 'APP' && !platform }">
 				<ul class="content">
 					<li class="ref">
 						<inline-loading></inline-loading>{{ refreshText }}
@@ -181,6 +200,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+import PageHeader from "@/components/PageHeader";
 import { Tab, TabItem, Flexbox, FlexboxItem, InlineLoading } from "vux";
 import Clipboard from "clipboard";
 import BScroll from "better-scroll";
@@ -190,7 +210,8 @@ export default {
 		TabItem,
 		Flexbox,
 		FlexboxItem,
-		InlineLoading
+		InlineLoading,
+		PageHeader
 	},
 	data() {
 		return {
@@ -203,19 +224,31 @@ export default {
 			refreshText: "下拉刷新",
 			isShowAlert: false,
 			isShowHead: true,
-			index: 0
+			index: 0,
+			platform: "",
+			comeFrom: "",
+			title: "帮助中心",
+      showBack: true,
+			showBtnClose: false,
+			isShowBottom: false
 		};
 	},
 	mounted() {
 		var _this = this;
 		let helpItemKey = _this.$route.query.helpItemKey;
+		_this.platform = _this.$route.query.platform;
+		if(_this.platform) {
+			this.isShowBottom = true
+		}
 		console.log('helpItemKey==', helpItemKey)
 		if(helpItemKey) {
 			_this.subType = helpItemKey;
 		}
 
 		let comeFrom = _this.utils.getPlatform();
-		if (comeFrom != "H5" && !_this.$route.query.platform) {
+		//comeFrom = 'APP'
+		this.comeFrom = comeFrom;
+		if (comeFrom != "H5" && !_this.platform) {
 			_this.isShowHead = false;
 		}
 
@@ -285,9 +318,10 @@ export default {
 
 				_.each(res.data.list, function(v, i) {
 					list[i].createTime = list[i].createTime.substring(0, 10);
+					console.log('_this.platform===', _this.platform)
 					list[i].openUrl =
-						_this.config.MWEB_PATH +
-						"newweb/newsDetail/newsDetail.html?id=" +
+						_this.platform ? _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
+						+ '&platform=' + _this.platform : _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" +　list[i].id;
 						list[i].id;
 				});
 
@@ -342,6 +376,22 @@ export default {
 		display: block;
 		position: relative;
 	}
+	.help-tab {
+		padding-top: rem(50px);
+	}
+	.appContent {
+		padding-top: 0;
+	}
+	.wrap .appContentWrap {
+		top: rem(45px);
+		.content {
+			padding-bottom: 60px;
+		}
+	}
+	.vux-tab-container {
+		position: relative;
+		    z-index: 4;
+	}
 	footer {
 		position: absolute;
 		height: 49px;
@@ -363,11 +413,16 @@ export default {
 		border: 1px solid #ff7640;
 	}
 	.wrapper {
-		height: calc(100% - 135px);
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: rem(95px);
+		bottom: rem(50px);
+		//bottom: rem(100px);
+		//height: calc(100% - 135px);
 		.content {
 			background-color: white;
 			min-height: calc(100% + 1px);
-
 			li {
 				margin: 0 rem(15px);
 				a {
@@ -405,8 +460,12 @@ export default {
 				height: 48px;
 
 				line-height: 48px;
+				z-index: 1111;
 			}
 		}
+		// &.isApp {
+		// 	bottom: rem(200px);
+		// }
 	}
 	.flex-demo {
 		text-align: center;
