@@ -50,6 +50,7 @@ import AuthEleme from '@/pages/credit/Report/Eleme';
 import Activity from '@/pages/Activity/Index';
 import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
+import Test from '@/pages/Kefu/Test';
 Vue.use(Router);
 
 export default new Router({
@@ -465,5 +466,14 @@ export default new Router({
 				title: "客服"
 			}
 		},
+		{
+			//客服
+			path: "/test",
+			name: "Test",
+			component: Test,
+			meta: {
+				title: "客服"
+			}
+		}
 	]
 });
