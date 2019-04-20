@@ -27,7 +27,6 @@
         </tr>
       </table>
     </div>
-    <iframe src="https://dev.hicash.cn/h5/#/test" width="100%" height="100%"></iframe>
   </div>
 </template>
 
