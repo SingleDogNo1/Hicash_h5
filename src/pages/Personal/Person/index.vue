@@ -84,7 +84,6 @@
 				/>
 			</cell>
 		</group>
-
 		<page-footer></page-footer>
 	</div>
 </template>

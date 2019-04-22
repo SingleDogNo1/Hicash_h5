@@ -7,6 +7,7 @@ import App from "./app";
 import router from "./router";
 import { Tabbar, TabbarItem, Toast } from "vux";
 import "./assets/css/common.scss";
+import vConsole from "vconsole"
 
 import common from "./api/common.js";
 import jsCommon from "./assets/js/common.js";
@@ -47,6 +48,8 @@ import { AlertPlugin } from "vux";
 Vue.use(AlertPlugin);
 
 Vue.use(MintUI);
+
+new vConsole();
 
 Vue.config.productionTip = false;
 

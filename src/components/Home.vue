@@ -1,6 +1,8 @@
 <template>
-  <div @click="closeMsg">
+  <div @click="closeMsg" @touchmove="touchmove" @touchstart="touchstart">
     <header class="home-header">
+      <!-- <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
+      <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div> -->
       <div class="bg" :style="'opacity:' + opacity"></div>
       <div class="title" :style="'opacity:' + opacity">嗨钱</div>
       <router-link :to="{ name: 'notice' }">
@@ -114,6 +116,7 @@
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
 
+    <!-- <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div> -->
     <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
@@ -122,6 +125,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" rel="stylesheet/scss">
 @import "../../bower_components/sass-rem/rem";
+@import "../assets/css/animate.min.css";
 body {
   background: #f2f2f2 !important;
 }
@@ -146,6 +150,29 @@ body {
     width: 100%;
     height: rem(44px);
     background: transparent;
+    .collect-btn {
+      font-size: 15px;
+      height: rem(44px);
+      line-height: rem(44px);
+      padding-left: 20px;
+      color: #FFF;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+    }
+    .collect-btn2 {
+      font-size: 15px;
+      height: rem(44px);
+      line-height: rem(44px);
+      margin-left: 20px;
+      color: #3f3f3f;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      opacity: 1;
+    }
     .bg {
       background: #fff;
       opacity: 0;
@@ -174,7 +201,7 @@ body {
       z-index: 2;
     }
     img {
-      top: rem(10px);
+      top: rem(13px);
       right: rem(10px);
       z-index: 2;
       position: absolute;
@@ -394,6 +421,23 @@ body {
     bottom: 30%;
     z-index: 999;
   }
+  .icon-customer-service {
+    //display: none;
+    width: 51px;
+    height: 32px;
+    margin: 0;
+    padding: 0px;
+    position: absolute;
+    top: 66.5%;
+    z-index: 999;
+    right: -99999px;
+    background: url("../assets/images/icon_kefu.png") center center no-repeat;
+    background-size: 100% 100%;
+    //transition: all .5s ease-in;
+    &.fadeInRight, &.fadeOutRight {
+      right: 0px;
+    }
+  }
   .weui-dialog {
     width: 92%;
     height: rem(230px);
@@ -439,9 +483,6 @@ body {
         background-repeat: no-repeat;
         background-size: contain;
         margin: -1px 1px;
-      }
-      .ios_tip {
-
       }
       .android_tip {
         margin-top: 1rem;
@@ -515,7 +556,12 @@ export default {
       tags: null,
       shortcutPopup: false,
       iosIsShow: false,
-      androidIsShow: false
+      androidIsShow: false,
+      moveEndY: "",
+      startY: "",
+      customerServiceShow: false,
+      scIsShow: true,
+      scIsShow2: false
     };
   },
   ready() {},
@@ -524,8 +570,12 @@ export default {
       let top = pos.top > 44 ? 44 : pos.top;
       if (pos.top > 44) {
         pos.top = 44;
+        this.scIsShow2 = true;
+        this.scIsShow = false;
         this.noticeIcon = noticeBIcon;
       } else {
+        this.scIsShow2 = false;
+        this.scIsShow = true;
         this.noticeIcon = noticeWIcon;
       }
 
@@ -617,7 +667,6 @@ export default {
     },
     drag: function(e) {
       e.stopPropagation(); //原生阻止冒泡事件
-      console.info("e", e);
       var pageX = e.changedTouches[0].pageX;
       var pageY = e.changedTouches[0].pageY;
 
@@ -651,16 +700,66 @@ export default {
         e.srcElement.style.top = pageY + "px";
       }
     },
+    touchstart: function(e) {
+      e.stopPropagation();pageYOffset
+      this.startY = e.changedTouches[0].pageY;
+    },
+    touchmove: function(e) {
+      e.stopPropagation();
+      this.moveEndY = e.changedTouches[0].pageY;
+      let Y = this.moveEndY - this.startY;
+      Y < 0 ? this.customerServiceShow = true : this.customerServiceShow = false;
+    },
+    openMsg: function() {
+      this.shortcutPopup = true;
+    },
     closeMsg: function() {
       this.shortcutPopup = false;
-      console.info("111111")
     },
     closeAlertDiv: function() {
       this.shortcutPopup = false;
-      console.info("222222")
+    },
+    toCustomerService: function() {
+      let userName = this.utils.getCookie("userName");
+      if(!userName) {
+        this.$router.push({ name: "Login"});
+        return;
+      } else {
+        let hxuserName = this.utils.getCookie("hxuserName");
+        let hxpassWord = this.utils.getCookie("hxpassWord");
+        if(hxuserName && hxpassWord) {
+          this.easemobimSet(hxuserName, hxpassWord)
+          //easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
+        } else {
+          let postData = new URLSearchParams();
+          postData.append("userName", userName );
+          this.common.userEaseModGet(postData).then( res=> {
+            let data = res.data
+            this.easemobimSet(data.hxuserName, data.hxpassWord)
+            //easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
+          }) 
+        }
+      }
+    },
+    easemobimSet: function(hxuserName, hxpassWord) {
+      console.log('hxuserName===', hxuserName)
+      console.log('hxpassWord===', hxpassWord)
+      easemobim.config = {
+        configId: '17ccd957-9a07-4fcc-8523-d0a5673435bd',
+        // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
+        user: {            
+            // username 必填，password 和 token 任选一项填写
+            username: hxuserName,  
+            password: hxpassWord,
+            token: ""  
+        }
+      }
+      easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true});
     }
   },
   mounted: function() {
+    //var token = window.hicashJSCommunication.getToken();
+    //alert("token" + token)
     let _this = this;
     var userName = this.utils.getCookie("userName") || "";
     if (userName) {
@@ -744,5 +843,10 @@ export default {
       window.gio('page.set', 'lkyx', this.$route.query.lkyx);  
     }
   }
+  // watch: {
+  //   shortcutPopup: function(val,oldVal) {
+  //     console.log("123123")
+  //   }
+  // }
 };
 </script>

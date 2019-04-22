@@ -77,7 +77,9 @@ export default {
 	checkUserInfo: checkUserInfo,
 	QueryPandoraUrl: QueryPandoraUrl,
 	RepayProgram: RepayProgram,
-	UserInfo: UserInfo
+	UserInfo: UserInfo,
+	userEaseModGet: userEaseModGet,
+	userInfoHx: userInfoHx
 };
 
 /*
@@ -1283,4 +1285,36 @@ export function UserInfo(params) {
 		   }
 	   );
    });
+}
+
+/*
+ *  申请注册环信
+ */
+export function userEaseModGet(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/UserEaseModGet", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  环信用户获取用户名
+ */
+export function userInfoHx(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/UserInfoHx", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
 }

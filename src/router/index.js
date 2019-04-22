@@ -48,7 +48,12 @@ import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
 import Activity from '@/pages/Activity/Index';
+<<<<<<< HEAD
 
+=======
+import HxInfo from '@/pages/Kefu/HxInfo';
+import Kefu from '@/pages/Kefu/Index';
+>>>>>>> kefu
 Vue.use(Router);
 
 export default new Router({
@@ -444,6 +449,24 @@ export default new Router({
 			component: Activity,
 			meta: {
 				title: "优惠券活动"
+			}
+		},
+		{
+			//用户信息
+			path: "/hxInfo",
+			name: "HxInfo",
+			component: HxInfo,
+			meta: {
+				title: "用户信息"
+			}
+		},
+		{
+			//客服
+			path: "/kefu",
+			name: "Kefu",
+			component: Kefu,
+			meta: {
+				title: "客服"
 			}
 		}
 	]
