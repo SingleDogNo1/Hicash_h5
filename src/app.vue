@@ -458,7 +458,34 @@ body {
     color: #ffffff;
   }
   .weui-dialog__bd {
-    padding: 36px 0;
+    padding: 36px 0px;
+    font-size: 13px;
+    color: #333333;
+    letter-spacing: -0.08px;
+    min-height: auto;
+  }
+  .weui-dialog__btn_primary {
+    font-size: 15px;
+    color: #ff7640;
+    letter-spacing: -0.36px;
+  }
+  .weui-dialog__btn_default {
+    font-size: 15px;
+    color: #999999;
+    letter-spacing: -0.36px;
+  }
+}
+.defConfirm {
+  .weui-dialog__hd {
+    padding: 0;
+    height: 50px;
+    line-height: 50px;
+    background: #ff7640;
+    font-size: 17px;
+    color: #ffffff;
+  }
+  .weui-dialog__bd {
+    padding: 10px 10px;
     font-size: 13px;
     color: #333333;
     letter-spacing: -0.08px;

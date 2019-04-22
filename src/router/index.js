@@ -48,6 +48,7 @@ import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
 import Activity from '@/pages/Activity/Index';
+import OrderProgress from '@/pages/Result/orderProgress';
 Vue.use(Router);
 
 export default new Router({
@@ -444,6 +445,16 @@ export default new Router({
 			meta: {
 				title: "优惠券活动"
 			}
+		},
+		{	//借款进度页
+			path: "/orderProgress",
+			name: "OrderProgress",
+			component: OrderProgress,
+			meta: {
+				title: "借款进度",
+				requireAuth: true,
+			}
+			
 		}
 	]
 });

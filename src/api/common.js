@@ -77,7 +77,8 @@ export default {
 	checkUserInfo: checkUserInfo,
 	QueryPandoraUrl: QueryPandoraUrl,
 	RepayProgram: RepayProgram,
-	UserInfo: UserInfo
+	UserInfo: UserInfo,
+	isDownloadApp: isDownloadApp
 };
 
 /*
@@ -1283,4 +1284,20 @@ export function UserInfo(params) {
 		   }
 	   );
    });
+}
+
+/*
+ *  嗨钱H5安卓机是否需要下载APP
+ */
+export function isDownloadApp(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/channel/isDownloadApp", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
 }

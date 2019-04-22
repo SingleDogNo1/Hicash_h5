@@ -18,7 +18,8 @@ export default {
 	toThousands: toThousands, //格式化数据格式字符串 没三位添加逗号
 	checkPwd: checkPwd, //校验密码是否合法
 	getDevice: getDevice, //判断是否是移动端
-	formatSeconds: formatSeconds	// 将秒格式化为秒、分、小时
+	formatSeconds: formatSeconds,	// 将秒格式化为秒、分、小时
+	getDeviceName: getDeviceName //获取设备类型
 };
 
 export function uuid() {
@@ -102,6 +103,20 @@ export function getDevice() {
 		return 'mobile';
 	} else {
 		return 'pc';
+	}
+}
+
+//获取设备类型
+export function getDeviceName(){
+	var u = navigator.userAgent;
+	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+	if(isAndroid){
+		return 'android';
+	}else if(isiOS){
+		return 'ios'
+	}else{
+		return 'pc'
 	}
 }
 
