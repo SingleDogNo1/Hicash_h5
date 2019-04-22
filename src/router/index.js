@@ -48,12 +48,8 @@ import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
 import Activity from '@/pages/Activity/Index';
-<<<<<<< HEAD
-
-=======
 import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
->>>>>>> kefu
 Vue.use(Router);
 
 export default new Router({
