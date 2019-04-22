@@ -308,7 +308,7 @@ body {
   height: 0.85rem;
   margin-top: 0.2rem;
   background: url("./assets/images/icon_home.png") center center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 .icon-vip-area {
   display: block;
@@ -345,11 +345,11 @@ body {
 }
 .icon-kefu {
   display: block;
-  width: 0.8rem;
-  height: 0.85rem;
+  width: rem(20px);
+  height: rem(19px);
   margin-top: 0.15rem;
   background: url("./assets/images/icon_kefu.png") center center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 .icon-me {
   display: block;
