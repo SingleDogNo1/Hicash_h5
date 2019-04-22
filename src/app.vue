@@ -17,7 +17,7 @@
         <span class="vux-close"></span>
       </div>
     </x-dialog>
-    <confirm
+    <!-- <confirm
       v-model="getReportSuccess"
       :close-on-confirm="false"
       title="获取报告成功"
@@ -26,7 +26,7 @@
       class="reportConfirm"
     >
       <p style="text-align:center;">新鲜的报告已经准备好了，快来看看</p>
-    </confirm>
+    </confirm> -->
   </div>
 </template>
 
