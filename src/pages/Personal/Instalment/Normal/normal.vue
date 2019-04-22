@@ -1022,7 +1022,6 @@ export default {
 		};
 	},
 	mounted() {
-		// setTimeout(()=>{
 		this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
 		this.scrollHeight = this.isShowBanner
 			? this.swiperHeight -
@@ -1030,19 +1029,6 @@ export default {
 			  this.$refs.checkerBody.offsetHeight +
 			  "px"
 			: this.swiperHeight - this.$refs.checkerBody.offsetHeight + "px";
-		console.info(
-			"this.scrollHeight",
-			this.swiperHeight,
-			this.bannerADHeight,
-			this.$refs.checkerBody.offsetHeight,
-			this.scrollHeight
-		);
-		// }, 1000)
-		console.info("this.checkerBodyHeight", this.checkerBodyHeight);
-		//this.checkerStatus();                         // * 获取默认数据
-		// this.$nextTick(() => {
-		//     this.$refs.scrollerBottom.reset({top: 0});          // * 初始化scroller的高度
-		// })
 	},
 	methods: {
 		/**
@@ -1177,7 +1163,6 @@ export default {
 		},
 		// ! 获取列表数据
 		getListData(type) {
-			console.info("getListData ==== ");
 			this.listDataloading = true;
 			let userName = this.utils.getCookie("userName");
 			let postData = new URLSearchParams();
@@ -1223,8 +1208,6 @@ export default {
 					if (data.list===null && this.banRechecked === true) {
 						this.checkerStatus("applying");
 						this.banRechecked = false;
-					} else {
-						console.info("已完成列表为空")
 					}
 				} else if (data.resultCode == "-1") {
 					if(data.list===null && this.banRechecked === true){
@@ -1278,7 +1261,6 @@ export default {
 			postData.append("uuid", this.utils.uuid());
 			this.common.CancelAppPayByPad(postData).then(res => {
 				//更新红点已经列表数据状态
-				console.info("更新红点已经列表数据状态");
 				this.$emit("watchChild", true);
 				this.$vux.loading.hide();
 				// this.items.splice(index,1);
@@ -1332,7 +1314,6 @@ export default {
 			return mapObj;
 		},
 		onScroll(pos) {
-			console.info("top", pos.top);
 			this.scrollTop = pos.top;
 		}
 	},

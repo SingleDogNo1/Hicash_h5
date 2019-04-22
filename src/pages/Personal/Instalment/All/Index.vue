@@ -1,5 +1,6 @@
 <template>
 	<div v-cloak>
+		<download-pop></download-pop>
 		<page-header
 			:jumpRouteName="jumpRouteName"
 			v-if="this.utils.getPlatform() != 'APP'"
@@ -127,6 +128,7 @@
 <script type="text/javascript">
 import { Tab, TabItem, Swiper, SwiperItem, Sticky } from "vux";
 import PageHeader from "@/components/PageHeader.vue";
+import downloadPop from "@/components/downloadPop.vue";
 import ConfirmDialog from "@/components/Dialog.vue";
 import InstalmentNormal from "@/pages/Personal/Instalment/Normal/normal.vue";
 import InstalmentOverdue from "@/pages/Personal/Instalment/Overdue/overdue.vue";
@@ -136,6 +138,7 @@ export default {
 		Tab,
 		TabItem,
 		PageHeader,
+		downloadPop,
 		ConfirmDialog,
 		Swiper,
 		SwiperItem,
@@ -181,7 +184,6 @@ export default {
 	},
 	methods: {
 		accountOrderPage(refApplyingStatus) {
-			console.info("refApplyingStatus", refApplyingStatus);
 			let userName = this.utils.getCookie("userName");
 			let postData = new URLSearchParams();
 			postData.append("userName", userName);

@@ -1,5 +1,6 @@
 <template>
   <div @click="closeMsg">
+    <download-pop></download-pop>
     <header class="home-header">
       <div class="bg" :style="'opacity:' + opacity"></div>
       <div class="title" :style="'opacity:' + opacity">嗨钱</div>
@@ -439,9 +440,6 @@ body {
         background-size: contain;
         margin: -1px 1px;
       }
-      .ios_tip {
-
-      }
       .android_tip {
         margin-top: 1rem;
         padding-left: 5px;
@@ -480,6 +478,7 @@ body {
 import { Swiper, Scroller, XDialog, TransferDom, Alert } from "vux";
 
 import PageFooter from "../components/PageFooter.vue";
+import downloadPop from "@/components/downloadPop.vue";
 
 import noticeWIcon from "../assets/images/icon-notice-w.png";
 import noticeBIcon from "../assets/images/icon-notice.png";
@@ -490,6 +489,7 @@ export default {
   components: {
     Swiper,
     PageFooter,
+    downloadPop,
     Scroller,
     XDialog,
     Alert
