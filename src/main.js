@@ -49,7 +49,7 @@ Vue.use(AlertPlugin);
 
 Vue.use(MintUI);
 
-new vConsole();
+//new vConsole();
 
 Vue.config.productionTip = false;
 
