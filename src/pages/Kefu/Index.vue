@@ -107,17 +107,17 @@ export default {
           this.$router.push({ name: "Login" });
           return;
         } else {
-          let hxuserName = this.utils.getCookie("hxuserName");
-          let hxpassWord = this.utils.getCookie("hxpassWord");
-          if (hxuserName && hxpassWord) {
-            this.easemobimSet(hxuserName, hxpassWord);
+          let hxUserName = this.utils.getCookie("hxUserName");
+          let hxPassword = this.utils.getCookie("hxPassword");
+          if (hxUserName && hxPassword) {
+            this.easemobimSet(hxUserName, hxPassword);
           } else {
             let postData = new URLSearchParams();
             postData.append("userName", userName);
             postData.append("token", "");
             this.common.userEaseModGet(postData).then(res => {
               let data = res.data;
-              this.easemobimSet(data.hxuserName, data.hxpassWord);
+              this.easemobimSet(data.hxUsername, data.hxPassword);
             });
           }
         }
@@ -139,21 +139,22 @@ export default {
           }
           this.common.userEaseModGet(postData).then(res => {
             let data = res.data;
-            this.easemobimSet(data.hxuserName, data.hxpassWord);
+            this.easemobimSet(data.hxUsername, data.hxPassword);
           });
         }
       }
     },
-    easemobimSet: function(hxuserName, hxpassWord) {
+    easemobimSet: function(hxUserName, hxPassword) {
       window.easemobim = window.easemobim || {};
       easemobim.config = {
         configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",
+        //configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd",
                   
         // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
         user: {
           // username 必填，password 和 token 任选一项填写
-          username: hxuserName,
-          password: hxpassWord,
+          username: hxUserName,
+          password: hxPassword,
           token: ""
         },
         hideKeyboard: true
