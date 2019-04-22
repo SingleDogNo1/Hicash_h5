@@ -122,26 +122,30 @@ export default {
           }
         }
       } else {
-        let token = window.hicashJSCommunication.getToken();
-        if (!token) {
-          window.hicashJSCommunication.onCallApp(
-            JSON.stringify({
-              type: "dl"
-            })
-          );
-        } else {
-          let postData = new URLSearchParams();
-          postData.append("userName", "");
-          postData.append("token", token);
-          let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
-          if(isIos) {
-            postData.append("type", "1");
+        setInterval(() => {
+          if(window.hicashJSCommunication) {
+            let token = window.hicashJSCommunication.getToken();
+            if (!token) {
+              window.hicashJSCommunication.onCallApp(
+                JSON.stringify({
+                  type: "dl"
+                })
+              );
+            } else {
+              let postData = new URLSearchParams();
+              postData.append("userName", "");
+              postData.append("token", token);
+              let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
+              if(isIos) {
+                postData.append("type", "1");
+              }
+              this.common.userEaseModGet(postData).then(res => {
+                let data = res.data;
+                this.easemobimSet(data.hxUsername, data.hxPassword);
+              });
+            }
           }
-          this.common.userEaseModGet(postData).then(res => {
-            let data = res.data;
-            this.easemobimSet(data.hxUsername, data.hxPassword);
-          });
-        }
+        }, 1000);
       }
     },
     easemobimSet: function(hxUserName, hxPassword) {
