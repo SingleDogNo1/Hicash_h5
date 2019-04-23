@@ -1,35 +1,27 @@
 <template>
   <div class="kefu">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose"></page-header>
+    <page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+    ></page-header>
     <div class="content" :class="{ appContent: platform === 'APP' }">
       <img src="./images/bg_banner.png" class="banner">
       <div class="wrap">
         <ul class="help-list">
-          <router-link
-            :to="{ name: 'help', query: {helpItemKey: 'RMWT', platform: platform}}"
-            tag="li"
-          >
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'RMWT', platform: platform}}" tag="li">
             <img src="./images/icon_1.png">
             <p>热门问题</p>
           </router-link>
-          <router-link
-            :to="{ name: 'help', query: {helpItemKey: 'JKWT', platform: platform}}"
-            tag="li"
-          >
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'JKWT', platform: platform}}" tag="li">
             <img src="./images/icon_2.png">
             <p>借款问题</p>
           </router-link>
-          <router-link
-            :to="{ name: 'help', query: {helpItemKey: 'HKWT', platform: platform}}"
-            tag="li"
-          >
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'HKWT', platform: platform}}" tag="li">
             <img src="./images/icon_3.png">
             <p>还款问题</p>
           </router-link>
-          <router-link
-            :to="{ name: 'help', query: {helpItemKey: 'QTWT', platform: platform}}"
-            tag="li"
-          >
+          <router-link :to="{ name: 'help', query: {helpItemKey: 'QTWT', platform: platform}}" tag="li">
             <img src="./images/icon_4.png">
             <p>其他问题</p>
           </router-link>
@@ -141,8 +133,8 @@ export default {
           let postData = new URLSearchParams();
           postData.append("userName", "");
           postData.append("token", token);
-          let isIos = navigator.userAgent.indexOf("comeFrom:iOS") > -1;
-          if (isIos) {
+          let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
+          if(isIos) {
             postData.append("type", "1");
           }
           this.common.userEaseModGet(postData).then(res => {
@@ -157,7 +149,7 @@ export default {
       easemobim.config = {
         configId: this.config.configId,
         //configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd",
-
+                  
         // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
         user: {
           // username 必填，password 和 token 任选一项填写
@@ -186,9 +178,7 @@ export default {
           list[i].openUrl =
             this.config.MWEB_PATH +
             "newweb/newsDetail/newsDetail.html?id=" +
-            list[i].id +
-            "&platform=" +
-            this.platform;
+            list[i].id+'&platform=' + this.platform;
         });
 
         this.list = list.splice(0, 5);
