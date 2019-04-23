@@ -242,7 +242,7 @@ export default {
     getInfo() {
         let appNo = this.$route.query.appNo || utils.getCookie("successNo");
         let postData = new URLSearchParams();
-        postData.append("app_no", appno);
+        postData.append("app_no", appNo);
         this.common.ShowWaitTime(postData).then(res =>{
             let data = res.data;
             if(data.resultCode == "1") {
