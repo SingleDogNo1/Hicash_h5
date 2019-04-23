@@ -80,7 +80,8 @@ export default {
 	UserInfo: UserInfo,
 	isDownloadApp: isDownloadApp,
 	userEaseModGet: userEaseModGet,
-	userInfoHx: userInfoHx
+	userInfoHx: userInfoHx,
+	ShowWaitTime: ShowWaitTime
 };
 
 /*
@@ -1334,3 +1335,20 @@ export function userInfoHx(params) {
 		);
 	});
 }
+
+/*
+ *  获取借款进度
+ */
+export function ShowWaitTime(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/ShowWaitTime", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
