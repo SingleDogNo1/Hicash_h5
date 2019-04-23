@@ -108,7 +108,7 @@ export default {
 			console.info('123123123');
 		},
 		downloadModule(){
-			 window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html"
+			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html"
 		}
 	},
 };

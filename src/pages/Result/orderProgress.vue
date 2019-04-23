@@ -10,12 +10,14 @@
           您的分期申请已提交
         </p>
         <p class="loanTime">{{ loanTime }}</p>
-        <p class="loanDetail loanOne">
-          借款<span class="loanAmount">{{ loanAmount }}</span>
-        </p>
-        <p class="loanDetail loanThree">
-          借款期数<span class="loanInstall">{{ loanInstall }}</span>
-        </p>
+        <div class="loanDetail loanOne">
+          <div>借款</div> 
+          <div class="num loanAmount">{{ loanAmount }}</div>
+        </div>
+        <div class="loanDetail loanThree">
+          <div>借款期数</div>
+          <div class="num loanInstall">{{ loanInstall }}</div>
+        </div>
       </div>
       <div class="loanVoucher" v-if="isLoanVoucher">
         <p class="discount">
@@ -72,18 +74,19 @@
         margin-top: .7rem;
       }
       .loanDetail {
-      width: 40%;
-      position: relative;
-      line-height: 1.1rem;
-      margin-top: .7rem;
-      font-size: .6rem;
-      span {
-        display: inline-block;
-        text-align: right;
-        color: #333;
-        position: absolute;
-        right: 0;  
-      }
+        width: 40%;
+        position: relative;
+        line-height: 1.1rem;
+        margin-top: .7rem;
+        font-size: .6rem;
+        .num{
+          margin-top: 5px;
+          color: #000;
+        }
+        div{
+          height: 16px;
+          line-height: 16px;
+        }
       }
       .loanDetail:before {
         position: absolute;
