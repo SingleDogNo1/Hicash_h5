@@ -17,7 +17,7 @@
         <span class="vux-close"></span>
       </div>
     </x-dialog>
-    <confirm
+    <!-- <confirm
       v-model="getReportSuccess"
       :close-on-confirm="false"
       title="获取报告成功"
@@ -26,7 +26,7 @@
       class="reportConfirm"
     >
       <p style="text-align:center;">新鲜的报告已经准备好了，快来看看</p>
-    </confirm>
+    </confirm> -->
   </div>
 </template>
 
@@ -308,7 +308,7 @@ body {
   height: 0.85rem;
   margin-top: 0.2rem;
   background: url("./assets/images/icon_home.png") center center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 .icon-vip-area {
   display: block;
@@ -343,6 +343,14 @@ body {
   background: url("./assets/images/icon-inquiry.png") center center no-repeat;
   background-size: cover;
 }
+.icon-kefu {
+  display: block;
+  width: rem(20px);
+  height: rem(19px);
+  margin-top: 0.15rem;
+  background: url("./assets/images/icon_kefu.png") center center no-repeat;
+  background-size: 100% 100%;
+}
 .icon-me {
   display: block;
   width: 0.8rem;
@@ -375,6 +383,11 @@ body {
   }
   .icon-inquiry {
     background: url("./assets/images/icon-inquiry-select.png") center center
+      no-repeat;
+    background-size: cover;
+  }
+  .icon-kefu {
+    background: url("./assets/images/icon_kefu_act.png") center center
       no-repeat;
     background-size: cover;
   }

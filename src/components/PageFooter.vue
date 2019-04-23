@@ -24,6 +24,18 @@
 			<span slot="label">征信</span>
 		</tabbar-item>
 		<tabbar-item
+			:link="{ name: 'Kefu' }"
+			:selected="$route.name === 'Kefu'"
+		>
+			<span
+				class="icon-kefu"
+				slot="icon"
+				style="position:relative;top: -2px;"
+				>&#xe637;</span
+			>
+			<span slot="label">客服</span>
+		</tabbar-item>
+		<tabbar-item
 			:link="{ name: 'BreakPromise' }"
 			:selected="$route.path === '/breakPromise'"
 		>

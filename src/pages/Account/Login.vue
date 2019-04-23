@@ -569,6 +569,8 @@ export default {
 						"isHaveUnreadCoupon",
 						data.isHaveUnreadCoupon
 					);
+					this.utils.setCookie("hxuserName", data.hxuserName);
+					this.utils.setCookie("hxpassWord", data.hxpassWord);
 
 					const MWEB_PATH = this.config.MWEB_PATH;
 
