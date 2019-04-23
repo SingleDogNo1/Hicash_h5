@@ -1091,6 +1091,7 @@ export default {
 				return false;
 			}else if(this.isDownloadApp && this.utils.getPlatform() != "APP" && this.utils.getDeviceName() == 'android'){
 				this.isShowDownloadApp = true;
+				return false;
 			}
 			window.location.href =
 				this.config.MWEB_PATH +
