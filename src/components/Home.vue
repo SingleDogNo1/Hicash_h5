@@ -1,6 +1,6 @@
 <template>
   <div @click="closeMsg" @touchmove="touchmove" @touchstart="touchstart">
-    <download-pop></download-pop>
+    <download-pop v-if="this.utils.getPlatform() != 'APP' && this.utils.getDeviceName() == 'android'"></download-pop>
     <header class="home-header">
       <!-- <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
       <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div> -->
