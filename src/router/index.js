@@ -51,6 +51,7 @@ import Activity from '@/pages/Activity/Index';
 import OrderProgress from '@/pages/Result/orderProgress';
 import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
+
 Vue.use(Router);
 
 export default new Router({
