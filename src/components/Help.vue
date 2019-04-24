@@ -1,30 +1,6 @@
 <template>
 	<div class="help_page">
 		<div class="wrap">
-			<!-- <header class="creditHeader">
-				<div>
-					<a
-						class="go-history"
-						href="javascript:history.go(-1);"
-						style="left:.85rem;top:40%"
-					></a>
-					<p class="title">帮助中心</p>
-				</div>
-				<tab :line-width="1" custom-bar-width="60px">
-					<tab-item :selected="subType === 'RMWT'" @on-item-click="onItemClick('RMWT')" @on-index-change="onIndexChange"
-						>热门问题{{isShowHead}}</tab-item
-					>
-					<tab-item :selected="subType === 'JKWT'" @on-item-click="onItemClick('JKWT')" @on-index-change="onIndexChange"
-						>借款问题</tab-item
-					>
-					<tab-item :selected="subType === 'HKWT'" @on-item-click="onItemClick('HKWT')" @on-index-change="onIndexChange"
-						>还款问题</tab-item
-					>
-					<tab-item :selected="subType === 'QTWT'" @on-item-click="onItemClick('QTWT')" @on-index-change="onIndexChange"
-						>其他问题
-					</tab-item>
-				</tab>
-			</header> -->
 			<page-header
       :title="title"
       :showBack="showBack"
@@ -197,6 +173,7 @@
 				>
 			</div>
 		</div>
+		<div class="icon-customer-service" @click="toCustomerService"></div>
 	</div>
 </template>
 <script type="text/javascript">
@@ -230,7 +207,8 @@ export default {
 			title: "帮助中心",
       showBack: true,
 			showBtnClose: false,
-			isShowBottom: false
+			isShowBottom: false,
+			customerServiceShow: false
 		};
 	},
 	mounted() {
@@ -241,7 +219,6 @@ export default {
 		if(_this.platform) {
 			this.isShowBottom = true
 		}
-		console.log('helpItemKey==', helpItemKey)
 		if(helpItemKey) {
 			_this.subType = helpItemKey;
 		}
@@ -281,13 +258,11 @@ export default {
 			probeType: 1
 		});
 		this.scroll.on("scroll", function(pos) {
-			console.info("scroll pos.y", pos.y);
 			if (pos.y > 30 && pos.y < 40) {
 				_this.refreshText = "下拉刷新";
 			}
 		});
 		this.scroll.on("touchEnd", function(pos) {
-			console.info("pos.y", pos.y);
 			if (pos.y > 40) {
 				_this.refreshText = "刷新数据中";
 				_this.getSysParam();
@@ -298,7 +273,6 @@ export default {
 		onItemClick: function(type) {
 			this.subType = type;
 			this.scroll.scrollTo(0, 0);
-			console.info(type);
 			this.getSysParam();
 		},
 		onIndexChange: function(index) {
@@ -344,14 +318,84 @@ export default {
 					}, 1000);
 				});
 			});
-		}
+		},
+		toCustomerService: function() {
+      if (this.utils.getPlatform() === "H5") {
+				let userName = this.utils.getCookie("userName");
+        if (!userName) {
+          this.$router.push({ name: "Login" });
+          return;
+        } else {
+          let hxUserName = this.utils.getCookie("hxUserName");
+          let hxPassword = this.utils.getCookie("hxPassword");
+          if (hxUserName && hxPassword) {
+            this.easemobimSet(hxUserName, hxPassword);
+          } else {
+            let postData = new URLSearchParams();
+            postData.append("userName", userName);
+            postData.append("token", "");
+            this.common.userEaseModGet(postData).then(res => {
+              let data = res.data;
+              this.easemobimSet(data.hxUsername, data.hxPassword);
+            });
+          }
+        }
+      } else {
+        let isAndroid = navigator.userAgent.indexOf('comeFrom:android') > -1;
+        let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
+        if(isAndroid) {
+          window.hicashJSCommunication.onCallApp(
+              JSON.stringify({
+                type: "h5_service_im"
+              })
+            );
+        } else {
+          let token = window.hicashJSCommunication.getToken();
+          if (!token) {
+            window.hicashJSCommunication.onCallApp(
+              JSON.stringify({
+                type: "dl"
+              })
+            );
+          } else {
+						let postData = new URLSearchParams();
+						postData.append("userName", "");
+						postData.append("token", token);
+						if(isIos) {
+							postData.append("type", "1");
+						}
+						this.common.userEaseModGet(postData).then(res => {
+							let data = res.data;
+							this.easemobimSet(data.hxUsername, data.hxPassword);
+						});
+					}
+        }
+      }
+		},
+		easemobimSet: function(hxUserName, hxPassword) {
+      window.easemobim = window.easemobim || {};
+      easemobim.config = {
+        //configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",	//生产
+        configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
+                  
+        // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
+        user: {
+          // username 必填，password 和 token 任选一项填写
+          username: hxUserName,
+          password: hxPassword,
+          token: ""
+        },
+        hideKeyboard: true
+      };
+      easemobim.bind(easemobim.config);
+    }
 	}
 };
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
 @import "../../bower_components/sass-rem/rem";
-
+@import "../assets/css/animate.min.css";
 .help_page {
 	height: 100%;
 	.wrap {
@@ -516,6 +560,18 @@ export default {
 	}
 	.vux-flexbox {
 		height: 100%;
+	}
+	.icon-customer-service {
+    width: rem(56px);
+    height: rem(75px);
+    margin: 0;
+    padding: 0px;
+    position: absolute;
+    bottom: rem(136px);
+    z-index: 999;
+    right: rem(8px);
+    background: url("../assets/images/icon_help_kefu.png") center center no-repeat;
+    background-size: 100% 100%;
 	}
 }
 </style>

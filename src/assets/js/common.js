@@ -110,6 +110,8 @@ export function onCallApp(params) {
 		location.href = MWEB_PATH + "newweb/creditInfo/bandBank.html?back=7";
 	} else if (_data.type === "dl") {
 		location.href = config.NEW_MWEB_PATH + "/login";
+	} else if (_data.type === "h5_service_im") {
+		return "";
 	}
 }
 

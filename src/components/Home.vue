@@ -116,8 +116,6 @@
     <div @touchmove="drag($event)" class="drag" @click.stop="shortcutPopup=true">
       <span class="iconfont icon-zhuomiankuaijiefangshi2"></span>
     </div>
-
-    <!-- <div class="icon-customer-service animated" @click="toCustomerService" :class="{'fadeInRight' : !customerServiceShow, 'fadeOutRight': customerServiceShow}"></div> -->
     <iframe id="oldHicash" :src="oldHicash"></iframe>
     <page-footer></page-footer>
   </div>
@@ -721,43 +719,6 @@ export default {
     },
     closeAlertDiv: function() {
       this.shortcutPopup = false;
-    },
-    toCustomerService: function() {
-      let userName = this.utils.getCookie("userName");
-      if(!userName) {
-        this.$router.push({ name: "Login"});
-        return;
-      } else {
-        let hxuserName = this.utils.getCookie("hxuserName");
-        let hxpassWord = this.utils.getCookie("hxpassWord");
-        if(hxuserName && hxpassWord) {
-          this.easemobimSet(hxuserName, hxpassWord)
-          //easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
-        } else {
-          let postData = new URLSearchParams();
-          postData.append("userName", userName );
-          this.common.userEaseModGet(postData).then( res=> {
-            let data = res.data
-            this.easemobimSet(data.hxuserName, data.hxpassWord)
-            //easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true})
-          }) 
-        }
-      }
-    },
-    easemobimSet: function(hxuserName, hxpassWord) {
-      console.log('hxuserName===', hxuserName)
-      console.log('hxpassWord===', hxpassWord)
-      easemobim.config = {
-        configId: '17ccd957-9a07-4fcc-8523-d0a5673435bd',
-        // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
-        user: {            
-            // username 必填，password 和 token 任选一项填写
-            username: hxuserName,  
-            password: hxpassWord,
-            token: ""  
-        }
-      }
-      easemobim.bind({configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd", hideKeyboard:true});
     }
   },
   mounted: function() {

@@ -122,34 +122,42 @@ export default {
           }
         }
       } else {
-        let token = window.hicashJSCommunication.getToken();
-        if (!token) {
+        let isAndroid = navigator.userAgent.indexOf('comeFrom:android') > -1;
+        let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
+        if(isAndroid) {
           window.hicashJSCommunication.onCallApp(
-            JSON.stringify({
-              type: "dl"
-            })
-          );
+              JSON.stringify({
+                type: "h5_service_im"
+              })
+            );
         } else {
-          let postData = new URLSearchParams();
-          postData.append("userName", "");
-          postData.append("token", token);
-          let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
-          if(isIos) {
-            postData.append("type", "1");
+          let token = window.hicashJSCommunication.getToken();
+          if (!token) {
+            window.hicashJSCommunication.onCallApp(
+              JSON.stringify({
+                type: "dl"
+              })
+            );
+          } else {
+            let postData = new URLSearchParams();
+            postData.append("userName", "");
+            postData.append("token", token);
+            if(isIos) {
+              postData.append("type", "1");
+            }
+            this.common.userEaseModGet(postData).then(res => {
+              let data = res.data;
+              this.easemobimSet(data.hxUsername, data.hxPassword);
+            });
           }
-          this.common.userEaseModGet(postData).then(res => {
-            let data = res.data;
-            this.easemobimSet(data.hxUsername, data.hxPassword);
-          });
         }
       }
     },
     easemobimSet: function(hxUserName, hxPassword) {
       window.easemobim = window.easemobim || {};
       easemobim.config = {
-        //configId: this.config.configId,
-        configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",
-        //configId: "17ccd957-9a07-4fcc-8523-d0a5673435bd",
+        //configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",	//生产
+        configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
                   
         // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
         user: {
