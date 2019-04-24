@@ -66,7 +66,7 @@
 								alt=""
 								class="icon_image1"
 							/>
-							<span>在线客服</span>
+							<span>电话客服</span>
 						</div>
 					</flexbox-item>
 					<flexbox-item>
@@ -102,7 +102,7 @@
 				style="padding:10px 0;background-color:#FF7640;color:#fff;"
 			>
 				<strong class="weui-dialog__title" style="font-size:14px;"
-					>在线客服</strong
+					>电话客服</strong
 				>
 			</div>
 			<div
@@ -140,9 +140,9 @@
 			</div>
 			<div
 				class="weui-dialog__bd"
-				style="background: #fff;height:100px;line-height:100px;color:black;"
+				style="padding: 1.8em 1.6em;background: #fff;height:auto;line-height:29px;color:black;"
 			>
-				微信公众号：【果信宝】和【果信宝服务号】
+				微信公众号：【果信宝】<br/>和【果信宝服务号】
 			</div>
 			<div class="weui-dialog__ft" style="background: #fff;">
 				<a
@@ -236,6 +236,7 @@ export default {
 	mounted() {
 		var _this = this;
 		let helpItemKey = _this.$route.query.helpItemKey;
+		_this.helpItemKey = helpItemKey;
 		_this.platform = _this.$route.query.platform;
 		if(_this.platform) {
 			this.isShowBottom = true
@@ -318,11 +319,17 @@ export default {
 
 				_.each(res.data.list, function(v, i) {
 					list[i].createTime = list[i].createTime.substring(0, 10);
-					console.log('_this.platform===', _this.platform)
-					list[i].openUrl =
-						_this.platform ? _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
-						+ '&platform=' + _this.platform : _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" +　list[i].id;
-						list[i].id;
+					if(_this.platform) {
+						if(_this.helpItemKey) {
+								list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
+								+ '&platform=' + _this.platform + '&type=helpTab&helpTab=' + _this.subType;
+						} else {
+							list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
+								+ '&platform=' + _this.platform + '&type=help';
+						}
+					} else {
+						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" +　list[i].id + '&type=help';
+					}
 				});
 
 				_this.list = list;
