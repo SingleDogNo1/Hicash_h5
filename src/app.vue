@@ -156,9 +156,11 @@ export default {
       //软键盘收起的事件处理
       let ua = navigator.userAgent.toLowerCase();
       if (ua.indexOf("iphone") > 0 || ua.indexOf("ipad") > 0) {
-        //键盘收齐页面空白问题
-        document.body.scrollTop = document.body.scrollHeight;
-        document.body.scrollIntoView(false);
+        if(this.$route.name === "login" || this.$route.name === "register") {
+          //键盘收齐页面空白问题
+          document.body.scrollTop = document.body.scrollHeight;
+          document.body.scrollIntoView(false);
+        }
       }
     });
 
