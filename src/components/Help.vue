@@ -216,7 +216,6 @@ export default {
 		let helpItemKey = _this.$route.query.helpItemKey;
 		_this.helpItemKey = helpItemKey;
 		_this.platform = _this.$route.query.platform;
-		document.body.scrollTop = 0;
 		if(_this.platform) {
 			this.isShowBottom = true
 		}
@@ -429,7 +428,10 @@ export default {
 		position: relative;
 	}
 	.help-tab {
-		padding-top: rem(50px);
+		position: fixed;
+		padding-top: rem(46px);
+		width: 100%;
+    z-index: 10000;
 	}
 	.appContent {
 		padding-top: 0;
@@ -443,6 +445,7 @@ export default {
 	.vux-tab-container {
 		position: relative;
 		    z-index: 4;
+		background: #fff;
 	}
 	footer {
 		position: absolute;
