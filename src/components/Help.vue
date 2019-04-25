@@ -571,7 +571,7 @@ export default {
     margin: 0;
     padding: 0px;
     position: absolute;
-    bottom: rem(136px);
+    bottom: rem(80px);
     z-index: 999;
     right: rem(8px);
     background: url("../assets/images/icon_help_kefu.png") center center no-repeat;

@@ -52,7 +52,7 @@
         <div class="problem-wrap">
           <div class="problem-title">
             <h3>常见问题</h3>
-            <router-link class="more" :to="{ name: 'help', query: {platform: platform, type: 'help'}}">更多</router-link>
+            <router-link class="more" :to="{ name: 'help', query: {platform: platform, helpItemKey: 'RMWT'}}">更多</router-link>
           </div>
           <div class="swiper-container">
             <div class="swiper-wrapper">
