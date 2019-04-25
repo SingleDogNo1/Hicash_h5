@@ -7,7 +7,7 @@
 		></page-header>
 		<div class="content" :class="{ appContent: platform === 'APP' }">
 			<div class="loan">
-				<img :src="cdnBrokePromisePath" width="100%" />
+				<img src="./images/bg_broke_promise.png" width="100%" />
 			</div>
 
 			<div class="hot-wrap">
@@ -101,10 +101,11 @@
 </template>
 
 <style lang="scss" scoped>
+@import "~bowerComponents/sass-rem/_rem.scss";
 .content {
 	width: 100%;
 	padding-bottom: 1.8rem;
-	padding-top: 46px;
+	padding-top: rem(50px);
 	background: #fff;
 	.loan {
 		width: 100%;
@@ -286,7 +287,7 @@ export default {
 			loseCreditDetailList: [],
 			hotNews: [],
 			platform: "",
-			cdnBrokePromisePath: this.config.cdn_pic_path + 'applogo/shixin/bg_broke_promise.png',
+			//cdnBrokePromisePath: this.config.cdn_pic_path + 'applogo/shixin/bg_broke_promise.png',
 			cdnShixinCasePath: this.config.cdn_pic_path + 'applogo/shixin/ad_shixin.png',
 			cdnAdPath: this.config.cdn_pic_path + 'applogo/shixin/ad.png'
 		};
