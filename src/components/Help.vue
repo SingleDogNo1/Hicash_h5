@@ -216,6 +216,7 @@ export default {
 		let helpItemKey = _this.$route.query.helpItemKey;
 		_this.helpItemKey = helpItemKey;
 		_this.platform = _this.$route.query.platform;
+		document.body.scrollTop = 0;
 		if(_this.platform) {
 			this.isShowBottom = true
 		}
@@ -224,7 +225,6 @@ export default {
 		}
 
 		let comeFrom = _this.utils.getPlatform();
-		//comeFrom = 'APP'
 		this.comeFrom = comeFrom;
 		if (comeFrom != "H5" && !_this.platform) {
 			_this.isShowHead = false;
@@ -388,7 +388,7 @@ export default {
         hideKeyboard: true
       };
       easemobim.bind(easemobim.config);
-    }
+		}
 	}
 };
 </script>
@@ -429,9 +429,9 @@ export default {
 	}
 	.help-tab {
 		position: fixed;
-		padding-top: rem(46px);
+		padding-top: rem(50px);
 		width: 100%;
-    z-index: 10000;
+    z-index: 100;
 	}
 	.appContent {
 		padding-top: 0;
@@ -444,11 +444,11 @@ export default {
 	}
 	.vux-tab-container {
 		position: relative;
-		    z-index: 4;
+		z-index: 4;
 		background: #fff;
 	}
 	footer {
-		position: absolute;
+		position: fixed;
 		height: 49px;
 		line-height: 45px;
 		background-color: white;
