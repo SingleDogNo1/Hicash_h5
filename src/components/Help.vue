@@ -296,7 +296,7 @@ export default {
 					if(_this.platform) {
 						if(_this.helpItemKey) {
 								list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
-								+ '&platform=' + _this.platform + '&type=helpTab&helpTab=' + _this.subType;
+								+ '&platform=' + _this.platform + '&type=help';
 						} else {
 							list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
 								+ '&platform=' + _this.platform + '&type=help';
