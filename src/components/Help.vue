@@ -216,6 +216,7 @@ export default {
 		let helpItemKey = _this.$route.query.helpItemKey;
 		_this.helpItemKey = helpItemKey;
 		_this.platform = _this.$route.query.platform;
+		document.body.scrollTop = 0;
 		if(_this.platform) {
 			this.isShowBottom = true
 		}
