@@ -1,6 +1,6 @@
 <template>
 	<div v-cloak>
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && this.utils.getDeviceName() == 'android'"></download-pop>
+		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
 		<page-header
 			:jumpRouteName="jumpRouteName"
 			v-if="this.utils.getPlatform() != 'APP'"

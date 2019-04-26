@@ -84,6 +84,18 @@
 				/>
 			</cell>
 		</group>
+
+		<confirm class="reportConfirm" 
+			v-model="isShowCouponPop"
+			title="温馨提示"
+			:hide-on-blur="true"
+			:show-cancel-button="false"
+			confirm-text="立即查看"
+			@on-confirm="jumpPage('MyCoupon')"
+			>
+			<p style="text-align:center;">{{unusedCouponAlertMsg}}</p>
+		</confirm>
+
 		<page-footer></page-footer>
 	</div>
 </template>
@@ -385,7 +397,8 @@ import {
 	Flow,
 	FlowState,
 	FlowLine,
-	Toast
+	Toast,
+	Confirm
 } from "vux";
 import PageFooter from "@/components/PageFooter";
 import axios from "axios";
@@ -401,7 +414,8 @@ export default {
 		FlowState,
 		FlowLine,
 		PageFooter,
-		Toast
+		Toast,
+		Confirm
 	}, //mobile.length>10?mobile.substring(0,3)+"****"+mobile.substring(7,11):mobile
 	data() {
 		return {
@@ -445,14 +459,15 @@ export default {
 			helpLick:
 				this.config.MWEB_PATH + "newweb/personalCenter/compreRat.html",
 			newMsg: false,
-			newCoupon: false
+			newCoupon: false,
+			isShowCouponPop: false,
+			unusedCouponAlertMsg: ''
 		};
 	},
 	methods: {
 		getAccountInfo(getAccountInfoDatas) {
 			this.common.getAccountInfo(getAccountInfoDatas).then(res => {
 				let data = res.data;
-				console.info("getAccountInfo", data);
 				if (data.resultCode != "1") {
 					this.$vux.toast.text(data.resultMsg);
 					this.$router.push({
@@ -465,6 +480,12 @@ export default {
 					this.balance = data.balance; //账户余额
 					this.accountPays = data.accountPays; //我的分期
 					this.userGrade = data.userGrade; //用户等级
+					this.unusedCouponAlertMsg = data.unusedCouponAlertMsg;
+
+					if(data.unusedCouponNum > '0' && sessionStorage.getItem('isShowMyCouponPop') > '0'){
+						this.isShowCouponPop = true;
+						sessionStorage.setItem('isShowMyCouponPop', '0');
+					}
 
 					if (data.headUrl) {
 						this.avatarImg =
@@ -497,6 +518,10 @@ export default {
 		//跳转到我的分期
 		toMyInstalment() {
 			this.$router.push({path:"/personal/myInstalment"});
+		},
+		jumpPage(name){
+			this.isShowCouponPop = false;
+			this.$router.push({name: name});
 		}
 	},
 	mounted() {

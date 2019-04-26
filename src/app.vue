@@ -106,6 +106,8 @@ export default {
         },
         locationError = function(error) {};
       getLocation();
+
+      sessionStorage.setItem('isShowMyCouponPop', '1');  //个人中心提示优惠券弹出框显隐
     }
   },
   components: {
