@@ -48,6 +48,10 @@ import AuthHaluo from '@/pages/credit/Report/Haluo';
 import AuthOperator from '@/pages/credit/Report/Operator';
 import AuthEleme from '@/pages/credit/Report/Eleme';
 import Activity from '@/pages/Activity/Index';
+import WaCaiBindbank from '@/pages/Product/Wacai/WaCaiBindbank';
+import WaCaiRecharge from '@/pages/Product/Wacai/WaCaiRecharge';
+import WaCaiSignature from '@/pages/Product/Wacai/WaCaiSignature';
+import WaCaiWithdrawalsTransfer from '@/pages/Product/Wacai/WaCaiWithdrawalsTransfer';
 
 Vue.use(Router);
 
@@ -205,6 +209,46 @@ export default new Router({
 					meta: {
 						requireAuth: true,
 						title: '怎样成为VIP'
+					}
+				},
+				{
+					//挖财 - 绑卡页面
+					path: '/WaCaiBindbank',
+					name: 'WaCaiBindbank',
+					component: WaCaiBindbank,
+					meta: {
+						requireAuth: true,
+						title: '挖财绑卡页面'
+					}
+				},
+				{
+					//挖财 - 签约页面
+					path: '/WaCaiSignature',
+					name: 'WaCaiSignature',
+					component: WaCaiSignature,
+					meta: {
+						requireAuth: true,
+						title: '挖财签约页面'
+					}
+				},
+				{
+					//挖财 - 提现页面
+					path: '/WaCaiWithdrawalsTransfer',
+					name: 'WaCaiWithdrawalsTransfer',
+					component: WaCaiWithdrawalsTransfer,
+					meta: {
+						requireAuth: true,
+						title: '挖财提现页面'
+					}
+				},
+				{
+					//挖财 - 充值页面
+					path: '/WaCaiRecharge',
+					name: 'WaCaiRecharge',
+					component: WaCaiRecharge,
+					meta: {
+						requireAuth: true,
+						title: '挖财充值页面'
 					}
 				}
 			]
