@@ -1089,7 +1089,7 @@ export default {
 					})
 				);
 				return false;
-			}else if(this.isDownloadApp && this.utils.getPlatform() != "APP" && this.utils.getDeviceName() == 'android'){
+			}else if(this.isDownloadApp && this.utils.getPlatform() != "APP"){
 				this.isShowDownloadApp = true;
 				return false;
 			}
