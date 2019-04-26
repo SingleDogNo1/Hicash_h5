@@ -155,8 +155,8 @@ export default {
     easemobimSet: function(hxUserName, hxPassword) {
       window.easemobim = window.easemobim || {};
       easemobim.config = {
-        //configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",	//生产
-        configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
+        configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",	//生产
+        //configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
                   
         // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
         user: {
