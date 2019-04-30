@@ -51,6 +51,7 @@ import Activity from '@/pages/Activity/Index';
 import OrderProgress from '@/pages/Result/orderProgress';
 import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
+import Strike from "@/pages/Activity/Strike";
 
 Vue.use(Router);
 
@@ -474,6 +475,15 @@ export default new Router({
 			component: Kefu,
 			meta: {
 				title: "客服"
+			}
+		},
+		{
+			//罢工活动
+			path: "/strike",
+			name: "Strike",
+			component: Strike,
+			meta: {
+				title: "罢工活动"
 			}
 		}
 	]
