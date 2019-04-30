@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
 		<section class="personal-header-wrap">
 			<!-- 用户信息 -->
 			<div class="per-user-info">
@@ -401,6 +402,7 @@ import {
 	Confirm
 } from "vux";
 import PageFooter from "@/components/PageFooter";
+import downloadPop from "@/components/downloadPop.vue";
 import axios from "axios";
 
 export default {
@@ -415,7 +417,8 @@ export default {
 		FlowLine,
 		PageFooter,
 		Toast,
-		Confirm
+		Confirm,
+		downloadPop
 	}, //mobile.length>10?mobile.substring(0,3)+"****"+mobile.substring(7,11):mobile
 	data() {
 		return {

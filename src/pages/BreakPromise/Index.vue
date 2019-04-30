@@ -1,5 +1,6 @@
 <template>
 	<div class="break-promise" v-cloak>
+		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
 		<page-header
 			:title="title"
 			:showBack="showBack"
@@ -269,12 +270,14 @@
 <script>
 import PageHeader from "@/components/PageHeader.vue";
 import PageFooter from "@/components/PageFooter.vue";
+import downloadPop from "@/components/downloadPop.vue";
 import Swiper from "swiper";
 
 export default {
 	components: {
 		PageHeader,
 		PageFooter,
+		downloadPop,
 		Swiper
 	},
 	data() {

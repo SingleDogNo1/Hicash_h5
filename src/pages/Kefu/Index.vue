@@ -1,5 +1,6 @@
 <template>
   <div class="kefu">
+    <download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
     <page-header
       :title="title"
       :showBack="showBack"
@@ -82,12 +83,14 @@
 <script>
 import PageHeader from "@/components/PageHeader";
 import PageFooter from "@/components/PageFooter";
+import downloadPop from "@/components/downloadPop";
 import Swiper from "swiper";
 export default {
   components: {
     PageHeader,
     PageFooter,
-    Swiper
+    Swiper,
+    downloadPop
   },
   data() {
     return {
