@@ -213,7 +213,7 @@ export default new Router({
 				},
 				{
 					//挖财 - 绑卡页面
-					path: '/WaCaiBindbank',
+					path: 'WaCaiBindbank',
 					name: 'WaCaiBindbank',
 					component: WaCaiBindbank,
 					meta: {
@@ -223,7 +223,7 @@ export default new Router({
 				},
 				{
 					//挖财 - 签约页面
-					path: '/WaCaiSignature',
+					path: 'WaCaiSignature',
 					name: 'WaCaiSignature',
 					component: WaCaiSignature,
 					meta: {
@@ -233,7 +233,7 @@ export default new Router({
 				},
 				{
 					//挖财 - 提现页面
-					path: '/WaCaiWithdrawalsTransfer',
+					path: 'WaCaiWithdrawalsTransfer',
 					name: 'WaCaiWithdrawalsTransfer',
 					component: WaCaiWithdrawalsTransfer,
 					meta: {
@@ -243,7 +243,7 @@ export default new Router({
 				},
 				{
 					//挖财 - 充值页面
-					path: '/WaCaiRecharge',
+					path: 'WaCaiRecharge',
 					name: 'WaCaiRecharge',
 					component: WaCaiRecharge,
 					meta: {

@@ -864,7 +864,7 @@ export default {
         }
       });
     },
-    openAccountChange: function(ids, names) {
+    openAccountChange(ids, names) {
       this.bankLisCh = names.join("");
       this.province = ids[0];
       this.city = ids[1];
