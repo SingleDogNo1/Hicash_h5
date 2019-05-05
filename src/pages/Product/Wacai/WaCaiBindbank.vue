@@ -749,7 +749,7 @@ export default {
       );
       baiQiShiObj.append("idCard", utils.getCookie("identityCode"));
       baiQiShiObj.append("mobile", utils.getCookie("mobile"));
-      baiQiShiObj.append("name", '张政');
+      baiQiShiObj.append("name", encodeURIComponent(unescapeutils.getCookie("realName")));
       baiQiShiObj.append("eventType", "binding");
       baiQiShiObj.append("tokenKey", utils.getCookie("uuid"));
       baiQiShiObj.append("plateform", "h5");
@@ -780,7 +780,7 @@ export default {
                 if (status) {
                   let equipmentInfoObj = new URLSearchParams();
                   equipmentInfoObj.append("sessionId", uuidStr);
-                  equipmentInfoObj.append("appNo", "appNo");
+                  equipmentInfoObj.append("appNo", appNo);
                   equipmentInfoObj.append("source", "HTML5");
                   equipmentInfoObj.append("userName", this.userName);
                   equipmentInfoObj.append(

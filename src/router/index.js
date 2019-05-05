@@ -218,7 +218,7 @@ export default new Router({
 					component: WaCaiBindbank,
 					meta: {
 						requireAuth: true,
-						title: '挖财绑卡页面'
+						title: '绑卡页面'
 					}
 				},
 				{
@@ -228,7 +228,7 @@ export default new Router({
 					component: WaCaiSignature,
 					meta: {
 						requireAuth: true,
-						title: '挖财签约页面'
+						title: '签约页面'
 					}
 				},
 				{
@@ -238,7 +238,7 @@ export default new Router({
 					component: WaCaiWithdrawalsTransfer,
 					meta: {
 						requireAuth: true,
-						title: '挖财提现页面'
+						title: '提现页面'
 					}
 				},
 				{
@@ -248,7 +248,7 @@ export default new Router({
 					component: WaCaiRecharge,
 					meta: {
 						requireAuth: true,
-						title: '挖财充值页面'
+						title: '充值页面'
 					}
 				}
 			]

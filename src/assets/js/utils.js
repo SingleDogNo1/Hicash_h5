@@ -435,7 +435,7 @@ export function checkAearTel(tel) {
 
 export function checkCardNum(cardNum) {
 	var reg = /^[0-9]{10,20}$/;
-	return reg.test(tel);
+	return reg.test(cardNum);
 }
 
 export function getPlatform() {
