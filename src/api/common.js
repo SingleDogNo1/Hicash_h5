@@ -77,7 +77,9 @@ export default {
 	checkUserInfo: checkUserInfo,
 	QueryPandoraUrl: QueryPandoraUrl,
 	RepayProgram: RepayProgram,
-	UserInfo: UserInfo
+	UserInfo: UserInfo,
+	bankBin: bankBin,
+	cardCheckFour: cardCheckFour
 };
 
 /*
@@ -1283,4 +1285,36 @@ export function UserInfo(params) {
 		   }
 	   );
    });
+}
+
+/*
+ *  根据银行卡号匹配银行
+ */
+export function bankBin(params) {
+	return new Promise((resolve, reject) => {
+		axios.post('/HicashAppService/BankBin', params).then(
+			(res) => {
+				resolve(res);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  同盾银行卡认证四要素
+ */
+export function cardCheckFour(params) {
+	return new Promise((resolve, reject) => {
+		axios.post('/HicashService/card_check_four', params).then(
+			(res) => {
+				resolve(res);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
 }
