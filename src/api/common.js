@@ -83,7 +83,8 @@ export default {
 	queryValName: queryValName,
 	dispatchWithHoldChannel: dispatchWithHoldChannel,
 	submitBindCardInfo: submitBindCardInfo,
-	createAppPayByMD: createAppPayByMD
+	createAppPayByMD: createAppPayByMD,
+	updateChannelApplicationStatusWacai: updateChannelApplicationStatusWacai
 };
 
 /*
@@ -1381,6 +1382,22 @@ export function createAppPayByMD(params) {
 				resolve(res);
 			},
 			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  挖财引入的嗨钱订单状态变更后调用此接口，相应的修改挖财订单状态并将结果推送给挖财
+ */
+export function updateChannelApplicationStatusWacai(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/updateChannelApplicationStatus/wacai", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
 				reject(err);
 			}
 		);

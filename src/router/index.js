@@ -52,6 +52,7 @@ import WaCaiBindbank from '@/pages/Product/Wacai/WaCaiBindbank';
 import WaCaiRecharge from '@/pages/Product/Wacai/WaCaiRecharge';
 import WaCaiSignature from '@/pages/Product/Wacai/WaCaiSignature';
 import WaCaiWithdrawalsTransfer from '@/pages/Product/Wacai/WaCaiWithdrawalsTransfer';
+import Reminder from "@/pages/Agreement/Reminder";
 
 Vue.use(Router);
 
@@ -489,6 +490,15 @@ export default new Router({
 			meta: {
 				title: "优惠券活动"
 			}
-		}
+		},
+		{
+			//温馨提示
+			path: "/reminder",
+			name: "Reminder",
+			component: Reminder,
+			meta: {
+				title: "温馨提示"
+			}
+		},
 	]
 });
