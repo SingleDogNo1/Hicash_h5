@@ -1,12 +1,11 @@
 <template>
   <div class="content">
     <div class="jump-bank" v-if="isJumpBank">
-      <p>正在跳转银行页面...</p>
+      <p>提现</p>
     </div>
     <div class="success" v-else>
       <p>
-        提现中
-        <br>请等待
+        提现中,请等待...
       </p>
       <input type="button" value="返回" class="btn" @click="jumpPersonalCenter">
     </div>
@@ -29,12 +28,13 @@ export default {
   methods: {
     jumpPersonalCenter() {
       //跳转到个人中心
-      var obj = { type: "h5_user_center" };
-      window.hicashJSCommunication.jumpPage(JSON.stringify(obj));
+      // var obj = { type: "h5_user_center" };
+      // window.hicashJSCommunication.jumpPage(JSON.stringify(obj));
+      window.location.href = this.utils.getCookie('backUrl');
     }
   },
   mounted() {
-    if (this.type) {
+    if (this.type == '1') {
       this.isJumpBank = false;
       setTimeout( () => {
         this.jumpPersonalCenter();

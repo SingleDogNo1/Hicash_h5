@@ -140,7 +140,6 @@ export default {
           this.term = data.term;
           let agreementsH5 = data.agreementsH5;
           agreementsH5.forEach( val => {
-            console.log('val===', val)
             val.isAgree = false;
             val.showPop = false;
             let agreementTmplArr = [];
@@ -222,6 +221,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
+#iframe{
+    height: 95vh;
+    margin-top: 50px;
+}
 .content {
   width: 100%;
   height: 100%;

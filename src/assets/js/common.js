@@ -1,4 +1,5 @@
 import utils from "./utils";
+import config from "../../config.json";
 import axios from "axios";
 
 export default {
@@ -71,23 +72,23 @@ export function jumpPage(obj) {
 	var type = obj.type;
 	if (type == "h5_user_center") {
 		location.href =
-			MWEB_PATH + "newweb/personalCenter/perCenter.html?from=perCenter";
+		config.NEW_MWEB_PATH + "/personal";
 	} else if (type == "h5_sign") {
 		location.href =
-			MWEB_PATH +
+		config.MWEB_PATH +
 			"newweb/personalCenter/signature_new.html?appNo=" +
 			obj.app_no +
 			"&industryCode=" +
 			obj.industry_code;
 	} else if (type == "h5_chargerepay") {
 		location.href =
-			MWEB_PATH +
+		config.MWEB_PATH +
 			"newweb/personalCenter/rechargePay.html?appNo=" +
 			obj.app_no +
 			"&userName=" +
 			obj.userName;
 	} else if (type == "dishonestCenter") {
-		location.href = MWEB_PATH + "newweb/infoList/list.html";
+		location.href = config.MWEB_PATH + "newweb/infoList/list.html";
 	}
 }
 

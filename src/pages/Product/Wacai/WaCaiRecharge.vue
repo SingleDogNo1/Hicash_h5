@@ -115,7 +115,7 @@ export default {
       balance: "0.00",
       totalTerm: "", // 总期数
       term: "", // 当前期数,
-      couponAmount: this.$route.query.couponAmount,
+      couponAmount: this.$route.query.couponAmount && this.$route.query.couponAmount != 'null' ? this.$route.query.couponAmount : null ,
       couponNum: this.$route.query.couponNum ? this.$route.query.couponNum : "",
       availableCoupon: false,
       couponTotalAmount: "",
@@ -278,7 +278,6 @@ export default {
       } else if (parseFloat(money) > parseFloat(this.amount)) {
         errorMsg = "充值金额不能超过 " + this.amount + " 元";
       }
-      console.log("errorMsg===", errorMsg);
       if (errorMsg !== "") {
         this.$vux.toast.show({
           type: "text",
@@ -301,7 +300,7 @@ export default {
       applyRechargeObj.append("rechargeType", this.currentRechargeMenu.value);
       applyRechargeObj.append(
         "returnUrl",
-        this.config.MWEB_PATH + "app/user/rechargeResult.html"
+        this.utils.getCookie('backUrl')
       );
       applyRechargeObj.append("couponRuleId", this.couponRuleId);
       applyRechargeObj.append("couponNum", this.couponNum);

@@ -508,10 +508,10 @@ export default {
       });
     },
     checkCard() {
-      let realname = this.realName;
+      let realname = unescape(this.realName);
       let cardCheckFourObj = new URLSearchParams();
       cardCheckFourObj.append("card", this.cardNum);
-      cardCheckFourObj.append("name", this.realname);
+      cardCheckFourObj.append("name", realname);
       cardCheckFourObj.append("id_number", utils.getCookie("identityCode"));
       cardCheckFourObj.append("card_type", "jjk");
       cardCheckFourObj.append("mobile", utils.getCookie("mobile"));
@@ -520,6 +520,7 @@ export default {
       let queryNameObj = new URLSearchParams();
       queryNameObj.append("userName", this.userName);
       common.cardCheckFour(cardCheckFourObj).then(res => {
+
         let data = res.data;
         this.$vux.loading.hide();
         if (data.resultCode === "1") {
@@ -643,17 +644,7 @@ export default {
         let data = res.data;
         this.$vux.loading.hide();
         if (data.resultCode === "1") {
-          window.location.href =
-            "http://localhost:9002/#/bFBindBank?userName=" +
-            this.userName +
-            "&comeFrom=" +
-            comeFrom +
-            "&bankRealName=" +
-            this.realName +
-            "&bankCard=" +
-            this.cardNum +
-            "&bankCode=" +
-            this.bankListVal;
+          // window.location.href = data.followUrl;
           if (data.dialogMsg) {
             this.showSinaPayPop = true;
             this.dialogMsg = data.dialogMsg;
@@ -672,197 +663,17 @@ export default {
       this.createOrder();
     },
     createOrder() {
-      let registerFrom = "HTML5";
-      if (utils.getCookie("mediasource") == "iosddd") {
-        registerFrom = "iOS";
-      } else if (utils.getCookie("mediasource") == "andddd") {
-        registerFrom = "Android";
+      let submitBindCardInfoObj = {
+        userName: this.userName,
+        bankCard: this.cardNum,
+        bankRealName: this.realName,
+        openBank: this.bankListVal,
+        province: this.province,
+        city: this.city,
+        area: this.area,
+        bankNo: this.bankListVal
       }
-      console.log(
-        'utils.getCookie("prodetailInfo")===',
-        utils.getCookie("prodetailInfo")
-      );
-      let createAppObj = new URLSearchParams();
-      createAppObj.append("userName", this.userName);
-      createAppObj.append("openBank", this.bankListVal);
-      createAppObj.append(
-        "tempAppNo",
-        utils.getCookie("appFlowNo").split(":")[1]
-      );
-      createAppObj.append("bankRealName", this.realName);
-      createAppObj.append("bankCard", this.cardNum);
-      createAppObj.append("province", this.province);
-      createAppObj.append("city", this.city);
-      createAppObj.append("area", this.area);
-      createAppObj.append("merProId", "8537");
-      createAppObj.append("productName", "嗨秒贷");
-      createAppObj.append("supplierId", "2395");
-      createAppObj.append("siteId", "2072");
-      createAppObj.append(
-        "loanProduct",
-        utils.getCookie("prodetailInfo").split(":")[1]
-      );
-      createAppObj.append(
-        "tranPrice",
-        utils.getCookie("prodetailInfo").split(":")[0]
-      );
-      createAppObj.append("custType", utils.getCookie("custType"));
-      createAppObj.append("applyFrom", registerFrom);
-      createAppObj.append("uuid", utils.uuid());
-      createAppObj.append("coupon_id", "");
-      let industryCode = utils.getCookie("industryCode");
-      if (industryCode == "LDDD") {
-        createAppObj.append("merProId", "8663");
-        createAppObj.append("productName", "滴答贷");
-        createAppObj.append("supplierId", "2395");
-        createAppObj.append("siteId", "2072");
-      }
-      if (industryCode == "DDCP") {
-        createAppObj.append("merProId", "8664");
-        createAppObj.append("productName", "嗨钱来");
-        createAppObj.append("supplierId", "2395");
-        createAppObj.append("siteId", "2072");
-        createAppObj.append("loanProduct", "749");
-        createAppObj.append("tranPrice", "1000");
-      }
-      let reference = utils.getCookie("reference");
-      let upPage = utils.getCookie("upPage");
-      let mediasource = utils.getCookie("mediasource");
-      let activeFrom = utils.getCookie("activeFrom");
-      if (reference && reference != "null") {
-        createAppObj.append("reference", reference);
-      }
-      if (upPage && upPage != "null") {
-        createAppObj.append("upPage", upPage);
-      }
-      if (mediasource && mediasource != "null") {
-        createAppObj.custAppFrom = mediasource;
-      }
-      if (activeFrom && activeFrom != "null") {
-        createAppObj.activeFrom = activeFrom;
-      }
-
-      let baiQiShiObj = new URLSearchParams();
-      baiQiShiObj.append(
-        "idustryCode",
-        utils.getCookie("industryCode") || "HQ"
-      );
-      baiQiShiObj.append("idCard", utils.getCookie("identityCode"));
-      baiQiShiObj.append("mobile", utils.getCookie("mobile"));
-      baiQiShiObj.append("name", encodeURIComponent(unescapeutils.getCookie("realName")));
-      baiQiShiObj.append("eventType", "binding");
-      baiQiShiObj.append("tokenKey", utils.getCookie("uuid"));
-      baiQiShiObj.append("plateform", "h5");
-      baiQiShiObj.append("bankCardNo", utils.getCookie("backCardNum"));
-      common.checkResultBaiQiShi(baiQiShiObj).then(res => {
-        if (res.data.resultCode == "1") {
-          common.createAppPayByMD(createAppObj).then(res => {
-            let data = res.data;
-            this.$vux.loading.hide();
-            if (data.resultCode == "1") {
-              let obj = {
-                applyFrom: "03",
-                node: "09",
-                status: "06"
-              };
-              this.updateTempAppInfo(obj);
-              utils.setCookie("successNo", data.appPayNo);
-              //生成单号成功
-              let appNo = data.appPayNo;
-              let uuidStr = utils.uuid();
-              console.log("mj===", mj);
-              mj("set_params", {
-                tid: "784ba2ee36ef34d4a1fd3c317ed78825",
-                session_id: uuidStr,
-                url: "trk.mxtrk.com"
-              });
-              mj("customize_event", { eventType: "click" }, (status, data) => {
-                if (status) {
-                  let equipmentInfoObj = new URLSearchParams();
-                  equipmentInfoObj.append("sessionId", uuidStr);
-                  equipmentInfoObj.append("appNo", appNo);
-                  equipmentInfoObj.append("source", "HTML5");
-                  equipmentInfoObj.append("userName", this.userName);
-                  equipmentInfoObj.append(
-                    "mobileNo",
-                    utils.getCookie("mobile")
-                  );
-                  equipmentInfoObj.append("userRealName", this.realName);
-                  equipmentInfoObj.append(
-                    "identityNo",
-                    utils.getCookie("identityCode")
-                  );
-                  common
-                    .maxentSaveEquipmentInfo(equipmentInfoObj)
-                    .then(res => {});
-                  common
-                    .tongfudunSaveEquipmentInfo(equipmentInfoObj)
-                    .then(res => {
-                      console.log("industryCode===", industryCode);
-                      if (industryCode == "DDCP") {
-                        // window.location.href =
-                        //   MWEB_PATH + "newweb/creditInfo/signSubmit.html";
-                      }
-                      // window.location.href =
-                      //   MWEB_PATH + "newweb/creditInfo/loanProgress.html";
-                    });
-                } else {
-                  this.$vux.toast.show({
-                    type: "text",
-                    position: "middle",
-                    text: "获取设备信息异常"
-                  });
-                }
-              });
-            } else if (data.resultCode === "60100") {
-              this.$vux.toast.show({
-                type: "text",
-                position: "middle",
-                text: data.resultMsg
-              });
-              setTimeout(() => {
-                this.authFail(data.resultMsg);
-              }, 1000);
-            } else {
-              this.$vux.toast.show({
-                type: "text",
-                position: "middle",
-                text: data.resultMsg
-              });
-              let obj = {
-                applyFrom: "03",
-                node: "09",
-                status: "05"
-              };
-              this.updateTempAppInfo(obj);
-            }
-          });
-        } else if (data.resultCode === "60100") {
-          this.$vux.loading.hide();
-          this.$vux.toast.show({
-            type: "text",
-            position: "middle",
-            text: data.resultMsg
-          });
-          setTimeout(() => {
-            this.authFail(data.resultMsg);
-          }, 1000);
-        } else {
-          this.$vux.loading.hide();
-          this.$vux.toast.show({
-            type: "text",
-            position: "middle",
-            text: data.resultMsg
-          });
-          setTimeout( ()=>{
-            if(this.userName && this.userName!="null"){
-              this.$router.push({ name: "Personal" });
-            }else{
-              this.$router.push({ name: "Login" });
-            }
-          }, 3000);
-        }
-      });
+      this.submitBindCardInfo(submitBindCardInfoObj);
     },
     openAccountChange(ids, names) {
       this.bankLisCh = names.join("");
@@ -1084,6 +895,12 @@ export default {
       } else {
         window.location.href = data.followUrl;
       }
+    },
+    submitBindCardInfo(data){
+      common.submitBindCardInfo(data)
+      .then(res => {
+        window.location.href = utils.getCookie('backUrl');
+      })
     }
   },
   mounted: function() {

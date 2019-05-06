@@ -79,7 +79,11 @@ export default {
 	RepayProgram: RepayProgram,
 	UserInfo: UserInfo,
 	bankBin: bankBin,
-	cardCheckFour: cardCheckFour
+	cardCheckFour: cardCheckFour,
+	queryValName: queryValName,
+	dispatchWithHoldChannel: dispatchWithHoldChannel,
+	submitBindCardInfo: submitBindCardInfo,
+	createAppPayByMD: createAppPayByMD
 };
 
 /*
@@ -1309,6 +1313,70 @@ export function bankBin(params) {
 export function cardCheckFour(params) {
 	return new Promise((resolve, reject) => {
 		axios.post('/HicashService/card_check_four', params).then(
+			(res) => {
+				resolve(res);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  查询用户姓名是否修改过
+ */
+export function queryValName(params) {
+	return new Promise((resolve, reject) => {
+		axios.post('/HicashAppService/QueryValName', params).then(
+			(res) => {
+				resolve(res);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  先查询此银行卡与代扣方 绑定状态。
+ */
+export function dispatchWithHoldChannel(params) {
+	return new Promise((resolve, reject) => {
+		axios.post('/HicashAppService/dispatchWithHoldChannel', params).then(
+			(res) => {
+				resolve(res);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  提交绑卡信息
+ */
+export function submitBindCardInfo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post('/hicash-api-service/submitBindCardInfo', params).then(
+			(res) => {
+				resolve(res);
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  创建订单
+ */
+export function createAppPayByMD(params) {
+	return new Promise((resolve, reject) => {
+		axios.post('/HicashAppService/CreateAppPayByMD', params).then(
 			(res) => {
 				resolve(res);
 			},
