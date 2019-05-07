@@ -671,7 +671,9 @@ export default {
         province: this.province,
         city: this.city,
         area: this.area,
-        bankNo: this.bankListVal
+        bankNo: this.bankListVal,
+        channelUserName: this.utils.getCookie('channelUserName'),
+        channelApplicationNo: this.utils.getCookie('channelApplicationNo')
       }
       this.submitBindCardInfo(submitBindCardInfoObj);
     },
