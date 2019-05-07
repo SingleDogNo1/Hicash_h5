@@ -16,7 +16,7 @@
 			</div>
 			<div class="content" v-html="content"></div>
 			<img
-				src="./images/hicash-ico.png"
+				src="./images/hicash-ico.jpg"
 				width="50%"
 				class="hotNewsLogo"
 			/>
