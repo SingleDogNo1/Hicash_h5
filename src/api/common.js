@@ -1393,7 +1393,7 @@ export function createAppPayByMD(params) {
  */
 export function updateChannelApplicationStatusWacai(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/updateChannelApplicationStatus/wacai", params).then(
+		axios.post("/hicash-api-service/updateChannelApplicationStatus/wacai", params).then(
 			res => {
 				resolve(res);
 			},
