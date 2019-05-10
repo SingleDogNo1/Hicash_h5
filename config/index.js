@@ -77,6 +77,13 @@ module.exports = {
         pathRewrite:{
             '^/credit-service':''
         }
+      },
+      '/sign':{
+        target:'http://47.104.254.92:30013/sign',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/sign':''
+        }
       }
     }
   },
