@@ -463,7 +463,7 @@ export default {
 				this.config.MWEB_PATH + "newweb/personalCenter/compreRat.html",
 			newMsg: false,
 			newCoupon: false,
-			isShowCouponPop: true,
+			isShowCouponPop: false,
 			unusedCouponAlertMsg: ''
 		};
 	},
