@@ -115,7 +115,7 @@ export default {
       balance: "0.00",
       totalTerm: "", // 总期数
       term: "", // 当前期数,
-      couponAmount: this.$route.query.couponAmount && this.$route.query.couponAmount != 'null' ? this.$route.query.couponAmount : null ,
+      couponAmount: this.$route.query.couponAmount && this.$route.query.couponAmount != 'null' ? this.$route.query.couponAmount : "" ,
       couponNum: this.$route.query.couponNum ? this.$route.query.couponNum : "",
       availableCoupon: false,
       couponTotalAmount: "",
@@ -168,7 +168,7 @@ export default {
       let moneyNum = this.currentAmt - this.balanceNum;
       this.rechargeAmount = this.formatMoneyNum(moneyNum)
       this.oldAmount = this.currentAmt;
-      this.couponAmount = null
+      this.couponAmount = ""
       this.rechargeCoupon();
     },
     navigateToRecharge: function() {
@@ -183,8 +183,8 @@ export default {
         let data = res.data;
         if(data.resultCode === '1') {
           this.balance = data.balance ? data.balance : "0.00";
-          this.currentAmt = data.currentAmt ? data.currentAmt : null;
-          this.rechargeAmount = data.currentAmt ? data.currentAmt : null;
+          this.currentAmt = data.currentAmt ? data.currentAmt : "";
+          this.rechargeAmount = data.currentAmt ? data.currentAmt : "";
           this.amount = data.amount ? data.amount : "0.00";
           this.totalTerm = data.totalTerm ? data.totalTerm : "";
           this.term = data.currentTerm ? data.currentTerm : "";
