@@ -1039,7 +1039,7 @@ export default {
 			checkerBodyHeight: 0,
 			banRechecked: true, //* 防止重复applying
 			isDownloadApp: false,
-			isShowDownloadApp: true,
+			isShowDownloadApp: false,
 			cancelOrderItem: {},
 			isShowCancelPop: false
 		};
