@@ -475,11 +475,12 @@ body {
     color: #ffffff;
   }
   .weui-dialog__bd {
-    padding: 36px 0px;
+    padding: 36px;
     font-size: 13px;
     color: #333333;
     letter-spacing: -0.08px;
     min-height: auto;
+    line-height: 1.8;
   }
   .weui-dialog__btn_primary {
     font-size: 15px;

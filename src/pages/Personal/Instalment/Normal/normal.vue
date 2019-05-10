@@ -435,7 +435,7 @@
 
 		<div v-transfer-dom>
 			<confirm v-model="isShowCancelPop" class="reportConfirm" title="提示" @on-confirm="cancelOrder">
-				<p style="text-align:center;">确定要取消订单吗？</p>
+				<p style="text-align:center;">您确定要取消订单吗？多次取消订单将影响您的信用哦~</p>
 			</confirm>
 		</div>
 
@@ -1039,7 +1039,7 @@ export default {
 			checkerBodyHeight: 0,
 			banRechecked: true, //* 防止重复applying
 			isDownloadApp: false,
-			isShowDownloadApp: false,
+			isShowDownloadApp: true,
 			cancelOrderItem: {},
 			isShowCancelPop: false
 		};
