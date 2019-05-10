@@ -18,7 +18,8 @@ export default {
 	toThousands: toThousands, //格式化数据格式字符串 没三位添加逗号
 	checkPwd: checkPwd, //校验密码是否合法
 	getDevice: getDevice, //判断是否是移动端
-	formatSeconds: formatSeconds	// 将秒格式化为秒、分、小时
+	formatSeconds: formatSeconds,	// 将秒格式化为秒、分、小时
+	checkNumber: checkNumber
 };
 
 export function uuid() {
@@ -496,4 +497,8 @@ export function formatSeconds(value) {
 		result = '' + parseInt(hourTime) + '小时' + result;
 	}
 	return result;
+}
+export function checkNumber(num) {
+	var reg = /^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$/;
+	return reg.test(num);
 }
