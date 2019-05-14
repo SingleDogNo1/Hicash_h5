@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="jump-bank" v-if="isJumpBank">
-      <p>提现</p>
+      <p>银行页面跳转中...</p>
     </div>
     <div class="success" v-else>
       <p>
@@ -36,9 +36,9 @@ export default {
   mounted() {
     if (this.type == '1') {
       this.isJumpBank = false;
-      setTimeout( () => {
-        this.jumpPersonalCenter();
-      }, 3000);
+      // setTimeout( () => {
+      //   this.jumpPersonalCenter();
+      // }, 3000);
     } else {
       this.isJumpBank = true;
       let withdrawDataObj = new URLSearchParams();
