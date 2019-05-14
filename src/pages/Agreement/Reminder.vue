@@ -68,7 +68,7 @@ export default {
       serviceMoney: "",
       monthFee: "",
       appNo: this.$route.query.appNo,
-      showPop: true
+      showPop: false
     };
   },
   methods: {
