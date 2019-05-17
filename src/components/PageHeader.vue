@@ -29,7 +29,7 @@
 	left: 0;
 	width: 100%;
 	background-color: #fff;
-	z-index: 10000;
+	z-index: 100;	//暫時由10000改为100
 	/deep/ .vux-header-left {
 		/deep/ .left-arrow:before {
 			border-left: 1px solid #333;
