@@ -81,7 +81,8 @@ export default {
 	isDownloadApp: isDownloadApp,
 	userEaseModGet: userEaseModGet,
 	userInfoHx: userInfoHx,
-	ShowWaitTime: ShowWaitTime
+	ShowWaitTime: ShowWaitTime,
+	queryUserTip: queryUserTip
 };
 
 /*
@@ -1352,3 +1353,18 @@ export function ShowWaitTime(params) {
 	});
 }
 
+/*
+ *  获取提示语
+ */
+export function queryUserTip(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/queryUserTip", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}

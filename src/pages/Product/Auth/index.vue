@@ -917,6 +917,13 @@ export default {
 					window.location.href=this.config.MWEB_PATH + "newweb/creditInfo/bandBank.html";
 				}
 			});
+		},
+		queryUserTip(queryUserTipData){	//预审
+			this.common.queryUserTip(queryUserTipData)
+			.then((res)=>{
+				let data = res.data.data;
+				this.closeDialogContent = data.identity_auth;
+			});
 		}
 	},
 	mounted() {
@@ -928,6 +935,10 @@ export default {
 		updateTempAppInfoData.append("node", '01');
 		updateTempAppInfoData.append("status", '05');
 		this.UpdateTempAppInfo(updateTempAppInfoData);
+
+		let queryUserTipData = new URLSearchParams();
+		queryUserTipData.append("type", 'APEXIT');
+		this.queryUserTip(queryUserTipData);
 	}
 };
 </script>
