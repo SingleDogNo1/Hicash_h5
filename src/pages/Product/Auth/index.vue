@@ -403,7 +403,7 @@
         .weui-dialog__btn_primary {
           font-family: PingFangSC-Regular;
           font-size: 15px;
-          color: #999999;
+          color: #999999 !important;
           letter-spacing: -0.36px;
           text-align: center;
         }
@@ -422,7 +422,7 @@
           display: inherit;
           font-family: PingFangSC-Regular;
           font-size: rem(15px);
-          color: #333333;
+          color: #333333  !important;
           letter-spacing: 0;
         }
       }
@@ -477,7 +477,7 @@
       .weui-dialog__btn {
         font-family: PingFangSC-Regular;
         font-size: rem(15px);
-        color: #ff7640;
+        color: #ff7640  !important;
         letter-spacing: -0.36px;
         text-align: center;
       }
