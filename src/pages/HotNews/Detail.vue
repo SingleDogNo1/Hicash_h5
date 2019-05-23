@@ -118,7 +118,7 @@ export default {
 					shareTitle: this.title,
 					shareContent: "失信文章分享",
 					shareUrl: window.location.href,
-					shareImageUrl: _this.wxShareIco
+					shareImageUrl: this.wxShareIco
 				})
 			);
 		},
