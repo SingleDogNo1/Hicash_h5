@@ -2,7 +2,7 @@
 	<div v-cloak>
 		<page-header
 			:jumpRouteName="jumpRouteName"
-			v-if="this.utils.getPlatform() != 'APP'"
+			v-if="this.utils.getPlatform() != 'APP' && !this.utils.getCookie('backUrl')"
 			:title="title"
 			:showBack="showBack"
 			:showBtnClose="showBtnClose"
