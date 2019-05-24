@@ -4,7 +4,7 @@
       :title="title"
       :showBack="showBack"
       :showBtnClose="showBtnClose"
-      v-if="platform === 'H5'"
+      v-if="platform === 'H5' && showHeader"
     ></page-header>
     <div class="reminder-content" :class="{ appContent: platform === 'APP' }">
       <div class="content-wrap">
@@ -68,7 +68,8 @@ export default {
       serviceMoney: "",
       monthFee: "",
       appNo: this.$route.query.appNo,
-      showPop: false
+      showPop: false,
+      showHeader: !this.utils.getCookie('backUrl')
     };
   },
   methods: {

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" v-if="platform === 'H5'"></page-header>
+    <!-- <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" v-if="platform === 'H5'"></page-header> -->
     <div class="loan-content" :class="{ appContent: platform === 'APP' }" v-if="!isDepositoryUrl">
       <div class="loan-tips">
         <p class="loan-time">{{loanTime}}</p>
@@ -104,16 +104,12 @@ export default {
       this.common.ShowPI(ShowPIData).then(res => {
         let data = res.data;
         if (data.resultCode === "1") {
-          //data.depositoryUrl = "http://www.baidu.com";
           if (data.depositoryUrl) {
-            this.isDepositoryUrl = true;
-            this.title = "提示";
-            this.depositoryUrl = data.depositoryUrl;
+            window.location.href = data.depositoryUrl;
           } else if( data.regStatus === "2" || data.regStatus === "4" || data.regStatus === "5"){
             window.location.href = this.config.MWEB_PATH+"newweb/creditInfo/accopSchedule.html?type="+data.regStatus;
           } else {
             this.isDepositoryUrl = false;
-            this.title = this.$route.meta.title;
           }
         } else {
           this.$vux.toast.show({

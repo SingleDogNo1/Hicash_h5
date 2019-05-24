@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <page-header
+    <!-- <page-header
       :title="title"
       :showBack="showBack"
       :showBtnClose="showBtnClose"
@@ -10,7 +10,7 @@
       :closeDialogConfirmText="closeDialogConfirmText"
       :closeDialogCancelText="closeDialogCancelText"
       v-if="platform === 'H5'"
-    ></page-header>
+    ></page-header> -->
     <!-- 绑定银行卡加newbindBank -->
     <div class="bind-bank-wrap">
       <group class="bind-bank-group">

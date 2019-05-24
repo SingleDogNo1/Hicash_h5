@@ -1,13 +1,13 @@
 <template>
   <div v-cloak>
-    <page-header
+    <!-- <page-header
       v-if="this.platform!= 'APP'"
       :title="title"
       :showBack="showBack"
       :showBtnClose="showBtnClose"
       :jumpRouteName="jumpRouteName"
       @value="appJump"
-    ></page-header>
+    ></page-header> -->
     <div
       id="content"
       class="content"
