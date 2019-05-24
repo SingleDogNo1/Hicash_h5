@@ -53,6 +53,10 @@ import WaCaiRecharge from '@/pages/Product/Wacai/WaCaiRecharge';
 import WaCaiSignature from '@/pages/Product/Wacai/WaCaiSignature';
 import WaCaiWithdrawalsTransfer from '@/pages/Product/Wacai/WaCaiWithdrawalsTransfer';
 import Reminder from "@/pages/Agreement/Reminder";
+import OrderProgress from '@/pages/Result/orderProgress';
+import HxInfo from '@/pages/Kefu/HxInfo';
+import Kefu from '@/pages/Kefu/Index';
+import Strike from "@/pages/Activity/Strike";
 
 Vue.use(Router);
 
@@ -500,5 +504,41 @@ export default new Router({
 				title: "温馨提示"
 			}
 		},
+		{	//借款进度页
+			path: "/orderProgress",
+			name: "OrderProgress",
+			component: OrderProgress,
+			meta: {
+				title: "借款进度",
+				requireAuth: true,
+			}
+		},
+		{
+			//用户信息
+			path: "/hxInfo",
+			name: "HxInfo",
+			component: HxInfo,
+			meta: {
+				title: "用户信息"
+			}
+		},
+		{
+			//客服
+			path: "/kefu",
+			name: "Kefu",
+			component: Kefu,
+			meta: {
+				title: "客服"
+			}
+		},
+		{
+			//罢工活动
+			path: "/strike",
+			name: "Strike",
+			component: Strike,
+			meta: {
+				title: "罢工活动"
+			}
+		}
 	]
 });

@@ -118,7 +118,7 @@
 										item.appStatus === 'SIGNNODE'
 								"
 								href="javascript:void(0);"
-								@click="cancelOrder(item, index)"
+								@click="cancelOrderItem=item,isShowCancelPop=true"
 								class="btn btn-channel"
 								>取消订单</a
 							>
@@ -432,6 +432,19 @@
 			<p>这里暂时什么都没有</p>
 		</div>
 		<load-more v-if="!showNoData" tip=""></load-more>
+
+		<div v-transfer-dom>
+			<confirm v-model="isShowCancelPop" class="reportConfirm" title="提示" @on-confirm="cancelOrder">
+				<p style="text-align:center;">您确定要取消订单吗？多次取消订单将影响您的信用哦~</p>
+			</confirm>
+		</div>
+
+		<div v-transfer-dom>
+			<confirm v-model="isShowDownloadApp" class="defConfirm" title="提示" confirm-text="去下载APP" @on-confirm="downloadApp">
+				<p style="text-align:left;">亲爱的用户您好，为保障您的信息安全和资金安全，签约步骤必须在APP内完成，请前往应用商店下载嗨钱APP。通过嗨钱APP借款，额度更高，下款更快，还有机会获取免息优惠券哦。</p>
+			</confirm>
+		</div>
+
 	</div>
 </template>
 
@@ -959,6 +972,7 @@
 
 <script>
 import {
+	Confirm,
 	Checker,
 	CheckerItem,
 	Badge,
@@ -967,7 +981,8 @@ import {
 	Scroller,
 	LoadMore,
 	XTable,
-	Popover
+	Popover,
+	TransferDomDirective as TransferDom
 } from "vux";
 import { Step, Steps, Icon } from "vant";
 export default {
@@ -985,7 +1000,11 @@ export default {
 			default: 50
 		}
 	},
+	directives: {
+		TransferDom
+	},
 	components: {
+		Confirm,
 		Checker,
 		CheckerItem,
 		Badge,
@@ -1018,11 +1037,14 @@ export default {
 			applyingStatus: false, // * 申请中小红点显示状态
 			repayStatus: false, // * 还款中小红点显示状态
 			checkerBodyHeight: 0,
-			banRechecked: true //* 防止重复applying
+			banRechecked: true, //* 防止重复applying
+			isDownloadApp: false,
+			isShowDownloadApp: false,
+			cancelOrderItem: {},
+			isShowCancelPop: false
 		};
 	},
 	mounted() {
-		// setTimeout(()=>{
 		this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
 		this.scrollHeight = this.isShowBanner
 			? this.swiperHeight -
@@ -1030,19 +1052,8 @@ export default {
 			  this.$refs.checkerBody.offsetHeight +
 			  "px"
 			: this.swiperHeight - this.$refs.checkerBody.offsetHeight + "px";
-		console.info(
-			"this.scrollHeight",
-			this.swiperHeight,
-			this.bannerADHeight,
-			this.$refs.checkerBody.offsetHeight,
-			this.scrollHeight
-		);
-		// }, 1000)
-		console.info("this.checkerBodyHeight", this.checkerBodyHeight);
-		//this.checkerStatus();                         // * 获取默认数据
-		// this.$nextTick(() => {
-		//     this.$refs.scrollerBottom.reset({top: 0});          // * 初始化scroller的高度
-		// })
+
+		this.isDownloadAppFun();
 	},
 	methods: {
 		/**
@@ -1077,6 +1088,9 @@ export default {
 						app_no: appNo
 					})
 				);
+				return false;
+			}else if(this.isDownloadApp && this.utils.getPlatform() != "APP"){
+				this.isShowDownloadApp = true;
 				return false;
 			}
 			window.location.href =
@@ -1177,7 +1191,6 @@ export default {
 		},
 		// ! 获取列表数据
 		getListData(type) {
-			console.info("getListData ==== ");
 			this.listDataloading = true;
 			let userName = this.utils.getCookie("userName");
 			let postData = new URLSearchParams();
@@ -1223,8 +1236,6 @@ export default {
 					if (data.list===null && this.banRechecked === true) {
 						this.checkerStatus("applying");
 						this.banRechecked = false;
-					} else {
-						console.info("已完成列表为空")
 					}
 				} else if (data.resultCode == "-1") {
 					if(data.list===null && this.banRechecked === true){
@@ -1278,7 +1289,6 @@ export default {
 			postData.append("uuid", this.utils.uuid());
 			this.common.CancelAppPayByPad(postData).then(res => {
 				//更新红点已经列表数据状态
-				console.info("更新红点已经列表数据状态");
 				this.$emit("watchChild", true);
 				this.$vux.loading.hide();
 				// this.items.splice(index,1);
@@ -1298,16 +1308,8 @@ export default {
 			});
 		},
 		// ! 取消订单对话框
-		cancelOrder: function(itemOrder) {
-			let vm = this;
-			this.$vux.confirm.show({
-				title: "提示",
-				content: "确定要取消订单吗？",
-				onCancel() {},
-				onConfirm() {
-					vm.CancelAppPayByPad(itemOrder);
-				}
-			});
+		cancelOrder: function() {
+			this.CancelAppPayByPad(this.cancelOrderItem);
 		},
 		// ! 根据订单类型映射 title 和 amountName
 		planMapping: function(mapObj) {
@@ -1332,8 +1334,18 @@ export default {
 			return mapObj;
 		},
 		onScroll(pos) {
-			console.info("top", pos.top);
 			this.scrollTop = pos.top;
+		},
+		isDownloadAppFun(){
+			let userName = this.utils.getCookie("userName");
+			let postData = new URLSearchParams();
+			postData.append("userName", userName);
+			this.common.isDownloadApp(postData).then(res => {
+				this.isDownloadApp = res.data.isDownload
+			});
+		},
+		downloadApp(){
+			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
 		}
 	},
 	watch: {

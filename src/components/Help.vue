@@ -1,32 +1,27 @@
 <template>
 	<div class="help_page">
 		<div class="wrap">
-			<header class="creditHeader" style="background-color:white;">
-				<!-- closeBtn -->
-				<div v-if="isShowHead">
-					<a
-						class="go-history"
-						href="javascript:history.go(-1);"
-						style="left:.85rem;top:40%"
-					></a>
-					<p class="title">帮助中心</p>
-				</div>
-				<tab :line-width="1" custom-bar-width="60px">
-					<tab-item selected @on-item-click="onItemClick('RMWT')"
-						>热门问题</tab-item
-					>
-					<tab-item @on-item-click="onItemClick('JKWT')"
-						>借款问题</tab-item
-					>
-					<tab-item @on-item-click="onItemClick('HKWT')"
-						>还款问题</tab-item
-					>
-					<tab-item @on-item-click="onItemClick('QTWT')"
-						>其他问题
-					</tab-item>
-				</tab>
-			</header>
-			<div class="wrapper">
+			<page-header
+      :title="title"
+      :showBack="showBack"
+      :showBtnClose="showBtnClose"
+			v-if="isShowHead"
+    ></page-header>
+		<tab :line-width="1" custom-bar-width="60px" class="help-tab" :class="{ appContent: comeFrom === 'APP' && !platform}">
+				<tab-item :selected="subType === 'RMWT'" @on-item-click="onItemClick('RMWT')" @on-index-change="onIndexChange"
+					>热门问题</tab-item
+				>
+				<tab-item :selected="subType === 'JKWT'" @on-item-click="onItemClick('JKWT')" @on-index-change="onIndexChange"
+					>借款问题</tab-item
+				>
+				<tab-item :selected="subType === 'HKWT'" @on-item-click="onItemClick('HKWT')" @on-index-change="onIndexChange"
+					>还款问题</tab-item
+				>
+				<tab-item :selected="subType === 'QTWT'" @on-item-click="onItemClick('QTWT')" @on-index-change="onIndexChange"
+					>其他问题
+				</tab-item>
+			</tab>
+			<div class="wrapper" :class="{ appContentWrap: comeFrom === 'APP' && !platform }">
 				<ul class="content">
 					<li class="ref">
 						<inline-loading></inline-loading>{{ refreshText }}
@@ -47,7 +42,7 @@
 								alt=""
 								class="icon_image1"
 							/>
-							<span>在线客服</span>
+							<span>电话客服</span>
 						</div>
 					</flexbox-item>
 					<flexbox-item>
@@ -83,7 +78,7 @@
 				style="padding:10px 0;background-color:#FF7640;color:#fff;"
 			>
 				<strong class="weui-dialog__title" style="font-size:14px;"
-					>在线客服</strong
+					>电话客服</strong
 				>
 			</div>
 			<div
@@ -121,9 +116,9 @@
 			</div>
 			<div
 				class="weui-dialog__bd"
-				style="background: #fff;height:100px;line-height:100px;color:black;"
+				style="padding: 1.8em 1.6em;background: #fff;height:auto;line-height:29px;color:black;"
 			>
-				微信公众号：【果信宝】和【果信宝服务号】
+				微信公众号：【果信宝】<br/>和【果信宝服务号】
 			</div>
 			<div class="weui-dialog__ft" style="background: #fff;">
 				<a
@@ -178,9 +173,11 @@
 				>
 			</div>
 		</div>
+		<div class="icon-customer-service" @click="toCustomerService"></div>
 	</div>
 </template>
 <script type="text/javascript">
+import PageHeader from "@/components/PageHeader";
 import { Tab, TabItem, Flexbox, FlexboxItem, InlineLoading } from "vux";
 import Clipboard from "clipboard";
 import BScroll from "better-scroll";
@@ -190,7 +187,8 @@ export default {
 		TabItem,
 		Flexbox,
 		FlexboxItem,
-		InlineLoading
+		InlineLoading,
+		PageHeader
 	},
 	data() {
 		return {
@@ -202,14 +200,33 @@ export default {
 			qq: false,
 			refreshText: "下拉刷新",
 			isShowAlert: false,
-			isShowHead: true
+			isShowHead: true,
+			index: 0,
+			platform: "",
+			comeFrom: "",
+			title: "帮助中心",
+      showBack: true,
+			showBtnClose: false,
+			isShowBottom: false,
+			customerServiceShow: false
 		};
 	},
 	mounted() {
 		var _this = this;
+		let helpItemKey = _this.$route.query.helpItemKey;
+		_this.helpItemKey = helpItemKey;
+		_this.platform = _this.$route.query.platform;
+		document.body.scrollTop = 0;
+		if(_this.platform) {
+			this.isShowBottom = true
+		}
+		if(helpItemKey) {
+			_this.subType = helpItemKey;
+		}
 
 		let comeFrom = _this.utils.getPlatform();
-		if (comeFrom != "H5") {
+		this.comeFrom = comeFrom;
+		if (comeFrom != "H5" && !_this.platform) {
 			_this.isShowHead = false;
 		}
 
@@ -241,13 +258,11 @@ export default {
 			probeType: 1
 		});
 		this.scroll.on("scroll", function(pos) {
-			console.info("scroll pos.y", pos.y);
 			if (pos.y > 30 && pos.y < 40) {
 				_this.refreshText = "下拉刷新";
 			}
 		});
 		this.scroll.on("touchEnd", function(pos) {
-			console.info("pos.y", pos.y);
 			if (pos.y > 40) {
 				_this.refreshText = "刷新数据中";
 				_this.getSysParam();
@@ -258,8 +273,9 @@ export default {
 		onItemClick: function(type) {
 			this.subType = type;
 			this.scroll.scrollTo(0, 0);
-			console.info(type);
 			this.getSysParam();
+		},
+		onIndexChange: function(index) {
 		},
 		getSysParam: function() {
 			// 获取产品列表
@@ -277,10 +293,17 @@ export default {
 
 				_.each(res.data.list, function(v, i) {
 					list[i].createTime = list[i].createTime.substring(0, 10);
-					list[i].openUrl =
-						_this.config.MWEB_PATH +
-						"newweb/newsDetail/newsDetail.html?id=" +
-						list[i].id;
+					if(_this.platform) {
+						if(_this.helpItemKey) {
+								list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
+								+ '&platform=' + _this.platform + '&type=help';
+						} else {
+							list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
+								+ '&platform=' + _this.platform + '&type=help';
+						}
+					} else {
+						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" +　list[i].id + '&type=help';
+					}
 				});
 
 				_this.list = list;
@@ -295,6 +318,76 @@ export default {
 					}, 1000);
 				});
 			});
+		},
+		toCustomerService: function() {
+      if (this.utils.getPlatform() === "H5") {
+				let userName = this.utils.getCookie("userName");
+        if (!userName) {
+          this.$router.push({ name: "Login" });
+          return;
+        } else {
+          let hxUserName = this.utils.getCookie("hxUserName");
+          let hxPassword = this.utils.getCookie("hxPassword");
+          if (hxUserName && hxPassword) {
+            this.easemobimSet(hxUserName, hxPassword);
+          } else {
+            let postData = new URLSearchParams();
+            postData.append("userName", userName);
+            postData.append("token", "");
+            this.common.userEaseModGet(postData).then(res => {
+              let data = res.data;
+              this.easemobimSet(data.hxUsername, data.hxPassword);
+            });
+          }
+        }
+      } else {
+        let isAndroid = navigator.userAgent.indexOf('comeFrom:android') > -1;
+        let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
+        if(isAndroid) {
+          window.hicashJSCommunication.onCallApp(
+              JSON.stringify({
+                type: "h5_service_im"
+              })
+            );
+        } else {
+          let token = window.hicashJSCommunication.getToken();
+          if (!token) {
+            window.hicashJSCommunication.onCallApp(
+              JSON.stringify({
+                type: "dl"
+              })
+            );
+          } else {
+						let postData = new URLSearchParams();
+						postData.append("userName", "");
+						postData.append("token", token);
+						if(isIos) {
+							postData.append("type", "1");
+						}
+						this.common.userEaseModGet(postData).then(res => {
+							let data = res.data;
+							this.easemobimSet(data.hxUsername, data.hxPassword);
+						});
+					}
+        }
+      }
+		},
+		easemobimSet: function(hxUserName, hxPassword) {
+      window.easemobim = window.easemobim || {};
+      easemobim.config = {
+        configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",	//生产
+        //configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
+                  
+        // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
+        user: {
+          // username 必填，password 和 token 任选一项填写
+          username: hxUserName,
+          password: hxPassword,
+          token: ""
+        },
+        hideKeyboard: true
+      };
+      easemobim.bind(easemobim.config);
 		}
 	}
 };
@@ -302,7 +395,7 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss">
 @import "../../bower_components/sass-rem/rem";
-
+@import "../assets/css/animate.min.css";
 .help_page {
 	height: 100%;
 	.wrap {
@@ -334,8 +427,28 @@ export default {
 		display: block;
 		position: relative;
 	}
+	.help-tab {
+		position: fixed;
+		padding-top: rem(50px);
+		width: 100%;
+    z-index: 100;
+	}
+	.appContent {
+		padding-top: 0;
+	}
+	.wrap .appContentWrap {
+		top: rem(45px);
+		.content {
+			padding-bottom: 60px;
+		}
+	}
+	.vux-tab-container {
+		position: relative;
+		z-index: 4;
+		background: #fff;
+	}
 	footer {
-		position: absolute;
+		position: fixed;
 		height: 49px;
 		line-height: 45px;
 		background-color: white;
@@ -355,11 +468,16 @@ export default {
 		border: 1px solid #ff7640;
 	}
 	.wrapper {
-		height: calc(100% - 135px);
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: rem(95px);
+		bottom: rem(50px);
+		//bottom: rem(100px);
+		//height: calc(100% - 135px);
 		.content {
 			background-color: white;
 			min-height: calc(100% + 1px);
-
 			li {
 				margin: 0 rem(15px);
 				a {
@@ -397,8 +515,12 @@ export default {
 				height: 48px;
 
 				line-height: 48px;
+				z-index: 1111;
 			}
 		}
+		// &.isApp {
+		// 	bottom: rem(200px);
+		// }
 	}
 	.flex-demo {
 		text-align: center;
@@ -442,6 +564,18 @@ export default {
 	}
 	.vux-flexbox {
 		height: 100%;
+	}
+	.icon-customer-service {
+    width: rem(56px);
+    height: rem(75px);
+    margin: 0;
+    padding: 0px;
+    position: absolute;
+    bottom: rem(80px);
+    z-index: 999;
+    right: rem(8px);
+    background: url("../assets/images/icon_help_kefu.png") center center no-repeat;
+    background-size: 100% 100%;
 	}
 }
 </style>

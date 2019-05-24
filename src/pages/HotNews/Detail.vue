@@ -16,7 +16,7 @@
 			</div>
 			<div class="content" v-html="content"></div>
 			<img
-				src="./images/hicash-ico.png"
+				src="./images/hicash-ico.jpg"
 				width="50%"
 				class="hotNewsLogo"
 			/>
@@ -118,7 +118,7 @@ export default {
 					shareTitle: this.title,
 					shareContent: "失信文章分享",
 					shareUrl: window.location.href,
-					shareImageUrl: _this.wxShareIco
+					shareImageUrl: this.wxShareIco
 				})
 			);
 		},

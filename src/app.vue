@@ -17,7 +17,7 @@
         <span class="vux-close"></span>
       </div>
     </x-dialog>
-    <confirm
+    <!-- <confirm
       v-model="getReportSuccess"
       :close-on-confirm="false"
       title="获取报告成功"
@@ -26,7 +26,7 @@
       class="reportConfirm"
     >
       <p style="text-align:center;">新鲜的报告已经准备好了，快来看看</p>
-    </confirm>
+    </confirm> -->
   </div>
 </template>
 
@@ -106,6 +106,8 @@ export default {
         },
         locationError = function(error) {};
       getLocation();
+
+      sessionStorage.setItem('isShowMyCouponPop', '1');  //个人中心提示优惠券弹出框显隐
     }
   },
   components: {
@@ -156,9 +158,11 @@ export default {
       //软键盘收起的事件处理
       let ua = navigator.userAgent.toLowerCase();
       if (ua.indexOf("iphone") > 0 || ua.indexOf("ipad") > 0) {
-        //键盘收齐页面空白问题
-        document.body.scrollTop = document.body.scrollHeight;
-        document.body.scrollIntoView(false);
+        if(this.$route.name === "login" || this.$route.name === "register") {
+          //键盘收齐页面空白问题
+          document.body.scrollTop = document.body.scrollHeight;
+          document.body.scrollIntoView(false);
+        }
       }
     });
 
@@ -308,7 +312,7 @@ body {
   height: 0.85rem;
   margin-top: 0.2rem;
   background: url("./assets/images/icon_home.png") center center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 .icon-vip-area {
   display: block;
@@ -343,6 +347,14 @@ body {
   background: url("./assets/images/icon-inquiry.png") center center no-repeat;
   background-size: cover;
 }
+.icon-kefu {
+  display: block;
+  width: rem(20px);
+  height: rem(19px);
+  margin-top: 0.15rem;
+  background: url("./assets/images/icon_kefu.png") center center no-repeat;
+  background-size: 100% 100%;
+}
 .icon-me {
   display: block;
   width: 0.8rem;
@@ -375,6 +387,11 @@ body {
   }
   .icon-inquiry {
     background: url("./assets/images/icon-inquiry-select.png") center center
+      no-repeat;
+    background-size: cover;
+  }
+  .icon-kefu {
+    background: url("./assets/images/icon_kefu_act.png") center center
       no-repeat;
     background-size: cover;
   }
@@ -458,7 +475,35 @@ body {
     color: #ffffff;
   }
   .weui-dialog__bd {
-    padding: 36px 0;
+    padding: 36px;
+    font-size: 13px;
+    color: #333333;
+    letter-spacing: -0.08px;
+    min-height: auto;
+    line-height: 1.8;
+  }
+  .weui-dialog__btn_primary {
+    font-size: 15px;
+    color: #ff7640;
+    letter-spacing: -0.36px;
+  }
+  .weui-dialog__btn_default {
+    font-size: 15px;
+    color: #999999;
+    letter-spacing: -0.36px;
+  }
+}
+.defConfirm {
+  .weui-dialog__hd {
+    padding: 0;
+    height: 50px;
+    line-height: 50px;
+    background: #ff7640;
+    font-size: 17px;
+    color: #ffffff;
+  }
+  .weui-dialog__bd {
+    padding: 10px 10px;
     font-size: 13px;
     color: #333333;
     letter-spacing: -0.08px;

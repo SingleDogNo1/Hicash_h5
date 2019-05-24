@@ -1,5 +1,6 @@
 <template>
 	<div class="register-body">
+		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
 		<!-- header -->
 		<header class="login-header">
 			<router-link class="go-back" :to="{ name: 'Home' }"></router-link>
@@ -287,6 +288,7 @@
 import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux";
 
 import VerificationCodePop from "@/components/VerificationCodePop";
+import downloadPop from "@/components/downloadPop.vue";
 
 export default {
 	components: {
@@ -296,7 +298,8 @@ export default {
 		XButton,
 		Toast,
 		CheckIcon,
-		VerificationCodePop
+		VerificationCodePop,
+		downloadPop
 	},
 	data() {
 		return {

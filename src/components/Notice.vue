@@ -105,7 +105,7 @@ export default {
 					list[i].openUrl =
 						_this.config.MWEB_PATH +
 						"newweb/newsDetail/newsDetail.html?id=" +
-						list[i].id;
+						list[i].id + '&type=notice';
 				});
 
 				_this.list = list;

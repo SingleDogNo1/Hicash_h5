@@ -84,7 +84,12 @@ export default {
 	dispatchWithHoldChannel: dispatchWithHoldChannel,
 	submitBindCardInfo: submitBindCardInfo,
 	createAppPayByMD: createAppPayByMD,
-	updateChannelApplicationStatusWacai: updateChannelApplicationStatusWacai
+	updateChannelApplicationStatusWacai: updateChannelApplicationStatusWacai,
+	isDownloadApp: isDownloadApp,
+	userEaseModGet: userEaseModGet,
+	userInfoHx: userInfoHx,
+	ShowWaitTime: ShowWaitTime,
+	queryUserTip: queryUserTip
 };
 
 /*
@@ -1339,6 +1344,21 @@ export function queryValName(params) {
 		);
 	});
 }
+/*
+ *  嗨钱H5安卓机是否需要下载APP
+ */
+export function isDownloadApp(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/channel/isDownloadApp", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
 
 /*
  *  先查询此银行卡与代扣方 绑定状态。
@@ -1350,6 +1370,22 @@ export function dispatchWithHoldChannel(params) {
 				resolve(res);
 			},
 			(err) => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  申请注册环信
+ */
+export function userEaseModGet(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/UserEaseModGet", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
 				reject(err);
 			}
 		);
@@ -1373,6 +1409,22 @@ export function submitBindCardInfo(params) {
 }
 
 /*
+ *  环信用户获取用户名
+ */
+export function userInfoHx(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/UserInfoHx", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
  *  创建订单
  */
 export function createAppPayByMD(params) {
@@ -1389,11 +1441,43 @@ export function createAppPayByMD(params) {
 }
 
 /*
+ *  获取借款进度
+ */
+export function ShowWaitTime(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/HicashAppService/ShowWaitTime", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
  *  挖财引入的嗨钱订单状态变更后调用此接口，相应的修改挖财订单状态并将结果推送给挖财
  */
 export function updateChannelApplicationStatusWacai(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/updateChannelApplicationStatus/wacai", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取提示语
+ */
+export function queryUserTip(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/queryUserTip", params).then(
 			res => {
 				resolve(res);
 			},
