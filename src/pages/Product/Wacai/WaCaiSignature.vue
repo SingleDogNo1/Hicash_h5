@@ -140,7 +140,7 @@ export default {
             val.showPop = false;
             let agreementTmplArr = [];
             val.insurance.forEach( item => {
-              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.url + '" target="_blank">' + item.name + '</a>';
+              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.url + '">' + item.name + '</a>';
             })
             val.agreementTmpl =agreementTmplArr.join("、") 
           });
