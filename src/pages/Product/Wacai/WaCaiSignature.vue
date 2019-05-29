@@ -115,11 +115,11 @@ export default {
           this.$vux.toast.show({
             type: "text",
             position: "middle",
-            text: "授权失败，请重新登录"
+            text: data.resultMsg
           });
-          setTimeout(() => {
-            this.$router.push({ name: "Login" });
-          }, 3000);
+          // setTimeout(() => {
+          //   this.$router.push({ name: "Login" });
+          // }, 3000);
         }
       });
     },
