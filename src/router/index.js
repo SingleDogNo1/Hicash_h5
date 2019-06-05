@@ -57,6 +57,7 @@ import OrderProgress from '@/pages/Result/orderProgress';
 import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
 import Strike from "@/pages/Activity/Strike";
+import DebtRestructuring from  "@/pages/DebtRestructuring/index";
 
 Vue.use(Router);
 
@@ -539,6 +540,17 @@ export default new Router({
 			meta: {
 				title: "罢工活动"
 			}
+		},
+		{
+			//债务重组
+			path: "/debtRestructuring",
+			name: "DebtRestructuring",
+			component: DebtRestructuring, //13821919232
+			meta: {
+				title: "债务重组",
+				requireAuth: true
+			}
+
 		}
 	]
 });
