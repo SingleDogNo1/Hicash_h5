@@ -46,7 +46,7 @@
 				<input v-if="!hasUpload" type="file" @change="selectPic($event)"  accept="image/jpeg,image/x-png">
 				<div class="agree" v-if="hasUpload">
 					<img src="./agree.png" alt="">
-					<p>{{appInfo.responseTime.substr(0,10)}}</p>
+					<p>{{appInfo.responseTime?appInfo.responseTime.substr(0,10):''}}</p>
 				</div>
 
 			</div>
@@ -114,7 +114,7 @@
 				getInfo(params).then((res)=>{
 					if(res.data.resultCode === '1'){
 						this.appInfo = res.data
-						if(res.data.status === 1){
+						if(res.data.status === 3){
 							this.hasUpload = true
 							this.imgURL = `/hicash-api-service/ccms/downloadImg/${this.appNo}`
 						}
