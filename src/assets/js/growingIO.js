@@ -15,7 +15,10 @@
 gio("init", "b854dbc28713dfe5", {});
 
 //custom page code begin here
-
+// 挖財页面hashtag变为true
+if(window.location.href.indexOf("/#/product/WaCai") > -1) {
+	window.gio("config", {'hashtag': true});
+}
 //custom page code end here
 
 gio("send");
