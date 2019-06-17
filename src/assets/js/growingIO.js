@@ -16,8 +16,10 @@ gio("init", "b854dbc28713dfe5", {});
 
 //custom page code begin here
 // 挖財页面hashtag变为true
-if(window.location.href.indexOf("/#/product/WaCai") > -1) {
+if(window.location.href.indexOf("/#/product/WaCaiBindbank") > -1 || window.location.href.indexOf("/#/product/WaCaiSignature") > -1 ) {
 	window.gio("config", {'hashtag': true});
+} else {
+	window.gio("config", {'hashtag': false});
 }
 //custom page code end here
 
