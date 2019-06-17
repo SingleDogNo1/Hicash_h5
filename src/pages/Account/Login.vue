@@ -1,6 +1,6 @@
 <template>
 	<div class="login-body" id="login-body">
-		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
+		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
 		<!-- header -->
 		<header class="login-header">
 			<router-link class="go-back" :to="{ name: 'Home' }"> </router-link>
@@ -327,7 +327,8 @@ export default {
 			oldHicash: "",
 			authPic: "",
 			isDisabled: false,
-			logoType: ""
+			logoType: "",
+			mediasource: ""
 		};
 	},
 	ready() {},
@@ -714,6 +715,8 @@ export default {
 		if (jumpType === "didaAct") {
 			this.logoType = "dida";
 		}
+		let mediasource = this.$route.query.mediasource;
+		this.mediasource = mediasource; 
 	}
 };
 </script>
