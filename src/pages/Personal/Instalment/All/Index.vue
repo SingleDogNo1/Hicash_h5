@@ -107,7 +107,7 @@
 				充值还款
 			</button>
 		</div>
-		<a class="banner" :href="bannerUrl" v-if="isShowBanner" ref="bannerAD">
+		<a class="banner" :href="bannerUrl" v-if="isShowBanner && mediasource !== 'pandoraKNSSJ'" ref="bannerAD">
 			<a href="javascript:void(0);" class="btn-close" @click="hideBanner"
 				>×</a
 			>
