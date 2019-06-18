@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
+		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
 		<section class="personal-header-wrap">
 			<!-- 用户信息 -->
 			<div class="per-user-info">
@@ -464,7 +464,8 @@ export default {
 			newMsg: false,
 			newCoupon: false,
 			isShowCouponPop: false,
-			unusedCouponAlertMsg: ''
+			unusedCouponAlertMsg: '',
+			mediasource: ""
 		};
 	},
 	methods: {
@@ -528,6 +529,7 @@ export default {
 		}
 	},
 	mounted() {
+		this.mediasource = window.sessionStorage.getItem("mediasource");
 		document.body.scrollTop = 0;
 		let getAccountInfoDatas = {
 			userName: this.utils.getCookie("userName"),

@@ -1,6 +1,6 @@
 <template>
   <div @click="closeMsg" @touchmove="touchmove" @touchstart="touchstart">
-    <download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
+    <download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
     <header class="home-header">
       <!-- <div class="collect-btn" v-if="scIsShow == true" @click.stop="openMsg">收藏</div>
       <div class="collect-btn2" v-if="scIsShow2 == true" @click.stop="openMsg">收藏</div> -->
@@ -562,7 +562,8 @@ export default {
       startY: "",
       customerServiceShow: false,
       scIsShow: true,
-      scIsShow2: false
+      scIsShow2: false,
+      mediasource: ""
     };
   },
   ready() {},
@@ -725,6 +726,7 @@ export default {
     //var token = window.hicashJSCommunication.getToken();
     //alert("token" + token)
     let _this = this;
+    _this.mediasource = window.sessionStorage.getItem("mediasource");
     var userName = this.utils.getCookie("userName") || "";
     if (userName) {
       this.oldHicash =

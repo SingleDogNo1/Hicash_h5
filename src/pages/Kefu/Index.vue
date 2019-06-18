@@ -1,6 +1,6 @@
 <template>
   <div class="kefu">
-    <download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
+    <download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
     <page-header
       :title="title"
       :showBack="showBack"
@@ -98,7 +98,8 @@ export default {
       showBack: false,
       showBtnClose: false,
       platform: this.utils.getPlatform(),
-      list: []
+      list: [],
+      mediasource: ""
     };
   },
   methods: {
@@ -204,6 +205,7 @@ export default {
     }
   },
   mounted() {
+    this.mediasource = window.sessionStorage.getItem("mediasource");
     this.getSysParam();
   }
 };

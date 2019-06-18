@@ -715,8 +715,7 @@ export default {
 		if (jumpType === "didaAct") {
 			this.logoType = "dida";
 		}
-		let mediasource = this.$route.query.mediasource;
-		this.mediasource = mediasource; 
+		this.mediasource = window.sessionStorage.getItem("mediasource");
 	}
 };
 </script>

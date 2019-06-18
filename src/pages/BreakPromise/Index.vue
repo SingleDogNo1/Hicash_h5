@@ -1,6 +1,6 @@
 <template>
 	<div class="break-promise" v-cloak>
-		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
+		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
 		<page-header
 			:title="title"
 			:showBack="showBack"
@@ -292,7 +292,8 @@ export default {
 			platform: "",
 			//cdnBrokePromisePath: this.config.cdn_pic_path + 'applogo/shixin/bg_broke_promise.png',
 			cdnShixinCasePath: this.config.cdn_pic_path + 'applogo/shixin/ad_shixin.png',
-			cdnAdPath: this.config.cdn_pic_path + 'applogo/shixin/ad.png'
+			cdnAdPath: this.config.cdn_pic_path + 'applogo/shixin/ad.png',
+			mediasource: ""
 		};
 	},
 	methods: {
@@ -461,6 +462,7 @@ export default {
 		}
 	},
 	mounted() {
+		this.mediasource = window.sessionStorage.getItem("mediasource");
 		let platform = this.utils.getPlatform();
 		this.platform = platform;
 

@@ -1,6 +1,6 @@
 <template>
 	<div v-cloak>
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && !this.utils.getCookie('backUrl')"></download-pop>
+		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
 		<page-header
 			:jumpRouteName="jumpRouteName"
 			v-if="this.utils.getPlatform() != 'APP' && !this.utils.getCookie('backUrl')"
@@ -176,10 +176,12 @@ export default {
 			accountOrderPageData: "",
 			jumpRouteName: "Personal",
 			bannerADHeight: 0,
-			swiperHeight: 0
+			swiperHeight: 0,
+			mediasource: ""
 		};
 	},
 	mounted() {
+		this.mediasource = window.sessionStorage.getItem("mediasource");
 		this.accountOrderPage();
 	},
 	methods: {

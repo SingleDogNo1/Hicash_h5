@@ -1,6 +1,6 @@
 <template>
 	<div class="register-body">
-		<download-pop v-if="this.utils.getPlatform() != 'APP'"></download-pop>
+		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
 		<!-- header -->
 		<header class="login-header">
 			<router-link class="go-back" :to="{ name: 'Home' }"></router-link>
@@ -317,7 +317,8 @@ export default {
 			agreementUrl1: "",
 			agreementUrl2: "",
 			showToast: false,
-			isDisabled: false
+			isDisabled: false,
+			mediasource: ""
 		};
 	},
 	ready() {},
@@ -597,6 +598,7 @@ export default {
 		if (inviteCode) {
 			this.inviteCode = inviteCode;
 		}
+		this.mediasource = window.sessionStorage.getItem("mediasource");
 	}
 };
 </script>
