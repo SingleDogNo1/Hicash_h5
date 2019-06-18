@@ -117,9 +117,9 @@ export default {
             position: "middle",
             text: data.resultMsg
           });
-          // setTimeout(() => {
-          //   this.$router.push({ name: "Login" });
-          // }, 3000);
+          setTimeout(() => {
+            window.location.href = this.utils.getCookie('backUrl');
+          }, 3000);
         }
       });
     },
