@@ -75,7 +75,7 @@
 			</cell>
 		</group>
 
-		<group v-if="customGroupIsShow">
+		<group v-if="customGroupIsShow && mediasource !== 'pandoraKNSSJ'">
 			<cell :title="customGroupTitle" is-link :link="customGroupLink">
 				<img
 					class="cell-ico"
