@@ -94,7 +94,7 @@
 				/>
 			</div>
 			<div class="loan" title="天下信用">
-				<img @click="adClick" :src="cdnAdPath" width="100%" />
+				<img @click="adClick" src="./images/ad.png" width="100%" />
 			</div>
 		</div>
 		<page-footer v-if="platform === 'H5'"></page-footer>
@@ -438,14 +438,14 @@ export default {
 		adClick: function() {
 			_czc.push([
 				"_trackEvent",
-				"天下信用",
-				"天下信用打开的次数",
+				"贷款超市",
+				"贷款超市打开的次数",
 				"",
 				"",
-				"TXXY"
+				"DKCS"
 			]);
 			window.location.href =
-				"https://m.tianxiaxinyong.cn/cooperation/common/guanjia.html?txxychannel=eWtJUHVCaGxiRWUzRllEU1pTRk5DZz09#/";
+				"http://www.guoxinbao.com.cn/h5_hq_index.html?mobile=18518206648&source=sxzq";
 		},
 		adShiXin: function() {
 			// 跳转到热点新闻列表页
