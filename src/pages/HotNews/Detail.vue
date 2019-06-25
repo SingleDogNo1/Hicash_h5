@@ -54,6 +54,9 @@
 	}
 	.content {
 		padding: 0 0.85rem;
+		img{
+			width: 100%;
+		}
 	}
 	.hotNewsLogo {
 		display: block;
