@@ -1,10 +1,13 @@
 import axios from "axios";
 
 export default {
-  withHoldBank: withHoldBank,
+	withHoldBank: withHoldBank,
 	getOwnData: getOwnData,
-  searchBankCard: searchBankCard,
-  bankcardInfo: bankcardInfo
+	searchBankCard: searchBankCard,
+	bankcardInfo: bankcardInfo,
+	queryAppBankInfo: queryAppBankInfo,
+	signNindCardSendSms: signNindCardSendSms,
+	signBindCard: signBindCard
 }
 
 /*
@@ -61,6 +64,54 @@ export function searchBankCard(params) {
 export function bankcardInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/BankcardInfo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  获取订单银行卡信息(宜信)
+ */
+export function queryAppBankInfo(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/queryAppBankInfo", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  协议前绑卡发送验证码(宜信)
+ */
+export function signNindCardSendSms(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/sign/bindCardSendSms", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  协议前绑卡绑定银行卡(宜信)
+ */
+export function signBindCard(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/hicash-api-service/sign/bindCard", params).then(
 			res => {
 				resolve(res);
 			},
