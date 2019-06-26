@@ -1,16 +1,7 @@
 <template>
   <div class="content">
-    <page-header
-      :title="title"
-      :showBack="showBack"
-      :showBtnClose="showBtnClose"
-      :isShowCloseDialog="false"
-      :closeDialogTitle="closeDialogTitle"
-      :closeDialogContent="closeDialogContent"
-      :closeDialogConfirmText="closeDialogConfirmText"
-      :closeDialogCancelText="closeDialogCancelText"
-      v-if="platform === 'H5'"
-    ></page-header>
+    <x-header :left-options="{showBack: false}" v-if="platform === 'H5'">{{ title }}<a @click="jump" class="btn-close" slot="right"></a></x-header>
+
     <!-- 绑定银行卡加newbindBank -->
     <div class="bind-bank-wrap">
       <group class="bind-bank-group">
@@ -29,18 +20,18 @@
           :readonly="true"
         ></x-input>
         <x-input
-          title="开户行"
+          title="开户银行"
           text-align="right"
           v-model="bankName"
           :readonly="true"
         ></x-input>
-        <x-input title="发送验证码" v-model="vcode" class="weui-vcode">
+        <x-input title="验证码" v-model="vcode" text-align="right" class="weui-vcode">
           <button  :class="vCodeBtnStatus ? 'gray': ''" class="get-vcode" slot="right" type="primary" mini  @click.prevent="signNindCardSendSms">{{vCodeVal}}{{vCodeBtnStatus ? 's': ''}}</button>
         </x-input>
       </group>
     </div>
     <div class="next-step">
-      <a href="javascript:;" @click="signBindCard">确认</a>
+      <a href="javascript:;" @click="signBindCard">确定</a>
     </div>
     <p class="tips">您的个人隐私将被严格保密，嗨钱网不会泄漏任何您的个人信息</p>
   </div>
@@ -60,7 +51,42 @@ $vip-theme-color:#D9C38D;
 $dialog-title-bg-color:#ff7640;
 $dialog-title-font-color:#ffffff;
 $dialog-btn-color: #ff7640;
-
+.vux-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background-color: #fff;
+	z-index: 100;	//暫時由10000改为100
+	/deep/ .vux-header-left {
+		/deep/ .left-arrow:before {
+			border-left: 1px solid #333;
+			border-top: 1px solid #333;
+		}
+	}
+	/deep/ .vux-header-title {
+		height: 1.955556rem /* 44/22.5 */;
+		line-height: 1.955556rem /* 44/22.5 */;
+		color: #333;
+	}
+	/deep/ .vux-header-right {
+		right: 0.444444rem /* 10/22.5 */;
+	}
+	.btn-close:before {
+		font-family: "iconfont";
+		position: absolute;
+		content: "\e6a0";
+		top: 0.444444rem /* 10/22.5 */;
+		right: 0;
+		font-size: 0.85rem;
+		color: #3f3f3f;
+		-webkit-transform: translate(-50%, -50%);
+		-moz-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		-o-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+	}
+}
 .content {
   font-family: PingFangSC-Medium;
   width: 100%;
@@ -123,6 +149,7 @@ $dialog-btn-color: #ff7640;
       }
     }
   }
+
   .get-vcode{
     width: rem(90px);
     height:rem(30px);
@@ -132,6 +159,7 @@ $dialog-btn-color: #ff7640;
     border-radius: rem(5px);
     color: #fff;
     background: $main-theme-color;
+    margin-left: rem(10px);
     &.gray{
       background: #DDDDDD;
     }
@@ -175,35 +203,29 @@ $dialog-btn-color: #ff7640;
 </style>
 
 <script type="text/javascript">
-import PageHeader from "@/components/PageHeader.vue";
 import bindCardApi from "@/api/bindCard";
 
 import {
   Group,
   Cell,
   XInput,
-  XButton
+  XButton,
+  XHeader
 } from "vux";
 
 export default {
   components: {
-    PageHeader,
     Group,
     Cell,
     XInput,
-    XButton
+    XButton,
+    XHeader
   },
   data() {
     return {
       title: this.$router.history.current.meta.title,
       showBack: true,
-      showBtnClose: true,
       platform: this.utils.getPlatform(),
-      closeDialogTitle: "是否放弃填写",
-      closeDialogContent:
-        "信息尚未填写完成，是否放弃申请？现金曾离你这么近，难道就舍它而去？",
-      closeDialogConfirmText: "放弃填写",
-      closeDialogCancelText: "继续填写",
       appNo: this.$route.query.appNo,
       userName: this.$route.query.userName,
       realName: '',
@@ -275,7 +297,7 @@ export default {
       .then((res) => {
         if(res.data.resultCode == '1'){
           console.info('this.appNo', this.appNo);
-          this.$router.push({name: 'YXBindCardComplete', query:{appNo: this.appNo}});
+          this.$router.push({name: 'YXBindCardComplete', query:{appNo: this.appNo, industryCode:this.$route.query.industryCode}});
         }else if(res.data.resultCode == '-1'){
           this.$router.push({name: 'YXBindCardFail'});
         }else{
@@ -283,6 +305,9 @@ export default {
         }
         
       })
+    },
+    jump(){
+      this.$router.push({name: 'MyInstalment'});
     }
   },
   mounted: function() {

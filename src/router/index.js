@@ -570,7 +570,7 @@ export default new Router({
 					component: YXBindCard,
 					meta: {
 						requireAuth: true,
-						title: '绑卡'
+						title: '绑定银行卡'
 					}
 				},
 				{	//绑卡成功（宜信）
