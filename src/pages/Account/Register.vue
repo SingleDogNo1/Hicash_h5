@@ -84,6 +84,13 @@
 			@imgCode="newImgCode"
 			@showToast="showToast1"
 		></VerificationCodePop>
+		<confirm-dialog
+			:isShowDialog="isShowAgreeDialog"
+			:singleButton="singleButton"
+			:dialogContent="dialogContent"
+			:confirmText="confirmText"
+			@showDialog="showDialog"
+		></confirm-dialog>
 	</div>
 </template>
 
@@ -288,7 +295,8 @@
 import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux";
 
 import VerificationCodePop from "@/components/VerificationCodePop";
-import downloadPop from "@/components/downloadPop.vue";
+import DownloadPop from "@/components/downloadPop";
+import ConfirmDialog from "@/components/Dialog";
 
 export default {
 	components: {
@@ -299,7 +307,8 @@ export default {
 		Toast,
 		CheckIcon,
 		VerificationCodePop,
-		downloadPop
+		DownloadPop,
+		ConfirmDialog
 	},
 	data() {
 		return {
@@ -312,17 +321,24 @@ export default {
 			messageCode: "",
 			getMessageCodeText: "获取验证码",
 			boxshow: false,
-			selected: true,
+			selected: false,
 			inviteCode: "",
 			agreementUrl1: "",
 			agreementUrl2: "",
 			showToast: false,
 			isDisabled: false,
-			mediasource: ""
+			mediasource: "",
+			isShowAgreeDialog: false,
+			singleButton: true,
+			confirmText: "我知道了",
+			dialogContent: "勾选即表明您已认真阅读并同意《注册协议》及《隐私政策协议》"
 		};
 	},
 	ready() {},
 	methods: {
+		showDialog(showDialog) {
+			this.isShowAgreeDialog = showDialog;
+		},
 		toggle() {
 			this.boxshow = !this.boxshow;
 		},
@@ -599,6 +615,14 @@ export default {
 			this.inviteCode = inviteCode;
 		}
 		this.mediasource = window.sessionStorage.getItem("mediasource");
+	},
+	watch: {
+		selected: function(val, oldval) {
+			console.log("val===", val)
+			if(val) {
+				this.isShowAgreeDialog = true
+			}
+		}
 	}
 };
 </script>

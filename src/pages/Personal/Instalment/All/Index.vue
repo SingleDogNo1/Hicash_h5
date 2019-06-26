@@ -120,7 +120,9 @@
 			:appNoList="appNoList"
 			:totalAmount="totalAmount"
 			:popType="popType"
+			:onConfirm="onConfirm"
 			@showDialog="showDialog"
+
 		></confirm-dialog>
 	</div>
 </template>
@@ -249,6 +251,16 @@ export default {
 				this.$refs.normal.parentHandleclick(this.accountOrderPageData);
 			}
 			this.accountOrderPage();
+		},
+		onConfirm: function() {
+			const appNoStr = this.appNoList.join(",");
+			const userName = this.utils.getCookie("userName");
+			window.location.href =
+				this.config.MWEB_PATH +
+				"newweb/personalCenter/rechargePay.html?appNo=" +
+				appNoStr +
+				"&userName=" +
+				userName;
 		}
 	},
 	watch: {
