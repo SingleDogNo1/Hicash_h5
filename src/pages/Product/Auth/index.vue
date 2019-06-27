@@ -634,7 +634,7 @@
 import { Alert, Popup, Confirm } from "vux";
 import PageHeader from "@/components/PageHeader.vue";
 import ajaxForm from 'vue2-ajax-form'
-
+let moment = require("moment");
 export default {
 	components: {
 		PageHeader,
@@ -927,6 +927,37 @@ export default {
 		}
 	},
 	mounted() {
+		let idcard_isexpired = this.utils.getCookie("idcard_isexpired");
+		if(idcard_isexpired === "N") {
+			let authIdentityNo = this.utils.getCookie("authIdentityNo");
+			let authRealName = this.utils.getCookie("authRealName");
+			let idCardValStartDate = this.utils.getCookie("idCardValStartDate");
+			let idCardValEndDate = this.utils.getCookie("idCardValEndDate");
+			this.idCardInfo = [
+				{
+					bigPath: '',
+					faceResult:{
+						name:{
+							result: authRealName
+						},
+						idcard_number:{
+							result: authIdentityNo
+						}
+					}
+				},
+				{
+					bigPath: '',
+					faceResult:{
+						valid_date_end:{
+							result: idCardValEndDate
+						},
+						valid_date_start:{
+							result: moment(idCardValStartDate).format("YYYY-MM-DD")
+						}
+					}
+				}
+			]
+		}
 		let updateTempAppInfoData = new URLSearchParams();
 		updateTempAppInfoData.append("tempAppNo", this.utils.getCookie("appFlowNo").split(":")[1]);
 		updateTempAppInfoData.append("applyFrom", '03');
