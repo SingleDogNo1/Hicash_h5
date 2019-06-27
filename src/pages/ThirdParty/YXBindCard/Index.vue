@@ -3,7 +3,10 @@
     <x-header :left-options="{showBack: false}" v-if="platform === 'H5'">{{ title }}<a @click="jump" class="btn-close" slot="right"></a></x-header>
 
     <!-- 绑定银行卡加newbindBank -->
-    <div class="bind-bank-wrap">
+    <div class="bind-bank-wrap" :style="{
+				'padding-top':
+					this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'
+			}">
       <group class="bind-bank-group">
         <x-input
           title="姓名"
