@@ -928,6 +928,7 @@ export default {
 	},
 	mounted() {
 		let idcard_isexpired = this.utils.getCookie("idcard_isexpired");
+		//先判断身份证是否在有效期，未过期的话带入部分信息
 		if(idcard_isexpired === "N") {
 			let authIdentityNo = this.utils.getCookie("authIdentityNo");
 			let authRealName = this.utils.getCookie("authRealName");
@@ -949,10 +950,10 @@ export default {
 					bigPath: '',
 					faceResult:{
 						valid_date_end:{
-							result: idCardValEndDate
+							result: moment(idCardValEndDate).format("YYYYMMDD")
 						},
 						valid_date_start:{
-							result: moment(idCardValStartDate).format("YYYY-MM-DD")
+							result: moment(idCardValStartDate).format("YYYYMMDD")
 						}
 					}
 				}

@@ -331,7 +331,7 @@ export default {
 			isShowAgreeDialog: false,
 			singleButton: true,
 			confirmText: "我知道了",
-			dialogContent: "勾选即表明您已认真阅读并同意《注册协议》及《隐私政策协议》"
+			dialogContent: ""
 		};
 	},
 	ready() {},
@@ -603,6 +603,13 @@ export default {
 		}
 	},
 	mounted: function() {
+		let queryUserTipObj = new URLSearchParams();
+			queryUserTipObj.append("type", "QRMSG1");
+			queryUserTipObj.append("key", "register01");
+		this.common.queryUserTip(queryUserTipObj).then( res => {
+			let data = res.data;
+			this.dialogContent = data.register01;
+		})
 		this.agreementUrl1 =
 			this.config.MWEB_PATH +
 			"newweb/new_agreement/hiCashRegisterAgreement.html?comeCode=gk";
