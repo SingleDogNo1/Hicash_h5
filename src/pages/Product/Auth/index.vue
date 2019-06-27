@@ -801,9 +801,9 @@ export default {
 			this.$refs.submit.click();
 		},
 		error(err) {
-            console.log(err)
-        },
-        complete(response) {
+			console.log(err)
+		},
+    complete(response) {
 			this.$vux.loading.hide();
 			if(response.resultCode == '50608'){
 				this.$vux.toast.text(response.resultMsg);
@@ -836,7 +836,7 @@ export default {
 					this.UpdateCustCard(updateCustCardrData)
 				}else {
 					let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
-					response.bigPath = this.config.pic_path + response.smallPath;
+					response.bigPath = response.picFixUrl + response.smallPath;
 					this.$set(this.idCardInfo,arrIndex,response) 
 				}
 			}
@@ -934,9 +934,11 @@ export default {
 			let authRealName = this.utils.getCookie("authRealName");
 			let idCardValStartDate = this.utils.getCookie("idCardValStartDate");
 			let idCardValEndDate = this.utils.getCookie("idCardValEndDate");
+			let idcard_ZL02url = this.utils.getCookie("idcard_ZL02url");
+			let idcard_ZL03url = this.utils.getCookie("idcard_ZL03url");
 			this.idCardInfo = [
 				{
-					bigPath: '',
+					bigPath: idcard_ZL02url,
 					faceResult:{
 						name:{
 							result: authRealName
@@ -947,7 +949,7 @@ export default {
 					}
 				},
 				{
-					bigPath: '',
+					bigPath: idcard_ZL03url,
 					faceResult:{
 						valid_date_end:{
 							result: moment(idCardValEndDate).format("YYYYMMDD")
