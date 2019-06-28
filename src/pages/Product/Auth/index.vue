@@ -781,6 +781,7 @@ export default {
 		},
 		uploadFileInput: function(type) {
 			this.uploadType = type;
+			console.log("this.flag1====", this.flag1)
 			if(type == 'video'){
 				this.flag1 = false;
 				this.flag2 = false;
@@ -789,18 +790,18 @@ export default {
 			}else{
 				this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
 			}
+			console.log("this.action===", this.action)
 			if(this.uploadType === "ZL02") {
 				if(this.flag1) return;
 				this.$refs.fileInput.click();
-				this.flag1 = true;
 			}
 			if(this.uploadType === "ZL03") {
 				if(this.flag2) return;
 				this.$refs.fileInput.click();
-				this.flag2 = true;
 			}
 		},
 		uploadIdcard: function(e) {
+			console.log("uploadIdcard===")
 			let fileFize = e.target.files[0].size;
 			if(fileFize > 10485760){
 				this.$vux.toast.text('上传图片不得大于10M', 'middle')
@@ -813,6 +814,7 @@ export default {
 				position: 'absolute'
 			})
 			this.$refs.submit.click();
+			e.target.value = '';
 		},
 		error(err) {
 			console.log(err)
@@ -821,6 +823,7 @@ export default {
 			this.$vux.loading.hide();
 			if(response.resultCode == '50608'){
 				this.$vux.toast.text(response.resultMsg);
+				this.uploadType == 'ZL02' ? this.flag1 = false : this.flag2 = false;
 				setTimeout(()=>{
 					this.$router.push({
 						name: "Home"
@@ -833,6 +836,7 @@ export default {
 					return false;
 				}
 				this.$vux.toast.text(response.resultMsg)
+				this.uploadType == 'ZL02' ? this.flag1 = false : this.flag2 = false;
 			}else if(response.resultCode == '1'){
 				if(this.uploadType=='video'){
 					let updateCustCardrData = new URLSearchParams();
@@ -849,6 +853,7 @@ export default {
 					updateCustCardrData.append("name", this.idCardInfo[0].faceResult.name.result);										//string	真实姓名
 					this.UpdateCustCard(updateCustCardrData)
 				}else {
+					this.uploadType == 'ZL02' ? this.flag1 = true : this.flag2 = true;
 					let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
 					response.bigPath = response.picFixUrl + response.smallPath;
 					this.$set(this.idCardInfo,arrIndex,response) 
