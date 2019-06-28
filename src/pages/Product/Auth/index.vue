@@ -941,10 +941,6 @@ export default {
 		}
 	},
 	mounted() {
-		this.utils.setCookie("idcard_isexpired", "N");
-		this.utils.setCookie("appFlowNo", "15902270724:38077");
-		this.utils.setCookie("idcard_ZL02url", "https://file.dev.guolidai.xin/applogo//defaultIdPicZL02.png");
-		this.utils.setCookie("idcard_ZL03url", "https://file.dev.guolidai.xin/applogo//defaultIdPicZL03.png");
 		let idcard_isexpired = this.utils.getCookie("idcard_isexpired");
 		//先判断身份证是否在有效期，未过期的话带入部分信息
 		if(idcard_isexpired === "N") {
