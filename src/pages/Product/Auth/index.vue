@@ -33,7 +33,7 @@
 						<i class="addImg"></i>
 						<p>身份证正面</p>
 					</form> -->
-					<img width="100%" height="100%" :src="idCardInfo[0].bigPath" v-if="idCardInfo[0].bigPath">
+					<img @click="uploadFileInput('ZL02')" width="100%" height="100%" :src="idCardInfo[0].bigPath" v-if="idCardInfo[0].bigPath">
 				</div>
 				<ul class="first">
 					<li class="idCardName">
@@ -59,7 +59,7 @@
 						<i class="addImg"></i>
 						<p>身份证反面</p>
 					</form> -->
-					<img width="100%" height="100%" :src="idCardInfo[1].bigPath" v-if="idCardInfo[1].bigPath">
+					<img @click="uploadFileInput('ZL03')" width="100%" height="100%" :src="idCardInfo[1].bigPath" v-if="idCardInfo[1].bigPath">
 				</div>
 				<ul class="second">
 					<li class="idCardTime">
@@ -736,7 +736,9 @@ export default {
 			closeDialogCancelText: '继续填写',
 			videoNumber: '',
 			bizNo: '',
-			token: ''
+			token: '',
+			flag1: false,
+			flag2: false
 		}
 	},
 	methods: {
@@ -780,11 +782,23 @@ export default {
 		uploadFileInput: function(type) {
 			this.uploadType = type;
 			if(type == 'video'){
+				this.flag1 = false;
+				this.flag2 = false;
 				this.action = '/HicashAppService/VerifyVideo?bizNo='+ this.bizNo +'&userName='+ this.utils.getCookie('userName') +'&token='+ this.token +'&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b' + '&randomNum=' + this.videoNumber + '&tempAppNo=' + this.utils.getCookie("appFlowNo").split(":")[1];
+				this.$refs.fileInput.click();
 			}else{
 				this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
 			}
-			this.$refs.fileInput.click();
+			if(this.uploadType === "ZL02") {
+				if(this.flag1) return;
+				this.$refs.fileInput.click();
+				this.flag1 = true;
+			}
+			if(this.uploadType === "ZL03") {
+				if(this.flag2) return;
+				this.$refs.fileInput.click();
+				this.flag2 = true;
+			}
 		},
 		uploadIdcard: function(e) {
 			let fileFize = e.target.files[0].size;
@@ -927,6 +941,10 @@ export default {
 		}
 	},
 	mounted() {
+		this.utils.setCookie("idcard_isexpired", "N");
+		this.utils.setCookie("appFlowNo", "15902270724:38077");
+		this.utils.setCookie("idcard_ZL02url", "https://file.dev.guolidai.xin/applogo//defaultIdPicZL02.png");
+		this.utils.setCookie("idcard_ZL03url", "https://file.dev.guolidai.xin/applogo//defaultIdPicZL03.png");
 		let idcard_isexpired = this.utils.getCookie("idcard_isexpired");
 		//先判断身份证是否在有效期，未过期的话带入部分信息
 		if(idcard_isexpired === "N") {
