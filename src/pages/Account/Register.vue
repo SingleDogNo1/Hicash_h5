@@ -607,7 +607,7 @@ export default {
 			queryUserTipObj.append("type", "QRMSG1");
 			queryUserTipObj.append("key", "register01");
 		this.common.queryUserTip(queryUserTipObj).then( res => {
-			let data = res.data;
+			let data = res.data.data;
 			this.dialogContent = data.register01;
 		})
 		this.agreementUrl1 =
