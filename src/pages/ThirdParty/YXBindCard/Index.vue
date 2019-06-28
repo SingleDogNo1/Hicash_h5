@@ -28,8 +28,8 @@
           v-model="bankName"
           :readonly="true"
         ></x-input>
-        <x-input title="验证码" v-model="vcode" text-align="right" class="weui-vcode">
-          <button  :class="vCodeBtnStatus ? 'gray': ''" class="get-vcode" slot="right" type="primary" mini  @click.prevent="signNindCardSendSms">{{vCodeVal}}{{vCodeBtnStatus ? 's': ''}}</button>
+        <x-input title="验证码"  v-model="vcode" text-align="right" class="weui-vcode">
+          <button :disabled='vCodeBtnStatus' :class="vCodeBtnStatus ? 'gray': ''" class="get-vcode" slot="right" type="primary" mini  @click.prevent="signNindCardSendSms">{{vCodeVal}}{{vCodeBtnStatus ? 's': ''}}</button>
         </x-input>
       </group>
     </div>
@@ -269,13 +269,13 @@ export default {
         bankCardNo:  this.bindCardInfo.bankCardNo
       }
       if(this.vCodeBtnStatus) return false;
+      this.vCodeBtnStatus = true;
       bindCardApi.signNindCardSendSms(params)
       .then((res) => {
         let data = res.data;
         
         if(data.resultCode == '1'){
           this.vCodeVal = '60';
-          this.vCodeBtnStatus = true;
           this.transactionNo = data.transactionNo;
           var vCodeValInterva = setInterval(()=>{
             this.vCodeVal--
@@ -285,6 +285,8 @@ export default {
               this.vCodeVal = '获取验证码';
             }
           }, 1000)
+        }else{
+          this.vCodeBtnStatus = false;
         }
       })
     },
