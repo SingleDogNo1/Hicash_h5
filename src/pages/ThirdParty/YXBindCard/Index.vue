@@ -270,22 +270,32 @@ export default {
       }
       if(this.vCodeBtnStatus) return false;
       this.vCodeBtnStatus = true;
+      this.vCodeVal = '60';
+      var vCodeValInterva = setInterval(()=>{
+        this.vCodeVal--
+        if(this.vCodeVal < 0){
+          clearInterval(vCodeValInterva);
+          this.vCodeBtnStatus = false;
+          this.vCodeVal = '获取验证码';
+        }
+      }, 1000)
       bindCardApi.signNindCardSendSms(params)
       .then((res) => {
         let data = res.data;
         
         if(data.resultCode == '1'){
-          this.vCodeVal = '60';
+          // this.vCodeVal = '60';
           this.transactionNo = data.transactionNo;
-          var vCodeValInterva = setInterval(()=>{
-            this.vCodeVal--
-            if(this.vCodeVal < 0){
-              clearInterval(vCodeValInterva);
-              this.vCodeBtnStatus = false;
-              this.vCodeVal = '获取验证码';
-            }
-          }, 1000)
+          // var vCodeValInterva = setInterval(()=>{
+          //   this.vCodeVal--
+          //   if(this.vCodeVal < 0){
+          //     clearInterval(vCodeValInterva);
+          //     this.vCodeBtnStatus = false;
+          //     this.vCodeVal = '获取验证码';
+          //   }
+          // }, 1000)
         }else{
+          clearInterval(vCodeValInterva);
           this.vCodeBtnStatus = false;
         }
       })
