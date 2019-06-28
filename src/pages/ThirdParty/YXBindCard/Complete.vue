@@ -75,14 +75,14 @@ export default {
   ready() {},
   methods: {
     jump(){
-      let jumpParams = JSON.stringify({type: 'h5_sign', app_no: this.$route.query.appNo, industryCode: this.$route.query.industryCode})
+      let jumpParams = JSON.stringify({type: 'h5_sign', app_no: this.$route.query.appNo, industry_code: this.$route.query.industryCode})
       window.hicashJSCommunication.jumpPage(jumpParams);
     }
   },
   mounted: function() {
-    console.info('.this.$route.query', );
+    console.info('.this.$route.query', this.$route.query.industryCode);
     setTimeout(()=>{
-      let jumpParams = JSON.stringify({type: 'h5_sign', app_no: this.$route.query.appNo, industryCode: this.$route.query.industryCode})
+      let jumpParams = JSON.stringify({type: 'h5_sign', app_no: this.$route.query.appNo, industry_code: this.$route.query.industryCode})
       window.hicashJSCommunication.jumpPage(jumpParams);
     }, 3000)
   }
