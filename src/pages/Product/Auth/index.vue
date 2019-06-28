@@ -753,7 +753,6 @@ export default {
 			this.showAlert = true;
 		},
 		onCancel () {
-			console.log("重新录制")
 			this.isShowDialog = false;
 			this.isPopupShow = true;
 			this.inputAccept = 'video/*';
@@ -781,7 +780,6 @@ export default {
 		},
 		uploadFileInput: function(type) {
 			this.uploadType = type;
-			console.log("this.flag1====", this.flag1)
 			if(type == 'video'){
 				this.flag1 = false;
 				this.flag2 = false;
@@ -790,7 +788,6 @@ export default {
 			}else{
 				this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
 			}
-			console.log("this.action===", this.action)
 			if(this.uploadType === "ZL02") {
 				if(this.flag1) return;
 				this.$refs.fileInput.click();
@@ -801,14 +798,11 @@ export default {
 			}
 		},
 		uploadIdcard: function(e) {
-			console.log("uploadIdcard===")
 			let fileFize = e.target.files[0].size;
 			if(fileFize > 10485760){
 				this.$vux.toast.text('上传图片不得大于10M', 'middle')
 				return false;
 			}
-			console.info('this.uploadType', this.uploadType);
-			console.info('this.action', this.action);
 			this.$vux.loading.show({
 				text: '加载中，请稍等……',
 				position: 'absolute'
@@ -864,13 +858,11 @@ export default {
 		UpdateTempAppInfo(params){
 			this.common.UpdateTempAppInfo(params)
 			.then((res)=>{
-				console.info('UpdateTempAppInfo', res);
 			});
 		},
 		GetRandomNumber(params){
 			this.common.GetRandomNumber(params)
 			.then((res)=>{
-				console.info('GetRandomNumber', res);
 				this.videoNumber = res.data.number;
 				this.bizNo = res.data.bizNo;
 				this.token = res.data.token;
@@ -880,7 +872,6 @@ export default {
 		UpdateCustCard(params){
 			this.common.UpdateCustCard(params)
 			.then((res)=>{
-				console.info('GetRandomNumber', res);
 				if(res.data.resultCode === '1'){
 					let updatePicStatusData = new URLSearchParams();
 					updatePicStatusData.append("userName", this.utils.getCookie("userName"));
