@@ -425,8 +425,8 @@ export default {
 			realName: unescape(this.utils.getCookie("realName")),
 			userMobile:
 				this.utils.getCookie("mobile").substring(0, 3) +
-				"*****" +
-				this.utils.getCookie("mobile").substring(8, 11),
+				"****" +
+				this.utils.getCookie("mobile").substring(7, 11),
 			lateTotal: 0.0,
 			balance: 0.0,
 			accountPays: [],
