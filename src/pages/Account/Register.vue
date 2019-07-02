@@ -615,7 +615,7 @@ export default {
 			"newweb/new_agreement/hiCashRegisterAgreement.html?comeCode=gk";
 		this.agreementUrl2 =
 			this.config.MWEB_PATH +
-			"newweb/agreement/thirdParty.html?comeCode=gk";
+			"newweb/new_agreement/thirdParty.html?comeCode=gk";
 		var userName = this.utils.getCookie("userName");
 		var inviteCode = this.utils.getCookie("inviteCode");
 		if (inviteCode) {
