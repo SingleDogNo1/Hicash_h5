@@ -298,6 +298,7 @@ export default {
           clearInterval(vCodeValInterva);
           this.vCodeVal = '获取验证码';
           this.vCodeBtnStatus = false;
+          this.$vux.toast.text(data.resultMsg, 'middle')
         }
       })
     },
