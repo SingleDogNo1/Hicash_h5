@@ -62,15 +62,15 @@
 				</button>
 				<div class="register-agreement-wrap">
 					<check-icon :value.sync="selected">
-						<span>注册即表示同意</span>
-						<a :href="agreementUrl1" class="go-to-forget-pwd"
-							>《嗨钱网注册协议》</a
-						>
-						<span>及</span>
-						<a :href="agreementUrl2" class="go-to-forget-pwd"
-							>《隐私政策协议》</a
-						>
 					</check-icon>
+					<span class="tips">注册即表示同意</span>
+					<a :href="agreementUrl1" class="go-to-forget-pwd"
+						>《嗨钱网注册协议》</a
+					>
+					<span>及</span>
+					<a :href="agreementUrl2" class="go-to-forget-pwd"
+						>《隐私政策协议》</a
+					>
 				</div>
 			</div>
 		</div>
@@ -239,16 +239,27 @@
 				border: none;
 			}
 			.register-agreement-wrap {
+				position: relative;
 				font-size: 0.6rem;
 				color: #cccccc;
+				line-height: 1rem;
 				span {
 					font-size: 0.6rem;
 					color: #cccccc;
 				}
+				.tips {
+					padding-left: .85rem;
+				}
 				.weui_icon_circle {
+					position: absolute;
+					left: 0;
+					top: .2rem;
 					font-size: 0.6rem !important;
 				}
 				.weui-icon-success {
+					position: absolute;
+					left: 0;
+					top: .2rem;
 					font-size: 0.6rem !important;
 					color: #fd7f5f !important;
 				}
