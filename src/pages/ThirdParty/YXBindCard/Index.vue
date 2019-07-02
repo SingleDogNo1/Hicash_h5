@@ -296,6 +296,7 @@ export default {
           // }, 1000)
         }else{
           clearInterval(vCodeValInterva);
+          this.vCodeVal = '获取验证码';
           this.vCodeBtnStatus = false;
         }
       })
