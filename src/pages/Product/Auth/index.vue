@@ -33,7 +33,7 @@
 						<i class="addImg"></i>
 						<p>身份证正面</p>
 					</form> -->
-					<img width="100%" height="100%" :src="idCardInfo[0].bigPath" v-if="idCardInfo[0].bigPath">
+					<img @click="uploadFileInput('ZL02')" width="100%" height="100%" :src="idCardInfo[0].bigPath" v-if="idCardInfo[0].bigPath">
 				</div>
 				<ul class="first">
 					<li class="idCardName">
@@ -59,7 +59,7 @@
 						<i class="addImg"></i>
 						<p>身份证反面</p>
 					</form> -->
-					<img width="100%" height="100%" :src="idCardInfo[1].bigPath" v-if="idCardInfo[1].bigPath">
+					<img @click="uploadFileInput('ZL03')" width="100%" height="100%" :src="idCardInfo[1].bigPath" v-if="idCardInfo[1].bigPath">
 				</div>
 				<ul class="second">
 					<li class="idCardTime">
@@ -634,7 +634,7 @@
 import { Alert, Popup, Confirm } from "vux";
 import PageHeader from "@/components/PageHeader.vue";
 import ajaxForm from 'vue2-ajax-form'
-
+let moment = require("moment");
 export default {
 	components: {
 		PageHeader,
@@ -736,7 +736,9 @@ export default {
 			closeDialogCancelText: '继续填写',
 			videoNumber: '',
 			bizNo: '',
-			token: ''
+			token: '',
+			flag1: false,
+			flag2: false
 		}
 	},
 	methods: {
@@ -751,7 +753,6 @@ export default {
 			this.showAlert = true;
 		},
 		onCancel () {
-			console.log("重新录制")
 			this.isShowDialog = false;
 			this.isPopupShow = true;
 			this.inputAccept = 'video/*';
@@ -780,11 +781,21 @@ export default {
 		uploadFileInput: function(type) {
 			this.uploadType = type;
 			if(type == 'video'){
+				this.flag1 = false;
+				this.flag2 = false;
 				this.action = '/HicashAppService/VerifyVideo?bizNo='+ this.bizNo +'&userName='+ this.utils.getCookie('userName') +'&token='+ this.token +'&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b' + '&randomNum=' + this.videoNumber + '&tempAppNo=' + this.utils.getCookie("appFlowNo").split(":")[1];
+				this.$refs.fileInput.click();
 			}else{
 				this.action = '/HicashAppService/UploadAppPic?imgType='+ this.uploadType +'&userName='+ this.utils.getCookie('userName') +'&tempAppNo='+ this.utils.getCookie("appFlowNo").split(":")[1] +'&uploadType=HTML5&uuid=0c8297d7-6d3a-46da-b782-0df2434f88b'
 			}
-			this.$refs.fileInput.click();
+			if(this.uploadType === "ZL02") {
+				if(this.flag1) return;
+				this.$refs.fileInput.click();
+			}
+			if(this.uploadType === "ZL03") {
+				if(this.flag2) return;
+				this.$refs.fileInput.click();
+			}
 		},
 		uploadIdcard: function(e) {
 			let fileFize = e.target.files[0].size;
@@ -792,21 +803,21 @@ export default {
 				this.$vux.toast.text('上传图片不得大于10M', 'middle')
 				return false;
 			}
-			console.info('this.uploadType', this.uploadType);
-			console.info('this.action', this.action);
 			this.$vux.loading.show({
 				text: '加载中，请稍等……',
 				position: 'absolute'
 			})
 			this.$refs.submit.click();
+			e.target.value = '';
 		},
 		error(err) {
-            console.log(err)
-        },
-        complete(response) {
+			console.log(err)
+		},
+    complete(response) {
 			this.$vux.loading.hide();
 			if(response.resultCode == '50608'){
 				this.$vux.toast.text(response.resultMsg);
+				this.uploadType == 'ZL02' ? this.flag1 = false : this.flag2 = false;
 				setTimeout(()=>{
 					this.$router.push({
 						name: "Home"
@@ -819,6 +830,7 @@ export default {
 					return false;
 				}
 				this.$vux.toast.text(response.resultMsg)
+				this.uploadType == 'ZL02' ? this.flag1 = false : this.flag2 = false;
 			}else if(response.resultCode == '1'){
 				if(this.uploadType=='video'){
 					let updateCustCardrData = new URLSearchParams();
@@ -835,8 +847,9 @@ export default {
 					updateCustCardrData.append("name", this.idCardInfo[0].faceResult.name.result);										//string	真实姓名
 					this.UpdateCustCard(updateCustCardrData)
 				}else {
+					this.uploadType == 'ZL02' ? this.flag1 = true : this.flag2 = true;
 					let arrIndex = this.uploadType == 'ZL02' ? 0 : 1;
-					response.bigPath = this.config.pic_path + response.smallPath;
+					response.bigPath = response.picFixUrl + response.smallPath;
 					this.$set(this.idCardInfo,arrIndex,response) 
 				}
 			}
@@ -845,13 +858,11 @@ export default {
 		UpdateTempAppInfo(params){
 			this.common.UpdateTempAppInfo(params)
 			.then((res)=>{
-				console.info('UpdateTempAppInfo', res);
 			});
 		},
 		GetRandomNumber(params){
 			this.common.GetRandomNumber(params)
 			.then((res)=>{
-				console.info('GetRandomNumber', res);
 				this.videoNumber = res.data.number;
 				this.bizNo = res.data.bizNo;
 				this.token = res.data.token;
@@ -861,7 +872,6 @@ export default {
 		UpdateCustCard(params){
 			this.common.UpdateCustCard(params)
 			.then((res)=>{
-				console.info('GetRandomNumber', res);
 				if(res.data.resultCode === '1'){
 					let updatePicStatusData = new URLSearchParams();
 					updatePicStatusData.append("userName", this.utils.getCookie("userName"));
@@ -927,6 +937,40 @@ export default {
 		}
 	},
 	mounted() {
+		let idcard_isexpired = this.utils.getCookie("idcard_isexpired");
+		//先判断身份证是否在有效期，未过期的话带入部分信息
+		if(idcard_isexpired === "N") {
+			let authIdentityNo = this.utils.getCookie("authIdentityNo");
+			let authRealName = this.utils.getCookie("authRealName");
+			let idCardValStartDate = this.utils.getCookie("idCardValStartDate");
+			let idCardValEndDate = this.utils.getCookie("idCardValEndDate");
+			let idcard_ZL02url = this.utils.getCookie("idcard_ZL02url");
+			let idcard_ZL03url = this.utils.getCookie("idcard_ZL03url");
+			this.idCardInfo = [
+				{
+					bigPath: idcard_ZL02url,
+					faceResult:{
+						name:{
+							result: authRealName
+						},
+						idcard_number:{
+							result: authIdentityNo
+						}
+					}
+				},
+				{
+					bigPath: idcard_ZL03url,
+					faceResult:{
+						valid_date_end:{
+							result: moment(idCardValEndDate).format("YYYYMMDD")
+						},
+						valid_date_start:{
+							result: moment(idCardValStartDate).format("YYYYMMDD")
+						}
+					}
+				}
+			]
+		}
 		let updateTempAppInfoData = new URLSearchParams();
 		updateTempAppInfoData.append("tempAppNo", this.utils.getCookie("appFlowNo").split(":")[1]);
 		updateTempAppInfoData.append("applyFrom", '03');

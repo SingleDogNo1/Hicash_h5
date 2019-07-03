@@ -15,18 +15,28 @@
 				</ul>
 				<p class="content-total-amount" v-html="totalAmount"></p>
 			</div>
-			<p v-if="popType === 'normalPop'">{{ dialogContent }}</p>
-			<div class="weui-dialog__ft">
+			<div class="dialog-content normal" v-else>
+				<p>{{ dialogContent }}</p>
+			</div>
+			<div class="weui-dialog__ft" v-if="singleButton">
 				<a
 					href="javascript:;"
 					class="weui-dialog__btn weui-dialog__btn_primary"
-					@click="onConfirm"
+					@click="confirmItem"
+					>{{ confirmText }}</a
+				>
+			</div>
+			<div class="weui-dialog__ft" v-else>
+				<a
+					href="javascript:;"
+					class="weui-dialog__btn weui-dialog__btn_primary"
+					@click="confirmItem"
 					>{{ confirmText }}</a
 				>
 				<a
 					href="javascript:;"
 					class="weui-dialog__btn weui-dialog__btn_default"
-					@click="onCancel"
+					@click="cancelItem"
 					>{{ cancelText }}</a
 				>
 			</div>
@@ -66,6 +76,11 @@
 			span {
 				color: #ff7640;
 			}
+		}
+		&.normal {
+			margin-top: 0;
+			padding: rem(24px);
+			line-height: 20px;
 		}
 	}
 }
@@ -149,7 +164,7 @@ export default {
 		},
 		appNoList: {
 			type: Array,
-			default: []
+			default: () => []
 		},
 		totalAmount: {
 			type: String,
@@ -158,7 +173,26 @@ export default {
 		popType: {
 			type: String,
 			default: ""
-		}
+		},
+		// 是否只显示一个按钮 (如果是就只显示取消)
+    singleButton: {
+      type: Boolean,
+      default: false
+		},
+		// 点击确定执行的函数
+    onConfirm: {
+      type: Function,
+      default: () => {
+        return () => {}
+      }
+		},
+		// 点击取消执行的函数
+    onCancel: {
+      type: Function,
+      default: () => {
+        return () => {}
+      }
+    }
 	},
 	data() {
 		return {
@@ -166,21 +200,19 @@ export default {
 		};
 	},
 	methods: {
-		onCancel: function() {
-			this.showDialog = false;
-			this.$emit("showDialog", this.showDialog);
+		cancelItem: function() {
+			this.onCancel();
+			if(!this.closeOnConfirm) {
+				this.showDialog = false;
+				this.$emit("showDialog", this.showDialog);
+			}
 		},
-		onConfirm: function() {
-			this.showDialog = false;
-			this.$emit("showDialog", this.showDialog);
-			const appNoStr = this.appNoList.join(",");
-			const userName = this.utils.getCookie("userName");
-			window.location.href =
-				this.config.MWEB_PATH +
-				"newweb/personalCenter/rechargePay.html?appNo=" +
-				appNoStr +
-				"&userName=" +
-				userName;
+		confirmItem: function() {
+			this.onConfirm();
+			//if(!this.closeOnConfirm) {
+				this.showDialog = false;
+				this.$emit("showDialog", this.showDialog);
+			//}
 		}
 	},
 	watch: {

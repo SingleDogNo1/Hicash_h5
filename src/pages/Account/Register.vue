@@ -62,15 +62,15 @@
 				</button>
 				<div class="register-agreement-wrap">
 					<check-icon :value.sync="selected">
-						<span>注册即表示同意</span>
-						<a :href="agreementUrl1" class="go-to-forget-pwd"
-							>《嗨钱网注册协议》</a
-						>
-						<span>及</span>
-						<a :href="agreementUrl2" class="go-to-forget-pwd"
-							>《隐私政策协议》</a
-						>
 					</check-icon>
+					<span class="tips">注册即表示同意</span>
+					<a :href="agreementUrl1" class="go-to-forget-pwd"
+						>《嗨钱网注册协议》</a
+					>
+					<span>及</span>
+					<a :href="agreementUrl2" class="go-to-forget-pwd"
+						>《隐私政策协议》</a
+					>
 				</div>
 			</div>
 		</div>
@@ -84,6 +84,13 @@
 			@imgCode="newImgCode"
 			@showToast="showToast1"
 		></VerificationCodePop>
+		<confirm-dialog
+			:isShowDialog="isShowAgreeDialog"
+			:singleButton="singleButton"
+			:dialogContent="dialogContent"
+			:confirmText="confirmText"
+			@showDialog="showDialog"
+		></confirm-dialog>
 	</div>
 </template>
 
@@ -232,16 +239,27 @@
 				border: none;
 			}
 			.register-agreement-wrap {
+				position: relative;
 				font-size: 0.6rem;
 				color: #cccccc;
+				line-height: 1rem;
 				span {
 					font-size: 0.6rem;
 					color: #cccccc;
 				}
+				.tips {
+					padding-left: .85rem;
+				}
 				.weui_icon_circle {
+					position: absolute;
+					left: 0;
+					top: .2rem;
 					font-size: 0.6rem !important;
 				}
 				.weui-icon-success {
+					position: absolute;
+					left: 0;
+					top: .2rem;
 					font-size: 0.6rem !important;
 					color: #fd7f5f !important;
 				}
@@ -288,7 +306,8 @@
 import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux";
 
 import VerificationCodePop from "@/components/VerificationCodePop";
-import downloadPop from "@/components/downloadPop.vue";
+import DownloadPop from "@/components/downloadPop";
+import ConfirmDialog from "@/components/Dialog";
 
 export default {
 	components: {
@@ -299,7 +318,8 @@ export default {
 		Toast,
 		CheckIcon,
 		VerificationCodePop,
-		downloadPop
+		DownloadPop,
+		ConfirmDialog
 	},
 	data() {
 		return {
@@ -312,17 +332,24 @@ export default {
 			messageCode: "",
 			getMessageCodeText: "获取验证码",
 			boxshow: false,
-			selected: true,
+			selected: false,
 			inviteCode: "",
 			agreementUrl1: "",
 			agreementUrl2: "",
 			showToast: false,
 			isDisabled: false,
-			mediasource: ""
+			mediasource: "",
+			isShowAgreeDialog: false,
+			singleButton: true,
+			confirmText: "我知道了",
+			dialogContent: ""
 		};
 	},
 	ready() {},
 	methods: {
+		showDialog(showDialog) {
+			this.isShowAgreeDialog = showDialog;
+		},
 		toggle() {
 			this.boxshow = !this.boxshow;
 		},
@@ -587,18 +614,33 @@ export default {
 		}
 	},
 	mounted: function() {
+		let queryUserTipObj = new URLSearchParams();
+			queryUserTipObj.append("type", "QRMSG1");
+			queryUserTipObj.append("key", "register01");
+		this.common.queryUserTip(queryUserTipObj).then( res => {
+			let data = res.data.data;
+			this.dialogContent = data.register01;
+		})
 		this.agreementUrl1 =
 			this.config.MWEB_PATH +
 			"newweb/new_agreement/hiCashRegisterAgreement.html?comeCode=gk";
 		this.agreementUrl2 =
 			this.config.MWEB_PATH +
-			"newweb/agreement/thirdParty.html?comeCode=gk";
+			"newweb/new_agreement/thirdParty.html?comeCode=gk";
 		var userName = this.utils.getCookie("userName");
 		var inviteCode = this.utils.getCookie("inviteCode");
 		if (inviteCode) {
 			this.inviteCode = inviteCode;
 		}
 		this.mediasource = window.sessionStorage.getItem("mediasource");
+	},
+	watch: {
+		selected: function(val, oldval) {
+			console.log("val===", val)
+			if(val) {
+				this.isShowAgreeDialog = true
+			}
+		}
 	}
 };
 </script>
