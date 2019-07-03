@@ -87,6 +87,7 @@ export default {
       appCFCAObj.append("applicationno", this.appNo);
       appCFCAObj.append("username", this.userName);
       appCFCAObj.append("coupon_code_id", "");
+      appCFCAObj.append("platform", "h5");
       Reminder.appCFCA(appCFCAObj).then(res => {
         let data = res.data;
         this.$vux.loading.hide();
