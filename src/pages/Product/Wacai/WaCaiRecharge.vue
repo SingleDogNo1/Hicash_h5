@@ -306,7 +306,7 @@ export default {
       applyRechargeObj.append("couponNum", this.couponNum);
       applyRechargeObj.append("appNo", this.appNo);
       applyRechargeObj.append("totalTerm", this.totalTerm);
-      applyRechargeObj.append("currentTerm", this.term);platform: platform
+      applyRechargeObj.append("currentTerm", this.term);
       applyRechargeObj.append("platform", this.$route.query.channel);
       this.$vux.loading.show({
         text: "加载中，请稍等……"
