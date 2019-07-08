@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="checker-wrap" ref="checkerBody">
+		<div class="checker-wrap">
 			<div
 				@click="checkerStatus('applying')"
 				:class="checkerType == 'applying' ? 'checker-selected' : ''"
@@ -219,7 +219,7 @@
 								:class="item.showOtherOrder ? 'up' : 'down'"
 								@click="openAll(item, index)"
 								v-if="item.appStatus === 'REPAYNODE'"
-								><span>{{btnExpandText}}</span><i></i
+								><span>{{item.btnExpandText}}</span><i></i
 							></a>
 							<a
 								:href="item.rechargeUrl"
@@ -241,55 +241,31 @@
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
 						>	
-							<ul>
-								<li></li>
-							</ul>
-							<!-- <div
-								class="each-other-order-wrap clearfix"
-								v-for="(plan, planIndex) in item.appDetail"
-								:key="planIndex"
-							>
-								<div class="content-wrap clearfix">
-									<div class="left-wrap">
-										<label class="title">{{
-											plan.title
-										}}</label>
-										<p class="amount">
-											{{ plan.amountName }}：<span
-												>¥{{ plan.amount }}元</span
-											>
-										</p>
+							<div class="each-order-wrap">
+								<div class="detail-list-wrap">
+									<ul class="detail-list">
+										<li>
+											<span>借款金额(元)</span>
+											<span>3000.00</span>
+										</li>
+										<li>
+											<span>借款期限</span>
+											<span>3期</span>
+										</li>
+										<li>
+											<span>每期还款</span>
+											<span class="value">1424.00<i class="icon-help" @click="showExpenseTip(item)"></i></span>
+										</li>
+									</ul>
+									<div class="expense-description" v-if="item.showExpenseTip">
+										<i></i>
+										<p>含本金1000.00+利息61.00+金融信息服务费168.00 +互联网信息服务费195.00</p>
 									</div>
-									<p class="right-wrap">
-										期数：{{ plan.period }}期
-									</p>
 								</div>
-								<div class="actions">
-									<router-link
-										class="btn-repayment-plan"
-										:to="{
-											path:
-												'/personal/myInstalment/repaymentPlan',
-											query: {
-												appNo: item.appNo,
-												type: plan.type,
-												from: checkerType
-											}
-										}"
-										><span>还款计划</span
-										><i class="iconfont"
-											>&#58999;</i
-										></router-link
-									>
-								</div>
-							</div> -->
-							<!-- <a
-								href="javascript:void(0);"
-								class="btn-takeup-all"
-								:class="item.showOtherOrder ? 'up' : 'down'"
-								@click="closeAll(item, index)"
-								><span>收起所有</span><i></i
-							></a> -->
+								<ul class="repey-plan-list">
+									<li><span>首期2019.05.02</span><span>1229.00</span><span>已还</span></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</flexbox-item>
@@ -596,27 +572,34 @@
 				display: block;
 				float: left;
 			}
+			i {
+				content: " ";
+				display: block;
+				float: left;
+				height: 8px;
+				width: 8px;
+				border-width: 1px 1px 0 0;
+				border-color: #ff7640;
+				border-style: solid;
+				position: relative;
+				top: 50%;
+				margin-left: 6px;
+			}
 			&.up {
 				i {
-					content: " ";
-					display: block;
-					float: left;
-					height: 8px;
-					width: 8px;
-					border-width: 1px 1px 0 0;
-					border-color: #ff7640;
-					border-style: solid;
 					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-						rotate(90deg);
-					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
-					position: relative;
-					top: 50%;
-					margin-top: 1px;
-					margin-left: 6px;
+						rotate(270deg);
+					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
+					margin-top: 6px;
 				}
 			}
 			&.down {
-				
+				i {
+					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
+						rotate(90deg);
+					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
+					margin-top: 1px;
+				}
 			}
 		}
 		.btn-recharge,
@@ -648,70 +631,79 @@
 		transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
 		margin-top: rem(24px);
 		border-radius: rem(5px);
-		ul {
-			display: flex;
-			width: 100%;
-			height: rem(200px);
-			background: #F4F4F4;
+		.each-order-wrap {
+			.detail-list-wrap {
+				position: relative;
+				.detail-list {
+					background: #F4F4F4;
+					padding: rem(16px);
+					li {
+						display: flex;
+						justify-content: space-between;
+						margin-bottom: rem(16px);
+						font-size: rem(15px);
+						&:last-child {
+							margin-bottom: 0;
+						}
+						.value {
+							display: flex;
+							align-items: center;
+							i {
+								display: inline-block;
+								width: rem(18px);
+								height: rem(18px);
+								background: url("../images/icon_help.png") center center no-repeat;
+								background-size: cover;
+								margin-left: rem(7px);
+							}
+						}
+					}
+				}
+				.expense-description {
+					position: absolute;
+					bottom: rem(-40px);
+					right: 0;
+					background: #fff;
+					padding: rem(8px);
+					box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+					border-radius: rem(5px);
+					max-width: rem(305px);
+					z-index: 500;
+					i {
+						position: absolute;
+						width: 0;
+						height: 0;
+						display: block;
+						border-left: rem(10px) solid transparent;
+						border-right: rem(10px) solid transparent;
+						border-bottom: rem(10px) solid #fff;
+						top: rem(-10px);
+						right: rem(14px);
+					}
+					p {
+						font-size: rem(13px);
+						line-height: rem(16px);
+					}
+				}
+			}
+			.repey-plan-list {
+				font-size: rem(15px);
+				li {
+					margin-top: rem(16px);
+					display: flex;
+					justify-content: space-between;
+					&:nth-child(1) {
+						color:#CCCCCC;
+					}
+					&:nth-child(2) {
+						color:#FF7640;
+					}
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+			}
 		}
-		// .each-other-order-wrap {
-		// 	margin-top: rem(16px);
-		// 	width: 100%;
-		// 	height: 100%;
-		// 	padding-top: rem(16px);
-		// 	border-top: 1px solid #eee;
-		// 	.content-wrap {
-		// 		height: 100%;
-		// 		.left-wrap {
-		// 			float: left;
-		// 			width: 70%;
-		// 			.title {
-		// 				display: block;
-		// 				font-size: 11px;
-		// 				color: #999999;
-		// 				margin-bottom: 2px;
-		// 			}
-		// 			.amount {
-		// 				font-size: 15px;
-		// 				color: #333333;
-		// 				span {
-		// 					color: #ff7640;
-		// 				}
-		// 			}
-		// 		}
-		// 		.right-wrap {
-		// 			float: right;
-		// 			width: 30%;
-		// 			margin-top: rem(10px);
-		// 			font-size: 15px;
-		// 			color: #333333;
-		// 			text-align: right;
-		// 		}
-		// 	}
-		// 	.actions {
-		// 		width: 30%;
-		// 		margin: 0 auto;
-		// 		margin-top: 0.35556rem;
-		// 		.btn-repayment-plan {
-		// 			position: relative;
-		// 			display: block;
-		// 			float: left;
-		// 			border: 1px solid #ff7640;
-		// 			border-radius: 13px;
-		// 			font-size: 12px;
-		// 			color: #ff7640;
-		// 			padding: rem(4px) rem(10px);
-		// 			span {
-		// 				display: block;
-		// 				float: left;
-		// 				margin-right: rem(3px);
-		// 			}
-		// 			i {
-		// 				font-size: 12px;
-		// 			}
-		// 		}
-		// 	}
-		// }
 		.btn-takeup-all {
 			position: relative;
 			display: block;
@@ -1055,10 +1047,20 @@ export default {
 			isShowDownloadApp: false,
 			cancelOrderItem: {},
 			isShowCancelPop: false,
-			btnExpandText: "展开计划"	// 展开计划、收起计划青按钮文字
+			btnExpandText: "展开计划"
 		};
 	},
 	mounted() {
+		document.addEventListener('click', e => {
+			// 如果点击发生在当前组件内部，则不处理
+			if (document.querySelector(".icon-help").contains(e.target)) {
+				return;
+			}
+			this.items.forEach( val => {
+				val.showExpenseTip = false;
+			});
+			console.log("this.items===", this.items)
+		});  
 		this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
 		this.scrollHeight = this.isShowBanner
 			? this.swiperHeight -
@@ -1142,7 +1144,8 @@ export default {
 		// ! 展开还款计划
 		openAll(item, index) {
 			this.banRechecked = false;
-			this.btnExpandText = "收起计划";
+			this.items[index].btnExpandText = this.items[index].showOtherOrder ? "展开计划" : "收起计划";
+			console.log("this.items[index].showOtherOrder====", this.items[index].showOtherOrder)
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
 			setTimeout(() => {
@@ -1221,6 +1224,10 @@ export default {
 				if (data.resultCode == "1") {
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
+						// 展开计划、收起计划青按钮文字
+						val.btnExpandText = "展开计划";
+						// 是否显示每期还款包含费用的提示
+						val.showExpenseTip = false;	
 						if (val.appStatus === "REPAYNODE") {
 							val.rechargeUrl =
 								this.config.MWEB_PATH +
@@ -1361,6 +1368,11 @@ export default {
 		},
 		downloadApp(){
 			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
+		},
+		showExpenseTip(item) {
+			console.log(item)
+			//item.showExpenseTip = true;
+			item.showExpenseTip = !item.showExpenseTip;
 		}
 	},
 	watch: {
