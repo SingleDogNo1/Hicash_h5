@@ -1222,6 +1222,35 @@ export default {
 				if(data.type != this.checkerType) return false;
 
 				if (data.resultCode == "1") {
+					data.list = [{
+						"amount": "239.00",
+						"appNo": "31907080100004",
+						"appStatus": "REPAYNODE",
+						"createDate": "2019-07-08",
+						"industryCode": "VIPD",
+						"industryName": "VIP分期",
+						"loanProduct": null,
+						"nodeList": null,
+						"period": "3",
+						"rejectMsg": null,
+						"rejectUrl": null,
+						"repayDate": "2019.08.09",
+						"repayStatus": "待还"
+					},{
+						"amount": "239.00",
+						"appNo": "31907080100004",
+						"appStatus": "REPAYNODE",
+						"createDate": "2019-07-08",
+						"industryCode": "VIPD",
+						"industryName": "VIP分期",
+						"loanProduct": null,
+						"nodeList": null,
+						"period": "3",
+						"rejectMsg": null,
+						"rejectUrl": null,
+						"repayDate": "2019.08.09",
+						"repayStatus": "待还"
+					}]
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
 						// 展开计划、收起计划青按钮文字
