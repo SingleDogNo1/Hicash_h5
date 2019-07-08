@@ -218,11 +218,8 @@
 								class="btn-expand-all"
 								:class="item.showOtherOrder ? 'up' : 'down'"
 								@click="openAll(item, index)"
-								v-if="
-									!item.showOtherOrder &&
-										item.appStatus === 'REPAYNODE'
-								"
-								><span>展开所有</span><i></i
+								v-if="item.appStatus === 'REPAYNODE'"
+								><span>{{btnExpandText}}</span><i></i
 							></a>
 							<a
 								:href="item.rechargeUrl"
@@ -243,8 +240,11 @@
 							class="other-order"
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
-						>
-							<div
+						>	
+							<ul>
+								<li></li>
+							</ul>
+							<!-- <div
 								class="each-other-order-wrap clearfix"
 								v-for="(plan, planIndex) in item.appDetail"
 								:key="planIndex"
@@ -282,14 +282,14 @@
 										></router-link
 									>
 								</div>
-							</div>
-							<a
+							</div> -->
+							<!-- <a
 								href="javascript:void(0);"
 								class="btn-takeup-all"
 								:class="item.showOtherOrder ? 'up' : 'down'"
 								@click="closeAll(item, index)"
 								><span>收起所有</span><i></i
-							></a>
+							></a> -->
 						</div>
 					</div>
 				</flexbox-item>
@@ -372,7 +372,7 @@
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
 						>
-							<div
+							<!-- <div
 								class="each-other-order-wrap clearfix"
 								v-for="(plan, planIndex) in item.appDetail"
 								:key="planIndex"
@@ -410,7 +410,7 @@
 										></router-link
 									>
 								</div>
-							</div>
+							</div> -->
 
 							<a
 								href="javascript:void(0);"
@@ -596,22 +596,27 @@
 				display: block;
 				float: left;
 			}
-			i {
-				content: " ";
-				display: block;
-				float: left;
-				height: 8px;
-				width: 8px;
-				border-width: 1px 1px 0 0;
-				border-color: #ff7640;
-				border-style: solid;
-				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-					rotate(90deg);
-				transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
-				position: relative;
-				top: 50%;
-				margin-top: 1px;
-				margin-left: 6px;
+			&.up {
+				i {
+					content: " ";
+					display: block;
+					float: left;
+					height: 8px;
+					width: 8px;
+					border-width: 1px 1px 0 0;
+					border-color: #ff7640;
+					border-style: solid;
+					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
+						rotate(90deg);
+					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
+					position: relative;
+					top: 50%;
+					margin-top: 1px;
+					margin-left: 6px;
+				}
+			}
+			&.down {
+				
 			}
 		}
 		.btn-recharge,
@@ -641,64 +646,72 @@
 		overflow: hidden;
 		max-height: 0;
 		transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
-		.each-other-order-wrap {
-			margin-top: rem(16px);
+		margin-top: rem(24px);
+		border-radius: rem(5px);
+		ul {
+			display: flex;
 			width: 100%;
-			height: 100%;
-			padding-top: rem(16px);
-			border-top: 1px solid #eee;
-			.content-wrap {
-				height: 100%;
-				.left-wrap {
-					float: left;
-					width: 70%;
-					.title {
-						display: block;
-						font-size: 11px;
-						color: #999999;
-						margin-bottom: 2px;
-					}
-					.amount {
-						font-size: 15px;
-						color: #333333;
-						span {
-							color: #ff7640;
-						}
-					}
-				}
-				.right-wrap {
-					float: right;
-					width: 30%;
-					margin-top: rem(10px);
-					font-size: 15px;
-					color: #333333;
-					text-align: right;
-				}
-			}
-			.actions {
-				width: 30%;
-				margin: 0 auto;
-				margin-top: 0.35556rem;
-				.btn-repayment-plan {
-					position: relative;
-					display: block;
-					float: left;
-					border: 1px solid #ff7640;
-					border-radius: 13px;
-					font-size: 12px;
-					color: #ff7640;
-					padding: rem(4px) rem(10px);
-					span {
-						display: block;
-						float: left;
-						margin-right: rem(3px);
-					}
-					i {
-						font-size: 12px;
-					}
-				}
-			}
+			height: rem(200px);
+			background: #F4F4F4;
 		}
+		// .each-other-order-wrap {
+		// 	margin-top: rem(16px);
+		// 	width: 100%;
+		// 	height: 100%;
+		// 	padding-top: rem(16px);
+		// 	border-top: 1px solid #eee;
+		// 	.content-wrap {
+		// 		height: 100%;
+		// 		.left-wrap {
+		// 			float: left;
+		// 			width: 70%;
+		// 			.title {
+		// 				display: block;
+		// 				font-size: 11px;
+		// 				color: #999999;
+		// 				margin-bottom: 2px;
+		// 			}
+		// 			.amount {
+		// 				font-size: 15px;
+		// 				color: #333333;
+		// 				span {
+		// 					color: #ff7640;
+		// 				}
+		// 			}
+		// 		}
+		// 		.right-wrap {
+		// 			float: right;
+		// 			width: 30%;
+		// 			margin-top: rem(10px);
+		// 			font-size: 15px;
+		// 			color: #333333;
+		// 			text-align: right;
+		// 		}
+		// 	}
+		// 	.actions {
+		// 		width: 30%;
+		// 		margin: 0 auto;
+		// 		margin-top: 0.35556rem;
+		// 		.btn-repayment-plan {
+		// 			position: relative;
+		// 			display: block;
+		// 			float: left;
+		// 			border: 1px solid #ff7640;
+		// 			border-radius: 13px;
+		// 			font-size: 12px;
+		// 			color: #ff7640;
+		// 			padding: rem(4px) rem(10px);
+		// 			span {
+		// 				display: block;
+		// 				float: left;
+		// 				margin-right: rem(3px);
+		// 			}
+		// 			i {
+		// 				font-size: 12px;
+		// 			}
+		// 		}
+		// 	}
+		// }
 		.btn-takeup-all {
 			position: relative;
 			display: block;
@@ -1041,7 +1054,8 @@ export default {
 			isDownloadApp: false,
 			isShowDownloadApp: false,
 			cancelOrderItem: {},
-			isShowCancelPop: false
+			isShowCancelPop: false,
+			btnExpandText: "展开计划"	// 展开计划、收起计划青按钮文字
 		};
 	},
 	mounted() {
@@ -1128,6 +1142,7 @@ export default {
 		// ! 展开还款计划
 		openAll(item, index) {
 			this.banRechecked = false;
+			this.btnExpandText = "收起计划";
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
 			setTimeout(() => {
