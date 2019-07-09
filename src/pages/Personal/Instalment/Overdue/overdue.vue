@@ -89,6 +89,7 @@
 
 <style lang="scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
+@import "../../../../themes/varibale.scss";
 .overdue {
 	width: 100%;
 	height: 100%;
@@ -100,7 +101,7 @@
 			/deep/ .weui-cells {
 				margin-top: 0;
 				.weui-cell {
-					padding: rem(10px) rem(20px);
+					padding: rem(16px);
 					.vux-cell-primary {
 						/deep/ .vux-label {
 							font-size: 15px;
@@ -111,10 +112,10 @@
 						}
 					}
 					.weui-cell__ft {
-						padding-right: rem(26px);
+						padding-right: 0;
 						.amount {
 							font-size: 15px;
-							color: #ff7640;
+							color: $warning-color;
 							margin-top: rem(2px);
 							margin-bottom: rem(4px);
 						}
@@ -122,6 +123,9 @@
 							font-size: 13px;
 							color: #999999;
 						}
+					}
+					/deep/ .weui-cell__ft:after {
+						display: none;
 					}
 				}
 			}
@@ -164,7 +168,7 @@
 								padding-right: rem(2px);
 								.amount {
 									font-size: 15px;
-									color: #ff7640;
+									color: $warning-color;
 									margin-top: rem(2px);
 									margin-bottom: rem(4px);
 								}
