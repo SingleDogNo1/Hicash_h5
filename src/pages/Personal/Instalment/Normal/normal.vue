@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="checker-wrap">
+		<div class="checker-wrap" ref="checkerBody">
 			<div
 				@click="checkerStatus('applying')"
 				:class="checkerType == 'applying' ? 'checker-selected' : ''"
@@ -246,24 +246,24 @@
 									<ul class="detail-list">
 										<li>
 											<span>借款金额(元)</span>
-											<span>3000.00</span>
+											<span>{{applyAmount}}</span>
 										</li>
 										<li>
 											<span>借款期限</span>
-											<span>3期</span>
+											<span>{{period}}期</span>
 										</li>
 										<li>
 											<span>每期还款</span>
-											<span class="value">1424.00<i class="icon-help" @click="showExpenseTip(item)"></i></span>
+											<span class="value">{{totalAmount}}<i :class="changeClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
 									</ul>
 									<div class="expense-description" v-if="item.showExpenseTip">
 										<i></i>
-										<p>含本金1000.00+利息61.00+金融信息服务费168.00 +互联网信息服务费195.00</p>
+										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
 								</div>
 								<ul class="repey-plan-list">
-									<li><span>首期2019.05.02</span><span>1229.00</span><span>已还</span></li>
+									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index"><span>{{repayPlanItem.period}}期{{repayPlanItem.date}}</span><span>{{repayPlanItem.eachPeriodAmountSum}}</span><span>{{repayPlanItem.title}}</span></li>
 								</ul>
 							</div>
 						</div>
@@ -344,57 +344,35 @@
 						</div>
 
 						<div
-							class="other-order"
+							class="other-order done"
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
 						>
-							<!-- <div
-								class="each-other-order-wrap clearfix"
-								v-for="(plan, planIndex) in item.appDetail"
-								:key="planIndex"
-							>
-								<div class="content-wrap clearfix">
-									<div class="left-wrap">
-										<label class="title">{{
-											plan.title
-										}}</label>
-										<p class="amount">
-											{{ plan.amountName }}：<span
-												>¥{{ plan.amount }}元</span
-											>
-										</p>
+							<div class="each-order-wrap">
+								<div class="detail-list-wrap">
+									<ul class="detail-list">
+										<li>
+											<span>借款金额(元)</span>
+											<span>{{applyAmount}}</span>
+										</li>
+										<li>
+											<span>借款期限</span>
+											<span>{{period}}期</span>
+										</li>
+										<li>
+											<span>每期还款</span>
+											<span class="value">{{totalAmount}}<i :class="changeClass(index)" @click="showExpenseTip(item)"></i></span>
+										</li>
+									</ul>
+									<div class="expense-description" v-if="item.showExpenseTip">
+										<i></i>
+										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
-									<p class="right-wrap">
-										期数：{{ plan.period }}期
-									</p>
 								</div>
-								<div class="actions">
-									<router-link
-										class="btn-repayment-plan"
-										:to="{
-											path:
-												'/personal/myInstalment/repaymentPlan',
-											query: {
-												appNo: item.appNo,
-												type: plan.type,
-												from: checkerType
-											}
-										}"
-										><span>还款计划</span
-										><i class="iconfont"
-											>&#58999;</i
-										></router-link
-									>
-								</div>
-							</div> -->
-
-							<a
-								href="javascript:void(0);"
-								class="btn-takeup-all"
-								:class="item.showOtherOrder ? 'up' : 'down'"
-								@click="closeAll(item, index)"
-								><span>收起所有</span><i></i
-							></a>
+								<ul class="repey-plan-list">
+									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index"><span>{{repayPlanItem.period}}期{{repayPlanItem.date}}</span><span>{{repayPlanItem.eachPeriodAmountSum}}</span><span>{{repayPlanItem.title}}</span></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</flexbox-item>
@@ -661,7 +639,7 @@
 				}
 				.expense-description {
 					position: absolute;
-					bottom: rem(-40px);
+					top: rem(120px);
 					right: 0;
 					background: #fff;
 					padding: rem(8px);
@@ -683,6 +661,9 @@
 					p {
 						font-size: rem(13px);
 						line-height: rem(16px);
+					}
+					span {
+						display: inline;
 					}
 				}
 			}
@@ -735,6 +716,13 @@
 				top: 50%;
 				margin-top: 6px;
 				margin-left: 6px;
+			}
+		}
+	}
+	.done .each-order-wrap .repey-plan-list {
+		li {
+			&:nth-child(1), &:nth-child(2) {
+				color:#333333;
 			}
 		}
 	}
@@ -990,6 +978,7 @@ import {
 	TransferDomDirective as TransferDom
 } from "vux";
 import { Step, Steps, Icon } from "vant";
+const moment = require("moment");
 export default {
 	props: {
 		isShowBanner: {
@@ -1047,20 +1036,15 @@ export default {
 			isShowDownloadApp: false,
 			cancelOrderItem: {},
 			isShowCancelPop: false,
-			btnExpandText: "展开计划"
+			btnExpandText: "展开计划",
+			applyAmount: "",
+			period: "",
+			totalAmount: "",
+			newCurrentPeriodOrder: [],
+			currentIndex: 0
 		};
 	},
 	mounted() {
-		document.addEventListener('click', e => {
-			// 如果点击发生在当前组件内部，则不处理
-			if (document.querySelector(".icon-help").contains(e.target)) {
-				return;
-			}
-			this.items.forEach( val => {
-				val.showExpenseTip = false;
-			});
-			console.log("this.items===", this.items)
-		});  
 		this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
 		this.scrollHeight = this.isShowBanner
 			? this.swiperHeight -
@@ -1145,7 +1129,6 @@ export default {
 		openAll(item, index) {
 			this.banRechecked = false;
 			this.items[index].btnExpandText = this.items[index].showOtherOrder ? "展开计划" : "收起计划";
-			console.log("this.items[index].showOtherOrder====", this.items[index].showOtherOrder)
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
 			setTimeout(() => {
@@ -1174,6 +1157,49 @@ export default {
 			postData.append("userName", userName);
 			postData.append("appNo", item.appNo);
 			this.common.orderDetailInfo(postData).then(res => {
+				res.data = {
+						"resultCode": "1",
+						"resultMsg": null,
+						"applyAmount": "3000",
+						"period": "3",
+						"currentPeriod": "1",
+						"repayPlan": [
+								{
+										"status": "WTRP",
+										"date": "2019.08.09",
+										"amountList": {
+												"principal": "162.01",
+												"internetFee": "34.02",
+												"bankFee": "28.03",
+												"interest": "15.04",
+												"allFee": "239.05"
+										}
+								},
+								{
+										"status": "WTRP",
+										"date": "2019.09.09",
+										"amountList": {
+												"principal": "167.00",
+												"internetFee": "34.00",
+												"bankFee": "28.00",
+												"interest": "10.00",
+												"allFee": "239.00"
+										}
+								},
+								{
+										"status": "WTRP",
+										"date": "2019.10.09",
+										"amountList": {
+												"principal": "171.00",
+												"internetFee": "34.00",
+												"bankFee": "28.00",
+												"interest": "6.00",
+												"allFee": "239.00"
+										}
+								}
+						],
+						"userName": "153222222"
+				}
 				let data = res.data;
 				if (data.resultCode == "1") {
 					this.otherOrderHeight = this.$refs.otherOrder[
@@ -1182,10 +1208,42 @@ export default {
 					this.$nextTick(() => {
 						this.$refs.scrollerBottom.reset();
 					});
-					let newAppDetail = _.map(data.appDetail, list => {
+					const currentPeriod = parseInt(data.currentPeriod) - 1;
+					this.applyAmount = data.applyAmount;
+					this.period = data.period;
+					const currentPeriodOrder = data.repayPlan[currentPeriod];
+					const orderTypeKeys = [];
+					for (const property in currentPeriodOrder.amountList){
+						let item = {
+							type: property,
+							amount: parseFloat(currentPeriodOrder.amountList[property]),
+							amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+						}
+						orderTypeKeys.push(item);
+					}
+					let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
 						return this.planMapping(list);
 					});
-					this.$set(this.items[index], "appDetail", newAppDetail);
+					const totalAmountValue = _.pluck(newCurrentPeriodOrder, "amount");
+					const totalAmount = _.reduce(totalAmountValue, function(memo, num){ return memo + num; }, 0);
+					//保留2位小数，如：2，会在2后面补上00.即2.00
+					this.totalAmount = this.utils.toDecimal2(totalAmount);
+					this.newCurrentPeriodOrder = newCurrentPeriodOrder;
+					let repayPlan = _.map(data.repayPlan, (list,key) => {
+						list.period = key === 0 ? "首" : key + 1;
+						const eachPeriodAmountSumArr = [];
+						for (const i in list.amountList) {
+							const item = {
+								amount: parseFloat(list.amountList[i])
+							}
+							eachPeriodAmountSumArr.push(item)
+						}
+						const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
+						const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
+						list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
+						return this.statusMapping(list);
+					});
+					this.$set(this.items[index], "repayPlan", repayPlan);
 				} else {
 					this.$vux.toast.text(data.resultMsg, "middle");
 				}
@@ -1222,41 +1280,43 @@ export default {
 				if(data.type != this.checkerType) return false;
 
 				if (data.resultCode == "1") {
-					data.list = [{
-						"amount": "239.00",
-						"appNo": "31907080100004",
-						"appStatus": "REPAYNODE",
-						"createDate": "2019-07-08",
-						"industryCode": "VIPD",
-						"industryName": "VIP分期",
-						"loanProduct": null,
-						"nodeList": null,
-						"period": "3",
-						"rejectMsg": null,
-						"rejectUrl": null,
-						"repayDate": "2019.08.09",
-						"repayStatus": "待还"
-					},{
-						"amount": "239.00",
-						"appNo": "31907080100004",
-						"appStatus": "REPAYNODE",
-						"createDate": "2019-07-08",
-						"industryCode": "VIPD",
-						"industryName": "VIP分期",
-						"loanProduct": null,
-						"nodeList": null,
-						"period": "3",
-						"rejectMsg": null,
-						"rejectUrl": null,
-						"repayDate": "2019.08.09",
-						"repayStatus": "待还"
-					}]
+					// data.list = [{
+					// 	"amount": "239.00",
+					// 	"appNo": "31907080100004",
+					// 	"appStatus": "REPAYNODE",
+					// 	"createDate": "2019-07-08",
+					// 	"industryCode": "VIPD",
+					// 	"industryName": "VIP分期",
+					// 	"loanProduct": null,
+					// 	"nodeList": null,
+					// 	"period": "3",
+					// 	"rejectMsg": null,
+					// 	"rejectUrl": null,
+					// 	"repayDate": "2019.08.09",
+					// 	"repayStatus": "待还"
+					// },{
+					// 	"amount": "239.00",
+					// 	"appNo": "31907080100004",
+					// 	"appStatus": "REPAYNODE",
+					// 	"createDate": "2019-07-08",
+					// 	"industryCode": "VIPD",
+					// 	"industryName": "VIP分期",
+					// 	"loanProduct": null,
+					// 	"nodeList": null,
+					// 	"period": "3",
+					// 	"rejectMsg": null,
+					// 	"rejectUrl": null,
+					// 	"repayDate": "2019.08.09",
+					// 	"repayStatus": "待还"
+					// }]
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
 						// 展开计划、收起计划青按钮文字
 						val.btnExpandText = "展开计划";
 						// 是否显示每期还款包含费用的提示
 						val.showExpenseTip = false;	
+						val.currentIndex = index;
+						val.createDate = moment(val.createDate).format("YYYY.MM.DD");
 						if (val.appStatus === "REPAYNODE") {
 							val.rechargeUrl =
 								this.config.MWEB_PATH +
@@ -1366,20 +1426,48 @@ export default {
 		planMapping: function(mapObj) {
 			switch (mapObj.type) {
 				case "loanFee": // * 订单费用
-					mapObj.title = "分期订单";
-					mapObj.amountName = "借款金额";
+					mapObj.amountName = "订单费用";
 					break;
 				case "mthFee": // * 会员费
-					mapObj.title = "会员订单";
-					mapObj.amountName = "会员服务费金额";
+					mapObj.amountName = "会员费";
 					break;
 				case "infoFee": // * 综合消费
-					mapObj.title = "消费综合订单";
-					mapObj.amountName = "消费综合费金额";
+					mapObj.amountName = "综合消费";
 					break;
 				case "addFee": // * 保费
-					mapObj.title = "保费订单";
-					mapObj.amountName = "保费金额";
+					mapObj.amountName = "保费";
+					break;
+				case "allFee": // * 总费用
+					mapObj.amountName = "总费用";
+					break;
+				case "principal": // * 本金
+					mapObj.amountName = "本金";
+					break;
+				case "interest": // * 利息
+					mapObj.amountName = "利息";
+					break;
+				case "bankFee": // * 金融信息服务费
+					mapObj.amountName = "金融信息服务费";
+					break;
+				case "internetFee": // * 互联网信息服务费
+					mapObj.amountName = "互联网信息服务费";
+					break;
+			}
+			return mapObj;
+		},
+		statusMapping(mapObj) {
+			switch (mapObj.status) {
+				case "WTRP": // * 待还
+					mapObj.title = "待还";
+					break;
+				case "REXP": // * 逾期
+					mapObj.title = "逾期";
+					break;
+				case "NMRF": // * 正常还完
+					mapObj.title = "正常还完";
+					break;
+				case "EPRF": // * 逾期还完
+					mapObj.title = "逾期还完";
 					break;
 			}
 			return mapObj;
@@ -1399,9 +1487,16 @@ export default {
 			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
 		},
 		showExpenseTip(item) {
-			console.log(item)
-			//item.showExpenseTip = true;
+			this.items.forEach( (val,index) => {
+				if(index !== item.currentIndex) {
+					val.showExpenseTip = false;
+				}
+			});
 			item.showExpenseTip = !item.showExpenseTip;
+			this.currentIndex = item.currentIndex;
+		},
+		changeClass(index) {
+			return `icon-help${index}`;
 		}
 	},
 	watch: {
@@ -1412,6 +1507,22 @@ export default {
 				this.$refs.scrollerBottom.reset({ top: top });
 			});
 		}
+	},
+	beforeMount() {
+		this._close = e => {
+			const currentIndex = this.currentIndex;
+			// 如果点击发生在当前组件内部，则不处理
+			if (document.querySelector(`.icon-help${currentIndex}`) && document.querySelector(`.icon-help${currentIndex}`).contains(e.target)) {
+				return;
+			}
+			this.items.forEach( val => {
+				val.showExpenseTip = false;
+			});
+		};  
+		document.body.addEventListener('click', this._close);
+	},
+	beforeDestroy() {
+		document.body.removeEventListener('click', this._close);  
 	}
 };
 </script>
