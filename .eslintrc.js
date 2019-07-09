@@ -50,11 +50,16 @@ module.exports = {
 	],
 	// add your custom rules here
 	rules: {
-		"eqeqeq": 0,
-		"no-tabs": 0,
-		"quotes": 0,
+		"no-debugger": process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		"semi": 0,
 		"indent": 0,
+		"quotes": 0,
+		"standard/computed-property-even-spacing": 0,
+		"no-new": 0,
+		"no-irregular-whitespace": 0,
+		// -------------- 汇有财line --------------
+		"eqeqeq": 0,
+		"no-tabs": 0,
 		"parentheses": 0,
 		"space-before-function-paren": 0,
 		"space-before-blocks": 0,
@@ -77,7 +82,6 @@ module.exports = {
 		"handle-callback-err": 0,
 		"key-spacing": 0,
 		"no-multiple-empty-lines": 0,
-		" wrap-iife": 0,
 		"block-spacing": 0,
 		"space-infix-ops": 0,
 		"semi-spacing": 0,
@@ -95,9 +99,7 @@ module.exports = {
 		"no-useless-escape": 0,
 		"vue/no-dupe-keys": 0,
 		"vue/no-parsing-error": 0,
-		"no-debugger": process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		"no-compare-neg-zero": 0,
-		"standard/computed-property-even-spacing": 0,
 		"no-control-regex": 0,
 		"no-inner-declarations": 0,
 		"no-sequences": 0
