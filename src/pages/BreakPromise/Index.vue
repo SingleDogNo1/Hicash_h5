@@ -93,8 +93,8 @@
 					width="100%"
 				/>
 			</div>
-			<div class="loan" title="天下信用">
-				<img src="./images/ad.png" width="100%" />
+			<div class="loan" title="贷款超市">
+				<img @click="adClick" src="./images/ad.png" width="100%" />
 			</div>
 		</div>
 		<page-footer v-if="platform === 'H5'"></page-footer>
