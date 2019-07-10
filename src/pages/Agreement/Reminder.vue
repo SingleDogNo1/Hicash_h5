@@ -35,11 +35,11 @@
     >
       <p>感谢您使用嗨钱借贷业务！</p>
       <br>
-      <p>按时还款，将会增加您提升用户评级的机会享受更高的通过率，更低的综合费率</p>
-      <router-link
+      <p>按时还款将提高您的信用值，有机会享受更高通过率及更低费率。</p>
+      <!-- <router-link
         class="know-compre-rat"
         :to="{name: 'CompreRat', query: {from: 'signature', appNo: appNo}}"
-      >了解用户评级</router-link>
+      >了解用户评级</router-link> -->
       <router-link class="i-know" :to="{name: 'Personal'}">我知道了</router-link>
     </confirm>
   </div>

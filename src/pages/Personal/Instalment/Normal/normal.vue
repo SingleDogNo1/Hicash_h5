@@ -1093,10 +1093,11 @@ export default {
 				this.isShowDownloadApp = true;
 				return false;
 			}
-			window.location.href =
-				this.config.MWEB_PATH +
-				"newweb/personalCenter/signature.html?comefrom=H5&appNo=" +
-				appNo;
+			this.$router.push({ name: 'Signature', query:{appNo: appNo, comefrom: 'H5'} });
+			// window.location.href =
+			// 	this.config.MWEB_PATH +
+			// 	"newweb/personalCenter/signature.html?comefrom=H5&appNo=" +
+			// 	appNo;
 		},
 		// ! 提现
 		withdrawals(item) {

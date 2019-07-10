@@ -891,7 +891,6 @@ export default {
 					let custType = this.utils.getCookie("custType");
 					let industryCode = this.utils.getCookie("industryCode");
 					let hqljb = this.utils.getCookie("hqljb");
-					debugger;
 					if(this.utils.getCookie("industryCode") == 'VIPD' && this.utils.getCookie("checkSupportIsCredit") == '1'){
 						this.queryFirstExamineSuc();
 					}else if(industryCode=="DDCP" && hqljb=="1"){
