@@ -58,6 +58,9 @@ import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
 import Strike from "@/pages/Activity/Strike";
 import DebtRestructuring from  "@/pages/DebtRestructuring/index";
+import Signature from '@/pages/Signature';
+
+
 
 Vue.use(Router);
 
@@ -548,6 +551,17 @@ export default new Router({
 			component: DebtRestructuring, //13821919232
 			meta: {
 				title: "债务重组",
+				requireAuth: true
+			}
+
+		},
+		{
+			//签约
+			path: "/signature",
+			name: "Signature",
+			component: Signature,
+			meta: {
+				title: "签约",
 				requireAuth: true
 			}
 
