@@ -254,10 +254,10 @@
 										</li>
 										<li>
 											<span>每期还款</span>
-											<span class="value">{{totalAmount}}<i :class="changeClass(index)" @click="showExpenseTip(item)"></i></span>
+											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
 									</ul>
-									<div class="expense-description" v-if="item.showExpenseTip">
+									<div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
 										<i></i>
 										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
@@ -361,10 +361,10 @@
 										</li>
 										<li>
 											<span>每期还款</span>
-											<span class="value">{{totalAmount}}<i :class="changeClass(index)" @click="showExpenseTip(item)"></i></span>
+											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
 									</ul>
-									<div class="expense-description" v-if="item.showExpenseTip">
+									<div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
 										<i></i>
 										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
@@ -1131,123 +1131,124 @@ export default {
 			this.items[index].btnExpandText = this.items[index].showOtherOrder ? "展开计划" : "收起计划";
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
-			setTimeout(() => {
-				this.otherOrderHeight = this.$refs.otherOrder[
-					index
-				].offsetHeight;
-				this.$nextTick(() => {
-					this.$refs.scrollerBottom.reset();
-				});
-			}, 1000);
 
-			let _top = 0;
-			if (index > 0) {
-				_.each(this.$refs.flexboxItem, (item, i) => {
-					if (i >= index) return false;
-					_top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
+			if(this.items[index].showOtherOrder) {
+				// setTimeout(() => {
+				// 	this.otherOrderHeight = this.$refs.otherOrder[
+				// 		index
+				// 	].offsetHeight;
+				// 	this.$nextTick(() => {
+				// 		this.$refs.scrollerBottom.reset();
+				// 	});
+				// }, 1000);
+				// let _top = 0;
+				// if (index > 0) {
+				// 	_.each(this.$refs.flexboxItem, (item, i) => {
+				// 		if (i >= index) return false;
+				// 		_top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
+				// 	});
+				// }
+				// this.$nextTick(() => {
+				// 	this.$refs.scrollerBottom.reset({ top: _top });
+				// });
+				let vm = this;
+				let userName = this.utils.getCookie("userName");
+				let postData = new URLSearchParams();
+				postData.append("userName", userName);
+				postData.append("appNo", item.appNo);
+				this.common.orderDetailInfo(postData).then(res => {
+					res.data = {
+							"resultCode": "1",
+							"resultMsg": null,
+							"applyAmount": "3000",
+							"period": "3",
+							"currentPeriod": "1",
+							"repayPlan": [
+									{
+											"status": "WTRP",
+											"date": "2019.08.09",
+											"amountList": {
+													"principal": "162.01",
+													"internetFee": "34.02",
+													"bankFee": "28.03",
+													"interest": "15.04",
+													"allFee": "239.05"
+											}
+									},
+									{
+											"status": "WTRP",
+											"date": "2019.09.09",
+											"amountList": {
+													"principal": "167.00",
+													"internetFee": "34.00",
+													"bankFee": "28.00",
+													"interest": "10.00",
+													"allFee": "239.00"
+											}
+									},
+									{
+											"status": "WTRP",
+											"date": "2019.10.09",
+											"amountList": {
+													"principal": "171.00",
+													"internetFee": "34.00",
+													"bankFee": "28.00",
+													"interest": "6.00",
+													"allFee": "239.00"
+											}
+									}
+							],
+							"userName": "153222222"
+					}
+					let data = res.data;
+					if (data.resultCode == "1") {
+						this.otherOrderHeight = this.$refs.otherOrder[
+							index
+						].offsetHeight;
+						this.$nextTick(() => {
+							this.$refs.scrollerBottom.reset();
+						});
+						const currentPeriod = parseInt(data.currentPeriod) - 1;
+						this.applyAmount = data.applyAmount;
+						this.period = data.period;
+						const currentPeriodOrder = data.repayPlan[currentPeriod];
+						const orderTypeKeys = [];
+						for (const property in currentPeriodOrder.amountList){
+							let item = {
+								type: property,
+								amount: parseFloat(currentPeriodOrder.amountList[property]),
+								amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+							}
+							orderTypeKeys.push(item);
+						}
+						let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
+							return this.planMapping(list);
+						});
+						const totalAmountValue = _.pluck(newCurrentPeriodOrder, "amount");
+						const totalAmount = _.reduce(totalAmountValue, function(memo, num){ return memo + num; }, 0);
+						//保留2位小数，如：2，会在2后面补上00.即2.00
+						this.totalAmount = this.utils.toDecimal2(totalAmount);
+						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
+						let repayPlan = _.map(data.repayPlan, (list,key) => {
+							list.period = key === 0 ? "首" : key + 1;
+							const eachPeriodAmountSumArr = [];
+							for (const i in list.amountList) {
+								const item = {
+									amount: parseFloat(list.amountList[i])
+								}
+								eachPeriodAmountSumArr.push(item)
+							}
+							const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
+							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
+							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
+							return this.statusMapping(list);
+						});
+						this.$set(this.items[index], "repayPlan", repayPlan);
+					} else {
+						this.$vux.toast.text(data.resultMsg, "middle");
+					}
 				});
 			}
-			this.$nextTick(() => {
-				this.$refs.scrollerBottom.reset({ top: _top });
-			});
-
-			let vm = this;
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
-			postData.append("appNo", item.appNo);
-			this.common.orderDetailInfo(postData).then(res => {
-				res.data = {
-						"resultCode": "1",
-						"resultMsg": null,
-						"applyAmount": "3000",
-						"period": "3",
-						"currentPeriod": "1",
-						"repayPlan": [
-								{
-										"status": "WTRP",
-										"date": "2019.08.09",
-										"amountList": {
-												"principal": "162.01",
-												"internetFee": "34.02",
-												"bankFee": "28.03",
-												"interest": "15.04",
-												"allFee": "239.05"
-										}
-								},
-								{
-										"status": "WTRP",
-										"date": "2019.09.09",
-										"amountList": {
-												"principal": "167.00",
-												"internetFee": "34.00",
-												"bankFee": "28.00",
-												"interest": "10.00",
-												"allFee": "239.00"
-										}
-								},
-								{
-										"status": "WTRP",
-										"date": "2019.10.09",
-										"amountList": {
-												"principal": "171.00",
-												"internetFee": "34.00",
-												"bankFee": "28.00",
-												"interest": "6.00",
-												"allFee": "239.00"
-										}
-								}
-						],
-						"userName": "153222222"
-				}
-				let data = res.data;
-				if (data.resultCode == "1") {
-					this.otherOrderHeight = this.$refs.otherOrder[
-						index
-					].offsetHeight;
-					this.$nextTick(() => {
-						this.$refs.scrollerBottom.reset();
-					});
-					const currentPeriod = parseInt(data.currentPeriod) - 1;
-					this.applyAmount = data.applyAmount;
-					this.period = data.period;
-					const currentPeriodOrder = data.repayPlan[currentPeriod];
-					const orderTypeKeys = [];
-					for (const property in currentPeriodOrder.amountList){
-						let item = {
-							type: property,
-							amount: parseFloat(currentPeriodOrder.amountList[property]),
-							amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
-						}
-						orderTypeKeys.push(item);
-					}
-					let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
-						return this.planMapping(list);
-					});
-					const totalAmountValue = _.pluck(newCurrentPeriodOrder, "amount");
-					const totalAmount = _.reduce(totalAmountValue, function(memo, num){ return memo + num; }, 0);
-					//保留2位小数，如：2，会在2后面补上00.即2.00
-					this.totalAmount = this.utils.toDecimal2(totalAmount);
-					this.newCurrentPeriodOrder = newCurrentPeriodOrder;
-					let repayPlan = _.map(data.repayPlan, (list,key) => {
-						list.period = key === 0 ? "首" : key + 1;
-						const eachPeriodAmountSumArr = [];
-						for (const i in list.amountList) {
-							const item = {
-								amount: parseFloat(list.amountList[i])
-							}
-							eachPeriodAmountSumArr.push(item)
-						}
-						const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
-						const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
-						list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
-						return this.statusMapping(list);
-					});
-					this.$set(this.items[index], "repayPlan", repayPlan);
-				} else {
-					this.$vux.toast.text(data.resultMsg, "middle");
-				}
-			});
 		},
 		// ! 收起还款计划
 		closeAll(item, index) {
@@ -1280,35 +1281,35 @@ export default {
 				if(data.type != this.checkerType) return false;
 
 				if (data.resultCode == "1") {
-					// data.list = [{
-					// 	"amount": "239.00",
-					// 	"appNo": "31907080100004",
-					// 	"appStatus": "REPAYNODE",
-					// 	"createDate": "2019-07-08",
-					// 	"industryCode": "VIPD",
-					// 	"industryName": "VIP分期",
-					// 	"loanProduct": null,
-					// 	"nodeList": null,
-					// 	"period": "3",
-					// 	"rejectMsg": null,
-					// 	"rejectUrl": null,
-					// 	"repayDate": "2019.08.09",
-					// 	"repayStatus": "待还"
-					// },{
-					// 	"amount": "239.00",
-					// 	"appNo": "31907080100004",
-					// 	"appStatus": "REPAYNODE",
-					// 	"createDate": "2019-07-08",
-					// 	"industryCode": "VIPD",
-					// 	"industryName": "VIP分期",
-					// 	"loanProduct": null,
-					// 	"nodeList": null,
-					// 	"period": "3",
-					// 	"rejectMsg": null,
-					// 	"rejectUrl": null,
-					// 	"repayDate": "2019.08.09",
-					// 	"repayStatus": "待还"
-					// }]
+					data.list = [{
+						"amount": "239.00",
+						"appNo": "31907080100004",
+						"appStatus": "REPAYNODE",
+						"createDate": "2019-07-08",
+						"industryCode": "VIPD",
+						"industryName": "VIP分期",
+						"loanProduct": null,
+						"nodeList": null,
+						"period": "3",
+						"rejectMsg": null,
+						"rejectUrl": null,
+						"repayDate": "2019.08.09",
+						"repayStatus": "待还"
+					},{
+						"amount": "239.00",
+						"appNo": "31907080100004",
+						"appStatus": "REPAYNODE",
+						"createDate": "2019-07-08",
+						"industryCode": "VIPD",
+						"industryName": "VIP分期",
+						"loanProduct": null,
+						"nodeList": null,
+						"period": "3",
+						"rejectMsg": null,
+						"rejectUrl": null,
+						"repayDate": "2019.08.09",
+						"repayStatus": "待还"
+					}]
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
 						// 展开计划、收起计划青按钮文字
@@ -1473,6 +1474,7 @@ export default {
 			return mapObj;
 		},
 		onScroll(pos) {
+			console.info("top", pos.top);
 			this.scrollTop = pos.top;
 		},
 		isDownloadAppFun(){
@@ -1495,16 +1497,21 @@ export default {
 			item.showExpenseTip = !item.showExpenseTip;
 			this.currentIndex = item.currentIndex;
 		},
-		changeClass(index) {
+		changeHelpClass(index) {
 			return `icon-help${index}`;
+		},
+		changeExpenseClass(index) {
+			return `expense-description${index}`;
 		}
 	},
 	watch: {
 		isShowBanner: function(val, oldVal) {
+			console.log("val2222====", val)
 			this.isShowBanner = val;
 			this.$nextTick(() => {
 				const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
-				this.$refs.scrollerBottom.reset({ top: top });
+				console.log("this.$refs===", this.$refs)
+				this.$refs && this.$refs.scrollerBottom.reset({ top: top });
 			});
 		}
 	},
@@ -1512,7 +1519,7 @@ export default {
 		this._close = e => {
 			const currentIndex = this.currentIndex;
 			// 如果点击发生在当前组件内部，则不处理
-			if (document.querySelector(`.icon-help${currentIndex}`) && document.querySelector(`.icon-help${currentIndex}`).contains(e.target)) {
+			if (document.querySelector(`.icon-help${currentIndex}`) && document.querySelector(`.icon-help${currentIndex}`).contains(e.target) || document.querySelector(`.expense-description${currentIndex}`) && document.querySelector(`.expense-description${currentIndex}`).contains(e.target)) {
 				return;
 			}
 			this.items.forEach( val => {

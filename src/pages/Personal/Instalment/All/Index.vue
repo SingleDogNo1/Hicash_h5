@@ -77,7 +77,7 @@
 					'app-swiper': this.utils.getPlatform() == 'APP'
 				}"
 			>
-				<swiper-item :key="0">
+				<swiper-item :key="0" ref="swiperItemRef" v-if="index === 0">
 					<instalment-overdue
 						ref="overdue"
 						@selectedItems="getSelectedItems"
@@ -87,7 +87,7 @@
 						:isShowBanner="isShowBanner"
 					></instalment-overdue>
 				</swiper-item>
-				<swiper-item :key="1" ref="swiperItemRef">
+				<swiper-item :key="1" ref="swiperItemRef" v-else>
 					<instalment-normal
 						ref="normal"
 						@watchChild="accountOrderPage"
@@ -230,6 +230,10 @@ export default {
 		},
 		batchRepayment: function() {
 			this.currentType = "batchRepayment";
+			console.log("this.$refs.scrollerBottom===", this.$refs.overdue.$refs.scrollerBottom)
+			this.$nextTick(() => {
+				this.$refs.overdue.$refs.scrollerBottom.reset({ top: 0 });
+			});
 		},
 		cancel: function() {
 			this.currentType = "default";
@@ -248,6 +252,7 @@ export default {
 			if (index === 0) {
 				this.$refs.overdue.parentHandleclick();
 			} else {
+				//this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight;
 				this.$refs.normal.parentHandleclick(this.accountOrderPageData);
 			}
 			this.accountOrderPage();
