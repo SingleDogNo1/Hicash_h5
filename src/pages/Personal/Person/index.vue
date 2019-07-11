@@ -9,15 +9,15 @@
 					<p class="per-name">{{ realName }}</p>
 					<p class="per-num">{{ userMobile }}</p>
 				</div>
-				<p class="current-rating">
+				<!-- <p class="current-rating">
 					当前评级: {{ userGrade
 					}}<a :href="helpLick"><i class="iconfont"> &#xe672;</i></a>
-				</p>
+				</p> -->
 			</div>
 			<!-- 额度信息 -->
 			<div class="money-amount-info clearfix">
 				<div class="left-box left">
-					<p>近7天待还款(元）</p>
+					<p>近7天待还款（元）</p>
 					<span class="perMoney">{{ lateTotal }}</span>
 				</div>
 				<div class="right-box left">
