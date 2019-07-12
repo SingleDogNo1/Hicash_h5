@@ -1,12 +1,12 @@
 <template>
-	<div v-cloak class="overdue" ref="checkerBody">
+	<div v-cloak class="overdue">
 		<scroller
 			v-if="overdueList.length > 0"
 			lock-x
 			:height="
 				isShowBanner
-					? swiperHeight - bannerADHeight  + 'px'
-					: swiperHeight  + 'px'
+					? swiperHeight - bannerADHeight - 50 + 'px'
+					: swiperHeight - 50 + 'px'
 			"
 			@on-scroll="onScroll"
 			@on-scroll-bottom="onScrollBottom"
@@ -68,23 +68,22 @@
 										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
 								</div>
-								<ul class="repey-plan-list">
-									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index">
-										<div class="each-repey-plan">
-											<div class="each-repey-plan-left">
-												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
-												<span class="value">{{repayPlanItem.eachPeriodAmountSum}}
-													<i v-if="index !== 0" @click="showRepayExpenseTip(repayPlanItem)"></i>
-												</span>
-												<div class="expense-description" :class="changeExpenseClass(index)" v-if="repayPlanItem.showExpenseTip">
-													<i></i>
-													<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+								<div class="repey-plan-wrap">
+									<ul class="repey-plan-list">
+										<li v-for="(repayPlanItem, index1) in item.repayPlan" :key="index1">
+											<div class="each-repey-plan">
+												<div class="each-repey-plan-left" ref="eachRepeyPlan">
+													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
+													<span class="value">
+														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+														<i v-if="index1 !== 0" @click="showRepayExpenseTip(repayPlanItem)" :class="changeOverdueHelpClass(index1)" :ref="overdueHelpRef(index, index1)"></i>
+													</span>
 												</div>
+												<p>{{repayPlanItem.title}}</p>
 											</div>
-											<p>{{repayPlanItem.title}}</p>
-										</div>
-									</li>
-								</ul>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -134,6 +133,10 @@
 			tip=""
 			:class="{ 'empty-loading': showNoData }"
 		></load-more>
+		<div class="overdue-expense-description" :style="{ top: overdueHelpTop, width: tipsWidth }" v-if="showOverdePopover">
+			<i></i>
+			<p>含<span v-for="(overdePopoverDataItem, index) in  overdePopoverData" :key="index">{{overdePopoverDataItem.amountName}}{{overdePopoverDataItem.amountFilter}}<span v-if="index !== overdePopoverDataItem.length - 1">+</span></span></p>
+		</div>
 	</div>
 </template>
 
@@ -154,7 +157,7 @@
 				}
 				.overdue-order-wrap {
 					position: relative;
-					padding: rem(16px);
+					padding: rem(16px) rem(16px) 0 rem(16px);
 					&:after {
 						content: " ";
 						position: absolute;
@@ -202,6 +205,7 @@
 						width: 100%;
 						height: rem(30px);
 						margin-top: rem(16px);
+						margin-bottom: rem(24px);
 						.btn {
 							position: relative;
 							display: block;
@@ -286,17 +290,9 @@
 						width: 100%;
 						overflow: hidden;
 						max-height: 0;
-						transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
-						margin-top: rem(24px);
+						transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+						//margin-top: rem(24px);
 						border-radius: rem(5px);
-						// -webkit-backface-visibility: hidden;  
-						// -moz-backface-visibility: hidden;  
-						// -ms-backface-visibility: hidden; 
-						// backface-visibility: hidden;  
-						// -webkit-perspective: 1000;  
-						// -moz-perspective: 1000;  
-						// -ms-perspective: 1000;  
-						// perspective: 1000;
 						.each-order-wrap {
 							.detail-list-wrap {
 								position: relative;
@@ -329,7 +325,7 @@
 									position: absolute;
 									top: rem(120px);
 									right: 0;
-									background: #fff;
+									background: #f9f9f9;
 									padding: rem(8px);
 									box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
 									border-radius: rem(5px);
@@ -342,7 +338,7 @@
 										display: block;
 										border-left: rem(10px) solid transparent;
 										border-right: rem(10px) solid transparent;
-										border-bottom: rem(10px) solid #fff;
+										border-bottom: rem(10px) solid #f9f9f9;
 										top: rem(-10px);
 										right: rem(14px);
 									}
@@ -357,6 +353,7 @@
 							}
 							.repey-plan-list {
 								font-size: rem(15px);
+								margin-bottom: rem(24px);
 								li {
 									position: relative;
 									margin-top: rem(16px);
@@ -378,13 +375,14 @@
 										justify-content: space-between;
 										.each-repey-plan-left {
 											position: relative;
-											width: 80%;
+											width: 78%;
 											display: flex;
-    									justify-content: space-between;
+											justify-content: space-between;
 											.value {
 												width: rem(80px);
 												display: flex;
 												align-items: center;
+												justify-content: space-between;
 												i {
 													display: inline-block;
 													width: rem(18px);
@@ -394,40 +392,9 @@
 													margin-left: rem(7px);
 												}
 											}
-											.expense-description {
-												position: absolute;
-												top: rem(20px);
-												right: 0;
-												background: #fff;
-												padding: rem(8px);
-												box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
-												border-radius: rem(5px);
-												max-width: 100%;
-												z-index: 500;
-												i {
-													position: absolute;
-													width: 0;
-													height: 0;
-													display: block;
-													border-left: rem(10px) solid transparent;
-													border-right: rem(10px) solid transparent;
-													border-bottom: rem(10px) solid #fff;
-													top: rem(-10px);
-													right: rem(14px);
-												}
-												p {
-													width: 100%;
-													text-align: left;
-													font-size: rem(13px);
-													line-height: rem(16px);
-												}
-												span {
-													display: inline;
-												}
-											}
 										}
 										p {
-											width: 20%;
+											width: rem(60px);
 											text-align: right;
 										}
 									}
@@ -581,6 +548,37 @@
 	.empty-loading {
 		margin-top: rem(-30px);
 	}
+	.overdue-expense-description {
+		position: absolute;
+		width: auto;
+		top: 0;
+		left: rem(20px);
+		background: #f9f9f9;
+		padding: rem(8px);
+		box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+		border-radius: rem(5px);
+		z-index: 500;
+		i {
+			position: absolute;
+			width: 0;
+			height: 0;
+			display: block;
+			border-left: rem(10px) solid transparent;
+			border-right: rem(10px) solid transparent;
+			border-bottom: rem(10px) solid #f9f9f9;
+			top: rem(-10px);
+			right: rem(8px);
+		}
+		p {
+			width: 100%;
+			text-align: left;
+			font-size: rem(13px);
+			line-height: rem(16px);
+		}
+		span {
+			display: inline;
+		}
+	}
 }
 </style>
 
@@ -593,7 +591,9 @@ import {
 	CheckerItem,
 	CheckIcon,
 	Scroller,
-	LoadMore
+	LoadMore,
+	Flexbox,
+  FlexboxItem
 } from "vux";
 
 export default {
@@ -627,7 +627,9 @@ export default {
 		CheckerItem,
 		CheckIcon,
 		Scroller,
-		LoadMore
+		LoadMore,
+		Flexbox,
+  	FlexboxItem
 	},
 	data() {
 		return {
@@ -648,7 +650,13 @@ export default {
 			newCurrentPeriodOrder: [],
 			scrollTop: "0",
 			currentIndex: 0,
-			tipsWidth: ""
+			currentOverdueTipsIndex: 0,
+			tipsWidth: "",
+			overdueHelpTop: "",
+			showOverdePopover: false,
+			overdePopoverData: [],
+			overdePopoverHeight: 0,
+			toogleClick:  false
 		};
 	},
 	methods: {
@@ -657,8 +665,6 @@ export default {
 		},
 		onScrollBottom() {
 			if (this.onFetching) {
-				// do nothing
-				// console.info('onFetching');
 			} else {
 				this.onFetching = true;
 				this.init();
@@ -769,40 +775,31 @@ export default {
 			this.init();
 		},
 		onScroll(pos) {
-			console.info("top", pos.top);
 			this.scrollTop = pos.top;
 		},
 		// ! 展开还款计划
 		openAll(item, index) {
 			this.banRechecked = false;
+			this.currentIndex = index;
 			this.overdueList.forEach( (val,index) => {
 				if(index !== item.currentIndex) {
 					val.showOtherOrder = false;
+					val.btnExpandText = "展开计划";
 				}
 			});
+			this.showOverdePopover = false;
 			this.overdueList[index].btnExpandText = this.overdueList[index].showOtherOrder ? "展开计划" : "收起计划";
 			this.overdueList[index].showOtherOrder = !this.overdueList[index]
 				.showOtherOrder;
-			//this.tipsWidth = this.$ref.repeyTitle.width()
 			if(this.overdueList[index].showOtherOrder) {
-				// setTimeout(() => {
-				// 	this.otherOrderHeight = this.$refs.otherOrder[
-				// 		index
-				// 	].offsetHeight;
-				// 	this.$nextTick(() => {
-				// 		this.$refs.scrollerBottom.reset();
-				// 	});
-				// }, 1000);
-				// let _top = 0;
-				// if (index > 0) {
-				// 	_.each(this.$refs.flexboxItem, (item, i) => {
-				// 		if (i >= index) return false;
-				// 		_top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
-				// 	});
-				// }
-				// this.$nextTick(() => {
-				// 	this.$refs.scrollerBottom.reset({ top: _top });
-				// });
+				setTimeout(() => {
+					this.otherOrderHeight = this.$refs.otherOrder[
+						index
+					].offsetHeight;
+					this.$nextTick(() => {
+						this.$refs.scrollerBottom.reset();
+					});
+				}, 1000);
 				let vm = this;
 				let userName = this.utils.getCookie("userName");
 				let postData = new URLSearchParams();
@@ -843,11 +840,11 @@ export default {
 										"status": "WTRP",
 										"date": "2019.10.09",
 										"amountList": {
-												"principal": "171.00",
-												"internetFee": "34.00",
-												"bankFee": "28.00",
+												"principal": "11.00",
+												"internetFee": "4.00",
+												"bankFee": "8.00",
 												"interest": "6.00",
-												"allFee": "239.00"
+												"allFee": "29.00"
 										}
 								}
 						],
@@ -894,9 +891,22 @@ export default {
 							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
 							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
 							list.showExpenseTip = false;
+							list.currentOverdueTipsIndex = key;
+							const amountListKeys = [];
+							for (const property in list.amountList){
+								let item = {
+									type: property,
+									amount: parseFloat(list.amountList[property]),
+									amountFilter: this.utils.toDecimal2(list.amountList[property])
+								}
+								amountListKeys.push(item);
+							}
+							const filterAmountList = _.map(amountListKeys, amountListItem => {
+								return this.planMapping(amountListItem);
+							});
+							list.filterAmountList = filterAmountList;
 							return this.statusMapping(list);
 						});
-						console.log()
 						this.$set(this.overdueList[index], "repayPlan", repayPlan);
 					} else {
 						this.$vux.toast.text(data.resultMsg, "middle");
@@ -955,35 +965,38 @@ export default {
 			return mapObj;
 		},
 		showExpenseTip(item) {
-			this.overdueList.forEach( (val,index) => {
-				if(index !== item.currentIndex) {
-					val.showExpenseTip = false;
-				}
-			});
-			item.showExpenseTip = !item.showExpenseTip;
+			//item.showExpenseTip = !item.showExpenseTip;
+			item.showExpenseTip = true;
 			this.currentIndex = item.currentIndex;
 		},
 		showRepayExpenseTip(item) {
-			// this.overdueList.forEach( (val,index) => {
-			// 	if(index !== item.currentIndex) {
-			// 		val.showExpenseTip = false;
-			// 	}
-			// });
-			item.showExpenseTip = !item.showExpenseTip;
-			console.log("item.showExpenseTip===", item.showExpenseTip)
-			//this.currentIndex = item.currentIndex;
+			this.currentOverdueTipsIndex = item.currentOverdueTipsIndex;
+			this.overdePopoverData = item.filterAmountList;
+			this.showOverdePopover = true;
+			const overdueHelpRef = `overdueHelp${this.currentIndex}_${this.currentOverdueTipsIndex}`;
+			this.overdueHelpTop = this.$refs[overdueHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
+			this.tipsWidth = this.$refs.eachRepeyPlan[item.currentOverdueTipsIndex].getBoundingClientRect().width -6 + "px";
 		},
 		changeHelpClass(index) {
 			return `icon-help${index}`;
 		},
 		changeExpenseClass(index) {
 			return `expense-description${index}`;
+		},
+		changeOverdueExpenseClass(index) {
+			return `expense-description${index}`;
+		},
+		changeOverdueHelpClass(index) {
+			return `icon-help-overdue${this.currentIndex}_${index}`;
+		},
+		overdueHelpRef(index, index1) {
+			return `overdueHelp${index}_${index1}`;
 		}
 	},
 	mounted() {
 		this.scrollHeight = this.isShowBanner
-			? this.swiperHeight - this.bannerADHeight  + "px"
-			: this.swiperHeight - + "px";
+			? this.swiperHeight - this.bannerADHeight - 50 + "px"
+			: this.swiperHeight - 50 + "px";
 
 		this.init();
 	},
@@ -999,13 +1012,24 @@ export default {
 	beforeMount() {
 		this._close = e => {
 			const currentIndex = this.currentIndex;
+			const currentOverdueTipsIndex = this.currentOverdueTipsIndex;
+
 			// 如果点击发生在当前组件内部，则不处理
-			if (document.querySelector(`.icon-help${currentIndex}`) && document.querySelector(`.icon-help${currentIndex}`).contains(e.target) || document.querySelector(`.expense-description${currentIndex}`) && document.querySelector(`.expense-description${currentIndex}`).contains(e.target)) {
-				return;
+			if (document.querySelector(`.icon-help${currentIndex}`) && 
+					!document.querySelector(`.icon-help${currentIndex}`).contains(e.target) && 
+					document.querySelector(`.expense-description${currentIndex}`) 
+					&& !document.querySelector(`.expense-description${currentIndex}`).contains(e.target)){
+				this.overdueList.forEach( val => {
+					val.showExpenseTip = false;
+				});
 			}
-			this.overdueList.forEach( val => {
-				val.showExpenseTip = false;
-			});
+			const overdueHelpRef = `overdueHelp${this.currentIndex}_${this.currentOverdueTipsIndex}`;
+			if(this.$refs[overdueHelpRef] &&
+				!this.$refs[overdueHelpRef][0].contains(e.target) &&
+				document.querySelector('.overdue-expense-description') && 
+				!document.querySelector('.overdue-expense-description').contains(e.target)) {
+				this.showOverdePopover = false;
+			}
 		};  
 		document.body.addEventListener('click', this._close);
 	},
