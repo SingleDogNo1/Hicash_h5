@@ -13,102 +13,55 @@
         </p>
         <p class="item">
           <span class="title">借款期数</span>
-          <span class="value">{{term}}</span>
+          <span class="value">{{term}}期</span>
         </p>
         <div class="coupon">无可用优惠券</div>
       </div>
       
       <p class="confirm-tips">请确认您的借款金额后签约提现</p>
 
-      <div class="item-wrap" ref="feeListRef">
-        <p class="item">
-          <span class="title">本息还款</span>
-          <span class="value">{{loanAmount}}</span>
+      <div class="item-wrap">
+        <p class="item" v-for="(item, index) in feeList" :key="index">
+          <span class="title">{{item.name}}
+            <x-icon v-if="index==1" type="ios-help-outline" class="help serviceFee" ref="popoverHelp" size="20" @click="serviceFeeClick"></x-icon>
+            <x-icon v-if="index==2" type="ios-help-outline" class="help infoFee" ref="popoverInfoFeeHelp" size="20" @click="infoFeeClick"></x-icon>
+          </span>
+          <span class="value"><i  v-if="index == 2" class="des">{{item.amountDes}}</i>{{item.amount}}<span v-if="index != 2"> x {{item.period}}</span></span>
         </p>
-        <p class="item">
-          <span class="title">金融信息服务费
+        <!-- <p class="item">
+          <span class="title">{{querySignPageDataList.feeList[1].name}}
             <x-icon type="ios-help-outline" ref="popoverHelp" size="20" class="help serviceFee" @click="serviceFeeClick"></x-icon>
           </span>
-          <span class="value">{{term}}</span>
+          <span class="value">{{querySignPageDataList.feeList[1].period}} x {{querySignPageDataList.feeList[1].amount}}</span>
         </p>
         <p class="item">
-          <span class="title">互联网信息服务费
+          <span class="title">{{querySignPageDataList.feeList[2].name}}
             <x-icon type="ios-help-outline" ref="popoverInfoFeeHelp" size="20" class="help infoFee" @click="infoFeeClick"></x-icon>
           </span>
-          <span class="value"><i class="des">一次性划扣</i>{{term}}</span>
-        </p>
+          <span class="value"><i class="des">{{querySignPageDataList.feeList[2].amountDes}}</i>{{querySignPageDataList.feeList[2].amount}}</span>
+        </p> -->
       </div>
 
       <div class="item-wrap">
         <swiper height="250px" :show-dots="false" v-model="swiper_index" :min-moving-distance="20000">
-          <swiper-item>
-            <div class="swiper-header">
-              <div class="title">还款计划</div>
+          <swiper-item v-for="(item, index) in repayPlanList" :key="index">
+            <div class="swiper-header" v-if="index==0">
+              <div class="title">{{item.title}}</div>
               <x-icon class="arrow-right" type="ios-arrow-right" size="18" @click.native="swiper_index = 1"></x-icon> 
             </div>
-            <ul>
-              <li>
-                <div class="number">
-                  首期
-                </div>
-                <div class="number-des">
-                  <div class="money">1424</div>
-                  <div class="des">含本金1000.00+利息61.00+金融信息服务费 168.00</div>
-                </div>
-              </li>
-              <li>
-                <div class="number">
-                  2期
-                </div>
-                <div class="number-des">
-                  <div class="money">1424</div>
-                  <div class="des">含本金1000.00+利息61.00+金融信息服务费 168.00</div>
-                </div>
-              </li>
-              <li>
-                <div class="number">
-                  3期
-                </div>
-                <div class="number-des">
-                  <div class="money">1424</div>
-                  <div class="des">含本金1000.00+利息61.00+金融信息服务费 168.00</div>
-                </div>
-              </li>
-            </ul>
-          </swiper-item>
-
-          <swiper-item>
-            <div class="swiper-header ">
+            <div class="swiper-header" v-if="index==1">
               <x-icon class="arrow-left" type="ios-arrow-left" size="18" @click.native="swiper_index = 0"></x-icon> 
-              <div class="title-right">还款计划</div>
-              <div class="title-des">互联网信息服务费划扣失败</div>
+              <div class="title-right">{{item.title}}</div>
+              <div class="title-des">{{item.subTitle}}</div>
             </div>
             <ul>
-              <li>
+              <li v-for="(repayPlanItem, repayPlanIndex) in item.repayPlanItems" :key="repayPlanIndex">
                 <div class="number">
-                  首期
+                  {{repayPlanItem.name}}
                 </div>
                 <div class="number-des">
-                  <div class="money">1424</div>
-                  <div class="des">含本金1000.00+利息61.00+金融信息服务费 168.00</div>
-                </div>
-              </li>
-              <li>
-                <div class="number">
-                  2期
-                </div>
-                <div class="number-des">
-                  <div class="money">1424</div>
-                  <div class="des">含本金1000.00+利息61.00+金融信息服务费 168.00</div>
-                </div>
-              </li>
-              <li>
-                <div class="number">
-                  3期
-                </div>
-                <div class="number-des">
-                  <div class="money">1424</div>
-                  <div class="des">含本金1000.00+利息61.00+金融信息服务费 168.00</div>
+                  <div class="money">{{repayPlanItem.amount}}</div>
+                  <div class="des">{{repayPlanItem.description}}</div>
                 </div>
               </li>
             </ul>
@@ -120,59 +73,54 @@
         <div class="list-item-wrap" v-for="(item, index) in agreementsH5" :key="index">
           <div class="item">
             <check-icon :value.sync="item.isAgree" class="agree-icon" @click.native="check(item)"></check-icon>
-            <span class="desc">{{item.insurance[0].desFront}}</span>
+            <span class="desc">{{item.agreeSignText}}</span>
             <span class="agreement-tmpl" v-html="item.agreementTmpl"></span>
-            <span
-              class="desc"
-              v-if="item.insurance[item.insurance.length -1].desBehind"
-            >{{item.insurance[item.insurance.length -1].desBehind}}</span>
-            <div class="agreement-detail">
-              <p class="detail-item" v-for="(detailItem, index) in item.desDetails" :key="index">
-                <span>{{detailItem.name}}</span>
-                <span class="loan-amount">{{detailItem.content}}</span>
-              </p>
-              <a class="jump-to-detail" :href="item.desUrl" v-if="item.desTitle && item.desUrl"><span>详情</span><x-icon type="ios-arrow-right" size="20"></x-icon></a>
-            </div>
           </div>
-          <p class="agree-text" v-if="item.desBelow">{{item.desBelow}}</p>
-          <!-- <confirm
-            v-model="item.showPop"
-            title="提示"
-            :content="popContent"
-            class="sign-pop"
-            @on-confirm="popConfirm(item)"
-          >
-          </confirm> -->
-           <confirm-dialog
-            :isShowDialog="item.showPop"
-            :dialogTitle="dialogTitle"
-            :dialogContent="popContent"
-            :onConfirm="popConfirm(item)"
-            @showDialog="showDialog"
-          ></confirm-dialog>
+          <p class="agree-text" v-if="item.desBehind">{{item.desBehind}}</p>
         </div>
       </div>
       <div class="actions">
         <router-link class="cancel" :to="{ name: 'Personal'}">取消</router-link>
-        <a class="sign" @click="sign">签约</a>
+        <a class="sign" @click="showSignPop">签约</a>
       </div>
       <div class="help-popover" ref="helpPopoverRef" :style="{top: helpPopTop, display: popHelpServicesFee}">
         <div class="help-popover-arrow" :style="{left: helpArrowLeft}"></div>
-        该服务产生的费用需按期缴纳，详情请查看
+        {{feeList[1].subName}}<a :href="item.link" v-for="(item, index) in feeList[1].agreements">{{item.name}}</a>
       </div>
       <div class="help-popover" ref="popHelpInfoFee" :style="{top: helpInfoPopTop, display: popHelpInfoFee}">
         <div class="help-popover-arrow" :style="{left: helpInfoArrowLeft}"></div>
-        该服务产生的费用需按期缴纳，详情请查看
+        {{feeList[2].subName}}<a :href="item.link" v-for="(item, index) in feeList[2].agreements">{{item.name}}</a>
       </div>
     </div>
     
     <iframe id="iframe" :src="depositoryUrl" width="100%" height="100%" frameborder="no" v-else></iframe>
+
+    <x-dialog v-model="signTipPop" class="sign-tip-pop">
+      <div class="sign-tip-pop-main">
+        <x-icon type="ios-close-empty" size="30" class="sign-tip-pop-close"  @click="signTipPop=false"></x-icon>
+        <div class="sign-tip-pop-detail">
+          <div class="pop-title">
+            签约确认
+          </div>
+          <p class="item" v-for="(item, index) in signPopLists" :key="index">
+            <span class="title">{{item.name}}</span>
+            <span class="value"><i v-if="index == 4" class="des">{{item.amountDes}}</i>{{item.amount}}<span v-if="index == 2 || index == 3"> x {{item.period}}</span></span>
+          </p>
+        </div>
+        <div class="sign-tip-pop-des">
+          {{queryUserTipSign}}
+        </div>
+        <div @click="sign">
+          <input type="button" class="sign-btn" value="签约">
+        </div>
+      </div>
+    </x-dialog>
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader";
-import { CheckIcon, Confirm, Swiper, SwiperItem  } from "vux";
+import { CheckIcon, Confirm, Swiper, SwiperItem,XDialog   } from "vux";
 import Signature from "@/api/signature";
 import ConfirmDialog from "@/components/Dialog.vue";
 export default {
@@ -182,7 +130,8 @@ export default {
     Confirm,
     ConfirmDialog,
     Swiper,
-    SwiperItem
+    SwiperItem,
+    XDialog
   },
   data() {
     return {
@@ -198,11 +147,9 @@ export default {
       isDepositoryUrl: false,
       depositoryUrl: "",
       loanAmount: "",
-      monthPayAmt: "",
       term: "",
       agreementsH5: [],
       industryCode: "",
-      showPop: false,
       popContent: "",
       popIsClosed: false,
       dialogTitle: "提示",
@@ -212,7 +159,43 @@ export default {
       helpInfoPopTop: 0,
       helpInfoArrowLeft: 0,
       popHelpServicesFee: 'none',
-      popHelpInfoFee: 'none'
+      popHelpInfoFee: 'none',
+      feeList: [
+          {
+            "name": "",
+            "amount": "",
+            "period": ""
+          },
+          {
+            "name": "",
+            "amount": "",
+            "period": "",
+            "subName": "",
+            "agreements": [
+              {
+                  "name": "",
+                  "link": ""
+              }
+            ]
+          },
+          {
+            "name": "",
+            "amount": "",
+            "period": "",
+            "amountDes": "",
+            "subName": "",
+            "agreements": [
+              {
+                  "name": "",
+                  "link": ""
+              }
+            ]
+          }
+      ],
+      repayPlanList:[],
+      signTipPop: false,
+      signPopLists: [],
+      queryUserTipSign: ''
     };
   },
   methods: {
@@ -244,13 +227,91 @@ export default {
           this.$vux.toast.show({
             type: "text",
             position: "middle",
-            text: "授权失败，请重新登录"
+            text: data.resultMsg
           });
           setTimeout(() => {
             //this.$router.push({ name: "Login" });
           }, 3000);
         }
       });
+    },
+    querySignPageData(){
+      let postParams = {
+        userName: this.userName,
+        appNo: this.appNo
+      }
+      Signature.querySignPageData(postParams)
+      .then(res => {
+        let data = res.data;
+        this.feeList = data.feeList;
+        this.repayPlanList = data.repayPlanList;
+
+        if (data.resultCode === "1") {
+          this.loanTime = data.nowDate;
+          this.loanAmount = data.applyAmt;
+          this.term = data.period;
+          let agreementsH5 = data.agreementList;
+
+          agreementsH5.forEach( val => {
+            val.isAgree = false;
+            let agreementTmplArr = [];
+            val.agreeLinkList.forEach( item => {
+              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.link + '" target="_blank">《' + item.name + '》</a>';
+            })
+            val.agreementTmpl =agreementTmplArr.join(" ") 
+          });
+          this.agreementsH5 = agreementsH5;
+          this.industryCode=data.industryCode;
+          
+          // if(data.isCancel == "true") {
+          //   this.$vux.toast.show({
+          //     type: "text",
+          //     position: "middle",
+          //     text: "由于该订单已取消，无法进行签约"
+          //   });
+          //   setTimeout( ()=> {
+          //     this.$router.push({name: 'Home'})
+          //   },1000)
+          // }
+          // if(data.userName != this.userName && data.userName.toLowerCase() != this.userName){
+          //   this.$vux.toast.show({
+          //     type: "text",
+          //     position: "middle",
+          //     text: "非法进入"
+          //   });
+          //   setTimeout( ()=> {
+          //     this.$router.push({name: 'Home'})
+          //   },1000)
+          // }
+
+          this.signPopLists = [
+            {
+              name: '借款金额(元)',
+              amount: data.applyAmt,
+            },
+            {
+              name: '借款期数',
+              amount: data.period + '期',
+            }
+          ];
+
+          _.each(data.feeList, (item)=>{
+            this.signPopLists.push(item);
+          })
+          
+          this.utils.setCookie("prodetailInfo", data.applyAmt+":"+data.loanProduct);
+
+          //管晨说先不返回，有问题找管晨
+          // this.utils.setCookie("realAddress", data.realAddress);
+          // this.utils.setCookie("identityCode", data.iCode);
+        } else {
+          this.$vux.toast.show({
+            type: "text",
+            position: "middle",
+            text: data.resultMsg
+          });
+        }
+      })
     },
     showWaitTime() {
       let showWaitTimeObj = new URLSearchParams();
@@ -265,9 +326,7 @@ export default {
           this.term = data.term;
           let agreementsH5 = data.agreementsH5;
           agreementsH5.forEach( val => {
-            console.log('val===', val)
             val.isAgree = false;
-            val.showPop = false;
             let agreementTmplArr = [];
             val.insurance.forEach( item => {
               agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.url + '" target="_blank">' + item.name + '</a>';
@@ -309,6 +368,9 @@ export default {
       });
     },
     sign() {
+      this.$router.push({name: 'Reminder', query: {appNo: this.appNo, industryCode: this.industryCode}})
+    },
+    showSignPop(){
       let isAgreeArr = _.pluck(this.agreementsH5, "isAgree");
       if(_.contains(isAgreeArr,false)) {
         this.$vux.toast.show({
@@ -318,7 +380,8 @@ export default {
         });
         return;
       }
-      this.$router.push({name: 'Reminder', query: {appNo: this.appNo, industryCode: this.industryCode}})
+
+      this.signTipPop=true
     },
     check(item) {
       if(item.popInsuranceMsg) {
@@ -327,7 +390,6 @@ export default {
         }
         item.isAgree = false;
         if(!this.popIsClosed && !item.isAgree) {
-          item.showPop = true;
           this.popContent = item.popInsuranceMsg;
         }
       }
@@ -354,23 +416,41 @@ export default {
         this.popHelpInfoFee = 'none';
         this.popHelpServicesFee = 'none';
       }
+    },
+    queryUserTip(){
+      var params = new URLSearchParams();
+      params.append("type", 'QRMSG1');
+      params.append("key", 'sign01');
+			this.common.queryUserTip(params)
+			.then((res)=>{
+				let data = res.data.data;
+				this.queryUserTipSign = data.sign01;
+			});
     }
   },
   mounted() {
-    this.helpPopTop = this.$refs.popoverHelp.getBoundingClientRect().top + 45 +'px';
-    this.helpArrowLeft = this.$refs.popoverHelp.getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
-    
-    this.helpInfoPopTop = this.$refs.popoverInfoFeeHelp.getBoundingClientRect().top + 45 +'px';
-    this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp.getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
-    
+    if(!this.isDepositoryUrl){
+      setTimeout(()=>{
+        this.helpPopTop = this.$refs.popoverHelp[0].getBoundingClientRect().top + 27 +'px';
+        this.helpArrowLeft = this.$refs.popoverHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
+        this.helpInfoPopTop = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().top + 27 +'px';
+        this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
+      }, 500);
+
+      document.addEventListener("click", this.popHelpShow,true)
+    }
     
     this.getShowPI();
-    this.showWaitTime();
+    this.querySignPageData();
+    this.queryUserTip();
+    // this.showWaitTime();
     
-    document.addEventListener("click", this.popHelpShow,true)
+    
   },
   destroyed(){
-    document.removeEventListener("click", this.popHelpShow, true);
+    if(!this.isDepositoryUrl){
+      document.removeEventListener("click", this.popHelpShow, true);
+    }
   }
 };
 </script>
@@ -594,7 +674,6 @@ $dialog-btn-color: #ff7640;
           .agreement-tmpl {
             /deep/ a {
               color: $warning-color;
-              text-decoration: underline;
             }
           }
           .agreement-detail {
@@ -659,13 +738,14 @@ $dialog-btn-color: #ff7640;
         color: #fff;
         text-align: center;
         &.cancel {
-          border: 1px solid $main-theme-color;
-          color: $main-theme-color;;
+          border: 1px solid #333;
+          color: #333;
         }
         &.sign {
-          background: $main-theme-color;
+          background: #333;
+          border: 1px solid #333;
           &:active {
-            background: darken($main-theme-color, 5%);
+            background: darken(#333, 5%);
           }
         }
       }
@@ -700,6 +780,9 @@ $dialog-btn-color: #ff7640;
     font-size: rem(13px);
     color:rgba(255,255,255,1);
     line-height: rem(16px);
+    a{
+      color: #FF7640;
+    }
     .help-popover-arrow {
       position: absolute;
       width: 0;
@@ -712,6 +795,75 @@ $dialog-btn-color: #ff7640;
       transform: translateX(-50%);
       top: -7px;
     }
+  }
+  .sign-tip-pop{
+    .sign-tip-pop-main{
+      width: 100%;
+      height: auto;
+      background: #fff;
+      border-radius:5px;
+      padding: rem(24px 0);
+      margin: 0 auto;
+      position: relative;
+      .sign-tip-pop-close{
+        position: absolute;
+        top: rem(20px);
+        right: rem(10px);
+        fill: #999999;
+      }
+      .sign-tip-pop-detail {
+        width: 90%;
+        height: auto;
+        margin: 0 auto;
+        font-size: rem(15px);
+        color: #999999;
+        .pop-title{
+          font-size: rem(17px);
+          color: rgba(51,51,51,1);
+          text-align: left;
+          margin-bottom: rem(15px);
+        }
+        .item {
+          display: flex;
+          justify-content: space-between;
+          line-height: rem(26px);
+          .value {
+            color: #333;
+            i.des{
+              color: #FF7640;
+              font-size: 12px;
+              font-style: normal;
+              vertical-align: bottom;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+      .sign-tip-pop-des{
+        width: calc(90% - 20px);
+        height: auto;
+        background: rgba(244,244,244,1);
+        border-radius: 5px;
+        margin: rem(18px auto 36px);
+        font-size: rem(11px);
+        color: rgba(153,153,153,1);
+        padding: 10px;
+        line-height: rem(16px);
+        text-align: left;
+      }
+      .sign-btn{
+        width: 90%;
+        height: rem(50px);
+        background: rgba(51,51,51,1);
+        border-radius: 5px;
+        color: #fff;
+        font-size:rem(15px);
+        text-align: center;
+        line-height: rem(50px);
+        border: 0;
+      }
+    }
+    
   }
 }
 </style>

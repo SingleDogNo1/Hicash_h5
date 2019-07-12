@@ -33,7 +33,6 @@
       :show-cancel-button="false"
       :show-confirm-button="false"
     >
-      <p>感谢您使用嗨钱借贷业务！</p>
       <br>
       <p>按时还款将提高您的信用值，有机会享受更高通过率及更低费率。</p>
       <!-- <router-link
