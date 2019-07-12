@@ -521,6 +521,7 @@
 		width: 100%;
 		height: rem(30px);
 		margin-top: rem(16px);
+		padding-bottom: rem(24px);
 		.btn {
 			position: relative;
 			display: block;
@@ -606,7 +607,7 @@
 		overflow: hidden;
 		max-height: 0;
 		transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
-		margin-top: rem(24px);
+		//margin-top: rem(24px);
 		border-radius: rem(5px);
 		.each-order-wrap {
 			.detail-list-wrap {
@@ -1164,49 +1165,49 @@ export default {
 				postData.append("userName", userName);
 				postData.append("appNo", item.appNo);
 				this.common.orderDetailInfo(postData).then(res => {
-					res.data = {
-							"resultCode": "1",
-							"resultMsg": null,
-							"applyAmount": "3000",
-							"period": "3",
-							"currentPeriod": "1",
-							"repayPlan": [
-									{
-											"status": "WTRP",
-											"date": "2019.08.09",
-											"amountList": {
-													"principal": "162.01",
-													"internetFee": "34.02",
-													"bankFee": "28.03",
-													"interest": "15.04",
-													"allFee": "239.05"
-											}
-									},
-									{
-											"status": "WTRP",
-											"date": "2019.09.09",
-											"amountList": {
-													"principal": "167.00",
-													"internetFee": "34.00",
-													"bankFee": "28.00",
-													"interest": "10.00",
-													"allFee": "239.00"
-											}
-									},
-									{
-											"status": "WTRP",
-											"date": "2019.10.09",
-											"amountList": {
-													"principal": "171.00",
-													"internetFee": "34.00",
-													"bankFee": "28.00",
-													"interest": "6.00",
-													"allFee": "239.00"
-											}
-									}
-							],
-							"userName": "153222222"
-					}
+					// res.data = {
+					// 		"resultCode": "1",
+					// 		"resultMsg": null,
+					// 		"applyAmount": "3000",
+					// 		"period": "3",
+					// 		"currentPeriod": "1",
+					// 		"repayPlan": [
+					// 				{
+					// 						"status": "WTRP",
+					// 						"date": "2019.08.09",
+					// 						"amountList": {
+					// 								"principal": "162.01",
+					// 								"internetFee": "34.02",
+					// 								"bankFee": "28.03",
+					// 								"interest": "15.04",
+					// 								"allFee": "239.05"
+					// 						}
+					// 				},
+					// 				{
+					// 						"status": "WTRP",
+					// 						"date": "2019.09.09",
+					// 						"amountList": {
+					// 								"principal": "167.00",
+					// 								"internetFee": "34.00",
+					// 								"bankFee": "28.00",
+					// 								"interest": "10.00",
+					// 								"allFee": "239.00"
+					// 						}
+					// 				},
+					// 				{
+					// 						"status": "WTRP",
+					// 						"date": "2019.10.09",
+					// 						"amountList": {
+					// 								"principal": "171.00",
+					// 								"internetFee": "34.00",
+					// 								"bankFee": "28.00",
+					// 								"interest": "6.00",
+					// 								"allFee": "239.00"
+					// 						}
+					// 				}
+					// 		],
+					// 		"userName": "153222222"
+					// }
 					let data = res.data;
 					if (data.resultCode == "1") {
 						this.otherOrderHeight = this.$refs.otherOrder[
@@ -1288,35 +1289,35 @@ export default {
 				if(data.type != this.checkerType) return false;
 
 				if (data.resultCode == "1") {
-					data.list = [{
-						"amount": "239.00",
-						"appNo": "31907080100004",
-						"appStatus": "REPAYNODE",
-						"createDate": "2019-07-08",
-						"industryCode": "VIPD",
-						"industryName": "VIP分期",
-						"loanProduct": null,
-						"nodeList": null,
-						"period": "3",
-						"rejectMsg": null,
-						"rejectUrl": null,
-						"repayDate": "2019.08.09",
-						"repayStatus": "待还"
-					},{
-						"amount": "239.00",
-						"appNo": "31907080100004",
-						"appStatus": "REPAYNODE",
-						"createDate": "2019-07-08",
-						"industryCode": "VIPD",
-						"industryName": "VIP分期",
-						"loanProduct": null,
-						"nodeList": null,
-						"period": "3",
-						"rejectMsg": null,
-						"rejectUrl": null,
-						"repayDate": "2019.08.09",
-						"repayStatus": "待还"
-					}]
+					// data.list = [{
+					// 	"amount": "239.00",
+					// 	"appNo": "31907080100004",
+					// 	"appStatus": "REPAYNODE",
+					// 	"createDate": "2019-07-08",
+					// 	"industryCode": "VIPD",
+					// 	"industryName": "VIP分期",
+					// 	"loanProduct": null,
+					// 	"nodeList": null,
+					// 	"period": "3",
+					// 	"rejectMsg": null,
+					// 	"rejectUrl": null,
+					// 	"repayDate": "2019.08.09",
+					// 	"repayStatus": "待还"
+					// },{
+					// 	"amount": "239.00",
+					// 	"appNo": "31907080100004",
+					// 	"appStatus": "REPAYNODE",
+					// 	"createDate": "2019-07-08",
+					// 	"industryCode": "VIPD",
+					// 	"industryName": "VIP分期",
+					// 	"loanProduct": null,
+					// 	"nodeList": null,
+					// 	"period": "3",
+					// 	"rejectMsg": null,
+					// 	"rejectUrl": null,
+					// 	"repayDate": "2019.08.09",
+					// 	"repayStatus": "待还"
+					// }]
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
 						// 展开计划、收起计划青按钮文字
@@ -1439,7 +1440,7 @@ export default {
 				case "mthFee": // * 会员费
 					mapObj.amountName = "会员费";
 					break;
-				case "infoFee": // * 综合消费
+				case "totalFee": // * 综合消费
 					mapObj.amountName = "综合消费";
 					break;
 				case "addFee": // * 保费
@@ -1481,7 +1482,6 @@ export default {
 			return mapObj;
 		},
 		onScroll(pos) {
-			console.info("top", pos.top);
 			this.scrollTop = pos.top;
 		},
 		isDownloadAppFun(){
@@ -1514,11 +1514,9 @@ export default {
 	},
 	watch: {
 		isShowBanner: function(val, oldVal) {
-			console.log("val2222====", val)
 			this.isShowBanner = val;
 			this.$nextTick(() => {
 				const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
-				console.log("this.$refs===", this.$refs)
 				this.$refs && this.$refs.scrollerBottom.reset({ top: top });
 			});
 		}
