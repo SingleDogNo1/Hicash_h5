@@ -286,7 +286,7 @@
 						width: 100%;
 						overflow: hidden;
 						max-height: 0;
-						transition: max-height 5s cubic-bezier(0, 1, 0, 1) -0.1s;
+						transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
 						margin-top: rem(24px);
 						border-radius: rem(5px);
 						// -webkit-backface-visibility: hidden;  
