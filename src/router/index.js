@@ -564,7 +564,6 @@ export default new Router({
 				title: "签约",
 				requireAuth: true
 			}
-
 		}
 	]
 });
