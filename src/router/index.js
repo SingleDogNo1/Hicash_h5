@@ -58,7 +58,7 @@ import HxInfo from '@/pages/Kefu/HxInfo';
 import Kefu from '@/pages/Kefu/Index';
 import Strike from "@/pages/Activity/Strike";
 import DebtRestructuring from  "@/pages/DebtRestructuring/index";
-import Signature from '@/pages/Signature/index';
+import Signature from '@/pages/Signature';
 
 
 
