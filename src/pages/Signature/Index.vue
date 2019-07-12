@@ -243,10 +243,11 @@ export default {
       Signature.querySignPageData(postParams)
       .then(res => {
         let data = res.data;
-        this.feeList = data.feeList;
-        this.repayPlanList = data.repayPlanList;
+        
 
         if (data.resultCode === "1") {
+          this.feeList = data.feeList;
+          this.repayPlanList = data.repayPlanList;
           this.loanTime = data.nowDate;
           this.loanAmount = data.applyAmt;
           this.term = data.period;
@@ -256,7 +257,7 @@ export default {
             val.isAgree = false;
             let agreementTmplArr = [];
             val.agreeLinkList.forEach( item => {
-              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.link + '" target="_blank">《' + item.name + '》</a>';
+              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.link + '" target="_blank">' + item.name + '</a>';
             })
             val.agreementTmpl =agreementTmplArr.join(" ") 
           });
@@ -298,6 +299,17 @@ export default {
           _.each(data.feeList, (item)=>{
             this.signPopLists.push(item);
           })
+
+          if(!this.isDepositoryUrl){
+            setTimeout(()=>{
+              this.helpPopTop = this.$refs.popoverHelp[0].getBoundingClientRect().top + 27 +'px';
+              this.helpArrowLeft = this.$refs.popoverHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
+              this.helpInfoPopTop = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().top + 27 +'px';
+              this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
+            }, 500);
+
+            document.addEventListener("click", this.popHelpShow,true)
+          }
           
           this.utils.setCookie("prodetailInfo", data.applyAmt+":"+data.loanProduct);
 
@@ -429,16 +441,7 @@ export default {
     }
   },
   mounted() {
-    if(!this.isDepositoryUrl){
-      setTimeout(()=>{
-        this.helpPopTop = this.$refs.popoverHelp[0].getBoundingClientRect().top + 27 +'px';
-        this.helpArrowLeft = this.$refs.popoverHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
-        this.helpInfoPopTop = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().top + 27 +'px';
-        this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
-      }, 500);
-
-      document.addEventListener("click", this.popHelpShow,true)
-    }
+    
     
     this.getShowPI();
     this.querySignPageData();
