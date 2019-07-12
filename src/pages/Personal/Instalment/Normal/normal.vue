@@ -435,8 +435,7 @@
 	.order-list {
 		.flex-order-item {
 			background: #fff;
-			padding: rem(16px);
-
+			padding: rem(16px) rem(16px) 0 rem(16px);
 			span {
 				display: inline-block;
 				letter-spacing: 0;
@@ -669,6 +668,7 @@
 			}
 			.repey-plan-list {
 				font-size: rem(15px);
+				margin-bottom: rem(24px);
 				li {
 					margin-top: rem(16px);
 					display: flex;
@@ -1129,19 +1129,25 @@ export default {
 		// ! 展开还款计划
 		openAll(item, index) {
 			this.banRechecked = false;
+			this.items.forEach( (val,index) => {
+				if(index !== item.currentIndex) {
+					val.showOtherOrder = false;
+					val.btnExpandText = "展开计划";
+				}
+			});
 			this.items[index].btnExpandText = this.items[index].showOtherOrder ? "展开计划" : "收起计划";
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
 
 			if(this.items[index].showOtherOrder) {
-				// setTimeout(() => {
-				// 	this.otherOrderHeight = this.$refs.otherOrder[
-				// 		index
-				// 	].offsetHeight;
-				// 	this.$nextTick(() => {
-				// 		this.$refs.scrollerBottom.reset();
-				// 	});
-				// }, 1000);
+				setTimeout(() => {
+					this.otherOrderHeight = this.$refs.otherOrder[
+						index
+					].offsetHeight;
+					this.$nextTick(() => {
+						this.$refs.scrollerBottom.reset();
+					});
+				}, 1000);
 				// let _top = 0;
 				// if (index > 0) {
 				// 	_.each(this.$refs.flexboxItem, (item, i) => {
@@ -1495,7 +1501,8 @@ export default {
 					val.showExpenseTip = false;
 				}
 			});
-			item.showExpenseTip = !item.showExpenseTip;
+			//item.showExpenseTip = !item.showExpenseTip;
+			item.showExpenseTip = true;
 			this.currentIndex = item.currentIndex;
 		},
 		changeHelpClass(index) {
