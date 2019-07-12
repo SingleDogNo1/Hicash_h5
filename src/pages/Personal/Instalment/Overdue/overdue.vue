@@ -1036,9 +1036,11 @@ export default {
 			}
 		};  
 		document.body.addEventListener('click', this._close);
+		document.body.addEventListener('touchmove', this._close);
 	},
 	beforeDestroy() {
 		document.body.removeEventListener('click', this._close);  
+		document.body.removeEventListener('touchmove', this._close);  
 	}
 };
 </script>
