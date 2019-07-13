@@ -1,0 +1,125 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 22.08px;
+}
+
+body {
+  font-family: '微软雅黑';
+  background: #f5f4f5;
+  margin: 0;
+  padding: 0;
+  max-width: 640px;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  justify-content: center;
+  line-height: 20px;
+}
+
+.dconContainer {
+  padding: 0 .85rem;
+}
+
+.dconContainer pre {
+  font-size: .6rem;
+  color: #3f3f3f;
+  line-height: 1.1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: justify;
+}
+
+.dconContainer pre span.ios {
+  margin-top: 0px;
+  color: #3f3f3f;
+  font-weight: normal;
+  display: none;
+}
+
+.tips {
+  width: calc(100% - 15px);
+  height: 114px;
+  background: #FFFFFF;
+  margin: 8px 0;
+  padding-left: 15px;
+}
+
+.content {
+  height: auto;
+  padding-bottom: 33px;
+}
+
+.tips .title,
+.main .title {
+  width: 100%;
+  height: 55px;
+  line-height: 55px;
+  font-family: PingFangSC-Medium;
+  letter-spacing: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+.tips .iphone {
+  width: 100%;
+  height: 55px;
+  line-height: 55px;
+  font-family: PingFangSC-Medium;
+  letter-spacing: 0;
+  margin: 0;
+  font-size: 20px;
+  color: #C2A77C;
+}
+
+.main {
+  width: calc(100% - 15px);
+  height: auto;
+  background: #FFFFFF;
+  margin-bottom: 32px;
+  padding-left: 15px;
+  padding-bottom: 1px;
+}
+
+.main .article {
+  width: calc(100% - 15px);
+  height: auto;
+  padding-right: 15px;
+  font-size: 14px;
+}
+
+.btn {
+  width: 92%;
+  height: 44px;
+  background: #C2A77C;
+  border-radius: 8px;
+  font-family: PingFangSC-Regular;
+  font-size: 15px;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  line-height: 44px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  text-align: center;
+}
+span {
+  font-weight: bolder;
+}
+td {
+  border-collapse: collapse;
+  border-left-color: #000;
+  border-style: solid;
+  border-width: 1px;
+  padding-left: 10px;
+}
