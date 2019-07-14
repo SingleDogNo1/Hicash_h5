@@ -5,8 +5,8 @@
 			lock-x
 			:height="
 				isShowBanner
-					? swiperHeight - bannerADHeight - 150 + 'px'
-					: swiperHeight - 150 + 'px'
+					? swiperHeight - bannerADHeight  + 'px'
+					: swiperHeight  + 'px'
 			"
 			@on-scroll="onScroll"
 			@on-scroll-bottom="onScrollBottom"
@@ -77,7 +77,7 @@
 													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
-														<i v-if="repayPlanIndex !== 0" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
+														<i v-if="repayPlanItem.status = 'REXP' || 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
 													</span>
 												</div>
 												<p>{{repayPlanItem.title}}</p>
@@ -554,7 +554,7 @@
 		position: absolute;
 		width: auto;
 		top: 0;
-		left: rem(20px);
+		left:rem(16px);
 		background: #f9f9f9;
 		padding: rem(8px);
 		box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
@@ -567,8 +567,8 @@
 			display: block;
 			border-left: rem(10px) solid transparent;
 			border-right: rem(10px) solid transparent;
-			border-bottom: rem(10px) solid #f9f9f9;
-			top: rem(-10px);
+			border-top: rem(10px) solid #f9f9f9;
+			bottom: rem(-10px);
 			right: rem(8px);
 		}
 		p {
@@ -988,7 +988,9 @@ export default {
 			this.repayPlanExpenseTipPopoverData = item.filterAmountList;
 			this.showRepayPlanExpenseTipPopover = true;
 			const repayPlanHelpRef = `repayPlanHelp${this.currentParentIndex}_${this.currentChildIndex}`;
-			this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
+			//this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
+			this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 162 + 2 * this.currentChildIndex + 1 +'px';
+
 			this.tipsWidth = this.$refs.eachRepayPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
 		},
 		changeHelpClass(index) {	// 当期订单问号加上下标
