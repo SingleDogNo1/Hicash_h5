@@ -74,7 +74,7 @@
 										<li v-for="(repayPlanItem, repayPlanIndex) in item.repayPlan" :key="repayPlanIndex" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
 											<div class="each-repay-plan">
 												<div class="each-repay-plan-left" ref="eachRepayPlan">
-													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{repayPlanItem.status}}</span>
+													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
 														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
