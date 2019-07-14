@@ -296,7 +296,7 @@ export default {
 .AllIndex {
 	background: #f2f2f2;
 	.content {
-		height: calc(100vh - 2.26667rem);
+		height: calc(100vh - 1.26667rem);
 		padding-top: rem(51px);
 		//overflow-y: auto;
 		.tab-wrap {
@@ -343,7 +343,7 @@ export default {
 			}
 		}
 		.vux-swiper {
-			height: calc(100vh - 4.26667rem) !important;
+			height: calc(100vh - 6.8rem) !important;
 			//overflow-y: auto;
 		}
 		.app-swiper .vux-swiper {
