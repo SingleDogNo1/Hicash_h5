@@ -74,10 +74,10 @@
 										<li v-for="(repayPlanItem, repayPlanIndex) in item.repayPlan" :key="repayPlanIndex" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
 											<div class="each-repay-plan">
 												<div class="each-repay-plan-left" ref="eachRepayPlan">
-													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{repayPlanItem.status}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
-														<i v-if="repayPlanItem.status = 'REXP' || 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
+														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
 													</span>
 												</div>
 												<p>{{repayPlanItem.title}}</p>
@@ -665,7 +665,6 @@ export default {
 			this.$emit("selectedItems", this.currentValue);
 		},
 		onScrollBottom() {
-			console.log("this.onFetching===", this.onFetching)
 			if (this.onFetching) {
 			} else {
 				this.onFetching = true;
@@ -774,7 +773,6 @@ export default {
 			this.overdueList = [];
 			this.listDataloading = true;
 			this.onFetching = false;
-			console.log("click===")
 			//this.init();
 		},
 		onScroll(pos) {
@@ -920,7 +918,6 @@ export default {
 							list.filterAmountList = filterAmountList;
 							return this.statusMapping(list);
 						});
-						console.log("repayPlan===", repayPlan)
 						this.$set(this.overdueList[index], "repayPlan", repayPlan);
 					} else {
 						this.$vux.toast.text(data.resultMsg, "middle");

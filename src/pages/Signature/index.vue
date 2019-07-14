@@ -420,7 +420,6 @@ export default {
     },
     serviceFeeClick(){
       this.popHelpServicesFee = 'block';
-      console.info('serviceFeeClick');
     },
     infoFeeClick(){
       this.popHelpInfoFee = 'block';
