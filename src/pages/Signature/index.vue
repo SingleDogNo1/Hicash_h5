@@ -77,7 +77,7 @@
             <span class="agreement-tmpl" v-html="item.agreementTmpl"></span>
           </div>
           <p class="agree-text" v-if="item.desBehind" v-html="item.desBehind">}</p>
-          <p class="agree-text" v-if="tip">{{tip}}</p>
+          <p class="agree-text" v-if="tip" v-html="tip"></p>
         </div>
       </div>
       <div class="actions">
@@ -458,6 +458,7 @@ export default {
   destroyed(){
     if(!this.isDepositoryUrl){
       document.removeEventListener("click", this.popHelpShow, true);
+      document.removeEventListener("touchmove", this.popHelpShow, true);
     }
   }
 };

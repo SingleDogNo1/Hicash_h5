@@ -12,6 +12,7 @@
 			@on-scroll-bottom="onScrollBottom"
 			ref="scrollerBottom"
 			:scroll-bottom-offst="200"
+			:bounce="false"
 		>
 			<div class="overdue-content">
 				<group v-if="currentType === 'default'" class="default-group">
