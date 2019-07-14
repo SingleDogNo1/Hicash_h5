@@ -316,7 +316,7 @@ export default {
             document.addEventListener("click", this.popHelpShow,true)
           }
           
-          this.utils.setCookie("prodetailInfo", data.applyAmt+":"+data.loanProduct);
+          this.utils.setCookie("prodetailInfo", data.applyAmt+":"+data.loanProductId);
 
           //管晨说先不返回，有问题找管晨
           // this.utils.setCookie("realAddress", data.realAddress);

@@ -1,0 +1,232 @@
+/*
+/*
+* @Author: kevin
+* @Date:   2016-12-08 09:41:29
+* @Last Modified time:kevin 2016-12-08 09:42:46
+*/
+@charset "utf-8";
+
+/* 禁用iPhone中Safari的字号自动调整 */
+html{height:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+
+/* 去除iPhone中默认的input样式 */
+input[type="submit"],input[type="reset"],input[type="button"],input{-webkit-appearance:none;resize:none;}
+
+/* 局部滚动使用弹性滚动效果 */
+body{-webkit-overflow-scrolling:touch;}
+input,button{outline:none;}
+
+/* 取消链接高亮  */
+body,div,ul,li,ol,h1,h2,h3,h4,h5,h6,input,textarea,select,p,dl,dt,dd,a,img,button,form,table,th,tr,td,tbody,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+
+/* 设置HTML5元素为块 */
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+
+/* 图片自适应 */
+img{width:100%;height:auto;width:auto\9; /* ie8 */-ms-interpolation-mode:bicubic;/*为了照顾ie图片缩放失真*/}
+
+/* 初始化 */
+body,div,ul,ol,li,h1,h2,h3,h4,h5,h6,input,textarea,select,p,dl,dt,dd,a,img,button,form,table,th,tr,td,tbody,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0;border:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+body{font-family:'微软雅黑';background:#fff;}
+em,i{font-style:normal;}
+.clearfix:after{content:"";display:block;visibility:hidden;height:0;clear:both;}
+.clearfix{zoom:1;}
+a{text-decoration:none;color:#969696;font-family:'Microsoft YaHei',Tahoma,Arial,sans-serif;}
+a:hover{color:#FFC230;text-decoration:none;}
+ul,ol{list-style:none;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-family:'Microsoft YaHei';}
+img{border:none;}
+.fl{float:left;}
+.fr{float:right;}
+.wordwrap{word-break:break-all;word-wrap:break-word;}
+.omg{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.tl{text-align:left;}
+.vm{vertical-align:middle;}
+.vtb{vertical-align:text-bottom;}
+.vt{vertical-align:top;}
+.vn{vertical-align:-2px;}
+.vimg{margin-bottom:-3px;}
+@font-face{font-family:'iconfont';src:url('../fonts/iconfont.eot');src:url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),url('../fonts/iconfont.woff') format('woff'),url('../fonts/iconfont.ttf') format('truetype'),url('../fonts/iconfont.svg#iconfont') format('svg');}
+.iconfont{font-family:"iconfont"!important;font-size:16px;font-style:normal;-webkit-font-smoothing:antialiased;-webkit-text-stroke-width:0.2px;-moz-osx-font-smoothing:grayscale;}
+
+/* 设置根字体 */
+html{font-size:40px;}
+body{max-width:640px;min-width:320px;height:100%;margin:0 auto;overflow-x:hidden;}
+
+/* 弹框开始 */
+.dialog-mask{position:fixed;width:100%;height:100%;left:0;top:0;background:rgba(51,51,51,.6);display:-webkit-box;-webkit-box-pack:center;-webkit-box-align:center;z-index:999;}
+.dialog-container{font-size:.875rem;padding:.625rem 0.8rem;background:rgba(15,15,15,.85);margin:1.25rem;border-radius:5px;-webkit-transition:all .3s cubic-bezier(0.46,0.04,0.69,1.45);transition:all .3s cubic-bezier(0.46,0.04,0.69,1.45);}
+.dialog-header{width:1.5rem;height:1.5rem;margin:0 auto;margin-bottom:.375rem;font-family:'iconfont';font-size:1.8rem;color:#fff;}
+.dialog-header.waiting{background:url(../images/loading.gif) 0 0 no-repeat;background-size:cover;}
+.dialog-header.warning{position:relative;}
+.dialog-header.warning:before{position:absolute;content:'\e618';top:-.375rem;left:50%;color:#fff;-webkit-transform:translate(-50%,0);-moz-transform:translate(-50%,0);-ms-transform:translate(-50%,0);-o-transform:translate(-50%,0);transform:translate(-50%,0);}
+.dialog-header.ok{position:relative;}
+.dialog-header.ok:before{position:absolute;content:'\e629';top:-.375rem;left:50%;color:#fff;-webkit-transform:translate(-50%,0);-moz-transform:translate(-50%,0);-ms-transform:translate(-50%,0);-o-transform:translate(-50%,0);transform:translate(-50%,0);}
+.dialog-content{color:#fff;text-align:center;font-size:.7rem;font-family:'微软雅黑';}
+.dialog-footer{margin-top:.45rem;display:-webkit-box;-webkit-box-pack:center;-webkit-box-align:center;}
+.dialog-footer button{-webkit-appearance:normal;padding:.2rem 1rem;border-radius:5px;background:#d7d7d7;margin:0 .3rem;font-size:.65rem;outline:none;color:#333;font-family:'微软雅黑';}
+.dialog-footer button:hover{background:#FF7640;color:#fff;}
+.dialog-footer button.netColor{background:#FF7640;color:#fff;}
+.dialog-footer button.gray{background:#D7D7D7;color:#333;}
+
+/* 授信弹框 */
+.creditDialog .dialog-container{padding:0;background:#fff;}
+.creditDialog .dialog-header{width:100%;height:2.05rem;background:#FF7640;border-radius:5px 5px 0 0;}
+.creditDialog .dialog-header.warning:before{top:0rem;}
+.creditDialog .dialog-content{color:#333;padding:0 0.6rem;line-height:1.5em;}
+.creditDialog .dialog-content strong{font-size:0.75rem;display:block;padding-bottom:0.4rem;}
+.creditDialog .dialog-footer{height:1.85rem;border-top:1px solid #ddd;}
+.creditDialog .dialog-footer{display:block;}
+.creditDialog .dialog-footer button{width:50%;padding:0;height:1.85rem;display:inline-block;float:left;margin:0;background:#fff;color:#333;}
+.creditDialog .dialog-footer button:nth-child(1){position:relative;}
+.creditDialog .dialog-footer button:nth-child(1):before{content:'';position:absolute;width:1px;height:1.8rem;background:#ddd;right:1px;top:0;}
+
+/* 弹框结束 */
+
+/* 头部开始 */
+header{width:100%;height:2.2rem;background:#FF7640;position:fixed;top:0;left:0;z-index:99;}
+header h1{position:absolute;width:2.45rem;height:1.125rem;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}
+header h1 a{text-indent:-9999px;display:block;width:2.45rem;height:1.125rem;background:url(../images/logo-r.png) 0 0 no-repeat;background-size:cover;}
+header .go-to-login,header .go-history,header .go-to-personalCenter,.de_go_back{width:1.8rem;height:1.8rem;position:absolute;top:50%;-webkit-transform:translate(0,-50%);-moz-transform:translate(0,-50%);-ms-transform:translate(0,-50%);-o-transform:translate(0,-50%);transform:translate(0,-50%);z-index:999;}
+header .go-to-login{display:none;font-size:.75rem;line-height:1.8rem;color:#fff;right:.85rem;font-family:'微软雅黑';text-align:center;}
+header .go-to-personalCenter{display:none;right:.85rem;text-align:right;}
+header .go-to-personalCenter i{font-size:1.125rem;color:#fff;vertical-align:middle;}
+header .go-history{left:.85rem;}
+header .go-history.go-closeBtn{right:.85rem;left:auto;}
+header .go-history:before,.de_go_back:before{font-family:"iconfont";position:absolute;content:"\ed72";top:50%;left:20%;font-size:1rem;color:#fff;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}
+
+/* 头部结束 */
+
+/* 底部开始 */
+.footer-bar{width:100%;height:2.075rem;position:fixed;bottom:0;left:0;z-index:99;background: #fff;
+    display:-webkit-box;
+    display:flex;
+    display:-ms-flex;
+    display:-webkit-flex;}
+/*.footer-bar li{width:25%;height:2.075rem;text-align:center;float:left;font-size:.45rem;padding-top:1.2rem;position:relative;font-family:'微软雅黑';}*/
+.footer-bar li{
+    text-align:center;
+    position:relative;
+    font-family:'微软雅黑';
+    flex:1;
+    -ms-flex:1;
+    -webkit-flex:1;
+    -webkit-box-flex:1;
+    font-size:.45rem;
+    padding-top:0.3rem;
+}
+.footer-bar li div{
+    width:.87rem;
+    height:.85rem;
+    margin: 0 auto;
+}
+.footer-bar li div img{
+    height:100%;
+}
+.footer-bar li.active{color:#FF6700;}
+/*.footer-bar li:before{font-family:"iconfont";position:absolute;content:'';width:.7rem;height:.85rem;background:url(../images/footer_icon_index_1.png) center no-repeat;background-size:cover;-webkit-background-size:cover;top:.25rem;left:50%;-webkit-transform:translate(-50%,0);-moz-transform:translate(-50%,0);-ms-transform:translate(-50%,0);-o-transform:translate(-50%,0);transform:translate(-50%,0);}*/
+/*.footer-bar li:nth-child(1):before{width:0.72rem;}*/
+/*.footer-bar li:nth-child(2):before{content:'';width:.87rem;background:url(../images/vip-icon.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li:nth-child(3):before{content:'';width:1.05rem;background:url(../images/i_footer_game_icon.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li:nth-child(3):before{content:'';width:.8rem;height:.85rem;background:url(../images/i_footer_3_icon.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li:nth-child(4):before{content:'';width:.85rem;background:url(../images/footer_icon_percenter_1.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li.active:nth-child(1):before{content:'';background:url(../images/footer_icon_index_2.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li.active:nth-child(2):before{content:'';background:url(../images/vip-sel-icon.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li.active:nth-child(3):before{content:'';background:url(../images/i_footer_3_icon_copy.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+/*.footer-bar li.active:nth-child(4):before{content:'';background:url(../images/footer_icon_percenter_2.png) center no-repeat;background-size:cover;-webkit-background-size:cover;}*/
+
+/* 底部结束 */
+.container{width:100%;min-height:100%;margin:2.2rem 0 2.075rem;padding-bottom:2.075rem;}
+
+/* 授信公用头部 */
+.creditHeader{background:#fff;border-bottom:1px solid #ccc;}
+.creditHeader h1{font-size:.75rem;height:2.2rem;line-height:2.2rem;font-weight:normal;color:#3f3f3f;width:100%;text-align:center;}
+header .closeBtn:before,header .go-closeBtn:before{font-family:"iconfont";position:absolute;content:"\e6a0";top:54%;left:70%;font-size:0.85rem;color:#3f3f3f;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);transform:translate(-50%,-50%);}
+.creditHeader .go-history:before{color:#3f3f3f;}
+
+/* 授信公用头部结束 */
+
+/* 20170830添加QQ  start*/
+.QQhandler{width:1.2rem;height:1.2rem;background:url(../images/QQHeader-icon.png) 0 0 no-repeat;background-size:cover;position:absolute;top:50%;-webkit-transform:translate(0,-50%);-moz-transform:translate(0,-50%);-ms-transform:translate(0,-50%);-o-transform:translate(0,-50%);transform:translate(0,-50%);right:0.8rem;}
+.QQhandler a{display:block;width:100%;height:100%;}
+.creditQQhandler{background:url(../images/loanQQ-icon.png) 0 0 no-repeat;background-size:cover;}
+
+/* 20170830添加QQ  end*/
+
+/* 171015 添加优惠券  start*/
+.pro_coupon_note{position:absolute;top:2.9rem;right:1.7rem;width:60%;height:1.25rem;font-size:0.65rem;/* line-height:1.25rem;font-size:0.65rem;color:#979797;border:1px solid #979797;border-radius:50px;padding-left:1.6rem; */}
+/* .pro_coupon_note:before{position:absolute;top:.2rem;left:0.5rem;content:"券";width:.8rem;height:.8rem;line-height:.8rem;text-align:center;background:#FFD200;color:#fff;border-radius:2px;} */
+.trans50{-webkit-transform:translate(-50%,0);-moz-transform:translate(-50%,0);-ms-transform:translate(-50%,0);-o-transform:translate(-50%,0);transform:translate(-50%,0);}
+.se_pro_coupon_note{position:relative;top:-1rem;left:50%;width:4.8rem;border:1px solid #A28462;border-radius:8px;background:#A28462;color:#fff;}
+.se_pro_coupon_note:before{color:#A28462;background:#fff;}
+.sjd_pro_coupon_note{position:absolute;left:auto;right:0rem;top:-1.5rem;width:4.1rem;background:#FECF00;color:#282828;padding-left:1.2rem;}
+.sjd_pro_coupon_note:before{color:#FECF00;background:#282828;left:.25rem;}
+.hql_pro_coupon_note{left:auto;right:-60%;top:-.3rem;background:#A28462;padding-left:1.2rem;}
+.hql_pro_coupon_note:before{color:#A28462;}
+.pro_coupon_mask{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,20,20,.8);z-index:999;}
+.pro_coupon_wrap{position:absolute;width:100%;height:19.8rem;background:#F1F1F1;bottom:0;}
+.pro_coupon_mask h4{height:1.8rem;line-height:1.8rem;padding:0 .85rem;font-size:0.65rem;color:#696969;background:#fff;}
+.pro_coupon_close_btn{position:absolute;width:.9rem;height:.9rem;background:none;top:.45rem;right:.85rem;font-size:.9rem;}
+.pro_coupon_close_btn:before{content:"\e6a0";font-family:"iconfont";font-size:.9rem;font-weight:700;}
+.pro_coupon_list{padding:0.85rem;height:18rem;overflow:scroll;}
+.pro_coupon_list li{padding:.75rem 0.8rem;margin-bottom:0.8rem;border-top:5px solid #F67534;border-radius:8px;background:#fff;}
+.pro_coupon_list .fl{width:70%;color:#A2A2A2;font-size:0.65rem;line-height:1.6em;}
+.pro_coupon_list .fr{width:30%;color:#F67534;font-size:.75rem;}
+.pro_coupon_list .fr button{width:3rem;height:1.15rem;border:1px solid #FF7314;color:#F67534;font-size:.65rem;margin-top:0.2rem;border-radius:50px;background:none;}
+.pro_coupon_list h5{margin-right:1.5rem;font-size:.8rem;line-height:2em;color:#333;border-bottom:1px dashed #F3F3F3;margin-bottom:0.5rem;}
+.pro_coupon_amount{font-size:1.8rem;font-weight:400;}
+.pro_coupon_list li.coupon_percent{border-color:#FFBF3C;}
+.pro_coupon_list li.coupon_percent .fr{color:#FFBF3C;}
+.pro_coupon_list li.coupon_percent .fr button{border:1px solid #FFBF3C;color:#FFBF3C;}
+.select_coupon_mask{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,20,20,.8);z-index:999;display:none;}
+.select_coupon_mask_wrap{position:absolute;width:13.5rem;padding-top:1.25rem;top:25%;left:50%;background:#fff;border-radius:8px;padding-bottom:3.5rem;}
+.select_coupon_mask_wrap .close_btn{position:absolute;width:1.5rem;height:1.5rem;line-height:1.5rem;text-align:center;border:1px solid #fff;color:#fff;top:-2.1rem;right:0;font-size:1rem;border-radius:50%;}
+.select_coupon_mask_wrap p{text-align:center;font-size:0.65rem;color:#454545;padding:.1rem 0;}
+.select_coupon_mask_wrap p:nth-child(2){font-size:.8rem;color:#FE7111;font-weight:700;}
+.select_coupon_mask_wrap p:nth-child(3){text-align:left;padding:0  .75rem 0 2rem;position:relative;margin-top:0.6rem;}
+.select_coupon_mask_wrap p:nth-child(3):before{position:absolute;left:0.85rem;top:0rem;content:"\e654";font-family:"iconfont";font-size:0.8rem;}
+.select_coupon_mask_wrap .select_coupon_mask_con p:nth-child(4){display:none;}
+.select_coupon_mask_wrap .btn_wrap{position:absolute;bottom:0;left:0;width:100%;height:2.5rem;border-top:1px solid #E4E4E4;}
+.select_coupon_mask_wrap .btn_wrap button{width:50%;height:100%;float:left;background:none;font-size:0.65rem;color:#FF6F0D;}
+.select_coupon_mask_wrap .btn_wrap button:nth-child(1){border-right:1px solid #E4E4E4;}
+.coupon_mask_aviliable .select_coupon_mask_con p:nth-child(3){display:none;}
+.coupon_mask_unaviliable .select_coupon_mask_con p:nth-child(3){display:block;}
+.coupon_mask_unaviliable .btn_wrap button:nth-child(2){color:#ddd;}
+.coupon_mask_aviliable .btn_wrap button:nth-child(3),.coupon_mask_unaviliable .btn_wrap button:nth-child(3){display:none;}
+.coupon_mask_error .close_btn{display: none;}
+.coupon_mask_error p{display:none;}
+.coupon_mask_error .select_coupon_mask_con p:nth-child(4){display:block;padding:0 .85rem;}
+.coupon_mask_error .btn_wrap button{display:none;}
+.coupon_mask_error .btn_wrap button:nth-child(3){display:block;width:100%;}
+.select_coupon_wrap{background:#F1F1F1;padding-top:.75rem;}
+.exchange_coupon_wrap{padding:0 .8rem;height:1.95rem;margin:0 auto;}
+.exchange_coupon_wrap .exchange_code,.exchange_coupon_wrap .exchange_btn{width:80%;height:100%;border:1px solid #ddd;border-radius:8px 0 0 8px;}
+.exchange_coupon_wrap .exchange_code{padding:10px;border-right:none;font-size:.75rem;}
+.exchange_coupon_wrap .exchange_btn{width:20%;color:#FFF;font-size:.8rem;border-color:#FF7640;background:#FF7640;border-radius:0 8px 8px 0;}
+.signature_coupon{width:100%;height:1.25rem;line-height:1.25rem;border:1px solid #BEBEBE;border-radius:50px;position:relative;margin:0.8rem 0 0.2rem;}
+.signature_coupon .pro_coupon_note{left:0;top:0;border:none;}
+.signature_coupon .coupon_recommend{float:right;padding-right:1rem;font-size:.8rem;color:#444444;}
+.signature_coupon .coupon_recommend:before{content:">";position:absolute;right:.2rem;top:-.12rem;font-size:1rem;}
+.hql_signature_coupon{border:none;font-size:.7rem;height:2.15rem;}
+.hql_signature_coupon span{display: inline-block;}
+.hql_signature_coupon .left{padding-top: 0.4rem;float:none;color:#A69999;}
+.hql_signature_coupon .right{color:#C0A06F;height:1.4rem;padding-right:1rem;position:relative;float: right;}
+.hql_signature_coupon .right:before{position:absolute;content:">";font-size:1rem;top:50%;margin-top:-0.3rem;right:0;}
+.hql_signature_coupon em{display:block;}
+.hql_signature_coupon .right em:nth-child(2){font-size:1rem;font-weight:700;margin-top: -0.3rem;}
+/* 171015 添加优惠券  end*/
+.de_go_back{top:1rem;}
+.dot:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: #f74c31;
+    border-radius: 5px;
+    margin-left: 17px;
+    top: 1px;
+    background-clip: padding-box;
+}

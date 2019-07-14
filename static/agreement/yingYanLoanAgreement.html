@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>借款/贷款协议</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 360模式 -->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="./css/common.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-size: 22.08px;
+        }
+        body {
+            font-family: '微软雅黑';
+            background: #f5f4f5;
+            margin: 0;
+            padding: 0;
+            max-width: 640px;
+            min-width: 320px;
+            height: 100%;
+            margin: 0 auto;
+            overflow-x: hidden;
+            justify-content: center;
+            line-height: 20px;
+        }
+        .dconContainer {
+            padding: 0 .85rem;
+        }
+        .dconContainer pre {
+            font-size: .6rem;
+            color: #3f3f3f;
+            line-height: 1.1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+        }
+        .dconContainer pre span.ios {
+            margin-top: 0px;
+            color: #3f3f3f;
+            font-weight: normal;
+            display: none;
+        }
+        .dconContainer pre .title {
+            padding-top: 1rem;
+        }
+        .tips {
+            width: calc(100% - 15px);
+            height: 114px;
+            background: #FFFFFF;
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        .content {
+            height: auto;
+            padding-bottom: 33px;
+        }
+        .tips .title,
+        .main .title {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 14px;
+            color: #333333;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        .tips .iphone {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 20px;
+            color: #C2A77C;
+        }
+        .main {
+            width: calc(100% - 15px);
+            height: auto;
+            background: #FFFFFF;
+            margin-bottom: 32px;
+            padding-left: 15px;
+            padding-bottom: 1px;
+        }
+        .main .article {
+            width: calc(100% - 15px);
+            height: auto;
+            padding-right: 15px;
+            font-size: 14px;
+        }
+        .btn {
+            width: 92%;
+            height: 44px;
+            background: #C2A77C;
+            border-radius: 8px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            line-height: 44px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        td {
+            border-collapse: collapse;
+            border-left-color: #000;
+            border-style: solid;
+            border-width: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <header class="creditHeader">
+        <!-- 关闭按钮 -->
+        <a class="go-history" href="javascript:history.go(-1);"></a>
+        <h1>借款/贷款协议</h1>
+    </header>
+    <div class="dconContainer container">
+        <div class="inner">
+<pre>
+<h1 class="title">借款/贷款协议</h1>
+出借人/贷款人：
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+    <tr>
+        <td colspan="1" style="font-weight: bolder">服务机构名称:</td>
+        <td colspan="6" style="font-weight: bolder">西藏微众金融服务有限公司</td>
+    </tr>
+    <tr>
+        <td colspan="2">出借人姓名:</td>
+        <td colspan="2"></td>
+        <td colspan="1">身份证号:</td>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td colspan="7">当出借人为多个自然人时，出借人/贷款人清单详见附件一</td>
+    </tr>
+</table>
+借款人信息及技术服务方信息：
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+    <tr>
+        <td colspan="1">借款人</td>
+        <td colspan="1">姓名</td>
+        <td colspan="1" class="realName"></td>
+        <td colspan="1">身份证号</td>
+        <td colspan="3" class="idcard"></td>
+    </tr>
+    <tr>
+        <td colspan="1">手机号</td>
+        <td colspan="6" class="mobile"></td>
+    </tr>
+    <tr>
+        <td colspan="1">借款人专用账户</td>
+        <td colspan="1">户名</td>
+        <td colspan="1" class="realName"></td>
+        <td colspan="1">账户</td>
+        <td colspan="1" class="cardNum1"></td>
+        <td colspan="1">开户行</td>
+        <td colspan="1" class="bankName"></td>
+    </tr>
+    <tr>
+        <td colspan="1">技术服务方/助贷机构</td>
+        <td colspan="6">上海亨元金融信息服务有限公司</td>
+    </tr>
+</table>
+第一条： 借款信息
+借款人借款总金额（本金）：人民币（大写）：<span id="bigMoney"></span> 小写：<span id="allMoney"></span>；借款到期日：<span id="lastTime"></span> 还款方式：等额本息
+还款日：每月<span id="getDay"></span>日
+借款用途：<span class="u_fee"></span>；
+借款利率、到期/各期还款金额详见《借款人告知书》第二条： 划款
+各方对本协议所述借款相关信息全部认可，自主自愿依据本协议规定的内容，由出借人/贷款人向借款人提供借款。
+借款人特此同意，在本协议签署后【1】个工作日内，出借人/贷款人可将本协议规定的借款金额，直接或间接地通过出借人/贷款人及/或出借人/贷款人经由其他第三方在银行或第三方支付机构开设的账户支付到借款人或借款人指定方在银行或第三方支付机构开设的账户。
+第三条： 付款方式
+1) 本协议项下的出借款项由出借人/贷款人通过其技术服务方授权的第三方支付机构或银行通过以下一种或多种方式完成出借款项的支付：
+①支付至本协议列明的借款人专用账户；
+②支付至借款人在第三方支付机构或银行开设的账户；
+③支付至借款人指定的其他收款账户（包括但不限于借款人支付其购买商品或服务所应支付的价款等。）
+④双方约定的其他支付方式。
+2）借款人和出借人/贷款人均同意第三方支付机构或银行接受委托后进行的行为所产生的法律后果均由相应委托方承担。
+第四条：连带责任
+本协议如涉及两名或两名以上借款人，任一借款人均应履行本协议项下的全部义务，借款人之间相互承担连带责任，且任一借款人对全部借款承担连带清偿责任。出借人/贷款人因此有权向任一借款人追索本金、利息及其他费用。
+第五条：本息偿还方式
+1）借款人在此同意出借人/贷款人可以自行或委托技术服务方通过短信、邮件或微信等形式将借款偿还的相关信息包括但不限于放款日、还款日还款额等信息予以告知，当前述信息发送至借款人的通讯地址（包括但不限于住址、通讯地址、电子邮箱、通讯电话等）后，即视为借款人收到并知悉前述还款信息。
+2）借款人须在每个/到期还款日当日（不得迟于中午12：00）或之前将本协议约定应还本息款项存入借款人专用账户中。如果遇到法定假日或公休日，还款日期不进行顺延。在此情况下，借款人必须安排在还款日之前还款。
+3）借款人应确保其自身具有与借款金额相匹配的还款能力，并愿意按照本协议约定还款。借款人在此同意出借人/贷款人或技术服务方于每月/到期还款日当日从借款人专用账户中准确划扣还款额（包括本金、利息等费用），直至成功扣划为止。
+除前述还款方式外，借款人亦可通过技术服务方平台通过扫码支付、银行转账等可行的方式进行主动还款。若借款人未能主动还款，且借款人未能按时足额将还款额存入其借款人专用账户或者因其他任何原因导致划扣失败的，将产生相应的逾期费用，同时，借款人不可撤销地授权出借人/贷款人或技术服务方从借款人本人的其他银行账户划扣还款额。
+4）提前还款（即一次性偿还全部或部分还款）：如果借款人决定一次性偿还全部或部分借款，借款人需至少提前十个工作日向出借人/贷款人或技术服务方平台提出。借款人在借款人和技术服务方商定的日期当日或之前（非还款日或节假日），一次性将剩余全部或部分应还款项存入借款人专用账户或者通过其他方式直接或间接偿还至出借人/贷款人。
+第六条：技术服务方地位
+1）出借人/贷款人与借款人在此确认，技术服务方不是本协议规定的借贷关系的当事人；出借人与借款人中的任何一方根据借贷关系向对方主张权利时，不得将技术服务方列为共同被告，也不得要求技术服务方承担连带责任。
+2）本协议中的技术服务方主体信息详见《技术服务合同》。
+第七条：违约责任
+1）乙方逾期的，除应付本金、利息外应当另行支付逾期管理服务费和逾期滞纳金。
+2）若借款人晚于本协议约定的还款日还款，出借人/贷款人将授权技术服务方进行逾期本息的征收管理， 借款人应按照如下标准支付逾期管理服务费。逾期管理服务费计算方法如下：如借款人未按本协议约定的还款时间足额还款，则自逾期之日（逾期之日是《借款/贷款协议》约定的还款日的次日始直至还款之日止， 每日按未归还本金的千分之七收取逾期管理服务费，如借款人借款方式为分期借款，则逾期管理服务费每月单独计算。（举例说明：王某某按其签订《借款/贷款协议》的约定应于1月10日偿还该月的本息，但其未按约定时间还款，则逾期日应为1月11日）
+3）逾期还款滞纳金按照逾期期数累计计算，逾期一期按当期逾期未还本金的收取；逾期一期以上四期以下，按当期逾期未还本金的  收取；逾期四期及以上，按当期逾期未还本金的   收取。逾期还款滞纳金最低收取50元。本款中“以上”、“以下”，均不包含本数。
+4）借款人未及时足额偿还本息时，除非出借人/贷款人或者技术服务方另有安排，按以下原则办理：
+应偿还项目的先后顺序为：逾期管理服务费、逾期滞纳金、应还利息、应还本金。累计多期逾期还款的情况下，优先偿还顺序在先的项目；同一应偿还项目中，优先偿还期限在先的款项。即：由远及近首先偿还第一次序应偿还项目，第一次序应偿还项目全部清偿后，由远及近偿还第二次序应偿还项目，以此类推。
+5）如果借款人擅自改变本协议规定的借款用途或严重违反还款义务（逾期达到5天及以上）或借款人已经或可能出现逃避债务等情形（包括但不限于通过本协议约定的联系方式无法取得有效联系）的，本协议项下的全部借款本息视同提前到期，出借人/贷款人有权将借款人借款进行提前结清处理。
+6）借款人提供虚假资料、通过故意变换身份、虚构借款、夸大借款项目收益前景、故意隐瞒重要事实或其他欺诈借款行为的，构成违约，应承担违约责任，届时，本协议项下的全部借款本息视同提前到期，出借人/贷款人有权将借款人借款进行提前结清处理；构成犯罪的，出借人/贷款人有权向国家司法机关报案， 追究其刑事责任。
+7）如借款人出现本条第5）、6）项约定的行为或有其他违反法律法规和网络借贷有关监管规定禁止从事的活动或严重违约行为时，出借人/贷款人有权依据本协议的相关条款之约定要求借款人提前结清全部借款，借款人应当一次性偿还截至提前结清当月所有应还款项（包括本金利息等）以及剩余本金、利息，并承担相应的违约责任。
+8）借款人逾期还款的，出借人/贷款人有权自行或委托技术服务方将借款人违约失信的相关信息及借款人其他信息（包括但不限于借款人照片、视频资料、个人资料等）向媒体、所在单位及公安、检察、司法等有关机关披露、在技术服务方平台进行公示，并有权将借款人的个人资料和信息与任何第三方（包括但不限于征信系统等）进行数据共享，由此造成的损失，借款人自行承担。因借款人违约而产生的包括但不限 于调查及诉讼费用包括律师代理费将由借款人承担。
+9）如果出借人/贷款人未能根据本协议“第二条”的规定提供借款给借款人，则本协议自动失效，各方均不承担任何赔偿责任和其他法律责任。
+第八条：通知、送达
+1）借款人同意，借款人在提交个人资料写明的手机号码、电子邮件等联系方式，均为各方之间涉诉纠纷相关材料有效送达地址。信息如下：
+姓名：【<span class="realName"></span>】
+手机号码：【<span class="mobile"></span>】
+电子邮箱：【<span class="email"></span>】
+2）按本协议约定由任何一方发给其他方的任何通知，应以短信、电子邮件、其他数据电文等形式发出，送至约定邮箱或者手机号码或者平台。各方特别约定在仲裁过程中衢州仲裁委员会可通过短信链接的方式进行仲裁文书电子送达，短信发送即视为送达，短信接收方可点击链接进行查看或登陆衢州仲裁委员会网络仲裁平台（http://odr.qzzcwyh.com）查看。
+若因借款人不及时提供上述变更信息而带来的信息调查及诉讼费包括律师代理费将由借款人承担。
+3）如一方需变更联络邮箱或者手机号码的，应当以书面通知并得到其它方确认，否则发送至原约定邮箱或手机号码，发送即视为送达。
+第九条：债权转让
+1）借款人同意出借人/贷款人在借款关系存续期间可随时将全部或部分债权一次或多次转让给一个或多个第三方。
+2）借款人同意将出借人/贷款人对其所有的全部或部分债权转让给一个或多个第三人，并认可债权受让人向其出示的、出借人/贷款人出具给债权受让人或出借人/贷款人与债权受让人签署的相关债权转让文书，借款人同意向债权受让人履行本协议约定的其对出借人/贷款人负有的全部义务。
+3）借款人同意债权受让人可以授权出借人/贷款人或其他第三方代为行使其对借款人的催收、诉讼等本协议约定的权利。借款人同意出借人/贷款人或第三方基于债权受让人的授权而代为行使催收、代收借款人应还本息及其他费用，送达、代收相关材料，代为行使诉讼权利和债权受让人授予的其他权利。
+4）出借人/贷款人将其债权全部或部分转让给第三方，或债权受让人对债权进行再次转让的，应当以信件、邮件、平台公告或短信等形式通知借款人。本协议双方同意该债权转让自出借人/贷款人通知发出之日对借款人发生效力。
+第十条：陈述、保证和承诺
+借款人和出借人/贷款人作出如下陈述、保证和承诺：
+1）借款人具有完全民事权利能力和民事行为能力，有权签署和履行本协议及相关附件。借款人提交的一切文本、图文、个人信息、融资信息等资料均为真实、准确、完整、有效。
+2）出借人/贷款人承诺对本协议所涉的借款具有完全的支配能力，且为出借人/贷款人的合法收入。如果第三人对资金归属、合法性问题发生争议，由出借人/贷款人负责解决。如出借人/贷款人未能解决，则放弃享有其所出借款项所带来的利息收益。
+3）借款人承诺其向出借人/贷款人申请借款的行为系真实、合法的。借款人仅将按照本协议约定的用途使用借款、不得将借款用于任何其它目的。借款人擅自改变借款用途将承担违约责任。借款人不得将所借款项用于任何违法活动（包括但不限于赌博、吸毒、贩毒、卖淫嫖娼等）及生产经营和消费以外的范畴（包括但不限于股票、基金、期货等金融产品的投资、房地产及房地产信托投资、二次借贷、彩票等）。否则，一经发现，出借人/贷款人有权提前收回全部借款，并立即向公安等司法机关举报，追究借款人的刑事责任。
+4）借款人应配合并确保出借人/贷款人或技术服务方可以定期对借款人的履约情况及信用状况等内容进行检查与分析。发生影响或可能影响出借人/贷款人权益的重大信息时，借款人应按照本协议约定向出借人/ 贷款人或技术服务方如实报告。
+5）借款人和出借人/贷款人承诺任何发自于借款人和出借人/贷款人注册时提供的邮箱、手机的电子邮件与短信均为借款人和出借人/贷款人的真实意思表示。
+6）借款人和出借人/贷款人承诺不会利用借款进行信用卡套现、洗钱、恐怖融资、非法集资或其他不正当交易行为，否则应依法独立承担法律责任。
+7）借款人配偶已知悉借款人于本协议项下的借款。
+第十一条： 其他
+1）本协议采用电子文本形式制成，并保存在出借人/贷款人或技术服务方为此设立的专用服务器上备查，各方均认可该形式的协议效力。借款人与出借人/贷款人以书面形式（包括电子文本等）签订的补充协议与本协议具有同等的法律效力。出借人/贷款人或技术服务方按照本合同的约定，向借款人发送的关于放款日、还款日、还款额等信息的短信、邮件或微信等是本合同不可分割的一部分，与本合同具有同等的法律效力，受本合同条款的约束。
+2）出借人/贷款人通过该借款协议所获得的收益应自行申报并缴纳税款。
+3）借款人和出借人/贷款人均确认，本协议的签署、生效和履行以不违反中国的法律法规为前提。如果本协议中的任何一条或多条违反适用的法律法规，则该条将被视为无效，但该无效条款并不影响本协议其他条款的效力。
+4）本协议的签订、履行、终止、解释均适用中国法律。各方同意，因本协议所产生的或与本协议有关的一切争议，各方应协商解决；协商无法达成一致的，任何一方有权提请衢州仲裁委员会仲裁，并适用其网络仲裁规则（包括适用互联网金融仲裁特别规定条款），衢州仲裁委员会的裁决为终局裁决，对各方具有法律约束力。
+5）本协议作为各方独立合同关系成立之证明，除本协议明确约定外，任何一方单独与第三人就本协议事项订立的其它协议并不自动构成本协议的附件，本协议亦不直接构成该其它协议的附件。
+6）本协议自文本最终生成之日起成立，同时视为借款人就借款行为向出借人/贷款人发出要约且该要约已经到达出借人/贷款人，借款人承诺该要约不可撤回、撤销。本协议自出借人/贷款人将借款划付至借款人或借款人指定方在银行或第三方支付机构开设的账户时生效，同时，借款人与出借人/贷款人之间建立借款法律关系，出借人/贷款人与借款人均受各自签署的《借款协议》及其附件内容的约束。
+以下无正文，为签章确认处：
+<span class="realName"></span>
+借款人签章：<span class="realName"></span>
+日 期 ：<span class="time"></span>
+附件一：出借人清单
+《出借人及借款信息》
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+    <tr>
+        <td colspan="1" style="font-weight: bolder">序号</td>
+        <td colspan="1" style="font-weight: bolder">出借人姓名</td>
+        <td colspan="1" style="font-weight: bolder">出借人身份证号</td>
+        <td colspan="1" style="font-weight: bolder">出借金额</td>
+        <td colspan="1" style="font-weight: bolder">出借开始日</td>
+        <td colspan="1" style="font-weight: bolder">出借还款日</td>
+    </tr>
+</table>
+附件二：借款人告知书
+<p style="text-align: center">借款人告知书</p>
+尊敬的 <span class="realName"></span>（先生/女士）：
+为了您更加方便、快捷的进行还款，同时积累良好的信用记录，在此，请您特别注意如下事项：
+1：以下是您的借款详情
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+    <tr>
+        <td colspan="1" style="font-weight: bolder">借款人姓名</td>
+        <td colspan="2" style="font-weight: bolder" class="realName"></td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">身份证号</td>
+        <td colspan="2" style="font-weight: bolder" class="idcard">出借人姓名</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">借款期限</td>
+        <td colspan="2" style="font-weight: bolder"><span id="creditDay"></span>个月</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">借款本金</td>
+        <td colspan="2" style="font-weight: bolder">[<span class="allMoney" ></span>]</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">借款利率(年)</td>
+        <td colspan="2" style="font-weight: bolder">按照【等额本息】还款方式计算【7.50】</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">还款方式</td>
+        <td colspan="2" style="font-weight: bolder">等额本息</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">贷款专用账号</td>
+        <td colspan="2" style="font-weight: bolder">乙方指定银行账户:开户行名称:<span class="realName"></span>;账号:<span class="cardNum1"></span>(此银行账户同时是乙方指定的还款户)</td>
+    </tr>
+    <tr>
+        <td rowspan="2" colspan="1" style="font-weight: bolder">还款日( 乙方应当在还款日中午12:00前进行还款, 节假日不顺延)</td>
+        <td colspan="2" style="font-weight: bolder">每月<span class="getDay"></span>日，如某个月内无对应日，则该月最后一日临时调整为当月还款日（但其他月份中的对应日并不因此相应调整）；最后一个还款日为贷款期限届满日；</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="font-weight: bolder" class="lastTime"></td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">贷款用途</td>
+        <td colspan="2" style="font-weight: bolder"><span class="u_fee"></span></td>
+    </tr>
+</table>
+2:您基于本借款项目必须承担的成本包括 1.还款本息之和 2.顾问收取的服务费 3.技术服务方收取的服务费(以技术服务方/助贷机构与借款人另行签订的合同为准);
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+    <tr>
+        <td colspan="1" style="font-weight: bolder">项目</td>
+        <td colspan="1" style="font-weight: bolder">标准</td>
+        <td colspan="1" style="font-weight: bolder">收取方式</td>
+        <td colspan="1" style="font-weight: bolder">备注</td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">本金利息</td>
+        <td colspan="1" style="font-weight: bolder"><span class="totalRepay"></span></td>
+        <td colspan="1" style="font-weight: bolder">等额本息</td>
+        <td colspan="1" style="font-weight: bolder"></td>
+    </tr>
+    <tr>
+        <td colspan="1" style="font-weight: bolder">贷款平台顾问服务费</td>
+        <td colspan="1" style="font-weight: bolder"><span class="serviceFee"></span></td>
+        <td colspan="1" style="font-weight: bolder">等额本息</td>
+        <td colspan="1" style="font-weight: bolder"></td>
+    </tr>
+</table>
+3:如您系通过网络借贷中介机构申请借款的，您还需要知悉并遵守如下约定：
+
+如果您同时通过多个网络借贷信息中介机构，或者通过变换项目名称、对项目内容进行非实质性变更等方式，就同一借款项目进行重复融资，或者在网络借贷信息中介机构以外的公开场所发布本协议约定的同一借款项目信息的，构成违约，届时本协议项下的全部借款本息视同提前到期，我们有权将您的借款进行提前结清处理。
+
+您在申请本借款项目之前，如在其他网络借贷信息中介机构未偿还的借款时，应如实向我们提供相应的信息；您特此承诺在所有网络借贷信息中介机构平台借款总余额未超过法律、法规及网络借贷有关监管规定的借款余额上限。 为了您的良好信用记录，避免产生不必要的逾期管理服务费和逾期滞纳金，建议您在到期还款日期前保证代扣银行卡中余额大于每次应还款金额。
+
+我们将在每月到期还款日从您的指定银行账户内自动划扣。如您的银行代扣账户有变动，请致电客服热线或网上提交变更账户信息。
+
+除前述还款方式外，您亦可通过我们的服务平台通过扫码支付、银行转账等可行的方式进行主动还款。若您有建议或疑问，欢迎致电客服热线。
+您确认您已阅读、理解并同意本“借款人告知书”和“借款/贷款合同”的内容，我们将以邮件的方式将本告知书发送至您邮箱，如您于12小时内未提出任何异议，我们将视同您同意本“借款人告知书”和“借款/  贷款合同”。届时，您应按约定履行相关义务。
+</pre>
+    </div>
+        </div>
+</body>
+<script type="text/javascript" src="./js/jquery.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/common.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/money.js"></script>
+<script type="text/javascript" src="./js/moment/moment.js"></script>
+<script type="text/javascript" src="./js/moment/min/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+    function getfont() {
+    var html1 = document.documentElement;
+    var screen = html1.clientWidth;
+    if (screen >= 750) {
+        html1.style.fontSize = '40px';
+    } else if (screen <= 320) {
+        html1.style.fontSize = '20px';
+    } else {
+        html1.style.fontSize = 0.0533333 * screen + 'px';
+    }
+
+    }
+    getfont();
+    window.onresize = function() {
+        getfont();
+    }	
+    var creditDay = getQueryString("creditDay");
+    var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
+	$(".time").html( year+"年"+(month+1)+"月"+day+"日") ;
+    $("#getTime").html(year + "年" + (month + 1) + "月" + day + "日");
+    var getTime = year + "年" + (month + 1) + "月" + day + "日";
+    var endTime = moment().format('YYYY年MM月DD日');
+    $("#loanLimit").html(getTime + '至' + endTime);
+    $("#creditDay").html(parseInt(creditDay))
+    $("#endTime").html(endTime);
+    $("#getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    $(".getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    var ua = navigator.userAgent;
+    var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
+
+    if (comeFrom != 'H5') {
+        $("header").hide();
+        $(".dconContainer").css("margin-top","0");
+    }
+    
+    var loanProduct=getQueryString("loanProduct");
+    var tranPrice = getQueryString("tranPrice");
+    var userName = getQueryString("userName");
+    if(!loanProduct){
+        var userInto = getCookie("prodetailInfo");
+        loanProduct =userInto.split(":")[1];
+        tranPrice = userInto.split(":")[0];
+        userName=unescape(getCookie("userName"));
+    }
+    $("#userName").html(userName);
+
+    const LoanAmtCalculateForNewParams = {
+        url: '/HicashService/LoanAmtCalculateForNew',
+        type: 'post',
+        data:  {
+          firstRate : 0,
+          loanProduct : loanProduct,
+          tranPrice : tranPrice
+        }
+    }
+    jqAjax(LoanAmtCalculateForNewParams)
+    .then(function(data){
+        $("#allMoney").html(tranPrice);
+        $(".allMoney").html(tranPrice);
+        $("#bigMoney").html(creat(tranPrice));
+        
+        backMoney = data.perMonthPay;
+        expect = data.payMentPeriod;
+        var perMonthPayTotal = data.perMonthPayTotal;
+        var loanInterest = perMonthPayTotal - tranPrice;
+        var lastMon=month + 1+expect;
+        if(lastMon>12){
+            lastMon=lastMon-12;
+            year=year+1;
+        }
+        $(".totalRepay").html(calcRepayDetail(tranPrice,creditDay,0.075).totalRepay)
+        $(".serviceFee").html((calcRepayDetail(tranPrice,creditDay,0.155).totalRepay - calcRepayDetail(tranPrice,creditDay,0.075).totalRepay).toFixed(2))
+        $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $("#expect").html(expect + "期");
+        $("#backMoney").html(backMoney);
+        $("#bigBackMoney").html(creat(backMoney));
+        $("#serviceMoney").html(data.serviceCharge);
+        $("#monthFee").html(data.monthFee);
+        $(".creditRate").html(data.creditRate + "%");
+        $("#perMonthPayTotal").html(data.perMonthPayTotal);
+        $("#bigPerMonthPayTotal").html(creat(data.perMonthPayTotal));
+        $("#loanInterest").html(loanInterest);
+        $("#bigLoanInterest").html(creat(loanInterest));
+    });
+    
+    const UserNameCardParams = {
+        url: '/HicashAppService/UserNameCard',
+        type: 'post',
+        data: {
+          userName:userName,
+          uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
+        }
+    }
+    jqAjax(UserNameCardParams)
+    .then(function(data){
+        $(".idcard").html(data.idcard);
+        $(".realName").html(data.realName);
+        $(".mobile").html(data.mobile);
+        $(".bankName").html(data.bankName);
+        $(".email").html(data.email);
+        $(".cardNum").html(data.cardNum);
+        $(".cardNum1").html(data.cardNum.substring(0, 4) + '********' + data.cardNum.substring(data.cardNum.length - 4, data.cardNum.length));
+        $(".address").html(data.provinceName+data.cityName+data.areaName+data.addressRoad);
+        $(".u_fee").html(data.loanPurpose);
+    });	
+			
+    const queryTextConfigParams = {
+        url: '/hicash-api-service/queryTextConfig?source='+getQueryString("comeCode") + '&key=company_full_name,company_short_name,company_mid_name,company_long_name,company_address,service_tel,app_url',
+        type: 'get',
+        data: ''
+    }
+    jqAjax(queryTextConfigParams)
+    .then(function(res){
+        let data = res.dataMap;
+        console.info('queryTextConfig', data);
+        $(".cpp_fullname").html(data.company_full_name);
+        $(".cpp_shortname").html(data.company_short_name);
+        $(".cpp_midname").html(data.company_mid_name);
+        $(".cpp_longname").html(data.company_long_name);
+        $(".cpp_companyaddress").html(data.company_address);
+        $(".app_tel").html(data.service_tel);
+        $(".app_url").html(data.app_url);
+    });
+</script>
+</html>
