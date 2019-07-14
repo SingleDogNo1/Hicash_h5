@@ -76,8 +76,8 @@
             <span class="desc">{{item.agreeSignText}}</span>
             <span class="agreement-tmpl" v-html="item.agreementTmpl"></span>
           </div>
-          <p class="agree-text" v-if="item.desBehind">{{item.desBehind}}</p>
-          <p class="tips" v-if="tips">{{tips}}</p>
+          <p class="agree-text" v-if="item.desBehind" v-html="item.desBehind">}</p>
+          <p class="tips" v-if="tip">{{tip}}</p>
         </div>
       </div>
       <div class="actions">
@@ -197,7 +197,7 @@ export default {
       signTipPop: false,
       signPopLists: [],
       queryUserTipSign: '',
-      tips: ""  // 温馨提示
+      tip: ""  // 温馨提示
     };
   },
   methods: {
@@ -254,7 +254,7 @@ export default {
           this.loanAmount = data.applyAmt;
           this.term = data.period;
           let agreementsH5 = data.agreementList;
-          this.tips = data.tips;
+          this.tip = data.tip;
           agreementsH5.forEach( val => {
             val.isAgree = false;
             let agreementTmplArr = [];
