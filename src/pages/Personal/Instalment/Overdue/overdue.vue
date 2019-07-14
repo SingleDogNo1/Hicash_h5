@@ -364,9 +364,9 @@
 									&.highlight {
 										color:#FF7640;		
 									}
-									&:nth-child(2), &:nth-child(3) {
-										padding-left: rem(4px);
-									}
+									// &:nth-child(2), &:nth-child(3) {
+									// 	padding-left: rem(4px);
+									// }
 									&:last-child {
 										margin-bottom: 0;
 									}
