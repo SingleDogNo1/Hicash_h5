@@ -77,11 +77,14 @@
 													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
-														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
+														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(currentParentIndex, repayPlanIndex, repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
 													</span>
 												</div>
 												<p>{{repayPlanItem.title}}</p>
 											</div>
+											<p class="repay-plan-expense-description" :class="repayPlanItem.showRepayPlanExpenseTipPopover ? 'animate' : ''">
+												含<span v-for="(dataItem, index) in repayPlanItem.filterAmountList" :key="index">{{dataItem.amountName}}{{dataItem.amountFilter}}<span v-if="index !== repayPlanExpenseTipPopoverData.length - 1">+</span></span>
+											</p>
 										</li>
 									</ul>
 								</div>
@@ -134,11 +137,11 @@
 			tip=""
 			:class="{ 'empty-loading': showNoData }"
 		></load-more>
-		<div class="repay-plan-expense-description" :style="{ top: repayPlanHelpTop, width: tipsWidth }" v-if="showRepayPlanExpenseTipPopover">
+		<!-- <div class="repay-plan-expense-description" :style="{ top: repayPlanHelpTop, width: tipsWidth }" v-if="showRepayPlanExpenseTipPopover">
 			<i></i>
 			<p>含<span v-for="(dataItem, index) in  repayPlanExpenseTipPopoverData" :key="index">{{dataItem.amountName}}{{dataItem.amountFilter}}<span v-if="index !== repayPlanExpenseTipPopoverData.length - 1">+</span></span>
 			</p>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -359,8 +362,8 @@
 								li {
 									position: relative;
 									margin-top: rem(16px);
-									display: flex;
-									justify-content: space-between;
+									// display: flex;
+									// justify-content: space-between;
 									color:#CCCCCC;
 									&.highlight {
 										color:#FF7640;		
@@ -399,6 +402,19 @@
 											width: rem(70px);
 											text-align: right;
 										}
+									}
+									.repay-plan-expense-description {
+										width: 100%;
+										overflow: hidden;
+										max-height: 0;
+										transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+										color: #333;
+										margin-top: rem(10px)
+									}
+									.animate {
+										max-height: 9999px;
+										transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+										transition-delay: 0s;
 									}
 								}
 							}
@@ -550,37 +566,37 @@
 	.empty-loading {
 		margin-top: rem(-30px);
 	}
-	.repay-plan-expense-description {
-		position: absolute;
-		width: auto;
-		top: 0;
-		left:rem(16px);
-		background: #f9f9f9;
-		padding: rem(8px);
-		box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
-		border-radius: rem(5px);
-		z-index: 500;
-		i {
-			position: absolute;
-			width: 0;
-			height: 0;
-			display: block;
-			border-left: rem(10px) solid transparent;
-			border-right: rem(10px) solid transparent;
-			border-top: rem(10px) solid #f9f9f9;
-			bottom: rem(-10px);
-			right: rem(8px);
-		}
-		p {
-			width: 100%;
-			text-align: left;
-			font-size: rem(13px);
-			line-height: rem(16px);
-		}
-		span {
-			display: inline;
-		}
-	}
+	// .repay-plan-expense-description {
+	// 	position: absolute;
+	// 	width: auto;
+	// 	top: 0;
+	// 	left:rem(16px);
+	// 	background: #f9f9f9;
+	// 	padding: rem(8px);
+	// 	box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+	// 	border-radius: rem(5px);
+	// 	z-index: 500;
+	// 	i {
+	// 		position: absolute;
+	// 		width: 0;
+	// 		height: 0;
+	// 		display: block;
+	// 		border-left: rem(10px) solid transparent;
+	// 		border-right: rem(10px) solid transparent;
+	// 		border-top: rem(10px) solid #f9f9f9;
+	// 		bottom: rem(-10px);
+	// 		right: rem(8px);
+	// 	}
+	// 	p {
+	// 		width: 100%;
+	// 		text-align: left;
+	// 		font-size: rem(13px);
+	// 		line-height: rem(16px);
+	// 	}
+	// 	span {
+	// 		display: inline;
+	// 	}
+	// }
 }
 </style>
 
@@ -900,6 +916,7 @@ export default {
 							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
 							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
 							list.showExpenseTip = false;
+							list.showRepayPlanExpenseTipPopover = false;
 							list.currentChildIndex = key;
 							const amountListKeys = [];
 							for (const property in list.amountList){
@@ -980,15 +997,26 @@ export default {
 			item.showExpenseTip = true;
 			this.currentParentIndex = item.currentParentIndex;
 		},
-		showRepayExpenseTip(item) {
-			this.currentChildIndex = item.currentChildIndex;
-			this.repayPlanExpenseTipPopoverData = item.filterAmountList;
-			this.showRepayPlanExpenseTipPopover = true;
-			const repayPlanHelpRef = `repayPlanHelp${this.currentParentIndex}_${this.currentChildIndex}`;
-			//this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
-			this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 162 + 2 * this.currentChildIndex + 1 +'px';
+		showRepayExpenseTip(currentParentIndex, currentChildIndex, item) {
 
-			this.tipsWidth = this.$refs.eachRepayPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
+			this.overdueList[currentParentIndex].repayPlan.forEach( (val,index) => {
+				if(index !== item.currentChildIndex) {
+					val.showRepayPlanExpenseTipPopover = false;
+				}
+			});
+			console.log(this.overdueList[currentParentIndex])
+
+			this.overdueList[currentParentIndex].repayPlan[currentChildIndex].showRepayPlanExpenseTipPopover = !this.overdueList[currentParentIndex].repayPlan[currentChildIndex].showRepayPlanExpenseTipPopover;
+
+
+			// this.currentChildIndex = item.currentChildIndex;
+			// this.repayPlanExpenseTipPopoverData = item.filterAmountList;
+			// this.showRepayPlanExpenseTipPopover = true;
+			// const repayPlanHelpRef = `repayPlanHelp${this.currentParentIndex}_${this.currentChildIndex}`;
+			// //this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
+			// this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 162 + 2 * this.currentChildIndex + 1 +'px';
+
+			// this.tipsWidth = this.$refs.eachRepayPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
 		},
 		changeHelpClass(index) {	// 当期订单问号加上下标
 			return `icon-help${index}`;
