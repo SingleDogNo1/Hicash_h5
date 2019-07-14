@@ -723,7 +723,7 @@
 							display: flex;
 							justify-content: space-between;
 							.value {
-								width: rem(80px);
+								width: rem(90px);
 								display: flex;
 								align-items: center;
 								justify-content: space-between;
