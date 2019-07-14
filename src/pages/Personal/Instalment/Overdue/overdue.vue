@@ -887,7 +887,7 @@ export default {
 						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
 						let repayPlan = _.map(data.repayPlan, (list,key) => {
 							//list.period = key === 0 ? "首" : key + 1;
-							list.period = key;
+							list.period = key + 1;
 							const eachPeriodAmountSumArr = [];
 							for (const i in list.amountList) {
 								if(list.amountList[i] !== "0.00" && i != "totalFee") {
