@@ -381,7 +381,7 @@
 											display: flex;
 											justify-content: space-between;
 											.value {
-												width: rem(90px);
+												width: rem(80px);
 												display: flex;
 												align-items: center;
 												justify-content: space-between;
@@ -396,7 +396,7 @@
 											}
 										}
 										p {
-											width: rem(60px);
+											width: rem(70px);
 											text-align: right;
 										}
 									}
