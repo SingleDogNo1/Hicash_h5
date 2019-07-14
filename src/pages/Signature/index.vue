@@ -255,6 +255,8 @@ export default {
           this.term = data.period;
           let agreementsH5 = data.agreementList;
           this.tip = data.tip;
+          let reg = new RegExp("\n","g"); 
+          this.tip  =data.tip.replace(reg,"<br>");
           agreementsH5.forEach( val => {
             val.isAgree = false;
             let agreementTmplArr = [];
@@ -536,6 +538,7 @@ $dialog-btn-color: #ff7640;
       border-radius: 10px;
       margin: 0 auto;
       margin-top: rem(-34px);
+      margin-bottom: rem(19px);
       padding: rem(16px) 24px;
       font-size: rem(15px);
       color: #999999;
