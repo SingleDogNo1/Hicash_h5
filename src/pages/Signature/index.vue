@@ -12,13 +12,13 @@
           <span class="value">{{loanAmount}}</span>
         </p>
         <p class="item">
-          <span class="title">借款期数</span>
+          <span class="title">借款期限</span>
           <span class="value">{{term}}期</span>
         </p>
         <div class="coupon">无可用优惠券</div>
       </div>
-      
-      <p class="confirm-tips">请确认您的借款金额后签约提现</p>
+<!--       
+      <p class="confirm-tips">请确认您的借款金额后签约提现</p> -->
 
       <div class="item-wrap">
         <p class="item" v-for="(item, index) in feeList" :key="index">
@@ -43,7 +43,7 @@
       </div>
 
       <div class="item-wrap">
-        <swiper height="250px" :show-dots="false" v-model="swiper_index" :min-moving-distance="20000">
+        <swiper height="280px" :show-dots="false" v-model="swiper_index" :min-moving-distance="20000">
           <swiper-item v-for="(item, index) in repayPlanList" :key="index">
             <div class="swiper-header" v-if="index==0">
               <div class="title">{{item.title}}</div>
@@ -77,6 +77,7 @@
             <span class="agreement-tmpl" v-html="item.agreementTmpl"></span>
           </div>
           <p class="agree-text" v-if="item.desBehind">{{item.desBehind}}</p>
+          <p class="tips" v-if="tips">{{tips}}</p>
         </div>
       </div>
       <div class="actions">
@@ -195,7 +196,8 @@ export default {
       repayPlanList:[],
       signTipPop: false,
       signPopLists: [],
-      queryUserTipSign: ''
+      queryUserTipSign: '',
+      tips: ""  // 温馨提示
     };
   },
   methods: {
@@ -252,13 +254,16 @@ export default {
           this.loanAmount = data.applyAmt;
           this.term = data.period;
           let agreementsH5 = data.agreementList;
-
+          this.tips = data.tips;
           agreementsH5.forEach( val => {
             val.isAgree = false;
             let agreementTmplArr = [];
             val.agreeLinkList.forEach( item => {
               agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.link + '" target="_blank">' + item.name + '</a>';
             })
+            val.desBehind 
+            let reg = new RegExp("\n","g"); 
+            val.desBehind  = val.desBehind.replace(reg,"<br>");
             val.agreementTmpl =agreementTmplArr.join(" ") 
           });
           this.agreementsH5 = agreementsH5;
@@ -291,7 +296,7 @@ export default {
               amount: data.applyAmt,
             },
             {
-              name: '借款期数',
+              name: '借款期限',
               amount: data.period + '期',
             }
           ];
@@ -720,10 +725,12 @@ $dialog-btn-color: #ff7640;
           }
         }
         .agree-text {
+          width: 90%;
+          margin: 0 auto;
           margin-top: rem(18px);
           color: $gray-font-color;
-          font-size: rem(14px);
-          padding: 0 rem(41px);
+          font-size: rem(13px);
+          //padding: 0 rem(41px);
           line-height: rem(20px);
         }
       }
