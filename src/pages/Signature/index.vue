@@ -316,6 +316,7 @@ export default {
             }, 500);
 
             document.addEventListener("click", this.popHelpShow,true)
+            document.addEventListener("touchmove", this.popHelpShow,true)
           }
           
           this.utils.setCookie("prodetailInfo", data.applyAmt+":"+data.loanProductId);
