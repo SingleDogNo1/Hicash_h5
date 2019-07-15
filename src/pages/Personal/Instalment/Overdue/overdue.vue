@@ -382,9 +382,9 @@
 									position: relative;
 									margin-top: rem(16px);
 									color:#CCCCCC;
-									&:nth-child(1) {
-										padding-left: rem(3px);
-									}
+									// &:nth-child(1) {
+									// 	padding-left: rem(3px);
+									// }
 									&.highlight {
 										color:#FF7640;		
 									}
