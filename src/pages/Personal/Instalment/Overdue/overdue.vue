@@ -714,50 +714,6 @@ export default {
 			postData.append("pageNo", this.pageNo);
 			this.common.accountOrderList(postData).then(res => {
 				let data = res.data;
-				// data.list = [{
-				// 	"amount": "239.00",
-				// 	"appNo": "31907080100003",
-				// 	"appStatus": null,
-				// 	"createDate": "2019-07-08",
-				// 	"industryCode": "VIPD",
-				// 	"industryName": "VIP分期",
-				// 	"loanProduct": null,
-				// 	"nodeList": null,
-				// 	"period": "3",
-				// 	"rejectMsg": null,
-				// 	"rejectUrl": null,
-				// 	"repayDate": "2019.06.01",
-				// 	"repayStatus": null
-				// },{
-				// 	"amount": "239.00",
-				// 	"appNo": "31907080100003",
-				// 	"appStatus": null,
-				// 	"createDate": "2019-07-08",
-				// 	"industryCode": "VIPD",
-				// 	"industryName": "VIP分期",
-				// 	"loanProduct": null,
-				// 	"nodeList": null,
-				// 	"period": "3",
-				// 	"rejectMsg": null,
-				// 	"rejectUrl": null,
-				// 	"repayDate": "2019.06.01",
-				// 	"repayStatus": null
-				// },
-				// {
-				// 	"amount": "239.00",
-				// 	"appNo": "31907080100003",
-				// 	"appStatus": null,
-				// 	"createDate": "2019-07-08",
-				// 	"industryCode": "VIPD",
-				// 	"industryName": "VIP分期",
-				// 	"loanProduct": null,
-				// 	"nodeList": null,
-				// 	"period": "3",
-				// 	"rejectMsg": null,
-				// 	"rejectUrl": null,
-				// 	"repayDate": "2019.06.01",
-				// 	"repayStatus": null
-				// }]
 				if (data.resultCode === "1") {
 					data.list.forEach((val, index) => {
 						val.key = index + 1;
@@ -862,7 +818,7 @@ export default {
 						const orderTypeKeys = [];
 						//当期订单还款金额列表(key未进行映射)
 						for (const property in currentPeriodOrder.amountList){
-							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee" && property != "penalty" ) {
 								let item = {
 									type: property,
 									amount: parseFloat(currentPeriodOrder.amountList[property]),
