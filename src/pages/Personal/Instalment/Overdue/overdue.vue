@@ -64,7 +64,6 @@
 											<span class="value">{{totalAmount}}<i :class="changeHelpClass(currentParentIndex)" @click="showExpenseTip(item)"></i></span>
 										</li>
 										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
-											<i></i>
 											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 										</li>
 									</ul>
@@ -331,7 +330,13 @@
 											transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
 											color: #999999;
 											font-size: rem(13px);
-											margin-top: rem(8px)
+											margin-top: rem(8px);
+											p {
+												width: 100%;
+												span {
+													display: inline;
+												}
+											}
 										}
 										&.animate {
 											max-height: 9999px;
@@ -376,15 +381,13 @@
 								li {
 									position: relative;
 									margin-top: rem(16px);
-									// display: flex;
-									// justify-content: space-between;
 									color:#CCCCCC;
+									&:nth-child(1) {
+										padding-left: rem(3px);
+									}
 									&.highlight {
 										color:#FF7640;		
 									}
-									// &:nth-child(2), &:nth-child(3) {
-									// 	padding-left: rem(4px);
-									// }
 									&:last-child {
 										margin-bottom: 0;
 									}
@@ -899,7 +902,8 @@ export default {
 							list.currentChildIndex = key;
 							const amountListKeys = [];
 							for (const property in list.amountList){
-								if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+								if(list[property] !== "0.00" && property != "totalFee") {
+									console.log(111)
 									let item = {
 										type: property,
 										amount: parseFloat(list.amountList[property]),
