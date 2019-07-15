@@ -343,7 +343,7 @@ export default {
 			}
 		}
 		.vux-swiper {
-			height: calc(100vh - 6.8rem) !important;
+			height: calc(100vh - 7rem) !important;
 			//overflow-y: auto;
 		}
 		.app-swiper .vux-swiper {

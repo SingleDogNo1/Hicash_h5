@@ -824,49 +824,6 @@ export default {
 				postData.append("appNo", item.value);
 				this.common.orderDetailInfo(postData).then(res => {
 					let data = res.data;
-					// data = {
-					// 	"resultCode": "1",
-					// 	"applyAmount": "3000.00",
-					// 	"period": "3",
-					// 	"currentPeriod": "1",
-					// 	"resultMsg": null,
-					// 	"repayPlan": [
-					// 			{
-					// 					"status": "WTRP",
-					// 					"date": "2019.08.09",
-					// 					"amountList": {
-					// 							"principal": "162.00",
-					// 							"internetFee": "34.00",
-					// 							"bankFee": "28.00",
-					// 							"interest": "15.00",
-					// 							"allFee": "239.00"
-					// 					}
-					// 			},
-					// 			{
-					// 					"status": "WTRP",
-					// 					"date": "2019.09.09",
-					// 					"amountList": {
-					// 							"principal": "167.00",
-					// 							"internetFee": "34.00",
-					// 							"bankFee": "28.00",
-					// 							"interest": "10.00",
-					// 							"allFee": "239.00"
-					// 					}
-					// 			},
-					// 			{
-					// 					"status": "WTRP",
-					// 					"date": "2019.10.09",
-					// 					"amountList": {
-					// 							"principal": "11.00",
-					// 							"internetFee": "4.00",
-					// 							"bankFee": "8.00",
-					// 							"interest": "6.00",
-					// 							"allFee": "29.00"
-					// 					}
-					// 			}
-					// 	],
-					// 	"userName": "153222222"
-					// }
 					if (data.resultCode == "1") {
 						this.otherOrderHeight = this.$refs.otherOrder[
 							index
@@ -940,6 +897,12 @@ export default {
 						this.$vux.toast.text(data.resultMsg, "middle");
 					}
 				});
+			} else {
+				this.overdueList.forEach( (val,index) => {
+					val.repayPlan.forEach( (value,index) => {
+						value.showRepayPlanExpenseTipPopover = false;
+					});
+				});
 			}
 		},
 		// ! 根据订单类型映射 title 和 amountName
@@ -1004,8 +967,6 @@ export default {
 					val.showRepayPlanExpenseTipPopover = false;
 				}
 			});
-			console.log(this.overdueList[currentParentIndex])
-
 			this.overdueList[currentParentIndex].repayPlan[currentChildIndex].showRepayPlanExpenseTipPopover = !this.overdueList[currentParentIndex].repayPlan[currentChildIndex].showRepayPlanExpenseTipPopover;
 
 
