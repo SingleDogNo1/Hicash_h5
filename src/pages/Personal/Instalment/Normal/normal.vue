@@ -257,7 +257,6 @@
 											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
 										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
-											<i></i>
 											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 										</li>
 									</ul>
@@ -387,7 +386,6 @@
 											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
 										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
-											<i></i>
 											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 										</li>
 									</ul>
