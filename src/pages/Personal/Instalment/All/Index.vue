@@ -77,7 +77,7 @@
 					'app-swiper': this.utils.getPlatform() == 'APP'
 				}"
 			>
-				<swiper-item :key="0">
+				<swiper-item :key="0" ref="swiperItemRef" v-if="index === 0">
 					<instalment-overdue
 						ref="overdue"
 						@selectedItems="getSelectedItems"
@@ -87,7 +87,7 @@
 						:isShowBanner="isShowBanner"
 					></instalment-overdue>
 				</swiper-item>
-				<swiper-item :key="1" ref="swiperItemRef">
+				<swiper-item :key="1" ref="swiperItemRef" v-else>
 					<instalment-normal
 						ref="normal"
 						@watchChild="accountOrderPage"
@@ -230,6 +230,10 @@ export default {
 		},
 		batchRepayment: function() {
 			this.currentType = "batchRepayment";
+			console.log("this.$refs.scrollerBottom===", this.$refs.overdue.$refs.scrollerBottom)
+			this.$nextTick(() => {
+				this.$refs.overdue.$refs.scrollerBottom.reset({ top: 0 });
+			});
 		},
 		cancel: function() {
 			this.currentType = "default";
@@ -248,6 +252,7 @@ export default {
 			if (index === 0) {
 				this.$refs.overdue.parentHandleclick();
 			} else {
+				//this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight;
 				this.$refs.normal.parentHandleclick(this.accountOrderPageData);
 			}
 			this.accountOrderPage();
@@ -277,20 +282,7 @@ export default {
 				0
 			);
 			//保留2位小数，如：2，会在2后面补上00.即2.00
-			function toDecimal2(x) {
-				var f = Math.round(x * 100) / 100;
-				var s = f.toString();
-				var rs = s.indexOf(".");
-				if (rs < 0) {
-					rs = s.length;
-					s += ".";
-				}
-				while (s.length <= rs + 2) {
-					s += "0";
-				}
-				return s;
-			}
-			sum = toDecimal2(sum);
+			sum = this.utils.toDecimal2(sum);
 			this.totalAmount =
 				"的订单共计<span>" + sum + "元</span>进行还款吗？";
 		}
@@ -304,7 +296,7 @@ export default {
 .AllIndex {
 	background: #f2f2f2;
 	.content {
-		height: calc(100vh - 2.26667rem);
+		height: calc(100vh - 1.26667rem);
 		padding-top: rem(51px);
 		//overflow-y: auto;
 		.tab-wrap {
@@ -351,8 +343,8 @@ export default {
 			}
 		}
 		.vux-swiper {
-			height: calc(100vh - 4.26667rem) !important;
-			//overflow-y: auto;
+			height: calc(100vh - 7rem) !important;
+			//height: calc(100vh - 4.26667rem) !important;
 		}
 		.app-swiper .vux-swiper {
 			height: calc(100vh - 2rem) !important;

@@ -218,11 +218,8 @@
 								class="btn-expand-all"
 								:class="item.showOtherOrder ? 'up' : 'down'"
 								@click="openAll(item, index)"
-								v-if="
-									!item.showOtherOrder &&
-										item.appStatus === 'REPAYNODE'
-								"
-								><span>展开所有</span><i></i
+								v-if="item.appStatus === 'REPAYNODE'"
+								><span>{{item.btnExpandText}}</span><i></i
 							></a>
 							<a
 								:href="item.rechargeUrl"
@@ -243,53 +240,45 @@
 							class="other-order"
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
-						>
-							<div
-								class="each-other-order-wrap clearfix"
-								v-for="(plan, planIndex) in item.appDetail"
-								:key="planIndex"
-							>
-								<div class="content-wrap clearfix">
-									<div class="left-wrap">
-										<label class="title">{{
-											plan.title
-										}}</label>
-										<p class="amount">
-											{{ plan.amountName }}：<span
-												>¥{{ plan.amount }}元</span
-											>
-										</p>
-									</div>
-									<p class="right-wrap">
-										期数：{{ plan.period }}期
-									</p>
+						>	
+							<div class="each-order-wrap">
+								<div class="detail-list-wrap">
+									<ul class="detail-list">
+										<li>
+											<span>借款金额(元)</span>
+											<span>{{applyAmount}}</span>
+										</li>
+										<li>
+											<span>借款期限</span>
+											<span>{{period}}期</span>
+										</li>
+										<li>
+											<span>每期还款</span>
+											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
+										</li>
+										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
+											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										</li>
+									</ul>
+									<!-- <div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
+										<i></i>
+										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+									</div> -->
 								</div>
-								<div class="actions">
-									<router-link
-										class="btn-repayment-plan"
-										:to="{
-											path:
-												'/personal/myInstalment/repaymentPlan',
-											query: {
-												appNo: item.appNo,
-												type: plan.type,
-												from: checkerType
-											}
-										}"
-										><span>还款计划</span
-										><i class="iconfont"
-											>&#58999;</i
-										></router-link
-									>
-								</div>
+								<ul class="repay-plan-list">
+									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
+										<div class="each-repay-plan">
+											<div class="each-repay-plan-left" ref="eachRepayPlan">
+												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+												<span class="value">
+													<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+												</span>
+											</div>
+											<p>{{repayPlanItem.title}}</p>
+										</div>
+									</li>
+								</ul>
 							</div>
-							<a
-								href="javascript:void(0);"
-								class="btn-takeup-all"
-								:class="item.showOtherOrder ? 'up' : 'down'"
-								@click="closeAll(item, index)"
-								><span>收起所有</span><i></i
-							></a>
 						</div>
 					</div>
 				</flexbox-item>
@@ -336,7 +325,7 @@
 						</div>
 
 						<div class="actions">
-							<a
+							<!-- <a
 								href="javascript:void(0);"
 								class="btn-expand-all"
 								:class="item.showOtherOrder ? 'up' : 'down'"
@@ -346,6 +335,15 @@
 										item.appStatus === 'ENDNODE'
 								"
 								><span>展开所有</span><i></i
+							></a> -->
+								<a
+								href="javascript:void(0);"
+								class="btn-expand-all"
+								:class="item.showOtherOrder ? 'up' : 'down'"
+								@click="openAll(item, index)"
+								v-if="item.appStatus === 'ENDNODE'
+								"
+								><span>{{item.btnExpandText}}</span><i></i
 							></a>
 							<a
 								href="javascript:void(0);"
@@ -368,57 +366,44 @@
 						</div>
 
 						<div
-							class="other-order"
+							class="other-order done"
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
 						>
-							<div
-								class="each-other-order-wrap clearfix"
-								v-for="(plan, planIndex) in item.appDetail"
-								:key="planIndex"
-							>
-								<div class="content-wrap clearfix">
-									<div class="left-wrap">
-										<label class="title">{{
-											plan.title
-										}}</label>
-										<p class="amount">
-											{{ plan.amountName }}：<span
-												>¥{{ plan.amount }}元</span
-											>
-										</p>
-									</div>
-									<p class="right-wrap">
-										期数：{{ plan.period }}期
-									</p>
+							<div class="each-order-wrap">
+								<div class="detail-list-wrap">
+									<ul class="detail-list">
+										<li>
+											<span>借款金额(元)</span>
+											<span>{{applyAmount}}</span>
+										</li>
+										<li>
+											<span>借款期限</span>
+											<span>{{period}}期</span>
+										</li>
+										<li>
+											<span>每期还款</span>
+											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
+										</li>
+										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
+											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										</li>
+									</ul>
 								</div>
-								<div class="actions">
-									<router-link
-										class="btn-repayment-plan"
-										:to="{
-											path:
-												'/personal/myInstalment/repaymentPlan',
-											query: {
-												appNo: item.appNo,
-												type: plan.type,
-												from: checkerType
-											}
-										}"
-										><span>还款计划</span
-										><i class="iconfont"
-											>&#58999;</i
-										></router-link
-									>
-								</div>
+								<ul class="repay-plan-list">
+									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index">
+										<div class="each-repay-plan">
+											<div class="each-repay-plan-left" ref="eachRepayPlan">
+												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+												<span class="value">
+													<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+												</span>
+											</div>
+											<p>{{repayPlanItem.title}}</p>
+										</div>
+									</li>
+								</ul>
 							</div>
-
-							<a
-								href="javascript:void(0);"
-								class="btn-takeup-all"
-								:class="item.showOtherOrder ? 'up' : 'down'"
-								@click="closeAll(item, index)"
-								><span>收起所有</span><i></i
-							></a>
 						</div>
 					</div>
 				</flexbox-item>
@@ -481,8 +466,7 @@
 	.order-list {
 		.flex-order-item {
 			background: #fff;
-			padding: rem(16px);
-
+			padding: rem(16px) rem(16px) 0 rem(16px);
 			span {
 				display: inline-block;
 				letter-spacing: 0;
@@ -568,6 +552,7 @@
 		width: 100%;
 		height: rem(30px);
 		margin-top: rem(16px);
+		padding-bottom: rem(24px);
 		.btn {
 			position: relative;
 			display: block;
@@ -605,13 +590,25 @@
 				border-width: 1px 1px 0 0;
 				border-color: #ff7640;
 				border-style: solid;
-				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-					rotate(90deg);
-				transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
 				position: relative;
 				top: 50%;
-				margin-top: 1px;
 				margin-left: 6px;
+			}
+			&.up {
+				i {
+					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
+						rotate(270deg);
+					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
+					margin-top: 6px;
+				}
+			}
+			&.down {
+				i {
+					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
+						rotate(90deg);
+					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
+					margin-top: 1px;
+				}
 			}
 		}
 		.btn-recharge,
@@ -641,60 +638,142 @@
 		overflow: hidden;
 		max-height: 0;
 		transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
-		.each-other-order-wrap {
-			margin-top: rem(16px);
-			width: 100%;
-			height: 100%;
-			padding-top: rem(16px);
-			border-top: 1px solid #eee;
-			.content-wrap {
-				height: 100%;
-				.left-wrap {
-					float: left;
-					width: 70%;
-					.title {
-						display: block;
-						font-size: 11px;
-						color: #999999;
-						margin-bottom: 2px;
-					}
-					.amount {
-						font-size: 15px;
-						color: #333333;
-						span {
-							color: #ff7640;
+		//margin-top: rem(24px);
+		border-radius: rem(5px);
+		.each-order-wrap {
+			.detail-list-wrap {
+				position: relative;
+				.detail-list {
+					background: #F4F4F4;
+					padding: rem(16px);
+					li {
+						display: flex;
+						justify-content: space-between;
+						margin-bottom: rem(16px);
+						font-size: rem(15px);
+						&:nth-child(3), &:nth-child(4) {
+							margin-bottom: 0;
+						}
+						.value {
+							display: flex;
+							align-items: center;
+							i {
+								display: inline-block;
+								width: rem(18px);
+								height: rem(18px);
+								background: url("../images/icon_help.png") center center no-repeat;
+								background-size: cover;
+								margin-left: rem(7px);
+							}
+						}
+						&.expense-description {
+							width: 100%;
+							overflow: hidden;
+							max-height: 0;
+							transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+							color: #999999;
+							font-size: rem(13px);
+							margin-top: rem(8px);
+							span {
+								display: inline;
+							}
+						}
+						&.animate {
+							max-height: 9999px;
+							transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+							transition-delay: 0s;
 						}
 					}
 				}
-				.right-wrap {
-					float: right;
-					width: 30%;
-					margin-top: rem(10px);
-					font-size: 15px;
-					color: #333333;
-					text-align: right;
-				}
+				// .expense-description {
+				// 	position: absolute;
+				// 	top: rem(120px);
+				// 	right: 0;
+				// 	background: #fff;
+				// 	padding: rem(8px);
+				// 	box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+				// 	border-radius: rem(5px);
+				// 	max-width: rem(305px);
+				// 	z-index: 500;
+				// 	i {
+				// 		position: absolute;
+				// 		width: 0;
+				// 		height: 0;
+				// 		display: block;
+				// 		border-left: rem(10px) solid transparent;
+				// 		border-right: rem(10px) solid transparent;
+				// 		border-bottom: rem(10px) solid #fff;
+				// 		top: rem(-10px);
+				// 		right: rem(14px);
+				// 	}
+				// 	p {
+				// 		font-size: rem(13px);
+				// 		line-height: rem(16px);
+				// 	}
+				// 	span {
+				// 		display: inline;
+				// 	}
+				// }
 			}
-			.actions {
-				width: 30%;
-				margin: 0 auto;
-				margin-top: 0.35556rem;
-				.btn-repayment-plan {
-					position: relative;
-					display: block;
-					float: left;
-					border: 1px solid #ff7640;
-					border-radius: 13px;
-					font-size: 12px;
-					color: #ff7640;
-					padding: rem(4px) rem(10px);
-					span {
-						display: block;
-						float: left;
-						margin-right: rem(3px);
+			.repay-plan-list {
+				font-size: rem(15px);
+				margin-bottom: rem(24px);
+				li {
+					margin-top: rem(16px);
+					// display: flex;
+					// justify-content: space-between;
+					color:#CCCCCC;
+					&.highlight {
+						color:#FF7640;		
 					}
-					i {
-						font-size: 12px;
+					// &:nth-child(2), &:nth-child(3) {
+					// 	padding-left: rem(4px);
+					// }
+					&:nth-child(3), &:nth-child(4) {
+						margin-bottom: 0;
+					}
+					&.expense-description {
+						width: 100%;
+						overflow: hidden;
+						max-height: 0;
+						transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+						color: #999999;
+						font-size: rem(13px);
+						margin-top: rem(8px)
+					}
+					&.animate {
+						max-height: 9999px;
+						transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+						transition-delay: 0s;
+					}
+					.each-repay-plan {
+						width: 100%;
+						display: flex;
+						justify-content: space-between;
+						.each-repay-plan-left {
+							position: relative;
+							width: 78%;
+							display: flex;
+							justify-content: space-between;
+							.value {
+								width: rem(80px);
+								display: flex;
+								align-items: center;
+								justify-content: space-between;
+								i {
+									display: inline-block;
+									width: rem(18px);
+									height: rem(18px);
+									background: url("../images/icon_help_overdue.png") center center no-repeat;
+									background-size: cover;
+									margin-left: rem(7px);
+								}
+							}
+						}
+						p {
+							width: rem(70px);
+							text-align: right;
+						}
 					}
 				}
 			}
@@ -731,6 +810,11 @@
 				margin-top: 6px;
 				margin-left: 6px;
 			}
+		}
+	}
+	.done .each-order-wrap .repay-plan-list {
+		li {
+			color:#333333;
 		}
 	}
 
@@ -985,6 +1069,7 @@ import {
 	TransferDomDirective as TransferDom
 } from "vux";
 import { Step, Steps, Icon } from "vant";
+const moment = require("moment");
 export default {
 	props: {
 		isShowBanner: {
@@ -1041,7 +1126,13 @@ export default {
 			isDownloadApp: false,
 			isShowDownloadApp: false,
 			cancelOrderItem: {},
-			isShowCancelPop: false
+			isShowCancelPop: false,
+			btnExpandText: "展开计划",
+			applyAmount: "",
+			period: "",
+			totalAmount: "",
+			newCurrentPeriodOrder: [],
+			currentIndex: 0
 		};
 	},
 	mounted() {
@@ -1129,50 +1220,139 @@ export default {
 		// ! 展开还款计划
 		openAll(item, index) {
 			this.banRechecked = false;
+			this.items.forEach( (val,index) => {
+				if(index !== item.currentIndex) {
+					val.showOtherOrder = false;
+					val.btnExpandText = "展开计划";
+				}
+			});
+			this.items[index].btnExpandText = this.items[index].showOtherOrder ? "展开计划" : "收起计划";
 			this.items[index].showOtherOrder = !this.items[index]
 				.showOtherOrder;
-			setTimeout(() => {
-				this.otherOrderHeight = this.$refs.otherOrder[
-					index
-				].offsetHeight;
-				this.$nextTick(() => {
-					this.$refs.scrollerBottom.reset();
-				});
-			}, 1000);
 
-			let _top = 0;
-			if (index > 0) {
-				_.each(this.$refs.flexboxItem, (item, i) => {
-					if (i >= index) return false;
-					_top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
-				});
-			}
-			this.$nextTick(() => {
-				this.$refs.scrollerBottom.reset({ top: _top });
-			});
-
-			let vm = this;
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
-			postData.append("appNo", item.appNo);
-			this.common.orderDetailInfo(postData).then(res => {
-				let data = res.data;
-				if (data.resultCode == "1") {
+			if(this.items[index].showOtherOrder) {
+				setTimeout(() => {
 					this.otherOrderHeight = this.$refs.otherOrder[
 						index
 					].offsetHeight;
 					this.$nextTick(() => {
 						this.$refs.scrollerBottom.reset();
 					});
-					let newAppDetail = _.map(data.appDetail, list => {
-						return this.planMapping(list);
-					});
-					this.$set(this.items[index], "appDetail", newAppDetail);
-				} else {
-					this.$vux.toast.text(data.resultMsg, "middle");
-				}
-			});
+				}, 1000);
+				// let _top = 0;
+				// if (index > 0) {
+				// 	_.each(this.$refs.flexboxItem, (item, i) => {
+				// 		if (i >= index) return false;
+				// 		_top = _top + this.$refs.flexboxItem[i].offsetHeight + 8;
+				// 	});
+				// }
+				// this.$nextTick(() => {
+				// 	this.$refs.scrollerBottom.reset({ top: _top });
+				// });
+				let vm = this;
+				let userName = this.utils.getCookie("userName");
+				let postData = new URLSearchParams();
+				postData.append("userName", userName);
+				postData.append("appNo", item.appNo);
+				this.common.orderDetailInfo(postData).then(res => {
+					// res.data = {
+					// 		"resultCode": "1",
+					// 		"resultMsg": null,
+					// 		"applyAmount": "3000",
+					// 		"period": "3",
+					// 		"currentPeriod": "1",
+					// 		"repayPlan": [
+					// 				{
+					// 						"status": "WTRP",
+					// 						"date": "2019.08.09",
+					// 						"amountList": {
+					// 								"principal": "162.01",
+					// 								"internetFee": "34.02",
+					// 								"bankFee": "28.03",
+					// 								"interest": "15.04",
+					// 								"allFee": "239.05"
+					// 						}
+					// 				},
+					// 				{
+					// 						"status": "WTRP",
+					// 						"date": "2019.09.09",
+					// 						"amountList": {
+					// 								"principal": "167.00",
+					// 								"internetFee": "34.00",
+					// 								"bankFee": "28.00",
+					// 								"interest": "10.00",
+					// 								"allFee": "239.00"
+					// 						}
+					// 				},
+					// 				{
+					// 						"status": "WTRP",
+					// 						"date": "2019.10.09",
+					// 						"amountList": {
+					// 								"principal": "171.00",
+					// 								"internetFee": "34.00",
+					// 								"bankFee": "28.00",
+					// 								"interest": "6.00",
+					// 								"allFee": "239.00"
+					// 						}
+					// 				}
+					// 		],
+					// 		"userName": "153222222"
+					// }
+					let data = res.data;
+					if (data.resultCode == "1") {
+						this.otherOrderHeight = this.$refs.otherOrder[
+							index
+						].offsetHeight;
+						this.$nextTick(() => {
+							this.$refs.scrollerBottom.reset();
+						});
+						const currentPeriod = data.currentPeriod ? parseInt(data.currentPeriod) - 1 : 0;
+						this.applyAmount = data.applyAmount;
+						this.period = data.period;
+						const currentPeriodOrder = data.repayPlan[currentPeriod];
+						console.log("currentPeriodOrder===", currentPeriodOrder)
+						const orderTypeKeys = [];
+						for (const property in currentPeriodOrder.amountList){
+							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+								let item = {
+									type: property,
+									amount: parseFloat(currentPeriodOrder.amountList[property]),
+									amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+								}
+								orderTypeKeys.push(item);
+							}
+						}
+						let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
+							return this.planMapping(list);
+						});
+						const totalAmountValue = _.pluck(newCurrentPeriodOrder, "amount");
+						const totalAmount = _.reduce(totalAmountValue, function(memo, num){ return memo + num; }, 0);
+						//保留2位小数，如：2，会在2后面补上00.即2.00
+						this.totalAmount = this.utils.toDecimal2(totalAmount);
+						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
+						let repayPlan = _.map(data.repayPlan, (list,key) => {
+							//list.period = key === 0 ? "首" : key + 1;
+							list.period = key + 1;
+							const eachPeriodAmountSumArr = [];
+							for (const i in list.amountList) {
+								if(list.amountList[i] !== "0.00" && i != "totalFee") {
+									const item = {
+										amount: parseFloat(list.amountList[i])
+									}
+									eachPeriodAmountSumArr.push(item)
+								}
+							}
+							const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
+							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
+							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
+							return this.statusMapping(list);
+						});
+						this.$set(this.items[index], "repayPlan", repayPlan);
+					} else {
+						this.$vux.toast.text(data.resultMsg, "middle");
+					}
+				});
+			}
 		},
 		// ! 收起还款计划
 		closeAll(item, index) {
@@ -1207,6 +1387,12 @@ export default {
 				if (data.resultCode == "1") {
 					data.list.forEach((val, index) => {
 						val.showOtherOrder = false;
+						// 展开计划、收起计划青按钮文字
+						val.btnExpandText = "展开计划";
+						// 是否显示每期还款包含费用的提示
+						val.showExpenseTip = false;	
+						val.currentIndex = index;
+						val.createDate = moment(val.createDate).format("YYYY.MM.DD");
 						if (val.appStatus === "REPAYNODE") {
 							val.rechargeUrl =
 								this.config.MWEB_PATH +
@@ -1226,7 +1412,6 @@ export default {
 						}
 						this.items.push(val);
 					});
-
 					if (data.list.length < 20) {
 						this.listDataloading = false;
 					}
@@ -1316,20 +1501,48 @@ export default {
 		planMapping: function(mapObj) {
 			switch (mapObj.type) {
 				case "loanFee": // * 订单费用
-					mapObj.title = "分期订单";
-					mapObj.amountName = "借款金额";
+					mapObj.amountName = "订单费用";
 					break;
 				case "mthFee": // * 会员费
-					mapObj.title = "会员订单";
-					mapObj.amountName = "会员服务费金额";
+					mapObj.amountName = "会员费";
 					break;
 				case "infoFee": // * 综合消费
-					mapObj.title = "消费综合订单";
-					mapObj.amountName = "消费综合费金额";
+					mapObj.amountName = "综合消费";
 					break;
 				case "addFee": // * 保费
-					mapObj.title = "保费订单";
-					mapObj.amountName = "保费金额";
+					mapObj.amountName = "保费";
+					break;
+				case "totalFee": // * 总费用
+					mapObj.amountName = "总费用";
+					break;
+				case "principal": // * 本金
+					mapObj.amountName = "本金";
+					break;
+				case "interest": // * 利息
+					mapObj.amountName = "利息";
+					break;
+				case "bankFee": // * 金融信息服务费
+					mapObj.amountName = "金融信息服务费";
+					break;
+				case "internetFee": // * 互联网信息服务费
+					mapObj.amountName = "互联网信息服务费";
+					break;
+			}
+			return mapObj;
+		},
+		statusMapping(mapObj) {
+			switch (mapObj.status) {
+				case "WTRP": // * 待还
+					mapObj.title = "待还";
+					break;
+				case "REXP": // * 逾期
+					mapObj.title = "逾期";
+					break;
+				case "NMRF": // * 正常还完
+					mapObj.title = "正常还完";
+					break;
+				case "EPRF": // * 逾期还完
+					mapObj.title = "逾期还完";
 					break;
 			}
 			return mapObj;
@@ -1347,6 +1560,21 @@ export default {
 		},
 		downloadApp(){
 			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
+		},
+		showExpenseTip(item) {
+			// this.items.forEach( (val,index) => {
+			// 	if(index !== item.currentIndex) {
+			// 		val.showExpenseTip = false;
+			// 	}
+			// });
+			item.showExpenseTip = !item.showExpenseTip;
+			this.currentIndex = item.currentIndex;
+		},
+		changeHelpClass(index) {
+			return `icon-help${index}`;
+		},
+		changeExpenseClass(index) {
+			return `expense-description${index}`;
 		}
 	},
 	watch: {
@@ -1354,9 +1582,25 @@ export default {
 			this.isShowBanner = val;
 			this.$nextTick(() => {
 				const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
-				this.$refs.scrollerBottom.reset({ top: top });
+				this.$refs && this.$refs.scrollerBottom.reset({ top: top });
 			});
 		}
+	},
+	beforeMount() {
+		this._close = e => {
+			const currentIndex = this.currentIndex;
+			// 如果点击发生在当前组件内部，则不处理
+			if (document.querySelector(`.icon-help${currentIndex}`) && document.querySelector(`.icon-help${currentIndex}`).contains(e.target) || document.querySelector(`.expense-description${currentIndex}`) && document.querySelector(`.expense-description${currentIndex}`).contains(e.target)) {
+				return;
+			}
+			this.items.forEach( val => {
+				val.showExpenseTip = false;
+			});
+		};  
+		document.body.addEventListener('click', this._close);
+	},
+	beforeDestroy() {
+		document.body.removeEventListener('click', this._close);  
 	}
 };
 </script>

@@ -20,7 +20,8 @@ export default {
 	getDevice: getDevice, //判断是否是移动端
 	formatSeconds: formatSeconds,	// 将秒格式化为秒、分、小时
 	checkNumber: checkNumber,
-	getDeviceName: getDeviceName //获取设备类型
+	getDeviceName: getDeviceName, //获取设备类型
+	toDecimal2: toDecimal2 //保留2位小数，如：2，会在2后面补上00.即2.00
 };
 
 export function uuid() {
@@ -516,4 +517,17 @@ export function formatSeconds(value) {
 export function checkNumber(num) {
 	var reg = /^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$/;
 	return reg.test(num);
+}
+export function toDecimal2(x) {
+	var f = Math.round(x * 100) / 100;
+	var s = f.toString();
+	var rs = s.indexOf(".");
+	if (rs < 0) {
+		rs = s.length;
+		s += ".";
+	}
+	while (s.length <= rs + 2) {
+		s += "0";
+	}
+	return s;
 }
