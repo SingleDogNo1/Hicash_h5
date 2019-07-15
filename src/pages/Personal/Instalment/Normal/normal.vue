@@ -256,11 +256,15 @@
 											<span>每期还款</span>
 											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
+										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
+											<i></i>
+											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										</li>
 									</ul>
-									<div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
+									<!-- <div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
 										<i></i>
 										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
-									</div>
+									</div> -->
 								</div>
 								<ul class="repay-plan-list">
 									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
@@ -649,7 +653,7 @@
 						justify-content: space-between;
 						margin-bottom: rem(16px);
 						font-size: rem(15px);
-						&:last-child {
+						&:nth-child(3), &:nth-child(4) {
 							margin-bottom: 0;
 						}
 						.value {
@@ -664,37 +668,51 @@
 								margin-left: rem(7px);
 							}
 						}
+						&.expense-description {
+								width: 100%;
+								overflow: hidden;
+								max-height: 0;
+								transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+								color: #999999;
+								font-size: rem(13px);
+								margin-top: rem(8px)
+							}
+							&.animate {
+								max-height: 9999px;
+								transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+								transition-delay: 0s;
+							}
 					}
 				}
-				.expense-description {
-					position: absolute;
-					top: rem(120px);
-					right: 0;
-					background: #fff;
-					padding: rem(8px);
-					box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
-					border-radius: rem(5px);
-					max-width: rem(305px);
-					z-index: 500;
-					i {
-						position: absolute;
-						width: 0;
-						height: 0;
-						display: block;
-						border-left: rem(10px) solid transparent;
-						border-right: rem(10px) solid transparent;
-						border-bottom: rem(10px) solid #fff;
-						top: rem(-10px);
-						right: rem(14px);
-					}
-					p {
-						font-size: rem(13px);
-						line-height: rem(16px);
-					}
-					span {
-						display: inline;
-					}
-				}
+				// .expense-description {
+				// 	position: absolute;
+				// 	top: rem(120px);
+				// 	right: 0;
+				// 	background: #fff;
+				// 	padding: rem(8px);
+				// 	box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+				// 	border-radius: rem(5px);
+				// 	max-width: rem(305px);
+				// 	z-index: 500;
+				// 	i {
+				// 		position: absolute;
+				// 		width: 0;
+				// 		height: 0;
+				// 		display: block;
+				// 		border-left: rem(10px) solid transparent;
+				// 		border-right: rem(10px) solid transparent;
+				// 		border-bottom: rem(10px) solid #fff;
+				// 		top: rem(-10px);
+				// 		right: rem(14px);
+				// 	}
+				// 	p {
+				// 		font-size: rem(13px);
+				// 		line-height: rem(16px);
+				// 	}
+				// 	span {
+				// 		display: inline;
+				// 	}
+				// }
 			}
 			.repay-plan-list {
 				font-size: rem(15px);
@@ -1573,13 +1591,12 @@ export default {
 			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
 		},
 		showExpenseTip(item) {
-			this.items.forEach( (val,index) => {
-				if(index !== item.currentIndex) {
-					val.showExpenseTip = false;
-				}
-			});
-			//item.showExpenseTip = !item.showExpenseTip;
-			item.showExpenseTip = true;
+			// this.items.forEach( (val,index) => {
+			// 	if(index !== item.currentIndex) {
+			// 		val.showExpenseTip = false;
+			// 	}
+			// });
+			item.showExpenseTip = !item.showExpenseTip;
 			this.currentIndex = item.currentIndex;
 		},
 		changeHelpClass(index) {
