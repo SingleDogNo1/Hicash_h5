@@ -262,8 +262,18 @@
 										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
 								</div>
-								<ul class="repey-plan-list">
-									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index"><span>{{repayPlanItem.period}}期{{repayPlanItem.date}}</span><span>{{repayPlanItem.eachPeriodAmountSum}}</span><span>{{repayPlanItem.title}}</span></li>
+								<ul class="repay-plan-list">
+									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
+										<div class="each-repay-plan">
+											<div class="each-repay-plan-left" ref="eachRepayPlan">
+												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+												<span class="value">
+													<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+												</span>
+											</div>
+											<p>{{repayPlanItem.title}}</p>
+										</div>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -312,7 +322,7 @@
 						</div>
 
 						<div class="actions">
-							<a
+							<!-- <a
 								href="javascript:void(0);"
 								class="btn-expand-all"
 								:class="item.showOtherOrder ? 'up' : 'down'"
@@ -322,6 +332,15 @@
 										item.appStatus === 'ENDNODE'
 								"
 								><span>展开所有</span><i></i
+							></a> -->
+								<a
+								href="javascript:void(0);"
+								class="btn-expand-all"
+								:class="item.showOtherOrder ? 'up' : 'down'"
+								@click="openAll(item, index)"
+								v-if="item.appStatus === 'ENDNODE'
+								"
+								><span>{{item.btnExpandText}}</span><i></i
 							></a>
 							<a
 								href="javascript:void(0);"
@@ -369,8 +388,18 @@
 										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
 								</div>
-								<ul class="repey-plan-list">
-									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index"><span>{{repayPlanItem.period}}期{{repayPlanItem.date}}</span><span>{{repayPlanItem.eachPeriodAmountSum}}</span><span>{{repayPlanItem.title}}</span></li>
+								<ul class="repay-plan-list">
+									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index">
+										<div class="each-repay-plan">
+											<div class="each-repay-plan-left" ref="eachRepayPlan">
+												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+												<span class="value">
+													<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+												</span>
+											</div>
+											<p>{{repayPlanItem.title}}</p>
+										</div>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -667,21 +696,51 @@
 					}
 				}
 			}
-			.repey-plan-list {
+			.repay-plan-list {
 				font-size: rem(15px);
 				margin-bottom: rem(24px);
 				li {
 					margin-top: rem(16px);
 					display: flex;
 					justify-content: space-between;
-					&:nth-child(1) {
-						color:#CCCCCC;
+					color:#CCCCCC;
+					&.highlight {
+						color:#FF7640;		
 					}
-					&:nth-child(2) {
-						color:#FF7640;
-					}
+					// &:nth-child(2), &:nth-child(3) {
+					// 	padding-left: rem(4px);
+					// }
 					&:last-child {
 						margin-bottom: 0;
+					}
+					.each-repay-plan {
+						width: 100%;
+						display: flex;
+						justify-content: space-between;
+						.each-repay-plan-left {
+							position: relative;
+							width: 78%;
+							display: flex;
+							justify-content: space-between;
+							.value {
+								width: rem(80px);
+								display: flex;
+								align-items: center;
+								justify-content: space-between;
+								i {
+									display: inline-block;
+									width: rem(18px);
+									height: rem(18px);
+									background: url("../images/icon_help_overdue.png") center center no-repeat;
+									background-size: cover;
+									margin-left: rem(7px);
+								}
+							}
+						}
+						p {
+							width: rem(70px);
+							text-align: right;
+						}
 					}
 				}
 			}
@@ -720,11 +779,9 @@
 			}
 		}
 	}
-	.done .each-order-wrap .repey-plan-list {
+	.done .each-order-wrap .repay-plan-list {
 		li {
-			&:nth-child(1), &:nth-child(2) {
-				color:#333333;
-			}
+			color:#333333;
 		}
 	}
 
@@ -1216,18 +1273,21 @@ export default {
 						this.$nextTick(() => {
 							this.$refs.scrollerBottom.reset();
 						});
-						const currentPeriod = parseInt(data.currentPeriod) - 1;
+						const currentPeriod = data.currentPeriod ? parseInt(data.currentPeriod) - 1 : 0;
 						this.applyAmount = data.applyAmount;
 						this.period = data.period;
 						const currentPeriodOrder = data.repayPlan[currentPeriod];
+						console.log("currentPeriodOrder===", currentPeriodOrder)
 						const orderTypeKeys = [];
 						for (const property in currentPeriodOrder.amountList){
-							let item = {
-								type: property,
-								amount: parseFloat(currentPeriodOrder.amountList[property]),
-								amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+								let item = {
+									type: property,
+									amount: parseFloat(currentPeriodOrder.amountList[property]),
+									amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+								}
+								orderTypeKeys.push(item);
 							}
-							orderTypeKeys.push(item);
 						}
 						let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
 							return this.planMapping(list);
@@ -1238,13 +1298,16 @@ export default {
 						this.totalAmount = this.utils.toDecimal2(totalAmount);
 						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
 						let repayPlan = _.map(data.repayPlan, (list,key) => {
-							list.period = key === 0 ? "首" : key + 1;
+							//list.period = key === 0 ? "首" : key + 1;
+							list.period = key + 1;
 							const eachPeriodAmountSumArr = [];
 							for (const i in list.amountList) {
-								const item = {
-									amount: parseFloat(list.amountList[i])
+								if(list.amountList[i] !== "0.00" && i != "totalFee") {
+									const item = {
+										amount: parseFloat(list.amountList[i])
+									}
+									eachPeriodAmountSumArr.push(item)
 								}
-								eachPeriodAmountSumArr.push(item)
 							}
 							const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
 							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
@@ -1440,13 +1503,13 @@ export default {
 				case "mthFee": // * 会员费
 					mapObj.amountName = "会员费";
 					break;
-				case "totalFee": // * 综合消费
+				case "infoFee": // * 综合消费
 					mapObj.amountName = "综合消费";
 					break;
 				case "addFee": // * 保费
 					mapObj.amountName = "保费";
 					break;
-				case "allFee": // * 总费用
+				case "totalFee": // * 总费用
 					mapObj.amountName = "总费用";
 					break;
 				case "principal": // * 本金

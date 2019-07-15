@@ -5,13 +5,14 @@
 			lock-x
 			:height="
 				isShowBanner
-					? swiperHeight - bannerADHeight - 100 + 'px'
-					: swiperHeight - 100 + 'px'
+					? swiperHeight - bannerADHeight  + 'px'
+					: swiperHeight  + 'px'
 			"
 			@on-scroll="onScroll"
 			@on-scroll-bottom="onScrollBottom"
 			ref="scrollerBottom"
 			:scroll-bottom-offst="200"
+			:bounce="false"
 		>
 			<div class="overdue-content">
 				<group v-if="currentType === 'default'" class="default-group">
@@ -68,15 +69,15 @@
 										<p>含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
 									</div>
 								</div>
-								<div class="repey-plan-wrap">
-									<ul class="repey-plan-list">
-										<li v-for="(repayPlanItem, repayPlanIndex) in item.repayPlan" :key="repayPlanIndex">
-											<div class="each-repey-plan">
-												<div class="each-repey-plan-left" ref="eachRepeyPlan">
+								<div class="repay-plan-wrap">
+									<ul class="repay-plan-list">
+										<li v-for="(repayPlanItem, repayPlanIndex) in item.repayPlan" :key="repayPlanIndex" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
+											<div class="each-repay-plan">
+												<div class="each-repay-plan-left" ref="eachRepayPlan">
 													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
-														<i v-if="repayPlanIndex !== 0" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
+														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
 													</span>
 												</div>
 												<p>{{repayPlanItem.title}}</p>
@@ -135,11 +136,7 @@
 		></load-more>
 		<div class="repay-plan-expense-description" :style="{ top: repayPlanHelpTop, width: tipsWidth }" v-if="showRepayPlanExpenseTipPopover">
 			<i></i>
-			<p>含
-				<span v-for="(dataItem, index) in  repayPlanExpenseTipPopoverData" :key="index">
-					{{dataItem.amountName}}{{dataItem.amountFilter}}
-				<span v-if="index !== dataItem.length - 1">+</span>
-				</span>
+			<p>含<span v-for="(dataItem, index) in  repayPlanExpenseTipPopoverData" :key="index">{{dataItem.amountName}}{{dataItem.amountFilter}}<span v-if="index !== repayPlanExpenseTipPopoverData.length - 1">+</span></span>
 			</p>
 		</div>
 	</div>
@@ -356,7 +353,7 @@
 									}
 								}
 							}
-							.repey-plan-list {
+							.repay-plan-list {
 								font-size: rem(15px);
 								margin-bottom: rem(24px);
 								li {
@@ -364,21 +361,21 @@
 									margin-top: rem(16px);
 									display: flex;
 									justify-content: space-between;
-									color:#FF7640;
-									&:nth-child(1) {
-										color:#CCCCCC;
+									color:#CCCCCC;
+									&.highlight {
+										color:#FF7640;		
 									}
-									&:nth-child(2), &:nth-child(3) {
-										padding-left: rem(4px);
-									}
+									// &:nth-child(2), &:nth-child(3) {
+									// 	padding-left: rem(4px);
+									// }
 									&:last-child {
 										margin-bottom: 0;
 									}
-									.each-repey-plan {
+									.each-repay-plan {
 										width: 100%;
 										display: flex;
 										justify-content: space-between;
-										.each-repey-plan-left {
+										.each-repay-plan-left {
 											position: relative;
 											width: 78%;
 											display: flex;
@@ -399,7 +396,7 @@
 											}
 										}
 										p {
-											width: rem(60px);
+											width: rem(70px);
 											text-align: right;
 										}
 									}
@@ -557,7 +554,7 @@
 		position: absolute;
 		width: auto;
 		top: 0;
-		left: rem(20px);
+		left:rem(16px);
 		background: #f9f9f9;
 		padding: rem(8px);
 		box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
@@ -570,8 +567,8 @@
 			display: block;
 			border-left: rem(10px) solid transparent;
 			border-right: rem(10px) solid transparent;
-			border-bottom: rem(10px) solid #f9f9f9;
-			top: rem(-10px);
+			border-top: rem(10px) solid #f9f9f9;
+			bottom: rem(-10px);
 			right: rem(8px);
 		}
 		p {
@@ -776,7 +773,7 @@ export default {
 			this.overdueList = [];
 			this.listDataloading = true;
 			this.onFetching = false;
-			this.init();
+			//this.init();
 		},
 		onScroll(pos) {
 			this.scrollTop = pos.top;
@@ -868,12 +865,14 @@ export default {
 						const orderTypeKeys = [];
 						//当期订单还款金额列表(key未进行映射)
 						for (const property in currentPeriodOrder.amountList){
-							let item = {
-								type: property,
-								amount: parseFloat(currentPeriodOrder.amountList[property]),
-								amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+								let item = {
+									type: property,
+									amount: parseFloat(currentPeriodOrder.amountList[property]),
+									amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+								}
+								orderTypeKeys.push(item);
 							}
-							orderTypeKeys.push(item);
 						}
 						//将当期订单还款金额列表进行映射
 						let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
@@ -886,13 +885,16 @@ export default {
 						this.totalAmount = this.utils.toDecimal2(totalAmount);
 						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
 						let repayPlan = _.map(data.repayPlan, (list,key) => {
-							list.period = key === 0 ? "首" : key + 1;
+							//list.period = key === 0 ? "首" : key + 1;
+							list.period = key + 1;
 							const eachPeriodAmountSumArr = [];
 							for (const i in list.amountList) {
-								const item = {
-									amount: parseFloat(list.amountList[i])
+								if(list.amountList[i] !== "0.00" && i != "totalFee") {
+									const item = {
+										amount: parseFloat(list.amountList[i])
+									}
+									eachPeriodAmountSumArr.push(item)
 								}
-								eachPeriodAmountSumArr.push(item)
 							}
 							const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
 							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
@@ -901,12 +903,14 @@ export default {
 							list.currentChildIndex = key;
 							const amountListKeys = [];
 							for (const property in list.amountList){
-								let item = {
-									type: property,
-									amount: parseFloat(list.amountList[property]),
-									amountFilter: this.utils.toDecimal2(list.amountList[property])
+								if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+									let item = {
+										type: property,
+										amount: parseFloat(list.amountList[property]),
+										amountFilter: this.utils.toDecimal2(list.amountList[property])
+									}
+									amountListKeys.push(item);
 								}
-								amountListKeys.push(item);
 							}
 							const filterAmountList = _.map(amountListKeys, amountListItem => {
 								return this.planMapping(amountListItem);
@@ -930,13 +934,13 @@ export default {
 				case "mthFee": // * 会员费
 					mapObj.amountName = "会员费";
 					break;
-				case "totalFee": // * 综合消费
+				case "infoFee": // * 综合消费
 					mapObj.amountName = "综合消费";
 					break;
 				case "addFee": // * 保费
 					mapObj.amountName = "保费";
 					break;
-				case "allFee": // * 总费用
+				case "totalFee": // * 总费用
 					mapObj.amountName = "总费用";
 					break;
 				case "principal": // * 本金
@@ -981,8 +985,10 @@ export default {
 			this.repayPlanExpenseTipPopoverData = item.filterAmountList;
 			this.showRepayPlanExpenseTipPopover = true;
 			const repayPlanHelpRef = `repayPlanHelp${this.currentParentIndex}_${this.currentChildIndex}`;
-			this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
-			this.tipsWidth = this.$refs.eachRepeyPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
+			//this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
+			this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 162 + 2 * this.currentChildIndex + 1 +'px';
+
+			this.tipsWidth = this.$refs.eachRepayPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
 		},
 		changeHelpClass(index) {	// 当期订单问号加上下标
 			return `icon-help${index}`;
