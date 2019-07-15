@@ -43,7 +43,7 @@
       </div>
 
       <div class="item-wrap">
-        <swiper height="280px" :show-dots="false" v-model="swiper_index" :min-moving-distance="20000">
+        <swiper height="300px" :show-dots="false" v-model="swiper_index" :min-moving-distance="20000">
           <swiper-item v-for="(item, index) in repayPlanList" :key="index">
             <div class="swiper-header" v-if="index==0">
               <div class="title">{{item.title}}</div>
