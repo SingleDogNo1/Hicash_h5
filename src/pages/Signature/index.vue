@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div id="signWrap" class="content">
     <page-header :title="title" :showBack="showBack" :showBtnClose="showBtnClose" v-if="platform === 'H5'"></page-header>
     <div class="loan-content" :class="{ appContent: platform === 'APP' }" v-if="!isDepositoryUrl">
       <div class="loan-tips">
@@ -245,8 +245,6 @@ export default {
       Signature.querySignPageData(postParams)
       .then(res => {
         let data = res.data;
-        
-
         if (data.resultCode === "1") {
           this.feeList = data.feeList;
           this.repayPlanList = data.repayPlanList;
@@ -271,27 +269,6 @@ export default {
           this.agreementsH5 = agreementsH5;
           this.industryCode=data.industryCode;
           
-          // if(data.isCancel == "true") {
-          //   this.$vux.toast.show({
-          //     type: "text",
-          //     position: "middle",
-          //     text: "由于该订单已取消，无法进行签约"
-          //   });
-          //   setTimeout( ()=> {
-          //     this.$router.push({name: 'Home'})
-          //   },1000)
-          // }
-          // if(data.userName != this.userName && data.userName.toLowerCase() != this.userName){
-          //   this.$vux.toast.show({
-          //     type: "text",
-          //     position: "middle",
-          //     text: "非法进入"
-          //   });
-          //   setTimeout( ()=> {
-          //     this.$router.push({name: 'Home'})
-          //   },1000)
-          // }
-
           this.signPopLists = [
             {
               name: '借款金额(元)',
@@ -315,8 +292,8 @@ export default {
               this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
             }, 500);
 
-            document.addEventListener("click", this.popHelpShow,true)
-            document.addEventListener("touchmove", this.popHelpShow,true)
+            // document.body.addEventListener("click", this.popHelpShow,true)
+            // document.body.addEventListener("touchmove", this.popHelpShow,true)
           }
           
           this.utils.setCookie("prodetailInfo", data.applyAmt+":"+data.loanProductId);
@@ -425,16 +402,26 @@ export default {
       this.popHelpInfoFee = 'block';
     },
     popHelpShow(e){
-      if(e.path[0].classList.value.indexOf('serviceFee') > -1){
-        this.popHelpInfoFee = 'none';
-      }else if(e.path[0].classList.value.indexOf('infoFee') > -1){
-        this.popHelpServicesFee = 'none';
-      }else if(e.path[0].classList.value.indexOf('help-popover') > -1){
+      // e.preventDefault();
+      this.popHelpInfoFee = 'none';
+      this.popHelpServicesFee = 'none';
 
-      }else{
-        this.popHelpInfoFee = 'none';
-        this.popHelpServicesFee = 'none';
-      }
+      // alert('1111111');
+      // if(e.path[0].classList.value.indexOf('serviceFee') > -1){
+      //   alert('1');
+      //   this.popHelpInfoFee = 'none';
+      // }else if(e.path[0].classList.value.indexOf('infoFee') > -1){
+      //   alert('2');
+      //   this.popHelpServicesFee = 'none';
+      // }else if(e.path[0].classList.value.indexOf('help-popover') > -1){
+      //   alert('3');
+
+      // }else{
+      //   alert('4');
+      //   this.popHelpInfoFee = 'none';
+      //   this.popHelpServicesFee = 'none';
+      // }
+      // alert('33333333');
     },
     queryUserTip(){
       var params = new URLSearchParams();
@@ -448,7 +435,9 @@ export default {
     }
   },
   mounted() {
-    
+    if(!this.isDepositoryUrl){
+      document.getElementById('signWrap').addEventListener("click", this.popHelpShow,true);
+    }
     
     this.getShowPI();
     this.querySignPageData();
@@ -525,9 +514,12 @@ $dialog-btn-color: #ff7640;
         line-height: rem(34px);
         text-align: center;
         font-size: rem(18px);
-        background: #fff;
+        background: url('./icon.png') no-repeat  #fff;
+        background-size: rem(26px);
+        background-position: rem(10px);
         margin: 0 auto;
         margin-top: rem(20px);
+        padding-left: rem(10px);
       }
     }
     .loan-detail {
