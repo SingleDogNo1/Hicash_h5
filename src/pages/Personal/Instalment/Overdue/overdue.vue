@@ -5,8 +5,8 @@
 			lock-x
 			:height="
 				isShowBanner
-					? swiperHeight - bannerADHeight  + 'px'
-					: swiperHeight  + 'px'
+					? swiperHeight - bannerADHeight + 'px'
+					: swiperHeight + 'px'
 			"
 			@on-scroll="onScroll"
 			@on-scroll-bottom="onScrollBottom"
@@ -63,11 +63,11 @@
 											<span>每期还款</span>
 											<span class="value">{{totalAmount}}<i :class="changeHelpClass(currentParentIndex)" @click="showExpenseTip(item)"></i></span>
 										</li>
+										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
+											<i></i>
+											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										</li>
 									</ul>
-									<div class="expense-description" :class="changeExpenseClass(currentParentIndex)" v-if="item.showExpenseTip">
-										<i></i>
-										<p>含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
-									</div>
 								</div>
 								<div class="repay-plan-wrap">
 									<ul class="repay-plan-list">
@@ -77,11 +77,14 @@
 													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
-														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
+														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(currentParentIndex, repayPlanIndex, repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
 													</span>
 												</div>
 												<p>{{repayPlanItem.title}}</p>
 											</div>
+											<p class="repay-plan-expense-description" :class="repayPlanItem.showRepayPlanExpenseTipPopover ? 'animate' : ''">
+												注：含<span v-for="(dataItem, index) in repayPlanItem.filterAmountList" :key="index">{{dataItem.amountName}}{{dataItem.amountFilter}}<span v-if="index !== repayPlanItem.filterAmountList.length - 1">+</span></span>
+											</p>
 										</li>
 									</ul>
 								</div>
@@ -134,11 +137,11 @@
 			tip=""
 			:class="{ 'empty-loading': showNoData }"
 		></load-more>
-		<div class="repay-plan-expense-description" :style="{ top: repayPlanHelpTop, width: tipsWidth }" v-if="showRepayPlanExpenseTipPopover">
+		<!-- <div class="repay-plan-expense-description" :style="{ top: repayPlanHelpTop, width: tipsWidth }" v-if="showRepayPlanExpenseTipPopover">
 			<i></i>
 			<p>含<span v-for="(dataItem, index) in  repayPlanExpenseTipPopoverData" :key="index">{{dataItem.amountName}}{{dataItem.amountFilter}}<span v-if="index !== repayPlanExpenseTipPopoverData.length - 1">+</span></span>
 			</p>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -306,7 +309,7 @@
 										justify-content: space-between;
 										margin-bottom: rem(16px);
 										font-size: rem(15px);
-										&:last-child {
+										&:nth-child(3), &:nth-child(4) {
 											margin-bottom: 0;
 										}
 										.value {
@@ -321,37 +324,51 @@
 												margin-left: rem(7px);
 											}
 										}
+										&.expense-description {
+											width: 100%;
+											overflow: hidden;
+											max-height: 0;
+											transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+											color: #999999;
+											font-size: rem(13px);
+											margin-top: rem(8px)
+										}
+										&.animate {
+											max-height: 9999px;
+											transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+											transition-delay: 0s;
+										}
 									}
 								}
-								.expense-description {
-									position: absolute;
-									top: rem(120px);
-									right: 0;
-									background: #f9f9f9;
-									padding: rem(8px);
-									box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
-									border-radius: rem(5px);
-									max-width: rem(305px);
-									z-index: 500;
-									i {
-										position: absolute;
-										width: 0;
-										height: 0;
-										display: block;
-										border-left: rem(10px) solid transparent;
-										border-right: rem(10px) solid transparent;
-										border-bottom: rem(10px) solid #f9f9f9;
-										top: rem(-10px);
-										right: rem(14px);
-									}
-									p {
-										font-size: rem(13px);
-										line-height: rem(16px);
-									}
-									span {
-										display: inline;
-									}
-								}
+								// .expense-description {
+								// 	position: absolute;
+								// 	top: rem(120px);
+								// 	right: 0;
+								// 	background: #f9f9f9;
+								// 	padding: rem(8px);
+								// 	box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+								// 	border-radius: rem(5px);
+								// 	max-width: rem(305px);
+								// 	z-index: 500;
+								// 	i {
+								// 		position: absolute;
+								// 		width: 0;
+								// 		height: 0;
+								// 		display: block;
+								// 		border-left: rem(10px) solid transparent;
+								// 		border-right: rem(10px) solid transparent;
+								// 		border-bottom: rem(10px) solid #f9f9f9;
+								// 		top: rem(-10px);
+								// 		right: rem(14px);
+								// 	}
+								// 	p {
+								// 		font-size: rem(13px);
+								// 		line-height: rem(16px);
+								// 	}
+								// 	span {
+								// 		display: inline;
+								// 	}
+								// }
 							}
 							.repay-plan-list {
 								font-size: rem(15px);
@@ -359,8 +376,8 @@
 								li {
 									position: relative;
 									margin-top: rem(16px);
-									display: flex;
-									justify-content: space-between;
+									// display: flex;
+									// justify-content: space-between;
 									color:#CCCCCC;
 									&.highlight {
 										color:#FF7640;		
@@ -399,6 +416,20 @@
 											width: rem(70px);
 											text-align: right;
 										}
+									}
+									.repay-plan-expense-description {
+										width: 100%;
+										overflow: hidden;
+										max-height: 0;
+										transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+										color: #999999;
+										font-size: rem(13px);
+										margin-top: rem(8px)
+									}
+									.animate {
+										max-height: 9999px;
+										transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+										transition-delay: 0s;
 									}
 								}
 							}
@@ -550,37 +581,37 @@
 	.empty-loading {
 		margin-top: rem(-30px);
 	}
-	.repay-plan-expense-description {
-		position: absolute;
-		width: auto;
-		top: 0;
-		left:rem(16px);
-		background: #f9f9f9;
-		padding: rem(8px);
-		box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
-		border-radius: rem(5px);
-		z-index: 500;
-		i {
-			position: absolute;
-			width: 0;
-			height: 0;
-			display: block;
-			border-left: rem(10px) solid transparent;
-			border-right: rem(10px) solid transparent;
-			border-top: rem(10px) solid #f9f9f9;
-			bottom: rem(-10px);
-			right: rem(8px);
-		}
-		p {
-			width: 100%;
-			text-align: left;
-			font-size: rem(13px);
-			line-height: rem(16px);
-		}
-		span {
-			display: inline;
-		}
-	}
+	// .repay-plan-expense-description {
+	// 	position: absolute;
+	// 	width: auto;
+	// 	top: 0;
+	// 	left:rem(16px);
+	// 	background: #f9f9f9;
+	// 	padding: rem(8px);
+	// 	box-shadow:0px 4px 6px 0px rgba(0,0,0,0.1);
+	// 	border-radius: rem(5px);
+	// 	z-index: 500;
+	// 	i {
+	// 		position: absolute;
+	// 		width: 0;
+	// 		height: 0;
+	// 		display: block;
+	// 		border-left: rem(10px) solid transparent;
+	// 		border-right: rem(10px) solid transparent;
+	// 		border-top: rem(10px) solid #f9f9f9;
+	// 		bottom: rem(-10px);
+	// 		right: rem(8px);
+	// 	}
+	// 	p {
+	// 		width: 100%;
+	// 		text-align: left;
+	// 		font-size: rem(13px);
+	// 		line-height: rem(16px);
+	// 	}
+	// 	span {
+	// 		display: inline;
+	// 	}
+	// }
 }
 </style>
 
@@ -787,8 +818,13 @@ export default {
 					val.showOtherOrder = false;
 					val.btnExpandText = "展开计划";
 				}
+				if(val.repayPlan) {
+					val.repayPlan.forEach( (value,index) => {
+						value.showRepayPlanExpenseTipPopover = false;
+					});
+				}
+				val.showExpenseTip = false;
 			});
-			this.showRepayPlanExpenseTipPopover = false;
 			this.overdueList[index].btnExpandText = this.overdueList[index].showOtherOrder ? "展开计划" : "收起计划";
 			this.overdueList[index].showOtherOrder = !this.overdueList[index]
 				.showOtherOrder;
@@ -808,49 +844,6 @@ export default {
 				postData.append("appNo", item.value);
 				this.common.orderDetailInfo(postData).then(res => {
 					let data = res.data;
-					// data = {
-					// 	"resultCode": "1",
-					// 	"applyAmount": "3000.00",
-					// 	"period": "3",
-					// 	"currentPeriod": "1",
-					// 	"resultMsg": null,
-					// 	"repayPlan": [
-					// 			{
-					// 					"status": "WTRP",
-					// 					"date": "2019.08.09",
-					// 					"amountList": {
-					// 							"principal": "162.00",
-					// 							"internetFee": "34.00",
-					// 							"bankFee": "28.00",
-					// 							"interest": "15.00",
-					// 							"allFee": "239.00"
-					// 					}
-					// 			},
-					// 			{
-					// 					"status": "WTRP",
-					// 					"date": "2019.09.09",
-					// 					"amountList": {
-					// 							"principal": "167.00",
-					// 							"internetFee": "34.00",
-					// 							"bankFee": "28.00",
-					// 							"interest": "10.00",
-					// 							"allFee": "239.00"
-					// 					}
-					// 			},
-					// 			{
-					// 					"status": "WTRP",
-					// 					"date": "2019.10.09",
-					// 					"amountList": {
-					// 							"principal": "11.00",
-					// 							"internetFee": "4.00",
-					// 							"bankFee": "8.00",
-					// 							"interest": "6.00",
-					// 							"allFee": "29.00"
-					// 					}
-					// 			}
-					// 	],
-					// 	"userName": "153222222"
-					// }
 					if (data.resultCode == "1") {
 						this.otherOrderHeight = this.$refs.otherOrder[
 							index
@@ -861,7 +854,8 @@ export default {
 						const currentPeriod = parseInt(data.currentPeriod) - 1;
 						this.applyAmount = data.applyAmount;
 						this.period = data.period;
-						const currentPeriodOrder = data.repayPlan[currentPeriod];
+						//const currentPeriodOrder = data.repayPlan[currentPeriod];
+						const currentPeriodOrder = data.repayPlan[0];
 						const orderTypeKeys = [];
 						//当期订单还款金额列表(key未进行映射)
 						for (const property in currentPeriodOrder.amountList){
@@ -882,7 +876,8 @@ export default {
 						// 计算所含费用总金额
 						const totalAmount = _.reduce(totalAmountValue, function(memo, num){ return memo + num; }, 0);
 						//保留2位小数，如：2，会在2后面补上00.即2.00
-						this.totalAmount = this.utils.toDecimal2(totalAmount);
+						//this.totalAmount = this.utils.toDecimal2(totalAmount);
+						this.totalAmount = currentPeriodOrder.amountList.totalFee;
 						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
 						let repayPlan = _.map(data.repayPlan, (list,key) => {
 							//list.period = key === 0 ? "首" : key + 1;
@@ -900,6 +895,7 @@ export default {
 							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
 							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
 							list.showExpenseTip = false;
+							list.showRepayPlanExpenseTipPopover = false;
 							list.currentChildIndex = key;
 							const amountListKeys = [];
 							for (const property in list.amountList){
@@ -940,7 +936,7 @@ export default {
 				case "addFee": // * 保费
 					mapObj.amountName = "保费";
 					break;
-				case "totalFee": // * 总费用
+				case "totalFee": // * 总费用【不含罚息滞纳金】）
 					mapObj.amountName = "总费用";
 					break;
 				case "principal": // * 本金
@@ -954,6 +950,9 @@ export default {
 					break;
 				case "internetFee": // * 互联网信息服务费
 					mapObj.amountName = "互联网信息服务费";
+					break;
+				case "penalty": // * 罚息滞纳金
+					mapObj.amountName = "罚息滞纳金";
 					break;
 			}
 			return mapObj;
@@ -977,18 +976,33 @@ export default {
 			return mapObj;
 		},
 		showExpenseTip(item) {
-			item.showExpenseTip = true;
+			item.showExpenseTip = !item.showExpenseTip;
 			this.currentParentIndex = item.currentParentIndex;
 		},
-		showRepayExpenseTip(item) {
-			this.currentChildIndex = item.currentChildIndex;
-			this.repayPlanExpenseTipPopoverData = item.filterAmountList;
-			this.showRepayPlanExpenseTipPopover = true;
-			const repayPlanHelpRef = `repayPlanHelp${this.currentParentIndex}_${this.currentChildIndex}`;
-			//this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
-			this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 162 + 2 * this.currentChildIndex + 1 +'px';
+		showRepayExpenseTip(currentParentIndex, currentChildIndex, item) {
 
-			this.tipsWidth = this.$refs.eachRepayPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
+			this.overdueList[currentParentIndex].repayPlan.forEach( (val,index) => {
+				if(index !== item.currentChildIndex) {
+					val.showRepayPlanExpenseTipPopover = false;
+				}
+			});
+
+			setTimeout(() => {			
+				this.$nextTick(() => {
+					this.$refs.scrollerBottom.reset();
+				});
+			}, 500);
+
+			this.overdueList[currentParentIndex].repayPlan[currentChildIndex].showRepayPlanExpenseTipPopover = !this.overdueList[currentParentIndex].repayPlan[currentChildIndex].showRepayPlanExpenseTipPopover;
+
+			// this.currentChildIndex = item.currentChildIndex;
+			// this.repayPlanExpenseTipPopoverData = item.filterAmountList;
+			// this.showRepayPlanExpenseTipPopover = true;
+			// const repayPlanHelpRef = `repayPlanHelp${this.currentParentIndex}_${this.currentChildIndex}`;
+			// //this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 94 + 28 +'px';
+			// this.repayPlanHelpTop = this.$refs[repayPlanHelpRef][0].getBoundingClientRect().top - 162 + 2 * this.currentChildIndex + 1 +'px';
+
+			// this.tipsWidth = this.$refs.eachRepayPlan[item.currentChildIndex].getBoundingClientRect().width -6 + "px";
 		},
 		changeHelpClass(index) {	// 当期订单问号加上下标
 			return `icon-help${index}`;
@@ -1005,8 +1019,8 @@ export default {
 	},
 	mounted() {
 		this.scrollHeight = this.isShowBanner
-			? this.swiperHeight - this.bannerADHeight - 100 + "px"
-			: this.swiperHeight - 100 + "px";
+			? this.swiperHeight - this.bannerADHeight + "px"
+			: this.swiperHeight + "px";
 
 		this.init();
 	},
