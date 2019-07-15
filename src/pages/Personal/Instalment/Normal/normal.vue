@@ -382,11 +382,11 @@
 											<span>每期还款</span>
 											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
 										</li>
+										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
+											<i></i>
+											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										</li>
 									</ul>
-									<div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
-										<i></i>
-										<p>含<span v-for="(currentPeriodOrderItem, index) in  newCurrentPeriodOrder" :key="index">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="index !== newCurrentPeriodOrder.length - 1">+</span></span></p>
-									</div>
 								</div>
 								<ul class="repay-plan-list">
 									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index">
@@ -710,8 +710,22 @@
 					// &:nth-child(2), &:nth-child(3) {
 					// 	padding-left: rem(4px);
 					// }
-					&:last-child {
+					&:nth-child(3), &:nth-child(4) {
 						margin-bottom: 0;
+					}
+					&.expense-description {
+						width: 100%;
+						overflow: hidden;
+						max-height: 0;
+						transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+						color: #999999;
+						font-size: rem(13px);
+						margin-top: rem(8px)
+					}
+					&.animate {
+						max-height: 9999px;
+						transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+						transition-delay: 0s;
 					}
 					.each-repay-plan {
 						width: 100%;
