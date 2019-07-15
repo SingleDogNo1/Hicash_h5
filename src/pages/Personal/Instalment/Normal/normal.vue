@@ -676,6 +676,9 @@
 							color: #999999;
 							font-size: rem(13px);
 							margin-top: rem(8px);
+							span {
+								display: inline;
+							}
 						}
 						&.animate {
 							max-height: 9999px;
@@ -1411,7 +1414,6 @@ export default {
 						}
 						this.items.push(val);
 					});
-					console.log("data.list.length==", data.list.length)
 					if (data.list.length < 20) {
 						this.listDataloading = false;
 					}
