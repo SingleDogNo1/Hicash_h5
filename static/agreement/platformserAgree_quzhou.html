@@ -178,8 +178,8 @@
 4.甲方有权使用本协议约定下乙方提供的所有服务。
 第三条 甲方需承担的费用  
 1．互联网信息服务费，甲方同意乙方使用以下方式向甲方收取：乙方优先选择方式一收取，若方式一收取未成功，则采取方式二收取。
-方式一：甲方不可撤销地授权乙方在本协议签订之日一次性收取。且甲方同意并认可应付互联网信息服务费为【<span class="serverFee3Paid"></span>】元。
-方式二：甲方不可撤销地授权乙方按月收取，且甲方同意并认可应付互联网信息服务费为人民币【<span class="addFee3Paid"></span>】元，每月【<span class="getDay"></span>】日收取人民币【<span class="addFee3Paid1"></span>】元。
+方式一：甲方不可撤销地授权乙方在本协议签订之日一次性收取。且甲方同意并认可应付互联网信息服务费为【<span class="addFee3Paid"></span>】元。
+方式二：甲方不可撤销地授权乙方按月收取，且甲方同意并认可应付互联网信息服务费为人民币【<span class="addFee3Paid"></span>】元，每月【<span class="day"></span>】日收取人民币【<span class="addFee3Paid1"></span>】元。
 2．在本条款约定付款日之前，甲方应保证其银行账户有足够的资金，并不可撤销地授权乙方及其指定第三方从甲方指定银行账户中将互联网信息服务费转至乙方账户。
 3．甲方充分理解，其所支付给乙方的互联网信息服务费是其接受乙方的服务而应支付的合理费用，本协议签订后，甲方无权要求乙方退还其已支付的互联网信息服务费。
 4．若甲方未能按时支付本协议约定的任何费用，乙方有权要求甲方按照日千分之七的比例支付违约金。
@@ -312,6 +312,7 @@
         $("#backMoney").html(data.monthSeriveceAmount);
         $("#bigBackMoney").html(creat(backMoney));
         $("#serviceMoney").html(data.serviceCharge);
+        $(".day").html(data.nowDay);
         $("#monthFee").html(data.monthFee);
         $(".mobServ").html(data.mobServ);
         $(".cardServ").html(data.cardServ);
@@ -322,12 +323,32 @@
         $(".infoServ").html(data.infoServ);
         $("#sumSerivceAmount ").html(data.sumSerivceAmount);
         $('.serverFee3Paid').html(data.serverFee3Paid);
-        $('.addFee3Paid').html(data.addFee3Paid);
-        $('.addFee3Paid1').html(data.addFee3Paid * creditDay);
+        // $('.addFee3Paid').html(data.addFee3Paid);
+        // $('.addFee3Paid1').html(data.addFee3Paid * creditDay);
         $('.everMoth1').html(data.everMoth * creditDay);
         $('.everMoth').html(data.everMoth);
         $('.newDate').html(timestampToTime);
     });
+
+    $.ajax({
+        type: 'POST',
+        url: '/accounting-service/calculateLoanPlan',
+        async: false,
+        data: JSON.stringify({
+            "productId" : loanProduct,
+            "amount" : tranPrice
+        }),
+        dataType: "JSON",
+        headers: {'Content-Type': 'application/json'},
+        success: res => {
+            let data  = res.data
+            $('.addFee3Paid').html((data[0].addFee1 + data[0].addFee3) * data[0].totalTerm);
+            $('.addFee3Paid1').html(data[0].addFee1 + data[0].addFee3);
+            // $(".day").html(data[0].dueDate);
+        },
+        error: err => {
+        }
+    })
     
     const UserNameCardParams = {
         url: '/HicashAppService/UserNameCard',

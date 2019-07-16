@@ -362,6 +362,26 @@
         userName=unescape(getCookie("userName"));
     }
     $("#userName").html(userName);
+
+    $.ajax({
+        type: 'POST',
+        url: '/accounting-service/calculateLoanPlan',
+        async: false,
+        data: JSON.stringify({
+            "productId" : loanProduct,
+            "amount" : tranPrice
+        }),
+        dataType: "JSON",
+        headers: {'Content-Type': 'application/json'},
+        success: res => {
+            let data  = res.data
+            $('.wCopePremiumTwo').html((data[0].mthFee + data[0].infoFee) * data[0].totalTerm);
+            $('.wCopePremiumTwo1').html(data[0].mthFee + data[0].infoFee);
+            // $(".day").html(data[0].dueDate);
+        },
+        error: err => {
+        }
+    })
  
     const LoanAmtCalculateForNewParams = {
         url: '/HicashService/LoanAmtCalculateForNew',
@@ -389,8 +409,8 @@
         $("#backMoney").html(backMoney);
         $("#bigBackMoney").html(creat(backMoney));
         $("#serviceMoney").html(data.serviceCharge);
-        $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
-        $('.wCopePremiumTwo1').html(Math.round(data.wCopePremium / creditDay));
+        // $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
+        // $('.wCopePremiumTwo1').html(Math.round(data.wCopePremium / creditDay));
         $('.monthFee').html(data.monthFee);
         $('.monthFee1').html(Math.round(data.monthFee * creditDay));
         $('.wCopePremium').html(data.wCopePremium);

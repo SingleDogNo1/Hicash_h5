@@ -61,6 +61,7 @@ import Reminder from "@/api/reminder"
 import { Confirm } from "vux"
 let moment = require("moment")
 export default {
+<<<<<<< HEAD
 	components: {
 		PageHeader,
 		Confirm
@@ -158,6 +159,114 @@ export default {
 		})
 	}
 }
+=======
+  components: {
+    PageHeader,
+    Confirm
+  },
+  data() {
+    return {
+      title: this.$route.meta.title,
+      showBack: true,
+      showBtnClose: false,
+      platform: this.utils.getPlatform(),
+      date: "",
+      industryCode: this.$route.query.industryCode,
+      realName: "",
+      userName: this.utils.getCookie("userName"),
+      serviceMoney: "",
+      monthFee: "",
+      appNo: this.$route.query.appNo,
+      showPop: false,
+      showHeader: !this.utils.getCookie('backUrl')
+    };
+  },
+  methods: {
+    base64Decode(input) {
+      rv = window.atob(input);
+      rv = escape(rv);
+      rv = decodeURIComponent(rv);
+      return rv;
+    },
+    signSub() {
+      this.$vux.loading.show({
+        text: "加载中，请稍等……"
+      });
+      let appCFCAObj = new URLSearchParams();
+      appCFCAObj.append("applicationno", this.appNo);
+      appCFCAObj.append("username", this.userName);
+      appCFCAObj.append("coupon_code_id", "");
+      appCFCAObj.append("platform", "h5");
+      Reminder.appCFCA(appCFCAObj).then(res => {
+        let data = res.data;
+        this.$vux.loading.hide();
+        if (data.resultCode === "1") {
+          if(this.utils.getCookie('backUrl')){
+            let wacaiObj = new URLSearchParams();
+            wacaiObj.append("appNo", this.appNo);
+            this.common.updateChannelApplicationStatusWacai(wacaiObj)
+            .then(res => {
+              let wacaiData = res.data;
+              if(wacaiData.resultCode == '1'){
+                window.location.href = this.utils.getCookie('backUrl');
+              }
+            });
+            return false;
+          }
+          this.showPop = true;
+        } else {
+          this.$vux.toast.show({
+            type: "text",
+            position: "middle",
+            text: data.resultMsg
+          });
+        }
+      });
+    },
+    calculateLoanPlan(){
+      var userInto = this.utils.getCookie("prodetailInfo");
+      productId =userInto.split(":")[1];
+      amount = userInto.split(":")[0];
+      let params = {
+        productId: productId,
+        amount: amount
+      }
+      this.common.calculateLoanPlan()
+      .then((data)=>{
+
+      })
+    }
+  },
+  mounted() {
+    this.date = moment().format("YYYY年MM月DD日");
+    let loanProduct = this.$route.query.loanProduct;
+    let tranPrice = this.$route.query.tranPrice;
+    let realName = "";
+    let appNo = this.appNo;
+    if (!loanProduct) {
+      let userInto = this.utils.getCookie("prodetailInfo");
+      loanProduct = userInto.split(":")[1];
+      tranPrice = userInto.split(":")[0];
+      realName = unescape(this.utils.getCookie("realName"));
+    } else {
+      realName = this.base64Decode(this.$route.query.realName);
+    }
+    this.realName = realName;
+
+    let params = {
+      productId: loanProduct,
+      amount: tranPrice
+    }
+    this.common.calculateLoanPlan(params)
+    .then((data)=>{
+      console.info(data);
+      let _data = data.data.data[0];
+      this.serviceMoney = (_data.addFee1+_data.addFee3) * _data.totalTerm;
+      this.monthFee = (_data.mthFee+_data.infoFee) * _data.totalTerm;
+    })
+  }
+};
+>>>>>>> tuling
 </script>
 
 <style lang="scss" scoped>

@@ -56,7 +56,7 @@ function jqAjax(params){
             url: params.url,
             async: false,
             data: params.data,
-            dataType: "json",
+            dataType: "JSON",
             success: res => {
                 resovle(res);
             },

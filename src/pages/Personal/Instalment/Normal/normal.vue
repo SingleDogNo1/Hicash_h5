@@ -494,7 +494,7 @@
 	.order-list {
 		.flex-order-item {
 			background: #fff;
-			padding: rem(16px) rem(16px) 0 rem(16px);
+			padding: rem(16px);
 			span {
 				display: inline-block;
 				letter-spacing: 0;
@@ -580,7 +580,6 @@
 		width: 100%;
 		height: rem(30px);
 		margin-top: rem(16px);
-		padding-bottom: rem(24px);
 		.btn {
 			position: relative;
 			display: block;
@@ -664,7 +663,7 @@
 		overflow: hidden;
 		max-height: 0;
 		transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
-		//margin-top: rem(24px);
+		margin-top: rem(24px);
 		border-radius: rem(5px);
 		.each-order-wrap {
 			.detail-list-wrap {
@@ -756,9 +755,9 @@
 					&.highlight {
 						color: #ff7640;
 					}
-					&:nth-child(1) {
-						padding-left: rem(3px);
-					}
+					// &:nth-child(1) {
+					// 	padding-left: rem(3px);
+					// }
 					// &:nth-child(2), &:nth-child(3) {
 					// 	padding-left: rem(4px);
 					// }
@@ -856,6 +855,7 @@
 		max-height: 9999px;
 		transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
 		transition-delay: 0s;
+		margin-top: rem(24px);
 	}
 
 	.finish-item {
