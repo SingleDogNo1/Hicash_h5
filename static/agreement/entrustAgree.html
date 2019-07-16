@@ -129,7 +129,7 @@
 <body>
     <header class="creditHeader">
         <!-- 关闭按钮 -->
-        <a class="go-history" href="javascript:;"></a>
+        <a class="go-history" href="javascript:history.go(-1);"></a>
         <h1>委托划扣授权书</h1>
     </header>
     <header class="creditHeader">
@@ -212,13 +212,11 @@
          $(".eleData span:eq(0)").html(year);
          $(".eleData span:eq(1)").html(month+1);
          $(".eleData span:eq(2)").html( day) ; */
-        var comefrom=getQueryString("comefrom"),
-            comeFrom=getQueryString("comeFrom");
-
+         
         var from=getQueryString("from");
 
         $(".appNo").html(getQueryString("appNo"));
-        if(comefrom=="APP"){
+        if(getPlatform()=="APP"){
             $("header").hide();
             $(".dconContainer").css("margin-top","0");
         }

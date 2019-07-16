@@ -66,3 +66,9 @@ function jqAjax(params){
         })
     })
 }
+
+function getPlatform() {
+	var ua = navigator.userAgent;
+	var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
+	return comeFrom;
+}
