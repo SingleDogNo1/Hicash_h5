@@ -112,6 +112,19 @@ export default {
           });
         }
       });
+    },
+    calculateLoanPlan(){
+      var userInto = this.utils.getCookie("prodetailInfo");
+      productId =userInto.split(":")[1];
+      amount = userInto.split(":")[0];
+      let params = {
+        productId: productId,
+        amount: amount
+      }
+      this.common.calculateLoanPlan()
+      .then((data)=>{
+
+      })
     }
   },
   mounted() {
@@ -129,23 +142,18 @@ export default {
       realName = this.base64Decode(this.$route.query.realName);
     }
     this.realName = realName;
-    let loanAmtObj = new URLSearchParams();
-    loanAmtObj.append("firstRate", 0);
-    loanAmtObj.append("loanProduct", loanProduct);
-    loanAmtObj.append("tranPrice", tranPrice);
-    this.common.loanAmtCalculateForNew(loanAmtObj).then(res => {
-      let data = res.data;
-      if (data.resultCode === "1") {
-        this.serviceMoney = data.everMoth;
-        this.monthFee = data.monthFee;
-      } else {
-        this.$vux.toast.show({
-          type: "text",
-          position: "middle",
-          text: data.resultMsg
-        });
-      }
-    });
+
+    let params = {
+      productId: loanProduct,
+      amount: tranPrice
+    }
+    this.common.calculateLoanPlan(params)
+    .then((data)=>{
+      console.info(data);
+      let _data = data.data.data[0];
+      this.serviceMoney = (_data.addFee1+_data.addFee3) * _data.totalTerm;
+      this.monthFee = (_data.mthFee+_data.infoFee) * _data.totalTerm;
+    })
   }
 };
 </script>

@@ -57,7 +57,6 @@ function jqAjax(params){
             async: false,
             data: params.data,
             dataType: "JSON",
-            headers: {'Content-Type': 'application/json'},
             success: res => {
                 resovle(res);
             },
