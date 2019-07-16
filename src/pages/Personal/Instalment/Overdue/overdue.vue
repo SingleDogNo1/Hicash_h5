@@ -161,7 +161,7 @@
 				}
 				.overdue-order-wrap {
 					position: relative;
-					padding: rem(16px) rem(16px) 0 rem(16px);
+					padding: rem(16px);
 					&:after {
 						content: " ";
 						position: absolute;
@@ -209,7 +209,6 @@
 						width: 100%;
 						height: rem(30px);
 						margin-top: rem(16px);
-						padding-bottom: rem(24px);
 						.btn {
 							position: relative;
 							display: block;
@@ -295,7 +294,7 @@
 						overflow: hidden;
 						max-height: 0;
 						transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
-						//margin-top: rem(24px);
+						margin-top: rem(24px);
 						border-radius: rem(5px);
 						.each-order-wrap {
 							.detail-list-wrap {
