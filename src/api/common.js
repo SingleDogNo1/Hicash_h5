@@ -89,14 +89,9 @@ export default {
 	userEaseModGet: userEaseModGet,
 	userInfoHx: userInfoHx,
 	ShowWaitTime: ShowWaitTime,
-<<<<<<< HEAD
-	queryUserTip: queryUserTip
-}
-=======
 	queryUserTip: queryUserTip,
 	calculateLoanPlan: calculateLoanPlan
-};
->>>>>>> tuling
+}
 
 /*
  *  事例
@@ -1499,12 +1494,8 @@ export function queryUserTip(params) {
 			err => {
 				reject(err)
 			}
-<<<<<<< HEAD
 		)
 	})
-=======
-		);
-	});
 }
 
 /*
@@ -1514,12 +1505,11 @@ export function calculateLoanPlan(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/accounting-service/calculateLoanPlan", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
->>>>>>> tuling
+		)
+	})
 }

@@ -116,7 +116,6 @@
 												</div>
 												<p>{{ repayPlanItem.title }}</p>
 											</div>
-<<<<<<< HEAD
 											<p
 												class="repay-plan-expense-description"
 												:class="
@@ -124,17 +123,12 @@
 												"
 											>
 												注：含<span
-													v-for="(dataItem, index) in repayPlanItem.filterAmountList"
-													:key="index"
-													>{{ dataItem.amountName }}{{ dataItem.amountFilter
-													}}<span v-if="index !== repayPlanItem.filterAmountList.length - 1"
-														>+</span
+													>{{ repayPlanItem.totalFee[0].amountFilter
+													}}<span v-if="repayPlanItem.penalty.length > 0"
+														>+{{ repayPlanItem.penalty[0].amountName
+														}}{{ repayPlanItem.penalty[0].amountFilter }}</span
 													></span
 												>
-=======
-											<p class="repay-plan-expense-description" :class="repayPlanItem.showRepayPlanExpenseTipPopover ? 'animate' : ''">
-												注：含<span>{{repayPlanItem.totalFee[0].amountFilter}}<span v-if="repayPlanItem.penalty.length > 0">+{{repayPlanItem.penalty[0].amountName}}{{repayPlanItem.penalty[0].amountFilter}}</span></span>
->>>>>>> tuling
 											</p>
 										</li>
 									</ul>
@@ -339,13 +333,8 @@
 						width: 100%;
 						overflow: hidden;
 						max-height: 0;
-<<<<<<< HEAD
 						transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
-						//margin-top: rem(24px);
-=======
-						transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
 						margin-top: rem(24px);
->>>>>>> tuling
 						border-radius: rem(5px);
 						.each-order-wrap {
 							.detail-list-wrap {
@@ -432,17 +421,10 @@
 								li {
 									position: relative;
 									margin-top: rem(16px);
-<<<<<<< HEAD
 									color: #cccccc;
-									&:nth-child(1) {
-										padding-left: rem(3px);
-									}
-=======
-									color:#CCCCCC;
 									// &:nth-child(1) {
 									// 	padding-left: rem(3px);
 									// }
->>>>>>> tuling
 									&.highlight {
 										color: #ff7640;
 									}
@@ -771,55 +753,7 @@ export default {
 			postData.append("pageSize", this.pageSize)
 			postData.append("pageNo", this.pageNo)
 			this.common.accountOrderList(postData).then(res => {
-<<<<<<< HEAD
 				let data = res.data
-				// data.list = [{
-				// 	"amount": "239.00",
-				// 	"appNo": "31907080100003",
-				// 	"appStatus": null,
-				// 	"createDate": "2019-07-08",
-				// 	"industryCode": "VIPD",
-				// 	"industryName": "VIP分期",
-				// 	"loanProduct": null,
-				// 	"nodeList": null,
-				// 	"period": "3",
-				// 	"rejectMsg": null,
-				// 	"rejectUrl": null,
-				// 	"repayDate": "2019.06.01",
-				// 	"repayStatus": null
-				// },{
-				// 	"amount": "239.00",
-				// 	"appNo": "31907080100003",
-				// 	"appStatus": null,
-				// 	"createDate": "2019-07-08",
-				// 	"industryCode": "VIPD",
-				// 	"industryName": "VIP分期",
-				// 	"loanProduct": null,
-				// 	"nodeList": null,
-				// 	"period": "3",
-				// 	"rejectMsg": null,
-				// 	"rejectUrl": null,
-				// 	"repayDate": "2019.06.01",
-				// 	"repayStatus": null
-				// },
-				// {
-				// 	"amount": "239.00",
-				// 	"appNo": "31907080100003",
-				// 	"appStatus": null,
-				// 	"createDate": "2019-07-08",
-				// 	"industryCode": "VIPD",
-				// 	"industryName": "VIP分期",
-				// 	"loanProduct": null,
-				// 	"nodeList": null,
-				// 	"period": "3",
-				// 	"rejectMsg": null,
-				// 	"rejectUrl": null,
-				// 	"repayDate": "2019.06.01",
-				// 	"repayStatus": null
-				// }]
-=======
-				let data = res.data;
->>>>>>> tuling
 				if (data.resultCode === "1") {
 					data.list.forEach((val, index) => {
 						val.key = index + 1
@@ -922,16 +856,12 @@ export default {
 						const currentPeriodOrder = data.repayPlan[0]
 						const orderTypeKeys = []
 						//当期订单还款金额列表(key未进行映射)
-<<<<<<< HEAD
 						for (const property in currentPeriodOrder.amountList) {
 							if (
 								currentPeriodOrder.amountList[property] !== "0.00" &&
-								property != "totalFee"
+								property != "totalFee" &&
+								property != "penalty"
 							) {
-=======
-						for (const property in currentPeriodOrder.amountList){
-							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee" && property != "penalty" ) {
->>>>>>> tuling
 								let item = {
 									type: property,
 									amount: parseFloat(currentPeriodOrder.amountList[property]),
@@ -971,7 +901,6 @@ export default {
 									eachPeriodAmountSumArr.push(item)
 								}
 							}
-<<<<<<< HEAD
 							const eachPeriodAmountSumValue = _.pluck(
 								eachPeriodAmountSumArr,
 								"amount"
@@ -989,19 +918,7 @@ export default {
 							list.currentChildIndex = key
 							const amountListKeys = []
 							for (const property in list.amountList) {
-								if (list[property] !== "0.00" && property != "totalFee") {
-									console.log(111)
-=======
-							const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
-							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
-							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
-							list.showExpenseTip = false;
-							list.showRepayPlanExpenseTipPopover = false;
-							list.currentChildIndex = key;
-							const amountListKeys = [];
-							for (const property in list.amountList){
-								if(list[property] !== "0.00") {
->>>>>>> tuling
+								if (list[property] !== "0.00") {
 									let item = {
 										type: property,
 										amount: parseFloat(list.amountList[property]),
@@ -1011,27 +928,18 @@ export default {
 								}
 							}
 							const filterAmountList = _.map(amountListKeys, amountListItem => {
-<<<<<<< HEAD
 								return this.planMapping(amountListItem)
 							})
-							list.filterAmountList = filterAmountList
+							list.totalFee = filterAmountList.filter(item => {
+								return item.type === "totalFee"
+							})
+							list.penalty = filterAmountList.filter(item => {
+								item.type === "penalty"
+							})
+							console.log("list===", list)
 							return this.statusMapping(list)
 						})
 						this.$set(this.overdueList[index], "repayPlan", repayPlan)
-=======
-								return this.planMapping(amountListItem);
-							});
-							list.totalFee = filterAmountList.filter( (item) => {
-								return item.type === "totalFee"
-							});
-							list.penalty = filterAmountList.filter( (item) => {
-								item.type === "penalty"
-							});
-							console.log("list===", list)
-							return this.statusMapping(list);
-						});
-						this.$set(this.overdueList[index], "repayPlan", repayPlan);
->>>>>>> tuling
 					} else {
 						this.$vux.toast.text(data.resultMsg, "middle")
 					}

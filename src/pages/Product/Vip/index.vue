@@ -56,10 +56,9 @@
 		</div>
 		<footer>
 			<div class="footer-main">
-				<router-link :to="{ name: 'VipIntroduce' }"
-					><x-icon type="ios-help-outline" size="24"></x-icon
-					>点击查看怎样成为VIP?</router-link
-				>
+				<router-link :to="{ name: 'VipIntroduce' }">
+					<x-icon type="ios-help-outline" size="24"></x-icon>点击查看怎样成为VIP?
+				</router-link>
 			</div>
 			<img src="./images/footer-bg.png" alt="" />
 		</footer>
