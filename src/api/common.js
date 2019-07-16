@@ -89,7 +89,8 @@ export default {
 	userEaseModGet: userEaseModGet,
 	userInfoHx: userInfoHx,
 	ShowWaitTime: ShowWaitTime,
-	queryUserTip: queryUserTip
+	queryUserTip: queryUserTip,
+	calculateLoanPlan: calculateLoanPlan
 };
 
 /*
@@ -1478,6 +1479,22 @@ export function updateChannelApplicationStatusWacai(params) {
 export function queryUserTip(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/queryUserTip", params).then(
+			res => {
+				resolve(res);
+			},
+			err => {
+				reject(err);
+			}
+		);
+	});
+}
+
+/*
+ *  新试算接口
+ */
+export function calculateLoanPlan(params) {
+	return new Promise((resolve, reject) => {
+		axios.post("/accounting-service/calculateLoanPlan", params).then(
 			res => {
 				resolve(res);
 			},
