@@ -259,7 +259,7 @@ export default {
             val.isAgree = false;
             let agreementTmplArr = [];
             val.agreeLinkList.forEach( item => {
-              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.link + '" target="_blank">' + item.name + '</a>';
+              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.link + '">' + item.name + '</a>';
             })
             val.desBehind 
             let reg = new RegExp("\n","g"); 
@@ -326,7 +326,7 @@ export default {
             val.isAgree = false;
             let agreementTmplArr = [];
             val.insurance.forEach( item => {
-              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.url + '" target="_blank">' + item.name + '</a>';
+              agreementTmplArr[agreementTmplArr.length] = '<a href="' + item.url + '">' + item.name + '</a>';
             })
             val.agreementTmpl =agreementTmplArr.join("、") 
           });
