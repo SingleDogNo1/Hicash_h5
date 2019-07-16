@@ -396,6 +396,39 @@
         $('.wCopePremium').html(data.wCopePremium);
     });
 
+    const calculateLoanPlanParams = {
+        url: '/accounting-service/calculateLoanPlan',
+        type: 'post',
+        data:  {
+            productId : loanProduct,
+            amount : tranPrice
+        }
+    }
+    jqAjax(calculateLoanPlanParams)
+    .then(function(data){
+        console.info('data', data);
+        $("#allMoney").html(tranPrice);
+        $("#bigMoney").html(creat(tranPrice));
+        $(".day").html(data.nowDay);
+        backMoney = data.perMonthPay;
+        expect = data.payMentPeriod;
+        var lastMon=month + 1+expect;
+        if(lastMon>12){
+            lastMon=lastMon-12;
+            year=year+1;
+        }
+        $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $("#expect").html(expect);
+        $("#backMoney").html(backMoney);
+        $("#bigBackMoney").html(creat(backMoney));
+        $("#serviceMoney").html(data.serviceCharge);
+        $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
+        $('.wCopePremiumTwo1').html(data.wMerPermium);
+        $('.monthFee').html(data.monthFee);
+        $('.monthFee1').html(Math.round(data.monthFee * creditDay));
+        $('.wCopePremium').html(data.wCopePremium);
+    });
+
     const UserNameCardParams = {
         url: '/HicashAppService/UserNameCard',
         type: 'post',
