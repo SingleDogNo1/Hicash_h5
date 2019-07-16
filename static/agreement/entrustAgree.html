@@ -207,13 +207,11 @@
          $(".eleData span:eq(0)").html(year);
          $(".eleData span:eq(1)").html(month+1);
          $(".eleData span:eq(2)").html( day) ; */
-        var comefrom=getQueryString("comefrom"),
-            comeFrom=getQueryString("comeFrom");
-
+         
         var from=getQueryString("from");
 
         $(".appNo").html(getQueryString("appNo"));
-        if(comefrom=="APP"){
+        if(getPlatform()=="APP"){
             $("header").hide();
             $(".dconContainer").css("margin-top","0");
         }

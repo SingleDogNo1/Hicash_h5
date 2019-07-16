@@ -352,7 +352,7 @@ D.非依靠披露方披露或提供的信息独自开发的。
   $("#kuai_getTime").html(year + "年" + (month + 1) + "月" + day + "日");
   $("#getDay").html(day);
   $("#kuai_getDay").html(day);
-  if (comefrom == "APP") {
+  if(getPlatform()=="APP"){
     $("header").hide();
     $(".dconContainer").css("margin-top", "0");
   }
