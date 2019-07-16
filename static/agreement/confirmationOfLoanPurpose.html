@@ -182,7 +182,7 @@
             window.location.href=MWEB_PATH+"newweb/personalCenter/signature.html?appNo="+getCookie("appNoAgree");
         }
     });
-    if(comefrom=="APP"){
+    if(getPlatform()=="APP"){
         $("header").hide();
         $(".dconContainer").css("margin-top","0");
     }

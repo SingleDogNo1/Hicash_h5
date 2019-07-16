@@ -350,7 +350,7 @@ Email：<span class="service-email"></span>
   $("#kuai_getTime").html(year + "年" + (month + 1) + "月" + day + "日");
   $("#getDay").html(day);
   $("#kuai_getDay").html(day);
-  if (comefrom == "APP") {
+  if(getPlatform()=="APP"){
     $("header").hide();
     $(".dconContainer").css("margin-top", "0");
   }
