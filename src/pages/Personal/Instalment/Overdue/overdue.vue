@@ -873,7 +873,7 @@ export default {
 								return item.type === "totalFee"
 							});
 							list.penalty = filterAmountList.filter( (item) => {
-								item.type === "penalty"
+								return item.type === "penalty"
 							});
 							console.log("list===", list)
 							return this.statusMapping(list);
