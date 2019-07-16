@@ -76,7 +76,7 @@
 													<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}</span>
 													<span class="value">
 														<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
-														<i v-if="repayPlanItem.status === 'REXP' || repayPlanItem.status === 'WTRP'" @click="showRepayExpenseTip(currentParentIndex, repayPlanIndex, repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
+														<i v-if="repayPlanItem.status === 'REXP'" @click="showRepayExpenseTip(currentParentIndex, repayPlanIndex, repayPlanItem)" :class="changeRepayPlanHelpClass(repayPlanIndex)" :ref="repayPlanHelpRef(currentParentIndex, repayPlanIndex)"></i>
 													</span>
 												</div>
 												<p>{{repayPlanItem.title}}</p>
