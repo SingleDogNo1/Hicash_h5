@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios"
 
 export default {
-  navigateToRecharge: navigateToRecharge,
+	navigateToRecharge: navigateToRecharge,
 	rechargeCoupon: rechargeCoupon,
 	userInfo: userInfo,
 	applyRecharge: applyRecharge
@@ -12,15 +12,15 @@ export default {
  */
 export function navigateToRecharge(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/NewHicashService/navigateToRecharge', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/NewHicashService/navigateToRecharge", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -29,15 +29,15 @@ export function navigateToRecharge(params) {
 
 export function rechargeCoupon(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/NewHicashService/RechargeCoupon', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/NewHicashService/RechargeCoupon", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -46,15 +46,15 @@ export function rechargeCoupon(params) {
 
 export function userInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/NewHicashService/UserInfo', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/NewHicashService/UserInfo", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -63,15 +63,13 @@ export function userInfo(params) {
 
 export function applyRecharge(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/NewHicashService/applyRecharge', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/NewHicashService/applyRecharge", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
-
-

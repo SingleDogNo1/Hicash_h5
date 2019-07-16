@@ -9,11 +9,7 @@
 			<div class="date">
 				<span class="title">逾期天数</span> <span>{{ dayNum }}天</span>
 			</div>
-			<div
-				class="detial"
-				v-for="(listDetial, index) in list"
-				:key="index"
-			>
+			<div class="detial" v-for="(listDetial, index) in list" :key="index">
 				<div
 					class="title"
 					v-html="index === 0 ? detailTitle : listDetial.titleName"
@@ -29,9 +25,7 @@
 						<span class="value">{{ item.loseStatusName }}</span>
 						<span
 							class="line"
-							v-if="
-								listDetial.loseCreditStatus.length > index + 1
-							"
+							v-if="listDetial.loseCreditStatus.length > index + 1"
 						></span>
 					</div>
 				</div>
@@ -44,9 +38,7 @@
 				:class="{ on: loseCreditStatusListItem.isHighLight }"
 				:key="index"
 			>
-				<div class="list-info">
-					{{ loseCreditStatusListItem.collectionM }}
-				</div>
+				<div class="list-info">{{ loseCreditStatusListItem.collectionM }}</div>
 				<b
 					class="list-icon"
 					:class="{ on: loseCreditStatusListItem.isHighLight }"
@@ -177,8 +169,7 @@
 				width: 26px;
 				height: 26px;
 				margin-left: 0.4rem;
-				background: url("./images/icon_empty.png") center center
-					no-repeat;
+				background: url("./images/icon_empty.png") center center no-repeat;
 				background-size: 25px 25px;
 				position: absolute;
 				top: 50%;
@@ -226,9 +217,9 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import PageFooter from "@/components/PageFooter.vue";
-import ToRecharge from "@/components/ToRecharge.vue";
+import PageHeader from "@/components/PageHeader.vue"
+import PageFooter from "@/components/PageFooter.vue"
+import ToRecharge from "@/components/ToRecharge.vue"
 
 export default {
 	components: {
@@ -245,22 +236,22 @@ export default {
 			type: "",
 			dayNum: "",
 			list: []
-		};
+		}
 	},
 	mounted: function() {
-		let hyApplicationNo = this.$route.query.hyApplicationNo;
-		let type = this.$route.query.type;
-		this.type = type;
+		let hyApplicationNo = this.$route.query.hyApplicationNo
+		let type = this.$route.query.type
+		this.type = type
 
 		var jsinner = $(
 			'<script src="https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143" language="JavaScript"><\/script>'
-		);
-		$("body").append(jsinner);
+		)
+		$("body").append(jsinner)
 
 		if (type === "0") {
-			$(".creditHeader h1").html("失信详情");
-			this.detailTitle = "失信";
-			this.title = this.detailTitle + "详情";
+			$(".creditHeader h1").html("失信详情")
+			this.detailTitle = "失信"
+			this.title = this.detailTitle + "详情"
 			window.setTimeout(function() {
 				_czc.push([
 					"_trackEvent",
@@ -269,12 +260,12 @@ export default {
 					"",
 					"",
 					"SXXQ"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 		} else if (type === "1") {
-			$(".creditHeader h1").html("诉讼详情");
-			this.detailTitle = "诉讼";
-			this.title = this.detailTitle + "详情";
+			$(".creditHeader h1").html("诉讼详情")
+			this.detailTitle = "诉讼"
+			this.title = this.detailTitle + "详情"
 			window.setTimeout(function() {
 				_czc.push([
 					"_trackEvent",
@@ -283,12 +274,12 @@ export default {
 					"",
 					"",
 					"SSXQ"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 		} else {
-			$(".creditHeader h1").html("仲裁详情");
-			this.detailTitle = "仲裁";
-			this.title = this.detailTitle + "详情";
+			$(".creditHeader h1").html("仲裁详情")
+			this.detailTitle = "仲裁"
+			this.title = this.detailTitle + "详情"
 			window.setTimeout(function() {
 				_czc.push([
 					"_trackEvent",
@@ -297,44 +288,43 @@ export default {
 					"",
 					"",
 					"ZCXQ"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 		}
 
 		// 请求地址
-		let postData = new URLSearchParams();
-		postData.append("hyApplicationNo", hyApplicationNo);
-		postData.append("type", type);
+		let postData = new URLSearchParams()
+		postData.append("hyApplicationNo", hyApplicationNo)
+		postData.append("type", type)
 		this.common.loseCreditDetail(postData).then(res => {
-			let data = res.data;
+			let data = res.data
 			if (data.resultCode === "1") {
 				if (type === "0") {
-					const list = data.loseCreditStatusList;
-					this.list = list;
+					const list = data.loseCreditStatusList
+					this.list = list
 				} else {
-					const list =
-						data.litigationStatusList || data.arbitrationStatusList;
-					this.list = list;
-					this.dayNum = list[0].titleName;
+					const list = data.litigationStatusList || data.arbitrationStatusList
+					this.list = list
+					this.dayNum = list[0].titleName
 				}
 			} else {
-				var err_code = parseInt(data.resultCode);
+				var err_code = parseInt(data.resultCode)
 				switch (err_code) {
 					case 60200:
-						alert("获取失信诉讼名单失败");
-						break;
+						alert("获取失信诉讼名单失败")
+						break
 					case 60201:
-						alert("获取失信诉讼名单请求参数无效");
-						break;
+						alert("获取失信诉讼名单请求参数无效")
+						break
 					case 60202:
-						alert("请输入15位或18位有效身份证号码");
-						break;
+						alert("请输入15位或18位有效身份证号码")
+						break
 					case 60203:
-						alert("已经没有更多的数据了");
-						break;
+						alert("已经没有更多的数据了")
+						break
 				}
 			}
-		});
+		})
 	}
-};
+}
 </script>

@@ -1,6 +1,8 @@
 <template>
 	<div class="register-body">
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
+		<download-pop
+			v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"
+		></download-pop>
 		<!-- header -->
 		<header class="login-header">
 			<router-link class="go-back" :to="{ name: 'Home' }"></router-link>
@@ -57,20 +59,13 @@
 						v-show="boxshow"
 					></x-input>
 				</transition>
-				<button class="btn-register" @click="checkResultBaiQiShi">
-					注册
-				</button>
+				<button class="btn-register" @click="checkResultBaiQiShi">注册</button>
 				<div class="register-agreement-wrap">
-					<check-icon :value.sync="selected">
-					</check-icon>
+					<check-icon :value.sync="selected"> </check-icon>
 					<span class="tips">注册即表示同意</span>
-					<a :href="agreementUrl1" class="go-to-forget-pwd"
-						>《嗨钱网注册协议》</a
-					>
+					<a :href="agreementUrl1" class="go-to-forget-pwd">《嗨钱网注册协议》</a>
 					<span>及</span>
-					<a :href="agreementUrl2" class="go-to-forget-pwd"
-						>《隐私政策协议》</a
-					>
+					<a :href="agreementUrl2" class="go-to-forget-pwd">《隐私政策协议》</a>
 				</div>
 			</div>
 		</div>
@@ -248,18 +243,18 @@
 					color: #cccccc;
 				}
 				.tips {
-					padding-left: .85rem;
+					padding-left: 0.85rem;
 				}
 				.weui_icon_circle {
 					position: absolute;
 					left: 0;
-					top: .2rem;
+					top: 0.2rem;
 					font-size: 0.6rem !important;
 				}
 				.weui-icon-success {
 					position: absolute;
 					left: 0;
-					top: .2rem;
+					top: 0.2rem;
 					font-size: 0.6rem !important;
 					color: #fd7f5f !important;
 				}
@@ -303,11 +298,11 @@
 </style>
 
 <script type="text/javascript">
-import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux";
+import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux"
 
-import VerificationCodePop from "@/components/VerificationCodePop";
-import DownloadPop from "@/components/downloadPop";
-import ConfirmDialog from "@/components/Dialog";
+import VerificationCodePop from "@/components/VerificationCodePop"
+import DownloadPop from "@/components/downloadPop"
+import ConfirmDialog from "@/components/Dialog"
 
 export default {
 	components: {
@@ -343,247 +338,223 @@ export default {
 			singleButton: true,
 			confirmText: "我知道了",
 			dialogContent: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		showDialog(showDialog) {
-			this.isShowAgreeDialog = showDialog;
+			this.isShowAgreeDialog = showDialog
 		},
 		toggle() {
-			this.boxshow = !this.boxshow;
+			this.boxshow = !this.boxshow
 		},
 		checkResultBaiQiShi() {
-			var mobile = this.mobile.replace(/\s/g, "");
-			var messageCode = this.messageCode.replace(/\s/g, "");
-			var password = this.password.replace(/\s/g, "");
-			var inviteCode = this.inviteCode;
-			var imgCode = this.imgCode.replace(/\s/g, "");
+			var mobile = this.mobile.replace(/\s/g, "")
+			var messageCode = this.messageCode.replace(/\s/g, "")
+			var password = this.password.replace(/\s/g, "")
+			var inviteCode = this.inviteCode
+			var imgCode = this.imgCode.replace(/\s/g, "")
 
-			var errorMsg = "";
+			var errorMsg = ""
 			if (this.mobile == "") {
-				errorMsg = "请输入您的手机号";
+				errorMsg = "请输入您的手机号"
 			} else if (!this.utils.checkMobile(this.mobile)) {
-				errorMsg = "手机号码格式错误";
+				errorMsg = "手机号码格式错误"
 			} else if (
 				this.inviteCode != "" &&
 				!this.utils.checkInviteCode(this.inviteCode)
 			) {
-				errorMsg = "推荐码格式错误";
+				errorMsg = "推荐码格式错误"
 			} else if (this.getMessageCodeText === "获取验证码") {
-				errorMsg = "请点击获取验证码";
+				errorMsg = "请点击获取验证码"
 			} else if (this.messageCode.length < 5) {
-				errorMsg = "短信验证码格式错误";
+				errorMsg = "短信验证码格式错误"
 			} else if (!this.selected) {
-				errorMsg = "请同意相关协议";
+				errorMsg = "请同意相关协议"
 			}
 
 			if (errorMsg != "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
 
-			var postData = new URLSearchParams();
-			postData.append("idustryCode", "HQ");
-			postData.append("idCard", "");
-			postData.append("mobile", this.mobile);
-			postData.append("name", "");
-			postData.append("eventType", "register");
-			postData.append("tokenKey", this.utils.getCookie("uuid"));
-			postData.append("plateform", "h5");
+			var postData = new URLSearchParams()
+			postData.append("idustryCode", "HQ")
+			postData.append("idCard", "")
+			postData.append("mobile", this.mobile)
+			postData.append("name", "")
+			postData.append("eventType", "register")
+			postData.append("tokenKey", this.utils.getCookie("uuid"))
+			postData.append("plateform", "h5")
 
-			var gpsArr = this.utils.getCookie("gpsArr");
+			var gpsArr = this.utils.getCookie("gpsArr")
 			if (gpsArr && gpsArr != "") {
-				gpsArr = gpsArr.split(",");
-				postData.append("h5Longitude", gpsArr[0]);
-				postData.append("h5Latitude", gpsArr[1]);
+				gpsArr = gpsArr.split(",")
+				postData.append("h5Longitude", gpsArr[0])
+				postData.append("h5Latitude", gpsArr[1])
 			}
 			this.$vux.loading.show({
 				text: "数据请求中"
-			});
+			})
 			this.common.checkResultBaiQiShi(postData).then(res => {
-				let resultCode = res.data.resultCode;
+				let resultCode = res.data.resultCode
 				if (resultCode == "1") {
-					this.register();
+					this.register()
 				} else {
-					this.$vux.loading.hide();
+					this.$vux.loading.hide()
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: res.data.resultMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		getMessageCode(position) {
-			var errorMsg = "";
+			var errorMsg = ""
 			if (this.mobile == "") {
-				errorMsg = "请输入您的手机号";
+				errorMsg = "请输入您的手机号"
 			} else if (!this.utils.checkMobile(this.mobile)) {
-				errorMsg = "手机号码格式错误";
+				errorMsg = "手机号码格式错误"
 			}
 			if (errorMsg != "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			this.imgCode = "";
-			this.$refs.content.focus();
-			var postData = new URLSearchParams();
-			postData.append("userName", this.mobile);
-			postData.append("mobile", this.mobile);
-			postData.append("sendFrom", "HTML5");
-			postData.append("sendType", "regist");
-			postData.append("requestSource", "HTML5");
-			postData.append("uuid", this.utils.uuid());
-			postData.append("authId", this.authId);
-			postData.append("imageCode", this.imgCode);
+			this.imgCode = ""
+			this.$refs.content.focus()
+			var postData = new URLSearchParams()
+			postData.append("userName", this.mobile)
+			postData.append("mobile", this.mobile)
+			postData.append("sendFrom", "HTML5")
+			postData.append("sendType", "regist")
+			postData.append("requestSource", "HTML5")
+			postData.append("uuid", this.utils.uuid())
+			postData.append("authId", this.authId)
+			postData.append("imageCode", this.imgCode)
 			this.common.getMessageCode(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode == "1" || data.resultCode == "2") {
 					// 是否显示图片验证码 （1显示，0不显示）
 					if (data.showAuthPic === "0") {
-						this.isDisabled = true;
+						this.isDisabled = true
 						this.utils.timeCount(60, timeCount => {
-							this.getMessageCodeText = timeCount;
-							if (this.getMessageCodeText === "获取验证码")
-								this.isDisabled = false;
-						});
+							this.getMessageCodeText = timeCount
+							if (this.getMessageCodeText === "获取验证码") this.isDisabled = false
+						})
 					} else {
-						this.showToast = true;
-						this.authPic = "data:image/jpg;base64," + data.authPic;
+						this.showToast = true
+						this.authPic = "data:image/jpg;base64," + data.authPic
 					}
 				} else {
-					this.errorMsg = data.resultMsg;
+					this.errorMsg = data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		register() {
-			var mediasource = "HY";
+			var mediasource = "HY"
 			if (this.utils.getCookie("mediasource")) {
-				mediasource = this.utils.getCookie("mediasource");
+				mediasource = this.utils.getCookie("mediasource")
 			}
-			var registerFrom = "HTML5";
+			var registerFrom = "HTML5"
 			if (mediasource == "iosddd") {
-				registerFrom = "iOS";
+				registerFrom = "iOS"
 			} else if (mediasource == "andddd") {
-				registerFrom = "Android";
+				registerFrom = "Android"
 			}
 
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("custType", "KHL2");
-			postData.append("mobileNo", this.mobile);
-			postData.append("identifyingCode", this.messageCode);
-			postData.append("registerFrom", registerFrom);
-			postData.append("browserStr", navigator.userAgent);
-			postData.append("custFrom", mediasource);
-			postData.append("reference", "");
-			postData.append("upPage", "");
-			postData.append("bussiness", "Regist");
-			postData.append("recommend", this.mobile);
-			postData.append("recommendCode", this.inviteCode);
-			postData.append("requestSource", "HTML5");
-			postData.append("activeFrom", "");
-			var reference = this.utils.getCookie("reference");
-			var upPage = this.utils.getCookie("upPage");
-			var activeFrom = this.utils.getCookie("activeFrom");
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("custType", "KHL2")
+			postData.append("mobileNo", this.mobile)
+			postData.append("identifyingCode", this.messageCode)
+			postData.append("registerFrom", registerFrom)
+			postData.append("browserStr", navigator.userAgent)
+			postData.append("custFrom", mediasource)
+			postData.append("reference", "")
+			postData.append("upPage", "")
+			postData.append("bussiness", "Regist")
+			postData.append("recommend", this.mobile)
+			postData.append("recommendCode", this.inviteCode)
+			postData.append("requestSource", "HTML5")
+			postData.append("activeFrom", "")
+			var reference = this.utils.getCookie("reference")
+			var upPage = this.utils.getCookie("upPage")
+			var activeFrom = this.utils.getCookie("activeFrom")
 			if (reference && reference != "null") {
-				postData.append("reference", reference);
+				postData.append("reference", reference)
 			}
 			if (upPage && upPage != "null") {
-				postData.append("upPage", upPage);
+				postData.append("upPage", upPage)
 			}
 			if (activeFrom && activeFrom != "null") {
-				postData.append("activeFrom", activeFrom);
+				postData.append("activeFrom", activeFrom)
 			}
 			this.common.register(postData).then(res => {
 				// token为空代表异常情况，不为空代表注册成功
-				this.$vux.loading.hide();
-				let data = res.data;
+				this.$vux.loading.hide()
+				let data = res.data
 				if (data.token !== "") {
-					window.gio("setUserId", data.loginInfo.userName);
+					window.gio("setUserId", data.loginInfo.userName)
 					this.jsCommon.setAuthorization(
 						data.loginInfo.userName,
 						data.loginInfo.token
-					);
-					this.imgCode = "";
-					var source = this.utils.getCookie("source");
-					var dxObj = this.utils.getCookie("dxObj");
-					var telObj = this.utils.getCookie("telObj");
-					var activeFrom = this.utils.getCookie("activeFrom");
-					var mediasource = this.utils.getCookie("mediasource");
-					this.utils.clearCookie();
+					)
+					this.imgCode = ""
+					var source = this.utils.getCookie("source")
+					var dxObj = this.utils.getCookie("dxObj")
+					var telObj = this.utils.getCookie("telObj")
+					var activeFrom = this.utils.getCookie("activeFrom")
+					var mediasource = this.utils.getCookie("mediasource")
+					this.utils.clearCookie()
 					if (source && source == "APP") {
-						this.utils.setCookie("source", "APP");
+						this.utils.setCookie("source", "APP")
 					}
-					if (
-						activeFrom &&
-						activeFrom != "" &&
-						activeFrom != "null"
-					) {
-						this.utils.setCookie("activeFrom", activeFrom);
+					if (activeFrom && activeFrom != "" && activeFrom != "null") {
+						this.utils.setCookie("activeFrom", activeFrom)
 					}
-					if (
-						mediasource &&
-						mediasource != "" &&
-						mediasource != "null"
-					) {
-						this.utils.setCookie("mediasource", mediasource);
-						window.sessionStorage.setItem('mediasource', mediasource);
+					if (mediasource && mediasource != "" && mediasource != "null") {
+						this.utils.setCookie("mediasource", mediasource)
+						window.sessionStorage.setItem("mediasource", mediasource)
 					}
-					this.utils.setCookie("userName", data.loginInfo.userName);
-					this.utils.setCookie("mobile", data.loginInfo.mobile);
-					this.utils.setCookie("custType", data.loginInfo.custType);
-					this.utils.setCookie(
-						"realName",
-						escape(data.loginInfo.realName)
-					);
-					this.utils.setCookie(
-						"identityCode",
-						data.loginInfo.identityNo
-					);
-					this.utils.setCookie(
-						"isDoubleSales",
-						data.loginInfo.isDoubleSales
-					);
-					this.utils.setCookie(
-						"inOneMonthReg",
-						data.loginInfo.inOneMonthReg
-					);
-					this.utils.setCookie(
-						"isLanUserFlag",
-						data.loginInfo.isLanUserFlag
-					);
+					this.utils.setCookie("userName", data.loginInfo.userName)
+					this.utils.setCookie("mobile", data.loginInfo.mobile)
+					this.utils.setCookie("custType", data.loginInfo.custType)
+					this.utils.setCookie("realName", escape(data.loginInfo.realName))
+					this.utils.setCookie("identityCode", data.loginInfo.identityNo)
+					this.utils.setCookie("isDoubleSales", data.loginInfo.isDoubleSales)
+					this.utils.setCookie("inOneMonthReg", data.loginInfo.inOneMonthReg)
+					this.utils.setCookie("isLanUserFlag", data.loginInfo.isLanUserFlag)
 
 					if (dxObj && telObj) {
-						this.utils.setCookie("dxObj", dxObj);
-						this.utils.setCookie("telObj", telObj);
+						this.utils.setCookie("dxObj", dxObj)
+						this.utils.setCookie("telObj", telObj)
 					}
-					var from = this.utils.getQueryString("from");
-					var redirect = this.utils.getQueryString("redirect");
-					if ("hicash.ericsky.com" == redirect) {
-						window.location.href = "http://hicash.ericsky.com";
-						return false;
+					var from = this.utils.getQueryString("from")
+					var redirect = this.utils.getQueryString("redirect")
+					if (redirect == "hicash.ericsky.com") {
+						window.location.href = "http://hicash.ericsky.com"
+						return false
 						this.$vux.toast.show({
 							position: "middle",
 							text: "注册成功"
-						});
+						})
 					}
 					this.$vux.toast.show({
 						position: "middle",
 						text: "注册成功"
-					});
+					})
 					setTimeout(() => {
 						var redirect = this.$route.query.redirect
 							? this.$route.query.redirect
-							: "/";
-						this.$router.push({ path: redirect });
-					}, 2000);
+							: "/"
+						this.$router.push({ path: redirect })
+					}, 2000)
 				} else {
 					// this.errorMsg = res.data.resultMsg;
 					// this.$vux.toast.show({
@@ -591,56 +562,54 @@ export default {
 					//     position: 'middle',
 					//     text: this.errorMsg
 					// })
-					this.imgCode = "";
+					this.imgCode = ""
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: data.resultMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		showTimeCount(timeCount) {
-			this.getMessageCodeText = timeCount;
-			this.isDisabled = true;
-			if (this.getMessageCodeText === "获取验证码")
-				this.isDisabled = false;
+			this.getMessageCodeText = timeCount
+			this.isDisabled = true
+			if (this.getMessageCodeText === "获取验证码") this.isDisabled = false
 		},
 		newImgCode(newImgCode) {
-			this.imgCode = newImgCode;
+			this.imgCode = newImgCode
 		},
 		showToast1(showToast1) {
-			this.showToast = showToast1;
+			this.showToast = showToast1
 		}
 	},
 	mounted: function() {
-		let queryUserTipObj = new URLSearchParams();
-			queryUserTipObj.append("type", "QRMSG1");
-			queryUserTipObj.append("key", "register01");
-		this.common.queryUserTip(queryUserTipObj).then( res => {
-			let data = res.data.data;
-			this.dialogContent = data.register01;
+		let queryUserTipObj = new URLSearchParams()
+		queryUserTipObj.append("type", "QRMSG1")
+		queryUserTipObj.append("key", "register01")
+		this.common.queryUserTip(queryUserTipObj).then(res => {
+			let data = res.data.data
+			this.dialogContent = data.register01
 		})
 		this.agreementUrl1 =
 			this.config.MWEB_PATH +
-			"newweb/new_agreement/hiCashRegisterAgreement.html?comeCode=gk";
+			"newweb/new_agreement/hiCashRegisterAgreement.html?comeCode=gk"
 		this.agreementUrl2 =
-			this.config.MWEB_PATH +
-			"newweb/new_agreement/thirdParty.html?comeCode=gk";
-		var userName = this.utils.getCookie("userName");
-		var inviteCode = this.utils.getCookie("inviteCode");
+			this.config.MWEB_PATH + "newweb/new_agreement/thirdParty.html?comeCode=gk"
+		var userName = this.utils.getCookie("userName")
+		var inviteCode = this.utils.getCookie("inviteCode")
 		if (inviteCode) {
-			this.inviteCode = inviteCode;
+			this.inviteCode = inviteCode
 		}
-		this.mediasource = window.sessionStorage.getItem("mediasource");
+		this.mediasource = window.sessionStorage.getItem("mediasource")
 	},
 	watch: {
 		selected: function(val, oldval) {
 			console.log("val===", val)
-			if(val) {
+			if (val) {
 				this.isShowAgreeDialog = true
 			}
 		}
 	}
-};
+}
 </script>

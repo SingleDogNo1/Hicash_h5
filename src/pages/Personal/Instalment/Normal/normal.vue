@@ -28,11 +28,7 @@
 			lock-x
 			:height="
 				isShowBanner
-					? swiperHeight -
-					  bannerADHeight -
-					  checkerBodyHeight -
-					  8 +
-					  'px'
+					? swiperHeight - bannerADHeight - checkerBodyHeight - 8 + 'px'
 					: swiperHeight - checkerBodyHeight - 8 + 'px'
 			"
 			@on-scroll="onScroll"
@@ -51,20 +47,14 @@
 					<div class="flex-order-item">
 						<div class="order-top">
 							<div class="order-des">
-								<div class="order-title">
-									{{ item.industryName }}
-								</div>
-								<div class="order-num">
-									订单号:{{ item.appNo }}
-								</div>
+								<div class="order-title">{{ item.industryName }}</div>
+								<div class="order-num">订单号:{{ item.appNo }}</div>
 							</div>
 							<div class="order-date">{{ item.createDate }}</div>
 						</div>
 						<!-- success 完成 | wait 等待 | failed 失败 | grep 灰-->
 						<van-steps
-							:active="
-								item.nodeList.length - item.nodeGrepNum - 1
-							"
+							:active="item.nodeList.length - item.nodeGrepNum - 1"
 							active-color="#FF7640"
 						>
 							<van-step
@@ -84,19 +74,13 @@
 							</div>
 						</div>
 
-						<div
-							v-if="item.appStatus === 'REJECTNODE'"
-							class="notice"
-						>
+						<div v-if="item.appStatus === 'REJECTNODE'" class="notice">
 							{{ item.rejectMsg }}
 						</div>
 
 						<div
 							class="actions"
-							v-if="
-								item.appStatus !== 'LOANFAILED' &&
-									item.appStatus !== 'LOAN'
-							"
+							v-if="item.appStatus !== 'LOANFAILED' && item.appStatus !== 'LOAN'"
 						>
 							<a
 								v-if="item.appStatus === 'REJECTNODE'"
@@ -118,7 +102,7 @@
 										item.appStatus === 'SIGNNODE'
 								"
 								href="javascript:void(0);"
-								@click="cancelOrderItem=item,isShowCancelPop=true"
+								@click=";(cancelOrderItem = item), (isShowCancelPop = true)"
 								class="btn btn-channel"
 								>取消订单</a
 							>
@@ -135,12 +119,8 @@
 					<div class="flex-order-item" ref="flexboxItem">
 						<div class="order-top">
 							<div class="order-des">
-								<div class="order-title">
-									{{ item.industryName }}
-								</div>
-								<div class="order-num">
-									订单号:{{ item.appNo }}
-								</div>
+								<div class="order-title">{{ item.industryName }}</div>
+								<div class="order-num">订单号:{{ item.appNo }}</div>
 							</div>
 							<div class="order-date">{{ item.createDate }}</div>
 						</div>
@@ -161,12 +141,9 @@
 								<tr>
 									<td
 										v-html="
-											item.appStatus ===
-												'WITHDRAWALNODE' ||
-											item.appStatus ===
-												'WITHDRAWALING' ||
-											item.appStatus ===
-												'WITHDRAWALSUCCESS'
+											item.appStatus === 'WITHDRAWALNODE' ||
+											item.appStatus === 'WITHDRAWALING' ||
+											item.appStatus === 'WITHDRAWALSUCCESS'
 												? '金额计算中'
 												: item.amount + '元'
 										"
@@ -176,18 +153,12 @@
 										<popover
 											placement="bottom"
 											v-if="
-												item.appStatus ===
-													'WITHDRAWALNODE' ||
-													item.appStatus ===
-														'WITHDRAWALING' ||
-													item.appStatus ===
-														'WITHDRAWALSUCCESS'
+												item.appStatus === 'WITHDRAWALNODE' ||
+													item.appStatus === 'WITHDRAWALING' ||
+													item.appStatus === 'WITHDRAWALSUCCESS'
 											"
 										>
-											<div
-												slot="content"
-												class="popover-content"
-											>
+											<div slot="content" class="popover-content">
 												放款成功，已经开始计息
 											</div>
 											<van-icon
@@ -203,12 +174,12 @@
 							</tbody>
 						</x-table>
 
-						<div
-							class="actions"
-							v-if="item.appStatus !== 'WITHDRAWALSUCCESS'"
-						>
+						<div class="actions" v-if="item.appStatus !== 'WITHDRAWALSUCCESS'">
 							<div
-								v-if="item.appStatus === 'WITHDRAWALNODE' || item.appStatus === 'WITHDRAWALING'"
+								v-if="
+									item.appStatus === 'WITHDRAWALNODE' ||
+										item.appStatus === 'WITHDRAWALING'
+								"
 								class="tx-amount"
 							>
 								借款金额：<span>{{ item.amount }}元</span>
@@ -219,7 +190,8 @@
 								:class="item.showOtherOrder ? 'up' : 'down'"
 								@click="openAll(item, index)"
 								v-if="item.appStatus === 'REPAYNODE'"
-								><span>{{item.btnExpandText}}</span><i></i
+								><span>{{ item.btnExpandText }}</span
+								><i></i
 							></a>
 							<a
 								:href="item.rechargeUrl"
@@ -240,24 +212,42 @@
 							class="other-order"
 							ref="otherOrder"
 							:class="item.showOtherOrder ? 'animate' : ''"
-						>	
+						>
 							<div class="each-order-wrap">
 								<div class="detail-list-wrap">
 									<ul class="detail-list">
 										<li>
-											<span>借款金额(元)</span>
-											<span>{{applyAmount}}</span>
+											<span>借款金额(元)</span> <span>{{ applyAmount }}</span>
 										</li>
 										<li>
-											<span>借款期限</span>
-											<span>{{period}}期</span>
+											<span>借款期限</span> <span>{{ period }}期</span>
 										</li>
 										<li>
 											<span>每期还款</span>
-											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
+											<span class="value"
+												>{{ totalAmount
+												}}<i
+													:class="changeHelpClass(index)"
+													@click="showExpenseTip(item)"
+												></i
+											></span>
 										</li>
-										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
-											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										<li
+											class="expense-description"
+											:class="item.showExpenseTip ? 'animate' : ''"
+										>
+											<p>
+												注：含<span
+													v-for="(currentPeriodOrderItem,
+													orderItemIndex) in newCurrentPeriodOrder"
+													:key="orderItemIndex"
+													>{{ currentPeriodOrderItem.amountName
+													}}{{ currentPeriodOrderItem.amountFilter
+													}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1"
+														>+</span
+													></span
+												>
+											</p>
 										</li>
 									</ul>
 									<!-- <div class="expense-description" :class="changeExpenseClass(index)" v-if="item.showExpenseTip">
@@ -266,15 +256,25 @@
 									</div> -->
 								</div>
 								<ul class="repay-plan-list">
-									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index" :class="{highlight: repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'}">
+									<li
+										v-for="(repayPlanItem, index) in item.repayPlan"
+										:key="index"
+										:class="{
+											highlight:
+												repayPlanItem.status === 'WTRP' || repayPlanItem.status === 'REXP'
+										}"
+									>
 										<div class="each-repay-plan">
 											<div class="each-repay-plan-left" ref="eachRepayPlan">
-												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+												<span class="title"
+													>{{ repayPlanItem.period }}期{{ repayPlanItem.date
+													}}{{ item.type }}</span
+												>
 												<span class="value">
-													<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+													<span>{{ repayPlanItem.eachPeriodAmountSum }}</span>
 												</span>
 											</div>
-											<p>{{repayPlanItem.title}}</p>
+											<p>{{ repayPlanItem.title }}</p>
 										</div>
 									</li>
 								</ul>
@@ -292,12 +292,8 @@
 					<div class="flex-order-item" ref="flexboxItem">
 						<div class="order-top">
 							<div class="order-des">
-								<div class="order-title">
-									{{ item.industryName }}
-								</div>
-								<div class="order-num">
-									订单号:{{ item.appNo }}
-								</div>
+								<div class="order-title">{{ item.industryName }}</div>
+								<div class="order-num">订单号:{{ item.appNo }}</div>
 							</div>
 							<div class="order-date">{{ item.createDate }}</div>
 						</div>
@@ -317,10 +313,7 @@
 							</thead>
 						</x-table>
 
-						<div
-							v-if="item.appStatus === 'REJECTNODE'"
-							class="notice"
-						>
+						<div v-if="item.appStatus === 'REJECTNODE'" class="notice">
 							{{ item.rejectMsg }}
 						</div>
 
@@ -336,14 +329,14 @@
 								"
 								><span>展开所有</span><i></i
 							></a> -->
-								<a
+							<a
 								href="javascript:void(0);"
 								class="btn-expand-all"
 								:class="item.showOtherOrder ? 'up' : 'down'"
 								@click="openAll(item, index)"
-								v-if="item.appStatus === 'ENDNODE'
-								"
-								><span>{{item.btnExpandText}}</span><i></i
+								v-if="item.appStatus === 'ENDNODE'"
+								><span>{{ item.btnExpandText }}</span
+								><i></i
 							></a>
 							<a
 								href="javascript:void(0);"
@@ -374,19 +367,37 @@
 								<div class="detail-list-wrap">
 									<ul class="detail-list">
 										<li>
-											<span>借款金额(元)</span>
-											<span>{{applyAmount}}</span>
+											<span>借款金额(元)</span> <span>{{ applyAmount }}</span>
 										</li>
 										<li>
-											<span>借款期限</span>
-											<span>{{period}}期</span>
+											<span>借款期限</span> <span>{{ period }}期</span>
 										</li>
 										<li>
 											<span>每期还款</span>
-											<span class="value">{{totalAmount}}<i :class="changeHelpClass(index)" @click="showExpenseTip(item)"></i></span>
+											<span class="value"
+												>{{ totalAmount
+												}}<i
+													:class="changeHelpClass(index)"
+													@click="showExpenseTip(item)"
+												></i
+											></span>
 										</li>
-										<li class="expense-description" :class="item.showExpenseTip ? 'animate' : ''">
-											<p>注：含<span v-for="(currentPeriodOrderItem, orderItemIndex) in  newCurrentPeriodOrder" :key="orderItemIndex">{{currentPeriodOrderItem.amountName}}{{currentPeriodOrderItem.amountFilter}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1">+</span></span></p>
+										<li
+											class="expense-description"
+											:class="item.showExpenseTip ? 'animate' : ''"
+										>
+											<p>
+												注：含<span
+													v-for="(currentPeriodOrderItem,
+													orderItemIndex) in newCurrentPeriodOrder"
+													:key="orderItemIndex"
+													>{{ currentPeriodOrderItem.amountName
+													}}{{ currentPeriodOrderItem.amountFilter
+													}}<span v-if="orderItemIndex !== newCurrentPeriodOrder.length - 1"
+														>+</span
+													></span
+												>
+											</p>
 										</li>
 									</ul>
 								</div>
@@ -394,12 +405,15 @@
 									<li v-for="(repayPlanItem, index) in item.repayPlan" :key="index">
 										<div class="each-repay-plan">
 											<div class="each-repay-plan-left" ref="eachRepayPlan">
-												<span class="title">{{repayPlanItem.period}}期{{repayPlanItem.date}}{{item.type}}</span>
+												<span class="title"
+													>{{ repayPlanItem.period }}期{{ repayPlanItem.date
+													}}{{ item.type }}</span
+												>
 												<span class="value">
-													<span>{{repayPlanItem.eachPeriodAmountSum}}</span>
+													<span>{{ repayPlanItem.eachPeriodAmountSum }}</span>
 												</span>
 											</div>
-											<p>{{repayPlanItem.title}}</p>
+											<p>{{ repayPlanItem.title }}</p>
 										</div>
 									</li>
 								</ul>
@@ -419,17 +433,31 @@
 		<load-more v-if="!showNoData" tip=""></load-more>
 
 		<div v-transfer-dom>
-			<confirm v-model="isShowCancelPop" class="reportConfirm" title="提示" @on-confirm="cancelOrder">
-				<p style="text-align:center;">您确定要取消订单吗？多次取消订单将影响您的信用哦~</p>
+			<confirm
+				v-model="isShowCancelPop"
+				class="reportConfirm"
+				title="提示"
+				@on-confirm="cancelOrder"
+			>
+				<p style="text-align:center;">
+					您确定要取消订单吗？多次取消订单将影响您的信用哦~
+				</p>
 			</confirm>
 		</div>
 
 		<div v-transfer-dom>
-			<confirm v-model="isShowDownloadApp" class="defConfirm" title="提示" confirm-text="去下载APP" @on-confirm="downloadApp">
-				<p style="text-align:left;">亲爱的用户您好，为保障您的信息安全和资金安全，签约步骤必须在APP内完成，请前往应用商店下载嗨钱APP。通过嗨钱APP借款，额度更高，下款更快，还有机会获取免息优惠券哦。</p>
+			<confirm
+				v-model="isShowDownloadApp"
+				class="defConfirm"
+				title="提示"
+				confirm-text="去下载APP"
+				@on-confirm="downloadApp"
+			>
+				<p style="text-align:left;">
+					亲爱的用户您好，为保障您的信息安全和资金安全，签约步骤必须在APP内完成，请前往应用商店下载嗨钱APP。通过嗨钱APP借款，额度更高，下款更快，还有机会获取免息优惠券哦。
+				</p>
 			</confirm>
 		</div>
-
 	</div>
 </template>
 
@@ -596,16 +624,14 @@
 			}
 			&.up {
 				i {
-					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-						rotate(270deg);
+					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
 					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
 					margin-top: 6px;
 				}
 			}
 			&.down {
 				i {
-					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-						rotate(90deg);
+					-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
 					transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
 					margin-top: 1px;
 				}
@@ -644,14 +670,15 @@
 			.detail-list-wrap {
 				position: relative;
 				.detail-list {
-					background: #F4F4F4;
+					background: #f4f4f4;
 					padding: rem(16px);
 					li {
 						display: flex;
 						justify-content: space-between;
 						margin-bottom: rem(16px);
 						font-size: rem(15px);
-						&:nth-child(3), &:nth-child(4) {
+						&:nth-child(3),
+						&:nth-child(4) {
 							margin-bottom: 0;
 						}
 						.value {
@@ -670,7 +697,7 @@
 							width: 100%;
 							overflow: hidden;
 							max-height: 0;
-							transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+							transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
 							color: #999999;
 							font-size: rem(13px);
 							margin-top: rem(8px);
@@ -725,9 +752,9 @@
 					margin-top: rem(16px);
 					// display: flex;
 					// justify-content: space-between;
-					color:#CCCCCC;
+					color: #cccccc;
 					&.highlight {
-						color:#FF7640;		
+						color: #ff7640;
 					}
 					&:nth-child(1) {
 						padding-left: rem(3px);
@@ -735,17 +762,18 @@
 					// &:nth-child(2), &:nth-child(3) {
 					// 	padding-left: rem(4px);
 					// }
-					&:nth-child(3), &:nth-child(4) {
+					&:nth-child(3),
+					&:nth-child(4) {
 						margin-bottom: 0;
 					}
 					&.expense-description {
 						width: 100%;
 						overflow: hidden;
 						max-height: 0;
-						transition: max-height .5s cubic-bezier(0, 1, 0, 1) -0.1s;
+						transition: max-height 0.5s cubic-bezier(0, 1, 0, 1) -0.1s;
 						color: #999999;
 						font-size: rem(13px);
-						margin-top: rem(8px)
+						margin-top: rem(8px);
 					}
 					&.animate {
 						max-height: 9999px;
@@ -770,7 +798,8 @@
 									display: inline-block;
 									width: rem(18px);
 									height: rem(18px);
-									background: url("../images/icon_help_overdue.png") center center no-repeat;
+									background: url("../images/icon_help_overdue.png") center center
+										no-repeat;
 									background-size: cover;
 									margin-left: rem(7px);
 								}
@@ -808,8 +837,7 @@
 				border-width: 1px 1px 0 0;
 				border-color: #ff7640;
 				border-style: solid;
-				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-					rotate(270deg);
+				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
 				transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
 				position: relative;
 				top: 50%;
@@ -820,7 +848,7 @@
 	}
 	.done .each-order-wrap .repay-plan-list {
 		li {
-			color:#333333;
+			color: #333333;
 		}
 	}
 
@@ -1073,9 +1101,9 @@ import {
 	XTable,
 	Popover,
 	TransferDomDirective as TransferDom
-} from "vux";
-import { Step, Steps, Icon } from "vant";
-const moment = require("moment");
+} from "vux"
+import { Step, Steps, Icon } from "vant"
+const moment = require("moment")
 export default {
 	props: {
 		isShowBanner: {
@@ -1119,8 +1147,7 @@ export default {
 			scrollTop: "0", // * 初始化滚动条位置
 			otherOrderHeight: 0, // * 初始化还款计划高度
 			items: [], // * 初始化列表数据
-			scrollHeight:
-				this.utils.getPlatform() == "APP" ? "-110px" : "-160px", // * 初始化列表高度
+			scrollHeight: this.utils.getPlatform() == "APP" ? "-110px" : "-160px", // * 初始化列表高度
 			pageSize: "20", // * 设置每页最大数
 			pageNo: "1", // * 初始化当前页
 			listDataloading: true, // * 初始化Loading显示状态
@@ -1139,18 +1166,18 @@ export default {
 			totalAmount: "",
 			newCurrentPeriodOrder: [],
 			currentIndex: 0
-		};
+		}
 	},
 	mounted() {
-		this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight;
+		this.checkerBodyHeight = this.$refs.checkerBody.offsetHeight
 		this.scrollHeight = this.isShowBanner
 			? this.swiperHeight -
 			  this.bannerADHeight -
 			  this.$refs.checkerBody.offsetHeight +
 			  "px"
-			: this.swiperHeight - this.$refs.checkerBody.offsetHeight + "px";
+			: this.swiperHeight - this.$refs.checkerBody.offsetHeight + "px"
 
-		this.isDownloadAppFun();
+		this.isDownloadAppFun()
 	},
 	methods: {
 		/**
@@ -1160,23 +1187,20 @@ export default {
 		 * */
 		checkerStatus(type) {
 			if (this.checkerType !== type) {
-				this.items = []; // * 初始化数据
-				this.pageNo = "1"; // * 初始化页码
-				this.checkerType = type || this.$route.query.from || "repay"; // * 更新当前的Tag
-				this.getListData(this.checkerType); // * 请求列表数据
-				this.onFetching = false; // * 初始化分页锁定状态
+				this.items = [] // * 初始化数据
+				this.pageNo = "1" // * 初始化页码
+				this.checkerType = type || this.$route.query.from || "repay" // * 更新当前的Tag
+				this.getListData(this.checkerType) // * 请求列表数据
+				this.onFetching = false // * 初始化分页锁定状态
 			}
 		},
 		// ! 签约
 		sign(item) {
-			const appNo = item.appNo;
-			const applyAmount = item.amount;
-			const loanProduct = item.loanProduct;
-			const industryCode = item.industryCode;
-			this.utils.setCookie(
-				"prodetailInfo",
-				applyAmount + ":" + loanProduct
-			);
+			const appNo = item.appNo
+			const applyAmount = item.amount
+			const loanProduct = item.loanProduct
+			const industryCode = item.industryCode
+			this.utils.setCookie("prodetailInfo", applyAmount + ":" + loanProduct)
 			if (this.utils.getPlatform() == "APP") {
 				window.hicashJSCommunication.onCallApp(
 					JSON.stringify({
@@ -1184,13 +1208,16 @@ export default {
 						industry_code: industryCode,
 						app_no: appNo
 					})
-				);
-				return false;
-			}else if(this.isDownloadApp && this.utils.getPlatform() != "APP"){
-				this.isShowDownloadApp = true;
-				return false;
+				)
+				return false
+			} else if (this.isDownloadApp && this.utils.getPlatform() != "APP") {
+				this.isShowDownloadApp = true
+				return false
 			}
-			this.$router.push({ name: 'Signature', query:{appNo: appNo, comefrom: 'H5'} });
+			this.$router.push({
+				name: "Signature",
+				query: { appNo: appNo, comefrom: "H5" }
+			})
 			// window.location.href =
 			// 	this.config.MWEB_PATH +
 			// 	"newweb/personalCenter/signature.html?comefrom=H5&appNo=" +
@@ -1198,18 +1225,18 @@ export default {
 		},
 		// ! 提现
 		withdrawals(item) {
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
-			postData.append("txAmount", item.amount);
-			postData.append("uuid", this.utils.uuid());
-			postData.append("appNo", item.appNo);
+			let userName = this.utils.getCookie("userName")
+			let postData = new URLSearchParams()
+			postData.append("userName", userName)
+			postData.append("txAmount", item.amount)
+			postData.append("uuid", this.utils.uuid())
+			postData.append("appNo", item.appNo)
 
 			this.common.QueryWithdrawData(postData).then(res => {
-				let _data = res.data;
-				if (typeof data === "string") _data = JSON.parse(data);
+				let _data = res.data
+				if (typeof data === "string") _data = JSON.parse(data)
 
-				if(_data.map){
+				if (_data.map) {
 					window.location.href =
 						this.config.MWEB_PATH +
 						"newweb/personalCenter/withdrawalsTransfer.html?txAmount=" +
@@ -1217,34 +1244,33 @@ export default {
 						"&appNo=" +
 						item.appNo +
 						"&userName=" +
-						userName;
-				}else {
-					window.location.href = _data.followUrl;
-				} 
-			});
+						userName
+				} else {
+					window.location.href = _data.followUrl
+				}
+			})
 		},
 		// ! 展开还款计划
 		openAll(item, index) {
-			this.banRechecked = false;
-			this.items.forEach( (val,index) => {
-				if(index !== item.currentIndex) {
-					val.showOtherOrder = false;
-					val.btnExpandText = "展开计划";
+			this.banRechecked = false
+			this.items.forEach((val, index) => {
+				if (index !== item.currentIndex) {
+					val.showOtherOrder = false
+					val.btnExpandText = "展开计划"
 				}
-			});
-			this.items[index].btnExpandText = this.items[index].showOtherOrder ? "展开计划" : "收起计划";
-			this.items[index].showOtherOrder = !this.items[index]
-				.showOtherOrder;
+			})
+			this.items[index].btnExpandText = this.items[index].showOtherOrder
+				? "展开计划"
+				: "收起计划"
+			this.items[index].showOtherOrder = !this.items[index].showOtherOrder
 
-			if(this.items[index].showOtherOrder) {
+			if (this.items[index].showOtherOrder) {
 				setTimeout(() => {
-					this.otherOrderHeight = this.$refs.otherOrder[
-						index
-					].offsetHeight;
+					this.otherOrderHeight = this.$refs.otherOrder[index].offsetHeight
 					this.$nextTick(() => {
-						this.$refs.scrollerBottom.reset();
-					});
-				}, 1000);
+						this.$refs.scrollerBottom.reset()
+					})
+				}, 1000)
 				// let _top = 0;
 				// if (index > 0) {
 				// 	_.each(this.$refs.flexboxItem, (item, i) => {
@@ -1255,11 +1281,11 @@ export default {
 				// this.$nextTick(() => {
 				// 	this.$refs.scrollerBottom.reset({ top: _top });
 				// });
-				let vm = this;
-				let userName = this.utils.getCookie("userName");
-				let postData = new URLSearchParams();
-				postData.append("userName", userName);
-				postData.append("appNo", item.appNo);
+				let vm = this
+				let userName = this.utils.getCookie("userName")
+				let postData = new URLSearchParams()
+				postData.append("userName", userName)
+				postData.append("appNo", item.appNo)
 				this.common.orderDetailInfo(postData).then(res => {
 					// res.data = {
 					// 		"resultCode": "1",
@@ -1304,268 +1330,285 @@ export default {
 					// 		],
 					// 		"userName": "153222222"
 					// }
-					let data = res.data;
+					let data = res.data
 					if (data.resultCode == "1") {
-						this.otherOrderHeight = this.$refs.otherOrder[
-							index
-						].offsetHeight;
+						this.otherOrderHeight = this.$refs.otherOrder[index].offsetHeight
 						this.$nextTick(() => {
-							this.$refs.scrollerBottom.reset();
-						});
-						const currentPeriod = data.currentPeriod ? parseInt(data.currentPeriod) - 1 : 0;
-						this.applyAmount = data.applyAmount;
-						this.period = data.period;
-						const currentPeriodOrder = data.repayPlan[currentPeriod];
+							this.$refs.scrollerBottom.reset()
+						})
+						const currentPeriod = data.currentPeriod
+							? parseInt(data.currentPeriod) - 1
+							: 0
+						this.applyAmount = data.applyAmount
+						this.period = data.period
+						const currentPeriodOrder = data.repayPlan[currentPeriod]
 						console.log("currentPeriodOrder===", currentPeriodOrder)
-						const orderTypeKeys = [];
-						for (const property in currentPeriodOrder.amountList){
-							if(currentPeriodOrder.amountList[property] !== "0.00" && property != "totalFee") {
+						const orderTypeKeys = []
+						for (const property in currentPeriodOrder.amountList) {
+							if (
+								currentPeriodOrder.amountList[property] !== "0.00" &&
+								property != "totalFee"
+							) {
 								let item = {
 									type: property,
 									amount: parseFloat(currentPeriodOrder.amountList[property]),
-									amountFilter: this.utils.toDecimal2(currentPeriodOrder.amountList[property])
+									amountFilter: this.utils.toDecimal2(
+										currentPeriodOrder.amountList[property]
+									)
 								}
-								orderTypeKeys.push(item);
+								orderTypeKeys.push(item)
 							}
 						}
 						let newCurrentPeriodOrder = _.map(orderTypeKeys, list => {
-							return this.planMapping(list);
-						});
-						const totalAmountValue = _.pluck(newCurrentPeriodOrder, "amount");
-						const totalAmount = _.reduce(totalAmountValue, function(memo, num){ return memo + num; }, 0);
+							return this.planMapping(list)
+						})
+						const totalAmountValue = _.pluck(newCurrentPeriodOrder, "amount")
+						const totalAmount = _.reduce(
+							totalAmountValue,
+							function(memo, num) {
+								return memo + num
+							},
+							0
+						)
 						//保留2位小数，如：2，会在2后面补上00.即2.00
-						this.totalAmount = this.utils.toDecimal2(totalAmount);
-						this.newCurrentPeriodOrder = newCurrentPeriodOrder;
-						let repayPlan = _.map(data.repayPlan, (list,key) => {
+						this.totalAmount = this.utils.toDecimal2(totalAmount)
+						this.newCurrentPeriodOrder = newCurrentPeriodOrder
+						let repayPlan = _.map(data.repayPlan, (list, key) => {
 							//list.period = key === 0 ? "首" : key + 1;
-							list.period = key + 1;
-							const eachPeriodAmountSumArr = [];
+							list.period = key + 1
+							const eachPeriodAmountSumArr = []
 							for (const i in list.amountList) {
-								if(list.amountList[i] !== "0.00" && i != "totalFee") {
+								if (list.amountList[i] !== "0.00" && i != "totalFee") {
 									const item = {
 										amount: parseFloat(list.amountList[i])
 									}
 									eachPeriodAmountSumArr.push(item)
 								}
 							}
-							const eachPeriodAmountSumValue = _.pluck(eachPeriodAmountSumArr, "amount");
-							const eachPeriodAmountSum = _.reduce(eachPeriodAmountSumValue, function(memo, num){ return memo + num; }, 0);
-							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum);
-							return this.statusMapping(list);
-						});
-						this.$set(this.items[index], "repayPlan", repayPlan);
+							const eachPeriodAmountSumValue = _.pluck(
+								eachPeriodAmountSumArr,
+								"amount"
+							)
+							const eachPeriodAmountSum = _.reduce(
+								eachPeriodAmountSumValue,
+								function(memo, num) {
+									return memo + num
+								},
+								0
+							)
+							list.eachPeriodAmountSum = this.utils.toDecimal2(eachPeriodAmountSum)
+							return this.statusMapping(list)
+						})
+						this.$set(this.items[index], "repayPlan", repayPlan)
 					} else {
-						this.$vux.toast.text(data.resultMsg, "middle");
+						this.$vux.toast.text(data.resultMsg, "middle")
 					}
-				});
+				})
 			}
 		},
 		// ! 收起还款计划
 		closeAll(item, index) {
-			let _otherHeight = this.$refs.otherOrder[0].offsetHeight;
+			let _otherHeight = this.$refs.otherOrder[0].offsetHeight
 
-			this.items[index].showOtherOrder = !this.items[index]
-				.showOtherOrder;
+			this.items[index].showOtherOrder = !this.items[index].showOtherOrder
 
 			this.$nextTick(() => {
-				let _top = this.scrollTop - this.otherOrderHeight;
-				if (_top < -0) _top = 0;
-				this.$refs.scrollerBottom.reset({ top: _top }, 500, "ease");
-			});
+				let _top = this.scrollTop - this.otherOrderHeight
+				if (_top < -0) _top = 0
+				this.$refs.scrollerBottom.reset({ top: _top }, 500, "ease")
+			})
 			setTimeout(() => {
-				this.$refs.scrollerBottom.reset();
-			}, 501);
+				this.$refs.scrollerBottom.reset()
+			}, 501)
 		},
 		// ! 获取列表数据
 		getListData(type) {
-			this.listDataloading = true;
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
-			postData.append("type", type);
-			postData.append("pageSize", this.pageSize);
-			postData.append("pageNo", this.pageNo);
+			this.listDataloading = true
+			let userName = this.utils.getCookie("userName")
+			let postData = new URLSearchParams()
+			postData.append("userName", userName)
+			postData.append("type", type)
+			postData.append("pageSize", this.pageSize)
+			postData.append("pageNo", this.pageNo)
 			this.common.accountOrderList(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				// ! 排除非本list的data插入
-				if(data.type != this.checkerType) return false;
+				if (data.type != this.checkerType) return false
 
 				if (data.resultCode == "1") {
 					data.list.forEach((val, index) => {
-						val.showOtherOrder = false;
+						val.showOtherOrder = false
 						// 展开计划、收起计划青按钮文字
-						val.btnExpandText = "展开计划";
+						val.btnExpandText = "展开计划"
 						// 是否显示每期还款包含费用的提示
-						val.showExpenseTip = false;	
-						val.currentIndex = index;
-						val.createDate = moment(val.createDate).format("YYYY.MM.DD");
+						val.showExpenseTip = false
+						val.currentIndex = index
+						val.createDate = moment(val.createDate).format("YYYY.MM.DD")
 						if (val.appStatus === "REPAYNODE") {
 							val.rechargeUrl =
 								this.config.MWEB_PATH +
 								"newweb/personalCenter/rechargePay.html?appNo=" +
 								val.appNo +
 								"&userName=" +
-								userName;
+								userName
 						}
 
 						if (val.nodeList) {
-							let nodeGrep = _.filter(val.nodeList, function(
-								node
-							) {
-								return node.nodeStyle == "grep";
-							});
-							val.nodeGrepNum = nodeGrep.length;
+							let nodeGrep = _.filter(val.nodeList, function(node) {
+								return node.nodeStyle == "grep"
+							})
+							val.nodeGrepNum = nodeGrep.length
 						}
-						this.items.push(val);
-					});
+						this.items.push(val)
+					})
 					if (data.list.length < 20) {
-						this.listDataloading = false;
+						this.listDataloading = false
 					}
-					
-					this.onFetching = false;
+
+					this.onFetching = false
 
 					//还款中列表为空跳到申请中
-					if (data.list===null && this.banRechecked === true) {
-						this.checkerStatus("applying");
-						this.banRechecked = false;
+					if (data.list === null && this.banRechecked === true) {
+						this.checkerStatus("applying")
+						this.banRechecked = false
 					}
 				} else if (data.resultCode == "-1") {
-					if(data.list===null && this.banRechecked === true){
-						this.checkerStatus("applying");
-						this.banRechecked = false;
+					if (data.list === null && this.banRechecked === true) {
+						this.checkerStatus("applying")
+						this.banRechecked = false
 					}
-					this.listDataloading = false;
+					this.listDataloading = false
 					if (!this.items.length) {
-						this.showNoData = true;
+						this.showNoData = true
 					}
 				} else {
-					this.$vux.toast.text(data.resultMsg, "middle");
+					this.$vux.toast.text(data.resultMsg, "middle")
 				}
 				if (this.items.length) {
 					this.$nextTick(() => {
-						this.$refs.scrollerBottom.reset();
-					});
+						this.$refs.scrollerBottom.reset()
+					})
 				}
 
-				this.pageNo++;
+				this.pageNo++
 				//this.list = data.list;
-			});
+			})
 		},
 		// ! 监听滚动事件
 		onScrollBottom() {
 			if (this.onFetching) {
 				// do nothing
 			} else {
-				this.onFetching = true;
-				this.banRechecked = false;
-				this.getListData(this.checkerType);
+				this.onFetching = true
+				this.banRechecked = false
+				this.getListData(this.checkerType)
 			}
 		},
 		parentHandleclick: function(headerData) {
-			this.applyingStatus = headerData.applyingShowTip ? true : false;
-			this.repayStatus = headerData.repayShowTip ? true : false;
-			this.checkerStatus();
+			this.applyingStatus = !!headerData.applyingShowTip
+			this.repayStatus = !!headerData.repayShowTip
+			this.checkerStatus()
 		},
 		// ! 取消订单接口
 		CancelAppPayByPad(itemOrder, index) {
 			// 显示
 			this.$vux.loading.show({
 				text: "取消中..."
-			});
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
-			postData.append("cancelType", "CUST");
-			postData.append("cancelReason", "客户自己取消");
-			postData.append("appPayNo", itemOrder.appNo);
-			postData.append("uuid", this.utils.uuid());
+			})
+			let userName = this.utils.getCookie("userName")
+			let postData = new URLSearchParams()
+			postData.append("userName", userName)
+			postData.append("cancelType", "CUST")
+			postData.append("cancelReason", "客户自己取消")
+			postData.append("appPayNo", itemOrder.appNo)
+			postData.append("uuid", this.utils.uuid())
 			this.common.CancelAppPayByPad(postData).then(res => {
 				//更新红点已经列表数据状态
-				this.$emit("watchChild", true);
-				this.$vux.loading.hide();
+				this.$emit("watchChild", true)
+				this.$vux.loading.hide()
 				// this.items.splice(index,1);
 				// if(!this.items.length){
 				//     this.showNoData = true;
 				// }
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode == "1") {
 					this.$vux.toast.show({
 						text: "取消成功",
 						type: "success",
 						time: 1000
-					});
+					})
 				} else {
-					this.$vux.toast.text(data.resultMsg, "middle");
+					this.$vux.toast.text(data.resultMsg, "middle")
 				}
-			});
+			})
 		},
 		// ! 取消订单对话框
 		cancelOrder: function() {
-			this.CancelAppPayByPad(this.cancelOrderItem);
+			this.CancelAppPayByPad(this.cancelOrderItem)
 		},
 		// ! 根据订单类型映射 title 和 amountName
 		planMapping: function(mapObj) {
 			switch (mapObj.type) {
 				case "loanFee": // * 订单费用
-					mapObj.amountName = "订单费用";
-					break;
+					mapObj.amountName = "订单费用"
+					break
 				case "mthFee": // * 会员费
-					mapObj.amountName = "会员费";
-					break;
+					mapObj.amountName = "会员费"
+					break
 				case "infoFee": // * 综合消费
-					mapObj.amountName = "综合消费";
-					break;
+					mapObj.amountName = "综合消费"
+					break
 				case "addFee": // * 保费
-					mapObj.amountName = "保费";
-					break;
+					mapObj.amountName = "保费"
+					break
 				case "totalFee": // * 总费用
-					mapObj.amountName = "总费用";
-					break;
+					mapObj.amountName = "总费用"
+					break
 				case "principal": // * 本金
-					mapObj.amountName = "本金";
-					break;
+					mapObj.amountName = "本金"
+					break
 				case "interest": // * 利息
-					mapObj.amountName = "利息";
-					break;
+					mapObj.amountName = "利息"
+					break
 				case "bankFee": // * 金融信息服务费
-					mapObj.amountName = "金融信息服务费";
-					break;
+					mapObj.amountName = "金融信息服务费"
+					break
 				case "internetFee": // * 互联网信息服务费
-					mapObj.amountName = "互联网信息服务费";
-					break;
+					mapObj.amountName = "互联网信息服务费"
+					break
 			}
-			return mapObj;
+			return mapObj
 		},
 		statusMapping(mapObj) {
 			switch (mapObj.status) {
 				case "WTRP": // * 待还
-					mapObj.title = "待还";
-					break;
+					mapObj.title = "待还"
+					break
 				case "REXP": // * 逾期
-					mapObj.title = "逾期";
-					break;
+					mapObj.title = "逾期"
+					break
 				case "NMRF": // * 正常还完
-					mapObj.title = "正常还完";
-					break;
+					mapObj.title = "正常还完"
+					break
 				case "EPRF": // * 逾期还完
-					mapObj.title = "逾期还完";
-					break;
+					mapObj.title = "逾期还完"
+					break
 			}
-			return mapObj;
+			return mapObj
 		},
 		onScroll(pos) {
-			this.scrollTop = pos.top;
+			this.scrollTop = pos.top
 		},
-		isDownloadAppFun(){
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
+		isDownloadAppFun() {
+			let userName = this.utils.getCookie("userName")
+			let postData = new URLSearchParams()
+			postData.append("userName", userName)
 			this.common.isDownloadApp(postData).then(res => {
 				this.isDownloadApp = res.data.isDownload
-			});
+			})
 		},
-		downloadApp(){
-			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
+		downloadApp() {
+			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html"
 		},
 		showExpenseTip(item) {
 			// this.items.forEach( (val,index) => {
@@ -1573,40 +1616,47 @@ export default {
 			// 		val.showExpenseTip = false;
 			// 	}
 			// });
-			item.showExpenseTip = !item.showExpenseTip;
-			this.currentIndex = item.currentIndex;
+			item.showExpenseTip = !item.showExpenseTip
+			this.currentIndex = item.currentIndex
 		},
 		changeHelpClass(index) {
-			return `icon-help${index}`;
+			return `icon-help${index}`
 		},
 		changeExpenseClass(index) {
-			return `expense-description${index}`;
+			return `expense-description${index}`
 		}
 	},
 	watch: {
 		isShowBanner: function(val, oldVal) {
-			this.isShowBanner = val;
+			this.isShowBanner = val
 			this.$nextTick(() => {
-				const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70;
-				this.$refs && this.$refs.scrollerBottom.reset({ top: top });
-			});
+				const top = this.scrollTop - 70 <= 0 ? 0 : this.scrollTop - 70
+				this.$refs && this.$refs.scrollerBottom.reset({ top: top })
+			})
 		}
 	},
 	beforeMount() {
 		this._close = e => {
-			const currentIndex = this.currentIndex;
+			const currentIndex = this.currentIndex
 			// 如果点击发生在当前组件内部，则不处理
-			if (document.querySelector(`.icon-help${currentIndex}`) && document.querySelector(`.icon-help${currentIndex}`).contains(e.target) || document.querySelector(`.expense-description${currentIndex}`) && document.querySelector(`.expense-description${currentIndex}`).contains(e.target)) {
-				return;
+			if (
+				(document.querySelector(`.icon-help${currentIndex}`) &&
+					document.querySelector(`.icon-help${currentIndex}`).contains(e.target)) ||
+				(document.querySelector(`.expense-description${currentIndex}`) &&
+					document
+						.querySelector(`.expense-description${currentIndex}`)
+						.contains(e.target))
+			) {
+				return
 			}
-			this.items.forEach( val => {
-				val.showExpenseTip = false;
-			});
-		};  
-		document.body.addEventListener('click', this._close);
+			this.items.forEach(val => {
+				val.showExpenseTip = false
+			})
+		}
+		document.body.addEventListener("click", this._close)
 	},
 	beforeDestroy() {
-		document.body.removeEventListener('click', this._close);  
+		document.body.removeEventListener("click", this._close)
 	}
-};
+}
 </script>

@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
+		<download-pop
+			v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"
+		></download-pop>
 		<section class="personal-header-wrap">
 			<!-- 用户信息 -->
 			<div class="per-user-info">
@@ -26,9 +28,7 @@
 				</div>
 			</div>
 			<div class="repay-btn-wrap">
-				<div class="repay-btn" @click="toMyInstalment">
-					<p>充值还款</p>
-				</div>
+				<div class="repay-btn" @click="toMyInstalment"><p>充值还款</p></div>
 			</div>
 		</section>
 		<group>
@@ -46,11 +46,7 @@
 		</group>
 
 		<group>
-			<cell
-				title="我的优惠券"
-				is-link
-				:link="{ path: '/personal/MyCoupon' }"
-			>
+			<cell title="我的优惠券" is-link :link="{ path: '/personal/MyCoupon' }">
 				<span class="cell-ico my-coupon" slot="icon" width="20"></span>
 				<badge v-if="newCoupon"></badge>
 			</cell>
@@ -59,11 +55,7 @@
 				<badge v-if="newMsg"></badge>
 			</cell>
 			<cell title="我的邀请" is-link :link="invitePageLink">
-				<span
-					class="cell-ico my-invitation"
-					slot="icon"
-					width="20"
-				></span>
+				<span class="cell-ico my-invitation" slot="icon" width="20"></span>
 				<span class="my-invit-des">{{ invitDes }}</span>
 				<span class="my-invit-icon"><img :src="invitIcon"/></span>
 			</cell>
@@ -77,24 +69,20 @@
 
 		<group v-if="customGroupIsShow && mediasource !== 'pandoraKNSSJ'">
 			<cell :title="customGroupTitle" is-link :link="customGroupLink">
-				<img
-					class="cell-ico"
-					slot="icon"
-					width="20"
-					:src="customGroupIcon"
-				/>
+				<img class="cell-ico" slot="icon" width="20" :src="customGroupIcon" />
 			</cell>
 		</group>
 
-		<confirm class="reportConfirm" 
+		<confirm
+			class="reportConfirm"
 			v-model="isShowCouponPop"
 			title="温馨提示"
 			:hide-on-blur="true"
 			:show-cancel-button="false"
 			confirm-text="立即查看"
 			@on-confirm="jumpPage('MyCoupon')"
-			>
-			<p style="text-align:center;">{{unusedCouponAlertMsg}}</p>
+		>
+			<p style="text-align:center;">{{ unusedCouponAlertMsg }}</p>
 		</confirm>
 
 		<page-footer></page-footer>
@@ -199,7 +187,11 @@
 			.repay-btn {
 				width: rem(277px);
 				height: rem(38px);
-				background: linear-gradient(to bottom,rgba(255,255,255,1),rgba(255,255,255,0.65));
+				background: linear-gradient(
+					to bottom,
+					rgba(255, 255, 255, 1),
+					rgba(255, 255, 255, 0.65)
+				);
 				border-radius: 75px;
 				margin: 0 auto;
 				text-align: center;
@@ -283,13 +275,11 @@
 					margin: 0 auto;
 				}
 				.ico-go {
-					background: url(./images/person_center_go.png) 50% 50%
-						no-repeat;
+					background: url(./images/person_center_go.png) 50% 50% no-repeat;
 					background-size: 40%;
 				}
 				.ico-apply {
-					background: url(./images/person_center_apply.png) 50% 50%
-						no-repeat;
+					background: url(./images/person_center_apply.png) 50% 50% no-repeat;
 					background-size: 24%;
 				}
 				.title {
@@ -400,10 +390,10 @@ import {
 	FlowLine,
 	Toast,
 	Confirm
-} from "vux";
-import PageFooter from "@/components/PageFooter";
-import downloadPop from "@/components/downloadPop.vue";
-import axios from "axios";
+} from "vux"
+import PageFooter from "@/components/PageFooter"
+import downloadPop from "@/components/downloadPop.vue"
+import axios from "axios"
 
 export default {
 	components: {
@@ -448,116 +438,108 @@ export default {
 			customGroupIcon: "",
 			customGroupLink: "",
 			customGroupIsShow: false,
-			brrowLink:
-				this.config.MWEB_PATH + "newweb/personalCenter/myBrrow.html",
+			brrowLink: this.config.MWEB_PATH + "newweb/personalCenter/myBrrow.html",
 			transactDetailLink:
-				this.config.MWEB_PATH +
-				"newweb/personalCenter/transactDetail.html",
-			myNewslLink:
-				this.config.MWEB_PATH + "newweb/personalCenter/myNews.html",
+				this.config.MWEB_PATH + "newweb/personalCenter/transactDetail.html",
+			myNewslLink: this.config.MWEB_PATH + "newweb/personalCenter/myNews.html",
 			invitePageLink:
 				this.config.MWEB_PATH + "newweb/personalCenter/invitePage.html",
-			aboutLink:
-				this.config.MWEB_PATH + "newweb/personalCenter/about.html",
-			helpLick:
-				this.config.MWEB_PATH + "newweb/personalCenter/compreRat.html",
+			aboutLink: this.config.MWEB_PATH + "newweb/personalCenter/about.html",
+			helpLick: this.config.MWEB_PATH + "newweb/personalCenter/compreRat.html",
 			newMsg: false,
 			newCoupon: false,
 			isShowCouponPop: false,
-			unusedCouponAlertMsg: '',
+			unusedCouponAlertMsg: "",
 			mediasource: ""
-		};
+		}
 	},
 	methods: {
 		getAccountInfo(getAccountInfoDatas) {
 			this.common.getAccountInfo(getAccountInfoDatas).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode != "1") {
-					this.$vux.toast.text(data.resultMsg);
+					this.$vux.toast.text(data.resultMsg)
 					this.$router.push({
 						path: "/login",
 						query: { redirect: this.$route.fullPath }
-					});
+					})
 				} else {
-					this.realName = data.appUserRealName; //姓名
-					this.lateTotal = data.lateTotal; //近7天代还款
-					this.balance = data.balance; //账户余额
-					this.accountPays = data.accountPays; //我的分期
-					this.userGrade = data.userGrade; //用户等级
-					this.unusedCouponAlertMsg = data.unusedCouponAlertMsg;
+					this.realName = data.appUserRealName //姓名
+					this.lateTotal = data.lateTotal //近7天代还款
+					this.balance = data.balance //账户余额
+					this.accountPays = data.accountPays //我的分期
+					this.userGrade = data.userGrade //用户等级
+					this.unusedCouponAlertMsg = data.unusedCouponAlertMsg
 
-					if(data.unusedCouponNum > '0' && sessionStorage.getItem('isShowMyCouponPop') > '0'){
-						this.isShowCouponPop = true;
-						sessionStorage.setItem('isShowMyCouponPop', '0');
+					if (
+						data.unusedCouponNum > "0" &&
+						sessionStorage.getItem("isShowMyCouponPop") > "0"
+					) {
+						this.isShowCouponPop = true
+						sessionStorage.setItem("isShowMyCouponPop", "0")
 					}
 
 					if (data.headUrl) {
-						this.avatarImg =
-							data.headUrlPrefix +
-							data.headUrl +
-							"?t=" +
-							Math.random(); //用户头像
+						this.avatarImg = data.headUrlPrefix + data.headUrl + "?t=" + Math.random() //用户头像
 					}
 				}
-			});
+			})
 		},
 		OwnPageShow(OwnPageShowData) {
 			this.common.OwnPageShow(OwnPageShowData).then(res => {
-				let data = res.data;
-				console.info("OwnPageShow data", data);
-				this.invitDes = data.inviteMsg;
-				this.invitIcon = data.inviteIcon;
-				this.customGroupTitle = data.guoXinBaoMsg;
-				this.customGroupLink = data.guoXinBaoUrl;
-				this.customGroupIcon = data.guoXinBaoIcon;
-				this.customGroupIsShow = data.guoXinBaoShow;
-			});
+				let data = res.data
+				console.info("OwnPageShow data", data)
+				this.invitDes = data.inviteMsg
+				this.invitIcon = data.inviteIcon
+				this.customGroupTitle = data.guoXinBaoMsg
+				this.customGroupLink = data.guoXinBaoUrl
+				this.customGroupIcon = data.guoXinBaoIcon
+				this.customGroupIsShow = data.guoXinBaoShow
+			})
 		},
 		QueryMyMsg(QueryMyMsgData) {
 			this.common.QueryMyMsg(QueryMyMsgData).then(res => {
-				let data = res.data;
-				this.newCoupon = data.noMsgNum > 0;
-			});
+				let data = res.data
+				this.newCoupon = data.noMsgNum > 0
+			})
 		},
 		//跳转到我的分期
 		toMyInstalment() {
-			this.$router.push({path:"/personal/myInstalment"});
+			this.$router.push({ path: "/personal/myInstalment" })
 		},
-		jumpPage(name){
-			this.isShowCouponPop = false;
-			this.$router.push({name: name});
+		jumpPage(name) {
+			this.isShowCouponPop = false
+			this.$router.push({ name: name })
 		}
 	},
 	mounted() {
-		this.mediasource = window.sessionStorage.getItem("mediasource");
-		document.body.scrollTop = 0;
+		this.mediasource = window.sessionStorage.getItem("mediasource")
+		document.body.scrollTop = 0
 		let getAccountInfoDatas = {
 			userName: this.utils.getCookie("userName"),
 			curPage: 1,
 			maxLine: 1,
 			uuid: this.utils.uuid()
-		};
-		this.getAccountInfo(getAccountInfoDatas);
-
-		let OwnPageShowData = new URLSearchParams();
-		OwnPageShowData.append("userName", this.utils.getCookie("userName"));
-		OwnPageShowData.append("uuid", this.utils.uuid());
-		OwnPageShowData.append("requestSource", 'H5');
-		this.OwnPageShow(OwnPageShowData);
-
-		let QueryMyMsgData = new URLSearchParams();
-		QueryMyMsgData.append("userName", this.utils.getCookie("userName"));
-		QueryMyMsgData.append("uuid", this.utils.uuid());
-		QueryMyMsgData.append("curPage", 1);
-		QueryMyMsgData.append("maxLine", 1);
-		this.QueryMyMsg(QueryMyMsgData);
-
-		let isHaveUnreadCoupon = this.utils.getCookie("isHaveUnreadCoupon");
-		if (isHaveUnreadCoupon > 0) {
-			this.newCoupon = true;
 		}
+		this.getAccountInfo(getAccountInfoDatas)
 
-		
+		let OwnPageShowData = new URLSearchParams()
+		OwnPageShowData.append("userName", this.utils.getCookie("userName"))
+		OwnPageShowData.append("uuid", this.utils.uuid())
+		OwnPageShowData.append("requestSource", "H5")
+		this.OwnPageShow(OwnPageShowData)
+
+		let QueryMyMsgData = new URLSearchParams()
+		QueryMyMsgData.append("userName", this.utils.getCookie("userName"))
+		QueryMyMsgData.append("uuid", this.utils.uuid())
+		QueryMyMsgData.append("curPage", 1)
+		QueryMyMsgData.append("maxLine", 1)
+		this.QueryMyMsg(QueryMyMsgData)
+
+		let isHaveUnreadCoupon = this.utils.getCookie("isHaveUnreadCoupon")
+		if (isHaveUnreadCoupon > 0) {
+			this.newCoupon = true
+		}
 	}
-};
+}
 </script>

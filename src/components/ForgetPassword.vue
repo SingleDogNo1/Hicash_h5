@@ -50,9 +50,7 @@
 					:position="position"
 					>{{ errorMsg }}</toast
 				>
-				<button class="btn-next" @click="nextStep1('middle')">
-					确认
-				</button>
+				<button class="btn-next" @click="nextStep1('middle')">确认</button>
 			</div>
 			<div class="forget-password-form" v-if="step === 2">
 				<div class="new-password-wrap">
@@ -85,9 +83,7 @@
 					:position="position"
 					>{{ errorMsg }}</toast
 				>
-				<button class="btn-next" @click="nextStep2('middle')">
-					确认
-				</button>
+				<button class="btn-next" @click="nextStep2('middle')">确认</button>
 			</div>
 		</div>
 	</div>
@@ -258,10 +254,10 @@
 </style>
 
 <script type="text/javascript">
-import { Tab, TabItem, XInput, XButton, Toast } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+import { Tab, TabItem, XInput, XButton, Toast } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	components: {
@@ -284,157 +280,152 @@ export default {
 			newPassword: "",
 			repeatPassword: "",
 			title: "手机号验证"
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		getMessageCode(position) {
-			var _this = this;
-			var errorMsg = "";
+			var _this = this
+			var errorMsg = ""
 			if (_this.mobile == "") {
-				errorMsg = "请输入您的手机号";
+				errorMsg = "请输入您的手机号"
 			} else if (!utils.checkMobile(_this.mobile)) {
-				errorMsg = "手机号码格式错误";
+				errorMsg = "手机号码格式错误"
 			}
 			if (errorMsg != "") {
-				_this.$vux.toast.text(errorMsg, "middle");
-				return;
+				_this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			var postData = new URLSearchParams();
-			postData.append("userName", _this.mobile);
-			postData.append("mobile", _this.mobile);
-			postData.append("sendFrom", "HTML5");
-			postData.append("sendType", "login");
-			postData.append("requestSource", "HTML5");
-			postData.append("uuid", utils.uuid());
-			postData.append("authId", _this.authId);
-			postData.append("imageCode", _this.imgCode);
+			var postData = new URLSearchParams()
+			postData.append("userName", _this.mobile)
+			postData.append("mobile", _this.mobile)
+			postData.append("sendFrom", "HTML5")
+			postData.append("sendType", "login")
+			postData.append("requestSource", "HTML5")
+			postData.append("uuid", utils.uuid())
+			postData.append("authId", _this.authId)
+			postData.append("imageCode", _this.imgCode)
 			common.getSendPassWordCode(postData).then(res => {
-				let forgetPwdFlag;
+				let forgetPwdFlag
 				if (res.data.resultCode == "1") {
-					forgetPwdFlag = res.data.forgetPwdFlag;
-					utils.setCookie("forgetPwdFlag", res.data.forgetPwdFlag);
-					utils.setCookie("forgetPwdUserName", res.data.userName);
-					utils.setCookie("forgetPwdMobile", _this.mobile);
+					forgetPwdFlag = res.data.forgetPwdFlag
+					utils.setCookie("forgetPwdFlag", res.data.forgetPwdFlag)
+					utils.setCookie("forgetPwdUserName", res.data.userName)
+					utils.setCookie("forgetPwdMobile", _this.mobile)
 					utils.timeCount(60, function(data) {
 						data === "获取验证码"
 							? (_this.isCountdown = false)
-							: (_this.isCountdown = true);
-						_this.getMessageCodeText = data;
-					});
+							: (_this.isCountdown = true)
+						_this.getMessageCodeText = data
+					})
 				} else {
-					_this.errorMsg = res.data.resultMsg;
+					_this.errorMsg = res.data.resultMsg
 					_this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 					// _this.$vux.toast.text(_this.errorMsg, 'middle');
 				}
-			});
+			})
 		},
 		nextStep1(position) {
-			var _this = this;
-			var mobile = _this.mobile.replace(/\s/g, "");
-			var smsCode = _this.messageCode;
-			var errorMsg = "";
+			var _this = this
+			var mobile = _this.mobile.replace(/\s/g, "")
+			var smsCode = _this.messageCode
+			var errorMsg = ""
 			if (utils.getCookie("forgetPwdUserName") == "") {
-				errorMsg = "请先获取验证码";
+				errorMsg = "请先获取验证码"
 			} else if (_this.mobile == "") {
-				errorMsg = "请输入您的手机号码";
+				errorMsg = "请输入您的手机号码"
 			} else if (!utils.checkMobile(_this.mobile)) {
-				errorMsg = "手机号码格式错误";
+				errorMsg = "手机号码格式错误"
 			} else if (this.getMessageCodeText === "获取验证码") {
-				errorMsg = "请点击获取验证码";
+				errorMsg = "请点击获取验证码"
 			} else if (_this.messageCode.length < 5) {
-				errorMsg = "短信验证码格式错误";
+				errorMsg = "短信验证码格式错误"
 			}
 			if (errorMsg != "") {
-				_this.$vux.toast.text(errorMsg, "middle");
-				return;
+				_this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("userName", utils.getCookie("forgetPwdUserName"));
-			postData.append("mobile", _this.mobile);
-			postData.append("validateCode", _this.messageCode);
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("userName", utils.getCookie("forgetPwdUserName"))
+			postData.append("mobile", _this.mobile)
+			postData.append("validateCode", _this.messageCode)
 			common.forgetPassWord(postData).then(res => {
 				if (res.data && res.data.resultCode == 1) {
-					_this.step = 2;
-					_this.title = "重置密码";
+					_this.step = 2
+					_this.title = "重置密码"
 				} else {
-					_this.errorMsg = res.data.resultMsg;
+					_this.errorMsg = res.data.resultMsg
 					_this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		nextStep2(position) {
-			var _this = this;
-			var mobile = utils.getCookie("forgetPwdMobile");
-			var forgetPwdFlag = utils.getCookie("forgetPwdFlag");
-			var userName = utils.getCookie("forgetPwdUserName");
+			var _this = this
+			var mobile = utils.getCookie("forgetPwdMobile")
+			var forgetPwdFlag = utils.getCookie("forgetPwdFlag")
+			var userName = utils.getCookie("forgetPwdUserName")
 
-			var errorMsg = "";
-			if (
-				!userName ||
-				!forgetPwdFlag ||
-				userName == "" ||
-				forgetPwdFlag == ""
-			) {
-				errorMsg = "非法进入";
+			var errorMsg = ""
+			if (!userName || !forgetPwdFlag || userName == "" || forgetPwdFlag == "") {
+				errorMsg = "非法进入"
 			} else if (_this.newPassword == "") {
-				errorMsg = "请输入新密码";
+				errorMsg = "请输入新密码"
 			} else if (!_this.utils.checkPwd(_this.newPassword)) {
-				errorMsg = "新密码格式错误";
+				errorMsg = "新密码格式错误"
 			} else if (_this.repeatPassword == "") {
-				errorMsg = "请输入确认密码";
+				errorMsg = "请输入确认密码"
 			} else if (!_this.utils.checkPwd(_this.repeatPassword)) {
-				errorMsg = "确认密码格式错误";
+				errorMsg = "确认密码格式错误"
 			} else if (_this.newPassword !== _this.repeatPassword) {
-				errorMsg = "输入密码不一致";
+				errorMsg = "输入密码不一致"
 			}
 
 			if (errorMsg != "") {
-				_this.$vux.toast.text(errorMsg, "middle");
-				return;
+				_this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
 
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("userName", userName);
-			postData.append("mobile", mobile);
-			postData.append("newPassword", _this.newPassword);
-			postData.append("forgetPwdFlag", forgetPwdFlag);
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("userName", userName)
+			postData.append("mobile", mobile)
+			postData.append("newPassword", _this.newPassword)
+			postData.append("forgetPwdFlag", forgetPwdFlag)
 			common.resetPassword(postData).then(res => {
 				if (res.data && res.data.resultCode == 1) {
-					utils.setCookie("forgetPwdFlag", "");
-					utils.setCookie("forgetPwdUserName", "");
-					utils.setCookie("forgetPwdMobile", "");
+					utils.setCookie("forgetPwdFlag", "")
+					utils.setCookie("forgetPwdUserName", "")
+					utils.setCookie("forgetPwdMobile", "")
 					_this.$vux.toast.show({
 						position: "middle",
 						text: "密码修改成功"
-					});
+					})
 					setTimeout(function() {
 						_this.$router.push({
 							path: "/login",
 							query: { redirect: _this.$route.fullPath }
-						});
-					}, 3000);
+						})
+					}, 3000)
 				} else {
-					_this.errorMsg = res.data.resultMsg;
+					_this.errorMsg = res.data.resultMsg
 					_this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		}
 	},
 	mounted: function() {}
-};
+}
 </script>

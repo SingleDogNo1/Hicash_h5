@@ -3,11 +3,7 @@
 		<header class="credit-header">
 			<!-- go-history -->
 			<a class="go-history" href="javascript:;" @click="goBack"></a>
-			<a
-				class="go-history btn-close"
-				href="javascript:;"
-				@click="close"
-			></a>
+			<a class="go-history btn-close" href="javascript:;" @click="close"></a>
 			<h1>手机认证</h1>
 		</header>
 		<div class="authentication-step">
@@ -263,10 +259,10 @@
 </style>
 
 <script type="text/javascript">
-import { Loading, XInput, Group, PopupPicker } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+import { Loading, XInput, Group, PopupPicker } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	components: {
@@ -279,7 +275,7 @@ export default {
 		return {
 			mobile: "",
 			password: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
@@ -288,16 +284,16 @@ export default {
 		btnNext() {}
 	},
 	mounted: function() {
-		this.mobile = utils.getCookie("mobile");
-		let postData = new URLSearchParams();
-		let tempAppNo = utils.getCookie("appFlowNo").split(":")[1];
-		postData.append("tempAppNo", tempAppNo);
+		this.mobile = utils.getCookie("mobile")
+		let postData = new URLSearchParams()
+		let tempAppNo = utils.getCookie("appFlowNo").split(":")[1]
+		postData.append("tempAppNo", tempAppNo)
 		common.creditItems(postData).then(res => {
-			console.log("res======", res);
+			console.log("res======", res)
 			if (res.data.resultCode === "1") {
-				window.sessionStorage.removeItem("creditItems");
-				var creditItems = res.data.creditItems;
-				var paramsStr = "";
+				window.sessionStorage.removeItem("creditItems")
+				var creditItems = res.data.creditItems
+				var paramsStr = ""
 				if (creditItems[0].url.indexOf("?") != -1) {
 					paramsStr =
 						"&source=hq&id_card_no=" +
@@ -305,7 +301,7 @@ export default {
 						"&name=" +
 						unescape(utils.getCookie("realName")) +
 						"&mobile=" +
-						utils.getCookie("mobile");
+						utils.getCookie("mobile")
 				} else {
 					paramsStr =
 						"?source=hq&id_card_no=" +
@@ -313,25 +309,22 @@ export default {
 						"&name=" +
 						unescape(utils.getCookie("realName")) +
 						"&mobile=" +
-						utils.getCookie("mobile");
+						utils.getCookie("mobile")
 				}
-				console.log(utils.getCookie("realName"));
-				console.log(paramsStr);
-				window.location.href = creditItems[0].url + paramsStr;
+				console.log(utils.getCookie("realName"))
+				console.log(paramsStr)
+				window.location.href = creditItems[0].url + paramsStr
 				//creditItems.shift();
-				window.sessionStorage.setItem(
-					"creditItems",
-					JSON.stringify(creditItems)
-				);
+				window.sessionStorage.setItem("creditItems", JSON.stringify(creditItems))
 			} else {
-				this.errorMsg = res.data.resultMsg;
+				this.errorMsg = res.data.resultMsg
 				this.$vux.toast.show({
 					type: "cancel",
 					position: "middle",
 					text: this.errorMsg
-				});
+				})
 			}
-		});
+		})
 	}
-};
+}
 </script>

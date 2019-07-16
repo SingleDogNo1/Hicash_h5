@@ -21,110 +21,50 @@
 					<div class="swiper-wrapper">
 						<div
 							class="swiper-slide"
-							v-for="(loseCreditDetailListItem,
-							index) in loseCreditDetailList"
+							v-for="(loseCreditDetailListItem, index) in loseCreditDetailList"
 							:key="loseCreditDetailListItem.hyApplicationNo"
 						>
 							<ul
 								class="detail-wrap-list"
 								:class="{
-									'bg-flip':
-										index === 0 &&
-										loseCreditDetailList.length >= 2
+									'bg-flip': index === 0 && loseCreditDetailList.length >= 2
 								}"
 							>
+								<li>流水账号：{{ loseCreditDetailListItem.hyApplicationNo }}</li>
+								<li>产品名称：{{ loseCreditDetailListItem.productName }}</li>
+								<li>期 数：{{ loseCreditDetailListItem.applyPeriod }}</li>
+								<li>合同金额：{{ loseCreditDetailListItem.contractAmount }}</li>
 								<li>
-									流水账号：{{
-										loseCreditDetailListItem.hyApplicationNo
-									}}
-								</li>
-								<li>
-									产品名称：{{
-										loseCreditDetailListItem.productName
-									}}
-								</li>
-								<li>
-									期 数：{{
-										loseCreditDetailListItem.applyPeriod
-									}}
-								</li>
-								<li>
-									合同金额：{{
-										loseCreditDetailListItem.contractAmount
-									}}
-								</li>
-								<li>
-									失信状态：<span
-										v-if="
-											loseCreditDetailListItem.sxButton ===
-												'sx'
-										"
+									失信状态：<span v-if="loseCreditDetailListItem.sxButton === 'sx'"
 										>失信</span
-									><span
-										v-if="
-											loseCreditDetailListItem.button ===
-												'ss'
-										"
-									>
-										诉讼</span
-									><span
-										v-if="
-											loseCreditDetailListItem.button ===
-												'zc'
-										"
-									>
-										仲裁</span
-									>
+									><span v-if="loseCreditDetailListItem.button === 'ss'"> 诉讼</span
+									><span v-if="loseCreditDetailListItem.button === 'zc'"> 仲裁</span>
 								</li>
 							</ul>
 							<div class="actions">
 								<button
-									@click="
-										toDetail(
-											0,
-											loseCreditDetailListItem.hyApplicationNo
-										)
-									"
+									@click="toDetail(0, loseCreditDetailListItem.hyApplicationNo)"
 									class="btn-broke-promise"
-									v-if="
-										loseCreditDetailListItem.sxButton ===
-											'sx'
-									"
+									v-if="loseCreditDetailListItem.sxButton === 'sx'"
 									:class="{
 										'only-btn-broke-promise':
-											loseCreditDetailListItem.sxButton ===
-												'sx' &&
-											loseCreditDetailListItem.button ===
-												''
+											loseCreditDetailListItem.sxButton === 'sx' &&
+											loseCreditDetailListItem.button === ''
 									}"
 								>
 									失信详情
 								</button>
 								<button
-									@click="
-										toDetail(
-											1,
-											loseCreditDetailListItem.hyApplicationNo
-										)
-									"
+									@click="toDetail(1, loseCreditDetailListItem.hyApplicationNo)"
 									class="btn-litigation"
-									v-if="
-										loseCreditDetailListItem.button === 'ss'
-									"
+									v-if="loseCreditDetailListItem.button === 'ss'"
 								>
 									诉讼详情
 								</button>
 								<button
-									@click="
-										toDetail(
-											2,
-											loseCreditDetailListItem.hyApplicationNo
-										)
-									"
+									@click="toDetail(2, loseCreditDetailListItem.hyApplicationNo)"
 									class="btn-arbitration"
-									v-if="
-										loseCreditDetailListItem.button === 'zc'
-									"
+									v-if="loseCreditDetailListItem.button === 'zc'"
 								>
 									仲裁详情
 								</button>
@@ -154,19 +94,12 @@
 							:key="index"
 						>
 							<div class="weui-media-box__hd">
-								<img
-									class="weui-media-box__thumb"
-									:src="item.mediaImage"
-								/>
+								<img class="weui-media-box__thumb" :src="item.mediaImage" />
 							</div>
 							<div class="weui-media-box__bd">
-								<h4 class="weui-media-box__title">
-									{{ item.title }}
-								</h4>
+								<h4 class="weui-media-box__title">{{ item.title }}</h4>
 								<ul class="weui-media-box__info">
-									<li class="weui-media-box__info__meta">
-										&nbsp;
-									</li>
+									<li class="weui-media-box__info__meta">&nbsp;</li>
 								</ul>
 							</div>
 						</router-link>
@@ -192,12 +125,8 @@
 						详询：400-020-5566
 					</div>
 					<div class="pop_bottom">
-						<div class="btn cannel" @click="closeCallDialog">
-							取消
-						</div>
-						<div class="btn confirm" @click="call('4000205566')">
-							呼叫
-						</div>
+						<div class="btn cannel" @click="closeCallDialog">取消</div>
+						<div class="btn confirm" @click="call('4000205566')">呼叫</div>
 					</div>
 				</div>
 			</div>
@@ -227,37 +156,24 @@
 							v-for="(detailItem, index) in detailList"
 							:key="index"
 						>
-							<a
-								class="pic-before-text"
-								:href="detailItem.picBeforeUrl"
-								>{{ detailItem.picBeforeText }}</a
-							>
+							<a class="pic-before-text" :href="detailItem.picBeforeUrl">{{
+								detailItem.picBeforeText
+							}}</a>
 							<div class="tips">{{ detailItem.smallTitle }}</div>
 							<div
 								class="big-img"
-								v-if="
-									detailItem.type === 'ZC' ||
-										detailItem.type === 'SS'
-								"
+								v-if="detailItem.type === 'ZC' || detailItem.type === 'SS'"
 							>
-								<div
-									class="swiper-container letter-container gallery-top"
-								>
-									<div
-										class="swiper-wrapper demo-gallery"
-										:class="detailItem.type"
-									>
+								<div class="swiper-container letter-container gallery-top">
+									<div class="swiper-wrapper demo-gallery" :class="detailItem.type">
 										<div
 											class="swiper-slide"
-											v-for="(item,
-											index) in detailItem.picList"
+											v-for="(item, index) in detailItem.picList"
 											:key="index"
 										>
 											<img
 												class="previewer-demo-img"
-												:src="
-													item.picPrefix + item.picUrl
-												"
+												:src="item.picPrefix + item.picUrl"
 												@click="show(index)"
 											/>
 											<div v-transfer-dom></div>
@@ -277,33 +193,20 @@
 							</div>
 							<div
 								class="big-img"
-								v-if="
-									detailItem.type === 'SX' ||
-										detailItem.type === 'ZX'
-								"
+								v-if="detailItem.type === 'SX' || detailItem.type === 'ZX'"
 							>
-								<div
-									class="img-box demo-gallery"
-									:class="detailItem.type"
-								>
+								<div class="img-box demo-gallery" :class="detailItem.type">
 									<div>
 										<img
-											:src="
-												detailItem.picList[0]
-													.picPrefix +
-													detailItem.picList[0].picUrl
-											"
+											:src="detailItem.picList[0].picPrefix + detailItem.picList[0].picUrl"
 										/>
 									</div>
 								</div>
 							</div>
-							<p class="pic-after-text">
-								{{ detailItem.picAfterText }}
-							</p>
+							<p class="pic-after-text">{{ detailItem.picAfterText }}</p>
 							<ul class="pic-after-text-list">
 								<li
-									v-for="(picAfterTextItem,
-									index) in detailItem.picAfterTextList"
+									v-for="(picAfterTextItem, index) in detailItem.picAfterTextList"
 									:key="index"
 								>
 									{{ picAfterTextItem.text }}
@@ -763,11 +666,11 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import PageFooter from "@/components/PageFooter.vue";
-import ToRecharge from "@/components/ToRecharge.vue";
-import { Previewer, TransferDom } from "vux";
-import Swiper from "swiper";
+import PageHeader from "@/components/PageHeader.vue"
+import PageFooter from "@/components/PageFooter.vue"
+import ToRecharge from "@/components/ToRecharge.vue"
+import { Previewer, TransferDom } from "vux"
+import Swiper from "swiper"
 
 export default {
 	directives: {
@@ -803,27 +706,23 @@ export default {
 			options: {
 				getThumbBoundsFn(index) {
 					// find thumbnail element
-					let thumbnail = document.querySelectorAll(
-						".previewer-demo-img"
-					)[index];
+					let thumbnail = document.querySelectorAll(".previewer-demo-img")[index]
 					// get window scroll Y
-					let pageYScroll =
-						window.pageYOffset ||
-						document.documentElement.scrollTop;
+					let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
 					// optionally get horizontal scroll
 					// get position of element relative to viewport
-					let rect = thumbnail.getBoundingClientRect();
+					let rect = thumbnail.getBoundingClientRect()
 					// w = width
 					return {
 						x: rect.left,
 						y: rect.top + pageYScroll,
 						w: rect.width
-					};
+					}
 					// Good guide on how to get element coordinates:
 					// http://javascript.info/tutorial/coordinates
 				}
 			}
-		};
+		}
 	},
 	methods: {
 		toDetail: function(type, hyApplicationNo) {
@@ -835,8 +734,8 @@ export default {
 							type: String(type),
 							hyApplicationNo: hyApplicationNo
 						}
-					});
-					break;
+					})
+					break
 				case 1:
 					this.$router.push({
 						path: "/breakPromiseDetail",
@@ -844,8 +743,8 @@ export default {
 							type: String(type),
 							hyApplicationNo: hyApplicationNo
 						}
-					});
-					break;
+					})
+					break
 				case 2:
 					this.$router.push({
 						path: "/breakPromiseDetail",
@@ -853,28 +752,26 @@ export default {
 							type: String(type),
 							hyApplicationNo: hyApplicationNo
 						}
-					});
-					break;
+					})
+					break
 				case 3:
-					let userName = getCookie("userName");
-					const platform = this.utils.getPlatform();
+					let userName = getCookie("userName")
+					const platform = this.utils.getPlatform()
 					if (platform === "APP") {
 						window.location.href =
 							MWEB_PATH +
 							"newweb/infoList/redEnvelopeRepay.html?userName=" +
 							userName +
-							"&comeFrom=APP";
+							"&comeFrom=APP"
 					} else {
 						window.location.href =
-							MWEB_PATH +
-							"newweb/infoList/redEnvelopeRepay.html?userName=" +
-							userName;
+							MWEB_PATH + "newweb/infoList/redEnvelopeRepay.html?userName=" + userName
 					}
-					break;
+					break
 			}
 		},
 		popLetterNotice: function() {
-			this.isShowLetterDialog = true;
+			this.isShowLetterDialog = true
 			window.setTimeout(function() {
 				_czc.push([
 					"_trackEvent",
@@ -883,19 +780,18 @@ export default {
 					"",
 					"",
 					"SXAL"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 			setTimeout(() => {
-				let initialSlide;
+				let initialSlide
 				if (
 					(this.detailList[0].type === "ZC" &&
 						this.detailList[0].picList.length > 2) ||
-					(this.detailList[0].type === "SS" &&
-						this.detailList[0].picList.length > 2)
+					(this.detailList[0].type === "SS" && this.detailList[0].picList.length > 2)
 				) {
-					initialSlide = 1;
+					initialSlide = 1
 				} else {
-					initialSlide = 0;
+					initialSlide = 0
 				}
 				var galleryTop = new Swiper(".gallery-top", {
 					paginationClickable: true,
@@ -917,21 +813,21 @@ export default {
 						el: ".img-swiper-pagination",
 						clickable: true
 					}
-				});
-			}, 100);
+				})
+			}, 100)
 		},
 		SysParam: function() {
-			let _params = new URLSearchParams();
-			_params.append("paramCode", "SXAL");
-			_params.append("maxLine", 20);
+			let _params = new URLSearchParams()
+			_params.append("paramCode", "SXAL")
+			_params.append("maxLine", 20)
 
 			this.common.getSysParam(_params).then(res => {
-				let data = res.data;
+				let data = res.data
 				data.list.forEach((val, index) => {
 					//val.newUrl = './hotNewsDetails.html?id='+val.id+'&code=SXAL';
-					val.mediaImage = this.config.pic_path + val.mediaImage;
-					this.hotNews.push(val);
-				});
+					val.mediaImage = this.config.pic_path + val.mediaImage
+					this.hotNews.push(val)
+				})
 				setTimeout(function() {
 					// 轮播图
 					var mySwiper = new Swiper(".case-container", {
@@ -939,25 +835,25 @@ export default {
 						slidesPerView: "auto",
 						autoplay: 4300,
 						loop: true
-					});
-				}, 500);
-			});
+					})
+				}, 500)
+			})
 		},
 		caseAll: function() {
-			this.$router.push({ path: "/hotNews", query: { code: "SXAL" } });
+			this.$router.push({ path: "/hotNews", query: { code: "SXAL" } })
 		},
 		closePopLetterNotice: function() {
-			this.isShowLetterDialog = false;
+			this.isShowLetterDialog = false
 		},
 		returnId: function(index) {
-			return index.toString();
+			return index.toString()
 		},
 		logIndexChange: function(arg) {},
 		show: function(index) {
-			this.$refs.previewer.show(index);
+			this.$refs.previewer.show(index)
 		},
 		setCurrentType: function(detailItem) {
-			this.currentType = detailItem.type;
+			this.currentType = detailItem.type
 		},
 		call: function(phoneNum) {
 			window.hicashJSCommunication.onCallApp(
@@ -965,72 +861,70 @@ export default {
 					type: "h5_service",
 					tell_number: String(phoneNum)
 				})
-			);
+			)
 		},
 		closeCallDialog: function() {
-			this.isShowCallDialog = false;
+			this.isShowCallDialog = false
 		}
 	},
 	mounted() {
 		let jsinner = $(
 			'<script src="https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143" language="JavaScript"><\/script>'
-		);
-		$("body").append(jsinner);
+		)
+		$("body").append(jsinner)
 
-		let storage = window.sessionStorage;
-		let loseCreditDetailList = JSON.parse(
-			storage.getItem("loseCreditDetailList")
-		);
+		let storage = window.sessionStorage
+		let loseCreditDetailList = JSON.parse(storage.getItem("loseCreditDetailList"))
 
 		if (
 			loseCreditDetailList[0].overDueFlag == "1" &&
 			loseCreditDetailList[0].invUsername == "huarong_finance"
 		) {
-			this.isShowCallDialog = true;
+			this.isShowCallDialog = true
 		}
 
 		//弹出告知函浮层
 		if (loseCreditDetailList.length) {
-			this.popLetterNotice();
+			this.popLetterNotice()
 		}
 
 		//浮层告知函主标题
 		this.noticeDetail =
-			loseCreditDetailList[loseCreditDetailList.length - 1].noticeDetail;
+			loseCreditDetailList[loseCreditDetailList.length - 1].noticeDetail
 
 		//浮层告知函副标题
 		this.noticeName =
-			loseCreditDetailList[loseCreditDetailList.length - 1].noticeName;
+			loseCreditDetailList[loseCreditDetailList.length - 1].noticeName
 
 		//告知函last title
-		this.noticeTitle = loseCreditDetailList[0].detailList[0].bigTitle;
+		this.noticeTitle = loseCreditDetailList[0].detailList[0].bigTitle
 
 		//告知函last image
 		this.noticeImg =
 			this.config.pic_path +
-			loseCreditDetailList[loseCreditDetailList.length - 1].imageUrl;
+			loseCreditDetailList[loseCreditDetailList.length - 1].imageUrl
 
 		// 获取失信案例
-		this.SysParam();
+		this.SysParam()
 
-		this.loseCreditDetailList = loseCreditDetailList;
-		this.detailList = loseCreditDetailList[0].detailList;
+		this.loseCreditDetailList = loseCreditDetailList
+		this.detailList = loseCreditDetailList[0].detailList
 		this.zcDetailList = this.detailList.filter((item, index) => {
-			return item.type === "ZC";
-		});
+			return item.type === "ZC"
+		})
 		this.ssDetailList = this.detailList.filter((item, index) => {
-			return item.type === "SS";
-		});
-		this.currentType = this.detailList[0].type;
-		this.isShow = true;
+			return item.type === "SS"
+		})
+		this.currentType = this.detailList[0].type
+		this.isShow = true
 
 		for (let i = 0; i < this.detailList.length; i++) {
-			const picList = this.detailList[i].picList;
+			const picList = this.detailList[i].picList
 			for (let j = 0; j < picList.length; j++) {
-				picList[j].msrc = picList[j].picPrefix + picList[j].picUrl;
-				picList[j].src = picList[j].picPrefix + picList[j].picUrl;
+				picList[j].msrc = picList[j].picPrefix + picList[j].picUrl
+				picList[j].src = picList[j].picPrefix + picList[j].picUrl
 			}
-			this.detailList[i].picList = picList;
+			this.detailList[i].picList = picList
 		}
 
 		// 轮播图
@@ -1044,7 +938,7 @@ export default {
 				clickable: true
 			},
 			spaceBetween: 20
-		});
+		})
 	}
-};
+}
 </script>

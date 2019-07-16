@@ -78,7 +78,7 @@
 </style>
 
 <script type="text/javascript">
-import { XDialog, XInput, TransferDomDirective as TransferDom } from "vux";
+import { XDialog, XInput, TransferDomDirective as TransferDom } from "vux"
 
 export default {
 	props: {
@@ -111,94 +111,90 @@ export default {
 			getMessageCodeText: "",
 			showToast1: false,
 			newAuthPic: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		btnSubmit() {
-			let sendType;
-			this.type === "register"
-				? (sendType = "regist")
-				: (sendType = "login");
-			var errorMsg = "";
+			let sendType
+			this.type === "register" ? (sendType = "regist") : (sendType = "login")
+			var errorMsg = ""
 			if (this.imgCode == "") {
-				errorMsg = "请输入图形验证码";
+				errorMsg = "请输入图形验证码"
 			}
 			if (errorMsg != "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			var postData = new URLSearchParams();
-			postData.append("userName", this.mobile);
-			postData.append("mobile", this.mobile);
-			postData.append("sendFrom", "HTML5");
-			postData.append("sendType", sendType);
-			postData.append("requestSource", "HTML5");
-			postData.append("uuid", this.utils.uuid());
-			postData.append("authId", this.authId);
-			postData.append("imageCode", this.imgCode);
+			var postData = new URLSearchParams()
+			postData.append("userName", this.mobile)
+			postData.append("mobile", this.mobile)
+			postData.append("sendFrom", "HTML5")
+			postData.append("sendType", sendType)
+			postData.append("requestSource", "HTML5")
+			postData.append("uuid", this.utils.uuid())
+			postData.append("authId", this.authId)
+			postData.append("imageCode", this.imgCode)
 			this.common.getMessageCode(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode == "1") {
-					this.showToast1 = false;
-					this.$emit("showToast", this.showToast1);
+					this.showToast1 = false
+					this.$emit("showToast", this.showToast1)
 					// this.$emit('newAuthId', data.authId);
 					// this.$emit('newAuthPic', data.authPic);
 					this.utils.timeCount(60, data => {
-						this.getMessageCodeText = data;
-						this.$emit("timeCount", this.getMessageCodeText);
-					});
-					this.$emit("imgCode", this.imgCode);
+						this.getMessageCodeText = data
+						this.$emit("timeCount", this.getMessageCodeText)
+					})
+					this.$emit("imgCode", this.imgCode)
 				} else {
-					this.errorMsg = data.resultMsg;
+					this.errorMsg = data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
-					this.imgCode = "";
+					})
+					this.imgCode = ""
 					if (data.resultCode == "5") {
-						this.showToast1 = false;
-						this.$emit("showToast", this.showToast1);
+						this.showToast1 = false
+						this.$emit("showToast", this.showToast1)
 					}
 					// 图片验证码
-					this.newAuthPic =
-						"data:image/jpg;base64," + res.data.authPic;
+					this.newAuthPic = "data:image/jpg;base64," + res.data.authPic
 					//this.authId = res.data.authId;
 				}
-			});
+			})
 		},
 		change() {
-			this.getImgCode();
+			this.getImgCode()
 		},
 		getImgCode() {
-			let params = new URLSearchParams();
-			params.append("userName", this.mobile);
-			params.append("uuid", this.utils.uuid());
+			let params = new URLSearchParams()
+			params.append("userName", this.mobile)
+			params.append("uuid", this.utils.uuid())
 			this.common.getImgCode(params).then(res => {
 				// 图片验证码
-				this.newAuthPic = "data:image/jpg;base64," + res.data.authPic;
-			});
+				this.newAuthPic = "data:image/jpg;base64," + res.data.authPic
+			})
 		}
 	},
-	mounted: function() {
-	},
+	mounted: function() {},
 	watch: {
 		showToast: function(val, oldVal) {
-			this.showToast1 = val;
-			this.imgCode = "";
-			if(val){
-				this.$nextTick(function(){
-					this.$refs.imgCodeRef.focus();
+			this.showToast1 = val
+			this.imgCode = ""
+			if (val) {
+				this.$nextTick(function() {
+					this.$refs.imgCodeRef.focus()
 				})
 			}
 		},
 		authPic: function(val, oldVal) {
-			this.newAuthPic = val;
+			this.newAuthPic = val
 		}
 	},
 	destroyed() {
-		this.showToast1 = false;
+		this.showToast1 = false
 	}
-};
+}
 </script>

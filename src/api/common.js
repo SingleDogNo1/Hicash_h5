@@ -1,9 +1,9 @@
-﻿import axios from "axios";
-import config from "../config.json";
-import jsCommon from "../assets/js/common.js";
-import qs from 'qs'
+﻿import axios from "axios"
+import config from "../config.json"
+import jsCommon from "../assets/js/common.js"
+import qs from "qs"
 
-let cache = jsCommon.Cache();
+let cache = jsCommon.Cache()
 
 export default {
 	ShowPI: ShowPI,
@@ -72,7 +72,7 @@ export default {
 	saveUserCreditInfo: saveUserCreditInfo,
 	CheckCreditResult: CheckCreditResult,
 	getCreditResult: getCreditResult,
-	UpdateUserCreditReportStatus:UpdateUserCreditReportStatus,
+	UpdateUserCreditReportStatus: UpdateUserCreditReportStatus,
 	wxfx: wxfx,
 	checkUserInfo: checkUserInfo,
 	QueryPandoraUrl: QueryPandoraUrl,
@@ -90,7 +90,7 @@ export default {
 	userInfoHx: userInfoHx,
 	ShowWaitTime: ShowWaitTime,
 	queryUserTip: queryUserTip
-};
+}
 
 /*
  *  事例
@@ -99,13 +99,13 @@ export function ShowPI(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/ShowPI", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -115,13 +115,13 @@ export function getIndexMain(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/indexMain", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -132,21 +132,21 @@ export function getHomePagePic(params) {
 		axios
 			.get(
 				"/HicashService/HomePagePic?cityCode=" +
-				params.cityCode +
-				"&uuid=" +
-				params.uuid +
-				"&position=" +
-				params.position
+					params.cityCode +
+					"&uuid=" +
+					params.uuid +
+					"&position=" +
+					params.position
 			)
 			.then(
 				res => {
-					resolve(res);
+					resolve(res)
 				},
 				err => {
-					reject(err);
+					reject(err)
 				}
-			);
-	});
+			)
+	})
 }
 
 /*
@@ -156,13 +156,13 @@ export function getAllLoanApplication() {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/HomeData").then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -181,27 +181,27 @@ export function getAccountInfo(params) {
 		"&uuid=" +
 		params.uuid +
 		"&version=" +
-		config.version;
+		config.version
 	return new Promise((resolve, reject) => {
 		//从内存中获取数据，如内存中不存在在请求server
-		let accountInfoData = cache.get("AccountInfo");
+		let accountInfoData = cache.get("AccountInfo")
 		if (accountInfoData) {
-			resolve(accountInfoData);
-			return false;
+			resolve(accountInfoData)
+			return false
 		}
 
 		axios.get(url).then(
 			res => {
 				if (res.data.resultCode == "1") {
-					cache.put("AccountInfo", res);
+					cache.put("AccountInfo", res)
 				}
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -211,13 +211,13 @@ export function getSysParam(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/SysParam", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -227,13 +227,13 @@ export function getImgCode(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/AuthImage", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -243,13 +243,13 @@ export function getMessageCode(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/SmsVerificationCode", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -257,17 +257,15 @@ export function getMessageCode(params) {
  */
 export function deleteVerificationCodeCount(params) {
 	return new Promise((resolve, reject) => {
-		axios
-			.post("/hicash-api-service/DeleteVerificationCodeCount", params)
-			.then(
-				res => {
-					resolve(res);
-				},
-				err => {
-					reject(err);
-				}
-			);
-	});
+		axios.post("/hicash-api-service/DeleteVerificationCodeCount", params).then(
+			res => {
+				resolve(res)
+			},
+			err => {
+				reject(err)
+			}
+		)
+	})
 }
 
 /*
@@ -277,13 +275,13 @@ export function login(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/Login", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -293,13 +291,13 @@ export function getUserGrade(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/UserGrade", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -309,13 +307,13 @@ export function getSendPassWordCode(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/SendPassWordCode", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -325,13 +323,13 @@ export function forgetPassWord(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashService/ForgetPassWord", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -341,13 +339,13 @@ export function resetPassword(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashService/ResetPassword", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -357,13 +355,13 @@ export function register(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/RegisterNoCard", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -373,13 +371,13 @@ export function getApplyCouponList(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/ApplyCouponList", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -389,13 +387,13 @@ export function queryProductDetail(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/QueryProductDetail", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -405,13 +403,13 @@ export function loanAmtCalculateForNew(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashService/LoanAmtCalculateForNew", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -421,13 +419,13 @@ export function loanPay(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/LoanPay", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -437,13 +435,13 @@ export function checkSupportApp(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/CheckSupportApp", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -453,13 +451,13 @@ export function fastLoanFirst(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashService/FastLoanFirst", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -469,13 +467,13 @@ export function uploadPic(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/file-upload", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -485,13 +483,13 @@ export function UpdateTempAppInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UpdateTempAppInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -501,13 +499,13 @@ export function updatePicStatus(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UpdatePicStatus", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -517,13 +515,13 @@ export function stuInfoQuery(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/StuInfoQuery", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -533,13 +531,13 @@ export function collarPersonInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/CollarPersonInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -549,13 +547,13 @@ export function getProvince(params) {
 	return new Promise((resolve, reject) => {
 		axios.get("/get-province").then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -565,13 +563,13 @@ export function getCity(params) {
 	return new Promise((resolve, reject) => {
 		axios.get("/get-city?provinceId=" + params.provinceId).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -581,13 +579,13 @@ export function getArea(params) {
 	return new Promise((resolve, reject) => {
 		axios.get("/get-area?cityId=" + params.cityId).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -597,13 +595,13 @@ export function updateCollarPersonInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UpdateCollarPersonInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -613,13 +611,13 @@ export function relationInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/RelationInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -629,13 +627,13 @@ export function updateRelationInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UpdateRelationInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -645,13 +643,13 @@ export function queryShouQuanSuc(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/creditservice/zhima/queryShouQuanSuc.do", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -661,13 +659,13 @@ export function queryFirstExamineSuc(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/ruleService/userInfo/userYsRule.do", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -677,13 +675,13 @@ export function creditItems(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/CreditItems", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -693,13 +691,13 @@ export function withHoldBank() {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/WithHoldBank").then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -709,13 +707,13 @@ export function getOwnData() {
 	return new Promise((resolve, reject) => {
 		axios.get("/get-own-data").then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -725,14 +723,14 @@ export function searchBankCard(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/SearchBankCard", params).then(
 			res => {
-				console.log("res=====", res);
-				resolve(res);
+				console.log("res=====", res)
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -742,13 +740,13 @@ export function getSmallBannerDetail(id) {
 	return new Promise((resolve, reject) => {
 		axios.get("/HicashService/SmallPicBanr?id=" + id).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -758,13 +756,13 @@ export function navigateToRecharge(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/navigateToRecharge", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -774,13 +772,13 @@ export function indexAdvertising(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/IndexAdvertising", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -790,13 +788,13 @@ export function getRechargeCoupon(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/RechargeCoupon", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -806,13 +804,13 @@ export function getCustHicashCoupon(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/CustHicashCoupon", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /**
@@ -822,13 +820,13 @@ export function checkResultBaiQiShi(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/creditservice/baiqishi/checkResult.do", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /**
@@ -836,16 +834,16 @@ export function checkResultBaiQiShi(params) {
  */
 export function OwnPageShow(params) {
 	return new Promise((resolve, reject) => {
-		let OwnPageShowData = cache.get("OwnPageShow");
+		let OwnPageShowData = cache.get("OwnPageShow")
 		if (OwnPageShowData) {
-			resolve(OwnPageShowData);
-			return false;
+			resolve(OwnPageShowData)
+			return false
 		}
 		axios.post("/HicashAppService/OwnPageShow", params).then(res => {
-			cache.put("OwnPageShow", res);
-			resolve(res);
-		});
-	});
+			cache.put("OwnPageShow", res)
+			resolve(res)
+		})
+	})
 }
 /*
  *  失信列表信息接口
@@ -854,13 +852,13 @@ export function loseCreditInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/loseCreditInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /**
@@ -870,13 +868,13 @@ export function QueryMyMsg(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/QueryMyMsg", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 /*
  *  失信详情接口
@@ -885,13 +883,13 @@ export function loseCreditDetail(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/loseCreditDetail", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -901,13 +899,13 @@ export function GsdtHyzxDetailMsg(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/GsdtHyzxDetailMsg", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -917,13 +915,13 @@ export function UpdateMsgStatus(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UpdateMsgStatus", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -933,13 +931,13 @@ export function accountOrderPage(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/accountOrderPage", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -949,13 +947,13 @@ export function accountOrderList(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/accountOrderList", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -965,13 +963,13 @@ export function orderDetailInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/orderDetailInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -981,13 +979,13 @@ export function repayPlan(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/repayPlan", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -997,26 +995,26 @@ export function CancelAppPayByPad(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashService/CancelAppPayByPad", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 export function QueryWithdrawData(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/QueryWithdrawData", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 // /*
@@ -1042,13 +1040,13 @@ export function UpdateCustCard(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UpdateCustCard", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1058,13 +1056,13 @@ export function GetRandomNumber(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/GetRandomNumber", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1074,13 +1072,13 @@ export function VerifyVideo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/VerifyVideo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /**
@@ -1089,24 +1087,24 @@ export function VerifyVideo(params) {
 export function IsBottomShow(params) {
 	return new Promise((resolve, reject) => {
 		//从内存中获取数据，如内存中不存在在请求server
-		let IsBottomShowData = cache.get("IsBottomShow");
+		let IsBottomShowData = cache.get("IsBottomShow")
 		if (IsBottomShowData) {
-			resolve(IsBottomShowData);
-			return false;
+			resolve(IsBottomShowData)
+			return false
 		}
 
 		axios.post("/HicashAppService/IsBottomShow", params).then(
 			res => {
 				if (res.data.resultCode == "1") {
-					cache.put("IsBottomShow", res);
+					cache.put("IsBottomShow", res)
 				}
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1119,10 +1117,10 @@ export function queryCreditUrl(params) {
 				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1130,29 +1128,31 @@ export function queryCreditUrl(params) {
  */
 export function getUserCreditReports(params) {
 	return new Promise((resolve, reject) => {
-		axios.get("/hicash-api-service/credit/getUserCreditReports/"+params).then(
+		axios.get("/hicash-api-service/credit/getUserCreditReports/" + params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 // 更新用户的某个报告的认证中状态
 export function UpdateUserCreditReportStatus(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/hicash-api-service/credit/updateUserCreditReportStatus/",params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
+		axios
+			.post("/hicash-api-service/credit/updateUserCreditReportStatus/", params)
+			.then(
+				res => {
+					resolve(res)
+				},
+				err => {
+					reject(err)
+				}
+			)
+	})
 }
 
 // 是否获取到征信报告
@@ -1160,13 +1160,13 @@ export function CheckCreditResult(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/checkCreditResult", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1176,13 +1176,13 @@ export function saveUserCreditInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/saveUserCreditInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1190,15 +1190,22 @@ export function saveUserCreditInfo(params) {
  */
 export function getCreditReport(params) {
 	return new Promise((resolve, reject) => {
-		axios.get("/hicash-api-service/credit/getUserCreditRepostByType/" + params.reportType + "/" + params.userName).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
+		axios
+			.get(
+				"/hicash-api-service/credit/getUserCreditRepostByType/" +
+					params.reportType +
+					"/" +
+					params.userName
+			)
+			.then(
+				res => {
+					resolve(res)
+				},
+				err => {
+					reject(err)
+				}
+			)
+	})
 }
 
 /*
@@ -1208,13 +1215,13 @@ export function getCreditResult(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/getCreditResult", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1222,15 +1229,15 @@ export function getCreditResult(params) {
  */
 export function wxfx(params) {
 	return new Promise((resolve, reject) => {
-		axios.post(config.MWEB_PATH + 'api/?api=wxfx', params).then(
+		axios.post(config.MWEB_PATH + "api/?api=wxfx", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1240,13 +1247,13 @@ export function checkUserInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/credit/checkUserInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1256,13 +1263,13 @@ export function QueryPandoraUrl(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/QueryPandoraUrl", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1272,29 +1279,29 @@ export function RepayProgram(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/RepayProgram", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
  *  个人信息
  */
 export function UserInfo(params) {
-   return new Promise((resolve, reject) => {
-	   axios.post("/NewHicashService/UserInfo", params).then(
-		   res => {
-			   resolve(res);
-		   },
-		   err => {
-			   reject(err);
-		   }
-	   );
-   });
+	return new Promise((resolve, reject) => {
+		axios.post("/NewHicashService/UserInfo", params).then(
+			res => {
+				resolve(res)
+			},
+			err => {
+				reject(err)
+			}
+		)
+	})
 }
 
 /*
@@ -1302,15 +1309,15 @@ export function UserInfo(params) {
  */
 export function bankBin(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashAppService/BankBin', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashAppService/BankBin", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1318,15 +1325,15 @@ export function bankBin(params) {
  */
 export function cardCheckFour(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashService/card_check_four', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashService/card_check_four", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1334,15 +1341,15 @@ export function cardCheckFour(params) {
  */
 export function queryValName(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashAppService/QueryValName', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashAppService/QueryValName", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 /*
  *  嗨钱H5安卓机是否需要下载APP
@@ -1351,13 +1358,13 @@ export function isDownloadApp(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/channel/isDownloadApp", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1365,15 +1372,15 @@ export function isDownloadApp(params) {
  */
 export function dispatchWithHoldChannel(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashAppService/dispatchWithHoldChannel', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashAppService/dispatchWithHoldChannel", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1383,13 +1390,13 @@ export function userEaseModGet(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UserEaseModGet", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1397,15 +1404,15 @@ export function userEaseModGet(params) {
  */
 export function submitBindCardInfo(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/hicash-api-service/submitBindCardInfo', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/hicash-api-service/submitBindCardInfo", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1415,13 +1422,13 @@ export function userInfoHx(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/UserInfoHx", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1429,15 +1436,15 @@ export function userInfoHx(params) {
  */
 export function createAppPayByMD(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashAppService/CreateAppPayByMD', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashAppService/CreateAppPayByMD", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1447,13 +1454,13 @@ export function ShowWaitTime(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/ShowWaitTime", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -1461,15 +1468,17 @@ export function ShowWaitTime(params) {
  */
 export function updateChannelApplicationStatusWacai(params) {
 	return new Promise((resolve, reject) => {
-		axios.post("/hicash-api-service/updateChannelApplicationStatus/wacai", params).then(
-			res => {
-				resolve(res);
-			},
-			err => {
-				reject(err);
-			}
-		);
-	});
+		axios
+			.post("/hicash-api-service/updateChannelApplicationStatus/wacai", params)
+			.then(
+				res => {
+					resolve(res)
+				},
+				err => {
+					reject(err)
+				}
+			)
+	})
 }
 
 /*
@@ -1479,11 +1488,11 @@ export function queryUserTip(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/hicash-api-service/queryUserTip", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }

@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios"
 
 export default {
-  showWaitTime: showWaitTime,
-  querySignPageData: querySignPageData
+	showWaitTime: showWaitTime,
+	querySignPageData: querySignPageData
 }
 
 /*
@@ -10,15 +10,15 @@ export default {
  */
 export function showWaitTime(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashAppService/ShowWaitTime', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashAppService/ShowWaitTime", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -26,7 +26,6 @@ export function showWaitTime(params) {
  */
 export function querySignPageData(params) {
 	return new Promise((resolve, reject) => {
-
 		// let res = {
 		// 	data:{
 		// 		"resultCode": "1",
@@ -142,15 +141,13 @@ export function querySignPageData(params) {
 		// }
 		// resolve(res);
 
-
-
-		axios.post('/hicash-api-service/querySignPageData', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/hicash-api-service/querySignPageData", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }

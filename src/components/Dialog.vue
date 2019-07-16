@@ -9,9 +9,7 @@
 			<div class="dialog-content" v-if="popType === 'rechargePop'">
 				<p class="content-title">{{ dialogDefaultTitle }}</p>
 				<ul class="content-app-no">
-					<li v-for="(item, index) in appNoList" :key="index">
-						{{ item }}
-					</li>
+					<li v-for="(item, index) in appNoList" :key="index">{{ item }}</li>
 				</ul>
 				<p class="content-total-amount" v-html="totalAmount"></p>
 			</div>
@@ -127,7 +125,7 @@
 </style>
 
 <script>
-import { Confirm, TransferDomDirective as TransferDom } from "vux";
+import { Confirm, TransferDomDirective as TransferDom } from "vux"
 export default {
 	directives: {
 		TransferDom
@@ -175,50 +173,50 @@ export default {
 			default: ""
 		},
 		// 是否只显示一个按钮 (如果是就只显示取消)
-    singleButton: {
-      type: Boolean,
-      default: false
+		singleButton: {
+			type: Boolean,
+			default: false
 		},
 		// 点击确定执行的函数
-    onConfirm: {
-      type: Function,
-      default: () => {
-        return () => {}
-      }
+		onConfirm: {
+			type: Function,
+			default: () => {
+				return () => {}
+			}
 		},
 		// 点击取消执行的函数
-    onCancel: {
-      type: Function,
-      default: () => {
-        return () => {}
-      }
-    }
+		onCancel: {
+			type: Function,
+			default: () => {
+				return () => {}
+			}
+		}
 	},
 	data() {
 		return {
 			showDialog: this.isShowDialog
-		};
+		}
 	},
 	methods: {
 		cancelItem: function() {
-			this.onCancel();
-			if(!this.closeOnConfirm) {
-				this.showDialog = false;
-				this.$emit("showDialog", this.showDialog);
+			this.onCancel()
+			if (!this.closeOnConfirm) {
+				this.showDialog = false
+				this.$emit("showDialog", this.showDialog)
 			}
 		},
 		confirmItem: function() {
-			this.onConfirm();
+			this.onConfirm()
 			//if(!this.closeOnConfirm) {
-				this.showDialog = false;
-				this.$emit("showDialog", this.showDialog);
+			this.showDialog = false
+			this.$emit("showDialog", this.showDialog)
 			//}
 		}
 	},
 	watch: {
 		isShowDialog: function(val, oldVal) {
-			this.showDialog = val;
+			this.showDialog = val
 		}
 	}
-};
+}
 </script>

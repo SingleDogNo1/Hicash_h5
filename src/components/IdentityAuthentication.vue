@@ -9,10 +9,7 @@
 						>信息尚未填写完成，是否放弃申请？<br />现金曾离你这么近，难道就舍它而去？
 					</div>
 					<div class="action">
-						<a
-							href="javascript:void(0);"
-							class="btn-continue"
-							@click="continueWrite"
+						<a href="javascript:void(0);" class="btn-continue" @click="continueWrite"
 							>继续填写</a
 						>
 						<router-link class="btn-giveup" :to="{ name: 'Home' }">
@@ -25,11 +22,7 @@
 		<header class="credit-header">
 			<!-- go-history -->
 			<a class="go-history" href="javascript:;" @click="goBack"></a>
-			<a
-				class="go-history btn-close"
-				href="javascript:;"
-				@click="close"
-			></a>
+			<a class="go-history btn-close" href="javascript:;" @click="close"></a>
 			<h1>身份认证</h1>
 		</header>
 		<div class="authentication-step">
@@ -44,31 +37,13 @@
 			<div class="content">
 				<h1>本人手持身份证正面</h1>
 				<div class="img-wrap">
-					<img
-						class="idcard-front"
-						:src="userIdcardFrontUrlThum"
-						alt=""
-					/>
+					<img class="idcard-front" :src="userIdcardFrontUrlThum" alt="" />
 					<form action="" method="post" accept-charset="utf-8">
 						<i class="add-img"></i>
-						<input
-							type="file"
-							name="file"
-							@change="userFrontUploadImg($event)"
-						/>
+						<input type="file" name="file" @change="userFrontUploadImg($event)" />
 						<input type="hidden" name="imgType" value="ZL112" />
-						<input
-							type="hidden"
-							v-model="upName"
-							class="upName"
-							name="userName"
-						/>
-						<input
-							type="hidden"
-							v-model="upNo"
-							class="upNo"
-							name="tempAppNo"
-						/>
+						<input type="hidden" v-model="upName" class="upName" name="userName" />
+						<input type="hidden" v-model="upNo" class="upNo" name="tempAppNo" />
 						<input type="hidden" name="uploadType" value="APPIMG" />
 						<input
 							type="hidden"
@@ -93,9 +68,7 @@
 					style="margin-top: -.4rem;margin-bottom:.1rem;
                 "
 				>
-					<p
-						style="border-bottom:1px solid #ff7640;display: inline-block;"
-					>
+					<p style="border-bottom:1px solid #ff7640;display: inline-block;">
 						您的身份证需在有效期内方可申请
 					</p>
 				</div>
@@ -103,18 +76,10 @@
 			<div class="content">
 				<h1>身份证正面(卡片完整,字迹清晰)</h1>
 				<div class="img-wrap">
-					<img
-						class="idcard-front"
-						:src="idcardFrontUrlThum"
-						alt=""
-					/>
+					<img class="idcard-front" :src="idcardFrontUrlThum" alt="" />
 					<form action="" method="post" accept-charset="utf-8">
 						<i class="add-img"></i>
-						<input
-							type="file"
-							name="file"
-							@change="frontUploadImg($event)"
-						/>
+						<input type="file" name="file" @change="frontUploadImg($event)" />
 						<input type="hidden" name="imgType" value="ZL02" />
 						<input type="hidden" class="upName" name="userName" />
 						<input type="hidden" class="upNo" name="tempAppNo" />
@@ -139,11 +104,7 @@
 					<img class="idcard-front" :src="idcardBackUrlThum" alt="" />
 					<form action="" method="post" accept-charset="utf-8">
 						<i class="add-img"></i>
-						<input
-							type="file"
-							name="file"
-							@change="backUploadImg($event)"
-						/>
+						<input type="file" name="file" @change="backUploadImg($event)" />
 						<input type="hidden" name="imgType" value="ZL02" />
 						<input type="hidden" class="upName" name="userName" />
 						<input type="hidden" class="upNo" name="tempAppNo" />
@@ -164,9 +125,7 @@
 			</div>
 		</section>
 		<div class="next-step">
-			<a href="javascript:;" class="btn-next-step" @click="nextStep"
-				>下一步</a
-			>
+			<a href="javascript:;" class="btn-next-step" @click="nextStep">下一步</a>
 		</div>
 	</div>
 </template>
@@ -431,50 +390,44 @@
 </style>
 
 <script type="text/javascript">
-import { XDialog, TransferDomDirective as TransferDom } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
-import fs from "fs";
+import { XDialog, TransferDomDirective as TransferDom } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
+import fs from "fs"
 
 var changeImage = (type, postObj, file) => {
 	return new Promise((resolve, reject) => {
-		let postData = new URLSearchParams();
-		var reader = new FileReader();
-		reader.readAsDataURL(file);
+		let postData = new URLSearchParams()
+		var reader = new FileReader()
+		reader.readAsDataURL(file)
 		reader.onload = function(e) {
-			postData.append("imageBase64", this.result);
-			postData.append("fileName", file.name);
-			postData.append("file", file);
-			postData.append("imgType", type);
-			postData.append("userName", postObj.upName);
-			postData.append("tempAppNo", postObj.upNo);
-			postData.append("uploadType", "APPIMG");
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
+			postData.append("imageBase64", this.result)
+			postData.append("fileName", file.name)
+			postData.append("file", file)
+			postData.append("imgType", type)
+			postData.append("userName", postObj.upName)
+			postData.append("tempAppNo", postObj.upNo)
+			postData.append("uploadType", "APPIMG")
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
 			common.uploadPic(postData).then(res => {
 				if (res.data.resultCode === "1") {
-					resolve(res.data);
+					resolve(res.data)
 				} else {
-					let params = new URLSearchParams();
-					params.append(
-						"tempAppNo",
-						utils.getCookie("appFlowNo").split(":")[1]
-					);
-					params.append("applyFrom", "03");
-					params.append("custType", utils.getCookie("custType"));
-					params.append(
-						"industryCode",
-						utils.getCookie("industryCode")
-					);
-					params.append("node", "01");
-					params.append("status", "05");
-					common.updateTempAppInfo(params).then(res => {});
-					resolve(res.data);
+					let params = new URLSearchParams()
+					params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+					params.append("applyFrom", "03")
+					params.append("custType", utils.getCookie("custType"))
+					params.append("industryCode", utils.getCookie("industryCode"))
+					params.append("node", "01")
+					params.append("status", "05")
+					common.updateTempAppInfo(params).then(res => {})
+					resolve(res.data)
 				}
-			});
-		};
-	});
-};
+			})
+		}
+	})
+}
 
 export default {
 	directives: {
@@ -498,243 +451,231 @@ export default {
 			imgTypeUserFront: "ZL112",
 			imgTypeFront: "ZL02",
 			imgTypeBack: "ZL03"
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		goBack() {
-			var industryCode = utils.getCookie("industryCode");
-			var hqljb = utils.getCookie("hqljb");
+			var industryCode = utils.getCookie("industryCode")
+			var hqljb = utils.getCookie("hqljb")
 			if (industryCode == "DDCP" && hqljb == "1") {
-				window.location = "editablePage.html?back=1";
-				return false;
+				window.location = "editablePage.html?back=1"
+				return false
 			} else if (industryCode == "DDCP") {
-				window.location.href =
-					MWEB_PATH + "newweb/creditInfo/creditExtension.html";
+				window.location.href = MWEB_PATH + "newweb/creditInfo/creditExtension.html"
 			} else if (industryCode == "LDDD") {
-				window.location.href = MWEB_PATH + "newweb/product/dida.html";
+				window.location.href = MWEB_PATH + "newweb/product/dida.html"
 			} else {
-				this.$router.push({ path: "/miaoDai" });
+				this.$router.push({ path: "/miaoDai" })
 			}
 		},
 		close() {
-			this.show = true;
-			$(".close-pop-mask").css("z-index", 9999);
+			this.show = true
+			$(".close-pop-mask").css("z-index", 9999)
 		},
 		continueWrite() {
-			this.show = false;
-			$(".close-pop-mask").css("z-index", 99);
+			this.show = false
+			$(".close-pop-mask").css("z-index", 99)
 		},
 		userFrontUploadImg(e) {
-			var _this = this;
-			console.log("_this====", _this);
-			var file = e.target.files[0];
-			console.log("file=====", file);
+			var _this = this
+			console.log("_this====", _this)
+			var file = e.target.files[0]
+			console.log("file=====", file)
 			if (file.size > 3145728) {
-				_this.$vux.toast.text("上传图片不得大于3M", "middle");
-				return false;
+				_this.$vux.toast.text("上传图片不得大于3M", "middle")
+				return false
 			}
 			_this.$vux.loading.show({
 				text: "加载中，请稍等……"
-			});
+			})
 			var postObj = {
 				upName: _this.upName,
 				upNo: _this.upNo
-			};
+			}
 			changeImage(this.imgTypeUserFront, postObj, file).then(data => {
 				if (data.resultCode === "1") {
 					_this.userIdcardFrontUrlThum =
-						data.saveFilePathThum + "?t=" + Math.random();
-					_this.$vux.loading.hide();
+						data.saveFilePathThum + "?t=" + Math.random()
+					_this.$vux.loading.hide()
 					_this.$vux.toast.show({
 						position: "middle",
 						text: "上传成功"
-					});
+					})
 				} else {
-					_this.$vux.loading.hide();
-					_this.errorMsg = data.resultMsg;
+					_this.$vux.loading.hide()
+					_this.errorMsg = data.resultMsg
 					_this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		frontUploadImg(e) {
-			var _this = this;
-			console.log("_this====", _this);
-			var file = e.target.files[0];
-			console.log("file=====", file);
+			var _this = this
+			console.log("_this====", _this)
+			var file = e.target.files[0]
+			console.log("file=====", file)
 			if (file.size > 3145728) {
-				_this.$vux.toast.text("上传图片不得大于3M", "middle");
-				return false;
+				_this.$vux.toast.text("上传图片不得大于3M", "middle")
+				return false
 			}
 			_this.$vux.loading.show({
 				text: "加载中，请稍等……"
-			});
+			})
 			var postObj = {
 				upName: _this.upName,
 				upNo: _this.upNo
-			};
+			}
 			changeImage(this.imgTypeFront, postObj, file).then(data => {
 				if (data.resultCode === "1") {
-					_this.idcardFrontUrlThum =
-						data.saveFilePathThum + "?t=" + Math.random();
-					_this.$vux.loading.hide();
+					_this.idcardFrontUrlThum = data.saveFilePathThum + "?t=" + Math.random()
+					_this.$vux.loading.hide()
 					_this.$vux.toast.show({
 						position: "middle",
 						text: "上传成功"
-					});
+					})
 				} else {
-					_this.$vux.loading.hide();
-					_this.errorMsg = data.resultMsg;
+					_this.$vux.loading.hide()
+					_this.errorMsg = data.resultMsg
 					_this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		backUploadImg(e) {
-			var _this = this;
-			console.log("_this====", _this);
-			var file = e.target.files[0];
-			console.log("file=====", file);
+			var _this = this
+			console.log("_this====", _this)
+			var file = e.target.files[0]
+			console.log("file=====", file)
 			if (file.size > 3145728) {
-				_this.$vux.toast.text("上传图片不得大于3M", "middle");
-				return false;
+				_this.$vux.toast.text("上传图片不得大于3M", "middle")
+				return false
 			}
 			_this.$vux.loading.show({
 				text: "加载中，请稍等……"
-			});
+			})
 			var postObj = {
 				upName: _this.upName,
 				upNo: _this.upNo
-			};
+			}
 			changeImage(this.imgTypeBack, postObj, file).then(data => {
 				if (data.resultCode === "1") {
-					_this.idcardBackUrlThum =
-						data.saveFilePathThum + "?t=" + Math.random();
-					_this.$vux.loading.hide();
+					_this.idcardBackUrlThum = data.saveFilePathThum + "?t=" + Math.random()
+					_this.$vux.loading.hide()
 					_this.$vux.toast.show({
 						position: "middle",
 						text: "上传成功"
-					});
+					})
 				} else {
-					_this.$vux.loading.hide();
-					_this.errorMsg = data.resultMsg;
+					_this.$vux.loading.hide()
+					_this.errorMsg = data.resultMsg
 					_this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		nextStep() {
-			let errorMsg = "";
-			console.log("this===", this);
+			let errorMsg = ""
+			console.log("this===", this)
 			if (
-				this.userIdcardFrontUrlThum ===
-				require("../assets/images/bg_idcard.jpg")
+				this.userIdcardFrontUrlThum === require("../assets/images/bg_idcard.jpg")
 			) {
-				errorMsg = "请上传手持身份证照";
+				errorMsg = "请上传手持身份证照"
 			} else if (
-				this.idcardFrontUrlThum ===
-				require("../assets/images/bg_idcard_front.jpg")
+				this.idcardFrontUrlThum === require("../assets/images/bg_idcard_front.jpg")
 			) {
-				errorMsg = "请上传正面照";
+				errorMsg = "请上传正面照"
 			} else if (
-				this.idcardBackUrlThum ===
-				require("../assets/images/bg_idcard_back.jpg")
+				this.idcardBackUrlThum === require("../assets/images/bg_idcard_back.jpg")
 			) {
-				errorMsg = "请上传反面照";
+				errorMsg = "请上传反面照"
 			}
 			if (errorMsg != "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			let postData = new URLSearchParams();
-			postData.append("userName", utils.getCookie("userName"));
-			postData.append("uuid", "1b5f9201-773b-4d14-8ed5-b9f4c8538730");
+			let postData = new URLSearchParams()
+			postData.append("userName", utils.getCookie("userName"))
+			postData.append("uuid", "1b5f9201-773b-4d14-8ed5-b9f4c8538730")
 			common.updatePicStatus(postData).then(res => {
 				if (res.data.resultCode === "1") {
-					var custType = utils.getCookie("custType");
-					var industryCode = utils.getCookie("industryCode");
-					var hqljb = utils.getCookie("hqljb");
+					var custType = utils.getCookie("custType")
+					var industryCode = utils.getCookie("industryCode")
+					var hqljb = utils.getCookie("hqljb")
 					if (industryCode === "DDCP" && hqljb === "1") {
-						window.location = "editablePage.html?back=1";
-						return false;
+						window.location = "editablePage.html?back=1"
+						return false
 					}
 					if (custType === "KHL2") {
-						this.$router.push({ path: "/baseInfo" });
+						this.$router.push({ path: "/baseInfo" })
 						//window.location = "collarBaseInfo.html";
 					} else {
-						_this.$router.push({ path: "/baseInfo" });
-						window.location = "stuBaseInfo.html";
+						_this.$router.push({ path: "/baseInfo" })
+						window.location = "stuBaseInfo.html"
 					}
 				} else {
-					this.errorMsg = res.data.resultMsg;
+					this.errorMsg = res.data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: _this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		}
 	},
 	mounted: function() {
-		let params = new URLSearchParams();
-		params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1]);
-		params.append("applyFrom", "03");
-		params.append("custType", utils.getCookie("custType"));
-		params.append("industryCode", utils.getCookie("industryCode"));
-		params.append("node", "01");
-		params.append("status", "01");
-		common.updateTempAppInfo(params).then(res => {});
-		var appNo = unescape(utils.getCookie("appFlowNo")).split(":")[1];
-		console.log("appNo=====", appNo);
-		this.upName = unescape(utils.getCookie("userName"));
-		this.upNo = appNo;
-		let industryCode = utils.getCookie("industryCode");
-		let custType = utils.getCookie("custType");
-		let mobile = utils.getCookie("mobile");
-		let userName = utils.getCookie("userName");
-		let postData = new URLSearchParams();
-		postData.append("industryCode", industryCode);
-		postData.append("custType", custType);
-		postData.append("mobile", mobile);
-		postData.append("is_type", "N");
-		postData.append("uuid", utils.uuid());
-		postData.append("user_name", userName);
-		postData.append("periods", 0);
-		postData.append("applyFrom", "H5");
+		let params = new URLSearchParams()
+		params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+		params.append("applyFrom", "03")
+		params.append("custType", utils.getCookie("custType"))
+		params.append("industryCode", utils.getCookie("industryCode"))
+		params.append("node", "01")
+		params.append("status", "01")
+		common.updateTempAppInfo(params).then(res => {})
+		var appNo = unescape(utils.getCookie("appFlowNo")).split(":")[1]
+		console.log("appNo=====", appNo)
+		this.upName = unescape(utils.getCookie("userName"))
+		this.upNo = appNo
+		let industryCode = utils.getCookie("industryCode")
+		let custType = utils.getCookie("custType")
+		let mobile = utils.getCookie("mobile")
+		let userName = utils.getCookie("userName")
+		let postData = new URLSearchParams()
+		postData.append("industryCode", industryCode)
+		postData.append("custType", custType)
+		postData.append("mobile", mobile)
+		postData.append("is_type", "N")
+		postData.append("uuid", utils.uuid())
+		postData.append("user_name", userName)
+		postData.append("periods", 0)
+		postData.append("applyFrom", "H5")
 		common.checkSupportApp(postData).then(res => {
 			if (res.data.resultCode == "1") {
-				var userIdcardFrontUrlThum = res.data.idcard_ZL168url; //手持正面照
-				var idcardFrontUrlThum = res.data.idcard_ZL02url; //身份证正面
-				var idcardBackUrlThum = res.data.idcard_ZL03url; //身份证反面
-				if (
-					userIdcardFrontUrlThum &&
-					idcardFrontUrlThum &&
-					idcardBackUrlThum
-				) {
+				var userIdcardFrontUrlThum = res.data.idcard_ZL168url //手持正面照
+				var idcardFrontUrlThum = res.data.idcard_ZL02url //身份证正面
+				var idcardBackUrlThum = res.data.idcard_ZL03url //身份证反面
+				if (userIdcardFrontUrlThum && idcardFrontUrlThum && idcardBackUrlThum) {
 					this.userIdcardFrontUrlThum =
-						userIdcardFrontUrlThum + "?t=" + Math.random();
-					this.userIdcardFrontUpHidden = "1";
-					this.idcardFrontUrlThum =
-						idcardFrontUrlThum + "?t=" + Math.random();
-					this.idcardFrontUpHidden = "1";
-					this.idcardBackUrlThum =
-						idcardBackUrlThum + "?t=" + Math.random();
-					this.idcardBackUpHidden = "1";
+						userIdcardFrontUrlThum + "?t=" + Math.random()
+					this.userIdcardFrontUpHidden = "1"
+					this.idcardFrontUrlThum = idcardFrontUrlThum + "?t=" + Math.random()
+					this.idcardFrontUpHidden = "1"
+					this.idcardBackUrlThum = idcardBackUrlThum + "?t=" + Math.random()
+					this.idcardBackUpHidden = "1"
 				}
 			}
-			console.log("res=======", res);
-		});
+			console.log("res=======", res)
+		})
 	}
-};
+}
 </script>

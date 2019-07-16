@@ -18,37 +18,44 @@
                     </swiper> -->
 					<router-link
 						class="arrow_box swiper-slide"
-						:to="{ name: 'ActivityIntroduction'}"
+						:to="{ name: 'ActivityIntroduction' }"
 					>
-						<img src="./images/auth-banner-hicash.png" alt="">
+						<img src="./images/auth-banner-hicash.png" alt="" />
 					</router-link>
-					<div
-						class="arrow_box swiper-slide"
-						@click.stop="queryCreditUrl(jdItem)"
-					>
-						<img src="./images/auth-banner-jd.png" alt="">
+					<div class="arrow_box swiper-slide" @click.stop="queryCreditUrl(jdItem)">
+						<img src="./images/auth-banner-jd.png" alt="" />
 					</div>
 				</div>
 			</div>
 
 			<flexbox class="list" :gutter="0" wrap="wrap">
-				<flexbox-item :span="1/3" v-for="(item ,  i) in list" :key="i">
+				<flexbox-item :span="1 / 3" v-for="(item, i) in list" :key="i">
 					<div @click.stop="queryCreditUrl(item)">
-						<img  :src="item.iconUrl" alt="">
-						<h4>{{item.reportName}}</h4>
-						<h5 v-if="authStatus" :class="{'uncertified': item.status == '0' || item.status == '3' ,'certification': item.status == '1'}">{{item.statusFont}}</h5>
+						<img :src="item.iconUrl" alt="" />
+						<h4>{{ item.reportName }}</h4>
+						<h5
+							v-if="authStatus"
+							:class="{
+								uncertified: item.status == '0' || item.status == '3',
+								certification: item.status == '1'
+							}"
+						>
+							{{ item.statusFont }}
+						</h5>
 					</div>
 				</flexbox-item>
 			</flexbox>
 		</div>
-		<p class="des">丰富以上模块信息，构建您的信用体系<br />磐多拉征信提供数据支持</p>
+		<p class="des">
+			丰富以上模块信息，构建您的信用体系<br />磐多拉征信提供数据支持
+		</p>
 		<page-footer v-if="platform === 'H5'"></page-footer>
 	</div>
 </template>
 
 <style lang="scss">
 @import "~bowerComponents/sass-rem/_rem.scss";
-.Inquiry{
+.Inquiry {
 	background: #f5f5f5;
 	.content {
 		width: 100%;
@@ -74,14 +81,14 @@
 						width: 37px;
 					}
 				}
-				img{
+				img {
 					border-radius: 5px;
 				}
 			}
 			.arrow_box:hover {
 				color: #333 !important;
 			}
-			
+
 			.swiper-slide {
 				width: 90%;
 				height: rem(150px);
@@ -98,51 +105,50 @@
 				-ms-flex-align: center;
 				-webkit-align-items: center;
 				align-items: center;
-				img{
+				img {
 					width: 100%;
 				}
 			}
 		}
-		.list{
+		.list {
 			width: 100%;
 			margin-top: rem(25px);
-			.vux-flexbox-item{
+			.vux-flexbox-item {
 				text-align: center;
 				margin-bottom: rem(25px);
-				img{
+				img {
 					margin: 0 auto;
 					width: rem(70px);
 				}
-				h4{
+				h4 {
 					font-size: rem(14px);
 					color: #666666;
 					letter-spacing: 0;
 					margin-top: rem(-6px);
 				}
-				h5{
+				h5 {
 					width: rem(54px);
 					font-size: rem(12px);
-					color: #23BC66;
+					color: #23bc66;
 					letter-spacing: 0;
 					padding: rem(3px 0px);
-					background: #E7FCEB;
+					background: #e7fceb;
 					border-radius: 4px;
 					margin: 0 auto;
 					margin-top: rem(6px);
-					&.uncertified{
-						color: #FA741B;
-						background: rgba(255,243,236,0.86);
+					&.uncertified {
+						color: #fa741b;
+						background: rgba(255, 243, 236, 0.86);
 					}
-					&.certification{
-						color: #34A6EA;
-						background: #F0F9FF;
+					&.certification {
+						color: #34a6ea;
+						background: #f0f9ff;
 					}
 				}
 			}
-			
 		}
 	}
-	.des{
+	.des {
 		margin-top: rem(15px);
 		font-size: rem(12px);
 		color: #999999;
@@ -156,17 +162,17 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import PageFooter from "@/components/PageFooter.vue";
-import Swiper from "swiper";
-import { Flexbox, FlexboxItem } from 'vux'
+import PageHeader from "@/components/PageHeader.vue"
+import PageFooter from "@/components/PageFooter.vue"
+import Swiper from "swiper"
+import { Flexbox, FlexboxItem } from "vux"
 
 export default {
 	components: {
 		PageHeader,
 		PageFooter,
 		Swiper,
-		Flexbox, 
+		Flexbox,
 		FlexboxItem
 	},
 	data() {
@@ -178,105 +184,101 @@ export default {
 			number: "",
 			list: [],
 			platform: this.utils.getPlatform(),
-			userName: this.utils.getCookie('userName') || '',
+			userName: this.utils.getCookie("userName") || "",
 			authStatus: false,
-			jdItem: {'reportType': 'jd'}
-		};
+			jdItem: { reportType: "jd" }
+		}
 	},
 	methods: {
-		getUserCreditReports(){
-			this.common.getUserCreditReports(this.userName)
-			.then(res => {
-				let data = res.data.data;
-				
-				_.each(data, function(v,i){
-					if(v.status == '0' || v.status == '3'){
-						data[i].statusFont = '未认证';
-					}else if(v.status == '1'){
-						data[i].statusFont = '认证中';
-					}else if(v.status == '2'){
-						data[i].statusFont = '已认证';
-					}else{
-						data[i].statusFont = '';
+		getUserCreditReports() {
+			this.common.getUserCreditReports(this.userName).then(res => {
+				let data = res.data.data
+
+				_.each(data, function(v, i) {
+					if (v.status == "0" || v.status == "3") {
+						data[i].statusFont = "未认证"
+					} else if (v.status == "1") {
+						data[i].statusFont = "认证中"
+					} else if (v.status == "2") {
+						data[i].statusFont = "已认证"
+					} else {
+						data[i].statusFont = ""
 					}
 				})
-				this.list = data;
-				this.jdItem = _.findWhere(data, {'reportType': 'jd'});
-			});
+				this.list = data
+				this.jdItem = _.findWhere(data, { reportType: "jd" })
+			})
 		},
-		queryCreditUrl(item){
-			if(!this.userName){
-
+		queryCreditUrl(item) {
+			if (!this.userName) {
 				const params = {
 					name: "Login",
 					query: {
 						redirect: this.$router.history.current.fullPath
 					}
 				}
-				this.$router.push(params);
-				return false;
-
+				this.$router.push(params)
+				return false
 			}
 
-			this.utils.setCookie('creditType', item.reportType);
+			this.utils.setCookie("creditType", item.reportType)
 
-			if(item.status == '1'){
-				this.$router.push({name: 'CreditLoading'});
-				return false;
+			if (item.status == "1") {
+				this.$router.push({ name: "CreditLoading" })
+				return false
 			}
 
-			if(item.status == '2'){
-				this.$router.push({name: this.routerNameMapping(item.reportType)});
-				return false;
+			if (item.status == "2") {
+				this.$router.push({ name: this.routerNameMapping(item.reportType) })
+				return false
 			}
 
 			let _params = {
-				"userName": this.userName,
-				"creditType": item.reportType
-			};
+				userName: this.userName,
+				creditType: item.reportType
+			}
 
-			this.common.queryCreditUrl(_params)
-			.then(res => {
-				let data = res.data;
-				console.info('data', data);
-				if(data.userInfo){
-					this.$router.push({name: 'PandoraAuth'});
-				}else{
-					this.$router.push({name: 'IdentityAuth'});
+			this.common.queryCreditUrl(_params).then(res => {
+				let data = res.data
+				console.info("data", data)
+				if (data.userInfo) {
+					this.$router.push({ name: "PandoraAuth" })
+				} else {
+					this.$router.push({ name: "IdentityAuth" })
 				}
-			});
+			})
 		},
-		routerNameMapping(creditType){
-			let creditRouterName = '';
+		routerNameMapping(creditType) {
+			let creditRouterName = ""
 			switch (creditType) {
 				case "operator": // * 运营商
-					creditRouterName = 'operator';
-					break;
+					creditRouterName = "operator"
+					break
 				case "jd": // * 京东
-					creditRouterName = 'jingdong';
-					break;
+					creditRouterName = "jingdong"
+					break
 				case "helloBike": // * 哈啰单车
-					creditRouterName = 'Haluo';
-					break;
+					creditRouterName = "Haluo"
+					break
 				case "eleme": // * 饿了么
-					creditRouterName = 'Eleme';
-					break;
+					creditRouterName = "Eleme"
+					break
 			}
-			return creditRouterName;
+			return creditRouterName
 		}
 	},
 	mounted() {
 		var swiper = new Swiper(".swiper-container", {
-			pagination: '.swiper-pagination',
-			slidesPerView: 'auto',
+			pagination: ".swiper-pagination",
+			slidesPerView: "auto",
 			centeredSlides: true,
 			paginationClickable: true,
 			spaceBetween: 10
-		});
-		
-		if(this.userName) this.authStatus = true;
+		})
 
-		this.getUserCreditReports();
+		if (this.userName) this.authStatus = true
+
+		this.getUserCreditReports()
 	}
-};
+}
 </script>

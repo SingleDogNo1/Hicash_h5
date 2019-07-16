@@ -36,10 +36,7 @@
 			<div class="selt-province" v-if="isShowProvince">
 				<div class="prov-module" v-for="province in provinces">
 					<p>{{ province.pinyin }}</p>
-					<ul
-						class="addrs-detail"
-						v-for="provinceItem in province.province"
-					>
+					<ul class="addrs-detail" v-for="provinceItem in province.province">
 						<li
 							v-bind:data-id="provinceItem.provinceCode"
 							@click="changeProvince(provinceItem)"
@@ -54,10 +51,7 @@
 				<div class="prov-module" v-for="city in citys">
 					<p>{{ city.pinyin }}</p>
 					<ul class="addrs-detail" v-for="cityItem in city.city">
-						<li
-							v-bind:data-id="cityItem.cityCode"
-							@click="changeCity(cityItem)"
-						>
+						<li v-bind:data-id="cityItem.cityCode" @click="changeCity(cityItem)">
 							{{ cityItem.cityName }}
 						</li>
 					</ul>
@@ -68,10 +62,7 @@
 				<div class="prov-module" v-for="area in areas">
 					<p>{{ area.pinyin }}</p>
 					<ul class="addrs-detail" v-for="areaItem in area.area">
-						<li
-							v-bind:data-id="areaItem.areaCode"
-							@click="changeArea(areaItem)"
-						>
+						<li v-bind:data-id="areaItem.areaCode" @click="changeArea(areaItem)">
 							{{ areaItem.areaName }}
 						</li>
 					</ul>
@@ -146,64 +137,64 @@
 </style>
 
 <script type="text/javascript">
-import { XInput, Group, PopupPicker } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
-import pinyin from "@/vendor/pinyin";
+import { XInput, Group, PopupPicker } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
+import pinyin from "@/vendor/pinyin"
 
 function makePy(str) {
 	if (typeof str != "string")
-		throw new Error(-1, "函数makePy需要字符串类型参数!");
-	var arrResult = new Array();
+		throw new Error(-1, "函数makePy需要字符串类型参数!")
+	var arrResult = new Array()
 	//将字符串转码后转为数组
 	for (var i = 0, len = str.length; i < len; i++) {
-		var ch = str.charAt(i);
-		arrResult.push(checkCh(ch));
+		var ch = str.charAt(i)
+		arrResult.push(checkCh(ch))
 	}
-	return mkRslt(arrResult);
+	return mkRslt(arrResult)
 }
 function checkCh(ch) {
-	var uni = ch.charCodeAt(0);
+	var uni = ch.charCodeAt(0)
 	//如果不在汉字处理范围之内,返回原字符,也可以调用自己的处理函数
-	if (uni > 40869 || uni < 19968) return ch; //dealWithOthers(ch);
+	if (uni > 40869 || uni < 19968) return ch //dealWithOthers(ch);
 	//检查是否是多音字,是按多音字处理,不是就直接在strChineseFirstPY字符串中找对应的首字母
 	return pinyin.oMultiDiff[uni]
 		? pinyin.oMultiDiff[uni]
-		: pinyin.strChineseFirstPY.charAt(uni - 19968);
+		: pinyin.strChineseFirstPY.charAt(uni - 19968)
 }
 function mkRslt(arr) {
-	var arrRslt = [""];
+	var arrRslt = [""]
 	for (var i = 0, len = arr.length; i < len; i++) {
-		var str = arr[i];
-		var strlen = str.length;
+		var str = arr[i]
+		var strlen = str.length
 		if (strlen == 1) {
 			for (var k = 0; k < arrRslt.length; k++) {
-				arrRslt[k] += str;
+				arrRslt[k] += str
 			}
 		} else {
-			var tmpArr = arrRslt.slice(0);
-			arrRslt = [];
+			var tmpArr = arrRslt.slice(0)
+			arrRslt = []
 			for (k = 0; k < strlen; k++) {
 				//复制一个相同的arrRslt
-				var tmp = tmpArr.slice(0);
+				var tmp = tmpArr.slice(0)
 				//把当前字符str[k]添加到每个元素末尾
 				for (var j = 0; j < tmp.length; j++) {
-					tmp[j] += str.charAt(k);
+					tmp[j] += str.charAt(k)
 				}
 				//把复制并修改后的数组连接到arrRslt上
-				arrRslt = arrRslt.concat(tmp);
+				arrRslt = arrRslt.concat(tmp)
 			}
 		}
 	}
-	return arrRslt;
+	return arrRslt
 }
 function compare(property) {
 	return function(a, b) {
-		var value1 = a[property].charCodeAt();
-		var value2 = b[property].charCodeAt();
-		return value1 - value2;
-	};
+		var value1 = a[property].charCodeAt()
+		var value2 = b[property].charCodeAt()
+		return value1 - value2
+	}
 }
 
 export default {
@@ -231,7 +222,7 @@ export default {
 			isShowAreaActive: false,
 			provinceItem: "",
 			cityItem: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
@@ -240,113 +231,102 @@ export default {
 		changeProvince(provinceItem) {
 			var params = {
 				provinceId: provinceItem.provinceCode
-			};
-			this.provinceItem = provinceItem;
-			this.isShowProvince = false;
-			this.isShowCity = true;
-			this.isShowarea = false;
-			this.isShowCityTitle = true;
-			this.isShowProvinceActive = false;
-			this.isShowCityActive = true;
-			this.isShowAreaActive = false;
-			this.currentProvince = provinceItem.provinceName;
+			}
+			this.provinceItem = provinceItem
+			this.isShowProvince = false
+			this.isShowCity = true
+			this.isShowarea = false
+			this.isShowCityTitle = true
+			this.isShowProvinceActive = false
+			this.isShowCityActive = true
+			this.isShowAreaActive = false
+			this.currentProvince = provinceItem.provinceName
 			common.getCity(params).then(res => {
-				var citys = [];
-				var sameInitialCitys = [];
-				this.cityList = res.data.city;
+				var citys = []
+				var sameInitialCitys = []
+				this.cityList = res.data.city
 				for (var i = 0; i < this.cityList.length; i++) {
-					var pinyin = "";
-					var cityItem = {};
-					pinyin = makePy(this.cityList[i].cityName)[0].substring(
-						0,
-						1
-					);
-					cityItem.pinyin = pinyin;
-					var index = -1;
+					var pinyin = ""
+					var cityItem = {}
+					pinyin = makePy(this.cityList[i].cityName)[0].substring(0, 1)
+					cityItem.pinyin = pinyin
+					var index = -1
 					for (var j = 0; j < citys.length; j++) {
 						if (citys[j].pinyin === pinyin) {
-							index = 0;
+							index = 0
 							citys[j].city[citys[j].city.length] = {
 								cityCode: this.cityList[i].cityCode,
 								cityName: this.cityList[i].cityName,
 								provinceCode: this.cityList[i].provinceCode
-							};
+							}
 							//return;
 						}
 					}
 					if (index === -1) {
-						cityItem.city = [];
+						cityItem.city = []
 						cityItem.city[0] = {
 							cityCode: this.cityList[i].cityCode,
 							cityName: this.cityList[i].cityName,
 							provinceCode: this.cityList[i].provinceCode
-						};
-						citys.push(cityItem);
+						}
+						citys.push(cityItem)
 					}
 				}
-				citys.sort(compare("pinyin"));
-				this.citys = citys;
-			});
+				citys.sort(compare("pinyin"))
+				this.citys = citys
+			})
 		},
 		changeCity(cityItem) {
 			var params = {
 				cityId: cityItem.cityCode
-			};
-			this.cityItem = cityItem;
-			this.isShowProvince = false;
-			this.isShowCity = false;
-			this.isShowArea = true;
-			this.isShowCityTitle = true;
-			this.isShowAreaTitle = true;
-			this.isShowProvinceActive = false;
-			this.isShowCityActive = false;
-			this.isShowAreaActive = true;
-			this.currentCity = cityItem.cityName;
+			}
+			this.cityItem = cityItem
+			this.isShowProvince = false
+			this.isShowCity = false
+			this.isShowArea = true
+			this.isShowCityTitle = true
+			this.isShowAreaTitle = true
+			this.isShowProvinceActive = false
+			this.isShowCityActive = false
+			this.isShowAreaActive = true
+			this.currentCity = cityItem.cityName
 			common.getArea(params).then(res => {
-				var areas = [];
-				var sameInitialAreas = [];
-				this.areaList = res.data.area;
+				var areas = []
+				var sameInitialAreas = []
+				this.areaList = res.data.area
 				for (var i = 0; i < this.areaList.length; i++) {
-					var pinyin = "";
-					var areaItem = {};
-					pinyin = makePy(this.areaList[i].areaName)[0].substring(
-						0,
-						1
-					);
-					areaItem.pinyin = pinyin;
-					var index = -1;
+					var pinyin = ""
+					var areaItem = {}
+					pinyin = makePy(this.areaList[i].areaName)[0].substring(0, 1)
+					areaItem.pinyin = pinyin
+					var index = -1
 					for (var j = 0; j < areas.length; j++) {
 						if (areas[j].pinyin === pinyin) {
-							index = 0;
+							index = 0
 							areas[j].area[areas[j].area.length] = {
 								areaCode: this.areaList[i].areaCode,
 								areaName: this.areaList[i].areaName,
 								cityCode: this.areaList[i].cityCode
-							};
+							}
 							//return;
 						}
 					}
 					if (index === -1) {
-						areaItem.area = [];
+						areaItem.area = []
 						areaItem.area[0] = {
 							areaCode: this.areaList[i].areaCode,
 							areaName: this.areaList[i].areaName,
 							cityCode: this.areaList[i].cityCode
-						};
-						areas.push(areaItem);
+						}
+						areas.push(areaItem)
 					}
 				}
-				areas.sort(compare("pinyin"));
-				this.areas = areas;
-			});
+				areas.sort(compare("pinyin"))
+				this.areas = areas
+			})
 		},
 		changeArea(areaItem) {
-			console.log(
-				"areaItem=====",
-				areaItem,
-				this.provinceItem,
-				this.cityItem
-			);
+			console.log("areaItem=====", areaItem, this.provinceItem, this.cityItem)
 			utils.setCookie(
 				"chooseAdd",
 				this.provinceItem.proCode +
@@ -354,7 +334,7 @@ export default {
 					this.cityItem.cityCode +
 					":" +
 					areaItem.areaCode
-			);
+			)
 			utils.setCookie(
 				"chooseAddName",
 				this.provinceItem.provinceName +
@@ -362,85 +342,81 @@ export default {
 					this.cityItem.cityName +
 					"/" +
 					areaItem.areaName
-			);
-			var from = this.$route.params.from;
-			console.log("from====", from);
+			)
+			var from = this.$route.params.from
+			console.log("from====", from)
 			switch (from) {
 				case "address":
-					console.log("address------");
+					console.log("address------")
 					this.$router.push({
 						path: "/baseInfo",
 						query: { back: from }
-					});
-					break;
+					})
+					break
 				case "companyAddress":
 					this.$router.push({
 						path: "/baseInfo",
 						query: { back: from }
-					});
-					break;
+					})
+					break
 				case "openAccountProvince":
 					this.$router.push({
 						path: "/bandBank",
 						query: { back: from }
-					});
-					break;
+					})
+					break
 			}
 		},
 		getProvince() {
-			this.isShowProvince = true;
-			this.isShowCity = false;
-			this.isShowarea = false;
-			this.isShowProvinceTitle = true;
-			this.isShowProvinceActive = true;
-			this.isShowCityActive = false;
-			this.isShowAreaActive = false;
+			this.isShowProvince = true
+			this.isShowCity = false
+			this.isShowarea = false
+			this.isShowProvinceTitle = true
+			this.isShowProvinceActive = true
+			this.isShowCityActive = false
+			this.isShowAreaActive = false
 			common.getProvince().then(res => {
-				var provinces = [];
-				var sameInitialProvinces = [];
-				this.provinceList = res.data.province;
+				var provinces = []
+				var sameInitialProvinces = []
+				this.provinceList = res.data.province
 				for (var i = 0; i < this.provinceList.length; i++) {
-					var pinyin = "";
-					var provinceItem = {};
+					var pinyin = ""
+					var provinceItem = {}
 					if (this.provinceList[i].provinceName === "重庆市") {
-						pinyin = "C";
+						pinyin = "C"
 					} else {
-						pinyin = makePy(
-							this.provinceList[i].provinceName
-						)[0].substring(0, 1);
+						pinyin = makePy(this.provinceList[i].provinceName)[0].substring(0, 1)
 					}
-					provinceItem.pinyin = pinyin;
-					var index = -1;
+					provinceItem.pinyin = pinyin
+					var index = -1
 					for (var j = 0; j < provinces.length; j++) {
 						if (provinces[j].pinyin === pinyin) {
-							index = 0;
-							provinces[j].province[
-								provinces[j].province.length
-							] = {
+							index = 0
+							provinces[j].province[provinces[j].province.length] = {
 								provinceCode: this.provinceList[i].provinceCode,
 								provinceName: this.provinceList[i].provinceName,
 								proCode: this.provinceList[i].proCode
-							};
+							}
 							//return;
 						}
 					}
 					if (index === -1) {
-						provinceItem.province = [];
+						provinceItem.province = []
 						provinceItem.province[0] = {
 							provinceCode: this.provinceList[i].provinceCode,
 							provinceName: this.provinceList[i].provinceName,
 							proCode: this.provinceList[i].proCode
-						};
-						provinces.push(provinceItem);
+						}
+						provinces.push(provinceItem)
 					}
 				}
-				provinces.sort(compare("pinyin"));
-				this.provinces = provinces;
-			});
+				provinces.sort(compare("pinyin"))
+				this.provinces = provinces
+			})
 		}
 	},
 	mounted: function() {
-		this.getProvince();
+		this.getProvince()
 	}
-};
+}
 </script>

@@ -11,8 +11,7 @@
 		<div
 			class="content"
 			:style="{
-				'padding-top':
-					this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'
+				'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'
 			}"
 		>
 			<section class="detail-wrap">
@@ -94,7 +93,7 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
+import PageHeader from "@/components/PageHeader.vue"
 
 export default {
 	components: {
@@ -106,50 +105,50 @@ export default {
 			showBtnClose: false,
 			showBack: true,
 			detailList: [],
-			jumpRouteName: 'AllIndex',
-			query: this.$route.query.from ? {'from': this.$route.query.from} : {}
-		};
+			jumpRouteName: "AllIndex",
+			query: this.$route.query.from ? { from: this.$route.query.from } : {}
+		}
 	},
 	mounted() {
-		let userName = this.utils.getCookie("userName");
-		let appNo = this.$route.query.appNo;
-		let type = this.$route.query.type;
-		let postData = new URLSearchParams();
-		postData.append("userName", userName);
-		postData.append("appNo", appNo);
-		postData.append("type", type);
+		let userName = this.utils.getCookie("userName")
+		let appNo = this.$route.query.appNo
+		let type = this.$route.query.type
+		let postData = new URLSearchParams()
+		postData.append("userName", userName)
+		postData.append("appNo", appNo)
+		postData.append("type", type)
 		this.common.repayPlan(postData).then(res => {
-			let data = res.data;
+			let data = res.data
 			if (data.resultCode === "1") {
 				data.appDetail.forEach((val, index) => {
-					let filterRepayStatus;
+					let filterRepayStatus
 					switch (val.repayStatus) {
 						case "WTRP":
-							filterRepayStatus = "待还";
-							break;
+							filterRepayStatus = "待还"
+							break
 						case "REXP":
-							filterRepayStatus = "逾期";
-							break;
+							filterRepayStatus = "逾期"
+							break
 						case "NMRF":
-							filterRepayStatus = "正常还完";
-							break;
+							filterRepayStatus = "正常还完"
+							break
 						case "EPRF":
-							filterRepayStatus = "逾期还完";
-							break;
+							filterRepayStatus = "逾期还完"
+							break
 						default:
-							break;
+							break
 					}
-					val.filterRepayStatus = filterRepayStatus;
-				});
-				this.detailList = data.appDetail;
+					val.filterRepayStatus = filterRepayStatus
+				})
+				this.detailList = data.appDetail
 			} else {
 				this.$vux.toast.show({
 					type: "cancel",
 					position: "middle",
 					text: res.data.resultMsg
-				});
+				})
 			}
-		});
+		})
 	}
-};
+}
 </script>

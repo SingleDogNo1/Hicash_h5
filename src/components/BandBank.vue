@@ -3,11 +3,7 @@
 		<header class="credit-header">
 			<!-- go-history -->
 			<a class="go-history" href="javascript:;" @click="goBack"></a>
-			<a
-				class="go-history btn-close"
-				href="javascript:;"
-				@click="close"
-			></a>
+			<a class="go-history btn-close" href="javascript:;" @click="close"></a>
 			<h1>绑定银行卡</h1>
 		</header>
 		<!-- 绑定银行卡加newbindBank -->
@@ -15,11 +11,7 @@
 			<div class="choose-card-wrap" @click="showPop">
 				<span>银行卡</span>
 				<p class="add-card">{{ cardInfo }}</p>
-				<x-icon
-					type="ios-arrow-down"
-					class="right-inco"
-					size="34"
-				></x-icon>
+				<x-icon type="ios-arrow-down" class="right-inco" size="34"></x-icon>
 			</div>
 			<div class="perContent">
 				<label>姓名</label>
@@ -97,12 +89,8 @@
 				</div>
 			</popup>
 		</section>
-		<div class="next-step">
-			<a href="javascript:;" @click="btnNext">确认</a>
-		</div>
-		<p class="tips">
-			您的个人隐私将被严格保密，嗨钱网不会泄漏任何您的个人信息
-		</p>
+		<div class="next-step"><a href="javascript:;" @click="btnNext">确认</a></div>
+		<p class="tips">您的个人隐私将被严格保密，嗨钱网不会泄漏任何您的个人信息</p>
 	</div>
 </template>
 
@@ -361,10 +349,10 @@ import {
 	Popup,
 	PopupPicker,
 	TransferDomDirective as TransferDom
-} from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+} from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	directives: {
@@ -404,34 +392,32 @@ export default {
 				{ name: "平安银行", value: "PAYH" }
 			],
 			openAccountProvince: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		goBack() {},
 		close() {},
 		showPop() {
-			this.show = true;
+			this.show = true
 		},
 		hidePop() {
-			this.show = false;
+			this.show = false
 		},
 		btnNext() {
-			let errorMsg = "";
+			let errorMsg = ""
 		},
 		bankChange(val) {
-			console.log("val======", val);
-			this.currentBank = val;
+			console.log("val======", val)
+			this.currentBank = val
 		}
 	},
 	mounted: function() {
 		common.getOwnData().then(res => {
 			function loadPayEgisDidJs() {
 				var _protocol =
-					"https:" == document.location.protocol
-						? "https://"
-						: "http://";
-				var element = document.createElement("script");
+					document.location.protocol == "https:" ? "https://" : "http://"
+				var element = document.createElement("script")
 				element.src =
 					_protocol +
 					"pws.payegis.com.cn/did/js/dp.js?appId=" +
@@ -440,84 +426,66 @@ export default {
 					res.data.sessionId +
 					"&ts=" +
 					res.data.ts +
-					"&callback=";
-				document.body.appendChild(element);
+					"&callback="
+				document.body.appendChild(element)
 			}
 			if (window.addEventListener) {
-				window.addEventListener("load", loadPayEgisDidJs, false);
+				window.addEventListener("load", loadPayEgisDidJs, false)
 			} else if (window.attachEvent) {
-				window.attachEvent("onload", loadPayEgisDidJs);
+				window.attachEvent("onload", loadPayEgisDidJs)
 			} else {
-				window.onload = loadPayEgisDidJs;
+				window.onload = loadPayEgisDidJs
 			}
-		});
-		this.realName = unescape(utils.getCookie("realName"));
-		console.log("this.realName=====", this.realName);
+		})
+		this.realName = unescape(utils.getCookie("realName"))
+		console.log("this.realName=====", this.realName)
 		if (utils.getCookie("jumpType") != "bindCard") {
-			let params = new URLSearchParams();
-			params.append(
-				"tempAppNo",
-				utils.getCookie("appFlowNo").split(":")[1]
-			);
-			params.append("applyFrom", "03");
-			params.append("custType", utils.getCookie("custType"));
-			params.append("industryCode", utils.getCookie("industryCode"));
-			params.append("node", "09");
-			params.append("status", "01");
-			common.updateTempAppInfo(params).then(res => {});
+			let params = new URLSearchParams()
+			params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+			params.append("applyFrom", "03")
+			params.append("custType", utils.getCookie("custType"))
+			params.append("industryCode", utils.getCookie("industryCode"))
+			params.append("node", "09")
+			params.append("status", "01")
+			common.updateTempAppInfo(params).then(res => {})
 		}
-		let postData = new URLSearchParams();
-		postData.append("uuid", utils.uuid());
-		postData.append("userName", utils.getCookie("userName"));
+		let postData = new URLSearchParams()
+		postData.append("uuid", utils.uuid())
+		postData.append("userName", utils.getCookie("userName"))
 		common.searchBankCard(postData).then(res => {
-			let bank = utils.getCookie("bindCardBank") || res.data.bank;
-			let cardNum = utils.getCookie("bindCardNum") || res.data.cardNum;
-			let bankName =
-				utils.getCookie("bindCardBankName") || res.data.bankName;
-			let province =
-				utils.getCookie("bindCardProvince") || res.data.province;
-			let city = utils.getCookie("bindCardCity") || res.data.city;
+			let bank = utils.getCookie("bindCardBank") || res.data.bank
+			let cardNum = utils.getCookie("bindCardNum") || res.data.cardNum
+			let bankName = utils.getCookie("bindCardBankName") || res.data.bankName
+			let province = utils.getCookie("bindCardProvince") || res.data.province
+			let city = utils.getCookie("bindCardCity") || res.data.city
 			let provinceName =
-				utils.getCookie("bindCardProvinceName") ||
-				res.data.provinceName;
-			let cityName =
-				utils.getCookie("bindCardCityName") || res.data.cityName;
-			let area = utils.getCookie("bindCardArea") || res.data.area;
-			let areaName =
-				utils.getCookie("bindCardAreaName") || res.data.areaName;
-			this.cardNum = cardNum;
+				utils.getCookie("bindCardProvinceName") || res.data.provinceName
+			let cityName = utils.getCookie("bindCardCityName") || res.data.cityName
+			let area = utils.getCookie("bindCardArea") || res.data.area
+			let areaName = utils.getCookie("bindCardAreaName") || res.data.areaName
+			this.cardNum = cardNum
 			this.cardInfo =
-				bankName +
-				"***" +
-				cardNum.substring(cardNum.length - 4, cardNum.length);
-			if (
-				province &&
-				city &&
-				provinceName &&
-				cityName &&
-				area &&
-				areaName
-			) {
-				this.openAccountProvince =
-					provinceName + "/" + cityName + "/" + areaName;
+				bankName + "***" + cardNum.substring(cardNum.length - 4, cardNum.length)
+			if (province && city && provinceName && cityName && area && areaName) {
+				this.openAccountProvince = provinceName + "/" + cityName + "/" + areaName
 			}
-		});
+		})
 		common.withHoldBank().then(res => {
 			if (res.data.banks) {
-				console.log("res.data.banks======", res.data.banks);
-				let bankList = [];
+				console.log("res.data.banks======", res.data.banks)
+				let bankList = []
 				for (let i = 0; i < res.data.banks.length; i++) {
-					let bankListItem = {};
-					bankListItem.name = res.data.banks[i].bankName;
-					bankListItem.value = res.data.banks[i].bankCode;
-					bankList.push(bankListItem);
+					let bankListItem = {}
+					bankListItem.name = res.data.banks[i].bankName
+					bankListItem.value = res.data.banks[i].bankCode
+					bankList.push(bankListItem)
 				}
-				let defaultArr = [{ name: "请选择", value: "0000" }];
-				this.bankList = defaultArr.concat(bankList);
-				console.log("bankList====", bankList);
-				this.currentBank = defaultArr[0].value.split();
+				let defaultArr = [{ name: "请选择", value: "0000" }]
+				this.bankList = defaultArr.concat(bankList)
+				console.log("bankList====", bankList)
+				this.currentBank = defaultArr[0].value.split()
 			}
-		});
+		})
 	}
-};
+}
 </script>

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios"
 
 export default {
-  queryWithdrawData: queryWithdrawData
+	queryWithdrawData: queryWithdrawData
 }
 
 /*
@@ -9,13 +9,13 @@ export default {
  */
 export function queryWithdrawData(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/HicashAppService/QueryWithdrawData', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/HicashAppService/QueryWithdrawData", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }

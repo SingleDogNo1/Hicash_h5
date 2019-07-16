@@ -20,19 +20,19 @@ a {
 </style>
 
 <script>
-import { Group, Cell } from "vux";
-import { ViewBox } from "vux";
-import common from "@/api/common";
+import { Group, Cell, ViewBox } from "vux"
+
+import common from "@/api/common"
 
 //样例
-var params = {};
+var params = {}
 common.ShowPI(params).then(res => {
-	console.info("ShowPI res", res);
-});
+	console.info("ShowPI res", res)
+})
 
 export default {
 	components: {
 		ViewBox
 	}
-};
+}
 </script>

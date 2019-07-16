@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios"
 
 export default {
-  appCFCA: appCFCA
+	appCFCA: appCFCA
 }
 
 /*
@@ -9,13 +9,13 @@ export default {
  */
 export function appCFCA(params) {
 	return new Promise((resolve, reject) => {
-		axios.post('/sign/AppCFCA', params).then(
-			(res) => {
-				resolve(res);
+		axios.post("/sign/AppCFCA", params).then(
+			res => {
+				resolve(res)
 			},
-			(err) => {
-				reject(err);
+			err => {
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }

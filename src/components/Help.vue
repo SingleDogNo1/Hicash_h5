@@ -2,30 +2,48 @@
 	<div class="help_page">
 		<div class="wrap">
 			<page-header
-      :title="title"
-      :showBack="showBack"
-      :showBtnClose="showBtnClose"
-			v-if="isShowHead"
-    ></page-header>
-		<tab :line-width="1" custom-bar-width="60px" class="help-tab" :class="{ appContent: comeFrom === 'APP' && !platform}">
-				<tab-item :selected="subType === 'RMWT'" @on-item-click="onItemClick('RMWT')" @on-index-change="onIndexChange"
+				:title="title"
+				:showBack="showBack"
+				:showBtnClose="showBtnClose"
+				v-if="isShowHead"
+			></page-header>
+			<tab
+				:line-width="1"
+				custom-bar-width="60px"
+				class="help-tab"
+				:class="{ appContent: comeFrom === 'APP' && !platform }"
+			>
+				<tab-item
+					:selected="subType === 'RMWT'"
+					@on-item-click="onItemClick('RMWT')"
+					@on-index-change="onIndexChange"
 					>热门问题</tab-item
 				>
-				<tab-item :selected="subType === 'JKWT'" @on-item-click="onItemClick('JKWT')" @on-index-change="onIndexChange"
+				<tab-item
+					:selected="subType === 'JKWT'"
+					@on-item-click="onItemClick('JKWT')"
+					@on-index-change="onIndexChange"
 					>借款问题</tab-item
 				>
-				<tab-item :selected="subType === 'HKWT'" @on-item-click="onItemClick('HKWT')" @on-index-change="onIndexChange"
+				<tab-item
+					:selected="subType === 'HKWT'"
+					@on-item-click="onItemClick('HKWT')"
+					@on-index-change="onIndexChange"
 					>还款问题</tab-item
 				>
-				<tab-item :selected="subType === 'QTWT'" @on-item-click="onItemClick('QTWT')" @on-index-change="onIndexChange"
+				<tab-item
+					:selected="subType === 'QTWT'"
+					@on-item-click="onItemClick('QTWT')"
+					@on-index-change="onIndexChange"
 					>其他问题
 				</tab-item>
 			</tab>
-			<div class="wrapper" :class="{ appContentWrap: comeFrom === 'APP' && !platform }">
+			<div
+				class="wrapper"
+				:class="{ appContentWrap: comeFrom === 'APP' && !platform }"
+			>
 				<ul class="content">
-					<li class="ref">
-						<inline-loading></inline-loading>{{ refreshText }}
-					</li>
+					<li class="ref"><inline-loading></inline-loading>{{ refreshText }}</li>
 					<li v-for="(item, index) in list" :key="index">
 						<a :href="item.openUrl"
 							><p>{{ item.title }}</p></a
@@ -37,31 +55,19 @@
 				<flexbox>
 					<flexbox-item>
 						<div class="flex-demo" @click="phone = true">
-							<img
-								src="../assets/images/phone.png"
-								alt=""
-								class="icon_image1"
-							/>
+							<img src="../assets/images/phone.png" alt="" class="icon_image1" />
 							<span>电话客服</span>
 						</div>
 					</flexbox-item>
 					<flexbox-item>
 						<div class="flex-demo" @click="wx = true">
-							<img
-								src="../assets/images/wx.png"
-								alt=""
-								class="icon_image2"
-							/>
+							<img src="../assets/images/wx.png" alt="" class="icon_image2" />
 							<span>微信公众号</span>
 						</div>
 					</flexbox-item>
 					<flexbox-item>
 						<div class="flex-demo" @click="qq = true">
-							<img
-								src="../assets/images/qq.png"
-								alt=""
-								class="icon_image3"
-							/>
+							<img src="../assets/images/qq.png" alt="" class="icon_image3" />
 							<span>联系QQ</span>
 						</div>
 					</flexbox-item>
@@ -77,9 +83,7 @@
 				class="weui-dialog__hd"
 				style="padding:10px 0;background-color:#FF7640;color:#fff;"
 			>
-				<strong class="weui-dialog__title" style="font-size:14px;"
-					>电话客服</strong
-				>
+				<strong class="weui-dialog__title" style="font-size:14px;">电话客服</strong>
 			</div>
 			<div
 				class="weui-dialog__bd"
@@ -118,7 +122,7 @@
 				class="weui-dialog__bd"
 				style="padding: 1.8em 1.6em;background: #fff;height:auto;line-height:29px;color:black;"
 			>
-				微信公众号：【果信宝】<br/>和【果信宝服务号】
+				微信公众号：【果信宝】<br />和【果信宝服务号】
 			</div>
 			<div class="weui-dialog__ft" style="background: #fff;">
 				<a
@@ -143,9 +147,7 @@
 				class="weui-dialog__hd"
 				style="padding:10px 0;background-color:#FF7640;color:#fff;"
 			>
-				<strong class="weui-dialog__title" style="font-size:14px;"
-					>联系QQ</strong
-				>
+				<strong class="weui-dialog__title" style="font-size:14px;">联系QQ</strong>
 			</div>
 			<div
 				class="weui-dialog__bd"
@@ -177,10 +179,10 @@
 	</div>
 </template>
 <script type="text/javascript">
-import PageHeader from "@/components/PageHeader";
-import { Tab, TabItem, Flexbox, FlexboxItem, InlineLoading } from "vux";
-import Clipboard from "clipboard";
-import BScroll from "better-scroll";
+import PageHeader from "@/components/PageHeader"
+import { Tab, TabItem, Flexbox, FlexboxItem, InlineLoading } from "vux"
+import Clipboard from "clipboard"
+import BScroll from "better-scroll"
 export default {
 	components: {
 		Tab,
@@ -205,50 +207,50 @@ export default {
 			platform: "",
 			comeFrom: "",
 			title: "帮助中心",
-      showBack: true,
+			showBack: true,
 			showBtnClose: false,
 			isShowBottom: false,
 			customerServiceShow: false
-		};
+		}
 	},
 	mounted() {
-		var _this = this;
-		let helpItemKey = _this.$route.query.helpItemKey;
-		_this.helpItemKey = helpItemKey;
-		_this.platform = _this.$route.query.platform;
-		document.body.scrollTop = 0;
-		if(_this.platform) {
+		var _this = this
+		let helpItemKey = _this.$route.query.helpItemKey
+		_this.helpItemKey = helpItemKey
+		_this.platform = _this.$route.query.platform
+		document.body.scrollTop = 0
+		if (_this.platform) {
 			this.isShowBottom = true
 		}
-		if(helpItemKey) {
-			_this.subType = helpItemKey;
+		if (helpItemKey) {
+			_this.subType = helpItemKey
 		}
 
-		let comeFrom = _this.utils.getPlatform();
-		this.comeFrom = comeFrom;
+		let comeFrom = _this.utils.getPlatform()
+		this.comeFrom = comeFrom
 		if (comeFrom != "H5" && !_this.platform) {
-			_this.isShowHead = false;
+			_this.isShowHead = false
 		}
 
-		_this.getSysParam();
+		_this.getSysParam()
 
 		new Clipboard(".wx_btn", {
 			text: function() {
 				_this.$vux.toast.show({
 					text: "复制成功"
-				});
-				return "果信宝";
+				})
+				return "果信宝"
 			}
-		});
+		})
 
 		new Clipboard(".qq_btn", {
 			text: function() {
 				_this.$vux.toast.show({
 					text: "复制成功"
-				});
-				return "4000205566";
+				})
+				return "4000205566"
 			}
-		});
+		})
 		this.scroll = new BScroll(".wrapper", {
 			click: true,
 			scrollY: true,
@@ -256,141 +258,153 @@ export default {
 				threshold: 30 // 当下拉到超过顶部 30px 时，
 			},
 			probeType: 1
-		});
+		})
 		this.scroll.on("scroll", function(pos) {
 			if (pos.y > 30 && pos.y < 40) {
-				_this.refreshText = "下拉刷新";
+				_this.refreshText = "下拉刷新"
 			}
-		});
+		})
 		this.scroll.on("touchEnd", function(pos) {
 			if (pos.y > 40) {
-				_this.refreshText = "刷新数据中";
-				_this.getSysParam();
+				_this.refreshText = "刷新数据中"
+				_this.getSysParam()
 			}
-		});
+		})
 	},
 	methods: {
 		onItemClick: function(type) {
-			this.subType = type;
-			this.scroll.scrollTo(0, 0);
-			this.getSysParam();
+			this.subType = type
+			this.scroll.scrollTo(0, 0)
+			this.getSysParam()
 		},
-		onIndexChange: function(index) {
-		},
+		onIndexChange: function(index) {},
 		getSysParam: function() {
 			// 获取产品列表
-			let postData = new URLSearchParams();
-			postData.append("paramCode", "CJWT");
-			postData.append("requestSource", "HTML5");
-			postData.append("maxLine", "10000");
-			postData.append("curPage", "1");
-			postData.append("subType", this.subType);
+			let postData = new URLSearchParams()
+			postData.append("paramCode", "CJWT")
+			postData.append("requestSource", "HTML5")
+			postData.append("maxLine", "10000")
+			postData.append("curPage", "1")
+			postData.append("subType", this.subType)
 
-			let _this = this;
+			let _this = this
 
 			this.common.getSysParam(postData).then(function(res) {
-				let list = res.data.list;
+				let list = res.data.list
 
 				_.each(res.data.list, function(v, i) {
-					list[i].createTime = list[i].createTime.substring(0, 10);
-					if(_this.platform) {
-						if(_this.helpItemKey) {
-								list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
-								+ '&platform=' + _this.platform + '&type=help';
+					list[i].createTime = list[i].createTime.substring(0, 10)
+					if (_this.platform) {
+						if (_this.helpItemKey) {
+							list[i].openUrl =
+								_this.config.MWEB_PATH +
+								"newweb/newsDetail/newsDetail.html?id=" +
+								list[i].id +
+								"&platform=" +
+								_this.platform +
+								"&type=help"
 						} else {
-							list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id="+list[i].id 
-								+ '&platform=' + _this.platform + '&type=help';
+							list[i].openUrl =
+								_this.config.MWEB_PATH +
+								"newweb/newsDetail/newsDetail.html?id=" +
+								list[i].id +
+								"&platform=" +
+								_this.platform +
+								"&type=help"
 						}
 					} else {
-						list[i].openUrl = _this.config.MWEB_PATH + "newweb/newsDetail/newsDetail.html?id=" +　list[i].id + '&type=help';
+						list[i].openUrl =
+							_this.config.MWEB_PATH +
+							"newweb/newsDetail/newsDetail.html?id=" +
+							list[i].id +
+							"&type=help"
 					}
-				});
+				})
 
-				_this.list = list;
+				_this.list = list
 
 				_this.$nextTick(function() {
 					setTimeout(() => {
-						_this.refreshText = "刷新成功";
+						_this.refreshText = "刷新成功"
 						setTimeout(() => {
-							_this.scroll.refresh();
-							_this.refreshText = "下拉刷新";
-						}, 500);
-					}, 1000);
-				});
-			});
+							_this.scroll.refresh()
+							_this.refreshText = "下拉刷新"
+						}, 500)
+					}, 1000)
+				})
+			})
 		},
 		toCustomerService: function() {
-      if (this.utils.getPlatform() === "H5") {
-				let userName = this.utils.getCookie("userName");
-        if (!userName) {
-          this.$router.push({ name: "Login" });
-          return;
-        } else {
-          let hxUserName = this.utils.getCookie("hxUserName");
-          let hxPassword = this.utils.getCookie("hxPassword");
-          if (hxUserName && hxPassword) {
-            this.easemobimSet(hxUserName, hxPassword);
-          } else {
-            let postData = new URLSearchParams();
-            postData.append("userName", userName);
-            postData.append("token", "");
-            this.common.userEaseModGet(postData).then(res => {
-              let data = res.data;
-              this.easemobimSet(data.hxUsername, data.hxPassword);
-            });
-          }
-        }
-      } else {
-        let isAndroid = navigator.userAgent.indexOf('comeFrom:android') > -1;
-        let isIos = navigator.userAgent.indexOf('comeFrom:iOS') > -1;
-        if(isAndroid) {
-          window.hicashJSCommunication.onCallApp(
-              JSON.stringify({
-                type: "h5_service_im"
-              })
-            );
-        } else {
-          let token = window.hicashJSCommunication.getToken();
-          if (!token) {
-            window.hicashJSCommunication.onCallApp(
-              JSON.stringify({
-                type: "dl"
-              })
-            );
-          } else {
-						let postData = new URLSearchParams();
-						postData.append("userName", "");
-						postData.append("token", token);
-						if(isIos) {
-							postData.append("type", "1");
+			if (this.utils.getPlatform() === "H5") {
+				let userName = this.utils.getCookie("userName")
+				if (!userName) {
+					this.$router.push({ name: "Login" })
+				} else {
+					let hxUserName = this.utils.getCookie("hxUserName")
+					let hxPassword = this.utils.getCookie("hxPassword")
+					if (hxUserName && hxPassword) {
+						this.easemobimSet(hxUserName, hxPassword)
+					} else {
+						let postData = new URLSearchParams()
+						postData.append("userName", userName)
+						postData.append("token", "")
+						this.common.userEaseModGet(postData).then(res => {
+							let data = res.data
+							this.easemobimSet(data.hxUsername, data.hxPassword)
+						})
+					}
+				}
+			} else {
+				let isAndroid = navigator.userAgent.indexOf("comeFrom:android") > -1
+				let isIos = navigator.userAgent.indexOf("comeFrom:iOS") > -1
+				if (isAndroid) {
+					window.hicashJSCommunication.onCallApp(
+						JSON.stringify({
+							type: "h5_service_im"
+						})
+					)
+				} else {
+					let token = window.hicashJSCommunication.getToken()
+					if (!token) {
+						window.hicashJSCommunication.onCallApp(
+							JSON.stringify({
+								type: "dl"
+							})
+						)
+					} else {
+						let postData = new URLSearchParams()
+						postData.append("userName", "")
+						postData.append("token", token)
+						if (isIos) {
+							postData.append("type", "1")
 						}
 						this.common.userEaseModGet(postData).then(res => {
-							let data = res.data;
-							this.easemobimSet(data.hxUsername, data.hxPassword);
-						});
+							let data = res.data
+							this.easemobimSet(data.hxUsername, data.hxPassword)
+						})
 					}
-        }
-      }
+				}
+			}
 		},
 		easemobimSet: function(hxUserName, hxPassword) {
-      window.easemobim = window.easemobim || {};
-      easemobim.config = {
-        configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",	//生产
-        //configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
-                  
-        // 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
-        user: {
-          // username 必填，password 和 token 任选一项填写
-          username: hxUserName,
-          password: hxPassword,
-          token: ""
-        },
-        hideKeyboard: true
-      };
-      easemobim.bind(easemobim.config);
+			window.easemobim = window.easemobim || {}
+			easemobim.config = {
+				configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb", //生产
+				//configId: "3c36390b-e501-417f-8825-d5c7db9e161a",	//测试
+
+				// 用户所在的 appKey 需要与 configId 中指定的关联的 appKey 一致
+				user: {
+					// username 必填，password 和 token 任选一项填写
+					username: hxUserName,
+					password: hxPassword,
+					token: ""
+				},
+				hideKeyboard: true
+			}
+			easemobim.bind(easemobim.config)
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
@@ -431,7 +445,7 @@ export default {
 		position: fixed;
 		padding-top: rem(50px);
 		width: 100%;
-    z-index: 100;
+		z-index: 100;
 	}
 	.appContent {
 		padding-top: 0;
@@ -566,16 +580,16 @@ export default {
 		height: 100%;
 	}
 	.icon-customer-service {
-    width: rem(56px);
-    height: rem(75px);
-    margin: 0;
-    padding: 0px;
-    position: absolute;
-    bottom: rem(80px);
-    z-index: 999;
-    right: rem(8px);
-    background: url("../assets/images/icon_help_kefu.png") center center no-repeat;
-    background-size: 100% 100%;
+		width: rem(56px);
+		height: rem(75px);
+		margin: 0;
+		padding: 0px;
+		position: absolute;
+		bottom: rem(80px);
+		z-index: 999;
+		right: rem(8px);
+		background: url("../assets/images/icon_help_kefu.png") center center no-repeat;
+		background-size: 100% 100%;
 	}
 }
 </style>

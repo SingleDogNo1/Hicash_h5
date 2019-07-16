@@ -38,7 +38,7 @@ export default {
 						"",
 						"",
 						"SSHK"
-					]);
+					])
 				} else {
 					_czc.push([
 						"_trackEvent",
@@ -47,7 +47,7 @@ export default {
 						"",
 						"",
 						"ZCHK"
-					]);
+					])
 				}
 			} else {
 				_czc.push([
@@ -57,34 +57,34 @@ export default {
 					"",
 					"",
 					"CXHK"
-				]);
+				])
 			}
 
-			let appNo = this.$route.query.hyApplicationNo || "";
-			let platform = this.utils.getPlatform();
-			let userName = this.utils.getCookie("userName");
+			let appNo = this.$route.query.hyApplicationNo || ""
+			let platform = this.utils.getPlatform()
+			let userName = this.utils.getCookie("userName")
 			if (platform == "APP") {
 				window.hicashJSCommunication.onCallApp(
 					JSON.stringify({ type: "h5_chargerepay", app_no: appNo })
-				);
-				return false;
+				)
+				return false
 			}
 			if (userName) {
-				let postData = new URLSearchParams();
-				postData.append("appNo", appNo);
-				postData.append("userName", userName);
-				postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-				postData.append("requestSource", "H5");
+				let postData = new URLSearchParams()
+				postData.append("appNo", appNo)
+				postData.append("userName", userName)
+				postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+				postData.append("requestSource", "H5")
 				this.common.navigateToRecharge(postData).then(res => {
-					window.location.href = res.data.rechargeUrl;
-				});
+					window.location.href = res.data.rechargeUrl
+				})
 			} else {
 				this.$router.push({
 					path: "/login",
 					query: { from: "shixin", appNo: appNo }
-				});
+				})
 			}
 		}
 	}
-};
+}
 </script>

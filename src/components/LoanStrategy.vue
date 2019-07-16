@@ -234,10 +234,10 @@ import {
 	Checker,
 	CheckerItem,
 	TransferDomDirective as TransferDom
-} from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+} from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	components: {
@@ -250,16 +250,16 @@ export default {
 		CheckerItem
 	},
 	data() {
-		return {};
+		return {}
 	},
 	ready() {},
 	methods: {},
 	mounted: function() {
-		var comefrom = this.$route.query.comefrom;
+		var comefrom = this.$route.query.comefrom
 		if (comefrom == "APP") {
-			$("header").hide();
-			$(".container").css("margin-top", "0px");
+			$("header").hide()
+			$(".container").css("margin-top", "0px")
 		}
 	}
-};
+}
 </script>
