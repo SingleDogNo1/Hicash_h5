@@ -82,7 +82,7 @@
 												<p>{{repayPlanItem.title}}</p>
 											</div>
 											<p class="repay-plan-expense-description" :class="repayPlanItem.showRepayPlanExpenseTipPopover ? 'animate' : ''">
-												注：含<span v-for="(dataItem, index) in repayPlanItem.filterAmountList" :key="index">{{dataItem.amountName}}{{dataItem.amountFilter}}<span v-if="index !== repayPlanItem.filterAmountList.length - 1">+</span></span>
+												注：含<span>{{repayPlanItem.totalFee[0].amountFilter}}<span v-if="repayPlanItem.penalty.length > 0">+{{repayPlanItem.penalty[0].amountName}}{{repayPlanItem.penalty[0].amountFilter}}</span></span>
 											</p>
 										</li>
 									</ul>
@@ -857,8 +857,7 @@ export default {
 							list.currentChildIndex = key;
 							const amountListKeys = [];
 							for (const property in list.amountList){
-								if(list[property] !== "0.00" && property != "totalFee") {
-									console.log(111)
+								if(list[property] !== "0.00") {
 									let item = {
 										type: property,
 										amount: parseFloat(list.amountList[property]),
@@ -870,7 +869,13 @@ export default {
 							const filterAmountList = _.map(amountListKeys, amountListItem => {
 								return this.planMapping(amountListItem);
 							});
-							list.filterAmountList = filterAmountList;
+							list.totalFee = filterAmountList.filter( (item) => {
+								return item.type === "totalFee"
+							});
+							list.penalty = filterAmountList.filter( (item) => {
+								item.type === "penalty"
+							});
+							console.log("list===", list)
 							return this.statusMapping(list);
 						});
 						this.$set(this.overdueList[index], "repayPlan", repayPlan);
