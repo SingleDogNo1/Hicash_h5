@@ -182,7 +182,7 @@
 
 <strong>五、收费标准</strong>
 
-5.1、金融资讯服务、网络信贷需求信息服务、网络信贷推荐服务、账户管理服务及电子签证服务统称金融信息服务。本次金融信息服务费，您同意<span class="cpp_shortname"></span>使用以下方式向您收取。您不可撤销地授权<span class="cpp_shortname"></span>按月收取，且您同意并认可应付互联网信息服务费为人民币【<span class="wCopePremiumTwo"></span>】元，每月【<span class="day"></span>】日收取人民币【<span class="wCopePremiumTwo1"></span>】元。
+5.1、金融资讯服务、网络信贷需求信息服务、网络信贷推荐服务、账户管理服务及电子签证服务统称金融信息服务。本次金融信息服务费，您同意<span class="cpp_shortname"></span>使用以下方式向您收取。您不可撤销地授权<span class="cpp_shortname"></span>按月收取，且您同意并认可应付服务费为人民币【<span class="wCopePremiumTwo"></span>】元，每月【<span class="day"></span>】日收取人民币【<span class="wCopePremiumTwo1"></span>】元。
 
 5.2、在本条款约定付款日之前，您应保证您指定的银行账户资金余额充足，并不可撤销的授权<span class="cpp_shortname"></span>及其指定的第三方从您指定的如下个人银行账户中划扣相应金额至<span class="cpp_shortname"></span>账户。您指定的个人银行账户信息如下：
 
@@ -389,45 +389,63 @@
         $("#backMoney").html(backMoney);
         $("#bigBackMoney").html(creat(backMoney));
         $("#serviceMoney").html(data.serviceCharge);
-        $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
-        $('.wCopePremiumTwo1').html(data.wMerPermium);
+        // $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
+        // $('.wCopePremiumTwo1').html(data.wMerPermium);
         $('.monthFee').html(data.monthFee);
         $('.monthFee1').html(Math.round(data.monthFee * creditDay));
         $('.wCopePremium').html(data.wCopePremium);
     });
 
-    const calculateLoanPlanParams = {
+
+    $.ajax({
+        type: 'POST',
         url: '/accounting-service/calculateLoanPlan',
-        type: 'post',
-        data:  {
-            productId : loanProduct,
-            amount : tranPrice
+        async: false,
+        data: JSON.stringify({
+            "productId" : loanProduct,
+            "amount" : tranPrice
+        }),
+        dataType: "JSON",
+        headers: {'Content-Type': 'application/json'},
+        success: res => {
+            let data  = res.data
+            $('.wCopePremiumTwo').html((data[0].mthFee + data[0].infoFee) * data[0].totalTerm);
+            $('.wCopePremiumTwo1').html(data[0].mthFee + data[0].infoFee);
+            // $(".day").html(data[0].dueDate);
+        },
+        error: err => {
         }
-    }
-    jqAjax(calculateLoanPlanParams)
-    .then(function(data){
-        console.info('data', data);
-        $("#allMoney").html(tranPrice);
-        $("#bigMoney").html(creat(tranPrice));
-        $(".day").html(data.nowDay);
-        backMoney = data.perMonthPay;
-        expect = data.payMentPeriod;
-        var lastMon=month + 1+expect;
-        if(lastMon>12){
-            lastMon=lastMon-12;
-            year=year+1;
-        }
-        $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
-        $("#expect").html(expect);
-        $("#backMoney").html(backMoney);
-        $("#bigBackMoney").html(creat(backMoney));
-        $("#serviceMoney").html(data.serviceCharge);
-        $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
-        $('.wCopePremiumTwo1').html(data.wMerPermium);
-        $('.monthFee').html(data.monthFee);
-        $('.monthFee1').html(Math.round(data.monthFee * creditDay));
-        $('.wCopePremium').html(data.wCopePremium);
-    });
+    })
+
+    // const calculateLoanPlanParams = {
+    //     url: '/accounting-service/calculateLoanPlan',
+    //     type: 'post',
+    //     data:  'asdasdsa'
+    // }
+    // jqAjax(calculateLoanPlanParams)
+    // .then(function(data){
+    //     console.info('data', data);
+    //     $("#allMoney").html(tranPrice);
+    //     $("#bigMoney").html(creat(tranPrice));
+    //     $(".day").html(data.nowDay);
+    //     backMoney = data.perMonthPay;
+    //     expect = data.payMentPeriod;
+    //     var lastMon=month + 1+expect;
+    //     if(lastMon>12){
+    //         lastMon=lastMon-12;
+    //         year=year+1;
+    //     }
+    //     $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
+    //     $("#expect").html(expect);
+    //     $("#backMoney").html(backMoney);
+    //     $("#bigBackMoney").html(creat(backMoney));
+    //     $("#serviceMoney").html(data.serviceCharge);
+    //     $('.wCopePremiumTwo').html(data.wCopePremiumTwo);
+    //     $('.wCopePremiumTwo1').html(data.wMerPermium);
+    //     $('.monthFee').html(data.monthFee);
+    //     $('.monthFee1').html(Math.round(data.monthFee * creditDay));
+    //     $('.wCopePremium').html(data.wCopePremium);
+    // });
 
     const UserNameCardParams = {
         url: '/HicashAppService/UserNameCard',
