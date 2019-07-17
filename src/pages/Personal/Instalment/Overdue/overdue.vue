@@ -876,7 +876,6 @@ export default {
 							list.penalty = filterAmountList.filter( (item) => {
 								return item.type === "penalty"
 							});
-							console.log("list===", list)
 							return this.statusMapping(list);
 						});
 						this.$set(this.overdueList[index], "repayPlan", repayPlan);
