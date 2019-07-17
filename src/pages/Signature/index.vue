@@ -214,12 +214,14 @@ export default {
       this.common.ShowPI(ShowPIData).then(res => {
         let data = res.data;
         if (data.resultCode === "1") {
-          //data.depositoryUrl = "http://www.baidu.com";
-          if (data.depositoryUrl) {
+		  //data.depositoryUrl = "http://www.baidu.com";
+		  if(data.regStatus === "5"){
+			  this.$router.push({ name: "Personal" });
+		  }else if (data.depositoryUrl) {
             this.isDepositoryUrl = true;
             this.title = "提示";
             this.depositoryUrl = data.depositoryUrl;
-          } else if( data.regStatus === "2" || data.regStatus === "4" || data.regStatus === "5"){
+          } else if( data.regStatus === "2" || data.regStatus === "4"){
             window.location.href = this.config.MWEB_PATH+"newweb/creditInfo/accopSchedule.html?type="+data.regStatus;
           } else {
             this.isDepositoryUrl = false;
