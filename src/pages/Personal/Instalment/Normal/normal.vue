@@ -1471,6 +1471,10 @@ export default {
 						this.checkerStatus("applying")
 						this.banRechecked = false
 					}
+
+					if (!this.items.length) {
+						this.showNoData = true
+					}
 				} else if (data.resultCode == "-1") {
 					if (data.list === null && this.banRechecked === true) {
 						this.checkerStatus("applying")
