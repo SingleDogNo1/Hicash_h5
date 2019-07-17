@@ -430,7 +430,7 @@
 		<div class="bg-instalment-empty" v-if="showNoData">
 			<p>这里暂时什么都没有</p>
 		</div>
-		<load-more v-if="!showNoData" tip=""></load-more>
+		<!-- <load-more v-if="!showNoData" tip=""></load-more> -->
 
 		<div v-transfer-dom>
 			<confirm
@@ -1470,6 +1470,10 @@ export default {
 					if (data.list === null && this.banRechecked === true) {
 						this.checkerStatus("applying")
 						this.banRechecked = false
+					}
+
+					if (!this.items.length) {
+						this.showNoData = true
 					}
 				} else if (data.resultCode == "-1") {
 					if (data.list === null && this.banRechecked === true) {
