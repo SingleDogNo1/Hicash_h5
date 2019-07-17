@@ -1342,7 +1342,6 @@ export default {
 						this.applyAmount = data.applyAmount
 						this.period = data.period
 						const currentPeriodOrder = data.repayPlan[currentPeriod]
-						console.log("currentPeriodOrder===", currentPeriodOrder)
 						const orderTypeKeys = []
 						for (const property in currentPeriodOrder.amountList) {
 							if (
