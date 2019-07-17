@@ -31,10 +31,7 @@
 					v-if="!showOtherOrder"
 					><span>展开所有</span><i></i
 				></a>
-				<a
-					href="javascript:void(0);"
-					class="btn-recharge"
-					@click="btnRecharge"
+				<a href="javascript:void(0);" class="btn-recharge" @click="btnRecharge"
 					>充值还款</a
 				>
 			</div>
@@ -49,8 +46,7 @@
 						<div class="left-wrap">
 							<label class="title">{{ item.title }}</label>
 							<p class="amount">
-								{{ item.amountName
-								}}<span>¥{{ item.amount }}元</span>
+								{{ item.amountName }}<span>¥{{ item.amount }}元</span>
 							</p>
 						</div>
 						<p class="right-wrap">期数：{{ item.period }}期</p>
@@ -62,8 +58,7 @@
 								path: '/personal/myInstalment/repaymentPlan',
 								query: { appNo: appNo, type: item.type }
 							}"
-							><span>还款计划</span
-							><i class="iconfont">&#58999;</i></router-link
+							><span>还款计划</span><i class="iconfont">&#58999;</i></router-link
 						>
 					</div>
 				</div>
@@ -171,8 +166,7 @@
 				border-width: 1px 1px 0 0;
 				border-color: #ff7640;
 				border-style: solid;
-				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-					rotate(90deg);
+				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
 				transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);
 				position: relative;
 				top: 50%;
@@ -280,8 +274,7 @@
 				border-width: 1px 1px 0 0;
 				border-color: #ff7640;
 				border-style: solid;
-				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0)
-					rotate(270deg);
+				-webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
 				transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(270deg);
 				position: relative;
 				top: 50%;
@@ -310,73 +303,73 @@ export default {
 			repayDate: "",
 			repayStatus: "逾期立即还款",
 			industryName: ""
-		};
+		}
 	},
 	methods: {
 		expandAll: function() {
-			this.showOtherOrder = !this.showOtherOrder;
-			const userName = this.utils.getCookie("userName");
-			let appNo = this.$route.query.appNo;
-			this.appNo = appNo;
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
-			postData.append("appNo", appNo);
+			this.showOtherOrder = !this.showOtherOrder
+			const userName = this.utils.getCookie("userName")
+			let appNo = this.$route.query.appNo
+			this.appNo = appNo
+			let postData = new URLSearchParams()
+			postData.append("userName", userName)
+			postData.append("appNo", appNo)
 			this.common.orderDetailInfo(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode === "1") {
 					data.appDetail.forEach((val, index) => {
 						switch (val.type) {
 							case "loanFee":
-								val.title = "分期订单";
-								val.amountName = "借款金额：";
-								break;
+								val.title = "分期订单"
+								val.amountName = "借款金额："
+								break
 							case "infoFee":
-								val.title = "会员订单";
-								val.amountName = "会员服务费金额：";
-								break;
+								val.title = "会员订单"
+								val.amountName = "会员服务费金额："
+								break
 							case "mthFee":
-								val.title = "消费综合订单";
-								val.amountName = "消费综合订单：";
-								break;
+								val.title = "消费综合订单"
+								val.amountName = "消费综合订单："
+								break
 							case "addFee":
-								val.title = "保费订单";
-								val.amountName = "保费金额：";
-								break;
+								val.title = "保费订单"
+								val.amountName = "保费金额："
+								break
 							default:
-								break;
+								break
 						}
-					});
-					this.appDetail = data.appDetail;
+					})
+					this.appDetail = data.appDetail
 				} else {
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: res.data.resultMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		btnRecharge: function() {
-			const userName = this.utils.getCookie("userName");
+			const userName = this.utils.getCookie("userName")
 			window.location.href =
 				this.config.MWEB_PATH +
 				"newweb/personalCenter/rechargePay.html?appNo=" +
 				this.appNo +
 				"&userName=" +
-				userName;
+				userName
 		}
 	},
 	mounted() {
-		let appNo = this.$route.query.appNo;
-		let createDate = this.$route.query.createDate;
-		let amount = this.$route.query.amount;
-		let repayDate = this.$route.query.repayDate;
-		let industryName = this.$route.query.industryName;
-		this.appNo = appNo;
-		this.createDate = createDate;
-		this.amount = amount;
-		this.repayDate = repayDate;
-		this.industryName = industryName;
+		let appNo = this.$route.query.appNo
+		let createDate = this.$route.query.createDate
+		let amount = this.$route.query.amount
+		let repayDate = this.$route.query.repayDate
+		let industryName = this.$route.query.industryName
+		this.appNo = appNo
+		this.createDate = createDate
+		this.amount = amount
+		this.repayDate = repayDate
+		this.industryName = industryName
 	}
-};
+}
 </script>

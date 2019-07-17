@@ -1,6 +1,8 @@
 <template>
 	<div class="break-promise" v-cloak>
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
+		<download-pop
+			v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"
+		></download-pop>
 		<page-header
 			:title="title"
 			:showBack="showBack"
@@ -35,15 +37,8 @@
 						:key="index"
 					>
 						{{ item.title }}
-						<span
-							class="ico"
-							v-if="item.marker && item.marker != ''"
-							><img
-								:src="
-									require('./images/' +
-										item.marker +
-										'-ico.png')
-								"
+						<span class="ico" v-if="item.marker && item.marker != ''"
+							><img :src="require('./images/' + item.marker + '-ico.png')"
 						/></span>
 					</router-link>
 				</div>
@@ -52,8 +47,7 @@
 			<div class="search-wrap">
 				<div class="search-form">
 					<p class="search-form-tips">
-						本专区为您提供全面准确的个人财务状况，您可以通过输入<span
-							class="pink"
+						本专区为您提供全面准确的个人财务状况，您可以通过输入<span class="pink"
 							>“姓名” + “身份证号码”</span
 						>或<span class="pink">“姓名” + “手机号码”</span
 						>进行查询，便于您及时掌握相关信息。
@@ -74,24 +68,16 @@
 						placeholder="身份证号/手机号"
 						maxlength="20"
 					/>
-					<button @click="search" class="btn-search" name="search">
-						查询
-					</button>
+					<button @click="search" class="btn-search" name="search">查询</button>
 					<p class="advice-info" @click="call('4000205566')">
-						如有任何疑问<br />可拨打<a
-							class="btn-tel"
-							data-href="4000205566"
+						如有任何疑问<br />可拨打<a class="btn-tel" data-href="4000205566"
 							>400-020-5566</a
 						>咨询
 					</p>
 				</div>
 			</div>
 			<div class="loan" title="失信案例库">
-				<img
-					@click="adShiXin"
-					:src="cdnShixinCasePath"
-					width="100%"
-				/>
+				<img @click="adShiXin" :src="cdnShixinCasePath" width="100%" />
 			</div>
 			<div class="loan" title="贷款超市">
 				<img @click="adClick" src="./images/ad.png" width="100%" />
@@ -268,10 +254,10 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import PageFooter from "@/components/PageFooter.vue";
-import downloadPop from "@/components/downloadPop.vue";
-import Swiper from "swiper";
+import PageHeader from "@/components/PageHeader.vue"
+import PageFooter from "@/components/PageFooter.vue"
+import downloadPop from "@/components/downloadPop.vue"
+import Swiper from "swiper"
 
 export default {
 	components: {
@@ -291,19 +277,19 @@ export default {
 			hotNews: [],
 			platform: "",
 			//cdnBrokePromisePath: this.config.cdn_pic_path + 'applogo/shixin/bg_broke_promise.png',
-			cdnShixinCasePath: this.config.cdn_pic_path + 'applogo/shixin/ad_shixin.png',
-			cdnAdPath: this.config.cdn_pic_path + 'applogo/shixin/ad.png',
+			cdnShixinCasePath: this.config.cdn_pic_path + "applogo/shixin/ad_shixin.png",
+			cdnAdPath: this.config.cdn_pic_path + "applogo/shixin/ad.png",
 			mediasource: ""
-		};
+		}
 	},
 	methods: {
 		search: function() {
-			var errorMsg = "";
+			var errorMsg = ""
 			if (this.name === "") {
-				errorMsg = "请输入姓名";
+				errorMsg = "请输入姓名"
 			}
 			if (this.name !== "" && this.number === "") {
-				errorMsg = "请输入身份证号或手机号";
+				errorMsg = "请输入身份证号或手机号"
 			}
 			if (
 				this.name !== "" &&
@@ -313,23 +299,23 @@ export default {
 					this.number !== "" &&
 					!this.utils.checkIdCardNumber(this.number))
 			) {
-				errorMsg = "身份证号或手机号输入有误";
+				errorMsg = "身份证号或手机号输入有误"
 			}
 			if (errorMsg != "") {
 				// /this.$vux.toast.width('auto')
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
 
 			// 请求地址
 
-			let _params = new URLSearchParams();
-			_params.append("name", this.name);
-			_params.append("number", this.number);
+			let _params = new URLSearchParams()
+			_params.append("name", this.name)
+			_params.append("number", this.number)
 
 			this.common.loseCreditInfo(_params).then(res => {
-				let data = res.data;
-				var storage = window.sessionStorage;
+				let data = res.data
+				var storage = window.sessionStorage
 
 				// data = {
 				//     "loseCreditDetailList":  [{
@@ -395,61 +381,54 @@ export default {
 				storage.setItem(
 					"loseCreditDetailList",
 					JSON.stringify(data.loseCreditDetailList)
-				);
+				)
 				// 跳转到结果页
-				this.$router.push({ path: "result" });
-				var err_code = parseInt(data.resultCode);
+				this.$router.push({ path: "result" })
+				var err_code = parseInt(data.resultCode)
 				switch (err_code) {
 					case 60200:
-						alert("获取失信诉讼名单失败");
-						break;
+						alert("获取失信诉讼名单失败")
+						break
 					case 60201:
-						alert("获取失信诉讼名单请求参数无效");
-						break;
+						alert("获取失信诉讼名单请求参数无效")
+						break
 					case 60202:
-						alert("请输入15位或18位有效身份证号码");
-						break;
+						alert("请输入15位或18位有效身份证号码")
+						break
 					case 60203:
-						alert("已经没有更多的数据了");
-						break;
+						alert("已经没有更多的数据了")
+						break
 				}
-			});
+			})
 		},
 		SysParam: function() {
-			let _params = new URLSearchParams();
-			_params.append("paramCode", "RDTJ");
+			let _params = new URLSearchParams()
+			_params.append("paramCode", "RDTJ")
 
 			this.common.getSysParam(_params).then(res => {
-				let data = res.data;
+				let data = res.data
 				// data.list.forEach( (val, index) => {
 
 				//     val.newUrl = './hotNewsDetails.html?id=' + val.id;
 				//     this.hotNews.push(val);
 				// });
-				this.hotNews = data.list;
+				this.hotNews = data.list
 				setTimeout(() => {
 					var swiper = new Swiper(".swiper-container", {
 						slidesPerView: "auto",
 						autoplay: 2500
-					});
-				}, 500);
-			});
+					})
+				}, 500)
+			})
 		},
 		adClick: function() {
-			_czc.push([
-				"_trackEvent",
-				"贷款超市",
-				"贷款超市打开的次数",
-				"",
-				"",
-				"DKCS"
-			]);
+			_czc.push(["_trackEvent", "贷款超市", "贷款超市打开的次数", "", "", "DKCS"])
 			window.location.href =
-				"http://www.guoxinbao.com.cn/h5_hq_index.html?mobile=18518206648&source=sxzq";
+				"http://www.guoxinbao.com.cn/h5_hq_index.html?mobile=18518206648&source=sxzq"
 		},
 		adShiXin: function() {
 			// 跳转到热点新闻列表页
-			this.$router.push({ path: "hotNews", query: { code: "SXAL" } });
+			this.$router.push({ path: "hotNews", query: { code: "SXAL" } })
 			// window.location.href = MWEB_PATH + 'newweb/infoList/hotNewsList.html?code=SXAL'
 		},
 		call: function(phoneNum) {
@@ -458,27 +437,27 @@ export default {
 					type: "h5_service",
 					tell_number: String(phoneNum)
 				})
-			);
+			)
 		}
 	},
 	mounted() {
-		this.mediasource = window.sessionStorage.getItem("mediasource");
-		let platform = this.utils.getPlatform();
-		this.platform = platform;
+		this.mediasource = window.sessionStorage.getItem("mediasource")
+		let platform = this.utils.getPlatform()
+		this.platform = platform
 
 		// 告诉APP域名
 		setTimeout(function() {
 			window.hicashJSCommunication.getDomainName(
 				"http://" + window.location.host + "/"
-			);
-		}, 3000);
+			)
+		}, 3000)
 
-		this.SysParam();
+		this.SysParam()
 
 		var jsinner = $(
 			'<script src="https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143" language="JavaScript"><\/script>'
-		);
-		$("body").append(jsinner);
+		)
+		$("body").append(jsinner)
 
 		window.setTimeout(function() {
 			_czc.push([
@@ -488,9 +467,9 @@ export default {
 				"",
 				"",
 				"SXGG"
-			]);
-		}, 2000);
-		var source = this.$route.query.source;
+			])
+		}, 2000)
+		var source = this.$route.query.source
 		if (source == "message") {
 			window.setTimeout(function() {
 				_czc.push([
@@ -500,8 +479,8 @@ export default {
 					"",
 					"",
 					"DXSX"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 		}
 		if (source == "wx") {
 			window.setTimeout(function() {
@@ -512,9 +491,9 @@ export default {
 					"",
 					"",
 					"WXSX"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 		}
 	}
-};
+}
 </script>

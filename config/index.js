@@ -84,10 +84,16 @@ module.exports = {
         pathRewrite:{
             '^/sign':''
         }
+      },
+      '/accounting-service':{
+        target:'http://47.104.254.92:30116/accounting-service',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/accounting-service':''
+        }
       }
     }
   },
-//http://112.124.126.196:8081/creditservice/baiqishi/checkResult.do
   build: {
     env: require('./prod.env'),
     // Template for index.html

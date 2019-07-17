@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from "axios"
 
 export default {
-  withHoldBank: withHoldBank,
+	withHoldBank: withHoldBank,
 	getOwnData: getOwnData,
-  searchBankCard: searchBankCard,
-  bankcardInfo: bankcardInfo
+	searchBankCard: searchBankCard,
+	bankcardInfo: bankcardInfo
 }
 
 /*
@@ -14,13 +14,13 @@ export function withHoldBank() {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/WithHoldBank").then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -30,13 +30,13 @@ export function getOwnData() {
 	return new Promise((resolve, reject) => {
 		axios.get("/get-own-data").then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -46,13 +46,13 @@ export function searchBankCard(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/HicashAppService/SearchBankCard", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }
 
 /*
@@ -62,11 +62,11 @@ export function bankcardInfo(params) {
 	return new Promise((resolve, reject) => {
 		axios.post("/NewHicashService/BankcardInfo", params).then(
 			res => {
-				resolve(res);
+				resolve(res)
 			},
 			err => {
-				reject(err);
+				reject(err)
 			}
-		);
-	});
+		)
+	})
 }

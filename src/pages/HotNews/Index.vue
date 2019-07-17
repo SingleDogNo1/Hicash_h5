@@ -21,22 +21,14 @@
 				<div class="weui-media-box__bd">
 					<h4 class="weui-media-box__title">{{ item.title }}</h4>
 					<ul class="weui-media-box__info">
-						<li class="weui-media-box__info__meta">
-							{{ item.clickCount }}阅读
-						</li>
-						<li class="weui-media-box__info__meta">
-							{{ item.createTime }}
-						</li>
+						<li class="weui-media-box__info__meta">{{ item.clickCount }}阅读</li>
+						<li class="weui-media-box__info__meta">{{ item.createTime }}</li>
 						<li
 							class="weui-media-box__info__meta marker-ico"
 							v-if="item.marker && item.marker != ''"
 						>
 							<img
-								:src="
-									require('./images/' +
-										item.marker +
-										'-list-ico.png')
-								"
+								:src="require('./images/' + item.marker + '-list-ico.png')"
 								width="33px"
 							/>
 						</li>
@@ -82,7 +74,7 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
+import PageHeader from "@/components/PageHeader.vue"
 
 export default {
 	components: {
@@ -98,45 +90,45 @@ export default {
 			showMore: true,
 			sw: true,
 			code: "RDTJ"
-		};
+		}
 	},
 	methods: {
 		SysParam: function() {
-			let _params = new URLSearchParams();
-			_params.append("paramCode", this.code);
-			_params.append("maxLine", 10);
-			_params.append("curPage", this.curPage);
+			let _params = new URLSearchParams()
+			_params.append("paramCode", this.code)
+			_params.append("maxLine", 10)
+			_params.append("curPage", this.curPage)
 
-			this.sw = false;
+			this.sw = false
 			this.common.getSysParam(_params).then(res => {
-				let data = res.data;
+				let data = res.data
 				data.list.forEach((val, index) => {
 					if (val.createTime) {
-						val.createTime = val.createTime.substring(0, 10);
+						val.createTime = val.createTime.substring(0, 10)
 					}
 					//val.newUrl = './hotNewsDetails.html?id=' + val.id + '&code=' + this.code;
-					val.mediaImage = this.config.pic_path + val.mediaImage;
-					this.hotNews.push(val);
-				});
+					val.mediaImage = this.config.pic_path + val.mediaImage
+					this.hotNews.push(val)
+				})
 				if (data.list.length == 10) {
-					this.sw = true;
-					this.curPage++;
+					this.sw = true
+					this.curPage++
 				} else {
-					this.showMore = false;
+					this.showMore = false
 				}
-			});
+			})
 		}
 	},
 	mounted() {
 		var jsinner = $(
 			'<script src="https://s95.cnzz.com/z_stat.php?id=1260767143&web_id=1260767143" language="JavaScript"><\/script>'
-		);
-		$("body").append(jsinner);
-		let code = this.$route.query.code;
+		)
+		$("body").append(jsinner)
+		let code = this.$route.query.code
 		if (code) {
-			this.code = code;
+			this.code = code
 			if (code == "SXAL") {
-				this.title = "失信执行案例";
+				this.title = "失信执行案例"
 				window.setTimeout(function() {
 					_czc.push([
 						"_trackEvent",
@@ -145,11 +137,11 @@ export default {
 						"",
 						"",
 						"SXLB"
-					]);
-				}, 2000);
+					])
+				}, 2000)
 			}
 		} else {
-			this.title = "热点推荐";
+			this.title = "热点推荐"
 			window.setTimeout(function() {
 				_czc.push([
 					"_trackEvent",
@@ -158,35 +150,32 @@ export default {
 					"",
 					"",
 					"RDLB"
-				]);
-			}, 2000);
+				])
+			}, 2000)
 		}
-		this.SysParam();
+		this.SysParam()
 
 		// 缓存指针
-		var scrollTop = 0;
+		var scrollTop = 0
 		// 设置一个开关来避免重负请求数据
 
 		window.addEventListener(
 			"scroll",
 			() => {
-				scrollTop = document.documentElement.scrollTop;
+				scrollTop = document.documentElement.scrollTop
 				if (scrollTop == 0) {
-					scrollTop = document.body.scrollTop;
+					scrollTop = document.body.scrollTop
 				}
 				// 判断是否滚动到底部
-				if (
-					scrollTop + window.innerHeight + 40 >=
-					document.body.offsetHeight
-				) {
+				if (scrollTop + window.innerHeight + 40 >= document.body.offsetHeight) {
 					// 如果开关打开则加载数据
 					if (this.sw) {
-						this.SysParam();
+						this.SysParam()
 					}
 				}
 			},
 			true
-		);
+		)
 	}
-};
+}
 </script>

@@ -1,13 +1,14 @@
 <template>
 	<div>
 		<x-header
-		:left-options="{
-			backText: '',
-			showBack: true,
-			preventGoBack: preventGoBack
-		}"
+			:left-options="{
+				backText: '',
+				showBack: true,
+				preventGoBack: preventGoBack
+			}"
 			@on-click-back="jump"
-			>{{ title }}</x-header>
+			>{{ title }}</x-header
+		>
 		<div class="tips">
 			<x-icon type="ios-information" class="icon-color" size="18"></x-icon>
 			<span>务必确保所填信息真实有效，以免影响后续借款</span>
@@ -21,14 +22,13 @@
 		<div>
 			<x-dialog v-model="showDialog" class="dialogGoOut">
 				<div class="img-box">
-					<img src="./images/goout-pop.png" alt="">
+					<img src="./images/goout-pop.png" alt="" />
 					<div class="btns">
-						<button @click="showDialog=false" class="confirm">继续完善资料</button>
+						<button @click="showDialog = false" class="confirm">继续完善资料</button>
 						<button @click="cancel" class="cancel">狠心放弃</button>
 					</div>
 				</div>
-				<div @click="showDialog=false">
-				</div>
+				<div @click="showDialog = false"></div>
 			</x-dialog>
 		</div>
 	</div>
@@ -38,43 +38,43 @@
 @import "~bowerComponents/sass-rem/_rem.scss";
 .IdentityAuth {
 	background: #f1f1f1;
-	.tips{
+	.tips {
 		margin: 0 auto;
 		margin-top: 2.2rem;
 		padding: rem(4px 0);
-		background: rgba(255,118,64,0.10);
-		color: #FF7640;
+		background: rgba(255, 118, 64, 0.1);
+		color: #ff7640;
 		font-size: rem(13px);
 		padding-left: 10%;
-		.icon-color{
-			fill: #FF7640;
-			display:block;
+		.icon-color {
+			fill: #ff7640;
+			display: block;
 			float: left;
 		}
-		span{
-			display:block;
+		span {
+			display: block;
 			float: left;
 		}
-		&:after{
-			content: ' ';
+		&:after {
+			content: " ";
 			display: block;
 			clear: both;
 		}
 	}
-	.btn{
+	.btn {
 		width: 90%;
 		height: rem(44px);
 		font-size: rem(15px);
 		display: block;
 		margin: 0 auto;
 		margin-top: rem(32px);
-		background: #FF7640;
+		background: #ff7640;
 		border-radius: 5px;
 		color: #fff;
 		border: 0;
 	}
 	.dialogGoOut {
-		.weui-dialog{
+		.weui-dialog {
 			background: transparent;
 			border-radius: 8px;
 			padding-bottom: 8px;
@@ -85,25 +85,25 @@
 		}
 		.img-box {
 			position: relative;
-			img{
+			img {
 				width: 100%;
 			}
-			.btns{
+			.btns {
 				width: 100%;
 				position: absolute;
 				bottom: rem(15px);
-				.confirm{
+				.confirm {
 					width: 80%;
 					height: rem(40px);
 					border: 0;
 					border-radius: 25px;
-					background: linear-gradient(#FFEF71, #FFDB3D); /* 标准的语法 */
-					color: #FE3F20;
+					background: linear-gradient(#ffef71, #ffdb3d); /* 标准的语法 */
+					color: #fe3f20;
 					font-size: rem(15px);
 					display: block;
 					margin: 0 auto;
 				}
-				.cancel{
+				.cancel {
 					background: transparent;
 					border: 0;
 					height: rem(40px);
@@ -159,9 +159,8 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import { Group, XInput, XButton,XHeader, XDialog, TransferDom } from 'vux'
-
+import PageHeader from "@/components/PageHeader.vue"
+import { Group, XInput, XButton, XHeader, XDialog, TransferDom } from "vux"
 
 export default {
 	components: {
@@ -178,65 +177,62 @@ export default {
 			title: this.$route.meta.title,
 			showDialog: false,
 			preventGoBack: true,
-			jumpRouteName: 'popOutAuth',
-			name: '',
-			idCard: ''
-		};
+			jumpRouteName: "popOutAuth",
+			name: "",
+			idCard: ""
+		}
 	},
-	mounted: function() {
-		
-	},
+	mounted: function() {},
 	methods: {
 		diologStatus: function(res) {
 			this.showDialog = true
 		},
-		cancel: function () {
-			this.$router.push({name: 'Inquiry'});
+		cancel: function() {
+			this.$router.push({ name: "Inquiry" })
 		},
-		saveUserCreditInfo(){
+		saveUserCreditInfo() {
 			// let _params = new URLSearchParams();
 			// _params.append("userName", this.utils.getCookie('userName'));
 			// _params.append("realName", this.name);
 			// _params.append("idNo", this.idCard);
-			if(!this.utils.checkRealName(this.name)){
-				this.$vux.toast.text('请输入正确的真实姓名');
-				return false;
+			if (!this.utils.checkRealName(this.name)) {
+				this.$vux.toast.text("请输入正确的真实姓名")
+				return false
 			}
 
-			if(!this.utils.checkIdCardNumber(this.idCard)){
-				this.$vux.toast.text('请输入正确的身份证号码');
-				return false;
+			if (!this.utils.checkIdCardNumber(this.idCard)) {
+				this.$vux.toast.text("请输入正确的身份证号码")
+				return false
 			}
 
 			let _params = {
-				"userName": this.utils.getCookie('userName'),
-				"realName": this.name,
-				"identityNo": this.idCard
-			};
+				userName: this.utils.getCookie("userName"),
+				realName: this.name,
+				identityNo: this.idCard
+			}
 
-			this.utils.setCookie('realName', this.name);
-			this.utils.setCookie('identityNo', this.idCard);
+			this.utils.setCookie("realName", this.name)
+			this.utils.setCookie("identityNo", this.idCard)
 
-			this.common.saveUserCreditInfo(_params)
-			.then(res => {
-				let data = res.data;
-				if(data.resultCode == '1'){
-					this.$router.push({name: 'PandoraAuth'});
-				}else{
-					this.$vux.toast.text(res.data.resultMsg, 'middle')
+			this.common.saveUserCreditInfo(_params).then(res => {
+				let data = res.data
+				if (data.resultCode == "1") {
+					this.$router.push({ name: "PandoraAuth" })
+				} else {
+					this.$vux.toast.text(res.data.resultMsg, "middle")
 				}
-			});
+			})
 		},
-		jump(){
-			if(this.name != '' || this.idCard != ''){
-				this.preventGoBack = true;
+		jump() {
+			if (this.name != "" || this.idCard != "") {
+				this.preventGoBack = true
 				this.showDialog = true
-			}else{
+			} else {
 				this.$router.push({
 					name: "Inquiry"
-				});
+				})
 			}
 		}
 	}
-};
+}
 </script>

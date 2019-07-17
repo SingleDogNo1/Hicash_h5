@@ -5,13 +5,11 @@
 			:showBack="showBack"
 			:showBtnClose="showBtnClose"
 		></page-header>
-		<div class="content">
-			<img src="./images/banner.png" alt="">
-		</div>
+		<div class="content"><img src="./images/banner.png" alt="" /></div>
 	</div>
 </template>
 <script type="text/javascript">
-import PageHeader from "@/components/PageHeader.vue";
+import PageHeader from "@/components/PageHeader.vue"
 export default {
 	components: {
 		PageHeader
@@ -20,28 +18,24 @@ export default {
 		return {
 			title: this.$router.history.current.meta.title,
 			showBack: true,
-			showBtnClose: false,
-		};
+			showBtnClose: false
+		}
 	},
-	mounted() {
-		
-	},
-	methods: {
-		
-	}
-};
+	mounted() {},
+	methods: {}
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
 @import "~bowerComponents/sass-rem/_rem.scss";
-.VipIntroduce{
+.VipIntroduce {
 	height: calc(100vh - 50px) !important;
-	background: #F1F1F1;
+	background: #f1f1f1;
 	padding-top: 50px;
-	.content{
+	.content {
 		width: 100%;
 		height: auto;
-		img{
+		img {
 			width: 100%;
 		}
 	}

@@ -135,7 +135,7 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
+import PageHeader from "@/components/PageHeader.vue"
 
 export default {
 	components: {
@@ -152,87 +152,75 @@ export default {
 			list: [],
 			news: [],
 			platform: ""
-		};
+		}
 	},
 	methods: {
 		queryMyMsg: function() {
-			let postData = new URLSearchParams();
-			postData.append("username", this.utils.getCookie("userName"));
-			postData.append("uuid", "c3b522f8-72d3-4135-a04d-22b75b457e6b");
-			postData.append("curPage", this.curPage);
-			postData.append("maxLine", 10);
-			this.sw = false;
+			let postData = new URLSearchParams()
+			postData.append("username", this.utils.getCookie("userName"))
+			postData.append("uuid", "c3b522f8-72d3-4135-a04d-22b75b457e6b")
+			postData.append("curPage", this.curPage)
+			postData.append("maxLine", 10)
+			this.sw = false
 			this.common.QueryMyMsg(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode === "1") {
-					this.list = data.list;
+					this.list = data.list
 					this.list.forEach((val, index) => {
 						if (val.isCancel !== "Y") {
-							let filterType = val.type;
-							let urlParam = "";
+							let filterType = val.type
+							let urlParam = ""
 							if (filterType.indexOf("&") !== -1) {
 								urlParam = filterType.substring(
 									filterType.indexOf("&") + 1,
 									filterType.length
-								);
-								filterType = filterType.substring(
-									0,
-									filterType.indexOf("&")
-								);
+								)
+								filterType = filterType.substring(0, filterType.indexOf("&"))
 							}
-							val.filterType = filterType;
+							val.filterType = filterType
 							if (val.operate) {
-								const MWEB_PATH = this.config.MWEB_PATH;
-								let url;
+								const MWEB_PATH = this.config.MWEB_PATH
+								let url
 								switch (filterType) {
 									case "ljtx":
-										url =
-											MWEB_PATH +
-											"/newweb/product/sijidai.html";
-										break;
+										url = MWEB_PATH + "/newweb/product/sijidai.html"
+										break
 									case "czhk":
-										url =
-											MWEB_PATH +
-											"/newweb/personalCenter/rechargePay.html";
-										break;
+										url = MWEB_PATH + "/newweb/personalCenter/rechargePay.html"
+										break
 									case "ckyhq":
 										//url = MWEB_PATH+'/newweb/product/sijidai.html';
 										// 跳转到我的优惠券
-										url = "myCoupon";
+										url = "myCoupon"
 										//this.$router.push({path: 'myCoupon'});
-										break;
+										break
 									case "hinslb":
-										url = "javascript:void(0);";
-										break;
+										url = "javascript:void(0);"
+										break
 									case "qtxjd":
-										url =
-											MWEB_PATH +
-											"/newweb/product/cashProduct.html";
-										break;
+										url = MWEB_PATH + "/newweb/product/cashProduct.html"
+										break
 									case "ljqy":
 										//url = MWEB_PATH+'/newweb/product/cashProduct.html';
-										let arr = urlParam.split("&");
-										let index = -1;
-										let ref = "";
+										let arr = urlParam.split("&")
+										let index = -1
+										let ref = ""
 										for (var i in arr) {
-											let str = arr[i];
-											let key = str.split("=")[0];
-											let value = str.split("=")[1];
-											if (
-												key === "proid" &&
-												value === "DDCP"
-											) {
-												index = 0;
+											let str = arr[i]
+											let key = str.split("=")[0]
+											let value = str.split("=")[1]
+											if (key === "proid" && value === "DDCP") {
+												index = 0
 											} else if (key === "appid") {
-												ref = value;
+												ref = value
 											}
 										}
-										const ua = navigator.userAgent;
+										const ua = navigator.userAgent
 										const comeFrom =
 											ua.indexOf("comeFrom:iOS") > -1 ||
 											ua.indexOf("comeFrom:android") > -1
 												? "APP"
-												: "H5";
+												: "H5"
 
 										if (index === -1) {
 											url =
@@ -240,86 +228,77 @@ export default {
 												"/newweb/personalCenter/signature.html?appNo=" +
 												ref +
 												"&comeFrom=" +
-												comeFrom;
+												comeFrom
 										} else {
-											url =
-												MWEB_PATH +
-												"/newweb/creditInfo/signContract.html?appNo=" +
-												ref;
+											url = MWEB_PATH + "/newweb/creditInfo/signContract.html?appNo=" + ref
 										}
-										break;
+										break
 									case "hqlsq": //申请嗨钱来
-										url =
-											MWEB_PATH +
-											"/newweb/creditInfo/editablePage.html?" +
-											urlParam;
-										break;
+										url = MWEB_PATH + "/newweb/creditInfo/editablePage.html?" + urlParam
+										break
 									case "linkh5":
-										url = urlParam;
-										break;
+										url = urlParam
+										break
 									default:
-										url = "/";
+										url = "/"
 										//this.$router.push({path: '/'});
-										break;
+										break
 								}
-								val.url = url;
+								val.url = url
 							}
 						}
-						this.news.push(val);
+						this.news.push(val)
 						if (val.is_read === "0") {
-							let params = new URLSearchParams();
-							params.append("id", val.id);
-							params.append("is_read", "1");
-							this.common.UpdateMsgStatus(params).then(res => {});
+							let params = new URLSearchParams()
+							params.append("id", val.id)
+							params.append("is_read", "1")
+							this.common.UpdateMsgStatus(params).then(res => {})
 						}
-					});
+					})
 					if (data.list.length == 10) {
-						this.sw = true;
-						this.curPage++;
+						this.sw = true
+						this.curPage++
 					} else {
-						this.showMore = false;
+						this.showMore = false
 					}
 				} else {
-					this.errorMsg = data.resultMsg;
+					this.errorMsg = data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		}
 	},
 	mounted() {
-		const platform = this.utils.getPlatform();
-		this.platform = platform;
+		const platform = this.utils.getPlatform()
+		this.platform = platform
 
-		this.queryMyMsg();
+		this.queryMyMsg()
 
 		// 缓存指针
-		var scrollTop = 0;
+		var scrollTop = 0
 		// 设置一个开关来避免重负请求数据
 
 		window.addEventListener(
 			"scroll",
 			() => {
-				scrollTop = document.documentElement.scrollTop;
+				scrollTop = document.documentElement.scrollTop
 				if (scrollTop == 0) {
-					scrollTop = document.body.scrollTop;
+					scrollTop = document.body.scrollTop
 				}
 				// 判断是否滚动到底部
-				if (
-					scrollTop + window.innerHeight + 40 >=
-					document.body.offsetHeight
-				) {
+				if (scrollTop + window.innerHeight + 40 >= document.body.offsetHeight) {
 					// 如果开关打开则加载数据
 					if (this.sw) {
-						this.queryMyMsg();
+						this.queryMyMsg()
 					}
 				}
 			},
 			true
-		);
+		)
 	}
-};
+}
 </script>

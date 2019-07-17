@@ -3,11 +3,7 @@
 		<header class="credit-header">
 			<!-- go-history -->
 			<a class="go-history" href="javascript:;" @click="goBack"></a>
-			<a
-				class="go-history btn-close"
-				href="javascript:;"
-				@click="close"
-			></a>
+			<a class="go-history btn-close" href="javascript:;" @click="close"></a>
 			<h1>基本信息</h1>
 		</header>
 		<div class="authentication-step">
@@ -319,10 +315,10 @@
 </style>
 
 <script type="text/javascript">
-import { Loading, XInput, Group, PopupPicker } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+import { Loading, XInput, Group, PopupPicker } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	components: {
@@ -359,72 +355,68 @@ export default {
 			],
 			isShowSpouseInfo: false,
 			maritalStatus: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		goBack() {},
 		close() {},
 		directRelativesRelationChange(val) {
-			this.currentDirectRelativesRelation = val;
+			this.currentDirectRelativesRelation = val
 		},
 		emergencyContactRelationChange(val) {
-			this.currentEmergencyContactRelation = val;
+			this.currentEmergencyContactRelation = val
 		},
 		btnNext() {
-			let userMobile = utils.getCookie("mobile");
-			let userRealName = unescape(utils.getCookie("realName"));
-			let errorMsg = "";
+			let userMobile = utils.getCookie("mobile")
+			let userRealName = unescape(utils.getCookie("realName"))
+			let errorMsg = ""
 			if (this.currentDirectRelativesRelation === "") {
-				errorMsg = "直系亲属关系不能为空";
+				errorMsg = "直系亲属关系不能为空"
 			} else if (this.currentEmergencyContactRelation === "") {
-				errorMsg = "紧急联系人关系不能为空";
+				errorMsg = "紧急联系人关系不能为空"
 			} else if (!utils.checkRealName(this.directRelativesName)) {
-				errorMsg = "直系亲属姓名格式不正确";
+				errorMsg = "直系亲属姓名格式不正确"
 			} else if (!utils.checkMobile(this.directRelativesTel)) {
-				errorMsg = "直系亲属手机号格式不正确";
+				errorMsg = "直系亲属手机号格式不正确"
 			} else if (!utils.checkRealName(this.emergencyContactName)) {
-				errorMsg = "紧急联系人姓名格式不正确";
+				errorMsg = "紧急联系人姓名格式不正确"
 			} else if (!utils.checkMobile(this.emergencyContactTel)) {
-				errorMsg = "紧急联系人手机号格式不正确";
+				errorMsg = "紧急联系人手机号格式不正确"
 			} else if (
 				this.directRelativesName === this.emergencyContactName ||
 				this.directRelativesName === userRealName ||
 				this.emergencyContactName === userRealName
 			) {
-				errorMsg = "直系亲属姓名，紧急联系人姓名，本人姓名不能相同";
+				errorMsg = "直系亲属姓名，紧急联系人姓名，本人姓名不能相同"
 			} else if (
-				this.currentDirectRelativesRelation ===
-				this.currentEmergencyContactRelation
+				this.currentDirectRelativesRelation === this.currentEmergencyContactRelation
 			) {
-				errorMsg = "直系亲属关系和紧急联系人关系不能相同";
+				errorMsg = "直系亲属关系和紧急联系人关系不能相同"
 			} else if (
 				this.directRelativesTel === this.emergencyContactTel ||
 				this.directRelativesTel === userMobile ||
 				this.emergencyContactTel === userMobile
 			) {
-				errorMsg =
-					"直系亲属手机号，紧急联系人手机号，本人手机号不能相同";
+				errorMsg = "直系亲属手机号，紧急联系人手机号，本人手机号不能相同"
 			} else if (this.maritalStatus === "Q001") {
 				if (!utils.checkRealName(this.spouseName)) {
-					errorMsg = "配偶姓名格式不正确";
-					return false;
+					errorMsg = "配偶姓名格式不正确"
+					return false
 				} else if (!utils.checkMobile(this.spouseTel)) {
-					errorMsg = "配偶手机号格式不正确";
-					return false;
+					errorMsg = "配偶手机号格式不正确"
+					return false
 				}
 				if (errorMsg == "") {
 					if (
 						this.spouseName === this.directRelativesName ||
 						this.spouseName === this.emergencyContactName ||
-						this.directRelativesName ===
-							this.emergencyContactName ||
+						this.directRelativesName === this.emergencyContactName ||
 						this.directRelativesName === userRealName ||
 						this.emergencyContactName === userRealName ||
 						this.spouseName === userRealName
 					) {
-						errorMsg =
-							"配偶姓名，直系亲属姓名，紧急联系人姓名，本人姓名不能相同";
+						errorMsg = "配偶姓名，直系亲属姓名，紧急联系人姓名，本人姓名不能相同"
 					} else if (
 						this.spouseTel === this.directRelativesTel ||
 						this.spouseTel === this.emergencyContactTel ||
@@ -434,169 +426,136 @@ export default {
 						this.spouseTel === userMobile
 					) {
 						errorMsg =
-							"配偶手机号码，直系亲属手机号码，紧急联系人手机号码，本人手机号码不能相同";
+							"配偶手机号码，直系亲属手机号码，紧急联系人手机号码，本人手机号码不能相同"
 					}
 				}
 			}
 			if (errorMsg !== "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			let postData = new URLSearchParams();
-			postData.append("userName", utils.getCookie("userName"));
-			postData.append("immediate_name", this.directRelativesName);
-			postData.append(
-				"immediate_relation",
-				this.currentDirectRelativesRelation
-			);
-			postData.append("immediate_mobile", this.directRelativesTel);
-			postData.append("emergency_name", this.emergencyContactName);
-			postData.append(
-				"emergency_relation",
-				this.currentEmergencyContactRelation
-			);
-			postData.append("emergency_mobile", this.emergencyContactTel);
-			postData.append("marital_status", this.maritalStatus);
-			postData.append("spouse_name", this.spouseName);
-			postData.append("spouse_mobile", this.spouseTel);
-			postData.append("uuid", utils.uuid());
+			let postData = new URLSearchParams()
+			postData.append("userName", utils.getCookie("userName"))
+			postData.append("immediate_name", this.directRelativesName)
+			postData.append("immediate_relation", this.currentDirectRelativesRelation)
+			postData.append("immediate_mobile", this.directRelativesTel)
+			postData.append("emergency_name", this.emergencyContactName)
+			postData.append("emergency_relation", this.currentEmergencyContactRelation)
+			postData.append("emergency_mobile", this.emergencyContactTel)
+			postData.append("marital_status", this.maritalStatus)
+			postData.append("spouse_name", this.spouseName)
+			postData.append("spouse_mobile", this.spouseTel)
+			postData.append("uuid", utils.uuid())
 			this.$vux.loading.show({
 				text: "认证中，请稍等……"
-			});
+			})
 			common.updateRelationInfo(postData).then(res => {
 				if (res.data.resultCode === "1") {
-					var realName = unescape(utils.getCookie("realName"));
-					var identityNo = utils.getCookie("identityCode");
+					var realName = unescape(utils.getCookie("realName"))
+					var identityNo = utils.getCookie("identityCode")
 
-					var userName = utils.getCookie("userName");
-					var productType = utils.getCookie("industryCode");
-					let params = new URLSearchParams();
-					params.append("identityNo", identityNo);
+					var userName = utils.getCookie("userName")
+					var productType = utils.getCookie("industryCode")
+					let params = new URLSearchParams()
+					params.append("identityNo", identityNo)
 					common.queryShouQuanSuc(params).then(result => {
 						if (result.data.resultCode === "1") {
-							let postObj = new URLSearchParams();
-							postObj.append(
-								"tempAppNo",
-								utils.getCookie("appFlowNo").split(":")[1]
-							);
-							postObj.append("applyFrom", "03");
-							postObj.append(
-								"custType",
-								utils.getCookie("custType")
-							);
-							postObj.append(
-								"industryCode",
-								utils.getCookie("industryCode")
-							);
-							postObj.append("node", "05");
-							postObj.append("status", "05");
-							common.updateTempAppInfo(postObj).then(res => {});
-							let paramsObj = new URLSearchParams();
+							let postObj = new URLSearchParams()
+							postObj.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+							postObj.append("applyFrom", "03")
+							postObj.append("custType", utils.getCookie("custType"))
+							postObj.append("industryCode", utils.getCookie("industryCode"))
+							postObj.append("node", "05")
+							postObj.append("status", "05")
+							common.updateTempAppInfo(postObj).then(res => {})
+							let paramsObj = new URLSearchParams()
 							paramsObj.append(
 								"applyAmout",
 								utils.getCookie("prodetailInfo").split(":")[0]
-							);
-							paramsObj.append(
-								"tempAppNo",
-								utils.getCookie("appFlowNo").split(":")[1]
-							);
-							paramsObj.append("userName", userName);
-							paramsObj.append("productType", productType);
-							console.log("paramsObj=====", paramsObj);
-							common
-								.queryFirstExamineSuc(paramsObj)
-								.then(result => {
-									if (result.data.resultCode === "1") {
-										let paramsObj = new URLSearchParams();
-										paramsObj.append(
-											"tempAppNo",
-											utils
-												.getCookie("appFlowNo")
-												.split(":")[1]
-										);
-										paramsObj.append("applyFrom", "03");
-										paramsObj.append(
-											"custType",
-											utils.getCookie("custType")
-										);
-										paramsObj.append(
-											"industryCode",
-											utils.getCookie("industryCode")
-										);
-										paramsObj.append("node", "05");
-										paramsObj.append("status", "06");
-										common
-											.updateTempAppInfo(paramsObj)
-											.then(res => {});
-										console.log(
-											"this.$vux.loading=====",
-											this.$vux.loading
-										);
-										this.$vux.loading.hide();
-										this.$router.push({
-											path: "/mobilePhonePrv"
-										});
-									}
-								});
+							)
+							paramsObj.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+							paramsObj.append("userName", userName)
+							paramsObj.append("productType", productType)
+							console.log("paramsObj=====", paramsObj)
+							common.queryFirstExamineSuc(paramsObj).then(result => {
+								if (result.data.resultCode === "1") {
+									let paramsObj = new URLSearchParams()
+									paramsObj.append(
+										"tempAppNo",
+										utils.getCookie("appFlowNo").split(":")[1]
+									)
+									paramsObj.append("applyFrom", "03")
+									paramsObj.append("custType", utils.getCookie("custType"))
+									paramsObj.append("industryCode", utils.getCookie("industryCode"))
+									paramsObj.append("node", "05")
+									paramsObj.append("status", "06")
+									common.updateTempAppInfo(paramsObj).then(res => {})
+									console.log("this.$vux.loading=====", this.$vux.loading)
+									this.$vux.loading.hide()
+									this.$router.push({
+										path: "/mobilePhonePrv"
+									})
+								}
+							})
 						}
-					});
+					})
 				}
-			});
+			})
 		}
 	},
 	mounted: function() {
-		var userName = utils.getCookie("userName");
-		var zmFrom = utils.getQueryString("from");
+		var userName = utils.getCookie("userName")
+		var zmFrom = utils.getQueryString("from")
 		if (zmFrom === "zm") {
 			this.$vux.toast.show({
 				type: "cancel",
 				position: "middle",
 				text: "芝麻授权失败，请重新再试"
-			});
+			})
 		}
 		if (!userName || userName == "null") {
 			this.$router.push({
 				path: "/login",
 				query: { redirect: this.$route.fullPath }
-			});
+			})
 		}
-		let params = new URLSearchParams();
-		params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1]);
-		params.append("applyFrom", "03");
-		params.append("custType", utils.getCookie("custType"));
-		params.append("industryCode", utils.getCookie("industryCode"));
-		params.append("node", "03");
-		params.append("status", "01");
-		common.updateTempAppInfo(params).then(res => {});
-		let postData = new URLSearchParams();
-		postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-		postData.append("userName", utils.getCookie("userName"));
+		let params = new URLSearchParams()
+		params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+		params.append("applyFrom", "03")
+		params.append("custType", utils.getCookie("custType"))
+		params.append("industryCode", utils.getCookie("industryCode"))
+		params.append("node", "03")
+		params.append("status", "01")
+		common.updateTempAppInfo(params).then(res => {})
+		let postData = new URLSearchParams()
+		postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+		postData.append("userName", utils.getCookie("userName"))
 		common.relationInfo(postData).then(res => {
-			this.directRelativesName = res.data.immediate_name;
+			this.directRelativesName = res.data.immediate_name
 			let currentDirectRelativesRelation = this.directRelativesRelationList.filter(
 				item => {
-					return item.value === res.data.immediate_relation;
+					return item.value === res.data.immediate_relation
 				}
-			);
-			this.currentDirectRelativesRelation = currentDirectRelativesRelation[0].value.split();
-			this.directRelativesTel = res.data.immediate_mobile;
-			this.emergencyContactName = res.data.emergency_name;
+			)
+			this.currentDirectRelativesRelation = currentDirectRelativesRelation[0].value.split()
+			this.directRelativesTel = res.data.immediate_mobile
+			this.emergencyContactName = res.data.emergency_name
 			let currentEmergencyContactRelation = this.emergencyContactRelationList.filter(
 				item => {
-					return item.value === res.data.emergency_relation;
+					return item.value === res.data.emergency_relation
 				}
-			);
-			this.currentEmergencyContactRelation = currentEmergencyContactRelation[0].value.split();
-			this.emergencyContactTel = res.data.emergency_mobile;
-			this.maritalStatus = res.data.marital_status;
+			)
+			this.currentEmergencyContactRelation = currentEmergencyContactRelation[0].value.split()
+			this.emergencyContactTel = res.data.emergency_mobile
+			this.maritalStatus = res.data.marital_status
 			if (this.maritalStatus == "Q001") {
-				this.isShowSpouseInfo = true;
-				this.spouseName = res.data.spouse_name;
-				this.spouseTel = res.data.spouse_mobile;
+				this.isShowSpouseInfo = true
+				this.spouseName = res.data.spouse_name
+				this.spouseTel = res.data.spouse_mobile
 			} else {
-				this.isShowSpouseInfo = false;
+				this.isShowSpouseInfo = false
 			}
-		});
+		})
 	}
-};
+}
 </script>

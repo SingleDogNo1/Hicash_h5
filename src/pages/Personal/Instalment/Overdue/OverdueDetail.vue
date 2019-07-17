@@ -9,8 +9,7 @@
 		<div
 			class="content"
 			:style="{
-				'padding-top':
-					this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'
+				'padding-top': this.utils.getPlatform() == 'APP' ? 0 : '2.26667rem'
 			}"
 		>
 			<order-detail></order-detail>
@@ -31,8 +30,8 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import OrderDetail from "@/components/OrderDetail.vue";
+import PageHeader from "@/components/PageHeader.vue"
+import OrderDetail from "@/components/OrderDetail.vue"
 
 export default {
 	components: {
@@ -44,7 +43,7 @@ export default {
 			title: "逾期订单",
 			showBtnClose: false,
 			showBack: true
-		};
+		}
 	}
-};
+}
 </script>

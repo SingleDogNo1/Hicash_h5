@@ -36,26 +36,23 @@ export default {
 		return {
 			title: "",
 			contnet: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		getSmallBannerDetail: function(id) {
-			let _this = this;
+			let _this = this
 			_this.common.getSmallBannerDetail(id).then(function(res) {
-				console.info("res.data", res.data);
-				_this.contnet = res.data.bannerPicEntity.content;
-				_this.title = res.data.bannerPicEntity.picTitle;
-				console.info(
-					"res.data.picTitle",
-					res.data.bannerPicEntity.picTitle
-				);
-			});
+				console.info("res.data", res.data)
+				_this.contnet = res.data.bannerPicEntity.content
+				_this.title = res.data.bannerPicEntity.picTitle
+				console.info("res.data.picTitle", res.data.bannerPicEntity.picTitle)
+			})
 		}
 	},
 	mounted: function() {
-		let id = this.$route.query.id;
-		this.getSmallBannerDetail(id);
+		let id = this.$route.query.id
+		this.getSmallBannerDetail(id)
 	}
-};
+}
 </script>

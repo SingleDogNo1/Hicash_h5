@@ -1,11 +1,11 @@
 <template>
 	<div class="pandoraWrap">
 		<x-header
-		:left-options="{
-			backText: '',
-			showBack: true,
-			preventGoBack: preventGoBack
-		}"
+			:left-options="{
+				backText: '',
+				showBack: true,
+				preventGoBack: preventGoBack
+			}"
 			@on-click-back="jump"
 			>{{ title }}<a class="btn-close" @click="jump" slot="right"></a
 		></x-header>
@@ -19,14 +19,13 @@
 		<div>
 			<x-dialog v-model="showDialog" class="dialog">
 				<div class="img-box">
-					<img src="./images/goout-pop.png" alt="">
+					<img src="./images/goout-pop.png" alt="" />
 					<div class="btns">
-						<button @click="showDialog=false" class="confirm">继续完善资料</button>
+						<button @click="showDialog = false" class="confirm">继续完善资料</button>
 						<button @click="cancel" class="cancel">狠心放弃</button>
 					</div>
 				</div>
-				<div @click="showDialog=false">
-				</div>
+				<div @click="showDialog = false"></div>
 			</x-dialog>
 		</div>
 	</div>
@@ -34,11 +33,11 @@
 
 <style lang="scss" scoped>
 @import "~bowerComponents/sass-rem/_rem.scss";
-.pandoraWrap{
+.pandoraWrap {
 	height: 100%;
 	overflow: hidden;
 }
-#dpandoraUrl{
+#dpandoraUrl {
 	margin-top: 56px;
 }
 .vux-header {
@@ -78,7 +77,7 @@
 	}
 }
 .dialog {
-	/deep/ .weui-dialog{
+	/deep/ .weui-dialog {
 		background: transparent;
 		border-radius: 8px;
 		padding-bottom: 8px;
@@ -89,26 +88,25 @@
 	}
 	/deep/ .img-box {
 		position: relative;
-		img{
+		img {
 			width: 100%;
 		}
-		.btns{
+		.btns {
 			width: 100%;
 			position: absolute;
 			bottom: rem(15px);
-			.confirm{
+			.confirm {
 				width: 80%;
 				height: rem(40px);
 				border: 0;
 				border-radius: 25px;
-				background: linear-gradient(#FFEF71, #FFDB3D);
-				color: #FE3F20;
+				background: linear-gradient(#ffef71, #ffdb3d);
+				color: #fe3f20;
 				font-size: rem(15px);
 				display: block;
 				margin: 0 auto;
-				
 			}
-			.cancel{
+			.cancel {
 				background: transparent;
 				border: 0;
 				height: rem(40px);
@@ -127,8 +125,8 @@
 </style>
 
 <script>
-import PageHeader from "@/components/PageHeader.vue";
-import {  XHeader, XDialog } from "vux";
+import PageHeader from "@/components/PageHeader.vue"
+import { XHeader, XDialog } from "vux"
 
 export default {
 	components: {
@@ -141,37 +139,36 @@ export default {
 			title: this.$route.meta.title,
 			showDialog: false,
 			preventGoBack: true,
-			dpandoraUrl: ''
-		};
+			dpandoraUrl: ""
+		}
 	},
 	methods: {
-		jump(){
-			this.showDialog = true;
+		jump() {
+			this.showDialog = true
 			// this.$router.push({
 			// 	name: "Inquiry"
 			// });
 		},
-		cancel(){
+		cancel() {
 			this.$router.push({
 				name: "Inquiry"
-			});
-		},
-		checkUserInfo(){
-			let postData = {
-				"userName": this.utils.getCookie('userName'),
-				"creditType": this.utils.getCookie('creditType')
-			};
-			this.common.checkUserInfo(postData)
-			.then(res => {
-				this.dpandoraUrl = res.data.url;
 			})
 		},
-		changeUrl(e){
-			console.info('iframe', location.href);
+		checkUserInfo() {
+			let postData = {
+				userName: this.utils.getCookie("userName"),
+				creditType: this.utils.getCookie("creditType")
+			}
+			this.common.checkUserInfo(postData).then(res => {
+				this.dpandoraUrl = res.data.url
+			})
+		},
+		changeUrl(e) {
+			console.info("iframe", location.href)
 		}
 	},
 	mounted() {
-		this.checkUserInfo();
+		this.checkUserInfo()
 	}
-};
+}
 </script>
