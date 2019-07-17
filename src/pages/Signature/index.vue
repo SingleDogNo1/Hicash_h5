@@ -234,8 +234,8 @@ export default {
             text: data.resultMsg
           });
           setTimeout(() => {
-            //this.$router.push({ name: "Login" });
-          }, 3000);
+            this.$router.push({ name: "Personal" });
+          }, 2000);
         }
       });
     },
