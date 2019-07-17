@@ -430,7 +430,7 @@
 		<div class="bg-instalment-empty" v-if="showNoData">
 			<p>这里暂时什么都没有</p>
 		</div>
-		<!-- <load-more v-if="!showNoData" tip=""></load-more> -->
+		<load-more v-if="!showNoData" tip=""></load-more>
 
 		<div v-transfer-dom>
 			<confirm
