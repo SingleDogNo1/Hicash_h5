@@ -35,7 +35,7 @@
 					<p>日 期：{{ date }}</p>
 				</div>
 			</div>
-			<a href="javascript:void(0);" class="sign-sub" @click="signSub">确认</a>
+			<a href="javascript:void(0);" class="sign-sub" @click="signSub" v-if="this.utils.getPlatform() != 'APP'">确认</a>
 		</div>
 		<confirm
 			v-model="showPop"
@@ -50,7 +50,7 @@
         class="know-compre-rat"
         :to="{name: 'CompreRat', query: {from: 'signature', appNo: appNo}}"
       >了解用户评级</router-link> -->
-			<router-link class="i-know" :to="{ name: 'Personal' }" v-if="this.utils.getPlatform() != 'APP'">我知道了</router-link>
+			<router-link class="i-know" :to="{ name: 'Personal' }">我知道了</router-link>
 		</confirm>
 	</div>
 </template>
@@ -84,6 +84,7 @@ export default {
 	},
 	methods: {
 		base64Decode(input) {
+			let rv;
 			rv = window.atob(input)
 			rv = escape(rv)
 			rv = decodeURIComponent(rv)
