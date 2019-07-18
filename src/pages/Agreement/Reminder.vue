@@ -50,7 +50,7 @@
         class="know-compre-rat"
         :to="{name: 'CompreRat', query: {from: 'signature', appNo: appNo}}"
       >了解用户评级</router-link> -->
-			<router-link class="i-know" :to="{ name: 'Personal' }">我知道了</router-link>
+			<router-link class="i-know" :to="{ name: 'Personal' }" v-if="this.utils.getPlatform() != 'APP'">我知道了</router-link>
 		</confirm>
 	</div>
 </template>
