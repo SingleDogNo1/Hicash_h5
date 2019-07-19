@@ -19,9 +19,7 @@
 					您的借款仅能用于借款协议约定的借款用途，禁止将借款用于固定资产投资、股权类投资、证券投资等借款协议约定外的用途。
 				</p>
 				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ'">
-					借款到账后，您需要支付互联网信息服务费人民币【{{
-						serviceMoney
-					}}】元、金融信息服务费人民币【{{ monthFee }}】元。
+					借款到账后，您需要支付<span v-if="serviceMoney > 0">互联网信息服务费人民币【{{serviceMoney}}】元、</span>金融信息服务费人民币【{{ monthFee }}】元。
 				</p>
 				<p>上述费用按照各自协议约定收取。</p>
 				<p>
