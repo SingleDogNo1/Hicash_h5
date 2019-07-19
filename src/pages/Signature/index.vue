@@ -76,7 +76,7 @@
             <span class="desc">{{item.agreeSignText}}</span>
             <span class="agreement-tmpl" v-html="item.agreementTmpl"></span>
           </div>
-          <p class="agree-text" v-if="item.desBehind" v-html="item.desBehind">}</p>
+          <p class="agree-text" v-if="item.desBehind" v-html="item.desBehind"></p>
           <p class="agree-text" v-if="tip" v-html="tip"></p>
         </div>
       </div>
