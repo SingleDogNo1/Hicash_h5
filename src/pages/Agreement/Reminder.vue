@@ -22,10 +22,10 @@
 				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ' && !isIOS">
 					借款到账后，您需要支付互联网信息服务费人民币【{{
 						serviceMoney
-					}}】元、金融信息服务费人民币【{{ monthFee }}】元。{{isIOS}}{{ua}}
+					}}】元、金融信息服务费人民币【{{ monthFee }}】元。
 				</p>
 
-				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ' && isIOS">借款到账后，您每月还应支消费资讯综合采购服务费人民币【{{serviceMoney}}】元、会员服务费人民币【{{monthFee}}】元。{{isIOS}}{{ua}}</p>
+				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ' && isIOS">借款到账后，您每月还应支消费资讯综合采购服务费人民币【{{serviceMoney}}】元、会员服务费人民币【{{monthFee}}】元。</p>
 
 				<p>上述费用按照各自协议约定收取。</p>
 				<p>
@@ -90,8 +90,7 @@ export default {
 			appNo: this.$route.query.appNo,
 			showPop: false,
 			showHeader: !this.utils.getCookie("backUrl"),
-			isIOS: false,
-			ua: navigator.userAgent
+			isIOS: false
 		}
 	},
 	methods: {
@@ -165,7 +164,6 @@ export default {
 
 		var ua = navigator.userAgent
 		this.isIOS = ua.indexOf("comeFrom:iOS") > -1;
-		console.info('this.isIOS', this.isIOS);
 		if(!this.isIOS){
 			let params = {
 				productId: loanProduct,
