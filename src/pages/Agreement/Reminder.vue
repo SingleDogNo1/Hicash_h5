@@ -18,11 +18,15 @@
 				<p>
 					您的借款仅能用于借款协议约定的借款用途，禁止将借款用于固定资产投资、股权类投资、证券投资等借款协议约定外的用途。
 				</p>
-				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ'">
+
+				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ' && !isIOS">
 					借款到账后，您需要支付互联网信息服务费人民币【{{
 						serviceMoney
 					}}】元、金融信息服务费人民币【{{ monthFee }}】元。
 				</p>
+
+				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ' && isIOS">借款到账后，您每月还应支消费资讯综合采购服务费人民币【{{serviceMoney}}】元、会员服务费人民币【{{monthFee}}】元。</p>
+
 				<p>上述费用按照各自协议约定收取。</p>
 				<p>
 					您需按相关议约定按时还款，若您的账户余额不足，将导致逾期还款，这将产生逾期罚息、违约金和滞纳金，并影响您的信用记录。
@@ -35,7 +39,13 @@
 					<p>日 期：{{ date }}</p>
 				</div>
 			</div>
-			<a href="javascript:void(0);" class="sign-sub" @click="signSub" v-if="this.utils.getPlatform() != 'APP'">确认</a>
+			<a
+				href="javascript:void(0);"
+				class="sign-sub"
+				@click="signSub"
+				v-if="this.utils.getPlatform() != 'APP'"
+				>确认</a
+			>
 		</div>
 		<confirm
 			v-model="showPop"
@@ -79,12 +89,13 @@ export default {
 			monthFee: "",
 			appNo: this.$route.query.appNo,
 			showPop: false,
-			showHeader: !this.utils.getCookie("backUrl")
+			showHeader: !this.utils.getCookie("backUrl"),
+			isIOS: false
 		}
 	},
 	methods: {
 		base64Decode(input) {
-			let rv;
+			let rv
 			rv = window.atob(input)
 			rv = escape(rv)
 			rv = decodeURIComponent(rv)
@@ -151,16 +162,43 @@ export default {
 		}
 		this.realName = realName
 
-		let params = {
-			productId: loanProduct,
-			amount: tranPrice
+		var ua = navigator.userAgent
+		this.isIOS = ua.indexOf("comeFrom:iOS") > -1;
+		
+		if(!this.isIOS){
+			let params = {
+				productId: loanProduct,
+				amount: tranPrice
+			}
+			this.common.calculateLoanPlan(params).then(data => {
+				console.info(data)
+				let _data = data.data.data[0]
+				this.serviceMoney = (_data.addFee1 + _data.addFee3) * _data.totalTerm
+				this.monthFee = (_data.mthFee + _data.infoFee) * _data.totalTerm
+			})
+		}else{
+			let loanAmtObj = new URLSearchParams();
+			loanAmtObj.append("firstRate", 0);
+			loanAmtObj.append("loanProduct", loanProduct);
+			loanAmtObj.append("tranPrice", tranPrice);
+			this.common.loanAmtCalculateForNew(loanAmtObj).then(res => {
+				let data = res.data;
+				if (data.resultCode === "1") {
+					this.serviceMoney = data.everMoth;
+					this.monthFee = data.monthFee;
+				} else {
+					this.$vux.toast.show({
+					type: "text",
+					position: "middle",
+					text: data.resultMsg
+					});
+				}
+			});
 		}
-		this.common.calculateLoanPlan(params).then(data => {
-			console.info(data)
-			let _data = data.data.data[0]
-			this.serviceMoney = (_data.addFee1 + _data.addFee3) * _data.totalTerm
-			this.monthFee = (_data.mthFee + _data.infoFee) * _data.totalTerm
-		})
+		
+
+		
+
 	}
 }
 </script>
