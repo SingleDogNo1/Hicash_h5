@@ -6,15 +6,10 @@
 				<div class="img-box">
 					<span class="level-up">{{ level }}</span>
 					<!-- 跳转操作 -->
-					<router-link
-						class="go-to-rate-page"
-						:to="{ name: 'CompreRat' }"
-					>
+					<router-link class="go-to-rate-page" :to="{ name: 'CompreRat' }">
 						了解用户评级
 					</router-link>
-					<a class="i-konw" href="javascript:" @click="show = false"
-						>我知道了</a
-					>
+					<a class="i-konw" href="javascript:" @click="show = false">我知道了</a>
 				</div>
 			</x-dialog>
 		</div>
@@ -29,37 +24,24 @@
 					</h4>
 					<ul class="pro-coupon-list">
 						<li
-							v-for="(discountListItem,index) in discountList"
+							v-for="(discountListItem, index) in discountList"
 							:class="{
-								'coupon-percent':
-									discountListItem.couponType === '1'
+								'coupon-percent': discountListItem.couponType === '1'
 							}"
 							:key="index"
 						>
 							<div class="pro-coupon-wrap-left">
 								<h5>{{ discountListItem.discountName }}</h5>
-								<p class="amount-limit">
-									{{ discountListItem.msgstr }}
-								</p>
-								<p class="date-limit">
-									{{ discountListItem.timeStr }}
-								</p>
+								<p class="amount-limit">{{ discountListItem.msgstr }}</p>
+								<p class="date-limit">{{ discountListItem.timeStr }}</p>
 							</div>
 							<div class="pro-coupon-wrap-right">
-								<span
-									v-if="discountListItem.couponType !== '1'"
-								>
-									<span class="coupon-amount">{{
-										discountListItem.discount
-									}}</span>
+								<span v-if="discountListItem.couponType !== '1'">
+									<span class="coupon-amount">{{ discountListItem.discount }}</span>
 									<span>元</span>
 								</span>
-								<span
-									v-if="discountListItem.couponType === '1'"
-								>
-									<span class="coupon-amount">{{
-										discountListItem.discount
-									}}</span>
+								<span v-if="discountListItem.couponType === '1'">
+									<span class="coupon-amount">{{ discountListItem.discount }}</span>
 									<span>%</span>
 								</span>
 								<button class="btn-use">去使用</button>
@@ -82,10 +64,7 @@
 						>
 							以后再说
 						</router-link>
-						<router-link
-							class="btn-download"
-							:to="{ name: 'Home' }"
-						>
+						<router-link class="btn-download" :to="{ name: 'Home' }">
 							下载app
 						</router-link>
 					</div>
@@ -107,9 +86,7 @@
 			</header>
 			<div class="pro-name-wrap">
 				<div class="pro-name-card-wrap">
-					<h3 class="title">
-						<strong></strong> <span>期数灵活</span>
-					</h3>
+					<h3 class="title"><strong></strong> <span>期数灵活</span></h3>
 					<div class="content">
 						<img src="../assets/images/icon_miaodai.png" />
 						<p>期数灵活 闪电到账<br />最快2小时到账</p>
@@ -135,9 +112,7 @@
 								v-model="index"
 								v-bind:data-amount="amountListItem"
 								v-bind:data-index="index"
-								@on-item-click="
-									selectLoanAmount(amountListItem)
-								"
+								@on-item-click="selectLoanAmount(amountListItem)"
 								:key="index"
 							>
 								{{ amountListItem }}
@@ -167,15 +142,11 @@
 					</div>
 					<div class="rate-wrap">
 						<p>
-							每期最低本息还款：<span class="rate-repay"
-								>￥{{ lowPay }}</span
-							>
+							每期最低本息还款：<span class="rate-repay">￥{{ lowPay }}</span>
 						</p>
 						<div class="rate-handler">
 							<p>
-								月利率：<span class="rate-percentage">{{
-									ratePercentage
-								}}</span>
+								月利率：<span class="rate-percentage">{{ ratePercentage }}</span>
 							</p>
 							<router-link
 								class="rate-calculator"
@@ -192,9 +163,7 @@
 							</router-link>
 						</div>
 					</div>
-					<button class="btn-by-stages" @click="btnByStages">
-						立即分期
-					</button>
+					<button class="btn-by-stages" @click="btnByStages">立即分期</button>
 				</div>
 			</div>
 		</div>
@@ -223,16 +192,14 @@ body {
 			.img-box {
 				width: 100%;
 				height: 100%;
-				background: url("../assets/images/bg_rate.png") center center
-					no-repeat;
+				background: url("../assets/images/bg_rate.png") center center no-repeat;
 				background-size: cover;
 				.level-up {
 					position: absolute;
 					z-index: 999;
 					width: 2.825rem;
 					height: 2.85rem;
-					background: url(../assets/images/bg_level_up.png) 0 0
-						no-repeat;
+					background: url(../assets/images/bg_level_up.png) 0 0 no-repeat;
 					background-size: cover;
 					left: 38%;
 					top: 10.3rem;
@@ -377,8 +344,7 @@ body {
 			.img-box {
 				width: 100%;
 				height: 100%;
-				background: url("../assets/images/bg_st_3_pop.png") center
-					center no-repeat;
+				background: url("../assets/images/bg_st_3_pop.png") center center no-repeat;
 				background-size: 300px 216px;
 				.action {
 					width: 100%;
@@ -420,8 +386,7 @@ body {
 			.QQhandler {
 				width: 1.2rem;
 				height: 1.2rem;
-				background: url(../assets/images/icon-QQHandler.png) center
-					center no-repeat;
+				background: url(../assets/images/icon-QQHandler.png) center center no-repeat;
 				background-size: cover;
 				position: absolute;
 				top: 50%;
@@ -469,8 +434,7 @@ body {
 						height: 0.925rem;
 						top: 0.45rem;
 						left: 1.25rem;
-						background: url(../assets/images/icon_miaodai_text.png)
-							0 0 no-repeat;
+						background: url(../assets/images/icon_miaodai_text.png) 0 0 no-repeat;
 						-webkit-background-size: cover;
 						background-size: cover;
 					}
@@ -676,33 +640,33 @@ import {
 	Checker,
 	CheckerItem,
 	TransferDomDirective as TransferDom
-} from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+} from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 var getMonthPay = function(amountSelected, timeSelected) {
 	return new Promise((resolve, reject) => {
-		var postData = new URLSearchParams();
-		postData.append("firstRate", 0);
-		postData.append("tranPrice", amountSelected);
-		postData.append("loanProduct", timeSelected.loanProduct);
+		var postData = new URLSearchParams()
+		postData.append("firstRate", 0)
+		postData.append("tranPrice", amountSelected)
+		postData.append("loanProduct", timeSelected.loanProduct)
 		common.loanAmtCalculateForNew(postData).then(res => {
 			if (res.data.resultCode === "1") {
-				var params = new URLSearchParams();
-				var days = timeSelected.installments * 30;
-				params.append("industryCode", "MDCP");
-				params.append("amount", amountSelected);
-				params.append("days", days);
+				var params = new URLSearchParams()
+				var days = timeSelected.installments * 30
+				params.append("industryCode", "MDCP")
+				params.append("amount", amountSelected)
+				params.append("days", days)
 				common.loanPay(params).then(res => {
-					resolve(res.data);
-				});
+					resolve(res.data)
+				})
 			} else {
-				reject(res.data.resultMsg);
+				reject(res.data.resultMsg)
 			}
-		});
-	});
-};
+		})
+	})
+}
 
 export default {
 	directives: {
@@ -734,12 +698,12 @@ export default {
 			lowPay: "",
 			ratePercentage: "",
 			obj: {}
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		goBack() {
-			var comeFrom = utils.getQueryString("comeFrom");
+			var comeFrom = utils.getQueryString("comeFrom")
 			// switch (comeFrom){
 			//     case 'ddLdp':
 			//         _this.$router.push({path: '/login'});
@@ -749,155 +713,146 @@ export default {
 			//     case 2:
 			//         break;
 			// }
-			this.$router.push({ path: "/" });
+			this.$router.push({ path: "/" })
 		},
 		selectLoanAmount(item) {
-			this.amountSelected = item;
+			this.amountSelected = item
 			getMonthPay(this.amountSelected, this.timeSelected).then(data => {
 				if (data.resultCode === "1") {
-					this.lowPay = data.lowPay;
-					this.ratePercentage =
-						data.lowRate + "%-" + data.highRate + "%";
+					this.lowPay = data.lowPay
+					this.ratePercentage = data.lowRate + "%-" + data.highRate + "%"
 				} else {
-					this.errorMsg = res.data.resultMsg;
+					this.errorMsg = res.data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		selectLoanTime(item) {
 			if (item.loanProduct == 0) {
 				this.$vux.toast.text(
 					"对不起，该期额度已被抢光哦！请选择3个月借款期限！",
 					"middle"
-				);
-				return;
+				)
+				return
 			}
-			this.timeSelected = item;
+			this.timeSelected = item
 			getMonthPay(this.amountSelected, this.timeSelected).then(data => {
 				if (data.resultCode === "1") {
-					this.lowPay = data.lowPay;
-					this.ratePercentage =
-						data.lowRate + "%-" + data.highRate + "%";
+					this.lowPay = data.lowPay
+					this.ratePercentage = data.lowRate + "%-" + data.highRate + "%"
 				} else {
-					this.errorMsg = res.data.resultMsg;
+					this.errorMsg = res.data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		btnByStages() {
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("fastAmt", this.amountSelected);
-			postData.append("fastPeriod", this.timeSelected.loanProduct);
-			postData.append("userName", utils.getCookie("userName"));
-			postData.append("stu_card_front", utils.getCookie("mediasource"));
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("fastAmt", this.amountSelected)
+			postData.append("fastPeriod", this.timeSelected.loanProduct)
+			postData.append("userName", utils.getCookie("userName"))
+			postData.append("stu_card_front", utils.getCookie("mediasource"))
 			if (utils.getQueryString("appNO")) {
-				postData.appFlowNo = utils.getQueryString("appNO");
+				postData.appFlowNo = utils.getQueryString("appNO")
 			}
 			//setTimeout(() => {
 			this.$vux.loading.show({
 				text: "加载中，请稍等……"
-			});
+			})
 			//},1000)
 
-			var params = new URLSearchParams();
-			params.append("industryCode", this.obj.industryCode);
-			params.append("custType", utils.getCookie("custType"));
-			params.append("mobile", utils.getCookie("mobile"));
-			params.append("is_type", "N");
-			params.append("uuid", utils.uuid());
-			params.append("user_name", utils.getCookie("userName"));
-			params.append("applyFrom", "H5");
-			params.append("periods", this.timeSelected.installments);
+			var params = new URLSearchParams()
+			params.append("industryCode", this.obj.industryCode)
+			params.append("custType", utils.getCookie("custType"))
+			params.append("mobile", utils.getCookie("mobile"))
+			params.append("is_type", "N")
+			params.append("uuid", utils.uuid())
+			params.append("user_name", utils.getCookie("userName"))
+			params.append("applyFrom", "H5")
+			params.append("periods", this.timeSelected.installments)
 			common.checkSupportApp(params).then(result => {
 				if (result.data.resultCode == "1" && result.data.success) {
 					common.fastLoanFirst(postData).then(res => {
 						setTimeout(() => {
-							this.$vux.loading.hide();
-						}, 1000);
+							this.$vux.loading.hide()
+						}, 1000)
 						if (res.data.resultCode == "1") {
 							if (res.data.appFlowNo == "") {
 								this.$vux.toast.show({
 									type: "cancel",
 									position: "middle",
 									text: "临时订单创建失败"
-								});
-								return;
+								})
+								return
 							}
-							utils.setCookie(
-								"industryCode",
-								this.obj.industryCode
-							);
-							utils.setCookie("xykFrom", "0");
+							utils.setCookie("industryCode", this.obj.industryCode)
+							utils.setCookie("xykFrom", "0")
 							utils.setCookie(
 								"appFlowNo",
-								utils.getCookie("userName") +
-									":" +
-									res.data.appFlowNo
-							);
+								utils.getCookie("userName") + ":" + res.data.appFlowNo
+							)
 							utils.setCookie(
 								"prodetailInfo",
-								this.amountSelected +
-									":" +
-									this.timeSelected.loanProduct
-							);
+								this.amountSelected + ":" + this.timeSelected.loanProduct
+							)
 							setTimeout(() => {
 								this.$router.push({
 									path: "/identityAuthentication"
-								});
-							}, 1500);
+								})
+							}, 1500)
 						} else if (res.data.resultCode == "60100") {
 							setTimeout(() => {
 								this.$router.push({
 									path: "/login",
 									query: { redirect: this.$route.fullPath }
-								});
-							}, 1500);
+								})
+							}, 1500)
 						} else if (result.data.resultCode == "1") {
 							this.$vux.toast.show({
 								type: "cancel",
 								position: "middle",
 								text: "您暂不支持该产品"
-							});
+							})
 						} else {
 							this.$vux.toast.show({
 								type: "cancel",
 								position: "middle",
 								text: result.data.resultMsg
-							});
-							this.$vux.loading.hide();
+							})
+							this.$vux.loading.hide()
 						}
-					});
+					})
 				} else if (result.resultCode == "1") {
 					setTimeout(() => {
-						this.$vux.loading.hide();
-					}, 1000);
+						this.$vux.loading.hide()
+					}, 1000)
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: "您暂不支持该产品"
-					});
+					})
 				} else {
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: result.data.resultMsg
-					});
-					this.$vux.loading.hide();
+					})
+					this.$vux.loading.hide()
 				}
-			});
+			})
 		}
 	},
 	mounted: function() {
-		var userName = utils.getCookie("userName");
+		var userName = utils.getCookie("userName")
 		if (
 			userName &&
 			userName != "null" &&
@@ -905,16 +860,16 @@ export default {
 			utils.getCookie("pj") != "null" &&
 			utils.getCookie("pjread") == "0"
 		) {
-			this.level = "B";
-			this.show = true;
-			utils.setCookie("pjread", "1");
+			this.level = "B"
+			this.show = true
+			utils.setCookie("pjread", "1")
 		}
-		var custType = utils.getCookie("custType");
-		var inOneMonthReg = utils.getCookie("inOneMonthReg");
-		var isLanUserFlag = utils.getCookie("isLanUserFlag");
-		var isDoubleSales = utils.getCookie("isDoubleSales"); //是否二次营销
+		var custType = utils.getCookie("custType")
+		var inOneMonthReg = utils.getCookie("inOneMonthReg")
+		var isLanUserFlag = utils.getCookie("isLanUserFlag")
+		var isDoubleSales = utils.getCookie("isDoubleSales") //是否二次营销
 		if (custType != "KHL1" && custType != "KHL2") {
-			custType = "KHL2";
+			custType = "KHL2"
 		}
 		var obj = {
 			industryCode: "MDCP", //普通（白领+学生）
@@ -922,118 +877,94 @@ export default {
 			supplierId: "2395",
 			saleSiteId: "2072",
 			custType: custType
-		};
+		}
 		if (isDoubleSales == "1") {
-			(obj.industryCode = "MDOH"), //二次营销
+			;(obj.industryCode = "MDOH"), //二次营销
 				(obj.merProId = "8537"),
 				(obj.supplierId = "2395"),
-				(obj.saleSiteId = "2072");
+				(obj.saleSiteId = "2072")
 		}
 		if (inOneMonthReg == "1" && isLanUserFlag == "1") {
-			(obj.industryCode = "LLMD"), //蓝领
+			;(obj.industryCode = "LLMD"), //蓝领
 				(obj.merProId = "8537"),
 				(obj.supplierId = "2395"),
-				(obj.saleSiteId = "2072");
+				(obj.saleSiteId = "2072")
 		}
-		this.obj = obj;
+		this.obj = obj
 		if (
 			unescape(utils.getCookie("userName")) != "" ||
 			unescape(utils.getCookie("userName")) != "undefined" ||
 			unescape(utils.getCookie("userName")) != "null"
 		) {
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("userName", unescape(utils.getCookie("userName")));
-			postData.append("industryCode", obj.industryCode);
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("userName", unescape(utils.getCookie("userName")))
+			postData.append("industryCode", obj.industryCode)
 			common.getApplyCouponList(postData).then(res => {
 				if (res.data.resultCode == "1") {
-					if (
-						res.data.discountList &&
-						res.data.discountList.length > 0
-					) {
-						this.totalNum = res.data.discountList.length;
-						this.discountList = res.data.discountList;
+					if (res.data.discountList && res.data.discountList.length > 0) {
+						this.totalNum = res.data.discountList.length
+						this.discountList = res.data.discountList
 					}
 				}
-			});
-			var params = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("industryCode", obj.industryCode);
-			postData.append("requestSource", "HTML5");
-			postData.append("userName", userName);
+			})
+			var params = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("industryCode", obj.industryCode)
+			postData.append("requestSource", "HTML5")
+			postData.append("userName", userName)
 			common.queryProductDetail(postData).then(res => {
 				if (res.data.resultCode == "1") {
-					var productinfoList = res.data.productinfoList[0];
-					this.periodUnit = productinfoList.periodUnit;
-					this.amountList = productinfoList.amountList;
-					this.programList = productinfoList.programList;
-					let tranPrice = this.$route.query.tranPrice;
-					let loanProduct = this.$route.query.loanProduct;
+					var productinfoList = res.data.productinfoList[0]
+					this.periodUnit = productinfoList.periodUnit
+					this.amountList = productinfoList.amountList
+					this.programList = productinfoList.programList
+					let tranPrice = this.$route.query.tranPrice
+					let loanProduct = this.$route.query.loanProduct
 					if (tranPrice && loanProduct) {
-						let currentAmountSelectedIndex = this.amountList.indexOf(
-							tranPrice
-						);
-						this.amountSelectedIndex = currentAmountSelectedIndex;
-						this.amountSelected = tranPrice;
-						let loanProductList = _.pluck(
-							this.programList,
-							"loanProduct"
-						);
-						let currentTimeSelectedIndex = loanProductList.indexOf(
-							loanProduct
-						);
-						this.timeSelectedIndex = currentTimeSelectedIndex;
-						let currentTimeSelected = this.programList.filter(
-							item => {
-								return item.loanProduct === loanProduct;
-							}
-						);
-						this.timeSelected = currentTimeSelected[0];
-						getMonthPay(tranPrice, currentTimeSelected[0]).then(
-							data => {
-								if (data.resultCode === "1") {
-									this.lowPay = data.lowPay;
-									this.ratePercentage =
-										data.lowRate +
-										"%-" +
-										data.highRate +
-										"%";
-								} else {
-									this.errorMsg = res.data.resultMsg;
-									this.$vux.toast.show({
-										type: "cancel",
-										position: "middle",
-										text: this.errorMsg
-									});
-								}
-							}
-						);
-					} else {
-						this.amountSelected = this.amountList[0];
-						this.timeSelected = this.programList[
-							this.programList.length - 1
-						];
-						getMonthPay(
-							this.amountSelected,
-							this.timeSelected
-						).then(data => {
+						let currentAmountSelectedIndex = this.amountList.indexOf(tranPrice)
+						this.amountSelectedIndex = currentAmountSelectedIndex
+						this.amountSelected = tranPrice
+						let loanProductList = _.pluck(this.programList, "loanProduct")
+						let currentTimeSelectedIndex = loanProductList.indexOf(loanProduct)
+						this.timeSelectedIndex = currentTimeSelectedIndex
+						let currentTimeSelected = this.programList.filter(item => {
+							return item.loanProduct === loanProduct
+						})
+						this.timeSelected = currentTimeSelected[0]
+						getMonthPay(tranPrice, currentTimeSelected[0]).then(data => {
 							if (data.resultCode === "1") {
-								this.lowPay = data.lowPay;
-								this.ratePercentage =
-									data.lowRate + "%-" + data.highRate + "%";
+								this.lowPay = data.lowPay
+								this.ratePercentage = data.lowRate + "%-" + data.highRate + "%"
 							} else {
-								this.errorMsg = res.data.resultMsg;
+								this.errorMsg = res.data.resultMsg
 								this.$vux.toast.show({
 									type: "cancel",
 									position: "middle",
 									text: this.errorMsg
-								});
+								})
 							}
-						});
+						})
+					} else {
+						this.amountSelected = this.amountList[0]
+						this.timeSelected = this.programList[this.programList.length - 1]
+						getMonthPay(this.amountSelected, this.timeSelected).then(data => {
+							if (data.resultCode === "1") {
+								this.lowPay = data.lowPay
+								this.ratePercentage = data.lowRate + "%-" + data.highRate + "%"
+							} else {
+								this.errorMsg = res.data.resultMsg
+								this.$vux.toast.show({
+									type: "cancel",
+									position: "middle",
+									text: this.errorMsg
+								})
+							}
+						})
 					}
 				}
-			});
+			})
 		}
 	}
-};
+}
 </script>

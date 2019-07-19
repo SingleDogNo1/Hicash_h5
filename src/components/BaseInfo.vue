@@ -3,11 +3,7 @@
 		<header class="credit-header">
 			<!-- go-history -->
 			<a class="go-history" href="javascript:;" @click="goBack"></a>
-			<a
-				class="go-history btn-close"
-				href="javascript:;"
-				@click="close"
-			></a>
+			<a class="go-history btn-close" href="javascript:;" @click="close"></a>
 			<h1>基本信息</h1>
 		</header>
 		<div class="authentication-step">
@@ -76,11 +72,7 @@
 				>
 					{{ address }}
 				</router-link>
-				<x-icon
-					type="ios-arrow-right"
-					class="right-inco"
-					size="34"
-				></x-icon>
+				<x-icon type="ios-arrow-right" class="right-inco" size="34"></x-icon>
 			</div>
 			<div class="person-content">
 				<label>现居详细地址</label>
@@ -177,11 +169,7 @@
 				>
 					{{ companyAddress }}
 				</router-link>
-				<x-icon
-					type="ios-arrow-right"
-					class="right-inco"
-					size="34"
-				></x-icon>
+				<x-icon type="ios-arrow-right" class="right-inco" size="34"></x-icon>
 			</div>
 			<div class="person-content">
 				<label>单位详细地址</label>
@@ -393,10 +381,10 @@
 </style>
 
 <script type="text/javascript">
-import { XInput, Group, PopupPicker } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+import { XInput, Group, PopupPicker } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	components: {
@@ -478,167 +466,156 @@ export default {
 			unitProvince: "",
 			unitCity: "",
 			unitArea: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		goBack() {},
 		close() {},
 		maritalStatusChange(val) {
-			console.log("val====", val);
-			this.currentMaritalStatus = val;
+			console.log("val====", val)
+			this.currentMaritalStatus = val
 		},
 		highestEducationChange(val) {
-			this.currentHighestEducation = val;
+			this.currentHighestEducation = val
 		},
 		loanPurposeChange(val) {
-			this.currentLoanPurpose = val;
+			this.currentLoanPurpose = val
 		},
 		workYearChange(val) {
-			this.currentWorkYear = val;
+			this.currentWorkYear = val
 		},
 		companyIndustryChange(val) {
-			this.currentCompanyIndustry = val;
+			this.currentCompanyIndustry = val
 		},
 		btnNext() {
-			let errorMsg = "";
+			let errorMsg = ""
 			if (this.currentMaritalStatus[0] === "0000") {
-				errorMsg = "婚姻状况不能为空";
+				errorMsg = "婚姻状况不能为空"
 			} else if (this.detailAddress === "") {
-				errorMsg = "现居详细地址不能为空";
+				errorMsg = "现居详细地址不能为空"
 			} else if (this.companyName === "") {
-				errorMsg = "单位名称不能为空";
+				errorMsg = "单位名称不能为空"
 			} else if (this.currentHighestEducation[0] === "0000") {
-				errorMsg = "最高学历不能为空";
+				errorMsg = "最高学历不能为空"
 			} else if (this.currentLoanPurpose[0] === "0000") {
-				errorMsg = "借款用途不能为空";
+				errorMsg = "借款用途不能为空"
 			} else if (this.currentWorkYear[0] === "0000") {
-				errorMsg = "工作年限不能为空";
+				errorMsg = "工作年限不能为空"
 			} else if (this.currentCompanyIndustry[0] === "0000") {
-				errorMsg = "单位行业不能为空";
+				errorMsg = "单位行业不能为空"
 			} else if (this.address === "") {
-				errorMsg = "请选择现居地址";
+				errorMsg = "请选择现居地址"
 			} else if (this.companyAddress === "") {
-				errorMsg = "请选择单位地址";
+				errorMsg = "请选择单位地址"
 			} else if (!utils.checkIdCardNumber(this.idCard)) {
-				errorMsg = "身份证号格式不正确";
+				errorMsg = "身份证号格式不正确"
 			} else if (!utils.checkEmail(this.email)) {
-				errorMsg = "电子邮箱格式不正确";
+				errorMsg = "电子邮箱格式不正确"
 			} else if (!utils.checkRealName(this.userName)) {
-				errorMsg = "真实姓名格式不正确";
+				errorMsg = "真实姓名格式不正确"
 			} else if (!utils.checkAearTel(this.companyTel)) {
-				errorMsg = "单位电话格式不正确";
+				errorMsg = "单位电话格式不正确"
 			}
 			if (errorMsg !== "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			let postData = new URLSearchParams();
-			postData.append("userName", utils.getCookie("userName"));
-			postData.append("real_name", this.userName);
-			postData.append("id_no", this.idCard);
-			postData.append("marital_status", this.currentMaritalStatus);
-			postData.append("education_code", this.currentHighestEducation);
-			postData.append("province", this.province);
-			postData.append("city", this.city);
-			postData.append("area", this.area);
-			postData.append("address", this.address);
-			postData.append("email", this.email);
-			postData.append("unit_name", this.companyName);
-			postData.append("unit_phone_area", this.companyTel.split("-")[0]);
-			postData.append("unit_phone", this.companyTel.split("-")[1]);
-			postData.append("work_year", this.currentWorkYear);
-			postData.append("unit_province", this.unitProvince);
-			postData.append("unit_city", this.unitCity);
-			postData.append("unit_area", this.unitArea);
-			postData.append("unit_address", this.companyDetailAddress);
-			postData.append("unit_properties", this.currentCompanyIndustry);
-			postData.append("loan_purpose", this.currentLoanPurpose);
-			postData.append("uuid", utils.uuid());
+			let postData = new URLSearchParams()
+			postData.append("userName", utils.getCookie("userName"))
+			postData.append("real_name", this.userName)
+			postData.append("id_no", this.idCard)
+			postData.append("marital_status", this.currentMaritalStatus)
+			postData.append("education_code", this.currentHighestEducation)
+			postData.append("province", this.province)
+			postData.append("city", this.city)
+			postData.append("area", this.area)
+			postData.append("address", this.address)
+			postData.append("email", this.email)
+			postData.append("unit_name", this.companyName)
+			postData.append("unit_phone_area", this.companyTel.split("-")[0])
+			postData.append("unit_phone", this.companyTel.split("-")[1])
+			postData.append("work_year", this.currentWorkYear)
+			postData.append("unit_province", this.unitProvince)
+			postData.append("unit_city", this.unitCity)
+			postData.append("unit_area", this.unitArea)
+			postData.append("unit_address", this.companyDetailAddress)
+			postData.append("unit_properties", this.currentCompanyIndustry)
+			postData.append("loan_purpose", this.currentLoanPurpose)
+			postData.append("uuid", utils.uuid())
 			common.updateCollarPersonInfo(postData).then(res => {
 				if (res.data.resultCode === "1") {
-					utils.setCookie("realName", escape(this.userName));
-					utils.setCookie("identityCode", this.idCard);
+					utils.setCookie("realName", escape(this.userName))
+					utils.setCookie("identityCode", this.idCard)
 					utils.setCookie(
 						"homeAddress",
 						escape(
-							this.address.replace("/", "").replace("/", "") +
-								this.detailAddress
+							this.address.replace("/", "").replace("/", "") + this.detailAddress
 						)
-					);
+					)
 					utils.setCookie(
 						"workAddress",
 						escape(
-							this.companyAddress
-								.replace("/", "")
-								.replace("/", "") + this.companyDetailAddress
+							this.companyAddress.replace("/", "").replace("/", "") +
+								this.companyDetailAddress
 						)
-					);
-					this.$router.push({ path: "/contactPerson" });
+					)
+					this.$router.push({ path: "/contactPerson" })
 				} else if (res.data.resultCode == "60100") {
-					this.$vux.toast.text(res.data.resultMsg);
-					var source = utils.getCookie("source");
-					var vipCount = utils.getCookie("vipCount");
-					utils.clearCookie();
+					this.$vux.toast.text(res.data.resultMsg)
+					var source = utils.getCookie("source")
+					var vipCount = utils.getCookie("vipCount")
+					utils.clearCookie()
 					if (vipCount && vipCount == "0") {
-						utils.setCookie("vipCount", "1");
+						utils.setCookie("vipCount", "1")
 					}
 					if (source == "APP") {
-						setCookie("source", "APP");
+						setCookie("source", "APP")
 						this.$router.push({
 							path: "/login",
 							query: {
 								redirect: _this.$route.fullPath,
 								source: "APP"
 							}
-						});
+						})
 					} else {
 						this.$router.push({
 							path: "/login",
 							query: { redirect: _this.$route.fullPath }
-						});
+						})
 					}
 				} else {
-					let params = new URLSearchParams();
-					params.append(
-						"tempAppNo",
-						utils.getCookie("appFlowNo").split(":")[1]
-					);
-					params.append("applyFrom", "03");
-					params.append("custType", utils.getCookie("custType"));
-					params.append(
-						"industryCode",
-						utils.getCookie("industryCode")
-					);
-					params.append("node", "02");
-					params.append("status", "05");
-					common.updateTempAppInfo(params).then(res => {});
+					let params = new URLSearchParams()
+					params.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+					params.append("applyFrom", "03")
+					params.append("custType", utils.getCookie("custType"))
+					params.append("industryCode", utils.getCookie("industryCode"))
+					params.append("node", "02")
+					params.append("status", "05")
+					common.updateTempAppInfo(params).then(res => {})
 				}
-			});
+			})
 		}
 	},
 	mounted: function() {
-		var userName = utils.getCookie("userName");
+		var userName = utils.getCookie("userName")
 		if (!userName || userName === "null") {
 			this.$router.push({
 				path: "/login",
 				query: { redirect: this.$route.fullPath }
-			});
+			})
 		}
-		let postData = new URLSearchParams();
-		postData.append(
-			"tempAppNo",
-			utils.getCookie("appFlowNo").split(":")[1]
-		);
-		postData.append("applyFrom", "03");
-		postData.append("custType", utils.getCookie("custType"));
-		postData.append("industryCode", utils.getCookie("industryCode"));
-		postData.append("node", "02");
-		postData.append("status", "01");
-		common.updateTempAppInfo(postData).then(res => {});
-		let params = new URLSearchParams();
-		params.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-		params.append("userName", utils.getCookie("userName"));
+		let postData = new URLSearchParams()
+		postData.append("tempAppNo", utils.getCookie("appFlowNo").split(":")[1])
+		postData.append("applyFrom", "03")
+		postData.append("custType", utils.getCookie("custType"))
+		postData.append("industryCode", utils.getCookie("industryCode"))
+		postData.append("node", "02")
+		postData.append("status", "01")
+		common.updateTempAppInfo(postData).then(res => {})
+		let params = new URLSearchParams()
+		params.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+		params.append("userName", utils.getCookie("userName"))
 		common.collarPersonInfo(params).then(res => {
 			if (res.data.resultCode === "1") {
 				if (
@@ -647,69 +624,58 @@ export default {
 					res.data.real_name == "" ||
 					res.data.id_no == ""
 				) {
-					this.isDisabled = false;
+					this.isDisabled = false
 				} else {
-					this.userName = res.data.real_name;
-					this.idCard = res.data.id_no;
+					this.userName = res.data.real_name
+					this.idCard = res.data.id_no
 					if (res.data.marital_status) {
-						let currentMaritalStatus = this.maritalStatusList.filter(
-							item => {
-								return item.value === res.data.marital_status;
-							}
-						);
-						this.currentMaritalStatus = currentMaritalStatus[0].value.split();
+						let currentMaritalStatus = this.maritalStatusList.filter(item => {
+							return item.value === res.data.marital_status
+						})
+						this.currentMaritalStatus = currentMaritalStatus[0].value.split()
 					}
 					if (res.data.education_code) {
-						let currentHighestEducation = this.highestEducationList.filter(
-							item => {
-								return item.value === res.data.education_code;
-							}
-						);
-						this.currentHighestEducation = currentHighestEducation[0].value.split();
+						let currentHighestEducation = this.highestEducationList.filter(item => {
+							return item.value === res.data.education_code
+						})
+						this.currentHighestEducation = currentHighestEducation[0].value.split()
 					}
 					// if(res.data.province&&data.province_name&&data.city&&data.city_name&&
 					// data.area&&data.area_name){
 
 					// }
 					if (res.data.loan_purpose) {
-						let currentLoanPurpose = this.loanPurposeList.filter(
-							item => {
-								return item.value === res.data.loan_purpose;
-							}
-						);
-						this.currentLoanPurpose = currentLoanPurpose[0].value.split();
+						let currentLoanPurpose = this.loanPurposeList.filter(item => {
+							return item.value === res.data.loan_purpose
+						})
+						this.currentLoanPurpose = currentLoanPurpose[0].value.split()
 					}
 					if (res.data.address) {
-						this.detailAddress = res.data.address;
+						this.detailAddress = res.data.address
 					}
 					if (res.data.email) {
-						this.email = res.data.email;
+						this.email = res.data.email
 					}
 					if (res.data.unit_name) {
-						this.companyName = res.data.unit_name;
+						this.companyName = res.data.unit_name
 					}
 					if (res.data.unit_phone_area && res.data.unit_phone) {
-						this.companyTel =
-							res.data.unit_phone_area +
-							"-" +
-							res.data.unit_phone;
+						this.companyTel = res.data.unit_phone_area + "-" + res.data.unit_phone
 					}
 					if (res.data.work_year) {
 						let currentWorkYear = this.workYearList.filter(item => {
-							return item.value === res.data.work_year;
-						});
-						this.currentWorkYear = currentWorkYear[0].value.split();
+							return item.value === res.data.work_year
+						})
+						this.currentWorkYear = currentWorkYear[0].value.split()
 					}
 					if (res.data.unit_properties) {
-						let currentCompanyIndustry = this.companyIndustryList.filter(
-							item => {
-								return item.value === res.data.unit_properties;
-							}
-						);
-						this.currentCompanyIndustry = currentCompanyIndustry[0].value.split();
+						let currentCompanyIndustry = this.companyIndustryList.filter(item => {
+							return item.value === res.data.unit_properties
+						})
+						this.currentCompanyIndustry = currentCompanyIndustry[0].value.split()
 					}
 					if (res.data.unit_address) {
-						this.companyDetailAddress = res.data.unit_address;
+						this.companyDetailAddress = res.data.unit_address
 					}
 					if (
 						res.data.province &&
@@ -724,10 +690,10 @@ export default {
 							"/" +
 							res.data.city_name +
 							"/" +
-							res.data.area_name;
-						this.province = res.data.province;
-						this.city = res.data.city;
-						this.area = res.data.area;
+							res.data.area_name
+						this.province = res.data.province
+						this.city = res.data.city
+						this.area = res.data.area
 					}
 					if (
 						res.data.unit_province &&
@@ -742,27 +708,25 @@ export default {
 							"/" +
 							res.data.unit_city_name +
 							"/" +
-							res.data.unit_area_name;
-						this.unitProvince = res.data.unit_province;
-						this.unitCity = res.data.unit_city;
-						this.unitArea = res.data.unit_area;
+							res.data.unit_area_name
+						this.unitProvince = res.data.unit_province
+						this.unitCity = res.data.unit_city
+						this.unitArea = res.data.unit_area
 					}
-					var back = this.$route.query.back;
+					var back = this.$route.query.back
 					switch (back) {
 						case "address":
-							var address = utils.getCookie("chooseAddName");
-							this.address = address;
-							break;
+							var address = utils.getCookie("chooseAddName")
+							this.address = address
+							break
 						case "companyAddress":
-							var companyAddress = utils.getCookie(
-								"chooseAddName"
-							);
-							this.companyAddress = companyAddress;
-							break;
+							var companyAddress = utils.getCookie("chooseAddName")
+							this.companyAddress = companyAddress
+							break
 					}
 				}
 			}
-		});
+		})
 	}
-};
+}
 </script>

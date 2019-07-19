@@ -1,6 +1,8 @@
 <template>
 	<div v-cloak>
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
+		<download-pop
+			v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"
+		></download-pop>
 		<page-header
 			:jumpRouteName="jumpRouteName"
 			v-if="this.utils.getPlatform() != 'APP' && !this.utils.getCookie('backUrl')"
@@ -13,7 +15,9 @@
 			class="content"
 			:style="{
 				'padding-top':
-					this.utils.getPlatform() == 'APP'  || !!this.utils.getCookie('backUrl') ? 0 : '2.26667rem'
+					this.utils.getPlatform() == 'APP' || !!this.utils.getCookie('backUrl')
+						? 0
+						: '2.26667rem'
 			}"
 		>
 			<div>
@@ -44,22 +48,14 @@
 						</tab>
 						<button
 							class="btn-batch-repayment"
-							v-if="
-								currentType === 'default' &&
-									index === 0 &&
-									overdueNum > 0
-							"
+							v-if="currentType === 'default' && index === 0 && overdueNum > 0"
 							@click="batchRepayment"
 						>
 							批量还款
 						</button>
 						<button
 							class="btn-cancel"
-							v-if="
-								currentType === 'batchRepayment' &&
-									index === 0 &&
-									overdueNum > 0
-							"
+							v-if="currentType === 'batchRepayment' && index === 0 && overdueNum > 0"
 							@click="cancel"
 						>
 							取消
@@ -77,7 +73,7 @@
 					'app-swiper': this.utils.getPlatform() == 'APP'
 				}"
 			>
-				<swiper-item :key="0">
+				<swiper-item :key="0" ref="swiperItemRef" v-if="index === 0">
 					<instalment-overdue
 						ref="overdue"
 						@selectedItems="getSelectedItems"
@@ -87,7 +83,7 @@
 						:isShowBanner="isShowBanner"
 					></instalment-overdue>
 				</swiper-item>
-				<swiper-item :key="1" ref="swiperItemRef">
+				<swiper-item :key="1" ref="swiperItemRef" v-else>
 					<instalment-normal
 						ref="normal"
 						@watchChild="accountOrderPage"
@@ -107,10 +103,13 @@
 				充值还款
 			</button>
 		</div>
-		<a class="banner" :href="bannerUrl" v-if="isShowBanner" ref="bannerAD">
-			<a href="javascript:void(0);" class="btn-close" @click="hideBanner"
-				>×</a
-			>
+		<a
+			class="banner"
+			:href="bannerUrl"
+			v-if="isShowBanner && mediasource !== 'pandoraKNSSJ'"
+			ref="bannerAD"
+		>
+			<a href="javascript:void(0);" class="btn-close" @click="hideBanner">×</a>
 			<img :src="bannerImgUrl" width="100%" height="100%" />
 		</a>
 		<confirm-dialog
@@ -120,18 +119,19 @@
 			:appNoList="appNoList"
 			:totalAmount="totalAmount"
 			:popType="popType"
+			:onConfirm="onConfirm"
 			@showDialog="showDialog"
 		></confirm-dialog>
 	</div>
 </template>
 
 <script type="text/javascript">
-import { Tab, TabItem, Swiper, SwiperItem, Sticky } from "vux";
-import PageHeader from "@/components/PageHeader.vue";
-import downloadPop from "@/components/downloadPop.vue";
-import ConfirmDialog from "@/components/Dialog.vue";
-import InstalmentNormal from "@/pages/Personal/Instalment/Normal/normal.vue";
-import InstalmentOverdue from "@/pages/Personal/Instalment/Overdue/overdue.vue";
+import { Tab, TabItem, Swiper, SwiperItem, Sticky } from "vux"
+import PageHeader from "@/components/PageHeader.vue"
+import downloadPop from "@/components/downloadPop.vue"
+import ConfirmDialog from "@/components/Dialog.vue"
+import InstalmentNormal from "@/pages/Personal/Instalment/Normal/normal.vue"
+import InstalmentOverdue from "@/pages/Personal/Instalment/Overdue/overdue.vue"
 
 export default {
 	components: {
@@ -178,28 +178,28 @@ export default {
 			bannerADHeight: 0,
 			swiperHeight: 0,
 			mediasource: ""
-		};
+		}
 	},
 	mounted() {
-		this.mediasource = window.sessionStorage.getItem("mediasource");
-		this.accountOrderPage();
+		this.mediasource = window.sessionStorage.getItem("mediasource")
+		this.accountOrderPage()
 	},
 	methods: {
 		accountOrderPage(refApplyingStatus) {
-			let userName = this.utils.getCookie("userName");
-			let postData = new URLSearchParams();
-			postData.append("userName", userName);
+			let userName = this.utils.getCookie("userName")
+			let postData = new URLSearchParams()
+			postData.append("userName", userName)
 
 			this.common.accountOrderPage(postData).then(res => {
-				let data = res.data;
-				this.accountOrderPageData = data;
-				this.bannerImgUrl = data.bannerImgUrl;
-				this.bannerUrl = data.bannerUrl;
-				this.overdueNum = data.overdueNum;
-				this.tabTitle = !this.$route.query.from && this.overdueNum > 0 ? "逾期订单" : "正常订单";
-				
-				this.overdueNum =
-					this.overdueNum === 0 ? "" : String(this.overdueNum);
+				let data = res.data
+				this.accountOrderPageData = data
+				this.bannerImgUrl = data.bannerImgUrl
+				this.bannerUrl = data.bannerUrl
+				this.overdueNum = data.overdueNum
+				this.tabTitle =
+					!this.$route.query.from && this.overdueNum > 0 ? "逾期订单" : "正常订单"
+
+				this.overdueNum = this.overdueNum === 0 ? "" : String(this.overdueNum)
 
 				let tabList = [
 					{
@@ -210,80 +210,84 @@ export default {
 						title: "正常订单",
 						num: ""
 					}
-				];
-				this.tabList = tabList;
+				]
+				this.tabList = tabList
 				if (refApplyingStatus) {
-					this.$refs.normal.parentHandleclick(data);
+					this.$refs.normal.parentHandleclick(data)
 				}
-				this.bannerADHeight = this.$refs.bannerAD.offsetHeight;
-				this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight;
+				this.bannerADHeight = this.$refs.bannerAD.offsetHeight
+				this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight
 
 				if (!this.bannerImgUrl && !this.bannerUrl) {
-					this.isShowBanner = false;
+					this.isShowBanner = false
 				}
-			});
+			})
 		},
 		getSelectedItems: function(selectedItems) {
-			this.selectedItems = selectedItems;
+			this.selectedItems = selectedItems
 		},
 		batchRepayment: function() {
-			this.currentType = "batchRepayment";
+			this.currentType = "batchRepayment"
+			console.log(
+				"this.$refs.scrollerBottom===",
+				this.$refs.overdue.$refs.scrollerBottom
+			)
+			this.$nextTick(() => {
+				this.$refs.overdue.$refs.scrollerBottom.reset({ top: 0 })
+			})
 		},
 		cancel: function() {
-			this.currentType = "default";
+			this.currentType = "default"
 		},
 		btnRecharge: function() {
-			this.isShowDialog = true;
+			this.isShowDialog = true
 		},
 		showDialog: function(showDialog) {
-			this.isShowDialog = showDialog;
+			this.isShowDialog = showDialog
 		},
 		hideBanner: function() {
-			this.bannerADHeight = 0;
-			this.isShowBanner = false;
+			this.bannerADHeight = 0
+			this.isShowBanner = false
 		},
 		onIndexChange: function(index) {
 			if (index === 0) {
-				this.$refs.overdue.parentHandleclick();
+				this.$refs.overdue.parentHandleclick()
 			} else {
-				this.$refs.normal.parentHandleclick(this.accountOrderPageData);
+				//this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight;
+				this.$refs.normal.parentHandleclick(this.accountOrderPageData)
 			}
-			this.accountOrderPage();
+			this.accountOrderPage()
+		},
+		onConfirm: function() {
+			const appNoStr = this.appNoList.join(",")
+			const userName = this.utils.getCookie("userName")
+			window.location.href =
+				this.config.MWEB_PATH +
+				"newweb/personalCenter/rechargePay.html?appNo=" +
+				appNoStr +
+				"&userName=" +
+				userName
 		}
 	},
 	watch: {
 		selectedItems: function(val, oldVal) {
-			this.selectedItems = val;
-			this.isDisabled = this.selectedItems.length > 0 ? false : true;
-			this.appNoList = _.pluck(this.selectedItems, "value");
-			const amountList = _.pluck(this.selectedItems, "amount");
+			this.selectedItems = val
+			this.isDisabled = !(this.selectedItems.length > 0)
+			this.appNoList = _.pluck(this.selectedItems, "value")
+			const amountList = _.pluck(this.selectedItems, "amount")
 			let sum = _.reduce(
 				amountList,
 				function(memo, num) {
-					return memo + num;
+					return memo + num
 				},
 				0
-			);
+			)
 			//保留2位小数，如：2，会在2后面补上00.即2.00
-			function toDecimal2(x) {
-				var f = Math.round(x * 100) / 100;
-				var s = f.toString();
-				var rs = s.indexOf(".");
-				if (rs < 0) {
-					rs = s.length;
-					s += ".";
-				}
-				while (s.length <= rs + 2) {
-					s += "0";
-				}
-				return s;
-			}
-			sum = toDecimal2(sum);
-			this.totalAmount =
-				"的订单共计<span>" + sum + "元</span>进行还款吗？";
+			sum = this.utils.toDecimal2(sum)
+			this.totalAmount = "的订单共计<span>" + sum + "元</span>进行还款吗？"
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
@@ -292,7 +296,7 @@ export default {
 .AllIndex {
 	background: #f2f2f2;
 	.content {
-		height: calc(100vh - 2.26667rem);
+		height: calc(100vh - 1.26667rem);
 		padding-top: rem(51px);
 		//overflow-y: auto;
 		.tab-wrap {
@@ -339,8 +343,8 @@ export default {
 			}
 		}
 		.vux-swiper {
-			height: calc(100vh - 4.26667rem) !important;
-			//overflow-y: auto;
+			height: calc(100vh - 7.3rem) !important;
+			//height: calc(100vh - 4.26667rem) !important;
 		}
 		.app-swiper .vux-swiper {
 			height: calc(100vh - 2rem) !important;

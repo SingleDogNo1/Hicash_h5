@@ -30,15 +30,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <script type="text/javascript">
-import {
-	Tab,
-	TabItem,
-	Flexbox,
-	FlexboxItem,
-	Confirm,
-	InlineLoading
-} from "vux";
-import BScroll from "better-scroll";
+import { Tab, TabItem, Flexbox, FlexboxItem, Confirm, InlineLoading } from "vux"
+import BScroll from "better-scroll"
 
 export default {
 	components: {
@@ -58,71 +51,72 @@ export default {
 			qq: false,
 			refreshText: "下拉刷新",
 			isShowAlert: false
-		};
+		}
 	},
 	mounted() {
-		this.getSysParam();
+		this.getSysParam()
 		this.scroll = new BScroll(".wrapper", {
 			click: true,
 			scrollY: true,
 			pullDownRefresh: {
 				threshold: 30 // 当下拉到超过顶部 30px 时，
 			}
-		});
-		let _this = this;
+		})
+		let _this = this
 
 		this.scroll.on("scroll", function(pos) {
 			if (pos.y > 30 && pos.y < 40) {
-				console.info("pos.y", pos.y);
+				console.info("pos.y", pos.y)
 
-				_this.refreshText = "下拉刷新";
+				_this.refreshText = "下拉刷新"
 			}
-		});
+		})
 
 		this.scroll.on("touchEnd", function(pos) {
 			if (pos.y > 40) {
-				_this.refreshText = "刷新数据中";
-				_this.getSysParam();
+				_this.refreshText = "刷新数据中"
+				_this.getSysParam()
 			}
-		});
+		})
 	},
 	methods: {
 		getSysParam: function() {
 			// 获取产品列表
-			let postData = new URLSearchParams();
-			postData.append("paramCode", "WZGG,GSDT");
-			postData.append("requestSource", "HTML5");
-			postData.append("maxLine", "10000");
-			postData.append("curPage", "1");
+			let postData = new URLSearchParams()
+			postData.append("paramCode", "WZGG,GSDT")
+			postData.append("requestSource", "HTML5")
+			postData.append("maxLine", "10000")
+			postData.append("curPage", "1")
 
-			let _this = this;
+			let _this = this
 
 			this.common.getSysParam(postData).then(function(res) {
-				let list = res.data.list;
+				let list = res.data.list
 
 				_.each(res.data.list, function(v, i) {
-					list[i].createTime = list[i].createTime.substring(0, 10);
+					list[i].createTime = list[i].createTime.substring(0, 10)
 					list[i].openUrl =
 						_this.config.MWEB_PATH +
 						"newweb/newsDetail/newsDetail.html?id=" +
-						list[i].id + '&type=notice';
-				});
+						list[i].id +
+						"&type=notice"
+				})
 
-				_this.list = list;
+				_this.list = list
 
 				_this.$nextTick(function() {
 					setTimeout(() => {
-						_this.refreshText = "刷新成功";
+						_this.refreshText = "刷新成功"
 						setTimeout(() => {
-							_this.scroll.refresh();
-							_this.refreshText = "下拉刷新";
-						}, 500);
-					}, 1000);
-				});
-			});
+							_this.scroll.refresh()
+							_this.refreshText = "下拉刷新"
+						}, 500)
+					}, 1000)
+				})
+			})
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">

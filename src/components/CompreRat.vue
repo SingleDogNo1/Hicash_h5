@@ -19,9 +19,7 @@
 					<span>B</span>
 				</div>
 				<p>如何提升综合评级：</p>
-				<p>
-					我们将依据您每次的借贷金额、借贷周期等信息对您的借贷行为进行记录。
-				</p>
+				<p>我们将依据您每次的借贷金额、借贷周期等信息对您的借贷行为进行记录。</p>
 				<p>我们建议您在每次借贷时：</p>
 				<p>1. 提供的详尽、真实的个人信息</p>
 				<p>2. 按时对每期应还金额进行还款</p>
@@ -151,10 +149,10 @@
 </style>
 
 <script type="text/javascript">
-import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux";
-import $ from "jquery";
-import common from "@/api/common";
-import utils from "@/assets/js/utils";
+import { Tab, TabItem, XInput, XButton, Toast, CheckIcon } from "vux"
+import $ from "jquery"
+import common from "@/api/common"
+import utils from "@/assets/js/utils"
 
 export default {
 	components: {
@@ -166,23 +164,23 @@ export default {
 		CheckIcon
 	},
 	data() {
-		return {};
+		return {}
 	},
 	ready() {},
 	methods: {},
 	mounted: function() {
-		var _this = this;
+		var _this = this
 		common.getImgCode().then(res => {
 			// 图片验证码
-			_this.authPic = "data:image/jpg;base64," + res.data.authPic;
-			_this.authId = res.data.authId;
-			console.log("res====", res);
-		});
-		var userName = utils.getCookie("userName");
-		var inviteCode = utils.getCookie("inviteCode");
+			_this.authPic = "data:image/jpg;base64," + res.data.authPic
+			_this.authId = res.data.authId
+			console.log("res====", res)
+		})
+		var userName = utils.getCookie("userName")
+		var inviteCode = utils.getCookie("inviteCode")
 		if (inviteCode) {
-			_this.inviteCode = inviteCode;
+			_this.inviteCode = inviteCode
 		}
 	}
-};
+}
 </script>

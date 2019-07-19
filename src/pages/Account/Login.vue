@@ -1,6 +1,8 @@
 <template>
 	<div class="login-body" id="login-body">
-		<download-pop v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"></download-pop>
+		<download-pop
+			v-if="this.utils.getPlatform() != 'APP' && mediasource !== 'pandoraKNSSJ'"
+		></download-pop>
 		<!-- header -->
 		<header class="login-header">
 			<router-link class="go-back" :to="{ name: 'Home' }"> </router-link>
@@ -13,14 +15,8 @@
 			<h2 :class="{ 'dida-logo': logoType === 'dida' }"></h2>
 		</div>
 		<div class="user-login-wrap">
-			<tab
-				:line-width="1"
-				:custom-bar-width="getBarWidth"
-				class="tab-container"
-			>
-				<tab-item selected @on-item-click="onItemClick"
-					>短信登录</tab-item
-				>
+			<tab :line-width="1" :custom-bar-width="getBarWidth" class="tab-container">
+				<tab-item selected @on-item-click="onItemClick">短信登录</tab-item>
 				<tab-item @on-item-click="onItemClick">密码登录</tab-item>
 			</tab>
 			<div class="message-login-form" v-if="type === 'message'">
@@ -54,9 +50,7 @@
 						{{ getMessageCodeText }}</x-button
 					>
 				</x-input>
-				<button class="btn-login" @click="checkResultBaiQiShi">
-					登录
-				</button>
+				<button class="btn-login" @click="checkResultBaiQiShi">登录</button>
 			</div>
 			<div class="message-login-form" v-if="type === 'password'">
 				<x-input
@@ -77,13 +71,8 @@
 					type="password"
 					@keyup.enter.native="checkResultBaiQiShi"
 				></x-input>
-				<button class="btn-login" @click="checkResultBaiQiShi">
-					登录
-				</button>
-				<router-link
-					class="go-to-forget-pwd"
-					:to="{ name: 'ForgetPassword' }"
-				>
+				<button class="btn-login" @click="checkResultBaiQiShi">登录</button>
+				<router-link class="go-to-forget-pwd" :to="{ name: 'ForgetPassword' }">
 					忘记密码?
 				</router-link>
 			</div>
@@ -291,10 +280,10 @@
 </style>
 
 <script type="text/javascript">
-import { Tab, TabItem, XInput, XButton, Loading } from "vux";
+import { Tab, TabItem, XInput, XButton, Loading } from "vux"
 
-import VerificationCodePop from "@/components/VerificationCodePop";
-import downloadPop from "@/components/downloadPop.vue";
+import VerificationCodePop from "@/components/VerificationCodePop"
+import downloadPop from "@/components/downloadPop.vue"
 
 // todo
 
@@ -321,7 +310,7 @@ export default {
 			errorMsg: "",
 			getMessageCodeText: "获取验证码",
 			getBarWidth: function(index) {
-				return "4rem";
+				return "4rem"
 			},
 			showToast: false,
 			oldHicash: "",
@@ -329,256 +318,249 @@ export default {
 			isDisabled: false,
 			logoType: "",
 			mediasource: ""
-		};
+		}
 	},
 	ready() {},
 	methods: {
 		onItemClick(index) {
-			index === 0 ? (this.type = "message") : (this.type = "password");
+			index === 0 ? (this.type = "message") : (this.type = "password")
 		},
 		checkResultBaiQiShi() {
 			if (this.type == "message") {
-				var errorMsg = "";
+				var errorMsg = ""
 				if (this.mobile == "") {
-					errorMsg = "请输入您的手机号";
+					errorMsg = "请输入您的手机号"
 				} else if (!this.utils.checkMobile(this.mobile)) {
-					errorMsg = "手机号码格式错误";
+					errorMsg = "手机号码格式错误"
 				} else if (this.getMessageCodeText === "获取验证码") {
-					errorMsg = "请点击获取验证码";
+					errorMsg = "请点击获取验证码"
 				} else if (this.messageCode.length < 5) {
-					errorMsg = "短信验证码格式错误";
+					errorMsg = "短信验证码格式错误"
 				} else if (this.messageCode == "") {
-					errorMsg = "请输入短信验证码";
+					errorMsg = "请输入短信验证码"
 				}
 				if (errorMsg != "") {
-					this.$vux.toast.text(errorMsg, "middle");
-					return;
+					this.$vux.toast.text(errorMsg, "middle")
+					return
 				}
 			} else if (this.type == "password") {
-				var errorMsg = "";
+				var errorMsg = ""
 				if (this.mobile == "") {
-					errorMsg = "请输入您的手机号";
+					errorMsg = "请输入您的手机号"
 				} else if (!this.utils.checkMobile(this.mobile)) {
-					errorMsg = "手机号码格式错误";
+					errorMsg = "手机号码格式错误"
 				} else if (this.password == "") {
-					errorMsg = "请输入密码";
+					errorMsg = "请输入密码"
 				}
 				if (errorMsg != "") {
-					this.$vux.toast.text(errorMsg, "middle");
-					return;
+					this.$vux.toast.text(errorMsg, "middle")
+					return
 				}
 			}
 			//name,value,domain,path,expires,httpOnly,secure
 			// gpsArr,117.20543448188623%2C39.122510101513974,192.168.9.48,/,会话,false,false
 
-			var postData = new URLSearchParams();
-			postData.append("idustryCode", "HQ");
-			postData.append("idCard", "");
-			postData.append("mobile", this.mobile);
-			postData.append("name", "");
-			postData.append("eventType", "login");
-			postData.append("tokenKey", this.utils.getCookie("uuid"));
-			postData.append("plateform", "h5");
+			var postData = new URLSearchParams()
+			postData.append("idustryCode", "HQ")
+			postData.append("idCard", "")
+			postData.append("mobile", this.mobile)
+			postData.append("name", "")
+			postData.append("eventType", "login")
+			postData.append("tokenKey", this.utils.getCookie("uuid"))
+			postData.append("plateform", "h5")
 
-			var gpsArr = this.utils.getCookie("gpsArr");
+			var gpsArr = this.utils.getCookie("gpsArr")
 			if (gpsArr && gpsArr != "") {
-				gpsArr = gpsArr.split(",");
-				postData.append("h5Longitude", gpsArr[0]);
-				postData.append("h5Latitude", gpsArr[1]);
+				gpsArr = gpsArr.split(",")
+				postData.append("h5Longitude", gpsArr[0])
+				postData.append("h5Latitude", gpsArr[1])
 			}
 
 			this.$vux.loading.show({
 				text: "数据请求中"
-			});
+			})
 			this.common.checkResultBaiQiShi(postData).then(res => {
-				let resultCode = res.data.resultCode;
+				let resultCode = res.data.resultCode
 				if (resultCode == "1") {
 					if (this.type == "message") {
-						this.messageLogin();
+						this.messageLogin()
 					} else if (this.type == "password") {
-						this.passwordLogin();
+						this.passwordLogin()
 					}
 				} else {
-					this.$vux.loading.hide();
+					this.$vux.loading.hide()
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: res.data.resultMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		getMessageCode(position) {
-			var errorMsg = "";
+			var errorMsg = ""
 			if (this.mobile == "") {
-				errorMsg = "请输入您的手机号";
+				errorMsg = "请输入您的手机号"
 			} else if (!this.utils.checkMobile(this.mobile)) {
-				errorMsg = "手机号码格式错误";
+				errorMsg = "手机号码格式错误"
 			}
 			if (errorMsg != "") {
-				this.$vux.toast.text(errorMsg, "middle");
-				return;
+				this.$vux.toast.text(errorMsg, "middle")
+				return
 			}
-			this.imgCode = "";
-			this.$refs.content.focus();
-			var postData = new URLSearchParams();
-			postData.append("userName", this.mobile);
-			postData.append("mobile", this.mobile);
-			postData.append("sendFrom", "HTML5");
-			postData.append("sendType", "login");
-			postData.append("authId", this.authId);
-			postData.append("imageCode", this.imgCode);
-			postData.append("uuid", this.utils.uuid());
+			this.imgCode = ""
+			this.$refs.content.focus()
+			var postData = new URLSearchParams()
+			postData.append("userName", this.mobile)
+			postData.append("mobile", this.mobile)
+			postData.append("sendFrom", "HTML5")
+			postData.append("sendType", "login")
+			postData.append("authId", this.authId)
+			postData.append("imageCode", this.imgCode)
+			postData.append("uuid", this.utils.uuid())
 			this.common.getMessageCode(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode == "1" || data.resultCode == "2") {
 					// 是否显示图片验证码 （1显示，0不显示）
 					if (data.showAuthPic === "0") {
-						this.isDisabled = true;
+						this.isDisabled = true
 						this.utils.timeCount(60, timeCount => {
-							this.getMessageCodeText = timeCount;
-							if (this.getMessageCodeText === "获取验证码")
-								this.isDisabled = false;
-						});
+							this.getMessageCodeText = timeCount
+							if (this.getMessageCodeText === "获取验证码") this.isDisabled = false
+						})
 					} else {
-						this.showToast = true;
-						this.authPic = "data:image/jpg;base64," + data.authPic;
+						this.showToast = true
+						this.authPic = "data:image/jpg;base64," + data.authPic
 					}
 				} else {
-					this.errorMsg = data.resultMsg;
+					this.errorMsg = data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
+					})
 				}
-			});
+			})
 		},
 		messageLogin(position) {
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("cityCode", "310100");
-			postData.append("userName", this.mobile);
-			postData.append("passWord", this.messageCode);
-			postData.append("type", 2);
-			postData.append("requestSource", "h5");
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("cityCode", "310100")
+			postData.append("userName", this.mobile)
+			postData.append("passWord", this.messageCode)
+			postData.append("type", 2)
+			postData.append("requestSource", "h5")
 			this.common.login(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode === "1") {
-					this.jsCommon.setAuthorization(data.userName, data.token);
-					this.imgCode = "";
+					this.jsCommon.setAuthorization(data.userName, data.token)
+					this.imgCode = ""
 					this.afterLogin(data).then(res => {
 						var redirect = this.$route.query.redirect
 							? this.$route.query.redirect
-							: "/";
-						this.$router.push({ path: redirect });
-					});
+							: "/"
+						this.$router.push({ path: redirect })
+					})
 				} else {
-					this.$vux.loading.hide();
-					this.errorMsg = data.resultMsg;
+					this.$vux.loading.hide()
+					this.errorMsg = data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
-					this.imgCode = "";
+					})
+					this.imgCode = ""
 				}
-			});
+			})
 		},
 		passwordLogin() {
-			var postData = new URLSearchParams();
-			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
-			postData.append("cityCode", "310100");
-			postData.append("userName", this.mobile);
-			postData.append("passWord", this.password);
-			postData.append("type", 1);
+			var postData = new URLSearchParams()
+			postData.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
+			postData.append("cityCode", "310100")
+			postData.append("userName", this.mobile)
+			postData.append("passWord", this.password)
+			postData.append("type", 1)
 			this.common.login(postData).then(res => {
-				let data = res.data;
+				let data = res.data
 				if (data.resultCode === "1") {
-					this.jsCommon.setAuthorization(data.userName, data.token);
-					this.imgCode = "";
+					this.jsCommon.setAuthorization(data.userName, data.token)
+					this.imgCode = ""
 					this.afterLogin(data).then(res => {
 						var redirect = this.$route.query.redirect
 							? this.$route.query.redirect
-							: "/";
-						this.$router.push({ path: redirect });
-					});
+							: "/"
+						this.$router.push({ path: redirect })
+					})
 				} else {
-					this.$vux.loading.hide();
-					this.errorMsg = data.resultMsg;
+					this.$vux.loading.hide()
+					this.errorMsg = data.resultMsg
 					this.$vux.toast.show({
 						type: "cancel",
 						position: "middle",
 						text: this.errorMsg
-					});
-					this.imgCode = "";
+					})
+					this.imgCode = ""
 				}
-			});
+			})
 		},
 		showTimeCount(timeCount) {
-			this.getMessageCodeText = timeCount;
-			this.isDisabled = true;
-			if (this.getMessageCodeText === "获取验证码")
-				this.isDisabled = false;
+			this.getMessageCodeText = timeCount
+			this.isDisabled = true
+			if (this.getMessageCodeText === "获取验证码") this.isDisabled = false
 		},
 		newImgCode(newImgCode) {
-			this.imgCode = newImgCode;
+			this.imgCode = newImgCode
 		},
 		showToast1(showToast1) {
-			this.showToast = showToast1;
+			this.showToast = showToast1
 		},
 		afterLogin(data) {
 			return new Promise((resolve, reject) => {
-				console.info("data", data);
-				window.gio("setUserId", data.userName);
-				var params = new URLSearchParams();
-				params.append("userName", data.userName);
-				params.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1");
+				console.info("data", data)
+				window.gio("setUserId", data.userName)
+				var params = new URLSearchParams()
+				params.append("userName", data.userName)
+				params.append("uuid", "0c8297d7-6d3a-46da-b782-0df2434f88b1")
 				this.common.getUserGrade(params).then(result => {
-					var source = this.utils.getCookie("source");
-					var vipCount = this.utils.getCookie("vipCount");
-					var dxObj = this.utils.getCookie("dxObj");
-					var telObj = this.utils.getCookie("telObj");
-					var mediasource = this.utils.getCookie("mediasource") || window.sessionStorage.getItem("mediasource");
-					window.sessionStorage.setItem('mediasource', mediasource);
-					var afFrom = this.utils.getCookie("afFrom");
-					var siji_realName = this.utils.getCookie("siji_realName");
-					var siji_didiMobile = this.utils.getCookie(
-						"siji_didiMobile"
-					);
-					var siji_loanAmount = this.utils.getCookie(
-						"siji_loanAmount"
-					);
-					var siji_proid = this.utils.getCookie("siji_proid");
+					var source = this.utils.getCookie("source")
+					var vipCount = this.utils.getCookie("vipCount")
+					var dxObj = this.utils.getCookie("dxObj")
+					var telObj = this.utils.getCookie("telObj")
+					var mediasource =
+						this.utils.getCookie("mediasource") ||
+						window.sessionStorage.getItem("mediasource")
+					window.sessionStorage.setItem("mediasource", mediasource)
+					var afFrom = this.utils.getCookie("afFrom")
+					var siji_realName = this.utils.getCookie("siji_realName")
+					var siji_didiMobile = this.utils.getCookie("siji_didiMobile")
+					var siji_loanAmount = this.utils.getCookie("siji_loanAmount")
+					var siji_proid = this.utils.getCookie("siji_proid")
 
-					this.utils.clearCookie();
+					this.utils.clearCookie()
 					if (result.data.userGrade) {
-						var getUserPj = this.utils.getCookie("pj");
+						var getUserPj = this.utils.getCookie("pj")
 						if (!getUserPj || getUserPj != result.data.userGrade) {
-							this.utils.setCookie("pj", result.data.userGrade);
-							this.utils.setCookie("pjread", "0");
+							this.utils.setCookie("pj", result.data.userGrade)
+							this.utils.setCookie("pjread", "0")
 						}
 					}
 
-					this.utils.setCookie("token", data.token);
-					this.utils.setCookie("userName", data.userName);
-					this.utils.setCookie("realName", escape(data.realName));
-					this.utils.setCookie("mobile", data.mobile);
-					this.utils.setCookie("identityCode", data.identityNo);
-					this.utils.setCookie("custType", data.custType);
-					this.utils.setCookie("isDoubleSales", data.isDoubleSales);
-					this.utils.setCookie("inOneMonthReg", data.inOneMonthReg);
-					this.utils.setCookie("isLanUserFlag", data.isLanUserFlag);
-					this.utils.setCookie(
-						"isHaveUnreadCoupon",
-						data.isHaveUnreadCoupon
-					);
-					this.utils.setCookie("hxuserName", data.hxuserName);
-					this.utils.setCookie("hxpassWord", data.hxpassWord);
+					this.utils.setCookie("token", data.token)
+					this.utils.setCookie("userName", data.userName)
+					this.utils.setCookie("realName", escape(data.realName))
+					this.utils.setCookie("mobile", data.mobile)
+					this.utils.setCookie("identityCode", data.identityNo)
+					this.utils.setCookie("custType", data.custType)
+					this.utils.setCookie("isDoubleSales", data.isDoubleSales)
+					this.utils.setCookie("inOneMonthReg", data.inOneMonthReg)
+					this.utils.setCookie("isLanUserFlag", data.isLanUserFlag)
+					this.utils.setCookie("isHaveUnreadCoupon", data.isHaveUnreadCoupon)
+					this.utils.setCookie("hxuserName", data.hxuserName)
+					this.utils.setCookie("hxpassWord", data.hxpassWord)
 
-					const MWEB_PATH = this.config.MWEB_PATH;
+					const MWEB_PATH = this.config.MWEB_PATH
 
-					console.info("oldHicash onload request");
+					console.info("oldHicash onload request")
 					this.oldHicash =
 						this.config.MWEB_PATH +
 						"newweb/template/fromAppTemp.html?userName=" +
@@ -586,136 +568,113 @@ export default {
 						"&t=" +
 						new Date().getTime() +
 						"&authorization=" +
-						sessionStorage.getItem("authorization");
+						sessionStorage.getItem("authorization")
 					//TODO 新老嗨钱融合中的代码，后续优化
 					document.getElementById("oldHicash").onload = () => {
-						console.info("oldHicash onload success");
+						console.info("oldHicash onload success")
 						if (data.isVip) {
-							this.utils.setCookie("vipCount", "1");
+							this.utils.setCookie("vipCount", "1")
 						} else {
-							this.utils.setCookie("vipCount", "0");
+							this.utils.setCookie("vipCount", "0")
 						}
-						this.$vux.loading.hide();
+						this.$vux.loading.hide()
 						setTimeout(() => {
-							let jumpType = this.$route.query.jumpType;
+							let jumpType = this.$route.query.jumpType
 							if (jumpType === "bindCard") {
 								//如果是绑卡的快捷入口隐藏返回和注册按钮
 								window.location.href =
-									MWEB_PATH +
-									"newweb/creditInfo/bandBank.html?jumpType=bindCard";
-								return;
+									MWEB_PATH + "newweb/creditInfo/bandBank.html?jumpType=bindCard"
+								return
 							} else if (jumpType === "didaAct") {
 								window.location.href =
 									MWEB_PATH +
-									"newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct";
-								return;
-							}else if(jumpType === "myInstalment"){
+									"newweb/product/miaodai.html?industryCode=LDDD&jumpType=didaAct"
+								return
+							} else if (jumpType === "myInstalment") {
 								this.$router.push({
 									name: "MyInstalment"
-								});
-								return;
+								})
+								return
 							}
 
-							var ref = window.location.href;
-							var from =
-								this.utils.getQueryString("from") ||
-								this.$route.query.from;
+							var ref = window.location.href
+							var from = this.utils.getQueryString("from") || this.$route.query.from
 							if (from == "shixin") {
 								var _appNo =
-									this.utils.getQueryString("appNo") ||
-									this.$route.query.appNo;
-								var postData = new URLSearchParams();
-								postData.append("appNo", _appNo);
-								postData.append("requestSource", "H5");
-								postData.append(
-									"userName",
-									this.utils.getCookie("userName")
-								);
-								postData.append(
-									"comeFrom",
-									this.utils.getPlatform()
-								);
-								postData.append("uuid", this.utils.uuid());
+									this.utils.getQueryString("appNo") || this.$route.query.appNo
+								var postData = new URLSearchParams()
+								postData.append("appNo", _appNo)
+								postData.append("requestSource", "H5")
+								postData.append("userName", this.utils.getCookie("userName"))
+								postData.append("comeFrom", this.utils.getPlatform())
+								postData.append("uuid", this.utils.uuid())
 
-								this.common
-									.navigateToRecharge(postData)
-									.then(function() {
-										window.location.href = data.rechargeUrl;
-									});
+								this.common.navigateToRecharge(postData).then(function() {
+									window.location.href = data.rechargeUrl
+								})
 
-								return false;
+								return false
 							}
 
 							let custFromParams =
-								this.utils.getQueryString("custFrom") ||
-								this.$route.query.custFrom;
+								this.utils.getQueryString("custFrom") || this.$route.query.custFrom
 
-							if (
-								"sharkResult" ==
-								this.utils.getQueryString("from")
-							) {
+							if (this.utils.getQueryString("from") == "sharkResult") {
 								var custFrom =
-									custFromParams && custFromParams != "null"
-										? custFromParams
-										: "H5";
+									custFromParams && custFromParams != "null" ? custFromParams : "H5"
 								window.location.href =
 									MWEB_PATH +
 									"newweb/sharkActivity/sharkResult.html?custFrom=" +
-									custFrom;
-								return false;
+									custFrom
+								return false
 							}
 							if (ref.indexOf("sharkLogin.html") != -1) {
 								var custFrom =
-									custFromParams && custFromParams != "null"
-										? custFromParams
-										: "H5";
+									custFromParams && custFromParams != "null" ? custFromParams : "H5"
 								window.location.href =
-									MWEB_PATH +
-									"newweb/sharkActivity/sharkIndex.html?custFrom=" +
-									custFrom;
-								return false;
+									MWEB_PATH + "newweb/sharkActivity/sharkIndex.html?custFrom=" + custFrom
+								return false
 							}
-							if (data.isVip && !localStorage.getItem('firstJumpVip')) {
-								this.$router.push({name: 'VipDai'});
-								
-								return false;
+							if (data.isVip && !localStorage.getItem("firstJumpVip")) {
+								this.$router.push({ name: "VipDai" })
+
+								return false
 							}
 							if (dxObj && telObj) {
-								this.utils.setCookie("dxObj", dxObj);
-								this.utils.setCookie("telObj", telObj);
+								this.utils.setCookie("dxObj", dxObj)
+								this.utils.setCookie("telObj", telObj)
 							}
 
 							if (
 								this.utils.getCookie("afFrom") &&
 								this.utils.getCookie("afFrom") == "miaodai"
 							) {
-								window.location.href =
-									MWEB_PATH + "newweb/product/vipdai.html";
+								window.location.href = MWEB_PATH + "newweb/product/vipdai.html"
 							}
 
 							if (from == "perCenter") {
 								window.location.href =
-									MWEB_PATH +
-									"newweb/personalCenter/perCenter.html";
+									MWEB_PATH + "newweb/personalCenter/perCenter.html"
 							}
 
-							console.log("result====", result);
-							resolve(result);
-						}, 1000);
-					};
+							console.log("result====", result)
+							resolve(result)
+						}, 1000)
+					}
 					// resolve(result);
-				});
-			});
+				})
+			})
 		}
 	},
 	mounted: function() {
-		this.type = "message";
+		this.type = "message"
 
-		let jumpType = this.$route.query.jumpType;
+		let jumpType = this.$route.query.jumpType
 		if (jumpType === "didaAct") {
-			this.logoType = "dida";
+			this.logoType = "dida"
 		}
-		this.mediasource = window.sessionStorage.getItem("mediasource");
+		this.mediasource =
+			window.sessionStorage.getItem("mediasource") || this.$route.query.mediasource
 	}
-};
+}
 </script>
