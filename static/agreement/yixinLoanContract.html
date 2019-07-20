@@ -423,8 +423,6 @@ C.借款人提供虚假资料或者故意隐瞒重要事实。
             lastMon=lastMon-12;
             year=year+1;
         }
-        $(".totalRepay").html(calcRepayDetail(tranPrice,creditDay,0.075).totalRepay)
-        $(".serviceFee").html((calcRepayDetail(tranPrice,creditDay,0.155).totalRepay - calcRepayDetail(tranPrice,creditDay,0.075).totalRepay).toFixed(2))
         $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
         $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
         $("#expect").html(expect);
