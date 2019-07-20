@@ -200,14 +200,7 @@
 
 9.<strong>提前还款（即一次性还款）：</strong>为了方便我们更好地服务于您，如果您决定一次性将全部款项结清，请您务必提前三个工作日与我们进行确认（还款日及节假日期间不办理）。我们将帮助您安排预约一次性还款的相关事宜。提前还款电话：400-010-6668。
 您的还款分期表如下：
-<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
-  <tr>
-    <td colspan="2">期数</td>
-    <td colspan="2">还款日期</td>
-    <td colspan="2">应还金额</td>
-    <td colspan="2">剩余本金</td>
-    <td colspan="2">一次性还款金额</td>
-  </tr>
+<table id="repayList" cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;text-align: center;">
   <tr>
     <td colspan="2">期数</td>
     <td colspan="2">还款日期</td>
@@ -242,6 +235,7 @@
     window.onresize = function() {
         getfont();
     }	
+
     var creditDay = getQueryString("creditDay");
     var date = new Date();
 	var year = date.getFullYear();
@@ -318,6 +312,10 @@
         
         backMoney = data.perMonthPay;
         expect = data.payMentPeriod;
+        
+        var repayPerMonthPay = backMoney;
+        var repayExpect = expect;
+
         var perMonthPayTotal = data.perMonthPayTotal;
         var loanInterest = perMonthPayTotal - tranPrice;
         var lastMon=month + 1+expect;
@@ -339,6 +337,20 @@
         $("#bigPerMonthPayTotal").html(creat(data.perMonthPayTotal));
         $("#loanInterest").html(loanInterest);
         $("#bigLoanInterest").html(creat(loanInterest));
+
+
+        var html = ''
+        for(var i=0;i<parseInt(repayExpect);i++){
+          var index = i + 1;
+            html += '<tr>\n' +
+                '<td colspan="2">'+index+'</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '<td colspan="2">'+repayPerMonthPay+'</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '</tr>'
+        }
+        $('#repayList').append(html)
     });
     
     const UserNameCardParams = {
