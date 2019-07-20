@@ -428,9 +428,7 @@ C.借款人提供虚假资料或者故意隐瞒重要事实。
         smallUnit1,
         smallUnit2
         var integer = tranPrice.substring(0, tranPrice.indexOf("."));
-        console.log(integer)
         integerArr = integer.split("")
-        console.log("integerArr==", integerArr)
         if(integerArr.length === 1) {
           var unit1 = tranPrice[0];
         } else if( integerArr.length === 2) {
@@ -479,7 +477,7 @@ C.借款人提供虚假资料或者故意隐瞒重要事实。
         }
         $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
         $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
-        $("#expect").html(expect / 12);
+        $("#expect").html(expect);
         $("#backMoney").html(backMoney);
         $("#bigBackMoney").html(creat(backMoney));
         $("#serviceMoney").html(data.serviceCharge);
