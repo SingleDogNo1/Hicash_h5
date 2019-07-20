@@ -185,7 +185,7 @@
   </tr>
   <tr>
     <td colspan="1">贷款本金数额</td>
-    <td colspan="1">人民币（大写） </td>
+    <td colspan="1">人民币（大写）<span id="bigMoney"></span> </td>
     <td colspan="1"></td>
     <td colspan="1"></td>
     <td colspan="1"><span class="unit5"></span></td>
@@ -383,27 +383,80 @@ C.借款人提供虚假资料或者故意隐瞒重要事实。
           tranPrice : tranPrice
         }
     }
+
+    function toDecimal2(x) {
+      var f = Math.round(x * 100) / 100
+      var s = f.toString()
+      var rs = s.indexOf(".")
+      if (rs < 0) {
+        rs = s.length
+        s += "."
+      }
+      while (s.length <= rs + 2) {
+        s += "0"
+      }
+      return s
+    }
+
+
     jqAjax(LoanAmtCalculateForNewParams)
     .then(function(data){
         $("#allMoney").html(tranPrice);
         $(".allMoney").html(tranPrice);
         var bigTranPrice = creat(tranPrice)
-        if(bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "万"
-          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "仟"
-          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "佰"
-          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "拾"
-          ) {
-            var unit1 = bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元"));
-        } else {
-          var unit1 = "";
-        }
-        var unit2 = bigTranPrice.substring(bigTranPrice.indexOf("拾") - 1, bigTranPrice.indexOf("拾"));
-        var unit3 = bigTranPrice.substring(bigTranPrice.indexOf("佰") - 1, bigTranPrice.indexOf("佰"));
-        var unit4 = bigTranPrice.substring(bigTranPrice.indexOf("仟") - 1, bigTranPrice.indexOf("仟"));
-        var unit5 = bigTranPrice.substring(bigTranPrice.indexOf("万") - 1, bigTranPrice.indexOf("万"));
+        // if(bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "万"
+        //   && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "仟"
+        //   && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "佰"
+        //   && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "拾"
+        //   ) {
+        //     var unit1 = bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元"));
+        // } else {
+        //   var unit1 = "";
+        // }
+        // var unit2 = bigTranPrice.substring(bigTranPrice.indexOf("拾") - 1, bigTranPrice.indexOf("拾"));
+        // var unit3 = bigTranPrice.substring(bigTranPrice.indexOf("佰") - 1, bigTranPrice.indexOf("佰"));
+        // var unit4 = bigTranPrice.substring(bigTranPrice.indexOf("仟") - 1, bigTranPrice.indexOf("仟"));
+        // var unit5 = bigTranPrice.substring(bigTranPrice.indexOf("万") - 1, bigTranPrice.indexOf("万"));
 
-        var smallUnit1 = bigTranPrice.substring(bigTranPrice.indexOf("角") - 1, bigTranPrice.indexOf("角"));
-        var smallUnit2 = bigTranPrice.substring(bigTranPrice.indexOf("分") - 1, bigTranPrice.indexOf("分"));
+        // var smallUnit1 = bigTranPrice.substring(bigTranPrice.indexOf("角") - 1, bigTranPrice.indexOf("角"));
+        // var smallUnit2 = bigTranPrice.substring(bigTranPrice.indexOf("分") - 1, bigTranPrice.indexOf("分"));
+        var unit1,
+        unit2,
+        unit3,
+        unit4,
+        unit5,
+        smallUnit1,
+        smallUnit2
+        var integer = tranPrice.substring(0, tranPrice.indexOf("."));
+        console.log(integer)
+        integerArr = integer.split("")
+        console.log("integerArr==", integerArr)
+        if(integerArr.length === 1) {
+          var unit1 = tranPrice[0];
+        } else if( integerArr.length === 2) {
+          var unit1 = tranPrice[1];
+          var unit2 = tranPrice[0];
+        } else if( integerArr.length === 3) {
+          var unit1 = tranPrice[2];
+          var unit2 = tranPrice[1];
+          var unit3 = tranPrice[0];
+        } else if( integerArr.length === 4) {
+          var unit1 = tranPrice[3];
+          var unit2 = tranPrice[2];
+          var unit3 = tranPrice[1];
+          var unit4 = tranPrice[0];
+        } else if( integerArr.length === 5) {
+          var unit1 = tranPrice[4];
+          var unit2 = tranPrice[3];
+          var unit3 = tranPrice[2];
+          var unit4 = tranPrice[1];
+          var unit5 = tranPrice[0];
+        }
+
+        var decimal = tranPrice.substring(tranPrice.indexOf(".")+1, tranPrice.length);
+        smallUnit1 = decimal[0];
+        smallUnit2 = decimal[1];
+
 
         $(".unit1").html(unit1);
         $(".unit2").html(unit2);
@@ -426,12 +479,12 @@ C.借款人提供虚假资料或者故意隐瞒重要事实。
         }
         $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
         $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
-        $("#expect").html(expect);
+        $("#expect").html(expect / 12);
         $("#backMoney").html(backMoney);
         $("#bigBackMoney").html(creat(backMoney));
         $("#serviceMoney").html(data.serviceCharge);
         $("#monthFee").html(data.monthFee);
-        $(".creditRate").html(data.creditRate + "%");
+        $(".creditRate").html(toDecimal2(data.creditRate / 12) + "%");
         $("#perMonthPayTotal").html(data.perMonthPayTotal);
         $("#bigPerMonthPayTotal").html(creat(data.perMonthPayTotal));
         $("#loanInterest").html(loanInterest);
