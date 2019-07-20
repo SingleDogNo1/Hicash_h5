@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>贷款合同</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 360模式 -->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="./css/common.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-size: 22.08px;
+        }
+        body {
+            font-family: '微软雅黑';
+            background: #f5f4f5;
+            margin: 0;
+            padding: 0;
+            max-width: 640px;
+            min-width: 320px;
+            height: 100%;
+            margin: 0 auto;
+            overflow-x: hidden;
+            justify-content: center;
+            line-height: 20px;
+        }
+        .dconContainer {
+            padding: 0 .85rem;
+        }
+        .dconContainer pre {
+            font-size: .6rem;
+            color: #3f3f3f;
+            line-height: 1.1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+        }
+        .dconContainer pre span.ios {
+            margin-top: 0px;
+            color: #3f3f3f;
+            font-weight: normal;
+            display: none;
+        }
+        .dconContainer pre .title {
+            //padding-top: 1rem;
+        }
+        .tips {
+            width: calc(100% - 15px);
+            height: 114px;
+            background: #FFFFFF;
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        .content {
+            height: auto;
+            padding-bottom: 33px;
+        }
+        .tips .title,
+        .main .title {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 14px;
+            color: #333333;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        .tips .iphone {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 20px;
+            color: #C2A77C;
+        }
+        .main {
+            width: calc(100% - 15px);
+            height: auto;
+            background: #FFFFFF;
+            margin-bottom: 32px;
+            padding-left: 15px;
+            padding-bottom: 1px;
+        }
+        .main .article {
+            width: calc(100% - 15px);
+            height: auto;
+            padding-right: 15px;
+            font-size: 14px;
+        }
+        .btn {
+            width: 92%;
+            height: 44px;
+            background: #C2A77C;
+            border-radius: 8px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            line-height: 44px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        td {
+            border-collapse: collapse;
+            border-left-color: #000;
+            border-style: solid;
+            border-width: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+            word-break: break-all;
+        }
+        .center {
+          font-size: .6rem;
+          text-align: center;
+        }
+        .title {
+          padding-top: 1rem;
+          font-size: .6rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="creditHeader">
+        <!-- 关闭按钮 -->
+        <a class="go-history" href="javascript:history.go(-1);"></a>
+        <h1>贷款合同</h1>
+    </header>
+    <div class="dconContainer container">
+        <div class="inner">
+<h1 class="title">贷款合同</h1>
+<p class="center">合同编号：XT-SY-2019-【       】</p>
+<p class="center">本贷款合同由以下各方主体于【】年【】月【】日签署并履行：</p>
+<pre>
+
+甲方
+借款人 ： <span class="realName"></span>                                     
+身份证号码： <span class="idcard"></span>                           
+移动电话： <span class="mobile"></span>                                
+固定电话： <span class="mobile"></span>     
+传真：                                        
+地址：<span class="address"></span>
+
+乙方（贷款人）：渤海国际信托股份有限公司
+法定代表人：成小云
+公司地址：石家庄市新石中路377号B座22-23层
+联系人：钟伟
+固定电话：010-57583382
+传真：010-59782079
+
+第一条： 贷款具体信息
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+  <tr>
+    <td colspan="1">贷款详细用途</td>
+    <td colspan="1"><span id="u_fee"></span></td>
+    <td colspan="1">百</td>
+    <td colspan="1">十</td>
+    <td colspan="1">万</td>
+    <td colspan="1">千</td>
+    <td colspan="1">百</td>
+    <td colspan="1">十</td>
+    <td colspan="1">元</td>
+    <td colspan="1">角</td>
+    <td colspan="1">分</td>
+  </tr>
+  <tr>
+    <td colspan="1">贷款本金数额</td>
+    <td colspan="1">人民币（大写） </td>
+    <td colspan="1"></td>
+    <td colspan="1"></td>
+    <td colspan="1"><span class="unit5"></span></td>
+    <td colspan="1"><span class="unit4"></span></td>
+    <td colspan="1"><span class="unit3"></span></td>
+    <td colspan="1"><span class="unit2"></span></td>
+    <td colspan="1"><span class="unit1"></span></td>
+    <td colspan="1"><span class="smallUnit1"></span></td>
+    <td colspan="1"><span class="smallUnit2"></span></td>
+  </tr>
+  <tr>
+    <td colspan="3">贷款利率</td>
+    <td colspan="8"> <span class="creditRate"></span>（月利率）</td>
+  </tr>
+  <tr>
+    <td colspan="3">贷款期限</td>
+    <td colspan="8"> 年     月     日起，至      年     月     日止</td>
+  </tr>
+  <tr>
+    <td colspan="3">还款分期月数</td>
+    <td colspan="8"><span id="expect"></span>个月</td>
+  </tr>
+  <tr>
+    <td colspan="3">还款日</td>
+    <td colspan="8">每月还款日期同借款放款日期，具体约定见本协议第三条。</td>
+  </tr>
+  <tr>
+    <td colspan="3">还款方式</td>
+    <td colspan="8">等额本息</td>
+  </tr>
+  <tr>
+    <td rowspan="2">甲方专用账户</td>
+    <td colspan="5">户名<span class="realName"></span></td>
+    <td colspan="5">账号<span class="cardNum"></span></td>
+  </tr>
+  <tr>
+      <td colspan="10" >开户行（精确到分行、支行、储蓄所）<span class="bank"></span></td>
+  </tr>
+</table>
+<strong>第二条 贷款发放</strong>
+1. 在满足如下条件后，乙方向甲方发放本协议项下贷款：
+1.1 甲方已签署本合同及附件，以及其他相关必要文件（如有），且甲方未发生上述合同项下的违约行为；
+1.2 渤海信托·宜信个人贷款单一资金信托已经成立。
+2. 乙方或其委托的第三方支付机构将本合同项下的贷款本金数额支付至甲方专用账户。
+<strong>第三条 还款</strong>
+1.甲方应当按照本合同项下第一条中列明的还款方式以及还款事项提醒函中的还款计划向乙方按期足额偿还贷款本金和利息。
+2.甲方还款方式包括支付机构划扣、线下还款两种方式。
+2.1支付机构划扣指乙方通过其合作的或其合作方宜信普惠信息咨询（北京）有限公司合作的支付机构从甲方专用账户中划扣当期应还本金和利息、往期应还未还本金和利息（如有）、逾期还款违约金（如有）等款项并支付至乙方。
+2.1.1甲方必须在每月还款日（当日15:00以前）或之前将当期应还本金和利息存入甲方专用账户中。如采用跨行转账的方式还款的，甲方需提前进行划转，乙方将以成功扣划甲方专用账户的还款金额时间为准记录甲方的还款时间。
+2.2线下还款指在前述支付机构划扣出现异常情况影响甲方通过其进行还款的，甲方在乙方及其合作方宜信普惠信息咨询（北京）有限公司工作人员的指导下，将当期应还本金和利息、往期应还未还本金和利息（如有）、逾期还款违约金（如有）等款项于每月还款日当日（不得迟于15:00）或之前支付至乙方指定的收款账户。
+3. 甲方每月还款日期同借款放款日期（例如，借款放款日期为2月15日，则借款人的还款日为自3月起的每月15日），放款日期以甲方专用账户收到借款之日为准。如果还款日遇到法定节假日或公休日，还款日期不进行顺延；若当月无对应日期，以当月最后一日为还款日。
+4.贷款存续期间，甲方要求提前还款的，需至少提前三个工作日向乙方合作方宜信普惠信息咨询（北京）有限公司提出申请。经宜信普惠信息咨询（北京）有限公司确认后，在提前还款日（当日18:00以前，且不得为正常还款日及节假日）或之前，由甲方通过前述支付机构划扣方式和线下还款两种方式之一，将当期应还本金和利息、剩余本金、往期应还未还本金和利息（如有）、逾期还款违约金（如有）等提前还款各款项偿还乙方。
+<strong>第四条 双方的权利和义务</strong>
+<strong>（一）甲方的权利和义务</strong>
+1.甲方在满足本合同约定的贷款发放条件后，有权要求乙方按照本合同约定发放贷款；
+2.甲方按本合同约定的用途使用贷款，未经乙方书面同意，不得用于其它目的。甲方承诺其不是在校学生、不是无还款来源或不具备还款能力的人；甲方申请的贷款不得用于“首付贷”、房地产场外配资等购房融资、认购和买卖股票或其它权益性投资；贷款用途不得违反法律、行政法规、规章、司法解释的禁止性规定；
+3.甲方应按本合同的约定按期、足额偿还贷款本息；
+4.未经乙方书面同意，甲方不得将本合同项下的任何权利、义务转让给他人；
+5.甲方承诺在申请贷款的过程中，应当按照乙方及其合作方宜信普惠信息咨询（北京）有限公司（包括其委托方）的要求提供相关的个人信息和材料，并保证该等材料的真实、完整、准确和有效，不得蓄意隐瞒或夸大；
+6.甲方有义务接受乙方及其委托的第三方对甲方个人信用资料及贷款使用情况的监督检查，甲方应当全力配合并按照要求提供相关的个人信息、材料；
+7.贷款期限内，甲方不得随意变更本合同第一条所列甲方专用账户。因未及时通知造成的全部损失，均由甲方负责进行赔偿。
+8.贷款期限内，乙方将其享有的对甲方的债权转让给任何第三方的，转让完成后，甲方同意乙方委托其合作方宜信普惠信息咨询（北京）有限公司或其合作方委托的关联主体代为通知债权转让事宜。
+9. 甲方授权和同意乙方从宜信普惠信息咨询（北京）有限公司获取其个人信息和资料，并进行存储及依照法律法规或监管部门的要求提供给相应的主体。
+<strong>（二）乙方的权利和义务</strong>
+1.乙方及其合作方宜信普惠信息咨询（北京）有限公司有权了解甲方对贷款的使用情况，甲方应当无条件配合；
+2.甲方未按照本合同规定还款的，乙方及其合作方宜信普惠信息咨询（北京）有限公司有权在法律法规约定的范围内采取相应措施进行还款管理；
+3.乙方有权将其享有的对甲方的债权转让给任何第三方。乙方决定转让债权的，无需取得甲方的同意；转让完成后由乙方合作方宜信普惠信息咨询（北京）有限公司或乙方合作方委托的关联主体代为通知甲方，甲方应按本合同的约定向债权受让方履行各项义务；
+4.甲方未按照乙方的要求提供各项与本贷款合同相关的信息、材料或者提供的信息、材料存在虚假、不准确、蓄意隐瞒有关事实等情况的，或者甲方逾期还款的，乙方及其合作方宜信普惠信息咨询（北京）有限公司有权依法公开甲方的违约失信情形；
+5.乙方对甲方为履行合同而提供的信息和资料的使用仅限于为履行本合同之目的，不能以营利为目的将甲方的信息或资料透露给任何第三人，但根据法律法规或监管部门要求提供的除外。乙方一旦违约，造成甲方损失的，乙方应承担赔偿责任。保密条款于本合同成立之日起生效，不因合同的效力的终止而终止，直至保密信息进入公知领域之日止。
+<strong>第五条 违约责任</strong>
+1．发生如下情形时，视为甲方违约：
+（1）未能按期、足额偿还贷款本息；
+（2）不按本合同约定用途使用贷款资金的；
+（3）甲方提供的信息、材料虚假、不准确或故意隐瞒身份、联系方式、资产状况等重要事实；
+（4）甲方拒绝或不配合乙方及其委托第三方对甲方个人信用资料、贷款使用情况进行监督检查；
+（5）甲方违反本合同其他约定。
+2．违约救济措施：
+（1）甲方未于本协议第一条约定的还款日按期足额还款，还应向乙方支付逾期还款违约金。
+(2)逾期还款违约金计算方式为：借款人自逾期之日起至实际还款之日止，每日按当期未还本息千分之一支付逾期还款违约金。
+逾期还款违约金 =当期未还本息*千分之一*逾期天数
+(3) 逾期还款违约金每期单独计算。
+(4)如因甲方原因导致支付机构未能及时、足额扣划当期应还本息，甲方仍应按本条（2）款的约定支付逾期还款违约金。
+（5）若甲方偿还本协议项下各款项的金额不足，偿还先后顺序为逾期还款违约金、应还利息、应还本金。 
+（6）甲方发生如下违约行为时，乙方有权解除或提前终止本协议，甲方须在乙方提出解除或提前终止协议之日起三日内一次性支付余下的所有本金、利息和逾期还款违约金。
+A. 甲方擅自改变本协议第一条规定的借款用途； 
+B.严重违反还款义务（逾期达到15天及以上）； 
+C.借款人提供虚假资料或者故意隐瞒重要事实。
+(7)甲方同意，乙方可将甲方违约的相关信息予以公开披露。如甲方存在涉嫌欺诈等犯罪行为，乙方有权向相关国家机关报案，以追究其刑事责任。
+(8)因甲方违约而导致乙方产生的损失，包括本息损失、诉讼或仲裁费用、调查费用、律师费用及委托其他公民参加诉讼或仲裁所产生的费用等由甲方承担。
+<strong>第六条 变更通知</strong>
+1．甲方变更通知
+本合同签订之日起至本合同项下贷款本息全部得到清偿之日止，甲方下列信息发生变更后的3日内向乙方合作方宜信普惠信息咨询（北京）有限公司提供并通过其向乙方提供：
+甲方本人、其家庭联系人及其紧急联系人的工作单位、居住地址、住址电话、手机号码、传真号码、电子邮箱等。
+因甲方未能及时向乙方变更上述信息而产生的相关费用及损失均由甲方负责承担。
+2．乙方变更通知
+乙方需将本合同项下有关贷款确认、提前还款等内容通知甲方的，由其合作方宜信普惠信息咨询（北京）有限公司或乙方合作方委托的关联主体代为执行，有效通知方式包括但不限于电话、短信、传真、邮件、信件等。
+乙方合作方的通知由专人送达的，以乙方合作方持有的快递发出单据上所示时间后4个工作日视为送达；通过挂号信邮递的，以乙方合作方持有的国内挂号函件收据所示日后7日视为送达；以传真形式的，乙方合作方的文件到达甲方提供的传真设备时视为送达；乙方合作方采用电子邮件、短信等方式通知的，乙方合作方发送的信息进入甲方指定系统时视为送达；一经送达乙方合作方及乙方即完成通知义务，甲方不得以未收到通知为不履行合同义务的抗辩理由。
+<strong>第七条 送达地址及法律后果</strong>
+甲方就本协议中涉及的各类通知、协议等文件以及就本协议发生纠纷时相关文件和法律文书送达时的送达地址及其相关法律后果做如下确认：
+1.甲方确认其有效的电子送达地址如下：
+甲方预留的联络邮箱为：<span class="email"></span>；
+甲方预留的手机号码为：<span class="mobile"></span>        。
+如甲方需变更联络邮箱或者手机号码的，应当依照本协议第六条的约定提供更新后的信息；如甲方多次变更联络邮箱或者手机号码的，甲方最后一次提供的联络邮箱和手机号码为其有效的预留联络邮箱和手机号码。
+2.甲方确认其有效的邮寄和直接送达地址为：<span class="address"></span> 。
+3.甲方确认以其预留的联络邮箱，作为与乙方、乙方合作方、乙方委托的服务机构或（及）债权受让人进行往来及法院或仲裁机构进行仲裁送达相关材料的送达地址，并以预留的手机号码，为短信通知号码。乙方、乙方合作方、乙方委托的服务机构、或（及）债权受让人或法院/向乙方及仲裁机构向甲方发出的任何通知，以电子邮件或者短信等形式发出的，发出之日送至甲方预留的联络邮箱或者手机号码，即视为送达之日。
+4.如果因本合同而发生任何争议，甲方确认上述邮寄和直接送达地址也将作为争议机构（包括法院和仲裁机构）送达相关通知和文书的有效送达地址。地址适用范围包括在争议进入仲裁、民事诉讼程序后的一审、二审、再审和执行程序。在仲裁及民事诉讼程序中，因甲方确认的上述邮寄和直接送达地址不准确、甲方或其指定的接收人拒绝签收等原因，导致法律文书未能被甲方实际接收的：邮寄送达的，以回执上注明的收件日期为送达日期；直接送达的，送达人当场在送达回证上记明情况之日视为送达之日。甲方同意，对于上述邮件和直接送达地址，仲裁委或法院进行送达时，即便未能实际收到送达的文书，也应当视为送达。
+<strong>第八条 债权转让</strong>
+1.乙方可以根据自己的意愿进行本协议下其对甲方债权的转让，无需获得甲方同意。在乙方的债权转让后，甲方需对债权受让人继续履行本协议下其对乙方的还款义务，不得以未接到债权转让通知为由拒绝履行还款义务。甲方同意将乙方对其所有的全部或部分债权一次或多次转让给一个或多个第三人，并认可债权受让人向其出示的、贷款人与债权受让人签署的相关债权转让文书，甲方同意向债权受让人履行本协议约定的其对乙方负有的全部义务。
+2.甲方同意债权受让人可以授权出借人/贷款人或其他第三方代为行使其对借款人的催收、诉讼等本协议约定的权利。甲方同意出借人/贷款人或第三方基于债权受让人的授权而代为行使催收、代收借款人应还本息及其他费用，送达、代收相关材料，代为行使诉讼权利和债权受让人授予的其他权利。
+3.借款期间或借款期限届满后乙方将相应债权转让时，甲方不可撤销的同意授权新的债权受让人及其委托第三方合作机构对其相应的还款进行划扣。
+<strong>第九条 其他</strong>
+1.甲乙双方签署本合同后，本合同于文首所载日期成立，自乙方将本合同第一条所规定的贷款金额汇入甲方专用账户之日起生效。本协议成立至生效期间，如果甲方提供的资料在真实性、准确性或完整性方面存在瑕疵，经通知仍不能依照要求提供的，导致乙方放款迟延或拒绝放款的，乙方依据本协议不承担任何经济及相关法律责任。
+2.双方签署合同的方式包括：当面签署、远程签署和电子签名签署。远程签署是指在贷款人与借款人（共同借款人）身处异地时，借款人（共同借款人）应在远程摄像设备下提供身份证明等必要资料，并在合同上签字盖章，经贷款人确认无误后，合同成立。电子签名签署指贷款人与借款人通过其电子签名数字证书方式签署本合同；远程签署、电子签名签署的合同效力与当面签署的合同效力一致。合同签署后由乙方负责保管，乙方也可委托第三方代为保管。
+3.本合同及其附件的任何修改、补充均须以书面形式作出。本合同的补充合同及附件与本合同具有同等的法律效力。本合同的传真件、复印件、扫描件等有效副本的效力与本合同原件效力一致。
+4.甲乙双方承诺，为达成及/或履行本合同，其及其关联方的董事、管理人员、雇员、代理人或顾问不曾也不会违反任何相关的法律法规，向任何政府官员、本协议对方、任何相关第三方及其关联方的董事、管理人员、雇员、代理人或者顾问在内的任何有关人员直接或间接地提供资金、礼品或其他任何有价物品、服务，或者从事任何其他贿赂行为。甲乙双方确认，任何一方违反前述规定的行为都将给对方造成损害，并应当向对方支付违约金作为补偿，违约金金额为违反前述规定的一方履行本合同可获得的全部收益。
+5 本协议的签订、履行、终止、解释均适用中国法律。各方同意，因本协议所产生的或与本协议有关的一切争议，各方应协商解决；协商无法达成一致的，任何一方均可起诉至乙方住所地的有管辖权的法院。在本协议履行过程中，如相关债权发生转让，或甲方在本协议项下的债务由其它方垫付或代偿，则本协议各方同意，因本协议所产生的或与本协议有关的一切争议的由债权受让方、垫付方或代偿方注册地有管辖权的法院管辖。
+6.本合同一式伍份，甲方保留壹份，乙方保留肆份。
+
+本合同附件：
+附件一、《委托扣款授权书》
+附件二、《还款事项提醒函》
+（以下无正文）
+</pre>
+  <strong style="display:block;padding-top: 1rem;font-size: .6rem;">协议各方签字盖章：</strong>
+  <div style="display: flex;justify-content: space-between;font-weight: bold;font-size: .6rem;">
+    <div style="display: inline-block">甲方（借款人）</div>
+    <div style="display: inline-block">乙方（贷款人） ：（公章或合同专用章）</div>
+  </div>
+  <strong style="font-size: .6rem;">签字：</strong>
+    </div>
+        </div>
+</body>
+<script type="text/javascript" src="./js/jquery.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/common.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/money.js"></script>
+<script type="text/javascript" src="./js/moment/moment.js"></script>
+<script type="text/javascript" src="./js/moment/min/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+    function getfont() {
+    var html1 = document.documentElement;
+    var screen = html1.clientWidth;
+    if (screen >= 750) {
+        html1.style.fontSize = '40px';
+    } else if (screen <= 320) {
+        html1.style.fontSize = '20px';
+    } else {
+        html1.style.fontSize = 0.0533333 * screen + 'px';
+    }
+
+    }
+    getfont();
+    window.onresize = function() {
+        getfont();
+    }	
+    var creditDay = getQueryString("creditDay");
+    var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
+	$(".time").html( year+"年"+(month+1)+"月"+day+"日") ;
+    $("#getTime").html(year + "年" + (month + 1) + "月" + day + "日");
+    var getTime = year + "年" + (month + 1) + "月" + day + "日";
+    var endTime = moment().format('YYYY年MM月DD日');
+    $("#loanLimit").html(getTime + '至' + endTime);
+    $("#creditDay").html(parseInt(creditDay))
+    $("#endTime").html(endTime);
+    $("#getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    $(".getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    var ua = navigator.userAgent;
+    var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
+
+    if (comeFrom != 'H5') {
+        $("header").hide();
+        $(".dconContainer").css("margin-top","0");
+    }
+    
+    var loanProduct=getQueryString("loanProduct");
+    var tranPrice = getQueryString("tranPrice");
+    var userName = getQueryString("userName");
+    if(!loanProduct){
+        var userInto = getCookie("prodetailInfo");
+        loanProduct =userInto.split(":")[1];
+        tranPrice = userInto.split(":")[0];
+        userName=unescape(getCookie("userName"));
+    }
+    $("#userName").html(userName);
+
+    const LoanAmtCalculateForNewParams = {
+        url: '/HicashService/LoanAmtCalculateForNew',
+        type: 'post',
+        data:  {
+          firstRate : 0,
+          loanProduct : loanProduct,
+          tranPrice : tranPrice
+        }
+    }
+    jqAjax(LoanAmtCalculateForNewParams)
+    .then(function(data){
+        $("#allMoney").html(tranPrice);
+        $(".allMoney").html(tranPrice);
+        var bigTranPrice = creat(tranPrice)
+        if(bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "万"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "仟"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "佰"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "拾"
+          ) {
+            var unit1 = bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元"));
+        } else {
+          var unit1 = "";
+        }
+        var unit2 = bigTranPrice.substring(bigTranPrice.indexOf("拾") - 1, bigTranPrice.indexOf("拾"));
+        var unit3 = bigTranPrice.substring(bigTranPrice.indexOf("佰") - 1, bigTranPrice.indexOf("佰"));
+        var unit4 = bigTranPrice.substring(bigTranPrice.indexOf("仟") - 1, bigTranPrice.indexOf("仟"));
+        var unit5 = bigTranPrice.substring(bigTranPrice.indexOf("万") - 1, bigTranPrice.indexOf("万"));
+
+        var smallUnit1 = bigTranPrice.substring(bigTranPrice.indexOf("角") - 1, bigTranPrice.indexOf("角"));
+        var smallUnit2 = bigTranPrice.substring(bigTranPrice.indexOf("分") - 1, bigTranPrice.indexOf("分"));
+
+        $(".unit1").html(unit1);
+        $(".unit2").html(unit2);
+        $(".unit3").html(unit3);
+        $(".unit4").html(unit4);
+        $(".unit5").html(unit5);
+        $(".smallUnit1").html(smallUnit1);
+        $(".smallUnit2").html(smallUnit2);
+
+        $("#bigMoney").html(creat(tranPrice));
+        
+        backMoney = data.perMonthPay;
+        expect = data.payMentPeriod;
+        var perMonthPayTotal = data.perMonthPayTotal;
+        var loanInterest = perMonthPayTotal - tranPrice;
+        var lastMon=month + 1+expect;
+        if(lastMon>12){
+            lastMon=lastMon-12;
+            year=year+1;
+        }
+        $(".totalRepay").html(calcRepayDetail(tranPrice,creditDay,0.075).totalRepay)
+        $(".serviceFee").html((calcRepayDetail(tranPrice,creditDay,0.155).totalRepay - calcRepayDetail(tranPrice,creditDay,0.075).totalRepay).toFixed(2))
+        $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $("#expect").html(expect);
+        $("#backMoney").html(backMoney);
+        $("#bigBackMoney").html(creat(backMoney));
+        $("#serviceMoney").html(data.serviceCharge);
+        $("#monthFee").html(data.monthFee);
+        $(".creditRate").html(data.creditRate + "%");
+        $("#perMonthPayTotal").html(data.perMonthPayTotal);
+        $("#bigPerMonthPayTotal").html(creat(data.perMonthPayTotal));
+        $("#loanInterest").html(loanInterest);
+        $("#bigLoanInterest").html(creat(loanInterest));
+    });
+    
+    const UserNameCardParams = {
+        url: '/HicashAppService/UserNameCard',
+        type: 'post',
+        data: {
+          userName:userName,
+          uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
+        }
+    }
+    jqAjax(UserNameCardParams)
+    .then(function(data){
+        $(".idcard").html(data.idcard);
+        $(".realName").html(data.realName);
+        $(".mobile").html(data.mobile);
+        $(".bankName").html(data.bankName);
+        $(".email").html(data.email);
+        $(".cardNum").html(data.cardNum);
+        $(".cardNum1").html(data.cardNum.substring(0, 4) + '********' + data.cardNum.substring(data.cardNum.length - 4, data.cardNum.length));
+        $(".address").html(data.provinceName+data.cityName+data.areaName+data.addressRoad);
+        $(".u_fee").html(data.loanPurpose);
+    });	
+			
+    const queryTextConfigParams = {
+        url: '/hicash-api-service/queryTextConfig?source='+getQueryString("comeCode") + '&key=company_full_name,company_short_name,company_mid_name,company_long_name,company_address,service_tel,app_url',
+        type: 'get',
+        data: ''
+    }
+    jqAjax(queryTextConfigParams)
+    .then(function(res){
+        let data = res.dataMap;
+        console.info('queryTextConfig', data);
+        $(".cpp_fullname").html(data.company_full_name);
+        $(".cpp_shortname").html(data.company_short_name);
+        $(".cpp_midname").html(data.company_mid_name);
+        $(".cpp_longname").html(data.company_long_name);
+        $(".cpp_companyaddress").html(data.company_address);
+        $(".app_tel").html(data.service_tel);
+        $(".app_url").html(data.app_url);
+    });
+</script>
+</html>
