@@ -172,27 +172,27 @@
 
 3.<strong>还款账户最低余额为30元</strong>：为了保证您的还款成功划扣，请确保您的还款账户余额在划扣当月还款额以后，还有至少30元的余额存在您的还款账户里，此金额有可能用于支付还款银行的“年费”和其他相关费用。关于此“年费”和其他费用收费标准，请致电您的还款银行咨询。同时为了保证扣款日能够成功划扣，请您保持专用账号中有充足的资金，避免因其他未知或遗忘的代扣等业务造成违约。
 
-4.还款金额：您的每期还款额为人民币(大写)               （小写）            。请您务必牢记此数字。
+4.还款金额：您的每期还款额为人民币(大写)<span id="bigBackMoney"></span>(小写）<span id="backMoney"></span>。请您务必牢记此数字。
 
-5.<strong>还款时间</strong>：请您在每月           日15点之前，将每月还款额<strong>足额</strong>存到您的借记卡里并确保于当日24点之前持续保余额充足，逾期将产生逾期还款违约金，并会影响您的个人信用记录。<strong>请您务必牢记此还款日</strong>，此还款日期不因节假日顺延。<strong>如果还款日在该月无对应日，还款日为应还款当月的最后一日</strong>。
+5.<strong>还款时间</strong>：请您在每月_日15点之前，将每月还款额<strong>足额</strong>存到您的借记卡里并确保于当日24点之前持续保余额充足，逾期将产生逾期还款违约金，并会影响您的个人信用记录。<strong>请您务必牢记此还款日</strong>，此还款日期不因节假日顺延。<strong>如果还款日在该月无对应日，还款日为应还款当月的最后一日</strong>。
 
 <strong>若您采用跨行转账方式汇入还款账户，请提前一周进行划转。</strong>我们将以成功划扣还款账户的还款金额时间为准，记录还款时间。
 
 6.如果您因特殊原因暂时无法按时足额还款时，将产生逾期还款违约金，请在第一时间（<strong>当月还款日期之前</strong>）与我们联系（电话：<span class="app_tel"></span> ）。我们将协助您安排预约还款并准确告知您还款金额（本息、逾期违约金、协议约定的其他费用等）。<strong>特别需要您值得注意的是：不管您是否收到提醒还款的短信或电话，您均有义务按照合同的约定按时足额还款，并且不以短信或电话提醒为前提；逾期时长不足24小时的，您仍需按照一天支付逾期还款违约金；针对擅自改变借款用途或违约时长超过15天，根据借款协议，出借人有权提前终止借款协议，您须在出借人提出终止借款协议要求的三日内一次性支付余下的所有本金、利息和逾期还款违约金等款项。</strong>
 
 7.以下列举如果您在还款第一期即出现不能按时还款，违约天数、逾期还款违约金分别为人民币：
-<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;text-align: center">
   <tr>
     <td colspan="3">违约天数</td>
     <td colspan="7">逾期还款违约金</td>
   </tr>
   <tr>
     <td colspan="3">1天</td>
-    <td colspan="7"></td>
+    <td colspan="7"><span class="overdueAmount1"></span></td>
   </tr>
   <tr>
     <td colspan="3">16天</td>
-    <td colspan="7"></td>
+    <td colspan="7"><span class="overdueAmount2"></span></td>
   </tr>
 </table>
 
@@ -314,6 +314,10 @@
         expect = data.payMentPeriod;
         
         var repayPerMonthPay = backMoney;
+        var overdueAmount1 = repayPerMonthPay / 1000;
+        var overdueAmount2 = (repayPerMonthPay / 1000) * 16;
+        $(".overdueAmount1").html(overdueAmount1);
+        $(".overdueAmount2").html(overdueAmount2);
         var repayExpect = expect;
 
         var perMonthPayTotal = data.perMonthPayTotal;

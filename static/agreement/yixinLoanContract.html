@@ -172,7 +172,7 @@
 <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;">
   <tr>
     <td colspan="1">贷款详细用途</td>
-    <td colspan="1"><span id="u_fee"></span></td>
+    <td colspan="1"><span class="u_fee"></span></td>
     <td colspan="1">百</td>
     <td colspan="1">十</td>
     <td colspan="1">万</td>
@@ -218,11 +218,12 @@
   </tr>
   <tr>
     <td rowspan="2">甲方专用账户</td>
-    <td colspan="5">户名<span class="realName"></span></td>
-    <td colspan="5">账号<span class="cardNum"></span></td>
+    <td colspan="5">户名 <span class="realName"></span></td>
+    <td colspan="5">账号 <span class="cardNum"></span></td>
   </tr>
   <tr>
-      <td colspan="10" >开户行（精确到分行、支行、储蓄所）<span class="bank"></span></td>
+      <td colspan="5">开户行（精确到分行、支行、储蓄所）</td>
+      <td colspan="5"><span class="bank"></span></td>
   </tr>
 </table>
 <strong>第二条 贷款发放</strong>
@@ -451,6 +452,7 @@ C.借款人提供虚假资料或者故意隐瞒重要事实。
         $(".realName").html(data.realName);
         $(".mobile").html(data.mobile);
         $(".bankName").html(data.bankName);
+        $(".bank").html(data.bank);
         $(".email").html(data.email);
         $(".cardNum").html(data.cardNum);
         $(".cardNum1").html(data.cardNum.substring(0, 4) + '********' + data.cardNum.substring(data.cardNum.length - 4, data.cardNum.length));
