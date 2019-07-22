@@ -102,7 +102,6 @@
       :confirm-text="cancelText"
       :cancel-text="confirmText"
 			@on-confirm="onConfirm"
-			@showDialog="showDialog"
 		></Confirm>
 	</div>
 </template>
@@ -243,9 +242,6 @@ export default {
 		},
 		onConfirm() {
 			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
-		},
-		showDialog() {
-
 		}
 	},
 	mounted() {
