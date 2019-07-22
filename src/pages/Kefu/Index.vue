@@ -95,6 +95,15 @@
 			</div>
 		</div>
 		<page-footer v-if="platform === 'H5'"></page-footer>
+		<Confirm
+			v-model="isShowDialog"
+			:title="dialogTitle"
+			:content="dialogContent"
+      :confirm-text="cancelText"
+      :cancel-text="confirmText"
+			@on-confirm="onConfirm"
+			@showDialog="showDialog"
+		></Confirm>
 	</div>
 </template>
 
@@ -103,12 +112,15 @@ import PageHeader from "@/components/PageHeader"
 import PageFooter from "@/components/PageFooter"
 import downloadPop from "@/components/downloadPop"
 import Swiper from "swiper"
+import { Confirm } from "vux";
+
 export default {
 	components: {
 		PageHeader,
 		PageFooter,
 		Swiper,
-		downloadPop
+		downloadPop,
+		Confirm
 	},
 	data() {
 		return {
@@ -117,30 +129,36 @@ export default {
 			showBtnClose: false,
 			platform: this.utils.getPlatform(),
 			list: [],
-			mediasource: ""
+			mediasource: "",
+			isShowDialog: false,
+			dialogTitle: "嗨钱",
+			dialogContent: "请下载嗨钱App",
+			cancelText: "确定",
+			confirmText: "取消"
 		}
 	},
 	methods: {
 		toConcat() {
 			if (this.platform === "H5") {
-				let userName = this.utils.getCookie("userName")
-				if (!userName) {
-					this.$router.push({ name: "Login" })
-				} else {
-					let hxUserName = this.utils.getCookie("hxUserName")
-					let hxPassword = this.utils.getCookie("hxPassword")
-					if (hxUserName && hxPassword) {
-						this.easemobimSet(hxUserName, hxPassword)
-					} else {
-						let postData = new URLSearchParams()
-						postData.append("userName", userName)
-						postData.append("token", "")
-						this.common.userEaseModGet(postData).then(res => {
-							let data = res.data
-							this.easemobimSet(data.hxUsername, data.hxPassword)
-						})
-					}
-				}
+				this.isShowDialog = true;
+				// let userName = this.utils.getCookie("userName")
+				// if (!userName) {
+				// 	this.$router.push({ name: "Login" })
+				// } else {
+				// 	let hxUserName = this.utils.getCookie("hxUserName")
+				// 	let hxPassword = this.utils.getCookie("hxPassword")
+				// 	if (hxUserName && hxPassword) {
+				// 		this.easemobimSet(hxUserName, hxPassword)
+				// 	} else {
+				// 		let postData = new URLSearchParams()
+				// 		postData.append("userName", userName)
+				// 		postData.append("token", "")
+				// 		this.common.userEaseModGet(postData).then(res => {
+				// 			let data = res.data
+				// 			this.easemobimSet(data.hxUsername, data.hxPassword)
+				// 		})
+				// 	}
+				// }
 			} else {
 				let isAndroid = navigator.userAgent.indexOf("comeFrom:android") > -1
 				let isIos = navigator.userAgent.indexOf("comeFrom:iOS") > -1
@@ -173,7 +191,7 @@ export default {
 				}
 			}
 		},
-		easemobimSet: function(hxUserName, hxPassword) {
+		easemobimSet(hxUserName, hxPassword) {
 			window.easemobim = window.easemobim || {}
 			easemobim.config = {
 				configId: "69ecd9da-983a-4b3c-9501-8a3dfafa23eb", //生产
@@ -190,7 +208,7 @@ export default {
 			}
 			easemobim.bind(easemobim.config)
 		},
-		getSysParam: function() {
+		getSysParam () {
 			// 获取产品列表
 			let postData = new URLSearchParams()
 			postData.append("paramCode", "CJWT")
@@ -222,11 +240,17 @@ export default {
 					})
 				}, 500)
 			})
+		},
+		onConfirm() {
+			window.location.href = "https://m.hicash.cn/newweb/activity/downloadApp.html";
+		},
+		showDialog() {
+
 		}
 	},
 	mounted() {
-		this.mediasource = window.sessionStorage.getItem("mediasource")
-		this.getSysParam()
+		this.mediasource = window.sessionStorage.getItem("mediasource");
+		this.getSysParam();
 	}
 }
 </script>
@@ -404,6 +428,34 @@ export default {
 						align-items: center;
 					}
 				}
+			}
+		}
+	}
+	/deep/ .vux-confirm {
+		.weui-dialog {
+			width: rem(270px);
+			.weui-dialog__hd {
+				padding: 0;
+				width: 100%;
+				height: 48px;
+				line-height: 40px;
+				background: #ff7640;
+				.weui-dialog__title {
+					font-family: PingFangSC-Regular;
+					font-size: 17px;
+					color: #ffffff;
+				}
+			}
+			.weui-dialog__bd {
+				padding: 0 1.6em 0.8em;
+				margin-top: rem(20px);
+				text-align: center;
+				font-size: 13px;
+				color: #333333;
+				line-height: 16px;
+			}
+			/deep/ .weui-dialog__btn_default {
+				font-size: rem(15px);
 			}
 		}
 	}
