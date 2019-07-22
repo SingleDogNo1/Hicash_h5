@@ -519,4 +519,7 @@ body {
 .Coupon {
 	background-color: rgb(245, 245, 245);
 }
+.weui-btn_primary{
+  background-color: #FF7640 !important;
+}
 </style>

@@ -58,6 +58,10 @@ import HxInfo from "@/pages/Kefu/HxInfo"
 import Kefu from "@/pages/Kefu/Index"
 import Strike from "@/pages/Activity/Strike"
 import DebtRestructuring from "@/pages/DebtRestructuring/index"
+import ThirdParty from "@/pages/ThirdParty"
+import YXBindCard from "@/pages/ThirdParty/YXBindCard/Index"
+import YXBindCardComplete from "@/pages/ThirdParty/YXBindCard/Complete"
+import YXBindCardFail from "@/pages/ThirdParty/YXBindCard/Fail"
 import Signature from "@/pages/Signature"
 
 Vue.use(Router)
@@ -547,7 +551,7 @@ export default new Router({
 			//债务重组
 			path: "/debtRestructuring",
 			name: "DebtRestructuring",
-			component: DebtRestructuring, //13821919232
+			component: DebtRestructuring,
 			meta: {
 				title: "债务重组",
 				requireAuth: true
@@ -562,6 +566,45 @@ export default new Router({
 				title: "签约",
 				requireAuth: true
 			}
+		},
+		{
+			//第三方页面
+			path: "/thirdParty",
+			name: "ThirdParty",
+			component: ThirdParty,
+			redirect: "/thirdParty/bindCard",
+			children: [
+				{
+					//绑卡（宜信）
+					path: "bindCard",
+					name: "YXBindCard",
+					component: YXBindCard,
+					meta: {
+						requireAuth: true,
+						title: "绑定银行卡"
+					}
+				},
+				{
+					//绑卡成功（宜信）
+					path: "bindCardComplete",
+					name: "YXBindCardComplete",
+					component: YXBindCardComplete,
+					meta: {
+						requireAuth: true,
+						title: "绑卡结果"
+					}
+				},
+				{
+					//绑卡失败（宜信）
+					path: "bindCardFail",
+					name: "YXBindCardFail",
+					component: YXBindCardFail,
+					meta: {
+						requireAuth: true,
+						title: "绑卡结果"
+					}
+				}
+			]
 		}
 	]
 })

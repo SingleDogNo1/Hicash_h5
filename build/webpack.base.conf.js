@@ -10,6 +10,8 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+console.log('static$', resolve('static'));
+
 const webpackConfig = {
   context: path.resolve(__dirname, '../'),
   entry: {
@@ -31,7 +33,8 @@ const webpackConfig = {
       'jquery': 'jquery',
       '_': 'underscore',
       'bowerComponents': resolve('bower_components'),
-      'nodeModules': resolve('node_modules')
+      'nodeModules': resolve('node_modules'),
+      'static$': resolve('static')
     }
   },
   module: {
