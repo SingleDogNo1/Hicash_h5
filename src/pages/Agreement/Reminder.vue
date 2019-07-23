@@ -21,7 +21,8 @@
 				<p class="sjjy" v-if="industryCode !== 'DDSJ' && industryCode !== 'JYFQ'">
 					借款到账后，您需要支付<span v-if="serviceMoney > 0">互联网信息服务费人民币【{{serviceMoney}}】元、</span>金融信息服务费人民币【{{ monthFee }}】元。
 				</p>
-				<p>上述费用按照金融信息服务协议约定收取。</p>
+				<p v-if="serviceMoney > 0">上述费用按照各自协议约定收取</p>
+				<p v-else>上述费用按照金融信息服务协议约定收取。</p>
 				<p>
 					您需按相关议约定按时还款，若您的账户余额不足，将导致逾期还款，这将产生逾期罚息、违约金和滞纳金，并影响您的信用记录。
 				</p>
