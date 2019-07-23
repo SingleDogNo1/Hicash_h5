@@ -9,8 +9,17 @@
 			:showBtnClose="showBtnClose"
 		></page-header>
 		<div class="content" :class="{ appContent: platform === 'APP' }">
-			<div class="loan">
-				<img src="./images/bg_broke_promise.png" width="100%" />
+			<div class="banner-wrap">
+				<div class="banner-swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"  v-for="(bannerItem, index) in bannerList" :key="index">
+							<a :href="bannerItem.picUrl">
+								<img :src="bannerItem.picBigUrl"/>
+							</a>
+						</div>
+					</div>
+					<div class="swiper-pagination" v-if="bannerList.length > 1"></div>
+				</div>
 			</div>
 
 			<div class="hot-wrap">
@@ -22,14 +31,6 @@
 
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<!-- <swiper :show-desc-mask="false" :auto="true" :show-dots="false" :interval="5000000">
-                         <swiper-item class="swiper-demo-img" v-for="(item, index) in hotNews" :key="index">
-                            <a class="arrow_box swiper-slide" :href="item.newUrl" :key="index">
-                                {{item.title}}
-                                <span class="ico" v-if="item.marker && item.marker != ''"><img :src="require('./images/' + item.marker + '-ico.png')" /></span>
-                            </a>
-                        </swiper-item>
-                    </swiper> -->
 					<router-link
 						class="arrow_box swiper-slide"
 						:to="{ name: 'HotNewsDetail', query: { id: item.id } }"
@@ -81,7 +82,6 @@
 			</div>
 			<div class="loan" title="贷款超市">
 				<img @click="adClick" src="./images/ad.png" width="100%" />
-				<!-- <img src="./images/ad.png" width="100%" /> -->
 			</div>
 		</div>
 		<page-footer v-if="platform === 'H5'"></page-footer>
@@ -95,9 +95,52 @@
 	padding-bottom: 1.8rem;
 	padding-top: rem(50px);
 	background: #fff;
-	.loan {
+	.banner-wrap {
 		width: 100%;
-		height: auto;
+		height: rem(180px);
+		.banner-swiper-container {
+			position: relative;
+			.swiper-slide {
+				width: 100%;
+				height: rem(180px);
+				text-align: center;
+				font-size: 18px;
+				background: #fff;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				a {
+					display: block;
+					width: 100%;
+					height: 100%;
+					img {
+						display: block;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+				}
+			}
+			.swiper-pagination-bullets {
+				/deep/ .swiper-pagination-bullet {
+					width: rem(6px);
+					height: rem(6px);
+					background: #d0cdd1;
+				}
+				/deep/ .swiper-pagination-bullet-active {
+					background: #fff;
+				}
+			}
+		}
 	}
 	.hot-wrap {
 		width: 90%;
@@ -248,6 +291,10 @@
 			}
 		}
 	}
+	.loan {
+		width: 100%;
+		height: auto;
+	}
 }
 .appContent {
 	padding-bottom: 0;
@@ -280,7 +327,9 @@ export default {
 			//cdnBrokePromisePath: this.config.cdn_pic_path + 'applogo/shixin/bg_broke_promise.png',
 			cdnShixinCasePath: this.config.cdn_pic_path + "applogo/shixin/ad_shixin.png",
 			cdnAdPath: this.config.cdn_pic_path + "applogo/shixin/ad.png",
-			mediasource: ""
+			mediasource: "",
+			showDots: false,
+			bannerList: []
 		}
 	},
 	methods: {
@@ -318,67 +367,6 @@ export default {
 				let data = res.data
 				var storage = window.sessionStorage
 
-				// data = {
-				//     "loseCreditDetailList":  [{
-				//     "hyApplicationNo": "31801092600003",
-				//     "productName": "滴答贷",
-				//     "applyPeriod": "1",
-				//     "contractAmount": "500.00元",
-				//     "sxType": "1",
-				//     "invUsername": "david_fu",
-				//     "sxButton": "",
-				//     "button": "ss",
-				//     "overDueFlag": "0",
-				//     "noticeTitle": "点击查看：《诉讼文书》",
-				//     "noticeDetail": "关于李文月逾期欠款处置详情",
-				//     "detailList": [{
-				//         "bigTitle": "诉讼文书",
-				//         "type": "SS",
-				//         "picBeforeText": "图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字图片前文字",
-				//         "picBeforeUrl": "图片前文字点击链接",
-				//         "picList": [{
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }],
-				//         "picAfterText": "图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字图片后文字",
-				//         "picAfterTextList": [{
-				//             "text": "11111"
-				//         }, {
-				//             "text": "22222"
-				//         }]
-
-				//     },
-				//     {
-				//         "bigTitle": "仲裁文书",
-				//         "type": "ZC",
-				//         "picList": [{
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_3.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927141424/31801092600003/31801092600003_1_2.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }, {
-				//             "picUrl": "/product_pic/blackuser/20180927/20180927104833/31801092600003_1_1.jpg",
-				//             "picPrefix": "http://file.dev.guolidai.xin/"
-				//         }]
-				//     }]
-				// }],
-				//  "resultCode": "1",
-				// "resultMsg": "SUCCESS"
-				// }
-
 				storage.setItem(
 					"loseCreditDetailList",
 					JSON.stringify(data.loseCreditDetailList)
@@ -405,17 +393,24 @@ export default {
 		SysParam: function() {
 			let _params = new URLSearchParams()
 			_params.append("paramCode", "RDTJ")
+			_params.append("comeFrom", this.platform === 'APP' ? 'APP' : 'HTML5')
 
 			this.common.getSysParam(_params).then(res => {
 				let data = res.data
-				// data.list.forEach( (val, index) => {
-
-				//     val.newUrl = './hotNewsDetails.html?id=' + val.id;
-				//     this.hotNews.push(val);
-				// });
-				this.hotNews = data.list
+				this.hotNews = data.list;
+				this.bannerList = data.picList;
+				if (this.bannerList.length > 1) {
+					this.showDots = true
+				}
 				setTimeout(() => {
-					var swiper = new Swiper(".swiper-container", {
+					var bannerSwiper = new Swiper(".banner-swiper-container", {
+						slidesPerView: "auto",
+						loop: true,
+						autoplay: 5000,
+						autoplayDisableOnInteraction: false,
+						pagination: '.swiper-pagination'
+					})
+					var newsSwiper = new Swiper(".swiper-container", {
 						slidesPerView: "auto",
 						autoplay: 2500
 					})
