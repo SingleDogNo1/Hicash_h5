@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>还款事项提醒函</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 360模式 -->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="./css/common.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-size: 22.08px;
+        }
+        body {
+            font-family: '微软雅黑';
+            background: #f5f4f5;
+            margin: 0;
+            padding: 0;
+            max-width: 640px;
+            min-width: 320px;
+            height: 100%;
+            margin: 0 auto;
+            overflow-x: hidden;
+            justify-content: center;
+            line-height: 20px;
+        }
+        .dconContainer {
+            padding: 0 .85rem;
+        }
+        .dconContainer pre {
+            font-size: .6rem;
+            color: #3f3f3f;
+            line-height: 1.1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+        }
+        .dconContainer pre span.ios {
+            margin-top: 0px;
+            color: #3f3f3f;
+            font-weight: normal;
+            display: none;
+        }
+        .dconContainer pre .title {
+            //padding-top: 1rem;
+        }
+        .tips {
+            width: calc(100% - 15px);
+            height: 114px;
+            background: #FFFFFF;
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        .content {
+            height: auto;
+            padding-bottom: 33px;
+        }
+        .tips .title,
+        .main .title {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 14px;
+            color: #333333;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        .tips .iphone {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 20px;
+            color: #C2A77C;
+        }
+        .main {
+            width: calc(100% - 15px);
+            height: auto;
+            background: #FFFFFF;
+            margin-bottom: 32px;
+            padding-left: 15px;
+            padding-bottom: 1px;
+        }
+        .main .article {
+            width: calc(100% - 15px);
+            height: auto;
+            padding-right: 15px;
+            font-size: 14px;
+        }
+        .btn {
+            width: 92%;
+            height: 44px;
+            background: #C2A77C;
+            border-radius: 8px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            line-height: 44px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        td {
+            border-collapse: collapse;
+            border-left-color: #000;
+            border-style: solid;
+            border-width: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+            word-break: break-all;
+        }
+        .center {
+          text-align: center;
+          line-height: 4px;
+        }
+        .title {
+          padding-top: 1rem;
+          font-size: .6rem;
+        }
+        .no {
+          font-size: .6rem;
+          text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <header class="creditHeader">
+        <!-- 关闭按钮 -->
+        <a class="go-history" href="javascript:history.go(-1);"></a>
+        <h1>还款事项提醒函</h1>
+    </header>
+    <div class="dconContainer container">
+        <div class="inner">
+          <h1 class="title">还款事项提醒函</h1>
+          <p class="no">编号：</p>
+<pre>
+<span class="realName"></span>先生/女士您好：
+    为了您更加方便、快捷地进行还款，同时积累良好的信用记录，在此，请您特别注意如下事项：
+
+1.<strong>还款账户</strong>：在借款协议里列示的专用账号是您每次用于还款的账户，请您妥善保管好该银行卡。如发生此银行卡丢失、损坏的情况，请您第一时间联系我们。我们将根据具体情况，协助您安排按时还款事宜，以避免不必要的逾期违约金的产生。如您需要变更还款账户，请在还款日前至少5个工作日向我们提出申请，我们的工作人员将协助您，进行变更借款协议中专用账号的事项办理。
+
+2.<strong>还款方式</strong>：
+
+2.1 支付机构划扣
+
+您采用支付机构划扣方式还款时，请务必保证您的还款账户在要求的还款时间有充足的资金可供划扣。
+
+2.2线下还款
+
+当前述还款方式出现异常时，您可将相应款项支付至贷款人指定的收款账户。
+
+3.<strong>还款账户最低余额为30元</strong>：为了保证您的还款成功划扣，请确保您的还款账户余额在划扣当月还款额以后，还有至少30元的余额存在您的还款账户里，此金额有可能用于支付还款银行的“年费”和其他相关费用。关于此“年费”和其他费用收费标准，请致电您的还款银行咨询。同时为了保证扣款日能够成功划扣，请您保持专用账号中有充足的资金，避免因其他未知或遗忘的代扣等业务造成违约。
+
+4.还款金额：您的每期还款额为人民币(大写)<span id="bigBackMoney"></span>(小写）<span id="backMoney"></span>。请您务必牢记此数字。
+
+5.<strong>还款时间</strong>：请您在每月_日15点之前，将每月还款额<strong>足额</strong>存到您的借记卡里并确保于当日24点之前持续保余额充足，逾期将产生逾期还款违约金，并会影响您的个人信用记录。<strong>请您务必牢记此还款日</strong>，此还款日期不因节假日顺延。<strong>如果还款日在该月无对应日，还款日为应还款当月的最后一日</strong>。
+
+<strong>若您采用跨行转账方式汇入还款账户，请提前一周进行划转。</strong>我们将以成功划扣还款账户的还款金额时间为准，记录还款时间。
+
+6.如果您因特殊原因暂时无法按时足额还款时，将产生逾期还款违约金，请在第一时间（<strong>当月还款日期之前</strong>）与我们联系（电话：<span class="app_tel"></span> ）。我们将协助您安排预约还款并准确告知您还款金额（本息、逾期违约金、协议约定的其他费用等）。<strong>特别需要您值得注意的是：不管您是否收到提醒还款的短信或电话，您均有义务按照合同的约定按时足额还款，并且不以短信或电话提醒为前提；逾期时长不足24小时的，您仍需按照一天支付逾期还款违约金；针对擅自改变借款用途或违约时长超过15天，根据借款协议，出借人有权提前终止借款协议，您须在出借人提出终止借款协议要求的三日内一次性支付余下的所有本金、利息和逾期还款违约金等款项。</strong>
+
+7.以下列举如果您在还款第一期即出现不能按时还款，违约天数、逾期还款违约金分别为人民币：
+<table cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;text-align: center">
+  <tr>
+    <td colspan="3">违约天数</td>
+    <td colspan="7">逾期还款违约金</td>
+  </tr>
+  <tr>
+    <td colspan="3">1天</td>
+    <td colspan="7"><span class="overdueAmount1"></span></td>
+  </tr>
+  <tr>
+    <td colspan="3">16天</td>
+    <td colspan="7"><span class="overdueAmount2"></span></td>
+  </tr>
+</table>
+
+8.<strong>联系方式变更：</strong>为了方便我们更好地服务于您，如果您需要变更还款账号，或者您（或是您共同借款人）的联系方式、工作单位、居住或工作地址，或者您经营企业的名称、主营业务及股权结构等与借款有关的信息发生变化，请在第一时间拨打400-010-6668通知我们。注：在还款日当天不予变更还款账号。
+
+9.<strong>提前还款（即一次性还款）：</strong>为了方便我们更好地服务于您，如果您决定一次性将全部款项结清，请您务必提前三个工作日与我们进行确认（还款日及节假日期间不办理）。我们将帮助您安排预约一次性还款的相关事宜。提前还款电话：400-010-6668。
+您的还款分期表如下：
+<table id="repayList" cellspacing="0" cellpadding="0" style="border-collapse:collapse;width:100%;margin: auto;text-align: center;">
+  <tr>
+    <td colspan="2">期数</td>
+    <td colspan="2">还款日期</td>
+    <td colspan="2">应还金额</td>
+    <td colspan="2">剩余本金</td>
+    <td colspan="2">一次性还款金额</td>
+  </tr>
+</table>
+    <strong>还款过程中，当您遇到问题时可联系我们为您解决。（客户信息变更联系、无法按时还款咨询、提前一次性还款电话：400-010-6668）</strong>
+    <p style="text-align: right;">借款人签章： </p>    
+</pre>
+</body>
+<script type="text/javascript" src="./js/jquery.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/common.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/money.js"></script>
+<script type="text/javascript" src="./js/moment/moment.js"></script>
+<script type="text/javascript" src="./js/moment/min/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+    function getfont() {
+    var html1 = document.documentElement;
+    var screen = html1.clientWidth;
+    if (screen >= 750) {
+        html1.style.fontSize = '40px';
+    } else if (screen <= 320) {
+        html1.style.fontSize = '20px';
+    } else {
+        html1.style.fontSize = 0.0533333 * screen + 'px';
+    }
+
+    }
+    getfont();
+    window.onresize = function() {
+        getfont();
+    }	
+
+    var creditDay = getQueryString("creditDay");
+    var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
+	$(".time").html( year+"年"+(month+1)+"月"+day+"日") ;
+    $("#getTime").html(year + "年" + (month + 1) + "月" + day + "日");
+    var getTime = year + "年" + (month + 1) + "月" + day + "日";
+    var endTime = moment().format('YYYY年MM月DD日');
+    $("#loanLimit").html(getTime + '至' + endTime);
+    $("#creditDay").html(parseInt(creditDay))
+    $("#endTime").html(endTime);
+    $("#getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    $(".getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    var ua = navigator.userAgent;
+    var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
+
+    if (comeFrom != 'H5') {
+        $("header").hide();
+        $(".dconContainer").css("margin-top","0");
+    }
+    
+    var loanProduct=getQueryString("loanProduct");
+    var tranPrice = getQueryString("tranPrice");
+    var userName = getQueryString("userName");
+    if(!loanProduct){
+        var userInto = getCookie("prodetailInfo");
+        loanProduct =userInto.split(":")[1];
+        tranPrice = userInto.split(":")[0];
+        userName=unescape(getCookie("userName"));
+    }
+    $("#userName").html(userName);
+
+    const LoanAmtCalculateForNewParams = {
+        url: '/HicashService/LoanAmtCalculateForNew',
+        type: 'post',
+        data:  {
+          firstRate : 0,
+          loanProduct : loanProduct,
+          tranPrice : tranPrice
+        }
+    }
+    jqAjax(LoanAmtCalculateForNewParams)
+    .then(function(data){
+        $("#allMoney").html(tranPrice);
+        $(".allMoney").html(tranPrice);
+        var bigTranPrice = creat(tranPrice)
+        if(bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "万"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "仟"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "佰"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "拾"
+          ) {
+            var unit1 = bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元"));
+        } else {
+          var unit1 = "";
+        }
+        var unit2 = bigTranPrice.substring(bigTranPrice.indexOf("拾") - 1, bigTranPrice.indexOf("拾"));
+        var unit3 = bigTranPrice.substring(bigTranPrice.indexOf("佰") - 1, bigTranPrice.indexOf("佰"));
+        var unit4 = bigTranPrice.substring(bigTranPrice.indexOf("仟") - 1, bigTranPrice.indexOf("仟"));
+        var unit5 = bigTranPrice.substring(bigTranPrice.indexOf("万") - 1, bigTranPrice.indexOf("万"));
+
+        var smallUnit1 = bigTranPrice.substring(bigTranPrice.indexOf("角") - 1, bigTranPrice.indexOf("角"));
+        var smallUnit2 = bigTranPrice.substring(bigTranPrice.indexOf("分") - 1, bigTranPrice.indexOf("分"));
+
+        $(".unit1").html(unit1);
+        $(".unit2").html(unit2);
+        $(".unit3").html(unit3);
+        $(".unit4").html(unit4);
+        $(".unit5").html(unit5);
+        $(".smallUnit1").html(smallUnit1);
+        $(".smallUnit2").html(smallUnit2);
+
+        $("#bigMoney").html(creat(tranPrice));
+        
+        backMoney = data.perMonthPay;
+        expect = data.payMentPeriod;
+        
+        var repayPerMonthPay = backMoney;
+        var overdueAmount1 = repayPerMonthPay / 1000;
+        var overdueAmount2 = (repayPerMonthPay / 1000) * 16;
+        $(".overdueAmount1").html(overdueAmount1);
+        $(".overdueAmount2").html(overdueAmount2);
+        var repayExpect = expect;
+
+        var perMonthPayTotal = data.perMonthPayTotal;
+        var loanInterest = perMonthPayTotal - tranPrice;
+        var lastMon=month + 1+expect;
+        if(lastMon>12){
+            lastMon=lastMon-12;
+            year=year+1;
+        }
+        $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $("#expect").html(expect);
+        $("#backMoney").html(backMoney);
+        $("#bigBackMoney").html(creat(backMoney));
+        $("#serviceMoney").html(data.serviceCharge);
+        $("#monthFee").html(data.monthFee);
+        $(".creditRate").html(data.creditRate + "%");
+        $("#perMonthPayTotal").html(data.perMonthPayTotal);
+        $("#bigPerMonthPayTotal").html(creat(data.perMonthPayTotal));
+        $("#loanInterest").html(loanInterest);
+        $("#bigLoanInterest").html(creat(loanInterest));
+
+
+        var html = ''
+        for(var i=0;i<parseInt(repayExpect);i++){
+          var index = i + 1;
+            html += '<tr>\n' +
+                '<td colspan="2">'+index+'</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '<td colspan="2">'+repayPerMonthPay+'</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '</tr>'
+        }
+        $('#repayList').append(html)
+    });
+    
+    const UserNameCardParams = {
+        url: '/HicashAppService/UserNameCard',
+        type: 'post',
+        data: {
+          userName:userName,
+          uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
+        }
+    }
+    jqAjax(UserNameCardParams)
+    .then(function(data){
+        $(".idcard").html(data.idcard);
+        $(".realName").html(data.realName);
+        $(".mobile").html(data.mobile);
+        $(".bankName").html(data.bankName);
+        $(".email").html(data.email);
+        $(".cardNum").html(data.cardNum);
+        $(".cardNum1").html(data.cardNum.substring(0, 4) + '********' + data.cardNum.substring(data.cardNum.length - 4, data.cardNum.length));
+        $(".address").html(data.provinceName+data.cityName+data.areaName+data.addressRoad);
+        $(".u_fee").html(data.loanPurpose);
+    });	
+			
+    const queryTextConfigParams = {
+        url: '/hicash-api-service/queryTextConfig?source='+getQueryString("comeCode") + '&key=company_full_name,company_short_name,company_mid_name,company_long_name,company_address,service_tel,app_url',
+        type: 'get',
+        data: ''
+    }
+    jqAjax(queryTextConfigParams)
+    .then(function(res){
+        let data = res.dataMap;
+        console.info('queryTextConfig', data);
+        $(".cpp_fullname").html(data.company_full_name);
+        $(".cpp_shortname").html(data.company_short_name);
+        $(".cpp_midname").html(data.company_mid_name);
+        $(".cpp_longname").html(data.company_long_name);
+        $(".cpp_companyaddress").html(data.company_address);
+        $(".app_tel").html(data.service_tel);
+        $(".app_url").html(data.app_url);
+    });
+</script>
+</html>

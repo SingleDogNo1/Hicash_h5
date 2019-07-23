@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数字证书电子签名服务协议</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <!-- 是否启动webapp功能，会删除默认的苹果工具栏和菜单栏。 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- 这个主要是根据实际的页面设计的主体色为搭配来进行设置。 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- 360模式 -->
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="./css/common.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-size: 22.08px;
+        }
+        body {
+            font-family: '微软雅黑';
+            background: #f5f4f5;
+            margin: 0;
+            padding: 0;
+            max-width: 640px;
+            min-width: 320px;
+            height: 100%;
+            margin: 0 auto;
+            overflow-x: hidden;
+            justify-content: center;
+            line-height: 20px;
+        }
+        .dconContainer {
+            padding: 0 .85rem;
+        }
+        .dconContainer pre {
+            font-size: .6rem;
+            color: #3f3f3f;
+            line-height: 1.1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: justify;
+        }
+        .dconContainer pre span.ios {
+            margin-top: 0px;
+            color: #3f3f3f;
+            font-weight: normal;
+            display: none;
+        }
+        .dconContainer pre .title {
+            //padding-top: 1rem;
+        }
+        .tips {
+            width: calc(100% - 15px);
+            height: 114px;
+            background: #FFFFFF;
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        .content {
+            height: auto;
+            padding-bottom: 33px;
+        }
+        .tips .title,
+        .main .title {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 14px;
+            color: #333333;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        .tips .iphone {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            font-family: PingFangSC-Medium;
+            letter-spacing: 0;
+            margin: 0;
+            font-size: 20px;
+            color: #C2A77C;
+        }
+        .main {
+            width: calc(100% - 15px);
+            height: auto;
+            background: #FFFFFF;
+            margin-bottom: 32px;
+            padding-left: 15px;
+            padding-bottom: 1px;
+        }
+        .main .article {
+            width: calc(100% - 15px);
+            height: auto;
+            padding-right: 15px;
+            font-size: 14px;
+        }
+        .btn {
+            width: 92%;
+            height: 44px;
+            background: #C2A77C;
+            border-radius: 8px;
+            font-family: PingFangSC-Regular;
+            font-size: 15px;
+            color: #FFFFFF;
+            letter-spacing: 0;
+            line-height: 44px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        td {
+            border-collapse: collapse;
+            border-left-color: #000;
+            border-style: solid;
+            border-width: 1px;
+            padding-left: 5px;
+            padding-right: 5px;
+            word-break: break-all;
+        }
+        .center {
+          text-align: center;
+          line-height: 4px;
+        }
+        .title {
+          padding-top: 1rem;
+          font-size: .6rem;
+        }
+        .no {
+          font-size: .6rem;
+          text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <header class="creditHeader">
+        <!-- 关闭按钮 -->
+        <a class="go-history" href="javascript:history.go(-1);"></a>
+        <h1>数字证书电子签名服务协议</h1>
+    </header>
+    <div class="dconContainer container">
+        <div class="inner">
+            <h1 class="title">还款事项提醒函</h1>
+<pre>
+<strong>一、定义与解释</strong>
+1、重庆程远未来电子商务服务有限公司（以下简称“程远未来”）是基于实名认证为互联
+网用户颁发数字证书，由国家密码局、工信部认可的合法第三方电子认证服务机构。程远未
+来专注于为政府、组织机构和个人提供全面的电子认证服务、电子签名和电子证据解决方案。
+2、电子签名依赖方（以下简称“依赖方”），是指基于对电子签名数字证书或电子签名的
+信赖从事有关业务活动的人或机构。依赖方为电子签名人或机构提供业务活动的平台，简称
+“依赖方平台”。
+3、订户，即此依赖方平台的用户中接受了程远未来提供电子认证服务的实体，包括个人和
+机构。
+4、数字证书，是程远未来为您颁发的用于识别您或您机构身份的数字身份，数字证书及其
+对应的私钥构成电子签名制作数据，用于电子合同签署。可靠电子签名与手写签名或者盖章
+具有同等法律效力。
+<strong>二、声明与承诺</strong>
+1、您同意，按以下的方式存储和使用您的数字证书：
+(1) 订户的数字证书为短时事件证书，生命周期不超过 24 小时，仅在订户签署电子合
+同时有效。
+(2) 订户数字证书的私钥为订户专有，采用云端安全密码模块进行临时存储。
+(3) 一旦电子合同签署完成或订户的数字证书失效，安全密码模块即刻对其私钥进行
+销毁。
+(4) 订户的数字证书私钥仅由订户控制。订户登录此依赖方平台，调用安全密码模块
+进行电子合同签名的行为视为您对私钥使用的授权。除此以外，任何人无权访问您的私钥。
+(5) 电子签名平台采用 PDF 签名方式进行电子签名数据固化，签署后对数据电文和电
+子签名数据的任何改动都能够被发现。
+2、您保证，在您同意接受本协议并注册成为程远未来订户时，您已经年满 18 周岁并具备完
+全的民事行为能力，或者您是在中国大陆地区依法设立并合法开展经营活动或其他业务的法
+人或其他组织；本协议内容不受您所属国家或地区法律的排斥。在您成为订户时或在此后任
+何时间不具备前述条件的，您应立即终止注册或停止使用本服务。您在使用电子签名服务时，
+应自行判断对方是否是完全民事行为能力人，且确定他提供的信息和他本人对应，并自行决
+定是否与对方进行签约交易等，且您应自行承担与此相关的所有风险。程远未来不承担因对
+方身份确认失误或与对方签约交易的纠纷而造成的损失。
+3、您保证，在您同意接受本协议并注册成为程远未来订户时，即表示您认可使用电子签名
+平台作为缔约方式，认可您在电子签名平台上的所有操作都是您个人意愿的表示，认可您在
+电子签名平台上签订的电子合同和手写签署或盖章的纸质合同具备相同的效力，认可您在电
+子签名平台上的电子签名和您的手写签名或盖章具备相同的效力。 
+4、您同意，程远未来有权合法收集、处理、传递并核实您的注册资料，将您的个人身份信
+息进行传输和保存，该信息不因您终止电子签名服务而停止保存。程远未来将按照国家有关
+规定及本协议的约定对您的资料进行保密保存。
+5、您保证，按照本协议的要求提供您的合法身份证件材料，填写注册信息，所填写的注册
+信息和所提供的资料真实、准确和完整，否则程远未来有权拒绝您的申请。
+6、您保证，如您所填写的注册信息或提供的资料在数字证书有效期内变更的，您应当及时
+书面告知程远未来，并终止使用该数字证书。
+7、我们共同承诺，为您签发的数字证书仅用于此依赖方平台的各类电子合同签署，不能用
+于其他平台或其他用途。
+<strong>三、服务使用规则</strong>
+1、程远未来保证您的数字证书在短时有效期限内使用。数字证书失效后，您需要继续使用
+的，基于本协议我们会为您自动签发新的数字证书。
+2、使用短时数字证书可以有效降低您私钥存储和使用的风险，但在有效期内您不再使用的，
+您有权向程远未来申请办理撤销手续。
+3、您有下列情形之一的，程远未来有权撤销数字证书并终止电子签名服务。给您和合同签
+署相关方造成了损失，由您承担全部法律责任并赔偿。由此给程远未来造成损失的，您应当
+向程远未来承担赔偿责任。
+(1) 您向程远未来提供的资料或者信息不真实、不完整或者不准确的。
+(2) 您所填写的注册信息或所提供的资料有变更，您未书面通知程远未来并终止使用该
+数字证书的。
+(3) 您将数字证书用于违法、犯罪活动的。
+4、程远未来有下列情形并对您造成损失的，向您承担赔偿责任：
+(1) 由于程远未来原因导致将数字证书签发给您以外的第三方；
+(2) 由于程远未来原因导致数字证书中的信息错误；
+(3) 由于程远未来原因导致数字证书私钥被破译。
+因地震、洪水自然灾害等不可抗力因素造成您损失的，程远未来不承担任何责任。您应
+当在以上情形出现之日起两年内向程远未来提出赔付申请。逾期不申请的，视为您放弃请求
+程远未来赔付的权利。
+5、您向程远未来提出赔付申请时，应当提交下列材料并协助程远未来完成相应的调查工作：
+(1) 能够证明您身份的材料，如：身份证、护照、企业法人营业执照等；
+(2) 能够证明您遭受损失的材料；
+(3) 能够证明程远未来有过错的材料；
+(4) 其他应当提交的材料。
+6、程远未来有权通过您注册平台以在互联网上公开发布的方式修改本协议，如做出实质性
+变更，您有权拒绝修改并应在公布的合理期限内向程远未来提出异议并与程远未来协商达成
+一致。
+7、程远未来与您因数字证书申请、使用、服务等相关事宜产生争议且协商不成的，不论金
+额大小，均提交中国广州仲裁委员会并适用其仲裁规则项下的简易程序进行仲裁。仲裁裁决
+为终局的，对双方均有约束力。
+8、本服务协议为不可撤销要约，承诺期限为两年。程远未来通过盖章方式对本要约内容加
+以确认并在此依赖方平台上进行展示，承诺期内您在此平台上通过包括但不限于点击、勾选、
+手写签名等方式之一或方式的结合签署《数字证书电子签名服务协议》的，即表示您作出了
+同意本要约的所有内容的承诺，程远未来与您之间的数字证书电子签名服务协议成立并生效，
+程远未来与您签署、确认方式的不同不影响协议的法律效力。程远未来与您将依照您签署协
+议的内容行使权利和履行义务。
+<p style="text-align: right">重庆程远未来电子商务服务有限公司</p>
+</pre>
+</body>
+<script type="text/javascript" src="./js/jquery.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/common.js?version=1.0.0"></script>
+<script type="text/javascript" src="./js/money.js"></script>
+<script type="text/javascript" src="./js/moment/moment.js"></script>
+<script type="text/javascript" src="./js/moment/min/moment-with-locales.min.js"></script>
+<script type="text/javascript">
+    function getfont() {
+    var html1 = document.documentElement;
+    var screen = html1.clientWidth;
+    if (screen >= 750) {
+        html1.style.fontSize = '40px';
+    } else if (screen <= 320) {
+        html1.style.fontSize = '20px';
+    } else {
+        html1.style.fontSize = 0.0533333 * screen + 'px';
+    }
+
+    }
+    getfont();
+    window.onresize = function() {
+        getfont();
+    }	
+
+    var creditDay = getQueryString("creditDay");
+    var date = new Date();
+	var year = date.getFullYear();
+	var month = date.getMonth();
+	var day = date.getDate();
+	$(".time").html( year+"年"+(month+1)+"月"+day+"日") ;
+    $("#getTime").html(year + "年" + (month + 1) + "月" + day + "日");
+    var getTime = year + "年" + (month + 1) + "月" + day + "日";
+    var endTime = moment().format('YYYY年MM月DD日');
+    $("#loanLimit").html(getTime + '至' + endTime);
+    $("#creditDay").html(parseInt(creditDay))
+    $("#endTime").html(endTime);
+    $("#getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    $(".getDay").html(endTime.substring(endTime.length-3, endTime.length-1));
+    var ua = navigator.userAgent;
+    var comeFrom = ua.indexOf('comeFrom:iOS') > -1 || ua.indexOf('comeFrom:android') > -1 ? 'APP' : 'H5';
+
+    if (comeFrom != 'H5') {
+        $("header").hide();
+        $(".dconContainer").css("margin-top","0");
+    }
+    
+    var loanProduct=getQueryString("loanProduct");
+    var tranPrice = getQueryString("tranPrice");
+    var userName = getQueryString("userName");
+    if(!loanProduct){
+        var userInto = getCookie("prodetailInfo");
+        loanProduct =userInto.split(":")[1];
+        tranPrice = userInto.split(":")[0];
+        userName=unescape(getCookie("userName"));
+    }
+    $("#userName").html(userName);
+
+    const LoanAmtCalculateForNewParams = {
+        url: '/HicashService/LoanAmtCalculateForNew',
+        type: 'post',
+        data:  {
+          firstRate : 0,
+          loanProduct : loanProduct,
+          tranPrice : tranPrice
+        }
+    }
+    jqAjax(LoanAmtCalculateForNewParams)
+    .then(function(data){
+        $("#allMoney").html(tranPrice);
+        $(".allMoney").html(tranPrice);
+        var bigTranPrice = creat(tranPrice)
+        if(bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "万"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "仟"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "佰"
+          && bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元")) != "拾"
+          ) {
+            var unit1 = bigTranPrice.substring(bigTranPrice.indexOf("元") - 1, bigTranPrice.indexOf("元"));
+        } else {
+          var unit1 = "";
+        }
+        var unit2 = bigTranPrice.substring(bigTranPrice.indexOf("拾") - 1, bigTranPrice.indexOf("拾"));
+        var unit3 = bigTranPrice.substring(bigTranPrice.indexOf("佰") - 1, bigTranPrice.indexOf("佰"));
+        var unit4 = bigTranPrice.substring(bigTranPrice.indexOf("仟") - 1, bigTranPrice.indexOf("仟"));
+        var unit5 = bigTranPrice.substring(bigTranPrice.indexOf("万") - 1, bigTranPrice.indexOf("万"));
+
+        var smallUnit1 = bigTranPrice.substring(bigTranPrice.indexOf("角") - 1, bigTranPrice.indexOf("角"));
+        var smallUnit2 = bigTranPrice.substring(bigTranPrice.indexOf("分") - 1, bigTranPrice.indexOf("分"));
+
+        $(".unit1").html(unit1);
+        $(".unit2").html(unit2);
+        $(".unit3").html(unit3);
+        $(".unit4").html(unit4);
+        $(".unit5").html(unit5);
+        $(".smallUnit1").html(smallUnit1);
+        $(".smallUnit2").html(smallUnit2);
+
+        $("#bigMoney").html(creat(tranPrice));
+        
+        backMoney = data.perMonthPay;
+        expect = data.payMentPeriod;
+        
+        var repayPerMonthPay = backMoney;
+        var repayExpect = expect;
+
+        var perMonthPayTotal = data.perMonthPayTotal;
+        var loanInterest = perMonthPayTotal - tranPrice;
+        var lastMon=month + 1+expect;
+        if(lastMon>12){
+            lastMon=lastMon-12;
+            year=year+1;
+        }
+        $("#lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $(".lastTime").html(year + "年" +lastMon + "月" + day + "日");
+        $("#expect").html(expect);
+        $("#backMoney").html(backMoney);
+        $("#bigBackMoney").html(creat(backMoney));
+        $("#serviceMoney").html(data.serviceCharge);
+        $("#monthFee").html(data.monthFee);
+        $(".creditRate").html(data.creditRate + "%");
+        $("#perMonthPayTotal").html(data.perMonthPayTotal);
+        $("#bigPerMonthPayTotal").html(creat(data.perMonthPayTotal));
+        $("#loanInterest").html(loanInterest);
+        $("#bigLoanInterest").html(creat(loanInterest));
+
+
+        var html = ''
+        for(var i=0;i<parseInt(repayExpect);i++){
+          var index = i + 1;
+            html += '<tr>\n' +
+                '<td colspan="2">'+index+'</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '<td colspan="2">'+repayPerMonthPay+'</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '<td colspan="2">-</td>\n' +
+                '</tr>'
+        }
+        $('#repayList').append(html)
+    });
+    
+    const UserNameCardParams = {
+        url: '/HicashAppService/UserNameCard',
+        type: 'post',
+        data: {
+          userName:userName,
+          uuid:"0c8297d7-6d3a-46da-b782-0df2434f88b1"
+        }
+    }
+    jqAjax(UserNameCardParams)
+    .then(function(data){
+        $(".idcard").html(data.idcard);
+        $(".realName").html(data.realName);
+        $(".mobile").html(data.mobile);
+        $(".bankName").html(data.bankName);
+        $(".email").html(data.email);
+        $(".cardNum").html(data.cardNum);
+        $(".cardNum1").html(data.cardNum.substring(0, 4) + '********' + data.cardNum.substring(data.cardNum.length - 4, data.cardNum.length));
+        $(".address").html(data.provinceName+data.cityName+data.areaName+data.addressRoad);
+        $(".u_fee").html(data.loanPurpose);
+    });	
+			
+    const queryTextConfigParams = {
+        url: '/hicash-api-service/queryTextConfig?source='+getQueryString("comeCode") + '&key=company_full_name,company_short_name,company_mid_name,company_long_name,company_address,service_tel,app_url',
+        type: 'get',
+        data: ''
+    }
+    jqAjax(queryTextConfigParams)
+    .then(function(res){
+        let data = res.dataMap;
+        console.info('queryTextConfig', data);
+        $(".cpp_fullname").html(data.company_full_name);
+        $(".cpp_shortname").html(data.company_short_name);
+        $(".cpp_midname").html(data.company_mid_name);
+        $(".cpp_longname").html(data.company_long_name);
+        $(".cpp_companyaddress").html(data.company_address);
+        $(".app_tel").html(data.service_tel);
+        $(".app_url").html(data.app_url);
+    });
+</script>
+</html>
