@@ -9,7 +9,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 
 //第一个参数（区分old还是new）
-const argv1 = process.argv[2];
+const argv1 = process.argv[3];
+console.log("argv1====", argv1)
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -25,7 +26,7 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env,
-      'model': JSON.stringify(argv1)
+      'process.model': JSON.stringify(argv1)
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

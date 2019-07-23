@@ -14,6 +14,14 @@ import {
 } from "vux"
 import "./assets/css/common.scss"
 //import vConsole from "vconsole"
+import * as Sentry from "@sentry/browser"
+import * as Integrations from "@sentry/integrations"
+
+process.model === "prod" &&
+	Sentry.init({
+		dsn: "https://d8b8b63d1d92443294261269bfa849a1@sentry.io/1501448",
+		integrations: [new Integrations.Vue({ Vue, attachProps: true })]
+	})
 
 import common from "./api/common.js"
 import jsCommon from "./assets/js/common.js"
