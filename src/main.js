@@ -19,7 +19,7 @@ import * as Integrations from "@sentry/integrations"
 
 process.model === "prod" &&
 	Sentry.init({
-		dsn: "https://d8b8b63d1d92443294261269bfa849a1@sentry.io/1501448",
+		dsn: "http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3",
 		integrations: [new Integrations.Vue({ Vue, attachProps: true })]
 	})
 
