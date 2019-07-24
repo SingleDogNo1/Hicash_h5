@@ -731,7 +731,6 @@ export default {
 		}
 	},
 	mounted: function() {
-		// console.log(a.bb())
 		//var token = window.hicashJSCommunication.getToken();
 		//alert("token" + token)
 		let _this = this
