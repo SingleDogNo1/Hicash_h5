@@ -76,7 +76,7 @@
             <span class="desc">{{item.agreeSignText}}</span>
             <span class="agreement-tmpl" v-html="item.agreementTmpl"></span>
           </div>
-          <p class="agree-text" v-if="item.desBehind" v-html="item.desBehind">}</p>
+          <p class="agree-text" v-if="item.desBehind" v-html="item.desBehind"></p>
           <p class="agree-text" v-if="tip" v-html="tip"></p>
         </div>
       </div>
@@ -84,11 +84,11 @@
         <router-link class="cancel" :to="{ name: 'Personal'}">取消</router-link>
         <a class="sign" @click="showSignPop">签约</a>
       </div>
-      <div class="help-popover" ref="helpPopoverRef" :style="{top: helpPopTop, display: popHelpServicesFee}">
+      <div class="help-popover" ref="helpPopoverRef" v-if="feeList[1]" :style="{top: helpPopTop, display: popHelpServicesFee}">
         <div class="help-popover-arrow" :style="{left: helpArrowLeft}"></div>
         {{feeList[1].subName}}<a :href="item.link" v-for="(item, index) in feeList[1].agreements">{{item.name}}</a>
       </div>
-      <div class="help-popover" ref="popHelpInfoFee" :style="{top: helpInfoPopTop, display: popHelpInfoFee}">
+      <div class="help-popover" ref="popHelpInfoFee" v-if="feeList[2]" :style="{top: helpInfoPopTop, display: popHelpInfoFee}">
         <div class="help-popover-arrow" :style="{left: helpInfoArrowLeft}"></div>
         {{feeList[2].subName}}<a :href="item.link" v-for="(item, index) in feeList[2].agreements">{{item.name}}</a>
       </div>
@@ -290,8 +290,8 @@ export default {
             setTimeout(()=>{
               this.helpPopTop = this.$refs.popoverHelp[0].getBoundingClientRect().top + 27 +'px';
               this.helpArrowLeft = this.$refs.popoverHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
-              this.helpInfoPopTop = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().top + 27 +'px';
-              this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px';
+              this.helpInfoPopTop = this.$refs.popoverInfoFeeHelp.length ? this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().top + 27 +'px' : 0;
+              this.helpInfoArrowLeft = this.$refs.popoverInfoFeeHelp.length ? this.$refs.popoverInfoFeeHelp[0].getBoundingClientRect().left - window.screen.width * 0.05 + 11 +'px' : 0;
             }, 500);
 
             // document.body.addEventListener("click", this.popHelpShow,true)
