@@ -15,6 +15,10 @@ const SentryCliPlugin = require('@sentry/webpack-plugin')
 //第一个参数（区分old还是new）
 const argv1 = process.argv[2];
 console.log("argv1==", argv1)
+
+const gitCommitInfo = argv1 ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+      : require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
@@ -129,7 +133,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
     new SentryCliPlugin({
-      release: process.env.RELEASE_VERSION,
+      release: gitCommitInfo,
       include: 'dist/static/js'
     })
   ]
