@@ -10,8 +10,9 @@
 // console.log("gitTag===", gitTag)
 // const config = require("./src/config.json");
 // console.log("config==", config)
-let gitCommitInfo = require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
-//let gitCommitInfo = require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+// let gitCommitInfo = require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+let gitCommitInfo = require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+console.log("gitCommitInfo===", gitCommitInfo)
 module.exports = {
   NODE_ENV: '"production"',
   RELEASE_VERSION: `"${gitCommitInfo}"`

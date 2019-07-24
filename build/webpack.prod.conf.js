@@ -14,7 +14,7 @@ const SentryCliPlugin = require('@sentry/webpack-plugin')
 
 //第一个参数（区分old还是new）
 const argv1 = process.argv[2];
-
+console.log("argv1==", argv1)
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
@@ -134,8 +134,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     })
   ]
 })
-
-console.log(":process.env.RELEASE_VERSION===", process.env.RELEASE_VERSION)
 
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
