@@ -23,7 +23,7 @@ process.model === "dev" &&
 	Sentry.init({
 		dsn: "http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3",
 		integrations: [new Integrations.Vue({ Vue, attachProps: true })],
-		release: process.env.RELEASE_VERSION
+		release: process.sentryRelease
 	})
 //Raven.config("http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3", {
 // 	release: process.sentryRelease
