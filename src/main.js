@@ -26,7 +26,6 @@ process.model === "dev" &&
 		integrations: [new Integrations.Vue({ Vue, attachProps: true })],
 		release: process.sentryRelease
 	})
-console.log("process.env.RELEASE_VERSION==", process.env.RELEASE_VERSION)
 //Raven.config("http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3", {
 // 	release: process.sentryRelease
 // })
