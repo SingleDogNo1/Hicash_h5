@@ -16,6 +16,7 @@ const SentryCliPlugin = require('@sentry/webpack-plugin')
 const argv1 = process.argv[2];
 console.log("argv1==", argv1)
 
+// 因为本地和jenkins上面执行git命令的路径不同，做下判断
 const gitCommitInfo = argv1 ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
       : require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
 
