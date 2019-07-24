@@ -13,6 +13,9 @@ import {
 	AlertPlugin
 } from "vux"
 import "./assets/css/common.scss"
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
+
 //import vConsole from "vconsole"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
@@ -23,6 +26,10 @@ process.model === "dev" &&
 		integrations: [new Integrations.Vue({ Vue, attachProps: true })]
 	})
 
+Raven
+	.config('http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3', {release: process.sentryRelease})
+	.addPlugin(RavenVue, Vue)
+	.install();
 import common from "./api/common.js"
 import jsCommon from "./assets/js/common.js"
 import utils from "./assets/js/utils.js"
