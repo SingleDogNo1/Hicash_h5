@@ -17,7 +17,7 @@ import "./assets/css/common.scss"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 
-process.model === "prod" &&
+process.model === "dev" &&
 	Sentry.init({
 		dsn: "http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3",
 		integrations: [new Integrations.Vue({ Vue, attachProps: true })]
