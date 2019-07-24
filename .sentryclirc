@@ -1,0 +1,7 @@
+[auth]
+token=f274e2396bfe40ad891ab6aa1e5f3d4818e3e512b41a4d0cad08bb4859deaa8b
+
+[defaults]
+org=sentry
+project=hicash
+url=http://114.215.47.186:9000
