@@ -10,7 +10,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 //第一个参数（区分old还是new）
 const argv1 = process.argv[3];
-console.log("argv1====", argv1)
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {

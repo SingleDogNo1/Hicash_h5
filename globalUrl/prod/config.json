@@ -7,5 +7,6 @@
 	"pic_path": "https://img.hicash.cn/",
 	"cdn_pic_path": "https://img-cdn.hicash.cn/",
 	"baiqishi_url": "df.baiqishi.com/static/webdf/saber.js",
-	"configId": "69ecd9da-983a-4b3c-9501-8a3dfafa23eb"
+	"configId": "69ecd9da-983a-4b3c-9501-8a3dfafa23eb",
+	"gitCommitInfo": "/usr/local/git/bin/git log -p -1 --pretty=format:'%s'"
 }
