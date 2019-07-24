@@ -17,13 +17,14 @@ const argv1 = process.argv[2];
 console.log("argv1==", argv1)
 
 // 因为本地和jenkins上面执行git命令的路径不同，做下判断
-const gitCommitInfo = argv1 ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
-      : require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+//const gitCommitInfo = argv1 ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+     // : require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
 
+  console.log("process.env.RELEASE_VERSION===", process.env.RELEASE_VERSION)
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -43,7 +44,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env,
       'process.model': JSON.stringify(argv1),
-      'process.sentryRelease': JSON.stringify(gitCommitInfo)
+      //'process.sentryRelease': JSON.stringify(gitCommitInfo)
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
@@ -135,8 +136,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
     new SentryCliPlugin({
-      release: gitCommitInfo,
-      include: 'dist/static/js'
+      release: process.env.RELEASE_VERSION,
+      include: 'dist/static/js',
+      configFile: "sentry.properties"
     })
   ]
 })
