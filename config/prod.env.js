@@ -8,8 +8,8 @@
 // var b = "git describe --tags `git rev-list --tags --max-count=1`";
 // const gitTag = require('child_process').execSync(a).toString().trim();
 // console.log("gitTag===", gitTag)
-const config = require("./src/config.json");
-console.log("config==", config)
+// const config = require("./src/config.json");
+// console.log("config==", config)
 let gitCommitInfo = require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
 //let gitCommitInfo = require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
 module.exports = {
