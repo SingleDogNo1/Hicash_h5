@@ -19,7 +19,6 @@ import "./assets/css/common.scss"
 //import vConsole from "vconsole"
 import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
-console.log("process.env.RELEASE_VERSION==", process.env.RELEASE_VERSION)
 process.model === "dev" &&
 	Sentry.init({
 		dsn: "http://3da971d3d77645db926892adfd389c93@114.215.47.186:9000/3",
