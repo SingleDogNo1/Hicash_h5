@@ -215,7 +215,7 @@ export default {
 				if (refApplyingStatus) {
 					this.$refs.normal.parentHandleclick(data)
 				}
-				this.bannerADHeight = this.$refs.bannerAD.offsetHeight
+				this.bannerADHeight = this.$refs.bannerAD && this.$refs.bannerAD.offsetHeight
 				this.swiperHeight = this.$refs.swiperItemRef.$el.clientHeight
 
 				if (!this.bannerImgUrl && !this.bannerUrl) {
