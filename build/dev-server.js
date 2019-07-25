@@ -16,10 +16,8 @@ var webpackConfig = require('./webpack.dev.conf')
 
 //设置根目录路径
 global.__base = process.cwd() + '/';
-console.log('process=====', process.cwd())
 //设置图片存储，默认配置为生产环境所需的绝对路径
 var resourcesDir = 'ossfile';
-//console.log('__dirname====', __dirname)
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -59,7 +57,6 @@ Object.keys(proxyTable).forEach(function (context) {
 
 // handle fallback for HTML5 history API
 app.use(require('connect-history-api-fallback')())
-console.log(app.get('env'))
 if(app.get('env') == 'development'){
   // serve webpack bundle output
   app.use(devMiddleware)

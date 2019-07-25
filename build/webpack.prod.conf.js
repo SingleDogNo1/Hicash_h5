@@ -14,17 +14,15 @@ const SentryCliPlugin = require('@sentry/webpack-plugin')
 
 //第一个参数（区分old还是new）
 const argv1 = process.argv[2];
-console.log("argv1==", argv1)
 
 // 因为本地和jenkins上面执行git命令的路径不同，做下判断
-const gitCommitInfo = argv1 ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
+const gitCommitInfo = argv1 && process.env.NODE_ENV === 'production' ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
   : require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
 
-  console.log("process.env.RELEASE_VERSION===", process.env.RELEASE_VERSION)
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({

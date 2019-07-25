@@ -11,10 +11,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 //第一个参数（区分old还是new）
 const argv1 = process.argv[3];
 
-// 因为本地和jenkins上面执行git命令的路径不同，做下判断
-const gitCommitInfo = argv1 ?  require('child_process').execSync('/usr/local/git/bin/git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
-  : require('child_process').execSync('git log -p -1 --pretty=format:"%s"').toString().split("diff --git")[0].trim()
-
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
@@ -29,8 +25,7 @@ module.exports = merge(baseWebpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env,
-      'process.model': JSON.stringify(argv1),
-      'process.sentryRelease': JSON.stringify(gitCommitInfo)
+      'process.model': JSON.stringify(argv1)
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),
