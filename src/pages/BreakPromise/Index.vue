@@ -437,7 +437,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log(this.ppp())
 		this.mediasource = window.sessionStorage.getItem("mediasource")
 		let platform = this.utils.getPlatform()
 		this.platform = platform
