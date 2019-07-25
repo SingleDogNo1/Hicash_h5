@@ -456,7 +456,7 @@ export default {
 		$("body").append(jsinner)
 
 		window.setTimeout(function() {
-			_czc.push([
+			_czc && _czc.push([
 				"_trackEvent",
 				"失信公告",
 				"记录失信公告页面打开的次数",
