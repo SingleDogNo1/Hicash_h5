@@ -741,30 +741,30 @@ export default {
 			})
 		},
 		getBankInfo() {
-			bindCardApi.getOwnData().then(res => {
-				function loadPayEgisDidJs() {
-					var _protocol =
-						document.location.protocol == "https:" ? "https://" : "http://"
-					var element = document.createElement("script")
-					element.src =
-						_protocol +
-						"pws.payegis.com.cn/did/js/dp.js?appId=" +
-						res.data.appId +
-						"&sessionId=" +
-						res.data.sessionId +
-						"&ts=" +
-						res.data.ts +
-						"&callback="
-					document.body.appendChild(element)
-				}
-				if (window.addEventListener) {
-					window.addEventListener("load", loadPayEgisDidJs, false)
-				} else if (window.attachEvent) {
-					window.attachEvent("onload", loadPayEgisDidJs)
-				} else {
-					window.onload = loadPayEgisDidJs
-				}
-			})
+			// bindCardApi.getOwnData().then(res => {
+			// 	function loadPayEgisDidJs() {
+			// 		var _protocol =
+			// 			document.location.protocol == "https:" ? "https://" : "http://"
+			// 		var element = document.createElement("script")
+			// 		element.src =
+			// 			_protocol +
+			// 			"pws.payegis.com.cn/did/js/dp.js?appId=" +
+			// 			res.data.appId +
+			// 			"&sessionId=" +
+			// 			res.data.sessionId +
+			// 			"&ts=" +
+			// 			res.data.ts +
+			// 			"&callback="
+			// 		document.body.appendChild(element)
+			// 	}
+			// 	if (window.addEventListener) {
+			// 		window.addEventListener("load", loadPayEgisDidJs, false)
+			// 	} else if (window.attachEvent) {
+			// 		window.attachEvent("onload", loadPayEgisDidJs)
+			// 	} else {
+			// 		window.onload = loadPayEgisDidJs
+			// 	}
+			// })
 			if (utils.getCookie("jumpType") != "bindCard") {
 				let obj = {
 					applyFrom: "03",
