@@ -877,7 +877,9 @@ export default {
 		let loseCreditDetailList = JSON.parse(storage.getItem("loseCreditDetailList"))
 
 		if (
+			loseCreditDetailList[0].overDueFlag && 
 			loseCreditDetailList[0].overDueFlag == "1" &&
+			loseCreditDetailList[0].invUsername &&
 			loseCreditDetailList[0].invUsername == "huarong_finance"
 		) {
 			this.isShowCallDialog = true
