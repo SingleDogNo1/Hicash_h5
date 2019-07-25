@@ -9,9 +9,6 @@ const webpack = require('webpack')
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
-
-console.log('static$', resolve('static'));
-
 const webpackConfig = {
   context: path.resolve(__dirname, '../'),
   entry: {

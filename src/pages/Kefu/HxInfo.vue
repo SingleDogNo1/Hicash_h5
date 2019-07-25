@@ -46,7 +46,7 @@ export default {
 		}
 	},
 	mounted: function() {
-		console.log(this.$route.query)
+		console.log(error.bb())
 		let visitorImId = this.$route.query.visitorImId
 		console.log("visitorImId===", visitorImId)
 		// var postData = {
