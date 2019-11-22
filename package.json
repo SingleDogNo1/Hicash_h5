@@ -40,7 +40,7 @@
     "swiper": "^3.4.1",
     "underscore": "^1.9.0",
     "url-search-params-polyfill": "^5.0.0",
-    "vant": "1.4.4",
+    "vant": "2.1.8",
     "vue": "^2.5.2",
     "vue-clipboards": "^1.2.4",
     "vue-file-upload": "^0.1.12",
